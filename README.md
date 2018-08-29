@@ -1,2 +1,3 @@
-# nscan
-dotNet Structural Constraints ANalyzer
+# NScan
+
+dot**N**et **S**tructural **C**onstraints **AN**alyzer
