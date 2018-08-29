@@ -4,23 +4,12 @@ using System.Linq;
 
 namespace MyTool.App
 {
-  public struct ProjectId
-  {
-    private string _absolutePath;
-
-    public ProjectId(string absolutePath)
-    {
-      this._absolutePath = absolutePath;
-    }
-  }
-
-  public class DotNetStandardProject : IReferencedProject, IReferencingProject
+  public class DotNetStandardProject : IDotNetProject
   {
     private readonly Dictionary<ProjectId, IReferencedProject> _referencedProjects = new Dictionary<ProjectId, IReferencedProject>();
     private readonly Dictionary<ProjectId, IReferencingProject> _referencingProjects = new Dictionary<ProjectId, IReferencingProject>();
     private readonly string _assemblyName;
     private readonly ProjectId[] _referencedProjectsIds;
-
 
     public DotNetStandardProject(string assemblyName, ProjectId id, ProjectId[] referencedProjectsIds)
     {
@@ -66,30 +55,22 @@ namespace MyTool.App
     {
       foreach (var referencePath in ReferencedProjectsIds())
       {
-        solution.ResolveReferenceFor(this,  referencePath);
+        solution.ResolveReferenceFrom(this,  referencePath);
       }
     }
 
-    private void AssertThisIsAddingTheSameReferenceNotShadowing(ProjectId referencingProjectPath,
-      IReferencingProject referencingCsProject)
+    private void AssertThisIsAddingTheSameReferenceNotShadowing(
+      ProjectId referencingProjectId,
+      IReferencingProject referencingProject)
     {
-      if (_referencingProjects.ContainsKey(referencingProjectPath))
+      if (_referencingProjects.ContainsKey(referencingProjectId))
       {
-        if (!_referencingProjects[referencingProjectPath].Equals(referencingCsProject))
+        if (!_referencingProjects[referencingProjectId].Equals(referencingProject))
         {
           throw new Exception("Two distinct projects attempted to be added with the same path");
         }
       }
     }
 
-  }
-
-  public interface IReferencingProject
-  {
-  }
-
-  public interface IReferencedProject
-  {
-    void Print(int nestingLevel);
   }
 }

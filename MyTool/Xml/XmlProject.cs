@@ -7,9 +7,9 @@ namespace MyTool.Xml
   public class XmlProject
   {
     [XmlElement(ElementName = "PropertyGroup")]
-    public List<XmlPropertyGroup> PropertyGroup { get; set; }
+    public List<XmlPropertyGroup> PropertyGroups { get; set; }
     [XmlElement(ElementName = "ItemGroup")]
-    public List<XmlItemGroup> ItemGroup { get; set; }
+    public List<XmlItemGroup> ItemGroups { get; set; }
     [XmlAttribute(AttributeName = "Sdk")]
     public string Sdk { get; set; }
   }

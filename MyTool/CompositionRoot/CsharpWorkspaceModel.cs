@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,30 +7,38 @@ using MyTool.Xml;
 
 namespace MyTool.CompositionRoot
 {
-  static internal class CsharpWorkspaceModel
+  internal static class CsharpWorkspaceModel
   {
     public static DotNetStandardProject LoadProjectFrom(string projectFilePath)
     {
-      XmlSerializer serializer = new XmlSerializer(typeof(XmlProject));
-      XmlProject result = null;
-      using (FileStream fileStream = new FileStream(projectFilePath, FileMode.Open))
+      var xmlProject = DeserializeProjectFile(projectFilePath);
+      NormalizeProjectDependencyPaths(projectFilePath, xmlProject);
+      return CreateProject(projectFilePath, xmlProject);
+    }
+
+    private static DotNetStandardProject CreateProject(string projectFilePath, XmlProject xmlProject)
+    {
+      return new DotNetStandardProject(
+        xmlProject.PropertyGroups.First().AssemblyName,
+        new ProjectId(projectFilePath),
+        ProjectReferences(xmlProject).Select(MapToProjectId).ToArray());
+    }
+
+    private static ProjectId MapToProjectId(XmlProjectReference dto)
+    {
+      return new ProjectId(dto.Include);
+    }
+
+    private static XmlProject DeserializeProjectFile(string projectFilePath)
+    {
+      var serializer = new XmlSerializer(typeof(XmlProject));
+      XmlProject result;
+      using (var fileStream = new FileStream(projectFilePath, FileMode.Open))
       {
         result = (XmlProject) serializer.Deserialize(fileStream);
       }
 
-      NormalizeProjectDependencyPaths(projectFilePath, result);
-
-      var xmlProjectReferences = ProjectReferences(result);
-      var projectMetadata = new DotNetStandardProject(
-        result.PropertyGroup.First().AssemblyName,
-        new ProjectId(projectFilePath),
-        xmlProjectReferences.Select(MapToProjectId()).ToArray());
-      return projectMetadata;
-    }
-
-    private static Func<XmlProjectReference, ProjectId> MapToProjectId()
-    {
-      return dto => new ProjectId(dto.Include);
+      return result;
     }
 
     private static void NormalizeProjectDependencyPaths(string projectFileAbsolutePath, XmlProject xmlProjectReferences)
@@ -43,9 +50,17 @@ namespace MyTool.CompositionRoot
       }
     }
 
-    private static List<XmlProjectReference> ProjectReferences(XmlProject xmlProject)
+    private static IEnumerable<XmlProjectReference> ProjectReferences(XmlProject xmlProject)
     {
-      return xmlProject.ItemGroup.First(ig => ig.ProjectReference.Any()).ProjectReference;
+      var xmlItemGroups = xmlProject.ItemGroups.Where(ig => ig.ProjectReference.Any()).ToList();
+      if (xmlItemGroups.Any())
+      {
+        return xmlItemGroups.First().ProjectReference;
+      }
+      else
+      {
+        return new List<XmlProjectReference>();
+      }
     }
   }
 }

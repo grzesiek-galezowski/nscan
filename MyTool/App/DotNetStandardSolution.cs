@@ -4,22 +4,11 @@ using System.Linq;
 
 namespace MyTool.App
 {
-  public interface ISolution
-  {
-    void ResolveAllProjectsReferences();
-    void Print();
-  }
-
-  public interface ISolutionContext
-  {
-    void ResolveReferenceFor(DotNetStandardProject referencingCsProject, ProjectId referencedProjectPath);
-  }
-
   public class DotNetStandardSolution : ISolution, ISolutionContext
   {
-    private readonly Dictionary<ProjectId, DotNetStandardProject> _projectMetadataByAbsolutePath;
+    private readonly Dictionary<ProjectId, IDotNetProject> _projectMetadataByAbsolutePath;
 
-    public DotNetStandardSolution(Dictionary<ProjectId, DotNetStandardProject> projectMetadataByAbsolutePath)
+    public DotNetStandardSolution(Dictionary<ProjectId, IDotNetProject> projectMetadataByAbsolutePath)
     {
       _projectMetadataByAbsolutePath = projectMetadataByAbsolutePath;
     }
@@ -40,20 +29,20 @@ namespace MyTool.App
       }
     }
 
-    public void ResolveReferenceFor(DotNetStandardProject referencingCsProject, ProjectId referencedProjectPath)
+    public void ResolveReferenceFrom(IReferencingProject referencingProject, ProjectId referencedProjectId)
     {
       try
       {
-        var referencedProject = _projectMetadataByAbsolutePath[referencedProjectPath];
+        var referencedProject = _projectMetadataByAbsolutePath[referencedProjectId];
 
-        referencingCsProject.AddReferencedProject(referencedProjectPath, referencedProject);
-        referencedProject.AddReferencingProject(referencingCsProject.Id, referencingCsProject);
+        referencingProject.AddReferencedProject(referencedProjectId, referencedProject);
+        referencedProject.AddReferencingProject(referencingProject.Id, referencingProject);
       }
       catch (KeyNotFoundException e)
       {
         Console.WriteLine(
-          $"Could not find referenced project {referencedProjectPath} " +
-          "probably because it was not in a compatible format and was skipped during project collection phase");
+          $"Could not find referenced project {referencedProjectId} " +
+          "probably because it was not in a compatible format and was skipped during project collection phase. Details: " + e);
       }
     }
   }

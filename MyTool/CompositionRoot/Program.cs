@@ -23,7 +23,7 @@ namespace MyTool.CompositionRoot
         }
         catch (InvalidOperationException e)
         {
-          Console.WriteLine("Invalid format - skipping " + projectFilePath);
+          Console.WriteLine("Invalid format - skipping " + projectFilePath + " because of " + e);
         }
       }
 
