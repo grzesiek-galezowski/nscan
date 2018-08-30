@@ -10,12 +10,14 @@ namespace MyTool.App
     private readonly Dictionary<ProjectId, IReferencingProject> _referencingProjects = new Dictionary<ProjectId, IReferencingProject>();
     private readonly string _assemblyName;
     private readonly ProjectId[] _referencedProjectsIds;
+    private readonly ISupport _support;
 
-    public DotNetStandardProject(string assemblyName, ProjectId id, ProjectId[] referencedProjectsIds)
+    public DotNetStandardProject(string assemblyName, ProjectId id, ProjectId[] referencedProjectsIds, ISupport support)
     {
       _assemblyName = assemblyName;
       Id = id;
       _referencedProjectsIds = referencedProjectsIds;
+      _support = support;
     }
 
     private ProjectId Id { get; }
@@ -34,7 +36,7 @@ namespace MyTool.App
 
     public bool IsRoot()
     {
-      return _referencingProjects.Count() == 0;
+      return !_referencingProjects.Any();
     }
 
     public void Print(int i)
@@ -50,8 +52,14 @@ namespace MyTool.App
     {
       foreach (var projectId in _referencedProjectsIds)
       {
-        //bug an exception should be caught here
-        solution.ResolveReferenceFrom(this,  projectId);
+        try
+        {
+          solution.ResolveReferenceFrom(this, projectId);
+        }
+        catch (ReferencedProjectNotFoundInSolutionException e)
+        {
+          _support.Report(e);
+        }
       }
     }
 

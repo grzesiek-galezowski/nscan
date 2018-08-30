@@ -22,7 +22,7 @@ namespace MyTool.CompositionRoot
       return (new ProjectId(projectFilePath), new DotNetStandardProject(
         xmlProject.PropertyGroups.First().AssemblyName,
         new ProjectId(projectFilePath),
-        ProjectReferences(xmlProject).Select(MapToProjectId).ToArray()));
+        ProjectReferences(xmlProject).Select(MapToProjectId).ToArray(), new ConsoleSupport()));
     }
 
     private static ProjectId MapToProjectId(XmlProjectReference dto)
