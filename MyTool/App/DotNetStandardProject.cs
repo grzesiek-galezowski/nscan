@@ -25,16 +25,16 @@ namespace MyTool.App
       return _referencedProjectsIds;
     }
 
-    public void AddReferencedProject(IReferencedProject referencedProject)
+    public void AddReferencedProject(ProjectId referencedProjectId, IReferencedProject referencedProject)
     {
-      _referencedProjects.Add(referencedProject.Id, referencedProject);
+      _referencedProjects.Add(referencedProjectId, referencedProject);
     }
 
 
-    public void AddReferencingProject(IReferencingProject referencingCsProject)
+    public void AddReferencingProject(ProjectId referencingProjectId, IReferencingProject referencingCsProject)
     {
-      AssertThisIsAddingTheSameReferenceNotShadowing(referencingCsProject.Id, referencingCsProject);
-      _referencingProjects[referencingCsProject.Id] = referencingCsProject;
+      AssertThisIsAddingTheSameReferenceNotShadowing(referencingProjectId, referencingCsProject);
+      _referencingProjects[referencingProjectId] = referencingCsProject;
     }
 
     public bool IsRoot()
@@ -72,5 +72,14 @@ namespace MyTool.App
       }
     }
 
+    public void ResolveAsReferencing(IReferencedProject project)
+    {
+      project.AddReferencingProject(Id, this);
+    }
+
+    public void ResolveAsReferenceOf(IReferencingProject project)
+    {
+      project.AddReferencedProject(Id, this);
+    }
   }
 }

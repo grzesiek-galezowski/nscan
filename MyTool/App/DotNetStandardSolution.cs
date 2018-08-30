@@ -35,8 +35,8 @@ namespace MyTool.App
       {
         var referencedProject = _projectsById[referencedProjectId];
 
-        referencingProject.AddReferencedProject(referencedProject);
-        referencedProject.AddReferencingProject(referencingProject);
+        referencingProject.ResolveAsReferencing(referencedProject);
+        referencedProject.ResolveAsReferenceOf(referencingProject);
       }
       catch (KeyNotFoundException e)
       {

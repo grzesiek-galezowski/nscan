@@ -58,8 +58,8 @@ namespace MyToolSpecification
       dotNetStandardSolution.ResolveReferenceFrom(project1, project2Id);
 
       //THEN
-      project1.Received(1).AddReferencedProject(project2);
-      project2.Received(1).AddReferencingProject(project1);
+      project1.Received(1).ResolveAsReferencing(project2);
+      project2.Received(1).ResolveAsReferenceOf(project1);
     }
   }
 
