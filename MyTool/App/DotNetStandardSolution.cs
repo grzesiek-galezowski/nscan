@@ -6,16 +6,16 @@ namespace MyTool.App
 {
   public class DotNetStandardSolution : ISolution, ISolutionContext
   {
-    private readonly Dictionary<ProjectId, IDotNetProject> _projectMetadataByAbsolutePath;
+    private readonly Dictionary<ProjectId, IDotNetProject> _projectsById;
 
-    public DotNetStandardSolution(Dictionary<ProjectId, IDotNetProject> projectMetadataByAbsolutePath)
+    public DotNetStandardSolution(Dictionary<ProjectId, IDotNetProject> projectsById)
     {
-      _projectMetadataByAbsolutePath = projectMetadataByAbsolutePath;
+      _projectsById = projectsById;
     }
 
     public void ResolveAllProjectsReferences()
     {
-      foreach (var referencingProject in _projectMetadataByAbsolutePath.Values)
+      foreach (var referencingProject in _projectsById.Values)
       {
         referencingProject.ResolveReferencesFrom(this);
       }
@@ -23,7 +23,7 @@ namespace MyTool.App
 
     public void Print()
     {
-      foreach (var project in _projectMetadataByAbsolutePath.Values.Where(v => v.IsRoot()))
+      foreach (var project in _projectsById.Values.Where(v => v.IsRoot()))
       {
         project.Print(0);
       }
@@ -33,10 +33,10 @@ namespace MyTool.App
     {
       try
       {
-        var referencedProject = _projectMetadataByAbsolutePath[referencedProjectId];
+        var referencedProject = _projectsById[referencedProjectId];
 
-        referencingProject.AddReferencedProject(referencedProjectId, referencedProject);
-        referencedProject.AddReferencingProject(referencingProject.Id, referencingProject);
+        referencingProject.AddReferencedProject(referencedProject);
+        referencedProject.AddReferencingProject(referencingProject);
       }
       catch (KeyNotFoundException e)
       {

@@ -1,9 +1,8 @@
 ﻿namespace MyTool.App
 {
-  public interface IReferencingProject
+  public interface IReferencingProject : IProjectWithId
   {
-    void AddReferencedProject(ProjectId referencedProjectId, IReferencedProject referencedProject);
-    ProjectId Id { get; }
+    void AddReferencedProject(IReferencedProject referencedProject);
     void ResolveReferencesFrom(ISolutionContext dotNetStandardSolution);
     bool IsRoot();
   }

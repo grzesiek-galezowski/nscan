@@ -1,8 +1,8 @@
 ﻿namespace MyTool.App
 {
-  public interface IReferencedProject
+  public interface IReferencedProject : IProjectWithId
   {
     void Print(int nestingLevel);
-    void AddReferencingProject(ProjectId referencingProjectId, IReferencingProject referencingProject);
+    void AddReferencingProject(IReferencingProject referencingProject);
   }
 }

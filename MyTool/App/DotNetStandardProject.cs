@@ -25,16 +25,16 @@ namespace MyTool.App
       return _referencedProjectsIds;
     }
 
-    public void AddReferencedProject(ProjectId referenceId, IReferencedProject csProject)
+    public void AddReferencedProject(IReferencedProject referencedProject)
     {
-      _referencedProjects.Add(referenceId, csProject);
+      _referencedProjects.Add(referencedProject.Id, referencedProject);
     }
 
 
-    public void AddReferencingProject(ProjectId parentId, IReferencingProject referencingCsProject)
+    public void AddReferencingProject(IReferencingProject referencingCsProject)
     {
-      AssertThisIsAddingTheSameReferenceNotShadowing(parentId, referencingCsProject);
-      _referencingProjects[parentId] = referencingCsProject;
+      AssertThisIsAddingTheSameReferenceNotShadowing(referencingCsProject.Id, referencingCsProject);
+      _referencingProjects[referencingCsProject.Id] = referencingCsProject;
     }
 
     public bool IsRoot()
@@ -53,9 +53,9 @@ namespace MyTool.App
 
     public void ResolveReferencesFrom(ISolutionContext solution)
     {
-      foreach (var referencePath in ReferencedProjectsIds())
+      foreach (var projectId in ReferencedProjectsIds())
       {
-        solution.ResolveReferenceFrom(this,  referencePath);
+        solution.ResolveReferenceFrom(this,  projectId);
       }
     }
 
