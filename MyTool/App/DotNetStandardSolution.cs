@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace MyTool.App
@@ -40,9 +39,9 @@ namespace MyTool.App
       }
       catch (KeyNotFoundException e)
       {
-        Console.WriteLine(
+        throw new ReferencedProjectNotFoundInSolutionException(
           $"Could not find referenced project {referencedProjectId} " +
-          "probably because it was not in a compatible format and was skipped during project collection phase. Details: " + e);
+          "probably because it was in an incompatible format and was skipped during project collection phase.", e);
       }
     }
   }

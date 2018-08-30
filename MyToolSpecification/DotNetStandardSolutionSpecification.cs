@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
+using FluentAssertions;
 using MyTool.App;
 using NSubstitute;
-using TddXt.AnyExtensibility;
+using TddXt.XNSubstitute.Root;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
@@ -61,14 +62,24 @@ namespace MyToolSpecification
       project1.Received(1).ResolveAsReferencing(project2);
       project2.Received(1).ResolveAsReferenceOf(project1);
     }
-  }
 
-
-  public static class MyAnyExtensions
-  {
-    public static ProjectId ProjectId(this BasicGenerator gen)
+    [Fact]
+    public void ShouldThrowExceptionWhenResolvingReferenceToProjectWhichIsNotLoadedCorrectlyToSolution()
     {
-      return gen.Instance<ProjectId>();
+      //GIVEN
+      var project1 = Substitute.For<IDotNetProject>();
+      var project1Id = Any.ProjectId();
+      var projectsById = new Dictionary<ProjectId, IDotNetProject>
+      {
+        { project1Id, project1 },
+      };
+      var dotNetStandardSolution = new DotNetStandardSolution(projectsById);
+
+
+      //WHEN - THEN
+      new Action(() => dotNetStandardSolution.ResolveReferenceFrom(project1, Any.ProjectIdOtherThan(project1Id)))
+        .Should().ThrowExactly<ReferencedProjectNotFoundInSolutionException>();
+      project1.ReceivedNothing();
     }
   }
 }

@@ -18,12 +18,7 @@ namespace MyTool.App
       _referencedProjectsIds = referencedProjectsIds;
     }
 
-    public ProjectId Id { get; }
-
-    private ProjectId[] ReferencedProjectsIds()
-    {
-      return _referencedProjectsIds;
-    }
+    private ProjectId Id { get; }
 
     public void AddReferencedProject(ProjectId referencedProjectId, IReferencedProject referencedProject)
     {
@@ -39,7 +34,7 @@ namespace MyTool.App
 
     public bool IsRoot()
     {
-      return !_referencingProjects.Any();
+      return _referencingProjects.Count() == 0;
     }
 
     public void Print(int i)
@@ -53,8 +48,9 @@ namespace MyTool.App
 
     public void ResolveReferencesFrom(ISolutionContext solution)
     {
-      foreach (var projectId in ReferencedProjectsIds())
+      foreach (var projectId in _referencedProjectsIds)
       {
+        //bug an exception should be caught here
         solution.ResolveReferenceFrom(this,  projectId);
       }
     }

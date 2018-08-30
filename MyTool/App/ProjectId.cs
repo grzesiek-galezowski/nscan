@@ -9,5 +9,10 @@
     {
       this._absolutePath = absolutePath;
     }
+
+    public override string ToString()
+    {
+      return _absolutePath;
+    }
   }
 }

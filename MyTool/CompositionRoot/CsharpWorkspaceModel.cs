@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,19 +10,19 @@ namespace MyTool.CompositionRoot
 {
   internal static class CsharpWorkspaceModel
   {
-    public static DotNetStandardProject LoadProjectFrom(string projectFilePath)
+    private static (ProjectId, DotNetStandardProject) LoadProjectFrom(string projectFilePath)
     {
       var xmlProject = DeserializeProjectFile(projectFilePath);
       NormalizeProjectDependencyPaths(projectFilePath, xmlProject);
       return CreateProject(projectFilePath, xmlProject);
     }
 
-    private static DotNetStandardProject CreateProject(string projectFilePath, XmlProject xmlProject)
+    private static (ProjectId, DotNetStandardProject) CreateProject(string projectFilePath, XmlProject xmlProject)
     {
-      return new DotNetStandardProject(
+      return (new ProjectId(projectFilePath), new DotNetStandardProject(
         xmlProject.PropertyGroups.First().AssemblyName,
         new ProjectId(projectFilePath),
-        ProjectReferences(xmlProject).Select(MapToProjectId).ToArray());
+        ProjectReferences(xmlProject).Select(MapToProjectId).ToArray()));
     }
 
     private static ProjectId MapToProjectId(XmlProjectReference dto)
@@ -61,6 +62,25 @@ namespace MyTool.CompositionRoot
       {
         return new List<XmlProjectReference>();
       }
+    }
+
+    public static Dictionary<ProjectId, IDotNetProject> LoadProjectsPointedToBy(List<string> projectFilePaths)
+    {
+      var projects = new Dictionary<ProjectId, IDotNetProject>();
+      foreach (var projectFilePath in projectFilePaths)
+      {
+        try
+        {
+          var (id, project) = CsharpWorkspaceModel.LoadProjectFrom(projectFilePath);
+          projects.Add(id, project);
+        }
+        catch (InvalidOperationException e)
+        {
+          Console.WriteLine("Invalid format - skipping " + projectFilePath + " because of " + e);
+        }
+      }
+
+      return projects;
     }
   }
 }
