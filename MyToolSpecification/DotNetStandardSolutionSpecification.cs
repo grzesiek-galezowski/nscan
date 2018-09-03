@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
 using FluentAssertions;
+using MyTool;
 using MyTool.App;
 using NSubstitute;
+using TddXt.AnyRoot;
+using TddXt.AnyRoot.Collections;
 using TddXt.XNSubstitute.Root;
 using Xunit;
 using static TddXt.AnyRoot.Root;
@@ -12,7 +15,7 @@ namespace MyToolSpecification
   public class DotNetStandardSolutionSpecification
   {
     [Fact]
-    public void ShouldResolveReferencesOfAllProjectUsingItselfAsAContext()
+    public void ShouldResolveReferencesOfAllProjectUsingItselfAsAContext() //todo update this test and code to handle the report
     {
       //GIVEN
       var project1 = Substitute.For<IDotNetProject>();
@@ -28,7 +31,7 @@ namespace MyToolSpecification
       
 
       //WHEN
-      dotNetStandardSolution.ResolveAllProjectsReferences();
+      dotNetStandardSolution.ResolveAllProjectsReferences(Any.Instance<IAnalysisInProgressReport>());
 
       //THEN
       Received.InOrder(() =>
@@ -45,11 +48,10 @@ namespace MyToolSpecification
       //GIVEN
       var project1 = Substitute.For<IDotNetProject>();
       var project2 = Substitute.For<IDotNetProject>();
-      var project1Id = Any.ProjectId();
       var project2Id = Any.ProjectId();
       var projectsById = new Dictionary<ProjectId, IDotNetProject>
       {
-        { project1Id, project1 },
+        { Any.ProjectId(), project1 },
         { project2Id, project2 },
       };
       var dotNetStandardSolution = new DotNetStandardSolution(projectsById);
@@ -61,6 +63,29 @@ namespace MyToolSpecification
       //THEN
       project1.Received(1).ResolveAsReferencing(project2);
       project2.Received(1).ResolveAsReferenceOf(project1);
+    }
+
+    [Fact]
+    public void ShouldBuildPathsCacheWhenAskedToBuildCaches()
+    {
+      //GIVEN
+      var projectsById = Any.Dictionary<ProjectId, IDotNetProject>();
+      var root1 = Substitute.For<IDotNetProject>();
+      var root2 = Substitute.For<IDotNetProject>();
+      var nonRoot = Substitute.For<IDotNetProject>();
+      var pathCache = Substitute.For<IPathCache>();
+      var solution = new DotNetStandardSolution(projectsById, pathCache);
+
+
+      root1.IsRoot().Returns(true);
+      root2.IsRoot().Returns(true);
+      nonRoot.IsRoot().Returns(false);
+
+      //WHEN
+      solution.BuildCaches();
+
+      //THEN
+      pathCache.BuildStartingFrom(root1, root2);
     }
 
     [Fact]
@@ -81,5 +106,7 @@ namespace MyToolSpecification
         .Should().ThrowExactly<ReferencedProjectNotFoundInSolutionException>();
       project1.ReceivedNothing();
     }
+
+    
   }
 }

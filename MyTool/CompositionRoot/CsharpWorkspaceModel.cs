@@ -8,9 +8,16 @@ using MyTool.Xml;
 
 namespace MyTool.CompositionRoot
 {
-  internal static class CsharpWorkspaceModel
+  internal class CsharpWorkspaceModel
   {
-    private static (ProjectId, DotNetStandardProject) LoadProjectFrom(string projectFilePath)
+      private readonly ISupport _support;
+
+      public CsharpWorkspaceModel(ISupport support)
+      {
+          _support = support;
+      }
+
+      private static (ProjectId, DotNetStandardProject) LoadProjectFrom(string projectFilePath)
     {
       var xmlProject = DeserializeProjectFile(projectFilePath);
       NormalizeProjectDependencyPaths(projectFilePath, xmlProject);
@@ -64,19 +71,19 @@ namespace MyTool.CompositionRoot
       }
     }
 
-    public static Dictionary<ProjectId, IDotNetProject> LoadProjectsPointedToBy(List<string> projectFilePaths)
+    public Dictionary<ProjectId, IDotNetProject> LoadProjectsPointedToBy(List<string> projectFilePaths)
     {
       var projects = new Dictionary<ProjectId, IDotNetProject>();
       foreach (var projectFilePath in projectFilePaths)
       {
         try
         {
-          var (id, project) = CsharpWorkspaceModel.LoadProjectFrom(projectFilePath);
+          var (id, project) = LoadProjectFrom(projectFilePath);
           projects.Add(id, project);
         }
         catch (InvalidOperationException e)
         {
-          Console.WriteLine("Invalid format - skipping " + projectFilePath + " because of " + e);
+          _support.SkippingProjectBecauseOfError(e, projectFilePath);
         }
       }
 

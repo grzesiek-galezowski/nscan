@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Buildalyzer;
+using MyTool.App;
 
 namespace MyTool.CompositionRoot
 {
@@ -9,7 +10,7 @@ namespace MyTool.CompositionRoot
     {
       var analyzerManager = new AnalyzerManager(@"C:\Users\grzes\Documents\GitHub\any\src\netstandard2.0\Any.sln");
       var projectFilePaths = analyzerManager.Projects.Select(p => p.Value.ProjectFile.Path).ToList();
-      var projects = CsharpWorkspaceModel.LoadProjectsPointedToBy(projectFilePaths);
+      var projects = new CsharpWorkspaceModel(new ConsoleSupport()).LoadProjectsPointedToBy(projectFilePaths);
 
       Analysis.Of(projects).Run();
     }

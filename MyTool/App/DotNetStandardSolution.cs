@@ -12,20 +12,31 @@ namespace MyTool.App
       _projectsById = projectsById;
     }
 
-    public void ResolveAllProjectsReferences()
+    public void ResolveAllProjectsReferences(IAnalysisInProgressReport analysisInProgressReport)
     {
+      //bug use the analysis report to write what projects are skipped - write a separate acceptance test for that
       foreach (var referencingProject in _projectsById.Values)
       {
         referencingProject.ResolveReferencesFrom(this);
       }
     }
 
-    public void Print()
+    public void PrintDebugInfo()
     {
       foreach (var project in _projectsById.Values.Where(v => v.IsRoot()))
       {
         project.Print(0);
       }
+    }
+
+    public void Check(IPathRuleSet pathRuleSet, IAnalysisInProgressReport analysisInProgressReport)
+    {
+      throw new System.NotImplementedException();
+    }
+
+    public void BuildCaches()
+    {
+      throw new System.NotImplementedException();
     }
 
     public void ResolveReferenceFrom(IReferencingProject referencingProject, ProjectId referencedProjectId)
