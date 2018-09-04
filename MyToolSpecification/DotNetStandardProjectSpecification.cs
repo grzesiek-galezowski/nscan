@@ -4,6 +4,7 @@ using FluentAssertions;
 using MyTool.App;
 using NSubstitute;
 using NSubstitute.Core;
+using NSubstitute.Core.Arguments;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
 using TddXt.AnyRoot.Strings;
@@ -101,7 +102,7 @@ namespace MyToolSpecification
     public void ShouldSayItIsARootWhenItHasNoReferencingProjects()
     {
       //GIVEN
-      var project = new DotNetStandardProject(Any.String(), Any.ProjectId(), Any.Array<ProjectId>(), Any.Support());
+      var project = new DotNetStandardProjectBuilder().Build();
 
       //WHEN
       var isRoot = project.IsRoot();
@@ -114,7 +115,7 @@ namespace MyToolSpecification
     public void ShouldSayItIsNotARootWhenItHasAtLeastOneReferencingProject()
     {
       //GIVEN
-      var project = new DotNetStandardProject(Any.String(), Any.ProjectId(), Any.Array<ProjectId>(), Any.Support());
+      var project = new DotNetStandardProjectBuilder().Build();
       project.AddReferencingProject(Any.ProjectId(), Any.Instance<IReferencingProject>());
 
       //WHEN
@@ -122,6 +123,34 @@ namespace MyToolSpecification
 
       //THEN
       isRoot.Should().BeFalse();
+    }
+
+    [Fact]
+    public void ShouldXXXXXXXXXXXXXXXXXXX() //todo
+    {
+      //GIVEN
+      
+      
+
+      //WHEN
+
+      //THEN
+    }
+
+    private class DotNetStandardProjectBuilder
+    {
+      public DotNetStandardProject Build()
+      {
+        return new DotNetStandardProject(this.AssemblyName, this.ProjectId, this.ReferencedProjectIds, this.Support);
+      }
+
+      public ProjectId[] ReferencedProjectIds { get; } = Any.Array<ProjectId>();
+
+      public ProjectId ProjectId { get; } = Any.ProjectId();
+
+      public string AssemblyName { get; } = Any.String();
+
+      public ISupport Support { get; } = Any.Support();
     }
   }
 }

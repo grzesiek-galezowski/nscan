@@ -18,9 +18,9 @@ namespace MyToolSpecification
       var project1 = Substitute.For<IDotNetProject>();
       var project2 = Substitute.For<IDotNetProject>();
       var project3 = Substitute.For<IDotNetProject>();
-      var dependencyStartingPath1 = Any.Instance<IDependencyPath>();
-      var dependencyStartingPath2 = Any.Instance<IDependencyPath>();
-      var dependencyStartingPath3 = Any.Instance<IDependencyPath>();
+      var dependencyStartingPath1 = Any.Instance<IDependencyPathInProgress>();
+      var dependencyStartingPath2 = Any.Instance<IDependencyPathInProgress>();
+      var dependencyStartingPath3 = Any.Instance<IDependencyPathInProgress>();
 
       dependencyPathFactory.CreateNewDependencyPathFor((IDependencyPathDestination)pathCache).Returns(
         dependencyStartingPath1,

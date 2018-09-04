@@ -2,6 +2,6 @@
 {
   public interface IDotNetProject : IReferencedProject, IReferencingProject
   {
-    void Accept(IDependencyPath dependencyStartingPath1);
+    void Accept(IDependencyPathInProgress dependencyStartingPathInProgress);
   }
 }

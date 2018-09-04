@@ -20,8 +20,6 @@ namespace MyTool.App
       _support = support;
     }
 
-    private ProjectId Id { get; }
-
     public void AddReferencedProject(ProjectId referencedProjectId, IReferencedProject referencedProject)
     {
       _referencedProjects.Add(referencedProjectId, referencedProject);
@@ -81,7 +79,7 @@ namespace MyTool.App
       project.AddReferencingProject(Id, this);
     }
 
-    public void Accept(IDependencyPath dependencyStartingPath1)
+    public void Accept(IDependencyPathInProgress dependencyStartingPathInProgress)
     {
       throw new NotImplementedException();
     }
@@ -90,5 +88,8 @@ namespace MyTool.App
     {
       project.AddReferencedProject(Id, this);
     }
+
+    private ProjectId Id { get; }
+
   }
 }
