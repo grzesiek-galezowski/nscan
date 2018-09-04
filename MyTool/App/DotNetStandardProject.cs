@@ -81,6 +81,11 @@ namespace MyTool.App
       project.AddReferencingProject(Id, this);
     }
 
+    public void Accept(IDependencyPath dependencyStartingPath1)
+    {
+      throw new NotImplementedException();
+    }
+
     public void ResolveAsReferenceOf(IReferencingProject project)
     {
       project.AddReferencedProject(Id, this);

@@ -6,10 +6,14 @@ namespace MyTool.App
   public class DotNetStandardSolution : ISolution, ISolutionContext
   {
     private readonly Dictionary<ProjectId, IDotNetProject> _projectsById;
+    private readonly IPathCache _pathCache;
 
-    public DotNetStandardSolution(Dictionary<ProjectId, IDotNetProject> projectsById)
+    public DotNetStandardSolution(
+      Dictionary<ProjectId, IDotNetProject> projectsById, 
+      IPathCache pathCache)
     {
       _projectsById = projectsById;
+      _pathCache = pathCache;
     }
 
     public void ResolveAllProjectsReferences(IAnalysisInProgressReport analysisInProgressReport)
@@ -34,9 +38,9 @@ namespace MyTool.App
       throw new System.NotImplementedException();
     }
 
-    public void BuildCaches()
+    public void BuildCache()
     {
-      throw new System.NotImplementedException();
+      _pathCache.BuildStartingFrom(RootProjects());
     }
 
     public void ResolveReferenceFrom(IReferencingProject referencingProject, ProjectId referencedProjectId)
@@ -51,9 +55,19 @@ namespace MyTool.App
       catch (KeyNotFoundException e)
       {
         throw new ReferencedProjectNotFoundInSolutionException(
-          $"Could not find referenced project {referencedProjectId} " +
-          "probably because it was in an incompatible format and was skipped during project collection phase.", e);
+          CouldNotFindProjectFor(referencedProjectId), e);
       }
+    }
+
+    private static string CouldNotFindProjectFor(ProjectId referencedProjectId)
+    {
+      return $"Could not find referenced project {referencedProjectId} " +
+             "probably because it was in an incompatible format and was skipped during project collection phase.";
+    }
+
+    private IDotNetProject[] RootProjects()
+    {
+      return _projectsById.Values.Where(project => project.IsRoot()).ToArray();
     }
   }
 }

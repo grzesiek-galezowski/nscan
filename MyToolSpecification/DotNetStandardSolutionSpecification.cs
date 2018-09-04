@@ -27,7 +27,7 @@ namespace MyToolSpecification
         { Any.ProjectId(), project2 },
         { Any.ProjectId(), project3 },
       };
-      var dotNetStandardSolution = new DotNetStandardSolution(projectsById);
+      var dotNetStandardSolution = new DotNetStandardSolution(projectsById, Any.Instance<IPathCache>());
       
 
       //WHEN
@@ -54,7 +54,7 @@ namespace MyToolSpecification
         { Any.ProjectId(), project1 },
         { project2Id, project2 },
       };
-      var dotNetStandardSolution = new DotNetStandardSolution(projectsById);
+      var dotNetStandardSolution = new DotNetStandardSolution(projectsById, Any.Instance<IPathCache>());
       
 
       //WHEN
@@ -66,26 +66,30 @@ namespace MyToolSpecification
     }
 
     [Fact]
-    public void ShouldBuildPathsCacheWhenAskedToBuildCaches()
+    public void ShouldBuildPathsCacheWhenAskedToBuildCache()
     {
       //GIVEN
-      var projectsById = Any.Dictionary<ProjectId, IDotNetProject>();
       var root1 = Substitute.For<IDotNetProject>();
       var root2 = Substitute.For<IDotNetProject>();
       var nonRoot = Substitute.For<IDotNetProject>();
+      var projectsById = new Dictionary<ProjectId, IDotNetProject>()
+      {
+        { Any.ProjectId(), root1},
+        { Any.ProjectId(), nonRoot},
+        { Any.ProjectId(), root2}
+      };
       var pathCache = Substitute.For<IPathCache>();
       var solution = new DotNetStandardSolution(projectsById, pathCache);
-
 
       root1.IsRoot().Returns(true);
       root2.IsRoot().Returns(true);
       nonRoot.IsRoot().Returns(false);
 
       //WHEN
-      solution.BuildCaches();
+      solution.BuildCache();
 
       //THEN
-      pathCache.BuildStartingFrom(root1, root2);
+      pathCache.Received(1).BuildStartingFrom(root1, root2);
     }
 
     [Fact]
@@ -98,7 +102,7 @@ namespace MyToolSpecification
       {
         { project1Id, project1 },
       };
-      var dotNetStandardSolution = new DotNetStandardSolution(projectsById);
+      var dotNetStandardSolution = new DotNetStandardSolution(projectsById, Any.Instance<IPathCache>());
 
 
       //WHEN - THEN
@@ -106,7 +110,5 @@ namespace MyToolSpecification
         .Should().ThrowExactly<ReferencedProjectNotFoundInSolutionException>();
       project1.ReceivedNothing();
     }
-
-    
   }
 }

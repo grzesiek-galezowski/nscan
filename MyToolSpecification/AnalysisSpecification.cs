@@ -27,7 +27,7 @@ namespace MyToolSpecification
       Received.InOrder(() =>
       {
         solution.ResolveAllProjectsReferences(analysisReport);
-        solution.BuildCaches();
+        solution.BuildCache();
         solution.PrintDebugInfo();
         solution.Check(pathRuleSet, analysisReport);
       });

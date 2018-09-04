@@ -19,14 +19,16 @@ namespace MyTool.CompositionRoot
     public void Run()
     {
       _solution.ResolveAllProjectsReferences(_analysisInProgressReport);
-      _solution.BuildCaches();
+      _solution.BuildCache();
       _solution.PrintDebugInfo();
       _solution.Check(_pathRules, _analysisInProgressReport);
     }
 
     public static Analysis Of(Dictionary<ProjectId, IDotNetProject> projects)
     {
-      return new Analysis(new DotNetStandardSolution(projects), new PathRuleSet(), new AnalysisInProgressReport()); //TODO expose the rule set or use method below?
+      return new Analysis(new DotNetStandardSolution(projects, 
+        new PathCache(
+          new DependencyPathFactory())), new PathRuleSet(), new AnalysisInProgressReport()); //TODO expose the rule set or use method below?
     }
 
     public void DirectIndependentOfProject(ProjectId projectId, ProjectId dependent)
