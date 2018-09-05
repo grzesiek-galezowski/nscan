@@ -1,12 +1,13 @@
+using System.Collections.Generic;
 using MyTool.App;
 
 namespace MyTool.CompositionRoot
 {
   public class DependencyPathFactory : IDependencyPathFactory
   {
-    public IDependencyPathInProgress CreateNewDependencyPathFor(IDependencyPathDestination dependencyPathDestination)
+    public IDependencyPathInProgress CreateNewDependencyPathFor(IFinalDependencyPathDestination destination)
     {
-      throw new System.NotImplementedException();
+      return new DependencyPathInProgress(destination, new List<IReferencedProject>());
     }
   }
 }

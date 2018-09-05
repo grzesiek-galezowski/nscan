@@ -22,7 +22,7 @@ namespace MyToolSpecification
       var dependencyStartingPath2 = Any.Instance<IDependencyPathInProgress>();
       var dependencyStartingPath3 = Any.Instance<IDependencyPathInProgress>();
 
-      dependencyPathFactory.CreateNewDependencyPathFor((IDependencyPathDestination)pathCache).Returns(
+      dependencyPathFactory.CreateNewDependencyPathFor((IFinalDependencyPathDestination)pathCache).Returns(
         dependencyStartingPath1,
         dependencyStartingPath2,
         dependencyStartingPath3);
@@ -31,9 +31,9 @@ namespace MyToolSpecification
       pathCache.BuildStartingFrom(project1, project2, project3);
 
       //THEN
-      project1.Received(1).Accept(dependencyStartingPath1);
-      project2.Received(1).Accept(dependencyStartingPath2);
-      project3.Received(1).Accept(dependencyStartingPath3);
+      project1.Received(1).FillAllBranchesOf(dependencyStartingPath1);
+      project2.Received(1).FillAllBranchesOf(dependencyStartingPath2);
+      project3.Received(1).FillAllBranchesOf(dependencyStartingPath3);
     }
   }
 }

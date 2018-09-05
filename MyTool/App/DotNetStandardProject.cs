@@ -11,11 +11,12 @@ namespace MyTool.App
     private readonly string _assemblyName;
     private readonly ProjectId[] _referencedProjectsIds;
     private readonly ISupport _support;
+    private readonly ProjectId _id;
 
     public DotNetStandardProject(string assemblyName, ProjectId id, ProjectId[] referencedProjectsIds, ISupport support)
     {
       _assemblyName = assemblyName;
-      Id = id;
+      _id = id;
       _referencedProjectsIds = referencedProjectsIds;
       _support = support;
     }
@@ -76,20 +77,28 @@ namespace MyTool.App
 
     public void ResolveAsReferencing(IReferencedProject project)
     {
-      project.AddReferencingProject(Id, this);
+      project.AddReferencingProject(_id, this);
     }
 
-    public void Accept(IDependencyPathInProgress dependencyStartingPathInProgress)
+    public void FillAllBranchesOf(IDependencyPathInProgress dependencyPathInProgress)
     {
-      throw new NotImplementedException();
+      if (_referencedProjects.Any())
+      {
+        foreach (var reference in _referencedProjects.Values)
+        {
+          reference.FillAllBranchesOf(dependencyPathInProgress.CloneWith(this));
+        }
+      }
+      else
+      {
+        dependencyPathInProgress.FinalizeWith(this);
+      }
+
     }
 
     public void ResolveAsReferenceOf(IReferencingProject project)
     {
-      project.AddReferencedProject(Id, this);
+      project.AddReferencedProject(_id, this);
     }
-
-    private ProjectId Id { get; }
-
   }
 }

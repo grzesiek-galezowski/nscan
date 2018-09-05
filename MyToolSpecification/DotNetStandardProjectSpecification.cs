@@ -1,11 +1,7 @@
 using System;
-using System.Linq;
 using FluentAssertions;
 using MyTool.App;
 using NSubstitute;
-using NSubstitute.Core;
-using NSubstitute.Core.Arguments;
-using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
 using TddXt.AnyRoot.Strings;
 using Xunit;
@@ -126,31 +122,64 @@ namespace MyToolSpecification
     }
 
     [Fact]
-    public void ShouldXXXXXXXXXXXXXXXXXXX() //todo
+    public void ShouldAddItselfToPathThenFillCopyForEachReferencedProjects()
     {
       //GIVEN
-      
-      
+      var project = new DotNetStandardProjectBuilder().Build();
+      var reference1 = Substitute.For<IReferencedProject>();
+      var reference2 = Substitute.For<IReferencedProject>();
+      var reference3 = Substitute.For<IReferencedProject>();
+      var dependencyPathInProgress = Substitute.For<IDependencyPathInProgress>();
+      var clonedPathInProgress1 = Any.Instance<IDependencyPathInProgress>();
+      var clonedPathInProgress2 = Any.Instance<IDependencyPathInProgress>();
+      var clonedPathInProgress3 = Any.Instance<IDependencyPathInProgress>();
+
+      project.AddReferencedProject(Any.ProjectId(), reference1);
+      project.AddReferencedProject(Any.ProjectId(), reference2);
+      project.AddReferencedProject(Any.ProjectId(), reference3);
+
+      dependencyPathInProgress.CloneWith(project).Returns(
+        clonedPathInProgress1,
+        clonedPathInProgress2,
+        clonedPathInProgress3);
 
       //WHEN
+      project.FillAllBranchesOf(dependencyPathInProgress);
 
       //THEN
+      reference1.Received(1).FillAllBranchesOf(clonedPathInProgress1);
+      reference2.Received(1).FillAllBranchesOf(clonedPathInProgress2);
+      reference3.Received(1).FillAllBranchesOf(clonedPathInProgress3);
+    }
+
+    [Fact]
+    public void ShouldFinalizePathWithItselfWhenItDoesNotHaveAnyReferences()
+    {
+      //GIVEN
+      var project = new DotNetStandardProjectBuilder().Build();
+      var dependencyPathInProgress = Substitute.For<IDependencyPathInProgress>();
+
+      //WHEN
+      project.FillAllBranchesOf(dependencyPathInProgress);
+
+      //THEN
+      dependencyPathInProgress.Received(1).FinalizeWith(project);
     }
 
     private class DotNetStandardProjectBuilder
     {
       public DotNetStandardProject Build()
       {
-        return new DotNetStandardProject(this.AssemblyName, this.ProjectId, this.ReferencedProjectIds, this.Support);
+        return new DotNetStandardProject(AssemblyName, ProjectId, ReferencedProjectIds, Support);
       }
 
-      public ProjectId[] ReferencedProjectIds { get; } = Any.Array<ProjectId>();
+      public ProjectId[] ReferencedProjectIds { private get; set; } = Any.Array<ProjectId>();
 
-      public ProjectId ProjectId { get; } = Any.ProjectId();
+      public ProjectId ProjectId { private get; set; } = Any.ProjectId();
 
-      public string AssemblyName { get; } = Any.String();
+      public string AssemblyName { private get; set; } = Any.String();
 
-      public ISupport Support { get; } = Any.Support();
+      public ISupport Support { private get; set; } = Any.Support();
     }
   }
 }

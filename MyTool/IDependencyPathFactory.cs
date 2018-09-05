@@ -4,6 +4,6 @@ namespace MyTool
 {
   public interface IDependencyPathFactory
   {
-    IDependencyPathInProgress CreateNewDependencyPathFor(IDependencyPathDestination dependencyPathDestination);
+    IDependencyPathInProgress CreateNewDependencyPathFor(IFinalDependencyPathDestination destination);
   }
 }

@@ -1,9 +1,10 @@
 using System;
+using System.Collections.Generic;
 using MyTool.App;
 
 namespace MyTool.CompositionRoot
 {
-  public class PathCache : IPathCache, IDependencyPathDestination
+  public class PathCache : IPathCache, IFinalDependencyPathDestination
   {
     private readonly IDependencyPathFactory _dependencyPathFactory;
 
@@ -16,8 +17,13 @@ namespace MyTool.CompositionRoot
     {
       foreach (var dotNetProject in rootProjects)
       {
-        dotNetProject.Accept(_dependencyPathFactory.CreateNewDependencyPathFor(this));
+        dotNetProject.FillAllBranchesOf(_dependencyPathFactory.CreateNewDependencyPathFor(this));
       }
+    }
+
+    public void Add(IReadOnlyList<IReferencedProject> finalPath)
+    {
+      throw new NotImplementedException();
     }
   }
 }

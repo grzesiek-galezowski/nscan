@@ -4,8 +4,6 @@ using FluentAssertions;
 using MyTool;
 using MyTool.App;
 using NSubstitute;
-using TddXt.AnyRoot;
-using TddXt.AnyRoot.Collections;
 using TddXt.XNSubstitute.Root;
 using Xunit;
 using static TddXt.AnyRoot.Root;
