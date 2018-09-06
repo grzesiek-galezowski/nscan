@@ -10,14 +10,14 @@ namespace MyTool.CompositionRoot
 {
   internal class CsharpWorkspaceModel
   {
-      private readonly ISupport _support;
+    private readonly ISupport _support;
 
-      public CsharpWorkspaceModel(ISupport support)
-      {
-          _support = support;
-      }
+    public CsharpWorkspaceModel(ISupport support)
+    {
+      _support = support;
+    }
 
-      private static (ProjectId, DotNetStandardProject) LoadProjectFrom(string projectFilePath)
+    private static (ProjectId, DotNetStandardProject) LoadProjectFrom(string projectFilePath)
     {
       var xmlProject = DeserializeProjectFile(projectFilePath);
       NormalizeProjectDependencyPaths(projectFilePath, xmlProject);
