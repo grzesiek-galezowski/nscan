@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using MyTool;
 using MyTool.App;
 using MyTool.CompositionRoot;
@@ -17,7 +18,7 @@ namespace MyToolSpecification
       //GIVEN
       var solution = Substitute.For<ISolution>();
       var pathRuleSet = Any.Instance<IPathRuleSet>();
-      var analysisReport = Any.Instance<IAnalysisInProgressReport>();
+      var analysisReport = Any.Instance<IAnalysisReportInProgress>();
       var analysis = new Analysis(solution, pathRuleSet, analysisReport);
 
       //WHEN
@@ -41,7 +42,7 @@ namespace MyToolSpecification
       var analysis = new Analysis(
         Any.Instance<ISolution>(), 
         pathRuleSet, 
-        Any.Instance<IAnalysisInProgressReport>());
+        Any.Instance<IAnalysisReportInProgress>());
       var dependingId = Any.ProjectId();
       var dependencyId = Any.ProjectId();
 
@@ -51,13 +52,14 @@ namespace MyToolSpecification
       //THEN
       pathRuleSet.Received(1)
         .AddDirectIndependentOfProjectRule(dependingId, dependencyId);
+      throw new NotImplementedException("TODO: add factory");
     }
 
     [Fact]
     public void ShouldReturnStringGeneratedFromAnalysisInProgressReportWhenAskedForAnalysisReport()
     {
       //GIVEN
-      var analysisInProgressReport = Substitute.For<IAnalysisInProgressReport>();
+      var analysisInProgressReport = Substitute.For<IAnalysisReportInProgress>();
       var analysis = new Analysis(
         Any.Instance<ISolution>(), 
         Any.Instance<IPathRuleSet>(), 

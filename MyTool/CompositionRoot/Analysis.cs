@@ -7,28 +7,28 @@ namespace MyTool.CompositionRoot
   {
     private readonly ISolution _solution;
     private readonly IPathRuleSet _pathRules;
-    private readonly IAnalysisInProgressReport _analysisInProgressReport;
+    private readonly IAnalysisReportInProgress _analysisReportInProgress;
 
-    public Analysis(ISolution solution, IPathRuleSet pathRules, IAnalysisInProgressReport analysisInProgressReport)
+    public Analysis(ISolution solution, IPathRuleSet pathRules, IAnalysisReportInProgress analysisReportInProgress)
     {
       _solution = solution;
       _pathRules = pathRules;
-      _analysisInProgressReport = analysisInProgressReport;
+      _analysisReportInProgress = analysisReportInProgress;
     }
 
     public void Run()
     {
-      _solution.ResolveAllProjectsReferences(_analysisInProgressReport);
+      _solution.ResolveAllProjectsReferences(_analysisReportInProgress);
       _solution.BuildCache();
       _solution.PrintDebugInfo();
-      _solution.Check(_pathRules, _analysisInProgressReport);
+      _solution.Check(_pathRules, _analysisReportInProgress);
     }
 
     public static Analysis Of(Dictionary<ProjectId, IDotNetProject> projects)
     {
       return new Analysis(new DotNetStandardSolution(projects, 
         new PathCache(
-          new DependencyPathFactory())), new PathRuleSet(), new AnalysisInProgressReport()); //TODO expose the rule set or use method below?
+          new DependencyPathFactory())), new PathRuleSet(), new AnalysisReportInProgress()); //TODO expose the rule set or use method below?
     }
 
     public void DirectIndependentOfProject(ProjectId projectId, ProjectId dependent)
@@ -36,6 +36,6 @@ namespace MyTool.CompositionRoot
       _pathRules.AddDirectIndependentOfProjectRule(projectId, dependent);
     }
 
-    public string Report => _analysisInProgressReport.AsString();
+    public string Report => _analysisReportInProgress.AsString();
   }
 }

@@ -1,6 +1,6 @@
 ﻿namespace MyTool
 {
-  public interface IAnalysisInProgressReport
+  public interface IAnalysisReportInProgress
   {
     string AsString();
   }

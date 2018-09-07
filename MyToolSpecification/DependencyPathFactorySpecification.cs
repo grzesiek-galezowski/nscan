@@ -18,7 +18,7 @@ namespace MyToolSpecification
       var destination = Substitute.For<IFinalDependencyPathDestination>();
       
       //WHEN
-      var dependencyPathInProgress = factory.CreateNewDependencyPathFor(destination);
+      var dependencyPathInProgress = factory.NewDependencyPathFor(destination);
 
       //THEN
       dependencyPathInProgress.GetType().Should().Be<DependencyPathInProgress>();

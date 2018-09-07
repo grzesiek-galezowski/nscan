@@ -1,7 +1,10 @@
-﻿using MyTool;
+﻿using System;
+using System.Collections.Generic;
+using MyTool;
 using MyTool.App;
 using MyTool.CompositionRoot;
 using NSubstitute;
+using TddXt.AnyRoot.Collections;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
@@ -22,7 +25,7 @@ namespace MyToolSpecification
       var dependencyStartingPath2 = Any.Instance<IDependencyPathInProgress>();
       var dependencyStartingPath3 = Any.Instance<IDependencyPathInProgress>();
 
-      dependencyPathFactory.CreateNewDependencyPathFor((IFinalDependencyPathDestination)pathCache).Returns(
+      dependencyPathFactory.NewDependencyPathFor((IFinalDependencyPathDestination)pathCache).Returns(
         dependencyStartingPath1,
         dependencyStartingPath2,
         dependencyStartingPath3);
@@ -35,5 +38,7 @@ namespace MyToolSpecification
       project2.Received(1).FillAllBranchesOf(dependencyStartingPath2);
       project3.Received(1).FillAllBranchesOf(dependencyStartingPath3);
     }
+
+    
   }
 }

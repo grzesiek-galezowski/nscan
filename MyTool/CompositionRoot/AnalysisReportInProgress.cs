@@ -1,6 +1,6 @@
 namespace MyTool.CompositionRoot
 {
-  public class AnalysisInProgressReport : IAnalysisInProgressReport
+  public class AnalysisReportInProgress : IAnalysisReportInProgress
   {
     public string AsString()
     {

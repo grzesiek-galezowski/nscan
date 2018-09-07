@@ -4,6 +4,7 @@ using FluentAssertions;
 using MyTool;
 using MyTool.App;
 using NSubstitute;
+using TddXt.AnyRoot.Collections;
 using TddXt.XNSubstitute.Root;
 using Xunit;
 using static TddXt.AnyRoot.Root;
@@ -29,7 +30,7 @@ namespace MyToolSpecification
       
 
       //WHEN
-      dotNetStandardSolution.ResolveAllProjectsReferences(Any.Instance<IAnalysisInProgressReport>());
+      dotNetStandardSolution.ResolveAllProjectsReferences(Any.Instance<IAnalysisReportInProgress>());
 
       //THEN
       Received.InOrder(() =>
@@ -108,5 +109,23 @@ namespace MyToolSpecification
         .Should().ThrowExactly<ReferencedProjectNotFoundInSolutionException>();
       project1.ReceivedNothing();
     }
+
+    [Fact]
+    public void ShouldOrderTheCacheToCheckTheRuleSetPassedForVerification()
+    {
+      //GIVEN
+      var projectsById = Any.Dictionary<ProjectId, IDotNetProject>();
+      var pathCache = Substitute.For<IPathCache>();
+      var solution = new DotNetStandardSolution(projectsById, pathCache);
+      var ruleSet = Any.Instance<IPathRuleSet>();
+      var report = Any.Instance<IAnalysisReportInProgress>();
+      
+      //WHEN
+      solution.Check(ruleSet, report);
+
+      //THEN
+      pathCache.Received(1).Check(ruleSet, report);
+    }
+
   }
 }

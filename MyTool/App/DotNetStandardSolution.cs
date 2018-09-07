@@ -16,7 +16,7 @@ namespace MyTool.App
       _pathCache = pathCache;
     }
 
-    public void ResolveAllProjectsReferences(IAnalysisInProgressReport analysisInProgressReport)
+    public void ResolveAllProjectsReferences(IAnalysisReportInProgress analysisReportInProgress)
     {
       //bug use the analysis report to write what projects are skipped - write a separate acceptance test for that
       foreach (var referencingProject in _projectsById.Values)
@@ -33,9 +33,9 @@ namespace MyTool.App
       }
     }
 
-    public void Check(IPathRuleSet pathRuleSet, IAnalysisInProgressReport analysisInProgressReport)
+    public void Check(IPathRuleSet pathRuleSet, IAnalysisReportInProgress analysisReportInProgress)
     {
-      throw new System.NotImplementedException();
+      _pathCache.Check(pathRuleSet, analysisReportInProgress);
     }
 
     public void BuildCache()
