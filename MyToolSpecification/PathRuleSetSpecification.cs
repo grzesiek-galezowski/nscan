@@ -1,31 +1,34 @@
 using MyTool;
-using MyTool.App;
 using MyTool.CompositionRoot;
 using NSubstitute;
-using TddXt.AnyRoot.Collections;
+using TddXt.AnyRoot;
 using Xunit;
-using static TddXt.AnyRoot.Root;
 
-public class PathRuleSetSpecification
+namespace MyToolSpecification
 {
-  [Fact]
-  public void ShouldApplyTheRuleSetToEveryPathAggregated()
+  public class PathRuleSetSpecification
   {
-    //GIVEN
-    //bug refactor the AddDirectIndependent...
-    /*var ruleSet = new PathRuleSet();
-    var report = Any.Instance<IAnalysisReportInProgress>();
-    ruleSet.AddDirectIndependentOfProjectRule(depending1, dependent1);
-    ruleSet.AddDirectIndependentOfProjectRule(depending2, dependent2);
-    ruleSet.AddDirectIndependentOfProjectRule(depending3, dependent3);
+    [Fact]
+    public void ShouldPassEachRuleToCacheForVerification()
+    {
+      //GIVEN
+      var ruleSet = new PathRuleSet();
+      var report = Root.Any.Instance<IAnalysisReportInProgress>();
+      var pathCache = Substitute.For<IPathCache>();
+      var rule1 = Root.Any.Instance<IDependencyRule>();
+      var rule2 = Root.Any.Instance<IDependencyRule>();
+      var rule3 = Root.Any.Instance<IDependencyRule>();
+      ruleSet.Add(rule1);
+      ruleSet.Add(rule2);
+      ruleSet.Add(rule3);
       
-    //WHEN
-    var pathCache = Substitute.For<IPathCache>();
-    ruleSet.Check(pathCache, report);
+      //WHEN
+      ruleSet.Check(pathCache, report);
 
-    //THEN
-    ruleSet.Received(1).Check(path1, report);
-    ruleSet.Received(1).Check(path2, report);
-    ruleSet.Received(1).Check(path3, report);*/
+      //THEN
+      pathCache.Received(1).Check(rule1, report);
+      pathCache.Received(1).Check(rule2, report);
+      pathCache.Received(1).Check(rule3, report);
+    }
   }
 }

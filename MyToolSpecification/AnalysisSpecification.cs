@@ -19,7 +19,7 @@ namespace MyToolSpecification
       var solution = Substitute.For<ISolution>();
       var pathRuleSet = Any.Instance<IPathRuleSet>();
       var analysisReport = Any.Instance<IAnalysisReportInProgress>();
-      var analysis = new Analysis(solution, pathRuleSet, analysisReport);
+      var analysis = new Analysis(solution, pathRuleSet, analysisReport, Any.Instance<IRuleFactory>());
 
       //WHEN
       analysis.Run();
@@ -39,20 +39,22 @@ namespace MyToolSpecification
     {
       //GIVEN
       var pathRuleSet = Substitute.For<IPathRuleSet>();
+      var ruleFactory = Substitute.For<IRuleFactory>();
+      var rule = Any.Instance<IDependencyRule>();
       var analysis = new Analysis(
         Any.Instance<ISolution>(), 
         pathRuleSet, 
-        Any.Instance<IAnalysisReportInProgress>());
+        Any.Instance<IAnalysisReportInProgress>(), ruleFactory);
       var dependingId = Any.ProjectId();
       var dependencyId = Any.ProjectId();
+
+      ruleFactory.CreateDirectIndependentOfProjectRule(dependingId, dependencyId).Returns(rule);
 
       //WHEN
       analysis.DirectIndependentOfProject(dependingId, dependencyId);
 
       //THEN
-      pathRuleSet.Received(1)
-        .AddDirectIndependentOfProjectRule(dependingId, dependencyId);
-      throw new NotImplementedException("TODO: add factory");
+      pathRuleSet.Received(1).Add(rule);
     }
 
     [Fact]
@@ -63,7 +65,8 @@ namespace MyToolSpecification
       var analysis = new Analysis(
         Any.Instance<ISolution>(), 
         Any.Instance<IPathRuleSet>(), 
-        analysisInProgressReport);
+        analysisInProgressReport, 
+        Any.Instance<IRuleFactory>());
       var reportStringGeneratedFromInProgressReport = Any.String();
 
       analysisInProgressReport.AsString().Returns(reportStringGeneratedFromInProgressReport);

@@ -1,12 +1,8 @@
-﻿using System.Collections.Generic;
-using MyTool.App;
-using MyTool.CompositionRoot;
-
-namespace MyTool
+﻿namespace MyTool
 {
   public interface IPathRuleSet
   {
-    void AddDirectIndependentOfProjectRule(ProjectId depending, ProjectId dependent);
+    void Add(IDependencyRule rule);
     void Check(IPathCache path, IAnalysisReportInProgress report);
   }
 }

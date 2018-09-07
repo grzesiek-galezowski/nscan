@@ -5,7 +5,7 @@ namespace MyTool.CompositionRoot
 {
   public class PathRuleSet : IPathRuleSet
   {
-    public void AddDirectIndependentOfProjectRule(ProjectId depending, ProjectId dependent)
+    public void Add(IDependencyRule rule)
     {
       throw new System.NotImplementedException();
     }

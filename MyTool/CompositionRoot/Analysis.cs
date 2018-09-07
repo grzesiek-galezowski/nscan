@@ -8,12 +8,14 @@ namespace MyTool.CompositionRoot
     private readonly ISolution _solution;
     private readonly IPathRuleSet _pathRules;
     private readonly IAnalysisReportInProgress _analysisReportInProgress;
+    private readonly IRuleFactory _ruleFactory;
 
-    public Analysis(ISolution solution, IPathRuleSet pathRules, IAnalysisReportInProgress analysisReportInProgress)
+    public Analysis(ISolution solution, IPathRuleSet pathRules, IAnalysisReportInProgress analysisReportInProgress, IRuleFactory ruleFactory)
     {
       _solution = solution;
       _pathRules = pathRules;
       _analysisReportInProgress = analysisReportInProgress;
+      _ruleFactory = ruleFactory;
     }
 
     public void Run()
@@ -28,12 +30,15 @@ namespace MyTool.CompositionRoot
     {
       return new Analysis(new DotNetStandardSolution(projects, 
         new PathCache(
-          new DependencyPathFactory())), new PathRuleSet(), new AnalysisReportInProgress()); //TODO expose the rule set or use method below?
+          new DependencyPathFactory())), 
+        new PathRuleSet(), 
+        new AnalysisReportInProgress(), 
+        new RuleFactory()); //TODO expose the rule set or use method below?
     }
 
-    public void DirectIndependentOfProject(ProjectId projectId, ProjectId dependent)
+    public void DirectIndependentOfProject(ProjectId depending, ProjectId dependent)
     {
-      _pathRules.AddDirectIndependentOfProjectRule(projectId, dependent);
+      _pathRules.Add(_ruleFactory.CreateDirectIndependentOfProjectRule(depending, dependent));
     }
 
     public string Report => _analysisReportInProgress.AsString();

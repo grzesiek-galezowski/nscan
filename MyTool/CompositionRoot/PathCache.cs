@@ -22,7 +22,7 @@ namespace MyTool.CompositionRoot
       }
     }
 
-    public void Check(IPathRuleSet ruleSet, IAnalysisReportInProgress report)
+    public void Check(IDependencyRule ruleSet, IAnalysisReportInProgress report)
     {
       /*foreach (var path in _paths)
       {
