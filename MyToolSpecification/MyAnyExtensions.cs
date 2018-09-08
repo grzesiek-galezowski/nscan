@@ -2,7 +2,7 @@ using MyTool.App;
 using TddXt.AnyExtensibility;
 using TddXt.AnyRoot;
 
-namespace MyToolSpecification
+namespace MyTool
 {
   public static class MyAnyExtensions
   {

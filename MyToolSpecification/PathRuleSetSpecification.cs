@@ -1,10 +1,9 @@
-using MyTool;
 using MyTool.CompositionRoot;
 using NSubstitute;
 using TddXt.AnyRoot;
 using Xunit;
 
-namespace MyToolSpecification
+namespace MyTool
 {
   public class PathRuleSetSpecification
   {

@@ -1,14 +1,12 @@
-﻿using System;
-using FluentAssertions;
-using MyTool;
+﻿using FluentAssertions;
 using MyTool.App;
 using MyTool.CompositionRoot;
 using NSubstitute;
+using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
 using Xunit;
-using static TddXt.AnyRoot.Root;
 
-namespace MyToolSpecification
+namespace MyTool
 {
   public class AnalysisSpecification
   {
@@ -17,9 +15,9 @@ namespace MyToolSpecification
     {
       //GIVEN
       var solution = Substitute.For<ISolution>();
-      var pathRuleSet = Any.Instance<IPathRuleSet>();
-      var analysisReport = Any.Instance<IAnalysisReportInProgress>();
-      var analysis = new Analysis(solution, pathRuleSet, analysisReport, Any.Instance<IRuleFactory>());
+      var pathRuleSet = Root.Any.Instance<IPathRuleSet>();
+      var analysisReport = Root.Any.Instance<IAnalysisReportInProgress>();
+      var analysis = new Analysis(solution, pathRuleSet, analysisReport, Root.Any.Instance<IRuleFactory>());
 
       //WHEN
       analysis.Run();
@@ -40,13 +38,13 @@ namespace MyToolSpecification
       //GIVEN
       var pathRuleSet = Substitute.For<IPathRuleSet>();
       var ruleFactory = Substitute.For<IRuleFactory>();
-      var rule = Any.Instance<IDependencyRule>();
+      var rule = Root.Any.Instance<IDependencyRule>();
       var analysis = new Analysis(
-        Any.Instance<ISolution>(), 
+        Root.Any.Instance<ISolution>(), 
         pathRuleSet, 
-        Any.Instance<IAnalysisReportInProgress>(), ruleFactory);
-      var dependingId = Any.ProjectId();
-      var dependencyId = Any.ProjectId();
+        Root.Any.Instance<IAnalysisReportInProgress>(), ruleFactory);
+      var dependingId = Root.Any.ProjectId();
+      var dependencyId = Root.Any.ProjectId();
 
       ruleFactory.CreateDirectIndependentOfProjectRule(dependingId, dependencyId).Returns(rule);
 
@@ -63,11 +61,11 @@ namespace MyToolSpecification
       //GIVEN
       var analysisInProgressReport = Substitute.For<IAnalysisReportInProgress>();
       var analysis = new Analysis(
-        Any.Instance<ISolution>(), 
-        Any.Instance<IPathRuleSet>(), 
+        Root.Any.Instance<ISolution>(), 
+        Root.Any.Instance<IPathRuleSet>(), 
         analysisInProgressReport, 
-        Any.Instance<IRuleFactory>());
-      var reportStringGeneratedFromInProgressReport = Any.String();
+        Root.Any.Instance<IRuleFactory>());
+      var reportStringGeneratedFromInProgressReport = Root.Any.String();
 
       analysisInProgressReport.AsString().Returns(reportStringGeneratedFromInProgressReport);
 

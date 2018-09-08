@@ -35,7 +35,7 @@ namespace MyTool.App
 
     public void Check(IPathRuleSet pathRuleSet, IAnalysisReportInProgress analysisReportInProgress)
     {
-      _pathCache.Check(pathRuleSet, analysisReportInProgress);
+      pathRuleSet.Check(_pathCache, analysisReportInProgress);
     }
 
     public void BuildCache()

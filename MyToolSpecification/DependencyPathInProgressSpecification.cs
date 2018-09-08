@@ -1,16 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
-using MyTool;
 using MyTool.App;
 using NSubstitute;
+using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
-using TddXt.XFluentAssert.Root;
 using TddXt.XNSubstitute.Root;
 using Xunit;
-using static TddXt.AnyRoot.Root;
 
-namespace MyToolSpecification
+namespace MyTool
 {
   public class DependencyPathInProgressSpecification
   {
@@ -19,10 +17,10 @@ namespace MyToolSpecification
     {
       //GIVEN
       var destination = Substitute.For<IFinalDependencyPathDestination>();
-      var alreadyAggregatedProjects = Any.List<IReferencedProject>();
+      var alreadyAggregatedProjects = Root.Any.List<IReferencedProject>();
       var dependencyPathInProgress = new DependencyPathInProgress(destination, alreadyAggregatedProjects);
-      var additionalProject = Any.Instance<IReferencedProject>();
-      var finalProject = Any.Instance<IReferencedProject>();
+      var additionalProject = Root.Any.Instance<IReferencedProject>();
+      var finalProject = Root.Any.Instance<IReferencedProject>();
       var clonedPath = dependencyPathInProgress.CloneWith(additionalProject);
       
       //WHEN

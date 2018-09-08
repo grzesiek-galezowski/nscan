@@ -96,6 +96,11 @@ namespace MyTool.App
 
     }
 
+    public bool Has(ProjectId projectId)
+    {
+      throw new NotImplementedException();
+    }
+
     public void ResolveAsReferenceOf(IReferencingProject project)
     {
       project.AddReferencedProject(_id, this);

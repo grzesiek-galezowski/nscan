@@ -1,12 +1,10 @@
 ﻿using FluentAssertions;
-using MyTool;
-using MyTool.App;
 using MyTool.CompositionRoot;
 using NSubstitute;
 using TddXt.XFluentAssert.Root;
 using Xunit;
 
-namespace MyToolSpecification
+namespace MyTool
 {
   public class DependencyPathFactorySpecification
   {

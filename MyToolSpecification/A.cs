@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MyToolSpecification
+namespace MyTool
 {
   public class A
   {

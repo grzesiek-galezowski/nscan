@@ -6,7 +6,7 @@ namespace MyTool.CompositionRoot
   {
     public IDependencyRule CreateDirectIndependentOfProjectRule(ProjectId dependingId, ProjectId dependencyId)
     {
-      throw new System.NotImplementedException();
+      return new DirectIndependentOfProjectRule(dependingId, dependencyId);
     }
   }
 }

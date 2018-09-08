@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using FluentAssertions;
 using MyTool.App;
 using MyTool.CompositionRoot;
+using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
 using Xunit;
-using static TddXt.AnyRoot.Root;
 
-namespace MyToolSpecification
+namespace MyTool
 {
   public class ComponentSpecification
   {
@@ -69,7 +68,7 @@ namespace MyToolSpecification
     public void HasProject(string projectId)
     {
       var key = new ProjectId(projectId);
-      _projectsById.Add(key, new DotNetStandardProject(Any.String(), key, Array.Empty<ProjectId>(), _consoleSupport));
+      _projectsById.Add(key, new DotNetStandardProject(Root.Any.String(), key, Array.Empty<ProjectId>(), _consoleSupport));
     }
 
     public void AddDirectIndependentRule(string dependingProject, string dependentProject)

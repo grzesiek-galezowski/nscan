@@ -22,14 +22,12 @@ namespace MyTool.CompositionRoot
       }
     }
 
-    public void Check(IDependencyRule ruleSet, IAnalysisReportInProgress report)
+    public void Check(IDependencyRule rule, IAnalysisReportInProgress report)
     {
-      /*foreach (var path in _paths)
+      foreach (var path in _paths)
       {
-        //todo hmm... probably should be the other way round - each rule should be checked on all paths...
-        //todo take a step back and redesign
-        ruleSet.Check(path, report);
-      }*/
+        rule.Check(path, report);
+      }
     }
 
     public void Add(IReadOnlyList<IReferencedProject> finalPath)

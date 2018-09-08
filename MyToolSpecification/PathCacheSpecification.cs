@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using MyTool;
 using MyTool.App;
 using MyTool.CompositionRoot;
 using NSubstitute;
@@ -8,7 +7,7 @@ using TddXt.AnyRoot.Collections;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace MyToolSpecification
+namespace MyTool
 {
   public class PathCacheSpecification
   {
@@ -39,6 +38,26 @@ namespace MyToolSpecification
       project3.Received(1).FillAllBranchesOf(dependencyStartingPath3);
     }
 
-    
+    [Fact]
+    public void ShouldXXXXXXXXXXXXXXXX()
+    {
+      //GIVEN
+      var pathCache = new PathCache(Any.Instance<IDependencyPathFactory>());
+      var rule = Substitute.For<IDependencyRule>();
+      var report = Any.Instance<IAnalysisReportInProgress>();
+      var path1 = Any.ReadOnlyList<IReferencedProject>();
+      var path2 = Any.ReadOnlyList<IReferencedProject>();
+      var path3 = Any.ReadOnlyList<IReferencedProject>();
+
+      pathCache.Add(path1);
+      pathCache.Add(path2);
+      pathCache.Add(path3);
+
+      //WHEN
+      pathCache.Check(rule, report);
+      
+      //THEN
+      rule.Received(1).Check(path1, report);
+    }
   }
 }
