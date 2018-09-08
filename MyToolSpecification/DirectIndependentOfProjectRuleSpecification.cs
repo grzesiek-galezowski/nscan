@@ -9,7 +9,7 @@ using static TddXt.AnyRoot.Root;
 
 namespace MyTool
 {
-  public class DirectIndependentOfProjectRuleSpecification
+  public class DirectIndependentOfProjectRuleSpecification //todo make it not direct already, why not?
   {
     //todo what about the situation where there is only root?
 
@@ -38,6 +38,44 @@ namespace MyTool
       //THEN
       report.ReceivedNothing();
     }
+
+    [Fact]
+    public void ShouldReportPathWhen()
+    {
+      //GIVEN
+      var dependingId = Any.ProjectId();
+      var dependencyId = Any.ProjectId();
+      var rule = new DirectIndependentOfProjectRule(dependingId, dependencyId);
+      var project1 = ProjectWithIdDifferentThan(dependingId, dependencyId);
+      var project2 = ProjectWithId(dependingId);
+      var project3 = ProjectWithIdDifferentThan(dependingId, dependencyId);
+      var project4 = ProjectWithId(dependencyId);
+      var report = Substitute.For<IAnalysisReportInProgress>();
+
+      var path = new List<IReferencedProject>()
+      {
+        project1,
+        project2,
+        project3,
+        project4,
+      };
+
+      //WHEN
+      rule.Check(path, report);
+
+      //THEN
+      report.Received(1).ViolationOf(
+        "[" + dependingId + "] independentOf [" + dependencyId + "]", 
+        new List<IReferencedProject>() {project2, project3, project4});
+    }
+
+    private static IReferencedProject ProjectWithId(ProjectId dependingId)
+    {
+      var referencedProject = Substitute.For<IReferencedProject>();
+      referencedProject.Has(dependingId).Returns(true);
+      return referencedProject;
+    }
+
 
     //TODO does not contain dependencyId
     //TODO does not contain dependentId
