@@ -6,12 +6,12 @@ using static MyTool.SearchResult;
 
 namespace MyTool
 {
-  public class DirectIndependentOfProjectRule : IDependencyRule
+  public class IndependentOfProjectRule : IDependencyRule
   {
     private readonly ProjectId _dependingId;
     private readonly ProjectId _dependencyId;
 
-    public DirectIndependentOfProjectRule(ProjectId dependingId, ProjectId dependencyId)
+    public IndependentOfProjectRule(ProjectId dependingId, ProjectId dependencyId)
     {
       _dependingId = dependingId;
       _dependencyId = dependencyId;

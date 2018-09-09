@@ -6,7 +6,7 @@ namespace MyTool.CompositionRoot
   {
     public IDependencyRule CreateIndependentOfProjectRule(ProjectId dependingId, ProjectId dependencyId)
     {
-      return new DirectIndependentOfProjectRule(dependingId, dependencyId);
+      return new IndependentOfProjectRule(dependingId, dependencyId);
     }
   }
 }

@@ -2,10 +2,10 @@ using System;
 using FluentAssertions;
 using MyTool.App;
 using NSubstitute;
-using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
 using TddXt.AnyRoot.Strings;
 using Xunit;
+using static TddXt.AnyRoot.Root;
 
 namespace MyTool
 {
@@ -15,11 +15,11 @@ namespace MyTool
     public void ShouldTellSolutionToResolveAllItsReferencesByIds()
     {
       //GIVEN
-      var id1 = Root.Any.ProjectId();
-      var id2 = Root.Any.ProjectId();
-      var id3 = Root.Any.ProjectId();
+      var id1 = Any.ProjectId();
+      var id2 = Any.ProjectId();
+      var id3 = Any.ProjectId();
       var referencedProjectsIds = new[] { id1, id2, id3 };
-      var project = new DotNetStandardProject(Root.Any.String(), Root.Any.ProjectId(), referencedProjectsIds, Root.Any.Support());
+      var project = new DotNetStandardProject(Any.String(), Any.ProjectId(), referencedProjectsIds, Any.Support());
       var solution = Substitute.For<ISolutionContext>();
 
       //WHEN
@@ -35,13 +35,13 @@ namespace MyTool
     public void ShouldLogErrorAndIgnoreProjectThatCannotBeResolved()
     {
       //GIVEN
-      var id1 = Root.Any.ProjectId();
-      var id2 = Root.Any.ProjectId();
-      var id3 = Root.Any.ProjectId();
+      var id1 = Any.ProjectId();
+      var id2 = Any.ProjectId();
+      var id3 = Any.ProjectId();
       var referencedProjectsIds = new[] { id1, id2, id3 };
       var support = Substitute.For<ISupport>();
-      var exceptionFromResolution = Root.Any.Instance<ReferencedProjectNotFoundInSolutionException>();
-      var project = new DotNetStandardProject(Root.Any.String(), Root.Any.ProjectId(), referencedProjectsIds, support);
+      var exceptionFromResolution = Any.Instance<ReferencedProjectNotFoundInSolutionException>();
+      var project = new DotNetStandardProject(Any.String(), Any.ProjectId(), referencedProjectsIds, support);
       var solution = Substitute.For<ISolutionContext>();
 
       solution.When(ResolvingReferencesFrom(project, id2)).Throw(exceptionFromResolution);
@@ -68,15 +68,14 @@ namespace MyTool
     {
       //GIVEN
       var referencingProject = Substitute.For<IReferencingProject>();
-      var projectId = Root.Any.ProjectId();
-      var project = new DotNetStandardProject(Root.Any.String(), projectId, Root.Any.Array<ProjectId>(), Root.Any.Support());
+      var projectId = Any.ProjectId();
+      var project = new DotNetStandardProject(Any.String(), projectId, Any.Array<ProjectId>(), Any.Support());
 
       //WHEN
       project.ResolveAsReferenceOf(referencingProject);
 
       //THEN
       referencingProject.Received(1).AddReferencedProject(projectId, project);
-
     }
 
     [Fact]
@@ -84,8 +83,8 @@ namespace MyTool
     {
       //GIVEN
       var referencedProject = Substitute.For<IReferencedProject>();
-      var projectId = Root.Any.ProjectId();
-      var project = new DotNetStandardProject(Root.Any.String(), projectId, Root.Any.Array<ProjectId>(), Root.Any.Support());
+      var projectId = Any.ProjectId();
+      var project = new DotNetStandardProject(Any.String(), projectId, Any.Array<ProjectId>(), Any.Support());
 
       //WHEN
       project.ResolveAsReferencing(referencedProject);
@@ -112,7 +111,7 @@ namespace MyTool
     {
       //GIVEN
       var project = new DotNetStandardProjectBuilder().Build();
-      project.AddReferencingProject(Root.Any.ProjectId(), Root.Any.Instance<IReferencingProject>());
+      project.AddReferencingProject(Any.ProjectId(), Any.Instance<IReferencingProject>());
 
       //WHEN
       var isRoot = project.IsRoot();
@@ -130,13 +129,13 @@ namespace MyTool
       var reference2 = Substitute.For<IReferencedProject>();
       var reference3 = Substitute.For<IReferencedProject>();
       var dependencyPathInProgress = Substitute.For<IDependencyPathInProgress>();
-      var clonedPathInProgress1 = Root.Any.Instance<IDependencyPathInProgress>();
-      var clonedPathInProgress2 = Root.Any.Instance<IDependencyPathInProgress>();
-      var clonedPathInProgress3 = Root.Any.Instance<IDependencyPathInProgress>();
+      var clonedPathInProgress1 = Any.Instance<IDependencyPathInProgress>();
+      var clonedPathInProgress2 = Any.Instance<IDependencyPathInProgress>();
+      var clonedPathInProgress3 = Any.Instance<IDependencyPathInProgress>();
 
-      project.AddReferencedProject(Root.Any.ProjectId(), reference1);
-      project.AddReferencedProject(Root.Any.ProjectId(), reference2);
-      project.AddReferencedProject(Root.Any.ProjectId(), reference3);
+      project.AddReferencedProject(Any.ProjectId(), reference1);
+      project.AddReferencedProject(Any.ProjectId(), reference2);
+      project.AddReferencedProject(Any.ProjectId(), reference3);
 
       dependencyPathInProgress.CloneWith(project).Returns(
         clonedPathInProgress1,
@@ -166,6 +165,41 @@ namespace MyTool
       dependencyPathInProgress.Received(1).FinalizeWith(project);
     }
 
+
+    [Fact]
+    public void ShouldSayItHasProjectIdWhenItWasCreatedWithIt()
+    {
+      //GIVEN
+      var projectId = Any.ProjectId();
+      var project = new DotNetStandardProjectBuilder()
+      {
+        ProjectId = projectId
+      }.Build();
+
+      //WHEN
+      var hasProject = project.Has(projectId);
+
+      //THEN
+      hasProject.Should().BeTrue();
+    }
+
+    [Fact]
+    public void ShouldSayItDoesNotHaveProjectIdWhenItWasNotCreatedWithIt()
+    {
+      //GIVEN
+      var projectId = Any.ProjectId();
+      var project = new DotNetStandardProjectBuilder()
+      {
+        ProjectId = Any.ProjectIdOtherThan(projectId)
+      }.Build();
+
+      //WHEN
+      var hasProject = project.Has(projectId);
+
+      //THEN
+      hasProject.Should().BeFalse();
+    }
+
     private class DotNetStandardProjectBuilder
     {
       public DotNetStandardProject Build()
@@ -173,13 +207,13 @@ namespace MyTool
         return new DotNetStandardProject(AssemblyName, ProjectId, ReferencedProjectIds, Support);
       }
 
-      public ProjectId[] ReferencedProjectIds { private get; set; } = Root.Any.Array<ProjectId>();
+      public ProjectId[] ReferencedProjectIds { private get; set; } = Any.Array<ProjectId>();
 
-      public ProjectId ProjectId { private get; set; } = Root.Any.ProjectId();
+      public ProjectId ProjectId { private get; set; } = Any.ProjectId();
 
-      public string AssemblyName { private get; set; } = Root.Any.String();
+      public string AssemblyName { private get; set; } = Any.String();
 
-      public ISupport Support { private get; set; } = Root.Any.Support();
+      public ISupport Support { private get; set; } = Any.Support();
     }
   }
 }

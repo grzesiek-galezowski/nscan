@@ -11,7 +11,7 @@ namespace MyTool
 {
   public class ComponentSpecification
   {
-    [Fact(Skip = "not implemented yet")]
+    [Fact]//(Skip = "not implemented yet")]
     public void ShouldDetectDirectRuleBreak()
     {
       //GIVEN
@@ -19,7 +19,7 @@ namespace MyTool
       context.HasProject("A");
       context.HasProject("B");
 
-      context.AddDirectIndependentRule("A", "B");
+      context.AddIndependentOfRule("A", "B");
 
       //WHEN
 
@@ -71,7 +71,7 @@ namespace MyTool
       _projectsById.Add(key, new DotNetStandardProject(Root.Any.String(), key, Array.Empty<ProjectId>(), _consoleSupport));
     }
 
-    public void AddDirectIndependentRule(string dependingProject, string dependentProject)
+    public void AddIndependentOfRule(string dependingProject, string dependentProject)
     {
       _analysis.IndependentOfProject(new ProjectId(dependingProject), new ProjectId(dependentProject));
     }

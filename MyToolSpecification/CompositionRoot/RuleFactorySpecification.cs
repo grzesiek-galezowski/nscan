@@ -8,7 +8,7 @@ namespace MyTool.CompositionRoot
   public class RuleFactorySpecification
   {
     [Fact]
-    public void ShouldCreateDirectIndependentOfProjectRuleWithPassedIds()
+    public void ShouldCreateIndependentOfProjectRuleWithPassedIds()
     {
       //GIVEN
       var ruleFactory = new RuleFactory();
@@ -19,7 +19,7 @@ namespace MyTool.CompositionRoot
       var rule = ruleFactory.CreateIndependentOfProjectRule(dependingId, dependencyId);
 
       //THEN
-      rule.GetType().Should().Be<DirectIndependentOfProjectRule>();
+      rule.GetType().Should().Be<IndependentOfProjectRule>();
       rule.Should().DependOn(dependingId);
       rule.Should().DependOn(dependencyId);
     }

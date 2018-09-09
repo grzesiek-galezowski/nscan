@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using FluentAssertions;
 using MyTool.App;
 using NSubstitute;
-using NSubstitute.Core;
-using TddXt.AnyRoot.Strings;
 using TddXt.XNSubstitute.Root;
 using Xunit;
 using static DependencyDescriptions;
@@ -12,7 +9,7 @@ using static TddXt.AnyRoot.Root;
 
 namespace MyTool
 {
-  public class DirectIndependentOfProjectRuleSpecification //todo make it not direct already, why not?
+  public class IndependentOfProjectRuleSpecification //todo make it not direct already, why not?
   {
     //todo what about the situation where there is only root?
 
@@ -22,7 +19,7 @@ namespace MyTool
       //GIVEN
       var dependingId = Any.ProjectId();
       var dependencyId = Any.ProjectId();
-      var rule = new DirectIndependentOfProjectRule(dependingId, dependencyId);
+      var rule = new IndependentOfProjectRule(dependingId, dependencyId);
       var project1 = ProjectWithIdDifferentThan(dependingId, dependencyId);
       var project2 = ProjectWithIdDifferentThan(dependingId, dependencyId);
       var project3 = ProjectWithIdDifferentThan(dependingId, dependencyId);
@@ -48,7 +45,7 @@ namespace MyTool
       //GIVEN
       var dependingId = Any.ProjectId();
       var dependencyId = Any.ProjectId();
-      var rule = new DirectIndependentOfProjectRule(dependingId, dependencyId);
+      var rule = new IndependentOfProjectRule(dependingId, dependencyId);
       var project1 = ProjectWithIdDifferentThan(dependingId, dependencyId);
       var project2 = ProjectWithId(dependingId);
       var project3 = ProjectWithIdDifferentThan(dependingId, dependencyId);
@@ -76,7 +73,7 @@ namespace MyTool
       //GIVEN
       var dependingId = Any.ProjectId();
       var dependencyId = Any.ProjectId();
-      var rule = new DirectIndependentOfProjectRule(dependingId, dependencyId);
+      var rule = new IndependentOfProjectRule(dependingId, dependencyId);
       var project1 = ProjectWithIdDifferentThan(dependingId, dependencyId);
       var project2 = ProjectWithId(dependencyId);
       var project3 = ProjectWithIdDifferentThan(dependingId, dependencyId);
@@ -104,7 +101,7 @@ namespace MyTool
       //GIVEN
       var dependingId = Any.ProjectId();
       var dependencyId = Any.ProjectId();
-      var rule = new DirectIndependentOfProjectRule(dependingId, dependencyId);
+      var rule = new IndependentOfProjectRule(dependingId, dependencyId);
       var project1 = ProjectWithIdDifferentThan(dependingId, dependencyId);
       var project2 = ProjectWithId(dependingId);
       var project3 = ProjectWithIdDifferentThan(dependingId, dependencyId);
@@ -132,7 +129,7 @@ namespace MyTool
       //GIVEN
       var dependingId = Any.ProjectId();
       var dependencyId = Any.ProjectId();
-      var rule = new DirectIndependentOfProjectRule(dependingId, dependencyId);
+      var rule = new IndependentOfProjectRule(dependingId, dependencyId);
       var project1 = ProjectWithIdDifferentThan(dependingId, dependencyId);
       var project2 = ProjectWithId(dependencyId);
       var project3 = ProjectWithIdDifferentThan(dependingId, dependencyId);

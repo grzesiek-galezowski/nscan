@@ -33,7 +33,7 @@ namespace MyTool
     }
 
     [Fact]
-    public void ShouldAddDirectIndependentProjectRuleToPathRuleSet()
+    public void ShouldAddIndependentProjectRuleToPathRuleSet()
     {
       //GIVEN
       var pathRuleSet = Substitute.For<IPathRuleSet>();
