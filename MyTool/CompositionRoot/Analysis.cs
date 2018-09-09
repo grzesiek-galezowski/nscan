@@ -36,9 +36,9 @@ namespace MyTool.CompositionRoot
         new RuleFactory()); //TODO expose the rule set or use method below?
     }
 
-    public void DirectIndependentOfProject(ProjectId depending, ProjectId dependent)
+    public void IndependentOfProject(ProjectId depending, ProjectId dependent)
     {
-      _pathRules.Add(_ruleFactory.CreateDirectIndependentOfProjectRule(depending, dependent));
+      _pathRules.Add(_ruleFactory.CreateIndependentOfProjectRule(depending, dependent));
     }
 
     public string Report => _analysisReportInProgress.AsString();

@@ -4,6 +4,6 @@ namespace MyTool.CompositionRoot
 {
   public interface IRuleFactory
   {
-    IDependencyRule CreateDirectIndependentOfProjectRule(ProjectId dependingId, ProjectId dependencyId);
+    IDependencyRule CreateIndependentOfProjectRule(ProjectId dependingId, ProjectId dependencyId);
   }
 }

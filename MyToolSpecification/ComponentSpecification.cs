@@ -73,7 +73,7 @@ namespace MyTool
 
     public void AddDirectIndependentRule(string dependingProject, string dependentProject)
     {
-      _analysis.DirectIndependentOfProject(new ProjectId(dependingProject), new ProjectId(dependentProject));
+      _analysis.IndependentOfProject(new ProjectId(dependingProject), new ProjectId(dependentProject));
     }
 
     public void StartAnalysis()

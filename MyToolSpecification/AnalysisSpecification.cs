@@ -46,10 +46,10 @@ namespace MyTool
       var dependingId = Root.Any.ProjectId();
       var dependencyId = Root.Any.ProjectId();
 
-      ruleFactory.CreateDirectIndependentOfProjectRule(dependingId, dependencyId).Returns(rule);
+      ruleFactory.CreateIndependentOfProjectRule(dependingId, dependencyId).Returns(rule);
 
       //WHEN
-      analysis.DirectIndependentOfProject(dependingId, dependencyId);
+      analysis.IndependentOfProject(dependingId, dependencyId);
 
       //THEN
       pathRuleSet.Received(1).Add(rule);

@@ -16,7 +16,7 @@ namespace MyTool.CompositionRoot
       //WHEN
       var dependingId = Any.ProjectId();
       var dependencyId = Any.ProjectId();
-      var rule = ruleFactory.CreateDirectIndependentOfProjectRule(dependingId, dependencyId);
+      var rule = ruleFactory.CreateIndependentOfProjectRule(dependingId, dependencyId);
 
       //THEN
       rule.GetType().Should().Be<DirectIndependentOfProjectRule>();

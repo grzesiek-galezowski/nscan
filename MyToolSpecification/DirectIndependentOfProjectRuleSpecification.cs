@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using FluentAssertions;
 using MyTool.App;
 using NSubstitute;
 using NSubstitute.Core;
+using TddXt.AnyRoot.Strings;
 using TddXt.XNSubstitute.Root;
 using Xunit;
+using static DependencyDescriptions;
 using static TddXt.AnyRoot.Root;
 
 namespace MyTool
@@ -40,7 +43,7 @@ namespace MyTool
     }
 
     [Fact]
-    public void ShouldReportPathWhen()
+    public void ShouldReportRuleViolationAndPathWhenDependencyIsDetected()
     {
       //GIVEN
       var dependingId = Any.ProjectId();
@@ -64,9 +67,97 @@ namespace MyTool
       rule.Check(path, report);
 
       //THEN
-      report.Received(1).ViolationOf(
-        "[" + dependingId + "] independentOf [" + dependencyId + "]", 
-        new List<IReferencedProject>() {project2, project3, project4});
+      report.Received(1).ViolationOf(IndependentOf(project2, project4) , ListContaining(project2, project3, project4));
+    }
+
+    [Fact]
+    public void ShouldNotReportViolationWhenDependencyIsTheOtherWayRound()
+    {
+      //GIVEN
+      var dependingId = Any.ProjectId();
+      var dependencyId = Any.ProjectId();
+      var rule = new DirectIndependentOfProjectRule(dependingId, dependencyId);
+      var project1 = ProjectWithIdDifferentThan(dependingId, dependencyId);
+      var project2 = ProjectWithId(dependencyId);
+      var project3 = ProjectWithIdDifferentThan(dependingId, dependencyId);
+      var project4 = ProjectWithId(dependingId);
+      var report = Substitute.For<IAnalysisReportInProgress>();
+
+      var path = new List<IReferencedProject>()
+      {
+        project1,
+        project2,
+        project3,
+        project4,
+      };
+
+      //WHEN
+      rule.Check(path, report);
+
+      //THEN
+      report.ReceivedNothing();
+    }
+
+    [Fact]
+    public void ShouldNotReportViolationWhenDependingIsInPathButNoDependency()
+    {
+      //GIVEN
+      var dependingId = Any.ProjectId();
+      var dependencyId = Any.ProjectId();
+      var rule = new DirectIndependentOfProjectRule(dependingId, dependencyId);
+      var project1 = ProjectWithIdDifferentThan(dependingId, dependencyId);
+      var project2 = ProjectWithId(dependingId);
+      var project3 = ProjectWithIdDifferentThan(dependingId, dependencyId);
+      var project4 = ProjectWithIdDifferentThan(dependingId, dependencyId);
+      var report = Substitute.For<IAnalysisReportInProgress>();
+
+      var path = new List<IReferencedProject>()
+      {
+        project1,
+        project2,
+        project3,
+        project4,
+      };
+
+      //WHEN
+      rule.Check(path, report);
+
+      //THEN
+      report.ReceivedNothing();
+    }
+
+    [Fact]
+    public void ShouldNotReportViolationWhenDependencyIsInPathButNoDepending()
+    {
+      //GIVEN
+      var dependingId = Any.ProjectId();
+      var dependencyId = Any.ProjectId();
+      var rule = new DirectIndependentOfProjectRule(dependingId, dependencyId);
+      var project1 = ProjectWithIdDifferentThan(dependingId, dependencyId);
+      var project2 = ProjectWithId(dependencyId);
+      var project3 = ProjectWithIdDifferentThan(dependingId, dependencyId);
+      var project4 = ProjectWithIdDifferentThan(dependingId, dependencyId);
+      var report = Substitute.For<IAnalysisReportInProgress>();
+
+      var path = new List<IReferencedProject>()
+      {
+        project1,
+        project2,
+        project3,
+        project4,
+      };
+
+      //WHEN
+      rule.Check(path, report);
+
+      //THEN
+      report.ReceivedNothing();
+    }
+
+
+    private static List<IReferencedProject> ListContaining(IReferencedProject project2, IReferencedProject project3, IReferencedProject project4)
+    {
+      return Arg<List<IReferencedProject>>.That(arg => arg.Should().BeEquivalentTo(new List<IReferencedProject>() {project2, project3, project4}));
     }
 
     private static IReferencedProject ProjectWithId(ProjectId dependingId)
