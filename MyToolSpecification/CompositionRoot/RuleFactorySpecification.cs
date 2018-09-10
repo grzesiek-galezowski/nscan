@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using TddXt.AnyRoot.Strings;
 using TddXt.XFluentAssert.Root;
 using Xunit;
 using static TddXt.AnyRoot.Root;
@@ -14,8 +15,8 @@ namespace MyTool.CompositionRoot
       var ruleFactory = new RuleFactory();
       
       //WHEN
-      var dependingId = Any.ProjectId();
-      var dependencyId = Any.ProjectId();
+      var dependingId = Any.String();
+      var dependencyId = Any.String();
       var rule = ruleFactory.CreateIndependentOfProjectRule(dependingId, dependencyId);
 
       //THEN

@@ -8,10 +8,10 @@ namespace MyTool
 {
   public class IndependentOfProjectRule : IDependencyRule
   {
-    private readonly ProjectId _dependingId;
-    private readonly ProjectId _dependencyId;
+    private readonly string _dependingId;
+    private readonly string _dependencyId;
 
-    public IndependentOfProjectRule(ProjectId dependingId, ProjectId dependencyId)
+    public IndependentOfProjectRule(string dependingId, string dependencyId)
     {
       _dependingId = dependingId;
       _dependencyId = dependencyId;
@@ -30,11 +30,11 @@ namespace MyTool
       }
     }
 
-    private SearchResult<IReferencedProject> Find(IReadOnlyList<IReferencedProject> path, ProjectId projectId)
+    private SearchResult<IReferencedProject> Find(IReadOnlyList<IReferencedProject> path, string assemblyName)
     {
-      if (path.Any(p => p.Has(projectId)))
+      if (path.Any(p => p.HasAssemblyName(assemblyName)))
       {
-        return path.Select(ItemFound).First(p => p.Value.Has(projectId));
+        return path.Select(ItemFound).First(p => p.Value.HasAssemblyName(assemblyName));
       }
       else
       {

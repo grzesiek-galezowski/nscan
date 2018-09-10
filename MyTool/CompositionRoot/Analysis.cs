@@ -3,6 +3,7 @@ using MyTool.App;
 
 namespace MyTool.CompositionRoot
 {
+  [System.Runtime.InteropServices.Guid("3B92319A-797C-4478-8852-0D741D7A438C")]
   public class Analysis
   {
     private readonly ISolution _solution;
@@ -36,7 +37,7 @@ namespace MyTool.CompositionRoot
         new RuleFactory()); //TODO expose the rule set or use method below?
     }
 
-    public void IndependentOfProject(ProjectId depending, ProjectId dependent)
+    public void IndependentOfProject(string depending, string dependent)
     {
       _pathRules.Add(_ruleFactory.CreateIndependentOfProjectRule(depending, dependent));
     }

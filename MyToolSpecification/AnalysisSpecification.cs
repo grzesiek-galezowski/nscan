@@ -2,9 +2,9 @@
 using MyTool.App;
 using MyTool.CompositionRoot;
 using NSubstitute;
-using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
 using Xunit;
+using static TddXt.AnyRoot.Root;
 
 namespace MyTool
 {
@@ -15,9 +15,9 @@ namespace MyTool
     {
       //GIVEN
       var solution = Substitute.For<ISolution>();
-      var pathRuleSet = Root.Any.Instance<IPathRuleSet>();
-      var analysisReport = Root.Any.Instance<IAnalysisReportInProgress>();
-      var analysis = new Analysis(solution, pathRuleSet, analysisReport, Root.Any.Instance<IRuleFactory>());
+      var pathRuleSet = Any.Instance<IPathRuleSet>();
+      var analysisReport = Any.Instance<IAnalysisReportInProgress>();
+      var analysis = new Analysis(solution, pathRuleSet, analysisReport, Any.Instance<IRuleFactory>());
 
       //WHEN
       analysis.Run();
@@ -38,13 +38,13 @@ namespace MyTool
       //GIVEN
       var pathRuleSet = Substitute.For<IPathRuleSet>();
       var ruleFactory = Substitute.For<IRuleFactory>();
-      var rule = Root.Any.Instance<IDependencyRule>();
+      var rule = Any.Instance<IDependencyRule>();
       var analysis = new Analysis(
-        Root.Any.Instance<ISolution>(), 
+        Any.Instance<ISolution>(), 
         pathRuleSet, 
-        Root.Any.Instance<IAnalysisReportInProgress>(), ruleFactory);
-      var dependingId = Root.Any.ProjectId();
-      var dependencyId = Root.Any.ProjectId();
+        Any.Instance<IAnalysisReportInProgress>(), ruleFactory);
+      var dependingId = Any.String();
+      var dependencyId = Any.String();
 
       ruleFactory.CreateIndependentOfProjectRule(dependingId, dependencyId).Returns(rule);
 
@@ -61,11 +61,11 @@ namespace MyTool
       //GIVEN
       var analysisInProgressReport = Substitute.For<IAnalysisReportInProgress>();
       var analysis = new Analysis(
-        Root.Any.Instance<ISolution>(), 
-        Root.Any.Instance<IPathRuleSet>(), 
+        Any.Instance<ISolution>(), 
+        Any.Instance<IPathRuleSet>(), 
         analysisInProgressReport, 
-        Root.Any.Instance<IRuleFactory>());
-      var reportStringGeneratedFromInProgressReport = Root.Any.String();
+        Any.Instance<IRuleFactory>());
+      var reportStringGeneratedFromInProgressReport = Any.String();
 
       analysisInProgressReport.AsString().Returns(reportStringGeneratedFromInProgressReport);
 

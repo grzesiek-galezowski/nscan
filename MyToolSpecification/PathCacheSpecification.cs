@@ -39,7 +39,7 @@ namespace MyTool
     }
 
     [Fact]
-    public void ShouldXXXXXXXXXXXXXXXX()
+    public void ShouldMakePassedRuleCheckAllItsPaths()
     {
       //GIVEN
       var pathCache = new PathCache(Any.Instance<IDependencyPathFactory>());
@@ -58,6 +58,8 @@ namespace MyTool
       
       //THEN
       rule.Received(1).Check(path1, report);
+      rule.Received(1).Check(path2, report);
+      rule.Received(1).Check(path3, report);
     }
   }
 }

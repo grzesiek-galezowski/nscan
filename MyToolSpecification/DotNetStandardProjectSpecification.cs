@@ -2,6 +2,7 @@ using System;
 using FluentAssertions;
 using MyTool.App;
 using NSubstitute;
+using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
 using TddXt.AnyRoot.Strings;
 using Xunit;
@@ -170,14 +171,14 @@ namespace MyTool
     public void ShouldSayItHasProjectIdWhenItWasCreatedWithIt()
     {
       //GIVEN
-      var projectId = Any.ProjectId();
+      var assemblyName = Any.String();
       var project = new DotNetStandardProjectBuilder()
       {
-        ProjectId = projectId
+        AssemblyName = assemblyName
       }.Build();
 
       //WHEN
-      var hasProject = project.Has(projectId);
+      var hasProject = project.HasAssemblyName(assemblyName);
 
       //THEN
       hasProject.Should().BeTrue();
@@ -187,14 +188,14 @@ namespace MyTool
     public void ShouldSayItDoesNotHaveProjectIdWhenItWasNotCreatedWithIt()
     {
       //GIVEN
-      var projectId = Any.ProjectId();
+      var assemblyName = Any.String();
       var project = new DotNetStandardProjectBuilder()
       {
-        ProjectId = Any.ProjectIdOtherThan(projectId)
+        AssemblyName = Any.OtherThan(assemblyName)
       }.Build();
 
       //WHEN
-      var hasProject = project.Has(projectId);
+      var hasProject = project.HasAssemblyName(assemblyName);
 
       //THEN
       hasProject.Should().BeFalse();

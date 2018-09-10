@@ -71,9 +71,9 @@ namespace MyTool
       _projectsById.Add(key, new DotNetStandardProject(Root.Any.String(), key, Array.Empty<ProjectId>(), _consoleSupport));
     }
 
-    public void AddIndependentOfRule(string dependingProject, string dependentProject)
+    public void AddIndependentOfRule(string dependingAssemblyName, string dependentAssemblyName)
     {
-      _analysis.IndependentOfProject(new ProjectId(dependingProject), new ProjectId(dependentProject));
+      _analysis.IndependentOfProject(dependingAssemblyName, dependentAssemblyName);
     }
 
     public void StartAnalysis()

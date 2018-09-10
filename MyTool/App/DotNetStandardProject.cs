@@ -96,7 +96,7 @@ namespace MyTool.App
 
     }
 
-    public bool Has(ProjectId projectId) => _id.Equals(projectId);
+    public bool HasAssemblyName(string assemblyName) => _assemblyName == assemblyName;
 
     public void ResolveAsReferenceOf(IReferencingProject project)
     {

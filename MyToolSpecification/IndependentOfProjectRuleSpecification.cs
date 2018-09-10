@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using FluentAssertions;
 using MyTool.App;
 using NSubstitute;
+using TddXt.AnyRoot.Strings;
 using TddXt.XNSubstitute.Root;
 using Xunit;
 using static DependencyDescriptions;
@@ -14,11 +16,11 @@ namespace MyTool
     //todo what about the situation where there is only root?
 
     [Fact]
-    public void ShouldDoNothingWhenPathDoesNotContainAnyOfProjectReferencesPointedByIds()
+    public void ShouldReportOkWhenPathDoesNotContainAnyOfProjectReferencesPointedByIds()
     {
       //GIVEN
-      var dependingId = Any.ProjectId();
-      var dependencyId = Any.ProjectId();
+      var dependingId = Any.String();
+      var dependencyId = Any.String();
       var rule = new IndependentOfProjectRule(dependingId, dependencyId);
       var project1 = ProjectWithIdDifferentThan(dependingId, dependencyId);
       var project2 = ProjectWithIdDifferentThan(dependingId, dependencyId);
@@ -37,14 +39,15 @@ namespace MyTool
 
       //THEN
       report.ReceivedNothing();
+      //report.Received(1).Ok(IndependentOf(dependingId, dependencyId));
     }
 
     [Fact]
     public void ShouldReportRuleViolationAndPathWhenDependencyIsDetected()
     {
       //GIVEN
-      var dependingId = Any.ProjectId();
-      var dependencyId = Any.ProjectId();
+      var dependingId = Any.String();
+      var dependencyId = Any.String();
       var rule = new IndependentOfProjectRule(dependingId, dependencyId);
       var project1 = ProjectWithIdDifferentThan(dependingId, dependencyId);
       var project2 = ProjectWithId(dependingId);
@@ -71,8 +74,8 @@ namespace MyTool
     public void ShouldNotReportViolationWhenDependencyIsTheOtherWayRound()
     {
       //GIVEN
-      var dependingId = Any.ProjectId();
-      var dependencyId = Any.ProjectId();
+      var dependingId = Any.String();
+      var dependencyId = Any.String();
       var rule = new IndependentOfProjectRule(dependingId, dependencyId);
       var project1 = ProjectWithIdDifferentThan(dependingId, dependencyId);
       var project2 = ProjectWithId(dependencyId);
@@ -99,8 +102,8 @@ namespace MyTool
     public void ShouldNotReportViolationWhenDependingIsInPathButNoDependency()
     {
       //GIVEN
-      var dependingId = Any.ProjectId();
-      var dependencyId = Any.ProjectId();
+      var dependingId = Any.String();
+      var dependencyId = Any.String();
       var rule = new IndependentOfProjectRule(dependingId, dependencyId);
       var project1 = ProjectWithIdDifferentThan(dependingId, dependencyId);
       var project2 = ProjectWithId(dependingId);
@@ -127,8 +130,8 @@ namespace MyTool
     public void ShouldNotReportViolationWhenDependencyIsInPathButNoDepending()
     {
       //GIVEN
-      var dependingId = Any.ProjectId();
-      var dependencyId = Any.ProjectId();
+      var dependingId = Any.String();
+      var dependencyId = Any.String();
       var rule = new IndependentOfProjectRule(dependingId, dependencyId);
       var project1 = ProjectWithIdDifferentThan(dependingId, dependencyId);
       var project2 = ProjectWithId(dependencyId);
@@ -157,10 +160,10 @@ namespace MyTool
       return Arg<List<IReferencedProject>>.That(arg => arg.Should().BeEquivalentTo(new List<IReferencedProject>() {project2, project3, project4}));
     }
 
-    private static IReferencedProject ProjectWithId(ProjectId dependingId)
+    private static IReferencedProject ProjectWithId(String dependingId)
     {
       var referencedProject = Substitute.For<IReferencedProject>();
-      referencedProject.Has(dependingId).Returns(true);
+      referencedProject.HasAssemblyName(dependingId).Returns(true);
       return referencedProject;
     }
 
@@ -170,12 +173,12 @@ namespace MyTool
     //TODO contains both but in wrong order
     //TODO contains both but more than 1 hop away
 
-    private static IReferencedProject ProjectWithIdDifferentThan(params ProjectId[] ids)
+    private static IReferencedProject ProjectWithIdDifferentThan(params string[] assemblyNames)
     {
       var project1 = Substitute.For<IReferencedProject>();
-      foreach (var projectId in ids)
+      foreach (var assemblyName in assemblyNames)
       {
-        project1.Has(projectId).Returns(false);
+        project1.HasAssemblyName(assemblyName).Returns(false);
       }
       return project1;
     }
