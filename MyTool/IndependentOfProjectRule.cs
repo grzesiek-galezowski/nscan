@@ -8,25 +8,30 @@ namespace MyTool
 {
   public class IndependentOfProjectRule : IDependencyRule
   {
-    private readonly string _dependingId;
-    private readonly string _dependencyId;
+    private readonly string _dependingAssemblyName;
+    private readonly string _dependencyAssemblyName;
 
-    public IndependentOfProjectRule(string dependingId, string dependencyId)
+    public IndependentOfProjectRule(string dependingAssemblyName, string dependencyAssemblyName)
     {
-      _dependingId = dependingId;
-      _dependencyId = dependencyId;
+      _dependingAssemblyName = dependingAssemblyName;
+      _dependencyAssemblyName = dependencyAssemblyName;
     }
 
     public void Check(IReadOnlyList<IReferencedProject> path, IAnalysisReportInProgress report)
     {
-      var depending = Find(path, _dependingId);
-      var dependency = Find(path, _dependencyId);
+      var depending = Find(path, _dependingAssemblyName);
+      var dependency = Find(path, _dependencyAssemblyName);
 
       if (dependency.Found && depending.Found && depending.IsBefore(dependency))
       {
         report.ViolationOf(
-          DependencyDescriptions.IndependentOf(depending.Value, dependency.Value),  
+          DependencyDescriptions.IndependentOf(_dependingAssemblyName, _dependencyAssemblyName),  
           depending.SegmentEndingWith(dependency, path));
+      }
+      else
+      {
+        report.Ok(
+          DependencyDescriptions.IndependentOf(_dependingAssemblyName, _dependencyAssemblyName));
       }
     }
 

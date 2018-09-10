@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using FluentAssertions;
 using MyTool.App;
 using NSubstitute;
@@ -19,12 +18,12 @@ namespace MyTool
     public void ShouldReportOkWhenPathDoesNotContainAnyOfProjectReferencesPointedByIds()
     {
       //GIVEN
-      var dependingId = Any.String();
-      var dependencyId = Any.String();
-      var rule = new IndependentOfProjectRule(dependingId, dependencyId);
-      var project1 = ProjectWithIdDifferentThan(dependingId, dependencyId);
-      var project2 = ProjectWithIdDifferentThan(dependingId, dependencyId);
-      var project3 = ProjectWithIdDifferentThan(dependingId, dependencyId);
+      var dependingName = Any.String();
+      var dependencyName = Any.String();
+      var rule = new IndependentOfProjectRule(dependingName, dependencyName);
+      var project1 = ProjectWithIdDifferentThan(dependingName, dependencyName);
+      var project2 = ProjectWithIdDifferentThan(dependingName, dependencyName);
+      var project3 = ProjectWithIdDifferentThan(dependingName, dependencyName);
       var report = Substitute.For<IAnalysisReportInProgress>();
 
       var path = new List<IReferencedProject>()
@@ -38,21 +37,20 @@ namespace MyTool
       rule.Check(path, report);
 
       //THEN
-      report.ReceivedNothing();
-      //report.Received(1).Ok(IndependentOf(dependingId, dependencyId));
+      XReceived.Only(() => report.Ok(IndependentOf(dependingName, dependencyName)));
     }
 
     [Fact]
     public void ShouldReportRuleViolationAndPathWhenDependencyIsDetected()
     {
       //GIVEN
-      var dependingId = Any.String();
-      var dependencyId = Any.String();
-      var rule = new IndependentOfProjectRule(dependingId, dependencyId);
-      var project1 = ProjectWithIdDifferentThan(dependingId, dependencyId);
-      var project2 = ProjectWithId(dependingId);
-      var project3 = ProjectWithIdDifferentThan(dependingId, dependencyId);
-      var project4 = ProjectWithId(dependencyId);
+      var dependingName = Any.String();
+      var dependencyName = Any.String();
+      var rule = new IndependentOfProjectRule(dependingName, dependencyName);
+      var project1 = ProjectWithIdDifferentThan(dependingName, dependencyName);
+      var project2 = ProjectWithId(dependingName);
+      var project3 = ProjectWithIdDifferentThan(dependingName, dependencyName);
+      var project4 = ProjectWithId(dependencyName);
       var report = Substitute.For<IAnalysisReportInProgress>();
 
       var path = new List<IReferencedProject>()
@@ -67,20 +65,24 @@ namespace MyTool
       rule.Check(path, report);
 
       //THEN
-      report.Received(1).ViolationOf(IndependentOf(project2, project4) , ListContaining(project2, project3, project4));
+      XReceived.Only(() => 
+        report.Received(1).ViolationOf(
+          IndependentOf(dependingName, dependencyName), 
+          ListContaining(project2, project3, project4))
+      );
     }
 
     [Fact]
-    public void ShouldNotReportViolationWhenDependencyIsTheOtherWayRound()
+    public void ShouldReportOkWhenDependencyIsTheOtherWayRound()
     {
       //GIVEN
-      var dependingId = Any.String();
-      var dependencyId = Any.String();
-      var rule = new IndependentOfProjectRule(dependingId, dependencyId);
-      var project1 = ProjectWithIdDifferentThan(dependingId, dependencyId);
-      var project2 = ProjectWithId(dependencyId);
-      var project3 = ProjectWithIdDifferentThan(dependingId, dependencyId);
-      var project4 = ProjectWithId(dependingId);
+      var dependingName = Any.String();
+      var dependencyName = Any.String();
+      var rule = new IndependentOfProjectRule(dependingName, dependencyName);
+      var project1 = ProjectWithIdDifferentThan(dependingName, dependencyName);
+      var project2 = ProjectWithId(dependencyName);
+      var project3 = ProjectWithIdDifferentThan(dependingName, dependencyName);
+      var project4 = ProjectWithId(dependingName);
       var report = Substitute.For<IAnalysisReportInProgress>();
 
       var path = new List<IReferencedProject>()
@@ -95,20 +97,20 @@ namespace MyTool
       rule.Check(path, report);
 
       //THEN
-      report.ReceivedNothing();
+      XReceived.Only(() => report.Ok(IndependentOf(dependingName, dependencyName)));
     }
 
     [Fact]
-    public void ShouldNotReportViolationWhenDependingIsInPathButNoDependency()
+    public void ShouldReportOkWhenDependingIsInPathButNoDependency()
     {
       //GIVEN
-      var dependingId = Any.String();
-      var dependencyId = Any.String();
-      var rule = new IndependentOfProjectRule(dependingId, dependencyId);
-      var project1 = ProjectWithIdDifferentThan(dependingId, dependencyId);
-      var project2 = ProjectWithId(dependingId);
-      var project3 = ProjectWithIdDifferentThan(dependingId, dependencyId);
-      var project4 = ProjectWithIdDifferentThan(dependingId, dependencyId);
+      var dependingName = Any.String();
+      var dependencyName = Any.String();
+      var rule = new IndependentOfProjectRule(dependingName, dependencyName);
+      var project1 = ProjectWithIdDifferentThan(dependingName, dependencyName);
+      var project2 = ProjectWithId(dependingName);
+      var project3 = ProjectWithIdDifferentThan(dependingName, dependencyName);
+      var project4 = ProjectWithIdDifferentThan(dependingName, dependencyName);
       var report = Substitute.For<IAnalysisReportInProgress>();
 
       var path = new List<IReferencedProject>()
@@ -123,20 +125,20 @@ namespace MyTool
       rule.Check(path, report);
 
       //THEN
-      report.ReceivedNothing();
+      XReceived.Only(() => report.Ok(IndependentOf(dependingName, dependencyName)));
     }
 
     [Fact]
-    public void ShouldNotReportViolationWhenDependencyIsInPathButNoDepending()
+    public void ShouldReportOkWhenDependencyIsInPathButNoDepending()
     {
       //GIVEN
-      var dependingId = Any.String();
-      var dependencyId = Any.String();
-      var rule = new IndependentOfProjectRule(dependingId, dependencyId);
-      var project1 = ProjectWithIdDifferentThan(dependingId, dependencyId);
-      var project2 = ProjectWithId(dependencyId);
-      var project3 = ProjectWithIdDifferentThan(dependingId, dependencyId);
-      var project4 = ProjectWithIdDifferentThan(dependingId, dependencyId);
+      var dependingName = Any.String();
+      var dependencyName = Any.String();
+      var rule = new IndependentOfProjectRule(dependingName, dependencyName);
+      var project1 = ProjectWithIdDifferentThan(dependingName, dependencyName);
+      var project2 = ProjectWithId(dependencyName);
+      var project3 = ProjectWithIdDifferentThan(dependingName, dependencyName);
+      var project4 = ProjectWithIdDifferentThan(dependingName, dependencyName);
       var report = Substitute.For<IAnalysisReportInProgress>();
 
       var path = new List<IReferencedProject>()
@@ -151,7 +153,7 @@ namespace MyTool
       rule.Check(path, report);
 
       //THEN
-      report.ReceivedNothing();
+      XReceived.Only(() => report.Ok(IndependentOf(dependingName, dependencyName)));
     }
 
 
@@ -160,10 +162,10 @@ namespace MyTool
       return Arg<List<IReferencedProject>>.That(arg => arg.Should().BeEquivalentTo(new List<IReferencedProject>() {project2, project3, project4}));
     }
 
-    private static IReferencedProject ProjectWithId(String dependingId)
+    private static IReferencedProject ProjectWithId(string dependingName)
     {
       var referencedProject = Substitute.For<IReferencedProject>();
-      referencedProject.HasAssemblyName(dependingId).Returns(true);
+      referencedProject.HasAssemblyName(dependingName).Returns(true);
       return referencedProject;
     }
 

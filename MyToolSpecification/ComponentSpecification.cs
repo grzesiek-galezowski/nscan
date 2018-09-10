@@ -11,8 +11,8 @@ namespace MyTool
 {
   public class ComponentSpecification
   {
-    [Fact]//(Skip = "not implemented yet")]
-    public void ShouldDetectDirectRuleBreak()
+    [Fact]
+    public void ShouldReportAllSatisfiedRules()
     {
       //GIVEN
       var context = new ApplicationContext();
@@ -22,12 +22,11 @@ namespace MyTool
       context.AddIndependentOfRule("A", "B");
 
       //WHEN
-
       context.StartAnalysis();
 
 
       //THEN
-      context.ReportShouldContainLine("Check [A] independent of [B]: [OK]");
+      context.ReportShouldContainLine("[A] independentOf [B]: [OK]");
 
     }
 

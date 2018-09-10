@@ -2,8 +2,8 @@ using MyTool.App;
 
 public static class DependencyDescriptions
 {
-  public static string IndependentOf(IReferencedProject dependingProject, IReferencedProject referencedProject)
+  public static string IndependentOf(string dependingAssemblyName, string dependencyAssemblyName)
   {
-    return "[" + dependingProject + "] independentOf [" + referencedProject + "]";
+    return "[" + dependingAssemblyName + "] independentOf [" + dependencyAssemblyName + "]";
   }
 }
