@@ -5,6 +5,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using MyTool.App;
 using MyTool.Xml;
+using static MyTool.Maybe;
 
 namespace MyTool.CompositionRoot
 {
@@ -17,18 +18,19 @@ namespace MyTool.CompositionRoot
       _support = support;
     }
 
-    private static (ProjectId, DotNetStandardProject) LoadProjectFrom(string projectFilePath)
+    private XmlProject LoadXmlProjects(string projectFilePath)
     {
       var xmlProject = DeserializeProjectFile(projectFilePath);
+      xmlProject.AbsolutePath = projectFilePath;
       NormalizeProjectDependencyPaths(projectFilePath, xmlProject);
-      return CreateProject(projectFilePath, xmlProject);
+      return xmlProject;
     }
 
-    private static (ProjectId, DotNetStandardProject) CreateProject(string projectFilePath, XmlProject xmlProject)
+    private static (ProjectId, DotNetStandardProject) CreateProject(XmlProject xmlProject)
     {
-      return (new ProjectId(projectFilePath), new DotNetStandardProject(
+      return (new ProjectId(xmlProject.AbsolutePath), new DotNetStandardProject(
         xmlProject.PropertyGroups.First().AssemblyName,
-        new ProjectId(projectFilePath),
+        new ProjectId(xmlProject.AbsolutePath),
         ProjectReferences(xmlProject).Select(MapToProjectId).ToArray(), new ConsoleSupport()));
     }
 
@@ -71,20 +73,32 @@ namespace MyTool.CompositionRoot
       }
     }
 
-    public Dictionary<ProjectId, IDotNetProject> LoadProjectsPointedToBy(List<string> projectFilePaths)
+    public Dictionary<ProjectId, IDotNetProject> LoadProjectsPointedToBy(
+      IEnumerable<string> projectFilePaths)
     {
       var projects = new Dictionary<ProjectId, IDotNetProject>();
-      foreach (var projectFilePath in projectFilePaths)
+
+      //todo what about exceptions?
+      var xmlProjects = projectFilePaths.Select(path =>
       {
         try
         {
-          var (id, project) = LoadProjectFrom(projectFilePath);
-          projects.Add(id, project);
+          return Just(LoadXmlProjects(path));
         }
         catch (InvalidOperationException e)
         {
-          _support.SkippingProjectBecauseOfError(e, projectFilePath);
+          _support.SkippingProjectBecauseOfError(e, path);
+          return Nothing<XmlProject>();
         }
+      }).Where(o => o.HasValue).Select(o => o.Value());
+
+        ;
+
+      //todo I/O is separated in flow, now to put into separate classes
+      foreach (var xmlProject in xmlProjects)
+      {
+          var (id, project) = CreateProject(xmlProject);
+          projects.Add(id, project);
       }
 
       return projects;

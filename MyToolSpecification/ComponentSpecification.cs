@@ -44,7 +44,7 @@ namespace MyTool
       
       //WHEN
 
-      context.StartAnaysis();
+      context.StartAnalysis();
 
 
       //THEN

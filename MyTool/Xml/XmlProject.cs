@@ -12,5 +12,8 @@ namespace MyTool.Xml
     public List<XmlItemGroup> ItemGroups { get; set; }
     [XmlAttribute(AttributeName = "Sdk")]
     public string Sdk { get; set; }
+
+    [XmlIgnore]
+    public string AbsolutePath { get; set; }
   }
 }

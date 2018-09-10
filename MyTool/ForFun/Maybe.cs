@@ -4,7 +4,7 @@ namespace MyTool
 {
   public struct Maybe
   {
-    public Maybe<T> Just<T>(T instance) where T : class
+    public static Maybe<T> Just<T>(T instance) where T : class
     {
       if (instance == null)
       {
@@ -13,7 +13,7 @@ namespace MyTool
       return new Maybe<T>(instance); // extracting FromNullable does not preserve T
     }
 
-    public Maybe<T> Nothing<T>() where T : class
+    public static Maybe<T> Nothing<T>() where T : class
     {
       return new Maybe<T>(null);
     }
