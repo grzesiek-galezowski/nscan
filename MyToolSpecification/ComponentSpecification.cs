@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using FluentAssertions;
 using MyTool.App;
 using MyTool.CompositionRoot;
-using TddXt.AnyRoot;
+using MyTool.Xml;
 using TddXt.AnyRoot.Strings;
 using Xunit;
+using static TddXt.AnyRoot.Root;
 
 namespace MyTool
 {
@@ -24,10 +25,8 @@ namespace MyTool
       //WHEN
       context.StartAnalysis();
 
-
       //THEN
       context.ReportShouldContainLine("[A] independentOf [B]: [OK]");
-
     }
 
     /*[Fact]
@@ -55,28 +54,42 @@ namespace MyTool
 
   public class ApplicationContext
   {
-    private readonly Dictionary<ProjectId, IDotNetProject> _projectsById = new Dictionary<ProjectId, IDotNetProject>();
+    //bug remove private readonly Dictionary<ProjectId, IDotNetProject> _projectsById = new Dictionary<ProjectId, IDotNetProject>();
     private readonly ISupport _consoleSupport = new ConsoleSupport();
-    private readonly Analysis _analysis;
+    private readonly List<XmlProject> _xmlProjects = new List<XmlProject>();
+    private readonly List<(string, string)> _independentOfRules = new List<(string, string)>();
+    private Analysis _analysis;
 
-    public ApplicationContext()
+    public void HasProject(string assemblyName)
     {
-      _analysis = Analysis.Of(_projectsById);
-    }
-
-    public void HasProject(string projectId)
-    {
-      var key = new ProjectId(projectId);
-      _projectsById.Add(key, new DotNetStandardProject(Root.Any.String(), key, Array.Empty<ProjectId>(), _consoleSupport));
+      _xmlProjects.Add(new XmlProject()
+      {
+        AbsolutePath = @"C:\" + assemblyName + ".cs",
+        PropertyGroups = new List<XmlPropertyGroup>()
+        {
+          new XmlPropertyGroup()
+          {
+            AssemblyName = assemblyName
+          }
+        },
+        ItemGroups = new List<XmlItemGroup>()
+      });
     }
 
     public void AddIndependentOfRule(string dependingAssemblyName, string dependentAssemblyName)
     {
-      _analysis.IndependentOfProject(dependingAssemblyName, dependentAssemblyName);
+      _independentOfRules.Add((dependingAssemblyName, dependentAssemblyName));
     }
 
     public void StartAnalysis()
     {
+      _analysis = Analysis.PrepareFor(_xmlProjects, _consoleSupport);
+
+      foreach (var (depending, dependent) in _independentOfRules)
+      {
+        _analysis.IndependentOfProject(depending, dependent);
+      }
+
       _analysis.Run();
     }
 

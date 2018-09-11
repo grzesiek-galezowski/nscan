@@ -30,7 +30,7 @@ namespace MyTool
 
     public T Value()
     {
-      if (HasValue)
+      if (!HasValue)
       {
         throw new Exception("no data");
       }
@@ -38,7 +38,7 @@ namespace MyTool
       return _instance;
     }
 
-    public bool HasValue => _instance == null;
+    public bool HasValue => _instance != null;
   }
 
 }

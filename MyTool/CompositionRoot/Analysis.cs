@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using MyTool.App;
+using MyTool.Xml;
 
 namespace MyTool.CompositionRoot
 {
@@ -11,7 +12,8 @@ namespace MyTool.CompositionRoot
     private readonly IAnalysisReportInProgress _analysisReportInProgress;
     private readonly IRuleFactory _ruleFactory;
 
-    public Analysis(ISolution solution, IPathRuleSet pathRules, IAnalysisReportInProgress analysisReportInProgress, IRuleFactory ruleFactory)
+    public Analysis(ISolution solution, IPathRuleSet pathRules,
+      IAnalysisReportInProgress analysisReportInProgress, IRuleFactory ruleFactory)
     {
       _solution = solution;
       _pathRules = pathRules;
@@ -27,8 +29,11 @@ namespace MyTool.CompositionRoot
       _solution.Check(_pathRules, _analysisReportInProgress);
     }
 
-    public static Analysis Of(Dictionary<ProjectId, IDotNetProject> projects)
+    public static Analysis PrepareFor(List<XmlProject> xmlProjects, ISupport support)
     {
+      var csharpWorkspaceModel = new CsharpWorkspaceModel(support, xmlProjects);
+      var projects = csharpWorkspaceModel.LoadProjects();
+
       return new Analysis(new DotNetStandardSolution(projects, 
         new PathCache(
           new DependencyPathFactory())), 

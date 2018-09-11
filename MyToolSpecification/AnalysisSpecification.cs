@@ -17,7 +17,11 @@ namespace MyTool
       var solution = Substitute.For<ISolution>();
       var pathRuleSet = Any.Instance<IPathRuleSet>();
       var analysisReport = Any.Instance<IAnalysisReportInProgress>();
-      var analysis = new Analysis(solution, pathRuleSet, analysisReport, Any.Instance<IRuleFactory>());
+      var analysis = new Analysis(
+        solution, 
+        pathRuleSet, 
+        analysisReport, 
+        Any.Instance<IRuleFactory>());
 
       //WHEN
       analysis.Run();

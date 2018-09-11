@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Buildalyzer;
 using MyTool.App;
 
@@ -10,11 +11,11 @@ namespace MyTool.CompositionRoot
     {
       var analyzerManager = new AnalyzerManager(@"C:\Users\ftw637\Documents\GitHub\any\src\netstandard2.0\Any.sln");
       var projectFilePaths = analyzerManager.Projects.Select(p => p.Value.ProjectFile.Path).ToList();
-      var projects = new CsharpWorkspaceModel(
-        new ConsoleSupport())
-        .LoadProjectsPointedToBy(projectFilePaths);
+      var consoleSupport = new ConsoleSupport();
+      var paths = new ProjectPaths(projectFilePaths, consoleSupport);
+      var xmlProjects = paths.LoadXmlProjects();
 
-      Analysis.Of(projects).Run();
+      Analysis.PrepareFor(xmlProjects, consoleSupport).Run();
     }
   }
 }
