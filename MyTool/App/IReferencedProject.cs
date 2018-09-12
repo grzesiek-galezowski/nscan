@@ -7,5 +7,7 @@
     void ResolveAsReferenceOf(IReferencingProject project);
     void FillAllBranchesOf(IDependencyPathInProgress dependencyPathInProgress);
     bool HasAssemblyName(string assemblyName);
+
+    string ToString();
   }
 }

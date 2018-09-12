@@ -103,5 +103,10 @@ namespace MyTool.App
     {
       project.AddReferencedProject(_id, this);
     }
+
+    public override string ToString()
+    {
+      return _assemblyName;
+    }
   }
 }

@@ -201,6 +201,24 @@ namespace MyTool
       hasProject.Should().BeFalse();
     }
 
+
+    [Fact]
+    public void ShouldReturnAssemblyNameWhenAskedForStringRepresentation()
+    {
+      //GIVEN
+      var assemblyName = Any.String();
+      var project = new DotNetStandardProjectBuilder()
+      {
+        AssemblyName = assemblyName
+      }.Build();
+
+      //WHEN
+      var stringRepresentation = project.ToString();
+
+      //THEN
+      stringRepresentation.Should().Be(assemblyName);
+    }
+
     private class DotNetStandardProjectBuilder
     {
       public DotNetStandardProject Build()

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using MyTool.App;
 
 namespace MyTool.CompositionRoot
@@ -7,7 +8,9 @@ namespace MyTool.CompositionRoot
   {
     public string ApplyTo(List<IReferencedProject> violationPath)
     {
-      throw new System.NotImplementedException();
+      return violationPath.Skip(1).Aggregate(
+        "[" + violationPath.First().ToString() + "]", 
+        (total, current) => total + "->" + "[" + current.ToString() + "]");
     }
   }
 }
