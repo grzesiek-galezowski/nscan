@@ -25,10 +25,11 @@ namespace MyTool.CompositionRoot
         var ruleDescription = _ruleNames[index];
         if (_violations.ContainsKey(ruleDescription))
         {
+
         }
         else
         {
-          result += 
+          result.Append(ruleDescription + ": [OK]");
         }
 
         if (index != _ruleNames.Count - 1)
