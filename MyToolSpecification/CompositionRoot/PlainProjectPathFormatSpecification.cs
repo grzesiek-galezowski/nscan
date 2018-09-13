@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
 using MyTool.App;
-using NSubstitute;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 

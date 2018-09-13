@@ -19,14 +19,23 @@ namespace MyTool
 
     public void Check(IReadOnlyList<IReferencedProject> path, IAnalysisReportInProgress report)
     {
-      var depending = Find(path, _dependingAssemblyName);
-      var dependency = Find(path, _dependencyAssemblyName);
+      var depending = Find(path, AssemblyNameMatches(_dependingAssemblyName));
 
-      if (dependency.Found && depending.Found && depending.IsBefore(dependency))
+      if (depending.Found)
       {
-        report.ViolationOf(
-          DependencyDescriptions.IndependentOf(_dependingAssemblyName, _dependencyAssemblyName),  
-          depending.SegmentEndingWith(dependency, path));
+        var dependency = Find(path, NextAssemblyNameMatches(_dependencyAssemblyName, depending));
+
+        if (dependency.Found && depending.IsBefore(dependency))
+        {
+          report.ViolationOf(
+            DependencyDescriptions.IndependentOf(_dependingAssemblyName, _dependencyAssemblyName),
+            depending.SegmentEndingWith(dependency, path));
+        }
+        else
+        {
+          report.Ok(
+            DependencyDescriptions.IndependentOf(_dependingAssemblyName, _dependencyAssemblyName));
+        }
       }
       else
       {
@@ -35,16 +44,30 @@ namespace MyTool
       }
     }
 
-    private SearchResult<IReferencedProject> Find(IReadOnlyList<IReferencedProject> path, string assemblyName)
+    private Func<IReferencedProject, bool> NextAssemblyNameMatches(string dependencyAssemblyPattern, SearchResult<IReferencedProject> depending)
     {
-      if (path.Any(p => p.HasAssemblyName(assemblyName)))
+      return p => AssemblyNameMatches(dependencyAssemblyPattern)(p) && !depending.Value.Equals(p);
+    }
+
+    private SearchResult<IReferencedProject> Find(
+      IReadOnlyList<IReferencedProject> path, 
+      Func<IReferencedProject, bool> assemblyNameMatches)
+    {
+      if (path.Any(assemblyNameMatches))
       {
-        return path.Select(ItemFound).First(p => p.Value.HasAssemblyName(assemblyName));
+        return path
+          .Select(ItemFound)
+          .First(p => assemblyNameMatches(p.Value));
       }
       else
       {
         return ItemNotFound();
       }
+    }
+
+    private static Func<IReferencedProject, bool> AssemblyNameMatches(string assemblyNamePattern)
+    {
+      return p => p.HasAssemblyNameMatching(assemblyNamePattern);
     }
   }
 

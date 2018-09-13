@@ -2,15 +2,16 @@ using System.Collections.Generic;
 using System.Text;
 using MyTool.App;
 using static System.Environment;
+using static System.String;
 
 namespace MyTool.CompositionRoot
 {
   public class AnalysisReportInProgress : IAnalysisReportInProgress
   {
     private readonly IProjectPathFormat _projectPathFormat;
-    private readonly List<string> _okRuleNames = new List<string>();
-    private readonly Dictionary<string, List<string>> _violations = new Dictionary<string, List<string>>();
-    private List<string> _ruleNames = new List<string>();
+    private readonly Dictionary<string, HashSet<string>> _violations 
+      = new Dictionary<string, HashSet<string>>();
+    private readonly List<string> _ruleNames = new List<string>();
 
     public AnalysisReportInProgress(IProjectPathFormat projectPathFormat)
     {
@@ -25,7 +26,8 @@ namespace MyTool.CompositionRoot
         var ruleDescription = _ruleNames[index];
         if (_violations.ContainsKey(ruleDescription))
         {
-
+          result.AppendLine(ruleDescription + ": [ERROR]");
+          result.Append(Join(NewLine, _violations[ruleDescription]));
         }
         else
         {
@@ -38,7 +40,7 @@ namespace MyTool.CompositionRoot
         }
       }
 
-      return string.Join(NewLine, _messages);
+      return result.ToString();
     }
 
     public void ViolationOf(string ruleDescription, List<IReferencedProject> violationPath)
@@ -50,10 +52,10 @@ namespace MyTool.CompositionRoot
 
       if (!_violations.ContainsKey(ruleDescription))
       {
-        _violations.Add(ruleDescription, new List<string>());
+        _violations.Add(ruleDescription, new HashSet<string>());
       }
 
-      _violations[ruleDescription].Add($"{ruleDescription}: [ERROR]{NewLine}Violation in path: {_projectPathFormat.ApplyTo(violationPath)}");
+      _violations[ruleDescription].Add($"Violation in path: {_projectPathFormat.ApplyTo(violationPath)}");
     }
 
     public void Ok(string ruleDescription)
@@ -63,10 +65,6 @@ namespace MyTool.CompositionRoot
         _ruleNames.Add(ruleDescription);
       }
 
-      _okRuleNames.Add(ruleDescription);
-      //_messages[ruleDescription].Add(ruleDescription + ": [OK]");
     }
-
-    //todo no duplicate paths!!!
   }
 }

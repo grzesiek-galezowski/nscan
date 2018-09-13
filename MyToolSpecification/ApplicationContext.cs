@@ -43,7 +43,7 @@ namespace MyTool
       _independentOfRules.Add((dependingAssemblyName, dependentAssemblyName));
     }
 
-    public void StartAnalysis()
+    public void PerformAnalysis()
     {
       _analysis = Analysis.PrepareFor(_xmlProjects, _consoleSupport);
 
@@ -55,9 +55,9 @@ namespace MyTool
       _analysis.Run();
     }
 
-    public void ReportShouldContainLine(string expected)
+    public void ReportShouldContainText(string expected)
     {
-      _analysis.Report.Should().Contain(expected + Environment.NewLine);
+      _analysis.Report.Should().Contain(expected);
       //todo what bout return code?
     }
   }

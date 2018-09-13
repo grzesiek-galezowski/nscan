@@ -6,7 +6,7 @@
     void AddReferencingProject(ProjectId projectId, IReferencingProject referencingProject);
     void ResolveAsReferenceOf(IReferencingProject project);
     void FillAllBranchesOf(IDependencyPathInProgress dependencyPathInProgress);
-    bool HasAssemblyName(string assemblyName);
+    bool HasAssemblyNameMatching(string assemblyNamePattern);
 
     string ToString();
   }

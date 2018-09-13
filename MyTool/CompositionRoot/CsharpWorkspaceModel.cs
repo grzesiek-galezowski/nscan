@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using MyTool.App;
 using MyTool.Xml;
@@ -21,12 +22,18 @@ namespace MyTool.CompositionRoot
       _xmlProjects = xmlProjects;
     }
 
+    //todo this is pulled into unit test scope, so write UTs for it...
     private (ProjectId, DotNetStandardProject) CreateProject(XmlProject xmlProject)
     {
       return (new ProjectId(xmlProject.AbsolutePath), new DotNetStandardProject(
-        xmlProject.PropertyGroups.First().AssemblyName,
+        DetermineAssemblyName(xmlProject),
         new ProjectId(xmlProject.AbsolutePath), ProjectReferences(xmlProject).Select(MapToProjectId).ToArray(), 
         _support));
+    }
+
+    private static string DetermineAssemblyName(XmlProject xmlProject)
+    {
+      return xmlProject.PropertyGroups.First().AssemblyName ?? Path.GetFileNameWithoutExtension(xmlProject.AbsolutePath);
     }
 
     private static ProjectId MapToProjectId(XmlProjectReference dto)

@@ -1,6 +1,5 @@
 using System;
 using FluentAssertions;
-using MyTool.App;
 using NSubstitute;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
@@ -8,7 +7,7 @@ using TddXt.AnyRoot.Strings;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace MyTool
+namespace MyTool.App
 {
   public class DotNetStandardProjectSpecification
   {
@@ -168,7 +167,7 @@ namespace MyTool
 
 
     [Fact]
-    public void ShouldSayItHasProjectIdWhenItWasCreatedWithIt()
+    public void ShouldSayItHasProjectIdMatchingTheOneItWasCreatedWith()
     {
       //GIVEN
       var assemblyName = Any.String();
@@ -178,7 +177,25 @@ namespace MyTool
       }.Build();
 
       //WHEN
-      var hasProject = project.HasAssemblyName(assemblyName);
+      var hasProject = project.HasAssemblyNameMatching(assemblyName);
+
+      //THEN
+      hasProject.Should().BeTrue();
+    }
+
+    [Fact]
+    public void ShouldSayItHasProjectIdMatchingBlobPattern()
+    {
+      //GIVEN
+      var assemblySuffix = Any.String();
+      var assemblyName = Any.String() + "." + assemblySuffix;
+      var project = new DotNetStandardProjectBuilder()
+      {
+        AssemblyName = assemblyName
+      }.Build();
+
+      //WHEN
+      var hasProject = project.HasAssemblyNameMatching("*." + assemblySuffix);
 
       //THEN
       hasProject.Should().BeTrue();
@@ -195,7 +212,7 @@ namespace MyTool
       }.Build();
 
       //WHEN
-      var hasProject = project.HasAssemblyName(assemblyName);
+      var hasProject = project.HasAssemblyNameMatching(assemblyName);
 
       //THEN
       hasProject.Should().BeFalse();

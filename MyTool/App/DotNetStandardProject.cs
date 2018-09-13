@@ -97,7 +97,7 @@ namespace MyTool.App
 
     }
 
-    public bool HasAssemblyName(string assemblyName) => _assemblyName == assemblyName;
+    public bool HasAssemblyNameMatching(string assemblyNamePattern) => new Glob.Glob(assemblyNamePattern).IsMatch(_assemblyName);
 
     public void ResolveAsReferenceOf(IReferencingProject project)
     {

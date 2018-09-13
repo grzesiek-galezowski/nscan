@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Buildalyzer;
 using MyTool.App;
@@ -15,7 +16,10 @@ namespace MyTool.CompositionRoot
       var paths = new ProjectPaths(projectFilePaths, consoleSupport);
       var xmlProjects = paths.LoadXmlProjects();
 
-      Analysis.PrepareFor(xmlProjects, consoleSupport).Run();
+      var analysis = Analysis.PrepareFor(xmlProjects, consoleSupport);
+      analysis.IndependentOfProject("TddXt.*", "TddXt.*");
+      analysis.Run();
+      Console.WriteLine(analysis.Report);
     }
   }
 }
