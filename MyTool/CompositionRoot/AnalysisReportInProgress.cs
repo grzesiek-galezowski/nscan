@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using MyTool.App;
 using static System.Environment;
@@ -65,6 +66,11 @@ namespace MyTool.CompositionRoot
         _ruleNames.Add(ruleDescription);
       }
 
+    }
+
+    public bool HasViolations()
+    {
+      return _violations.Any();
     }
   }
 }

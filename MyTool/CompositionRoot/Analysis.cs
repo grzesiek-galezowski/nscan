@@ -47,5 +47,6 @@ namespace MyTool.CompositionRoot
     }
 
     public string Report => _analysisReportInProgress.AsString();
+    public int ReturnCode => _analysisReportInProgress.HasViolations() ? -1 : 0; //todo 1 not -1?
   }
 }

@@ -79,5 +79,29 @@ namespace MyTool
       //THEN
       analysisReportString.Should().Be(reportStringGeneratedFromInProgressReport);
     }
+
+    [Theory]
+    [InlineData(false, 0)] //todo extract to constant
+    [InlineData(true, -1)]
+    public void ShouldReturnSuccessWhenNoViolationAreInReport(bool hasViolations, int expectedCode)
+    {
+      //GIVEN
+      var reportInProgress = Substitute.For<IAnalysisReportInProgress>();
+      var analysis = new Analysis(
+        Any.Instance<ISolution>(), 
+        Any.Instance<IPathRuleSet>(), 
+        reportInProgress, 
+        Any.Instance<IRuleFactory>());
+
+      reportInProgress.HasViolations().Returns(hasViolations);
+
+      //WHEN
+      var analysisReturnCode = analysis.ReturnCode;
+
+      //THEN
+      analysisReturnCode.Should().Be(expectedCode);
+    }
+
+
   }
 }

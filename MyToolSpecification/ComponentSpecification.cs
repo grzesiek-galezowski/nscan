@@ -21,6 +21,7 @@ namespace MyTool
 
       //THEN
       context.ReportShouldContainText("[A] independentOf [B]: [OK]");
+      context.ShouldIndicateSuccess();
     }
 
     [Fact]
@@ -41,6 +42,7 @@ namespace MyTool
       //THEN
       context.ReportShouldContainText($"[A] independentOf [B]: [ERROR]{NewLine}" +
                                       $"Violation in path: [A]->[B]");
+      context.ShouldIndicateFailure();
     }
 
     [Fact]
@@ -61,6 +63,7 @@ namespace MyTool
       //THEN
       context.ReportShouldContainText($"[A] independentOf [C]: [ERROR]{NewLine}" +
                                       "Violation in path: [A]->[B]->[C]");
+      context.ShouldIndicateFailure();
     }
 
     [Fact]
@@ -85,6 +88,7 @@ namespace MyTool
                                       $"Violation in path: [A]->[C]->[D]");
       context.ReportShouldContainText($"[A] independentOf [B]: [ERROR]{NewLine}" +
                                       "Violation in path: [A]->[B]");
+      context.ShouldIndicateFailure();
     }
 
     [Fact]
@@ -103,8 +107,10 @@ namespace MyTool
       //THEN
       context.ReportShouldContainText($"[*.Domain] independentOf [*.Ports]: [ERROR]{NewLine}" +
                                       $"Violation in path: [Posts.Domain]->[Posts.Ports]");
+      context.ShouldIndicateFailure();
+
     }
-    
+
     //rule for bad projects
   }
 }

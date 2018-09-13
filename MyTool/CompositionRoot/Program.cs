@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Buildalyzer;
 using MyTool.App;
 
 namespace MyTool.CompositionRoot
 {
-  static class Program
+  internal static class Program
   {
-    public static void Main(string[] args)
+    public static int Main(string[] args)
     {
       var analyzerManager = new AnalyzerManager(@"C:\Users\ftw637\Documents\GitHub\any\src\netstandard2.0\Any.sln");
       var projectFilePaths = analyzerManager.Projects.Select(p => p.Value.ProjectFile.Path).ToList();
@@ -17,9 +16,10 @@ namespace MyTool.CompositionRoot
       var xmlProjects = paths.LoadXmlProjects();
 
       var analysis = Analysis.PrepareFor(xmlProjects, consoleSupport);
-      analysis.IndependentOfProject("TddXt.*", "TddXt.*");
+      analysis.IndependentOfProject("TddXt.Any*", "*Wrapper*");
       analysis.Run();
       Console.WriteLine(analysis.Report);
+      return analysis.ReturnCode;
     }
   }
 }

@@ -60,6 +60,16 @@ namespace MyTool
       _analysis.Report.Should().Contain(expected);
       //todo what bout return code?
     }
+
+    public void ShouldIndicateSuccess()
+    {
+      _analysis.ReturnCode.Should().Be(0);
+    }
+
+    public void ShouldIndicateFailure()
+    {
+      _analysis.ReturnCode.Should().Be(-1);
+    }
   }
 
   public class XmlProjectDsl

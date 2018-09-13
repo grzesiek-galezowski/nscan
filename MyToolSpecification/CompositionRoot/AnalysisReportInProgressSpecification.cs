@@ -141,7 +141,36 @@ namespace MyTool.CompositionRoot
       AssertContainsOnce(output, formattedPath1);
     }
 
+    [Fact]
+    public void ShouldRespondItHasNoViolationsWhenNoViolationsWereAddedToIt()
+    {
+      //GIVEN
+      var projectPathFormat = Substitute.For<IProjectPathFormat>();
+      var report = new AnalysisReportInProgress(projectPathFormat);
 
+      //WHEN
+      var hasViolations = report.HasViolations();
+
+      //THEN
+      hasViolations.Should().BeFalse();
+    }
+
+    [Fact]
+    public void ShouldRespondItHasNoViolationsWhenAtLeastOneViolationWasAddedDespiteOtherOks()
+    {
+      //GIVEN
+      var projectPathFormat = Substitute.For<IProjectPathFormat>();
+      var report = new AnalysisReportInProgress(projectPathFormat);
+
+      report.ViolationOf(Any.String(), Any.List<IReferencedProject>());
+      report.Ok(Any.String());
+
+      //WHEN
+      var hasViolations = report.HasViolations();
+
+      //THEN
+      hasViolations.Should().BeTrue();
+    }
 
     //bug combining OK and ERROR for the same rule should only give errors
 
