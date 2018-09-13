@@ -16,7 +16,7 @@ namespace MyTool.CompositionRoot
       var xmlProjects = paths.LoadXmlProjects();
 
       var analysis = Analysis.PrepareFor(xmlProjects, consoleSupport);
-      analysis.IndependentOfProject("TddXt.Any*", "*Wrapper*");
+      analysis.IndependentOfProject("TddXt.Any*", "*Common*");
       analysis.Run();
       Console.WriteLine(analysis.Report);
       return analysis.ReturnCode;

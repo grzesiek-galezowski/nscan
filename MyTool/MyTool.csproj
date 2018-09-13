@@ -9,6 +9,7 @@
     <PackageReference Include="Buildalyzer" Version="1.0.0" />
     <PackageReference Include="Glob" Version="0.4.0" />
     <PackageReference Include="Microsoft.Build" Version="15.8.166" />
+    <PackageReference Include="Sprache" Version="2.1.2" />
   </ItemGroup>
 
 </Project>
