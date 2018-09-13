@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
+using Buildalyzer;
 using MyTool.App;
 using MyTool.Xml;
 
@@ -64,6 +65,14 @@ namespace MyTool.CompositionRoot
         }
       }).Where(o => o.HasValue).Select(o => o.Value()).ToList();
       return xmlProjects;
+    }
+
+    public static ProjectPaths From(string solutionFilePath, ConsoleSupport consoleSupport)
+    {
+      var analyzerManager = new AnalyzerManager(solutionFilePath);
+      var projectFilePaths = analyzerManager.Projects.Select(p => p.Value.ProjectFile.Path).ToList();
+      var paths = new ProjectPaths(projectFilePaths, consoleSupport);
+      return paths;
     }
   }
 }
