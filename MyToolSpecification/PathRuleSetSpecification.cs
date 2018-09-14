@@ -2,6 +2,7 @@ using MyTool.CompositionRoot;
 using NSubstitute;
 using TddXt.AnyRoot;
 using Xunit;
+using static TddXt.AnyRoot.Root;
 
 namespace MyTool
 {
@@ -12,11 +13,11 @@ namespace MyTool
     {
       //GIVEN
       var ruleSet = new PathRuleSet();
-      var report = Root.Any.Instance<IAnalysisReportInProgress>();
+      var report = Any.Instance<IAnalysisReportInProgress>();
       var pathCache = Substitute.For<IPathCache>();
-      var rule1 = Root.Any.Instance<IDependencyRule>();
-      var rule2 = Root.Any.Instance<IDependencyRule>();
-      var rule3 = Root.Any.Instance<IDependencyRule>();
+      var rule1 = Any.Instance<IDependencyRule>();
+      var rule2 = Any.Instance<IDependencyRule>();
+      var rule3 = Any.Instance<IDependencyRule>();
       ruleSet.Add(rule1);
       ruleSet.Add(rule2);
       ruleSet.Add(rule3);

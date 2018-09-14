@@ -7,6 +7,7 @@ using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
 using TddXt.XNSubstitute.Root;
 using Xunit;
+using static TddXt.AnyRoot.Root;
 
 namespace MyTool
 {
@@ -21,15 +22,15 @@ namespace MyTool
       var project3 = Substitute.For<IDotNetProject>();
       var projectsById = new Dictionary<ProjectId, IDotNetProject>()
       {
-        { Root.Any.ProjectId(), project1 },
-        { Root.Any.ProjectId(), project2 },
-        { Root.Any.ProjectId(), project3 },
+        { Any.ProjectId(), project1 },
+        { Any.ProjectId(), project2 },
+        { Any.ProjectId(), project3 },
       };
-      var dotNetStandardSolution = new DotNetStandardSolution(projectsById, Root.Any.Instance<IPathCache>());
+      var dotNetStandardSolution = new DotNetStandardSolution(projectsById, Any.Instance<IPathCache>());
       
 
       //WHEN
-      dotNetStandardSolution.ResolveAllProjectsReferences(Root.Any.Instance<IAnalysisReportInProgress>());
+      dotNetStandardSolution.ResolveAllProjectsReferences(Any.Instance<IAnalysisReportInProgress>());
 
       //THEN
       Received.InOrder(() =>
@@ -46,13 +47,13 @@ namespace MyTool
       //GIVEN
       var project1 = Substitute.For<IDotNetProject>();
       var project2 = Substitute.For<IDotNetProject>();
-      var project2Id = Root.Any.ProjectId();
+      var project2Id = Any.ProjectId();
       var projectsById = new Dictionary<ProjectId, IDotNetProject>
       {
-        { Root.Any.ProjectId(), project1 },
+        { Any.ProjectId(), project1 },
         { project2Id, project2 },
       };
-      var dotNetStandardSolution = new DotNetStandardSolution(projectsById, Root.Any.Instance<IPathCache>());
+      var dotNetStandardSolution = new DotNetStandardSolution(projectsById, Any.Instance<IPathCache>());
       
 
       //WHEN
@@ -72,9 +73,9 @@ namespace MyTool
       var nonRoot = Substitute.For<IDotNetProject>();
       var projectsById = new Dictionary<ProjectId, IDotNetProject>()
       {
-        { Root.Any.ProjectId(), root1},
-        { Root.Any.ProjectId(), nonRoot},
-        { Root.Any.ProjectId(), root2}
+        { Any.ProjectId(), root1},
+        { Any.ProjectId(), nonRoot},
+        { Any.ProjectId(), root2}
       };
       var pathCache = Substitute.For<IPathCache>();
       var solution = new DotNetStandardSolution(projectsById, pathCache);
@@ -95,16 +96,16 @@ namespace MyTool
     {
       //GIVEN
       var project1 = Substitute.For<IDotNetProject>();
-      var project1Id = Root.Any.ProjectId();
+      var project1Id = Any.ProjectId();
       var projectsById = new Dictionary<ProjectId, IDotNetProject>
       {
         { project1Id, project1 },
       };
-      var dotNetStandardSolution = new DotNetStandardSolution(projectsById, Root.Any.Instance<IPathCache>());
+      var dotNetStandardSolution = new DotNetStandardSolution(projectsById, Any.Instance<IPathCache>());
 
 
       //WHEN - THEN
-      new Action(() => dotNetStandardSolution.ResolveReferenceFrom(project1, Root.Any.ProjectIdOtherThan(project1Id)))
+      new Action(() => dotNetStandardSolution.ResolveReferenceFrom(project1, Any.ProjectIdOtherThan(project1Id)))
         .Should().ThrowExactly<ReferencedProjectNotFoundInSolutionException>();
       project1.ReceivedNothing();
     }
@@ -113,11 +114,11 @@ namespace MyTool
     public void ShouldOrderTheRuleSetToCheckThePathsInTheCacheForVerification()
     {
       //GIVEN
-      var projectsById = Root.Any.Dictionary<ProjectId, IDotNetProject>();
-      var pathCache = Root.Any.Instance<IPathCache>();
+      var projectsById = Any.Dictionary<ProjectId, IDotNetProject>();
+      var pathCache = Any.Instance<IPathCache>();
       var solution = new DotNetStandardSolution(projectsById, pathCache);
       var ruleSet = Substitute.For<IPathRuleSet>();
-      var report = Root.Any.Instance<IAnalysisReportInProgress>();
+      var report = Any.Instance<IAnalysisReportInProgress>();
       
       //WHEN
       solution.Check(ruleSet, report);

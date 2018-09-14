@@ -7,6 +7,7 @@ using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
 using TddXt.XNSubstitute.Root;
 using Xunit;
+using static TddXt.AnyRoot.Root;
 
 namespace MyTool
 {
@@ -17,10 +18,10 @@ namespace MyTool
     {
       //GIVEN
       var destination = Substitute.For<IFinalDependencyPathDestination>();
-      var alreadyAggregatedProjects = Root.Any.List<IReferencedProject>();
+      var alreadyAggregatedProjects = Any.List<IReferencedProject>();
       var dependencyPathInProgress = new DependencyPathInProgress(destination, alreadyAggregatedProjects);
-      var additionalProject = Root.Any.Instance<IReferencedProject>();
-      var finalProject = Root.Any.Instance<IReferencedProject>();
+      var additionalProject = Any.Instance<IReferencedProject>();
+      var finalProject = Any.Instance<IReferencedProject>();
       var clonedPath = dependencyPathInProgress.CloneWith(additionalProject);
       
       //WHEN

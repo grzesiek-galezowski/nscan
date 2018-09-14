@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MyTool\MyTool.csproj" />
+    <ProjectReference Include="..\Root\NScanRoot.csproj" />
   </ItemGroup>
 
 </Project>

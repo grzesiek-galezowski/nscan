@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MyTool
+namespace MyTool.ForFun
 {
   public struct Maybe
   {

@@ -5,7 +5,11 @@ VisualStudioVersion = 15.0.28010.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyTool", "MyTool\MyTool.csproj", "{4081FE2F-B1E2-4E6E-83CA-A2B8D5CE5ED4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyToolSpecification", "MyToolSpecification\MyToolSpecification.csproj", "{0B637D9E-E458-4604-88C6-FD16F454F1F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyToolSpecification", "MyToolSpecification\MyToolSpecification.csproj", "{0B637D9E-E458-4604-88C6-FD16F454F1F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CakePlugin", "CakePlugin\CakePlugin.csproj", "{D4A061CB-D703-4D28-81D0-C46870D1F0BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScanRoot", "Root\NScanRoot.csproj", "{D38C98B2-AA06-4EAE-8CD8-7D03F1DA9C71}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{0B637D9E-E458-4604-88C6-FD16F454F1F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B637D9E-E458-4604-88C6-FD16F454F1F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B637D9E-E458-4604-88C6-FD16F454F1F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4A061CB-D703-4D28-81D0-C46870D1F0BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4A061CB-D703-4D28-81D0-C46870D1F0BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4A061CB-D703-4D28-81D0-C46870D1F0BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4A061CB-D703-4D28-81D0-C46870D1F0BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D38C98B2-AA06-4EAE-8CD8-7D03F1DA9C71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D38C98B2-AA06-4EAE-8CD8-7D03F1DA9C71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D38C98B2-AA06-4EAE-8CD8-7D03F1DA9C71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D38C98B2-AA06-4EAE-8CD8-7D03F1DA9C71}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

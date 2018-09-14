@@ -5,6 +5,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using Buildalyzer;
 using MyTool.App;
+using MyTool.ForFun;
 using MyTool.Xml;
 
 namespace MyTool.CompositionRoot

@@ -5,7 +5,7 @@ using NSubstitute;
 using TddXt.AnyRoot.Strings;
 using TddXt.XNSubstitute.Root;
 using Xunit;
-using static DependencyDescriptions;
+using static MyTool.DependencyDescriptions;
 using static TddXt.AnyRoot.Root;
 
 namespace MyTool
