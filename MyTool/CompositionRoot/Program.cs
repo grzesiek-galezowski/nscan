@@ -24,7 +24,7 @@ namespace MyTool.CompositionRoot
 
         var consoleSupport = new ConsoleSupport();
         var paths = ProjectPaths.From(
-          @"C:\Users\ftw637\Documents\GitHub\any\src\netstandard2.0\Any.sln",
+          cliOptions.SolutionPath,
           consoleSupport);
         var xmlProjects = paths.LoadXmlProjects();
         var analysis = Analysis.PrepareFor(xmlProjects, consoleSupport);
