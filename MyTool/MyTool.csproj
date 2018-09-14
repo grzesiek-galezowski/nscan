@@ -13,4 +13,10 @@
     <PackageReference Include="Sprache" Version="2.1.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="nscan.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

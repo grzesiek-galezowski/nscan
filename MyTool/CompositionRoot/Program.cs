@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Net.WebSockets;
 using Buildalyzer;
@@ -18,26 +19,7 @@ namespace MyTool.CompositionRoot
       var commandLineParserResult = parser.Parse(args);
       if (!commandLineParserResult.HasErrors)
       {
-        Console.WriteLine(cliOptions.RulesFilePath);
-        string rulesString = $"TddXt.Any* independentOf *Common*{NewLine}";
-        var ruleDtos = SingleLine().Many().Parse(rulesString);
-
-        var consoleSupport = new ConsoleSupport();
-        var paths = ProjectPaths.From(
-          cliOptions.SolutionPath,
-          consoleSupport);
-        var xmlProjects = paths.LoadXmlProjects();
-        var analysis = Analysis.PrepareFor(xmlProjects, consoleSupport);
-        foreach (var ruleDto in ruleDtos)
-        {
-          analysis.IndependentOfProject(
-            ruleDto.DependingPattern,
-            ruleDto.DependencyPattern);
-        }
-
-        analysis.Run();
-        Console.WriteLine(analysis.Report);
-        return analysis.ReturnCode;
+        return RunProgram(cliOptions);
       }
       else
       {
@@ -45,9 +27,31 @@ namespace MyTool.CompositionRoot
         parser.HelpOption.ShowHelp(parser.Options);
         return 1;
       }
-
     }
-    
+
+    private static int RunProgram(CliOptionsDto cliOptions)
+    {
+      string rulesString = File.ReadAllText(cliOptions.RulesFilePath);
+      var ruleDtos = SingleLine().Many().Parse(rulesString);
+
+      var consoleSupport = new ConsoleSupport();
+      var paths = ProjectPaths.From(
+        cliOptions.SolutionPath,
+        consoleSupport);
+      var xmlProjects = paths.LoadXmlProjects();
+      var analysis = Analysis.PrepareFor(xmlProjects, consoleSupport);
+      foreach (var ruleDto in ruleDtos)
+      {
+        analysis.IndependentOfProject(
+          ruleDto.DependingPattern,
+          ruleDto.DependencyPattern);
+      }
+
+      analysis.Run();
+      Console.WriteLine(analysis.Report);
+      return analysis.ReturnCode;
+    }
+
 
     private static FluentCommandLineParser CreateCliParser(CliOptionsDto cliOptions)
     {
@@ -79,14 +83,6 @@ namespace MyTool.CompositionRoot
           RuleName = ruleName,
           DependencyPattern = dependency,
         };
-    }
-  }
-
-  internal class CliParsingException : Exception
-  {
-    public CliParsingException(string errorText) : base(errorText)
-    {
-      
     }
   }
 
