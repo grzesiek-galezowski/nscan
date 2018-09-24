@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace MyTool.Xml
+namespace NScanRoot.Xml
 {
   [XmlRoot(ElementName = "ItemGroup")]
   public class XmlItemGroup

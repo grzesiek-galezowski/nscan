@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using MyTool.App;
+using NScanRoot.App;
 
-namespace MyTool
+namespace NScanRoot
 {
   public interface IDependencyRule
   {

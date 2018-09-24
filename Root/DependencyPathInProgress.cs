@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using MyTool.App;
+using NScanRoot.App;
 
-namespace MyTool
+namespace NScanRoot
 {
   public class DependencyPathInProgress : IDependencyPathInProgress
   {

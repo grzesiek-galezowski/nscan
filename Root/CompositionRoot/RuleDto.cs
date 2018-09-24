@@ -1,4 +1,4 @@
-﻿namespace MyTool.CompositionRoot
+﻿namespace NScanRoot.CompositionRoot
 {
   public class RuleDto
   {

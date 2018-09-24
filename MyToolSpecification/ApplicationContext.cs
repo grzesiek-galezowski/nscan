@@ -4,7 +4,9 @@ using System.Linq;
 using FluentAssertions;
 using MyTool.App;
 using MyTool.CompositionRoot;
-using MyTool.Xml;
+using NScanRoot.App;
+using NScanRoot.CompositionRoot;
+using NScanRoot.Xml;
 
 namespace MyTool
 {

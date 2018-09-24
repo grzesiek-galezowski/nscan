@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using MyTool.App;
+using NScanRoot.App;
 
-namespace MyTool.CompositionRoot
+namespace NScanRoot.CompositionRoot
 {
   public class PlainProjectPathFormat : IProjectPathFormat
   {

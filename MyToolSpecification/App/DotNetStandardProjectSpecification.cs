@@ -1,5 +1,6 @@
 using System;
 using FluentAssertions;
+using NScanRoot.App;
 using NSubstitute;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
@@ -55,7 +56,6 @@ namespace MyTool.App
       solution.Received(1).ResolveReferenceFrom(project, id2);
       solution.Received(1).ResolveReferenceFrom(project, id3);
       support.Received(1).Report(exceptionFromResolution);
-
     }
 
     private static Action<ISolutionContext> ResolvingReferencesFrom(DotNetStandardProject project, ProjectId id2)

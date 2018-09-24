@@ -1,6 +1,9 @@
 ﻿using FluentAssertions;
 using MyTool.App;
 using MyTool.CompositionRoot;
+using NScanRoot;
+using NScanRoot.App;
+using NScanRoot.CompositionRoot;
 using NSubstitute;
 using TddXt.AnyRoot.Strings;
 using Xunit;

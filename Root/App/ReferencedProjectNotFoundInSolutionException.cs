@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MyTool.App
+namespace NScanRoot.App
 {
   public class ReferencedProjectNotFoundInSolutionException : Exception
   {

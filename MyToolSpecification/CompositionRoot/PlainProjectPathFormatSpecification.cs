@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
 using MyTool.App;
+using NScanRoot.App;
+using NScanRoot.CompositionRoot;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 

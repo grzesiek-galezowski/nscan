@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using MyTool.App;
 
-namespace MyTool.CompositionRoot
+namespace NScanRoot.CompositionRoot
 {
   public class PathRuleSet : IPathRuleSet
   {

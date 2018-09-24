@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace MyTool.App
+namespace NScanRoot.App
 {
   public class DotNetStandardSolution : ISolution, ISolutionContext
   {

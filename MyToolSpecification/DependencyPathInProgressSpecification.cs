@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
-using MyTool.App;
+using NScanRoot;
+using NScanRoot.App;
 using NSubstitute;
-using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
 using TddXt.XNSubstitute.Root;
 using Xunit;

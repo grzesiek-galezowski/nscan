@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MyTool.App
+namespace NScanRoot.App
 {
   public interface ISupport
   {

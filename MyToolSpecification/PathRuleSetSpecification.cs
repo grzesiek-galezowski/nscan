@@ -1,4 +1,6 @@
 using MyTool.CompositionRoot;
+using NScanRoot;
+using NScanRoot.CompositionRoot;
 using NSubstitute;
 using TddXt.AnyRoot;
 using Xunit;

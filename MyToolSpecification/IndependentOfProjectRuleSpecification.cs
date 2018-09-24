@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
-using MyTool.App;
+using NScanRoot;
+using NScanRoot.App;
 using NSubstitute;
 using TddXt.AnyRoot.Strings;
 using TddXt.XNSubstitute.Root;
 using Xunit;
-using static MyTool.DependencyDescriptions;
+using static NScanRoot.DependencyDescriptions;
 using static TddXt.AnyRoot.Root;
 
 namespace MyTool

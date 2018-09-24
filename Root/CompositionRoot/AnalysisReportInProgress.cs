@@ -1,11 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MyTool.App;
-using static System.Environment;
-using static System.String;
+using NScanRoot.App;
 
-namespace MyTool.CompositionRoot
+namespace NScanRoot.CompositionRoot
 {
   public class AnalysisReportInProgress : IAnalysisReportInProgress
   {
@@ -28,7 +27,7 @@ namespace MyTool.CompositionRoot
         if (_violations.ContainsKey(ruleDescription))
         {
           result.AppendLine(ruleDescription + ": [ERROR]");
-          result.Append(Join(NewLine, _violations[ruleDescription]));
+          result.Append(String.Join(Environment.NewLine, _violations[ruleDescription]));
         }
         else
         {
@@ -37,7 +36,7 @@ namespace MyTool.CompositionRoot
 
         if (index != _ruleNames.Count - 1)
         {
-          result.Append(NewLine);
+          result.Append(Environment.NewLine);
         }
       }
 

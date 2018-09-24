@@ -1,4 +1,6 @@
 ﻿using FluentAssertions;
+using NScanRoot;
+using NScanRoot.CompositionRoot;
 using TddXt.AnyRoot.Strings;
 using TddXt.XFluentAssert.Root;
 using Xunit;

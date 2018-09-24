@@ -1,6 +1,4 @@
-using MyTool.App;
-
-namespace MyTool.CompositionRoot
+namespace NScanRoot.CompositionRoot
 {
   public interface IRuleFactory
   {

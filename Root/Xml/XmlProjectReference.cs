@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace MyTool.Xml
+namespace NScanRoot.Xml
 {
   [XmlRoot(ElementName = "ProjectReference")]
   public class XmlProjectReference

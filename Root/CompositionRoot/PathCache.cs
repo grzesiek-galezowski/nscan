@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
-using MyTool.App;
+using NScanRoot.App;
 
-namespace MyTool.CompositionRoot
+namespace NScanRoot.CompositionRoot
 {
   public class PathCache : IPathCache, IFinalDependencyPathDestination
   {

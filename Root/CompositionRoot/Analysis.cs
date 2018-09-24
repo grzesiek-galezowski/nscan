@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using MyTool.App;
-using MyTool.Xml;
+using NScanRoot.App;
+using NScanRoot.Xml;
 
-namespace MyTool.CompositionRoot
+namespace NScanRoot.CompositionRoot
 {
   public class Analysis
   {

@@ -1,4 +1,4 @@
-﻿namespace MyTool
+﻿namespace NScanRoot
 {
   public interface IPathRuleSet
   {

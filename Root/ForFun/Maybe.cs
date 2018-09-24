@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MyTool.ForFun
+namespace NScanRoot.ForFun
 {
   public struct Maybe
   {

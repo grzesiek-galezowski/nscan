@@ -4,11 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 using Buildalyzer;
-using MyTool.App;
-using MyTool.ForFun;
-using MyTool.Xml;
+using NScanRoot.App;
+using NScanRoot.ForFun;
+using NScanRoot.Xml;
 
-namespace MyTool.CompositionRoot
+namespace NScanRoot.CompositionRoot
 {
   internal class ProjectPaths
   {

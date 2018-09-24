@@ -1,4 +1,4 @@
-﻿namespace MyTool.App
+﻿namespace NScanRoot.App
 {
   public struct ProjectId
   {

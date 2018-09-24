@@ -1,4 +1,4 @@
-namespace MyTool.App
+namespace NScanRoot.App
 {
   public static class FormattingExtensions
   {

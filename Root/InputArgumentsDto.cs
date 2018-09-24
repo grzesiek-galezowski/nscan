@@ -1,4 +1,4 @@
-﻿namespace Root
+﻿namespace NScanRoot
 {
   public class InputArgumentsDto
   {

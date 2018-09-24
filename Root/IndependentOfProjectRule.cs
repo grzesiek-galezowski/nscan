@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MyTool.App;
-using static MyTool.SearchResult;
+using NScanRoot.App;
 
-namespace MyTool
+namespace NScanRoot
 {
   public class IndependentOfProjectRule : IDependencyRule
   {
@@ -56,12 +55,12 @@ namespace MyTool
       if (path.Any(assemblyNameMatches))
       {
         return path
-          .Select(ItemFound)
+          .Select(SearchResult.ItemFound)
           .First(p => assemblyNameMatches(p.Value));
       }
       else
       {
-        return ItemNotFound();
+        return SearchResult.ItemNotFound();
       }
     }
 
