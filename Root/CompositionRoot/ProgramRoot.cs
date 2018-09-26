@@ -7,10 +7,10 @@ namespace NScanRoot.CompositionRoot
 {
   public static class ProgramRoot
   {
-    public static int RunProgram(InputArgumentsDto cliOptions)
+    public static int RunProgramInConsole(InputArgumentsDto cliOptions)
     {
       string rulesString = File.ReadAllText(cliOptions.RulesFilePath);
-      var ruleDtos = Parse.Many(SingleLine()).Parse(rulesString);
+      var ruleDtos = SingleLine().Many().Parse(rulesString);
 
       var consoleSupport = new ConsoleSupport();
       var paths = ProjectPaths.From(

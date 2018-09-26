@@ -11,7 +11,7 @@ namespace CakePlugin
     [CakeMethodAlias]
     public static void Analyze(this ICakeContext context, string solutionPath, string rulesFilePath)
     {
-      ProgramRoot.RunProgram(new InputArgumentsDto()
+      ProgramRoot.RunProgramInConsole(new InputArgumentsDto()
       {
         RulesFilePath = rulesFilePath,
         SolutionPath = solutionPath
@@ -25,7 +25,7 @@ namespace CakePlugin
       string rulesFilePath,
       NScanSettings settings)
     {
-      ProgramRoot.RunProgram(new InputArgumentsDto()
+      ProgramRoot.RunProgramInConsole(new InputArgumentsDto()
       {
         RulesFilePath = rulesFilePath,
         SolutionPath = solutionPath

@@ -13,7 +13,7 @@ namespace NScan.Console
       var commandLineParserResult = parser.Parse(args);
       if (!commandLineParserResult.HasErrors)
       {
-        return ProgramRoot.RunProgram(cliOptions);
+        return ProgramRoot.RunProgramInConsole(cliOptions);
       }
       else
       {
