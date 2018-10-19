@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using NScanRoot.App;
 using Sprache;
+using static Sprache.Parse;
 
 namespace NScanRoot.CompositionRoot
 {
@@ -32,9 +33,9 @@ namespace NScanRoot.CompositionRoot
 
     public static Parser<RuleDto> SingleLine()
     {
-      return from depending in Parse.AnyChar.Until(Parse.WhiteSpace).Text()
-        from ruleName in Parse.AnyChar.Until(Parse.WhiteSpace).Text()
-        from dependency in Parse.AnyChar.Until(Parse.LineEnd).Text()
+      return from depending in AnyChar.Until(WhiteSpace).Text()
+        from ruleName in AnyChar.Until(WhiteSpace).Text()
+        from dependency in AnyChar.Until(LineEnd).Text()
         select new RuleDto
         {
           DependingPattern = depending,
