@@ -1,9 +1,9 @@
 ﻿using NSubstitute;
-using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
 using TddXt.NScan.App;
 using TddXt.NScan.CompositionRoot;
 using Xunit;
+using static TddXt.AnyRoot.Root;
 
 namespace TddXt.NScan.Specification
 {
@@ -18,9 +18,9 @@ namespace TddXt.NScan.Specification
       var project1 = Substitute.For<IDotNetProject>();
       var project2 = Substitute.For<IDotNetProject>();
       var project3 = Substitute.For<IDotNetProject>();
-      var dependencyStartingPath1 = Root.Any.Instance<IDependencyPathInProgress>();
-      var dependencyStartingPath2 = Root.Any.Instance<IDependencyPathInProgress>();
-      var dependencyStartingPath3 = Root.Any.Instance<IDependencyPathInProgress>();
+      var dependencyStartingPath1 = Any.Instance<IDependencyPathInProgress>();
+      var dependencyStartingPath2 = Any.Instance<IDependencyPathInProgress>();
+      var dependencyStartingPath3 = Any.Instance<IDependencyPathInProgress>();
 
       dependencyPathFactory.NewDependencyPathFor((IFinalDependencyPathDestination)pathCache).Returns(
         dependencyStartingPath1,
@@ -40,12 +40,12 @@ namespace TddXt.NScan.Specification
     public void ShouldMakePassedRuleCheckAllItsPaths()
     {
       //GIVEN
-      var pathCache = new PathCache(Root.Any.Instance<IDependencyPathFactory>());
+      var pathCache = new PathCache(Any.Instance<IDependencyPathFactory>());
       var rule = Substitute.For<IDependencyRule>();
-      var report = Root.Any.Instance<IAnalysisReportInProgress>();
-      var path1 = Root.Any.ReadOnlyList<IReferencedProject>();
-      var path2 = Root.Any.ReadOnlyList<IReferencedProject>();
-      var path3 = Root.Any.ReadOnlyList<IReferencedProject>();
+      var report = Any.Instance<IAnalysisReportInProgress>();
+      var path1 = Any.ReadOnlyList<IReferencedProject>();
+      var path2 = Any.ReadOnlyList<IReferencedProject>();
+      var path3 = Any.ReadOnlyList<IReferencedProject>();
 
       pathCache.Add(path1);
       pathCache.Add(path2);

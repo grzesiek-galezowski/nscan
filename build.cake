@@ -19,30 +19,47 @@ var toolpath = Argument("toolpath", @"");
 var netstandard20 = new Framework("netstandard2.0");
 var solutionName = "NScan.sln";
 var mainDll = "TddXt.NScan.dll";
+var nscanConsoleTitle = "NScan.Console";
+var nscanConsoleVersion = "0.1.0";
+var nscanTitle = "NScan";
+var nscanVersion = "0.1.0";
+var cakeNscanTitle = "Cake.NScan";
+var cakeNscanVersion = "0.1.0";
 
 
 //////////////////////////////////////////////////////////////////////
 // DEPENDENCIES
 //////////////////////////////////////////////////////////////////////
 
-var buildalyzer = new[] {"Buildalyzer", "2.1.0"};
-var glob        = new[] {"Glob"     , "0.4.0"};
-var sprache     = new[] {"Sprache"   , "2.2.0"};
+var buildalyzer       = new[] { "Buildalyzer"                        , "2.1.0"      };
+var glob              = new[] { "Glob"                               , "0.4.0"      };
+var sprache           = new[] { "Sprache"                            , "2.2.0"      };
+var fluentCommandline = new[] { "FluentCommandLineParser-netstandard", "1.4.3.13"   };
+var cakeCore          = new[] { "Cake.Core"                          , "0.30.0"     };
+var nscanDependency   = new[] { nscanTitle                           , nscanVersion };
 
 //////////////////////////////////////////////////////////////////////
 // PREPARATION
 //////////////////////////////////////////////////////////////////////
+
+var nscan = "nscan";
+var nscanConsole = "nscan.console";
+var cakeNscan = "cake.nscan";
 
 // Define directories.
 var buildDir = Directory("./build") + Directory(configuration);
 var publishDir = Directory("./publish");
 var srcDir = Directory("./src");
 var specificationDir = Directory("./specification") + Directory(configuration);
-var buildNetStandardDir = buildDir + Directory("netstandard2.0");
-var publishNetStandardDir = publishDir + Directory("netstandard2.0");
-var srcNetStandardDir = srcDir + Directory("netstandard2.0");
+var buildNScanDir = buildDir + Directory(nscan) + Directory("netstandard2.0");
+var buildNScanConsoleDir = buildDir + Directory(nscanConsole) + Directory("netcoreapp2.1");
+var buildCakeNScanDir = buildDir + Directory(cakeNscan) + Directory("netstandard2.0");
+var publishNScanDir = publishDir + Directory(nscan) + Directory("netstandard2.0");
+var publishNScanConsoleDir = publishDir + Directory(nscanConsole) + Directory("netcoreapp2.1");
+var publishCakeNScanDir = publishDir + Directory(cakeNscan) + Directory("netstandard2.0");
+var srcNetStandardDir = srcDir; //TODO inline
 var slnNetStandard = srcNetStandardDir + File(solutionName);
-var specificationNetStandardDir = specificationDir + Directory("netcoreapp2.0");
+var specificationNetStandardDir = specificationDir + Directory("netcoreapp2.1");
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
@@ -56,20 +73,45 @@ Task("Clean")
     CleanDirectory("./nuget");
 });
 
-Task("Build")
+Task("BuildNScan")
     .IsDependentOn("GitVersion")
     .Does(() =>
 {
-    DotNetCoreBuild("./src/netstandard2.0/Root", new DotNetCoreBuildSettings
-     {
-         Configuration = configuration,
-         OutputDirectory = buildNetStandardDir,
-         ArgumentCustomization = args => args.Append("/property:Version=" + nugetVersion.NuGetVersionV2)
-     });
+    DotNetCoreBuild(srcDir + Directory("NScan"), new DotNetCoreBuildSettings
+    {
+        Configuration = configuration,
+        OutputDirectory = buildNScanDir,
+        ArgumentCustomization = args => args.Append("/property:Version=" + nscanVersion)
+    });
+
+});
+
+Task("BuildNScanConsole")
+    .Does(() =>
+{
+    DotNetCoreBuild(srcDir + Directory("NScan.Console"), new DotNetCoreBuildSettings
+    {
+        Configuration = configuration,
+        OutputDirectory = buildNScanConsoleDir,
+        ArgumentCustomization = args => args.Append("/property:Version=" + nscanConsoleVersion)
+    });
+});
+
+Task("BuildCakeNScan")
+    .Does(() =>
+{
+    DotNetCoreBuild(srcDir + Directory("Cake.NScan"), new DotNetCoreBuildSettings
+    {
+        Configuration = configuration,
+        OutputDirectory = buildCakeNScanDir,
+        ArgumentCustomization = args => args.Append("/property:Version=" + cakeNscanVersion)
+    });
+
+
 });
 
 Task("Run-Unit-Tests")
-    .IsDependentOn("Build")
+    .IsDependentOn("BuildNScan")
     .Does(() =>
 {
     var projectFiles = GetFiles(srcNetStandardDir.ToString() + "/**/*Specification.csproj");
@@ -82,20 +124,6 @@ Task("Run-Unit-Tests")
     }
 });
 
-public void BundleDependencies(DirectoryPath specificVersionPublishDir, string rootDllName)
-{
-    var fullRootDllFilePath = specificVersionPublishDir + "/" + rootDllName;
-    var assemblyPaths = GetFiles(specificVersionPublishDir + "/TddXt.XNSubstitute.*.dll");
-    var mainAssemblyPath = new FilePath(fullRootDllFilePath).MakeAbsolute(Context.Environment);
-    assemblyPaths.Remove(mainAssemblyPath);
-    foreach(var path in assemblyPaths)
-    {
-        Console.WriteLine(path);
-    }
-    ILRepack(fullRootDllFilePath, fullRootDllFilePath, assemblyPaths);
-    DeleteFiles(assemblyPaths);
-}
-
 Task("GitVersion")
     .Does(() =>
 {
@@ -104,41 +132,81 @@ Task("GitVersion")
     });
 });
 
-
-Task("Pack")
-    .IsDependentOn("Build")
+Task("PackNScan")
+    .IsDependentOn("BuildNScan")
     .Does(() => 
     {
-        CopyDirectory(buildDir, publishDir);
-        BundleDependencies(publishNetStandardDir, mainDll);
-        //BundleDependencies(publishNet45Dir, mainDll);
-        NuGetPack("./XNSubstitute.nuspec", new NuGetPackSettings()
+        CopyDirectory(buildNScanDir, publishNScanDir);
+        PrepareNuget
+        (
+          title: nscanTitle,
+          version: nscanVersion,
+          summary: "A utility for enforcing project dependency conventions.",
+          releaseNotes: "Initial version",
+          files: new [] 
+            {
+                new NuSpecContent {Source = @".\publish\nscan\netstandard2.0\*NScan*", Exclude=@"**\*.json,**\*.config", Target = @"lib\netstandard2.0"},
+            },
+          dependencies: new [] 
+            {
+                netstandard20.Dependency(buildalyzer),
+                netstandard20.Dependency(glob),
+                netstandard20.Dependency(sprache),
+            }
+        );
+    });
+
+Task("PackNScanConsole")
+    .IsDependentOn("BuildNScanConsole")
+    .Does(() => 
+    {
+        CopyDirectory(buildNScanConsoleDir, publishNScanConsoleDir);
+        PrepareNuget
+        (
+          title: nscanConsoleTitle,
+          version: nscanConsoleVersion,
+          summary: "A utility for enforcing project dependency conventions - console runner.",
+          releaseNotes: "Initial version",
+          files: new [] 
+            {
+                new NuSpecContent {Source = @".\publish\nscan.console\netcoreapp2.1\*NScan*", Exclude=@"**\*.json", Target = @"lib\netcoreapp2.1"},
+            },
+          dependencies: new [] 
+            {
+                netstandard20.Dependency(buildalyzer),
+                netstandard20.Dependency(glob),
+                netstandard20.Dependency(sprache),
+                netstandard20.Dependency(nscanDependency),
+            }
+        );
+    });
+
+
+    public void PrepareNuget(
+     string summary, 
+     string title, 
+     string releaseNotes, 
+     string version,
+     NuSpecContent[] files,
+     NuSpecDependency[] dependencies)
+    {
+        NuGetPack("./NScan.nuspec", new NuGetPackSettings()
         {
-            Id = "XNSubstitute",
-            Title = "XNSubstitute",
+            Id = title,
+            Title = title,
             Owners = new [] { "Grzegorz Galezowski" },
             Authors = new [] { "Grzegorz Galezowski" },
-            Summary = "A set of NSubstitute extensions.",
-            Description = "A set of NSubstitute extensions.",
+            Summary = summary,
+            Description = summary,
             Language = "en-US",
-            ReleaseNotes = new[] {"Fixed missing dependency"},
-            ProjectUrl = new Uri("https://github.com/grzesiek-galezowski/xnsubstitute"),
+            ReleaseNotes = new[] {releaseNotes},
+            ProjectUrl = new Uri("https://github.com/grzesiek-galezowski/nscan"),
             OutputDirectory = "./nuget",
-            Version = nugetVersion.NuGetVersionV2,
-            Files = new [] 
-            {
-                new NuSpecContent {Source = @".\publish\netstandard2.0\TddXt.XNSubstitute.*", Exclude=@"**\*.json", Target = @"lib\netstandard2.0"},
-            },
-
-            Dependencies = new [] 
-            {
-                netstandard20.Dependency(nSubstitute),
-                netstandard20.Dependency(fluentAssertions),
-                netstandard20.Dependency(xFluentAssert),
-            }
-
+            Version = version,
+            Files = files,
+            Dependencies = dependencies
         });  
-    });
+    }
 
     public class Framework
     {
@@ -163,9 +231,12 @@ Task("Pack")
 
 Task("Default")
     .IsDependentOn("GitVersion")
-    .IsDependentOn("Build")
+    .IsDependentOn("BuildNScan")
+    .IsDependentOn("BuildNScanConsole")
+    .IsDependentOn("BuildCakeNScan")
     .IsDependentOn("Run-Unit-Tests")
-    .IsDependentOn("Pack");
+    .IsDependentOn("PackNScan")
+    .IsDependentOn("PackNScanConsole");
 
 //////////////////////////////////////////////////////////////////////
 // EXECUTION
