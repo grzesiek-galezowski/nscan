@@ -17,6 +17,7 @@ var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 var toolpath = Argument("toolpath", @"");
 var netstandard20 = new Framework("netstandard2.0");
+var netcoreapp21 = new Framework("netcoreapp2.1");
 var solutionName = "NScan.sln";
 var mainDll = "TddXt.NScan.dll";
 var nscanConsoleTitle = "NScan.Console";
@@ -145,7 +146,7 @@ Task("PackNScan")
           releaseNotes: "Initial version",
           files: new [] 
             {
-                new NuSpecContent {Source = @".\publish\nscan\netstandard2.0\*NScan*", Exclude=@"**\*.json,**\*.config", Target = @"lib\netstandard2.0"},
+                new NuSpecContent {Source = @".\publish\nscan\netstandard2.0\*NScan*", Exclude=@"**\*.json;**\*.config", Target = @"lib\netstandard2.0"},
             },
           dependencies: new [] 
             {
@@ -169,18 +170,42 @@ Task("PackNScanConsole")
           releaseNotes: "Initial version",
           files: new [] 
             {
-                new NuSpecContent {Source = @".\publish\nscan.console\netcoreapp2.1\*NScan*", Exclude=@"**\*.json", Target = @"lib\netcoreapp2.1"},
+                new NuSpecContent {Source = @".\publish\nscan.console\netcoreapp2.1\*NScan*", Exclude=@"**\*.json;**\*.config", Target = @"lib\netcoreapp2.1"},
+            },
+          dependencies: new [] 
+            {
+                netcoreapp21.Dependency(buildalyzer),
+                netcoreapp21.Dependency(glob),
+                netcoreapp21.Dependency(sprache),
+                netcoreapp21.Dependency(fluentCommandline),
+            }
+        );
+    });
+
+    Task("PackCakeNScan")
+    .IsDependentOn("BuildCakeNScan")
+    .Does(() => 
+    {
+        CopyDirectory(buildCakeNScanDir, publishCakeNScanDir);
+        PrepareNuget
+        (
+          title: cakeNscanTitle,
+          version: cakeNscanVersion,
+          summary: "A utility for enforcing project dependency conventions - cake plugin.",
+          releaseNotes: "Initial version",
+          files: new [] 
+            {
+                new NuSpecContent {Source = @".\publish\cake.nscan\netstandard2.0\*NScan*", Exclude=@"**\*.json;**\*.config", Target = @"lib\netstandard2.0"},
             },
           dependencies: new [] 
             {
                 netstandard20.Dependency(buildalyzer),
                 netstandard20.Dependency(glob),
                 netstandard20.Dependency(sprache),
-                netstandard20.Dependency(nscanDependency),
+                netstandard20.Dependency(cakeCore),
             }
         );
     });
-
 
     public void PrepareNuget(
      string summary, 
@@ -236,7 +261,8 @@ Task("Default")
     .IsDependentOn("BuildCakeNScan")
     .IsDependentOn("Run-Unit-Tests")
     .IsDependentOn("PackNScan")
-    .IsDependentOn("PackNScanConsole");
+    .IsDependentOn("PackNScanConsole")
+    .IsDependentOn("PackCakeNScan");
 
 //////////////////////////////////////////////////////////////////////
 // EXECUTION
