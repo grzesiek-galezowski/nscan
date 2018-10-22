@@ -1,4 +1,7 @@
-﻿using Cake.Core;
+﻿using System;
+using System.ComponentModel.Design;
+using System.Diagnostics.Contracts;
+using Cake.Core;
 using Cake.Core.Annotations;
 using TddXt.NScan;
 using TddXt.NScan.CompositionRoot;
@@ -10,11 +13,7 @@ namespace Cake.TddXt.NScan
     [CakeMethodAlias]
     public static void Analyze(this ICakeContext context, string solutionPath, string rulesFilePath)
     {
-      ProgramRoot.RunProgramInConsole(new InputArgumentsDto()
-      {
-        RulesFilePath = rulesFilePath,
-        SolutionPath = solutionPath
-      });
+      Analyze(context, solutionPath, rulesFilePath, new NScanSettings());
     }
 
     [CakeMethodAlias]
@@ -24,13 +23,43 @@ namespace Cake.TddXt.NScan
       string rulesFilePath,
       NScanSettings settings)
     {
-      ProgramRoot.RunProgramInConsole(new InputArgumentsDto()
+      if (context == null)
+      {
+        throw new ArgumentNullException(nameof(context));
+      }
+      if (solutionPath == null)
+      {
+        throw new ArgumentNullException(nameof(solutionPath));
+      }
+      if (rulesFilePath == null)
+      {
+        throw new ArgumentNullException(nameof(rulesFilePath));
+      }
+      if (settings == null)
+      {
+        throw new ArgumentNullException(nameof(settings));
+      }
+
+      var result = ProgramRoot.RunProgramInConsole(new InputArgumentsDto()
       {
         RulesFilePath = rulesFilePath,
         SolutionPath = solutionPath
       });
+      if (result != 0)
+      {
+        throw new NScanFailedException(result);
+      }
+
     }
 
+  }
+
+  public class NScanFailedException : Exception
+  {
+    public NScanFailedException(int result) : base($"NScan failed with result: {result}")
+    {
+      
+    }
   }
 
   public class NScanSettings

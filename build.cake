@@ -2,6 +2,7 @@
 #addin nuget:?package=Cake.SemVer
 #addin nuget:?package=semver&version=2.0.4
 #tool "nuget:?package=GitVersion.CommandLine"
+#addin nuget:?package=Cake.NScan&loaddependencies=true
 
 //////////////////////////////////////////////////////////////////////
 // VERSION
@@ -25,7 +26,7 @@ var nscanConsoleVersion = "0.1.0";
 var nscanTitle = "NScan";
 var nscanVersion = "0.1.0";
 var cakeNscanTitle = "Cake.NScan";
-var cakeNscanVersion = "0.1.0";
+var cakeNscanVersion = "0.1.1";
 
 
 //////////////////////////////////////////////////////////////////////
@@ -74,8 +75,14 @@ Task("Clean")
     CleanDirectory("./nuget");
 });
 
+Task("RunPreviousNScan").Does(() =>
+{
+  Analyze(@"C:\Users\grzes\Documents\GitHub\nscan\src\NScan.sln", @"C:\Users\grzes\Documents\GitHub\nscan\nscan.config");
+});
+
 Task("BuildNScan")
     .IsDependentOn("GitVersion")
+    .IsDependentOn("RunPreviousNScan")
     .Does(() =>
 {
     DotNetCoreBuild(srcDir + Directory("NScan"), new DotNetCoreBuildSettings
@@ -111,7 +118,7 @@ Task("BuildCakeNScan")
 
 });
 
-Task("Run-Unit-Tests")
+Task("RunNScanUnitTests")
     .IsDependentOn("BuildNScan")
     .Does(() =>
 {
@@ -259,7 +266,7 @@ Task("Default")
     .IsDependentOn("BuildNScan")
     .IsDependentOn("BuildNScanConsole")
     .IsDependentOn("BuildCakeNScan")
-    .IsDependentOn("Run-Unit-Tests")
+    .IsDependentOn("RunNScanUnitTests")
     .IsDependentOn("PackNScan")
     .IsDependentOn("PackNScanConsole")
     .IsDependentOn("PackCakeNScan");
