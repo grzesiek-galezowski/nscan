@@ -1,11 +1,10 @@
 ﻿using NSubstitute;
-using TddXt.AnyRoot.Collections;
 using TddXt.NScan.App;
 using TddXt.NScan.CompositionRoot;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace TddXt.NScan.Specification
+namespace TddXt.NScan.Specification.CompositionRoot
 {
   public class PathCacheSpecification
   {
@@ -43,10 +42,9 @@ namespace TddXt.NScan.Specification
       var pathCache = new PathCache(Any.Instance<IDependencyPathFactory>());
       var rule = Substitute.For<IDependencyRule>();
       var report = Any.Instance<IAnalysisReportInProgress>();
-      var path1 = Any.ReadOnlyList<IReferencedProject>();
-      var path2 = Any.ReadOnlyList<IReferencedProject>();
-      var path3 = Any.ReadOnlyList<IReferencedProject>();
-
+      var path1 = Any.Instance<IProjectDependencyPath>();
+      var path2 = Any.Instance<IProjectDependencyPath>();
+      var path3 = Any.Instance<IProjectDependencyPath>();
       pathCache.Add(path1);
       pathCache.Add(path2);
       pathCache.Add(path3);
@@ -55,9 +53,9 @@ namespace TddXt.NScan.Specification
       pathCache.Check(rule, report);
       
       //THEN
-      rule.Received(1).Check(path1, report);
-      rule.Received(1).Check(path2, report);
-      rule.Received(1).Check(path3, report);
+      rule.Received(1).Check(report, path1);
+      rule.Received(1).Check(report, path2);
+      rule.Received(1).Check(report, path3);
     }
   }
 }

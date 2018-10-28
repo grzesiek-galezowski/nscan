@@ -1,11 +1,14 @@
 using System;
+using System.Collections.Generic;
 using FluentAssertions;
 using NSubstitute;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.App;
+using TddXt.NScan.CompositionRoot;
 using Xunit;
+using static TddXt.AnyRoot.Root;
 
 namespace TddXt.NScan.Specification.App
 {
@@ -15,11 +18,14 @@ namespace TddXt.NScan.Specification.App
     public void ShouldTellSolutionToResolveAllItsReferencesByIds()
     {
       //GIVEN
-      var id1 = Root.Any.ProjectId();
-      var id2 = Root.Any.ProjectId();
-      var id3 = Root.Any.ProjectId();
+      var id1 = Any.ProjectId();
+      var id2 = Any.ProjectId();
+      var id3 = Any.ProjectId();
       var referencedProjectsIds = new[] { id1, id2, id3 };
-      var project = new DotNetStandardProject(Root.Any.String(), Root.Any.ProjectId(), referencedProjectsIds, Root.Any.Support());
+      var project = new DotNetStandardProjectBuilder()
+      {
+        ReferencedProjectIds = referencedProjectsIds
+      }.Build();
       var solution = Substitute.For<ISolutionContext>();
 
       //WHEN
@@ -35,13 +41,17 @@ namespace TddXt.NScan.Specification.App
     public void ShouldLogErrorAndIgnoreProjectThatCannotBeResolved()
     {
       //GIVEN
-      var id1 = Root.Any.ProjectId();
-      var id2 = Root.Any.ProjectId();
-      var id3 = Root.Any.ProjectId();
+      var id1 = Any.ProjectId();
+      var id2 = Any.ProjectId();
+      var id3 = Any.ProjectId();
       var referencedProjectsIds = new[] { id1, id2, id3 };
       var support = Substitute.For<ISupport>();
-      var exceptionFromResolution = Root.Any.Instance<ReferencedProjectNotFoundInSolutionException>();
-      var project = new DotNetStandardProject(Root.Any.String(), Root.Any.ProjectId(), referencedProjectsIds, support);
+      var exceptionFromResolution = Any.Instance<ReferencedProjectNotFoundInSolutionException>();
+      var project = new DotNetStandardProjectBuilder()
+      {
+        ReferencedProjectIds = referencedProjectsIds,
+        Support = support
+      }.Build();
       var solution = Substitute.For<ISolutionContext>();
 
       solution.When(ResolvingReferencesFrom(project, id2)).Throw(exceptionFromResolution);
@@ -57,7 +67,7 @@ namespace TddXt.NScan.Specification.App
       support.Received(1).Report(exceptionFromResolution);
     }
 
-    private static Action<ISolutionContext> ResolvingReferencesFrom(DotNetStandardProject project, ProjectId id2)
+    private static Action<ISolutionContext> ResolvingReferencesFrom(IReferencingProject project, ProjectId id2)
     {
       return s => s.ResolveReferenceFrom(project, id2);
     }
@@ -67,8 +77,13 @@ namespace TddXt.NScan.Specification.App
     {
       //GIVEN
       var referencingProject = Substitute.For<IReferencingProject>();
-      var projectId = Root.Any.ProjectId();
-      var project = new DotNetStandardProject(Root.Any.String(), projectId, Root.Any.Array<ProjectId>(), Root.Any.Support());
+      var projectId = Any.ProjectId();
+      var project = new DotNetStandardProject(
+        Any.String(), 
+        projectId, 
+        Any.Array<ProjectId>(), 
+        Any.Enumerable<PackageReference>(), 
+        Any.Support());
 
       //WHEN
       project.ResolveAsReferenceOf(referencingProject);
@@ -82,8 +97,8 @@ namespace TddXt.NScan.Specification.App
     {
       //GIVEN
       var referencedProject = Substitute.For<IReferencedProject>();
-      var projectId = Root.Any.ProjectId();
-      var project = new DotNetStandardProject(Root.Any.String(), projectId, Root.Any.Array<ProjectId>(), Root.Any.Support());
+      var projectId = Any.ProjectId();
+      var project = new DotNetStandardProject(Any.String(), projectId, Any.Array<ProjectId>(), Any.Enumerable<PackageReference>(), Any.Support());
 
       //WHEN
       project.ResolveAsReferencing(referencedProject);
@@ -110,7 +125,7 @@ namespace TddXt.NScan.Specification.App
     {
       //GIVEN
       var project = new DotNetStandardProjectBuilder().Build();
-      project.AddReferencingProject(Root.Any.ProjectId(), Root.Any.Instance<IReferencingProject>());
+      project.AddReferencingProject(Any.ProjectId(), Any.Instance<IReferencingProject>());
 
       //WHEN
       var isRoot = project.IsRoot();
@@ -128,13 +143,13 @@ namespace TddXt.NScan.Specification.App
       var reference2 = Substitute.For<IReferencedProject>();
       var reference3 = Substitute.For<IReferencedProject>();
       var dependencyPathInProgress = Substitute.For<IDependencyPathInProgress>();
-      var clonedPathInProgress1 = Root.Any.Instance<IDependencyPathInProgress>();
-      var clonedPathInProgress2 = Root.Any.Instance<IDependencyPathInProgress>();
-      var clonedPathInProgress3 = Root.Any.Instance<IDependencyPathInProgress>();
+      var clonedPathInProgress1 = Any.Instance<IDependencyPathInProgress>();
+      var clonedPathInProgress2 = Any.Instance<IDependencyPathInProgress>();
+      var clonedPathInProgress3 = Any.Instance<IDependencyPathInProgress>();
 
-      project.AddReferencedProject(Root.Any.ProjectId(), reference1);
-      project.AddReferencedProject(Root.Any.ProjectId(), reference2);
-      project.AddReferencedProject(Root.Any.ProjectId(), reference3);
+      project.AddReferencedProject(Any.ProjectId(), reference1);
+      project.AddReferencedProject(Any.ProjectId(), reference2);
+      project.AddReferencedProject(Any.ProjectId(), reference3);
 
       dependencyPathInProgress.CloneWith(project).Returns(
         clonedPathInProgress1,
@@ -169,7 +184,7 @@ namespace TddXt.NScan.Specification.App
     public void ShouldSayItHasProjectIdMatchingTheOneItWasCreatedWith()
     {
       //GIVEN
-      var assemblyName = Root.Any.String();
+      var assemblyName = Any.String();
       var project = new DotNetStandardProjectBuilder()
       {
         AssemblyName = assemblyName
@@ -186,8 +201,8 @@ namespace TddXt.NScan.Specification.App
     public void ShouldSayItHasProjectIdMatchingBlobPattern()
     {
       //GIVEN
-      var assemblySuffix = Root.Any.String();
-      var assemblyName = Root.Any.String() + "." + assemblySuffix;
+      var assemblySuffix = Any.String();
+      var assemblyName = Any.String() + "." + assemblySuffix;
       var project = new DotNetStandardProjectBuilder()
       {
         AssemblyName = assemblyName
@@ -204,10 +219,10 @@ namespace TddXt.NScan.Specification.App
     public void ShouldSayItDoesNotHaveProjectIdWhenItWasNotCreatedWithIt()
     {
       //GIVEN
-      var assemblyName = Root.Any.String();
+      var assemblyName = Any.String();
       var project = new DotNetStandardProjectBuilder()
       {
-        AssemblyName = Root.Any.OtherThan(assemblyName)
+        AssemblyName = Any.OtherThan(assemblyName)
       }.Build();
 
       //WHEN
@@ -222,7 +237,7 @@ namespace TddXt.NScan.Specification.App
     public void ShouldReturnAssemblyNameWhenAskedForStringRepresentation()
     {
       //GIVEN
-      var assemblyName = Root.Any.String();
+      var assemblyName = Any.String();
       var project = new DotNetStandardProjectBuilder()
       {
         AssemblyName = assemblyName
@@ -239,16 +254,18 @@ namespace TddXt.NScan.Specification.App
     {
       public DotNetStandardProject Build()
       {
-        return new DotNetStandardProject(AssemblyName, ProjectId, ReferencedProjectIds, Support);
+        return new DotNetStandardProject(AssemblyName, ProjectId, ReferencedProjectIds, this.PackageReferences, Support);
       }
 
-      public ProjectId[] ReferencedProjectIds { private get; set; } = Root.Any.Array<ProjectId>();
+      public IEnumerable<PackageReference> PackageReferences { private get; set; } = Any.Enumerable<PackageReference>();
 
-      public ProjectId ProjectId { private get; set; } = Root.Any.ProjectId();
+      public ProjectId[] ReferencedProjectIds { private get; set; } = Any.Array<ProjectId>();
 
-      public string AssemblyName { private get; set; } = Root.Any.String();
+      public ProjectId ProjectId { private get; set; } = Any.ProjectId();
 
-      public ISupport Support { private get; set; } = Root.Any.Support();
+      public string AssemblyName { private get; set; } = Any.String();
+
+      public ISupport Support { private get; set; } = Any.Support();
     }
   }
 }

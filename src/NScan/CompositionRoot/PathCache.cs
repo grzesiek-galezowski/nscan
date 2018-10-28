@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using TddXt.NScan.App;
 
 namespace TddXt.NScan.CompositionRoot
@@ -6,11 +7,12 @@ namespace TddXt.NScan.CompositionRoot
   public class PathCache : IPathCache, IFinalDependencyPathDestination
   {
     private readonly IDependencyPathFactory _dependencyPathFactory;
-    private readonly List<IReadOnlyList<IReferencedProject>> _paths = new List<IReadOnlyList<IReferencedProject>>();
+    private readonly List<IProjectDependencyPath> _projectDependencyPaths;
 
     public PathCache(IDependencyPathFactory dependencyPathFactory)
     {
       _dependencyPathFactory = dependencyPathFactory;
+      _projectDependencyPaths = new List<IProjectDependencyPath>();
     }
 
     public void BuildStartingFrom(params IDotNetProject[] rootProjects)
@@ -23,15 +25,15 @@ namespace TddXt.NScan.CompositionRoot
 
     public void Check(IDependencyRule rule, IAnalysisReportInProgress report)
     {
-      foreach (var path in _paths)
+      foreach (var path in _projectDependencyPaths)
       {
-        rule.Check(path, report);
+        rule.Check(report, path);
       }
     }
 
-    public void Add(IReadOnlyList<IReferencedProject> finalPath)
+    public void Add(IProjectDependencyPath projectDependencyPath)
     {
-      _paths.Add(finalPath);
+      _projectDependencyPaths.Add(projectDependencyPath);
     }
   }
 }

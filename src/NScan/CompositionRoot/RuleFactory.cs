@@ -4,7 +4,13 @@ namespace TddXt.NScan.CompositionRoot
   {
     public IDependencyRule CreateIndependentOfProjectRule(string dependingId, string dependencyId)
     {
-      return new IndependentOfProjectRule(dependingId, dependencyId);
+      return new IndependentRule(dependingId, 
+        new NextAssemblyMatchesPatternCondition(dependencyId));
+    }
+
+    public IDependencyRule CreateIndependentOfPackageRule(string dependingId, string dependencyId)
+    {
+      return new IndependentOfPackageRule(dependingId, dependencyId);
     }
   }
 }

@@ -13,21 +13,29 @@ namespace TddXt.NScan.Specification
   public class DependencyPathInProgressSpecification
   {
     [Fact]
-    public void ShouldAddFinalizedPathWithFinalAndCloningProjectsInOrder()
+    public void ShouldAddFinalizedPathWithFinalAndClonedProjectsInOrder()
     {
       //GIVEN
       var destination = Substitute.For<IFinalDependencyPathDestination>();
-      var alreadyAggregatedProjects = Any.List<IReferencedProject>();
-      var dependencyPathInProgress = new DependencyPathInProgress(destination, alreadyAggregatedProjects);
+      var initialProjects = Any.List<IReferencedProject>();
+      var projectDependencyPathFactory = Substitute.For<IProjectDependencyPathFactory>();
+      var newDependencyPath = Any.Instance<IProjectDependencyPath>();
       var additionalProject = Any.Instance<IReferencedProject>();
       var finalProject = Any.Instance<IReferencedProject>();
+
+      var dependencyPathInProgress = new DependencyPathInProgress(destination, 
+        projectDependencyPathFactory);
+
+      projectDependencyPathFactory.Invoke(
+          Concatenated(initialProjects, additionalProject, finalProject)).Returns(newDependencyPath);
+
       var clonedPath = dependencyPathInProgress.CloneWith(additionalProject);
-      
+
       //WHEN
       clonedPath.FinalizeWith(finalProject);
 
       //THEN
-      destination.Received(1).Add(Concatenated(alreadyAggregatedProjects, additionalProject, finalProject));
+      destination.Received(1).Add(newDependencyPath);
     }
 
     private static IReadOnlyList<IReferencedProject> Concatenated(

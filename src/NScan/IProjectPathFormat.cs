@@ -5,6 +5,6 @@ namespace TddXt.NScan
 {
   public interface IProjectPathFormat
   {
-    string ApplyTo(List<IReferencedProject> violationPath);
+    string ApplyTo(IReadOnlyList<IReferencedProject> violationPath);
   }
 }

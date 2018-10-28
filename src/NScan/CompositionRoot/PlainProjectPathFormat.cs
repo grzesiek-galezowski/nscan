@@ -6,7 +6,7 @@ namespace TddXt.NScan.CompositionRoot
 {
   public class PlainProjectPathFormat : IProjectPathFormat
   {
-    public string ApplyTo(List<IReferencedProject> violationPath)
+    public string ApplyTo(IReadOnlyList<IReferencedProject> violationPath)
     {
       return violationPath.Skip(1).Aggregate(
         "[" + violationPath.First().ToString() + "]", 

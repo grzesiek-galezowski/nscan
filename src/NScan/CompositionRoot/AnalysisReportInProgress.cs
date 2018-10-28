@@ -43,7 +43,7 @@ namespace TddXt.NScan.CompositionRoot
       return result.ToString();
     }
 
-    public void ViolationOf(string ruleDescription, List<IReferencedProject> violationPath)
+    public void Violation(string ruleDescription, IReadOnlyList<IReferencedProject> violationPath)
     {
       if (!_ruleNames.Contains(ruleDescription))
       {

@@ -1,10 +1,10 @@
 ﻿using FluentAssertions;
 using NSubstitute;
-using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.App;
 using TddXt.NScan.CompositionRoot;
 using Xunit;
+using static TddXt.AnyRoot.Root;
 
 namespace TddXt.NScan.Specification
 {
@@ -15,13 +15,13 @@ namespace TddXt.NScan.Specification
     {
       //GIVEN
       var solution = Substitute.For<ISolution>();
-      var pathRuleSet = Root.Any.Instance<IPathRuleSet>();
-      var analysisReport = Root.Any.Instance<IAnalysisReportInProgress>();
+      var pathRuleSet = Any.Instance<IPathRuleSet>();
+      var analysisReport = Any.Instance<IAnalysisReportInProgress>();
       var analysis = new Analysis(
         solution, 
         pathRuleSet, 
         analysisReport, 
-        Root.Any.Instance<IRuleFactory>());
+        Any.Instance<IRuleFactory>());
 
       //WHEN
       analysis.Run();
@@ -42,13 +42,13 @@ namespace TddXt.NScan.Specification
       //GIVEN
       var pathRuleSet = Substitute.For<IPathRuleSet>();
       var ruleFactory = Substitute.For<IRuleFactory>();
-      var rule = Root.Any.Instance<IDependencyRule>();
+      var rule = Any.Instance<IDependencyRule>();
       var analysis = new Analysis(
-        Root.Any.Instance<ISolution>(), 
+        Any.Instance<ISolution>(), 
         pathRuleSet, 
-        Root.Any.Instance<IAnalysisReportInProgress>(), ruleFactory);
-      var dependingId = Root.Any.String();
-      var dependencyId = Root.Any.String();
+        Any.Instance<IAnalysisReportInProgress>(), ruleFactory);
+      var dependingId = Any.String();
+      var dependencyId = Any.String();
 
       ruleFactory.CreateIndependentOfProjectRule(dependingId, dependencyId).Returns(rule);
 
@@ -60,16 +60,39 @@ namespace TddXt.NScan.Specification
     }
 
     [Fact]
+    public void ShouldAddIndependentPackageRuleToPathRuleSet()
+    {
+      //GIVEN
+      var pathRuleSet = Substitute.For<IPathRuleSet>();
+      var ruleFactory = Substitute.For<IRuleFactory>();
+      var rule = Any.Instance<IDependencyRule>();
+      var analysis = new Analysis(
+        Any.Instance<ISolution>(),
+        pathRuleSet,
+        Any.Instance<IAnalysisReportInProgress>(), ruleFactory);
+      var dependingId = Any.String();
+      var dependencyId = Any.String();
+
+      ruleFactory.CreateIndependentOfPackageRule(dependingId, dependencyId).Returns(rule);
+
+      //WHEN
+      analysis.IndependentOfPackage(dependingId, dependencyId);
+
+      //THEN
+      pathRuleSet.Received(1).Add(rule);
+    }
+
+    [Fact]
     public void ShouldReturnStringGeneratedFromAnalysisInProgressReportWhenAskedForAnalysisReport()
     {
       //GIVEN
       var analysisInProgressReport = Substitute.For<IAnalysisReportInProgress>();
       var analysis = new Analysis(
-        Root.Any.Instance<ISolution>(), 
-        Root.Any.Instance<IPathRuleSet>(), 
+        Any.Instance<ISolution>(), 
+        Any.Instance<IPathRuleSet>(), 
         analysisInProgressReport, 
-        Root.Any.Instance<IRuleFactory>());
-      var reportStringGeneratedFromInProgressReport = Root.Any.String();
+        Any.Instance<IRuleFactory>());
+      var reportStringGeneratedFromInProgressReport = Any.String();
 
       analysisInProgressReport.AsString().Returns(reportStringGeneratedFromInProgressReport);
 
@@ -88,10 +111,10 @@ namespace TddXt.NScan.Specification
       //GIVEN
       var reportInProgress = Substitute.For<IAnalysisReportInProgress>();
       var analysis = new Analysis(
-        Root.Any.Instance<ISolution>(), 
-        Root.Any.Instance<IPathRuleSet>(), 
+        Any.Instance<ISolution>(), 
+        Any.Instance<IPathRuleSet>(), 
         reportInProgress, 
-        Root.Any.Instance<IRuleFactory>());
+        Any.Instance<IRuleFactory>());
 
       reportInProgress.HasViolations().Returns(hasViolations);
 

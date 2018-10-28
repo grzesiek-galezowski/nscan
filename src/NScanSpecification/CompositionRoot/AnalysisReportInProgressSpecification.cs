@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using FluentAssertions;
 using NSubstitute;
-using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.App;
 using TddXt.NScan.CompositionRoot;
 using Xunit;
+using static TddXt.AnyRoot.Root;
 
 namespace TddXt.NScan.Specification.CompositionRoot
 {
@@ -19,10 +19,10 @@ namespace TddXt.NScan.Specification.CompositionRoot
     public void ShouldPrintAllOksInTheSameOrderTheyWereReceived()
     {
       //GIVEN
-      var report = new AnalysisReportInProgress(Root.Any.Instance<IProjectPathFormat>());
-      var anyDescription1 = Root.Any.String();
-      var anyDescription2 = Root.Any.String();
-      var anyDescription3 = Root.Any.String();
+      var report = new AnalysisReportInProgress(Any.Instance<IProjectPathFormat>());
+      var anyDescription1 = Any.String();
+      var anyDescription2 = Any.String();
+      var anyDescription3 = Any.String();
 
       report.Ok(anyDescription1);
       report.Ok(anyDescription2);
@@ -46,24 +46,24 @@ namespace TddXt.NScan.Specification.CompositionRoot
       //GIVEN
       var projectPathFormat = Substitute.For<IProjectPathFormat>();
       var report = new AnalysisReportInProgress(projectPathFormat);
-      var anyDescription1 = Root.Any.String();
-      var anyDescription2 = Root.Any.String();
-      var anyDescription3 = Root.Any.String();
+      var anyDescription1 = Any.String();
+      var anyDescription2 = Any.String();
+      var anyDescription3 = Any.String();
 
-      var violationPath1 = Root.Any.List<IReferencedProject>();
-      var violationPath2 = Root.Any.List<IReferencedProject>();
-      var violationPath3 = Root.Any.List<IReferencedProject>();
-      var formattedPath1 = Root.Any.String();
-      var formattedPath2 = Root.Any.String();
-      var formattedPath3 = Root.Any.String();
+      var violationPath1 = Any.List<IReferencedProject>();
+      var violationPath2 = Any.List<IReferencedProject>();
+      var violationPath3 = Any.List<IReferencedProject>();
+      var formattedPath1 = Any.String();
+      var formattedPath2 = Any.String();
+      var formattedPath3 = Any.String();
 
       projectPathFormat.ApplyTo(violationPath1).Returns(formattedPath1);
       projectPathFormat.ApplyTo(violationPath2).Returns(formattedPath2);
       projectPathFormat.ApplyTo(violationPath3).Returns(formattedPath3);
 
-      report.ViolationOf(anyDescription1, violationPath1);
-      report.ViolationOf(anyDescription2, violationPath2);
-      report.ViolationOf(anyDescription3, violationPath3);
+      report.Violation(anyDescription1, violationPath1);
+      report.Violation(anyDescription2, violationPath2);
+      report.Violation(anyDescription3, violationPath3);
 
       //WHEN
       var output = report.AsString();
@@ -85,18 +85,18 @@ namespace TddXt.NScan.Specification.CompositionRoot
       //GIVEN
       var projectPathFormat = Substitute.For<IProjectPathFormat>();
       var report = new AnalysisReportInProgress(projectPathFormat);
-      var anyDescription1 = Root.Any.String();
+      var anyDescription1 = Any.String();
 
-      var violationPath1 = Root.Any.List<IReferencedProject>();
-      var violationPath2 = Root.Any.List<IReferencedProject>();
-      var formattedPath1 = Root.Any.String();
-      var formattedPath2 = Root.Any.String();
+      var violationPath1 = Any.List<IReferencedProject>();
+      var violationPath2 = Any.List<IReferencedProject>();
+      var formattedPath1 = Any.String();
+      var formattedPath2 = Any.String();
 
       projectPathFormat.ApplyTo(violationPath1).Returns(formattedPath1);
       projectPathFormat.ApplyTo(violationPath2).Returns(formattedPath2);
 
-      report.ViolationOf(anyDescription1, violationPath1);
-      report.ViolationOf(anyDescription1, violationPath2);
+      report.Violation(anyDescription1, violationPath1);
+      report.Violation(anyDescription1, violationPath2);
 
       //WHEN
       var output = report.AsString();
@@ -116,20 +116,20 @@ namespace TddXt.NScan.Specification.CompositionRoot
       //GIVEN
       var projectPathFormat = Substitute.For<IProjectPathFormat>();
       var report = new AnalysisReportInProgress(projectPathFormat);
-      var anyDescription1 = Root.Any.String();
+      var anyDescription1 = Any.String();
 
-      var violationPath1 = Root.Any.List<IReferencedProject>();
-      var violationPath2 = Root.Any.List<IReferencedProject>();
-      var violationPath3 = Root.Any.List<IReferencedProject>();
-      var formattedPath1 = Root.Any.String();
+      var violationPath1 = Any.List<IReferencedProject>();
+      var violationPath2 = Any.List<IReferencedProject>();
+      var violationPath3 = Any.List<IReferencedProject>();
+      var formattedPath1 = Any.String();
 
       projectPathFormat.ApplyTo(violationPath1).Returns(formattedPath1);
       projectPathFormat.ApplyTo(violationPath2).Returns(formattedPath1);
       projectPathFormat.ApplyTo(violationPath3).Returns(formattedPath1);
 
-      report.ViolationOf(anyDescription1, violationPath1);
-      report.ViolationOf(anyDescription1, violationPath2);
-      report.ViolationOf(anyDescription1, violationPath3);
+      report.Violation(anyDescription1, violationPath1);
+      report.Violation(anyDescription1, violationPath2);
+      report.Violation(anyDescription1, violationPath3);
 
       //WHEN
       var output = report.AsString();
@@ -163,8 +163,8 @@ namespace TddXt.NScan.Specification.CompositionRoot
       var projectPathFormat = Substitute.For<IProjectPathFormat>();
       var report = new AnalysisReportInProgress(projectPathFormat);
 
-      report.ViolationOf(Root.Any.String(), Root.Any.List<IReferencedProject>());
-      report.Ok(Root.Any.String());
+      report.Violation(Any.String(), Any.List<IReferencedProject>());
+      report.Ok(Any.String());
 
       //WHEN
       var hasViolations = report.HasViolations();

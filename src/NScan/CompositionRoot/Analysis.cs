@@ -11,6 +11,10 @@ namespace TddXt.NScan.CompositionRoot
     private readonly IAnalysisReportInProgress _analysisReportInProgress;
     private readonly IRuleFactory _ruleFactory;
 
+    public string Report => _analysisReportInProgress.AsString();
+    public int ReturnCode => _analysisReportInProgress.HasViolations() ? -1 : 0; //todo 1 not -1?
+
+
     public Analysis(ISolution solution, IPathRuleSet pathRules,
       IAnalysisReportInProgress analysisReportInProgress, IRuleFactory ruleFactory)
     {
@@ -28,7 +32,7 @@ namespace TddXt.NScan.CompositionRoot
       _solution.Check(_pathRules, _analysisReportInProgress);
     }
 
-    public static Analysis PrepareFor(List<XmlProject> xmlProjects, ISupport support)
+    public static Analysis PrepareFor(IReadOnlyList<XmlProject> xmlProjects, ISupport support)
     {
       var csharpWorkspaceModel = new CsharpWorkspaceModel(support, xmlProjects);
       var projects = csharpWorkspaceModel.LoadProjects();
@@ -46,7 +50,10 @@ namespace TddXt.NScan.CompositionRoot
       _pathRules.Add(_ruleFactory.CreateIndependentOfProjectRule(depending, dependent));
     }
 
-    public string Report => _analysisReportInProgress.AsString();
-    public int ReturnCode => _analysisReportInProgress.HasViolations() ? -1 : 0; //todo 1 not -1?
+
+    public void IndependentOfPackage(string depending, string dependent)
+    {
+      _pathRules.Add(_ruleFactory.CreateIndependentOfPackageRule(depending, dependent));
+    }
   }
 }

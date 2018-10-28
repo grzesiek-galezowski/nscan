@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TddXt.NScan.CompositionRoot;
 
 namespace TddXt.NScan.App
 {
@@ -13,7 +14,11 @@ namespace TddXt.NScan.App
     private readonly ISupport _support;
     private readonly ProjectId _id;
 
-    public DotNetStandardProject(string assemblyName, ProjectId id, ProjectId[] referencedProjectsIds, ISupport support)
+    public DotNetStandardProject(string assemblyName,
+      ProjectId id,
+      ProjectId[] referencedProjectsIds,
+      IEnumerable<PackageReference> packageReferences,
+      ISupport support)
     {
       _assemblyName = assemblyName;
       _id = id;
@@ -38,12 +43,12 @@ namespace TddXt.NScan.App
       return !_referencingProjects.Any();
     }
 
-    public void Print(int i)
+    public void Print(int nestingLevel)
     {
-      Console.WriteLine(i + i.Spaces() + _assemblyName);
+      Console.WriteLine(nestingLevel + nestingLevel.Spaces() + _assemblyName);
       foreach (var referencedProjectsValue in _referencedProjects.Values)
       {
-        referencedProjectsValue.Print(i+1);
+        referencedProjectsValue.Print(nestingLevel+1);
       }
     }
 
@@ -66,12 +71,10 @@ namespace TddXt.NScan.App
       ProjectId referencingProjectId,
       IReferencingProject referencingProject)
     {
-      if (_referencingProjects.ContainsKey(referencingProjectId))
+      if (_referencingProjects.ContainsKey(referencingProjectId) 
+          && !_referencingProjects[referencingProjectId].Equals(referencingProject))
       {
-        if (!_referencingProjects[referencingProjectId].Equals(referencingProject))
-        {
-          throw new Exception("Two distinct projects attempted to be added with the same path");
-        }
+        throw new Exception("Two distinct projects attempted to be added with the same path");
       }
     }
 

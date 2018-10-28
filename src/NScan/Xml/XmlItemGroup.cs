@@ -7,8 +7,8 @@ namespace TddXt.NScan.Xml
   public class XmlItemGroup
   {
     [XmlElement(ElementName = "PackageReference")]
-    public List<XmlPackageReference> PackageReference { get; set; }
+    public IReadOnlyList<XmlPackageReference> PackageReferences { get; set; }
     [XmlElement(ElementName = "ProjectReference")]
-    public List<XmlProjectReference> ProjectReference { get; set; }
+    public IReadOnlyList<XmlProjectReference> ProjectReferences { get; set; }
   }
 }

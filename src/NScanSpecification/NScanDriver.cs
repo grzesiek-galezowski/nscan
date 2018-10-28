@@ -11,7 +11,8 @@ namespace TddXt.NScan.Specification
   {
     private readonly ISupport _consoleSupport = new ConsoleSupport();
     private readonly List<XmlProject> _xmlProjects = new List<XmlProject>();
-    private readonly List<(string, string)> _independentOfRules = new List<(string, string)>();
+    private readonly List<(string, string)> _independentOfProjectRules = new List<(string, string)>();
+    private readonly List<(string, string)> _independentOfPackageRules = new List<(string, string)>();
     private Analysis _analysis;
 
     public XmlProjectDsl HasProject(string assemblyName)
@@ -37,18 +38,28 @@ namespace TddXt.NScan.Specification
       return @"C:\" + assemblyName + ".cs";
     }
 
-    public void AddIndependentOfRule(string dependingAssemblyName, string dependentAssemblyName)
+    public void AddIndependentOfProjectRule(string dependingAssemblyName, string dependentAssemblyName)
     {
-      _independentOfRules.Add((dependingAssemblyName, dependentAssemblyName));
+      _independentOfProjectRules.Add((dependingAssemblyName, dependentAssemblyName));
+    }
+
+    public void AddIndependentOfPackageRule(string projectName, string packageName)
+    {
+      _independentOfPackageRules.Add((projectName, packageName));
     }
 
     public void PerformAnalysis()
     {
       _analysis = Analysis.PrepareFor(_xmlProjects, _consoleSupport);
 
-      foreach (var (depending, dependent) in _independentOfRules)
+      foreach (var (depending, dependent) in _independentOfProjectRules)
       {
         _analysis.IndependentOfProject(depending, dependent);
+      }
+
+      foreach (var (depending, dependent) in _independentOfPackageRules)
+      {
+        _analysis.IndependentOfPackage(depending, dependent);
       }
 
       _analysis.Run();
@@ -69,6 +80,7 @@ namespace TddXt.NScan.Specification
     {
       _analysis.ReturnCode.Should().Be(-1);
     }
+
   }
 
   public class XmlProjectDsl
@@ -84,7 +96,7 @@ namespace TddXt.NScan.Specification
     {
       _xmlProject.ItemGroups = new List<XmlItemGroup>
       {
-        new XmlItemGroup() {ProjectReference = ProjectReferencesFrom(names)}
+        new XmlItemGroup() {ProjectReferences = ProjectReferencesFrom(names)}
       };
     }
 
