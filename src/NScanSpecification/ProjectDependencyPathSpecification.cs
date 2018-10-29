@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using FluentAssertions;
 using NSubstitute;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
-using TddXt.AnyRoot.Strings;
 using TddXt.NScan.App;
 using Xunit;
 using static TddXt.AnyRoot.Root;
@@ -96,6 +94,7 @@ namespace TddXt.NScan.Specification
     public void ShouldReturnResultWithFoundProjectAndItsIndexWhenTheProjectMatchesNamePattern()
     {
       //GIVEN
+      var pattern = Any.Instance<Glob.Glob>();
       var project1 = Substitute.For<IReferencedProject>();
       var project2 = Substitute.For<IReferencedProject>();
       var project3 = Substitute.For<IReferencedProject>();
@@ -103,7 +102,6 @@ namespace TddXt.NScan.Specification
       {
         project1, project2, project3
       };
-      var pattern = Any.String();
       var searchResultFactory = Substitute.For<IProjectFoundSearchResultFactory>();
       var foundResult = Any.Instance<IProjectSearchResult>();
 
@@ -125,6 +123,7 @@ namespace TddXt.NScan.Specification
     public void ShouldReturnNotFoundResultWhenNoneOfTheProjectsMatchNamePattern()
     {
       //GIVEN
+      var pattern = Any.Instance<Glob.Glob>();
       var project1 = Substitute.For<IReferencedProject>();
       var project2 = Substitute.For<IReferencedProject>();
       var project3 = Substitute.For<IReferencedProject>();
@@ -132,7 +131,6 @@ namespace TddXt.NScan.Specification
       {
         project1, project2, project3
       };
-      var pattern = Any.String();
       var searchResultFactory = Substitute.For<IProjectFoundSearchResultFactory>();
       var notFoundResult = Any.Instance<IProjectSearchResult>();
 

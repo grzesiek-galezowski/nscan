@@ -11,7 +11,7 @@ namespace TddXt.NScan.Specification
     {
       //GIVEN
       var pattern = Any.String();
-      var condition = new NextAssemblyMatchesPatternCondition(pattern);
+      var condition = new NextAssemblyMatchesPatternCondition(new Glob.Glob(pattern));
 
       //WHEN
       //condition.Matches()

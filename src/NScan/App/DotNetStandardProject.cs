@@ -11,6 +11,7 @@ namespace TddXt.NScan.App
     private readonly Dictionary<ProjectId, IReferencingProject> _referencingProjects = new Dictionary<ProjectId, IReferencingProject>();
     private readonly string _assemblyName;
     private readonly ProjectId[] _referencedProjectsIds;
+    private readonly IEnumerable<PackageReference> _packageReferences;
     private readonly ISupport _support;
     private readonly ProjectId _id;
 
@@ -23,6 +24,7 @@ namespace TddXt.NScan.App
       _assemblyName = assemblyName;
       _id = id;
       _referencedProjectsIds = referencedProjectsIds;
+      _packageReferences = packageReferences;
       _support = support;
     }
 
@@ -99,7 +101,7 @@ namespace TddXt.NScan.App
 
     }
 
-    public bool HasAssemblyNameMatching(string assemblyNamePattern) => new Glob.Glob(assemblyNamePattern).IsMatch(_assemblyName);
+    public bool HasAssemblyNameMatching(Glob.Glob glob) => glob.IsMatch(_assemblyName);
 
     public void ResolveAsReferenceOf(IReferencingProject project)
     {

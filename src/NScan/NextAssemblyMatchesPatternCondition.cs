@@ -5,14 +5,14 @@ namespace TddXt.NScan
   public interface IDependencyCondition
   {
     bool Matches(IReferencedProject dependency, IProjectSearchResult depending);
-    string Description(string dependingAssemblyNamePattern);
+    string Description(Glob.Glob dependingAssemblyNamePattern);
   }
 
   public class NextAssemblyMatchesPatternCondition : IDependencyCondition
   {
-    private readonly string _dependencyAssemblyNamePattern;
+    private readonly Glob.Glob _dependencyAssemblyNamePattern;
 
-    public NextAssemblyMatchesPatternCondition(string dependencyAssemblyNamePattern)
+    public NextAssemblyMatchesPatternCondition(Glob.Glob dependencyAssemblyNamePattern)
     {
       _dependencyAssemblyNamePattern = dependencyAssemblyNamePattern;
     }
@@ -23,9 +23,9 @@ namespace TddXt.NScan
              && dependency.HasAssemblyNameMatching(_dependencyAssemblyNamePattern);
     }
 
-    public string Description(string dependingAssemblyNamePattern)
+    public string Description(Glob.Glob dependingAssemblyNamePattern)
     {
-      return DependencyDescriptions.IndependentOf(dependingAssemblyNamePattern, _dependencyAssemblyNamePattern);
+      return DependencyDescriptions.IndependentOf(dependingAssemblyNamePattern.Pattern, _dependencyAssemblyNamePattern.Pattern);
     }
   }
 }

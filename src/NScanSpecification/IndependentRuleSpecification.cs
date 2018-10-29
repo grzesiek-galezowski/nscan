@@ -19,39 +19,39 @@ namespace TddXt.NScan.Specification
     public void ShouldReportOkWhenPathDoesNotContainADependingProject()
     {
       //GIVEN
-      var dependingPattern = Any.String();
       var dependencyCondition = Substitute.For<IDependencyCondition>();
-      var rule = new IndependentRule(dependingPattern, dependencyCondition);
+      var dependingAssemblyNamePattern = Any.Instance<Glob.Glob>();
+      var rule = new IndependentRule(dependencyCondition, dependingAssemblyNamePattern);
       var report = Substitute.For<IAnalysisReportInProgress>();
       var projectDependencyPath = Substitute.For<IProjectDependencyPath>();
 
-      projectDependencyPath.AssemblyWithNameMatching(dependingPattern).Exists().Returns(false);
+      projectDependencyPath.AssemblyWithNameMatching(dependingAssemblyNamePattern).Exists().Returns(false);
 
 
       //WHEN
       rule.Check(report, projectDependencyPath);
 
       //THEN
-      XReceived.Only(() => report.Ok(dependencyCondition.Description(dependingPattern)));
+      XReceived.Only(() => report.Ok(dependencyCondition.Description(dependingAssemblyNamePattern)));
     }
 
     [Fact]
     public void ShouldReportRuleViolationAndPathWhenDependencyIsDetected()
     {
       //GIVEN
-      var dependingPattern = Any.String();
       var dependencyCondition = Substitute.For<IDependencyCondition>();
       var conditionDescription = Any.String();
-      var rule = new IndependentRule(dependingPattern, dependencyCondition);
+      var dependingAssemblyNamePattern = Any.Instance<Glob.Glob>();
+      var rule = new IndependentRule(dependencyCondition, dependingAssemblyNamePattern);
       var report = Substitute.For<IAnalysisReportInProgress>();
       var projectDependencyPath = Substitute.For<IProjectDependencyPath>();
       var dependingAssembly = Substitute.For<IProjectSearchResult>();
       var dependencyAssembly = Substitute.For<IProjectSearchResult>();
       var violatingPathSegment = Any.ReadOnlyList<IReferencedProject>();
 
-      dependencyCondition.Description(dependingPattern).Returns(conditionDescription);
+      dependencyCondition.Description(dependingAssemblyNamePattern).Returns(conditionDescription);
 
-      projectDependencyPath.AssemblyWithNameMatching(dependingPattern).Returns(dependingAssembly);
+      projectDependencyPath.AssemblyWithNameMatching(dependingAssemblyNamePattern).Returns(dependingAssembly);
       dependingAssembly.Exists().Returns(true);
 
       projectDependencyPath.AssemblyMatching(dependencyCondition, dependingAssembly).Returns(dependencyAssembly);
@@ -74,18 +74,18 @@ namespace TddXt.NScan.Specification
     public void ShouldReportRuleViolationWhenDependingProjectExistsButMatchingDependencyIsNotAfterItInThePath()
     {
       //GIVEN
-      var dependingPattern = Any.String();
       var dependencyCondition = Substitute.For<IDependencyCondition>();
       var conditionDescription = Any.String();
-      var rule = new IndependentRule(dependingPattern, dependencyCondition);
+      var dependingAssemblyNamePattern = Any.Instance<Glob.Glob>();
+      var rule = new IndependentRule(dependencyCondition, dependingAssemblyNamePattern);
       var report = Substitute.For<IAnalysisReportInProgress>();
       var projectDependencyPath = Substitute.For<IProjectDependencyPath>();
       var dependingAssembly = Substitute.For<IProjectSearchResult>();
       var dependencyAssembly = Substitute.For<IProjectSearchResult>();
 
-      dependencyCondition.Description(dependingPattern).Returns(conditionDescription);
+      dependencyCondition.Description(dependingAssemblyNamePattern).Returns(conditionDescription);
 
-      projectDependencyPath.AssemblyWithNameMatching(dependingPattern).Returns(dependingAssembly);
+      projectDependencyPath.AssemblyWithNameMatching(dependingAssemblyNamePattern).Returns(dependingAssembly);
       dependingAssembly.Exists().Returns(true);
 
       projectDependencyPath.AssemblyMatching(dependencyCondition, dependingAssembly).Returns(dependencyAssembly);

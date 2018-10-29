@@ -5,13 +5,13 @@ namespace TddXt.NScan
 {
   public class IndependentRule : IDependencyRule
   {
-    private readonly string _dependingAssemblyNamePattern;
     private readonly IDependencyCondition _condition;
+    private readonly Glob.Glob _dependingAssemblyNamePattern;
 
-    public IndependentRule(string dependingAssemblyNamePattern, IDependencyCondition dependencyCondition)
+    public IndependentRule(IDependencyCondition dependencyCondition, Glob.Glob dependingAssemblyNamePattern)
     {
-      _dependingAssemblyNamePattern = dependingAssemblyNamePattern;
       _condition = dependencyCondition;
+      _dependingAssemblyNamePattern = dependingAssemblyNamePattern;
     }
 
     public void Check(IAnalysisReportInProgress report, IProjectDependencyPath dependencyPath)

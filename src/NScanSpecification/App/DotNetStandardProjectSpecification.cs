@@ -78,12 +78,10 @@ namespace TddXt.NScan.Specification.App
       //GIVEN
       var referencingProject = Substitute.For<IReferencingProject>();
       var projectId = Any.ProjectId();
-      var project = new DotNetStandardProject(
-        Any.String(), 
-        projectId, 
-        Any.Array<ProjectId>(), 
-        Any.Enumerable<PackageReference>(), 
-        Any.Support());
+      var project = new DotNetStandardProjectBuilder()
+      {
+        ProjectId = projectId
+      }.Build();
 
       //WHEN
       project.ResolveAsReferenceOf(referencingProject);
@@ -98,7 +96,10 @@ namespace TddXt.NScan.Specification.App
       //GIVEN
       var referencedProject = Substitute.For<IReferencedProject>();
       var projectId = Any.ProjectId();
-      var project = new DotNetStandardProject(Any.String(), projectId, Any.Array<ProjectId>(), Any.Enumerable<PackageReference>(), Any.Support());
+      var project = new DotNetStandardProjectBuilder()
+      {
+        ProjectId = projectId
+      }.Build();
 
       //WHEN
       project.ResolveAsReferencing(referencedProject);
@@ -191,7 +192,7 @@ namespace TddXt.NScan.Specification.App
       }.Build();
 
       //WHEN
-      var hasProject = project.HasAssemblyNameMatching(assemblyName);
+      var hasProject = project.HasAssemblyNameMatching(new Glob.Glob(assemblyName));
 
       //THEN
       hasProject.Should().BeTrue();
@@ -209,7 +210,8 @@ namespace TddXt.NScan.Specification.App
       }.Build();
 
       //WHEN
-      var hasProject = project.HasAssemblyNameMatching("*." + assemblySuffix);
+      string assemblyNamePattern = "*." + assemblySuffix;
+      var hasProject = project.HasAssemblyNameMatching(new Glob.Glob(assemblyNamePattern));
 
       //THEN
       hasProject.Should().BeTrue();
@@ -219,14 +221,14 @@ namespace TddXt.NScan.Specification.App
     public void ShouldSayItDoesNotHaveProjectIdWhenItWasNotCreatedWithIt()
     {
       //GIVEN
-      var assemblyName = Any.String();
+      var searchedAssemblyName = Any.String();
       var project = new DotNetStandardProjectBuilder()
       {
-        AssemblyName = Any.OtherThan(assemblyName)
+        AssemblyName = Any.OtherThan(searchedAssemblyName)
       }.Build();
 
       //WHEN
-      var hasProject = project.HasAssemblyNameMatching(assemblyName);
+      var hasProject = project.HasAssemblyNameMatching(new Glob.Glob(searchedAssemblyName));
 
       //THEN
       hasProject.Should().BeFalse();
