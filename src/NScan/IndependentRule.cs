@@ -5,10 +5,10 @@ namespace TddXt.NScan
 {
   public class IndependentRule : IDependencyRule
   {
-    private readonly IDependencyCondition _condition;
+    private readonly IDescribedDependencyCondition _condition;
     private readonly Glob.Glob _dependingAssemblyNamePattern;
 
-    public IndependentRule(IDependencyCondition dependencyCondition, Glob.Glob dependingAssemblyNamePattern)
+    public IndependentRule(IDescribedDependencyCondition dependencyCondition, Glob.Glob dependingAssemblyNamePattern)
     {
       _condition = dependencyCondition;
       _dependingAssemblyNamePattern = dependingAssemblyNamePattern;
@@ -24,17 +24,17 @@ namespace TddXt.NScan
         if (dependencyAssembly.ExistsAfter(dependingAssembly))
         {
           report.Violation(
-            _condition.Description(_dependingAssemblyNamePattern),
+            _condition.Description(),
             dependencyPath.SegmentBetween(dependingAssembly, dependencyAssembly));
         }
         else
         {
-          report.Ok(_condition.Description(_dependingAssemblyNamePattern));
+          report.Ok(_condition.Description());
         }
       }
       else
       {
-        report.Ok(_condition.Description(_dependingAssemblyNamePattern));
+        report.Ok(_condition.Description());
       }
     }
   }

@@ -51,9 +51,9 @@ namespace TddXt.NScan.CompositionRoot
     }
 
 
-    public void IndependentOfPackage(string depending, string dependent)
+    public void IndependentOfPackage(string depending, string packageName)
     {
-      _pathRules.Add(_ruleFactory.CreateIndependentOfPackageRule(depending, dependent));
+      _pathRules.Add(_ruleFactory.CreateIndependentOfPackageRule(depending, packageName));
     }
   }
 }

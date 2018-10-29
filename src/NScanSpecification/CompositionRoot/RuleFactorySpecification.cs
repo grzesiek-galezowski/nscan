@@ -23,6 +23,7 @@ namespace TddXt.NScan.Specification.CompositionRoot
       //THEN
       rule.GetType().Should().Be<IndependentRule>();
       rule.Should().DependOn(dependingId);
+      rule.Should().DependOnTypeChain(typeof(JoinedDescribedCondition));
       rule.Should().DependOn(dependencyId);
     }
 
@@ -38,9 +39,10 @@ namespace TddXt.NScan.Specification.CompositionRoot
       var rule = ruleFactory.CreateIndependentOfPackageRule(dependingId, dependencyId);
 
       //THEN
-      rule.GetType().Should().Be<IndependentOfPackageRule>();
+      rule.GetType().Should().Be<IndependentRule>();
+      rule.Should().DependOnTypeChain(typeof(FollowingAssemblyHasPackageMatchingCondition));
       rule.Should().DependOn(dependingId);
-      rule.Should().DependOn(dependencyId);
+      //bug should it? rule.Should().DependOn(dependencyId);
     }
   }
 }

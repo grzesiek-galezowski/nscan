@@ -43,14 +43,14 @@ namespace TddXt.NScan.Specification
       };
       var searchResultFactory = Substitute.For<IProjectFoundSearchResultFactory>();
       var depending = Substitute.For<IProjectSearchResult>();
-      var condition = Substitute.For<IDependencyCondition>();
+      var condition = Substitute.For<IDescribedDependencyCondition>();
       var foundResult = Any.Instance<IProjectSearchResult>();
 
       var path = new ProjectDependencyPath(projects, searchResultFactory);
 
-      condition.Matches(project1, depending).Returns(false);
-      condition.Matches(project2, depending).Returns(true);
-      condition.Matches(project3, depending).Returns(false);
+      condition.Matches(depending, project1).Returns(false);
+      condition.Matches(depending, project2).Returns(true);
+      condition.Matches(depending, project3).Returns(false);
       searchResultFactory.ItemFound(project2, 1).Returns(foundResult);
 
       //WHEN
@@ -73,14 +73,14 @@ namespace TddXt.NScan.Specification
       };
       var searchResultFactory = Substitute.For<IProjectFoundSearchResultFactory>();
       var depending = Substitute.For<IProjectSearchResult>();
-      var condition = Substitute.For<IDependencyCondition>();
+      var condition = Substitute.For<IDescribedDependencyCondition>();
       var notFoundResult = Any.Instance<IProjectSearchResult>();
 
       var path = new ProjectDependencyPath(projects, searchResultFactory);
 
-      condition.Matches(project1, depending).Returns(false);
-      condition.Matches(project2, depending).Returns(false);
-      condition.Matches(project3, depending).Returns(false);
+      condition.Matches(depending, project1).Returns(false);
+      condition.Matches(depending, project2).Returns(false);
+      condition.Matches(depending, project3).Returns(false);
       searchResultFactory.ItemNotFound().Returns(notFoundResult);
 
       //WHEN

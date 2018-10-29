@@ -8,7 +8,7 @@ namespace TddXt.NScan
 {
   public interface IProjectDependencyPath
   {
-    IProjectSearchResult AssemblyMatching(IDependencyCondition condition,
+    IProjectSearchResult AssemblyMatching(IDescribedDependencyCondition condition,
       IProjectSearchResult depending);
 
     IProjectSearchResult AssemblyWithNameMatching(Glob.Glob glob);
@@ -31,7 +31,7 @@ namespace TddXt.NScan
     }
 
 
-    public IProjectSearchResult AssemblyMatching(IDependencyCondition condition,
+    public IProjectSearchResult AssemblyMatching(IDescribedDependencyCondition condition,
       IProjectSearchResult depending)
     {
       if (_path.Any(ProjectMeets(condition, depending)))
@@ -77,10 +77,10 @@ namespace TddXt.NScan
 
     internal static class Predicates
     {
-      internal static Func<IReferencedProject, bool> ProjectMeets(IDependencyCondition nextAssemblyMatchesCondition,
+      internal static Func<IReferencedProject, bool> ProjectMeets(IDescribedDependencyCondition nextAssemblyMatchesCondition,
         IProjectSearchResult depending)
       {
-        return project => nextAssemblyMatchesCondition.Matches(project, depending);
+        return project => nextAssemblyMatchesCondition.Matches(depending, project);
       }
 
       internal static Func<IReferencedProject, bool> AssemblyNameMatches(Glob.Glob glob)

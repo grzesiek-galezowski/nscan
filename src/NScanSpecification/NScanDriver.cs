@@ -57,9 +57,9 @@ namespace TddXt.NScan.Specification
         _analysis.IndependentOfProject(depending, dependent);
       }
 
-      foreach (var (depending, dependent) in _independentOfPackageRules)
+      foreach (var (depending, packageName) in _independentOfPackageRules)
       {
-        _analysis.IndependentOfPackage(depending, dependent);
+        _analysis.IndependentOfPackage(depending, packageName);
       }
 
       _analysis.Run();
