@@ -9,7 +9,7 @@ namespace TddXt.NScan.CompositionRoot
   public class AnalysisReportInProgress : IAnalysisReportInProgress
   {
     private readonly IProjectPathFormat _projectPathFormat;
-    private readonly Dictionary<string, HashSet<string>> _violations 
+    private readonly Dictionary<string, HashSet<string>> _violations
       = new Dictionary<string, HashSet<string>>();
     private readonly List<string> _ruleNames = new List<string>();
 
@@ -55,6 +55,7 @@ namespace TddXt.NScan.CompositionRoot
         _violations.Add(ruleDescription, new HashSet<string>());
       }
 
+      //TODO when there is a single project say project, not path
       _violations[ruleDescription].Add($"Violation in path: {_projectPathFormat.ApplyTo(violationPath)}");
     }
 

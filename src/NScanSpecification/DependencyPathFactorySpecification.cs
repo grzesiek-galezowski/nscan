@@ -14,7 +14,7 @@ namespace TddXt.NScan.Specification
       //GIVEN
       var factory = new DependencyPathFactory();
       var destination = Substitute.For<IFinalDependencyPathDestination>();
-      
+
       //WHEN
       var dependencyPathInProgress = factory.NewDependencyPathFor(destination);
 

@@ -19,7 +19,9 @@ namespace TddXt.NScan.Specification
       //GIVEN
       var dependencyAssemblyNamePattern = Any.Instance<Glob.Glob>();
       var dependingAssemblyNamePattern = Any.Instance<Glob.Glob>();
-      var condition = new JoinedDescribedCondition(dependencyAssemblyNamePattern, dependingAssemblyNamePattern, new IsFollowingAssemblyCondition(), Any.Instance<IDescribedDependencyCondition>());
+      var condition = new JoinedDescribedCondition(new IsFollowingAssemblyCondition(), Any.Instance<IDescribedDependencyCondition>(), DependencyDescriptions.IndependentOf(
+        dependingAssemblyNamePattern.Pattern,
+        dependencyAssemblyNamePattern.Pattern));
       
       //WHEN
       var description = condition.Description();

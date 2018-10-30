@@ -18,13 +18,15 @@ namespace TddXt.NScan.Specification
       //GIVEN
       var destination = Substitute.For<IFinalDependencyPathDestination>();
       var initialProjects = Any.List<IReferencedProject>();
-      var projectDependencyPathFactory = Substitute.For<IProjectDependencyPathFactory>();
+      var projectDependencyPathFactory = Substitute.For<ProjectDependencyPathFactory>();
       var newDependencyPath = Any.Instance<IProjectDependencyPath>();
       var additionalProject = Any.Instance<IReferencedProject>();
       var finalProject = Any.Instance<IReferencedProject>();
 
-      var dependencyPathInProgress = new DependencyPathInProgress(destination, 
-        projectDependencyPathFactory);
+      var dependencyPathInProgress = new DependencyPathInProgress(
+        destination,
+        projectDependencyPathFactory,
+        initialProjects);
 
       projectDependencyPathFactory.Invoke(
           Concatenated(initialProjects, additionalProject, finalProject)).Returns(newDependencyPath);
@@ -35,11 +37,13 @@ namespace TddXt.NScan.Specification
       clonedPath.FinalizeWith(finalProject);
 
       //THEN
+      projectDependencyPathFactory.Received(1).Invoke(
+            Concatenated(initialProjects, additionalProject, finalProject));
       destination.Received(1).Add(newDependencyPath);
     }
 
     private static IReadOnlyList<IReferencedProject> Concatenated(
-      List<IReferencedProject> alreadyAggregatedProjects, 
+      List<IReferencedProject> alreadyAggregatedProjects,
       params IReferencedProject[] additionalProjects)
     {
       return Arg<IReadOnlyList<IReferencedProject>>.That(

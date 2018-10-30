@@ -25,12 +25,12 @@ namespace TddXt.NScan
       return new List<IReferencedProject>();
     }
 
-    public bool ExistsAfter(IProjectSearchResult dependingProjectSearchResult)
+    public bool IsNotBefore(IProjectSearchResult dependingProjectSearchResult)
     {
       return false;
     }
 
-    public bool IsBefore(int occurenceIndex)
+    public bool IsNotAfter(int occurenceIndex)
     {
       return false;
     }

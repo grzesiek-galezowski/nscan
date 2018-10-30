@@ -11,14 +11,14 @@ namespace TddXt.NScan.App
     private readonly Dictionary<ProjectId, IReferencingProject> _referencingProjects = new Dictionary<ProjectId, IReferencingProject>();
     private readonly string _assemblyName;
     private readonly ProjectId[] _referencedProjectsIds;
-    private readonly IEnumerable<PackageReference> _packageReferences;
+    private readonly IReadOnlyList<PackageReference> _packageReferences;
     private readonly ISupport _support;
     private readonly ProjectId _id;
 
     public DotNetStandardProject(string assemblyName,
       ProjectId id,
       ProjectId[] referencedProjectsIds,
-      IEnumerable<PackageReference> packageReferences,
+      IReadOnlyList<PackageReference> packageReferences,
       ISupport support)
     {
       _assemblyName = assemblyName;
@@ -73,7 +73,7 @@ namespace TddXt.NScan.App
       ProjectId referencingProjectId,
       IReferencingProject referencingProject)
     {
-      if (_referencingProjects.ContainsKey(referencingProjectId) 
+      if (_referencingProjects.ContainsKey(referencingProjectId)
           && !_referencingProjects[referencingProjectId].Equals(referencingProject))
       {
         throw new Exception("Two distinct projects attempted to be added with the same path");
@@ -111,6 +111,11 @@ namespace TddXt.NScan.App
     public override string ToString()
     {
       return _assemblyName;
+    }
+
+    public bool HasPackageReferenceMatching(Glob.Glob packagePattern)
+    {
+      return this._packageReferences.Any(pr => packagePattern.IsMatch(pr.Name));
     }
   }
 }

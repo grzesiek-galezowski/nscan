@@ -27,8 +27,8 @@ namespace TddXt.NScan.CompositionRoot
     {
       return (new ProjectId(xmlProject.AbsolutePath), new DotNetStandardProject(
         DetermineAssemblyName(xmlProject),
-        new ProjectId(xmlProject.AbsolutePath), 
-        ProjectReferences(xmlProject).Select(MapToProjectId).ToArray(), 
+        new ProjectId(xmlProject.AbsolutePath),
+        ProjectReferences(xmlProject).Select(MapToProjectId).ToArray(),
         PackageReferences(xmlProject),
         _support));
     }
@@ -57,7 +57,8 @@ namespace TddXt.NScan.CompositionRoot
 
     public static IEnumerable<XmlProjectReference> ProjectReferences(XmlProject xmlProject)
     {
-      var xmlItemGroups = xmlProject.ItemGroups.Where(ig => ig.ProjectReferences.Any()).ToList();
+      var xmlItemGroups = xmlProject.ItemGroups
+        .Where(ig => ig.ProjectReferences != null && ig.ProjectReferences.Any()).ToList();
       if (xmlItemGroups.Any())
       {
         return xmlItemGroups.First().ProjectReferences;
@@ -66,12 +67,16 @@ namespace TddXt.NScan.CompositionRoot
       return new List<XmlProjectReference>();
     }
 
-    private IEnumerable<PackageReference> PackageReferences(XmlProject xmlProject)
+    private IReadOnlyList<PackageReference> PackageReferences(XmlProject xmlProject)
     {
-      var xmlItemGroups = xmlProject.ItemGroups.Where(ig => ig.PackageReferences.Any()).ToList();
+      var xmlItemGroups = xmlProject.ItemGroups.Where(
+        ig => ig.PackageReferences !=  null && ig.PackageReferences.Any()).ToList();
       if (xmlItemGroups.Any())
       {
-        return xmlItemGroups.First().PackageReferences.Select(r => new PackageReference(r.Include, r.Version));
+        return xmlItemGroups
+          .First()
+          .PackageReferences
+          .Select(r => new PackageReference(r.Include, r.Version)).ToList();
       }
 
       return new List<PackageReference>();

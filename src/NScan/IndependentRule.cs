@@ -21,7 +21,7 @@ namespace TddXt.NScan
       if (dependingAssembly.Exists())
       {
         var dependencyAssembly = dependencyPath.AssemblyMatching(_condition, dependingAssembly);
-        if (dependencyAssembly.ExistsAfter(dependingAssembly))
+        if (dependencyAssembly.IsNotBefore(dependingAssembly))
         {
           report.Violation(
             _condition.Description(),

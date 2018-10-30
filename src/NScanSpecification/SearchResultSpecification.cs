@@ -35,10 +35,10 @@ namespace TddXt.NScan.Specification
       var result = new ProjectFoundSearchResult(Any.Instance<IReferencedProject>(), resultOccurenceIndex);
       var anotherResult = Substitute.For<IProjectSearchResult>();
 
-      anotherResult.IsBefore(resultOccurenceIndex).Returns(true);
+      anotherResult.IsNotAfter(resultOccurenceIndex).Returns(true);
 
       //WHEN
-      var exists = result.ExistsAfter(anotherResult);
+      var exists = result.IsNotBefore(anotherResult);
 
       //THEN
       exists.Should().BeTrue();
@@ -117,8 +117,8 @@ namespace TddXt.NScan.Specification
       //THEN
       isNotItself.Should().BeFalse();
     }
-    
-    
+
+
     [Fact]
     public void ShouldBeBeforeHigherIndex()
     {
@@ -127,24 +127,26 @@ namespace TddXt.NScan.Specification
       var searchResult = new ProjectFoundSearchResult(Any.Instance<IReferencedProject>(), occurenceIndex);
 
       //WHEN
-      var isBefore = searchResult.IsBefore(occurenceIndex + 1);
+      var isBefore = searchResult.IsNotAfter(occurenceIndex + 1);
 
       //THEN
       isBefore.Should().BeTrue();
     }
 
     [Fact]
-    public void ShouldNotBeBeforeSameIndex()
+    public void ShouldSayItIsNotAfterItsIndex()
     {
       //GIVEN
       var occurenceIndex = Any.Integer();
-      var searchResult = new ProjectFoundSearchResult(Any.Instance<IReferencedProject>(), occurenceIndex);
+      var searchResult = new ProjectFoundSearchResult(
+        Any.Instance<IReferencedProject>(),
+        occurenceIndex);
 
       //WHEN
-      var isBefore = searchResult.IsBefore(occurenceIndex);
+      var isBefore = searchResult.IsNotAfter(occurenceIndex);
 
       //THEN
-      isBefore.Should().BeFalse();
+      isBefore.Should().BeTrue();
     }
   }
 }

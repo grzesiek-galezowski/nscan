@@ -1,30 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using TddXt.NScan.App;
 
 namespace TddXt.NScan
 {
-  public delegate IProjectDependencyPath IProjectDependencyPathFactory(IReadOnlyList<IReferencedProject> projects);
+  public delegate IProjectDependencyPath ProjectDependencyPathFactory(IReadOnlyList<IReferencedProject> projects);
 
   public class DependencyPathInProgress : IDependencyPathInProgress
   {
     private readonly IFinalDependencyPathDestination _destination;
     private readonly IReadOnlyList<IReferencedProject> _referencedProjects;
-    private readonly IProjectDependencyPathFactory _pathFactory;
+    private readonly ProjectDependencyPathFactory _pathFactory;
 
     public DependencyPathInProgress(
       IFinalDependencyPathDestination destination,
-      IProjectDependencyPathFactory pathFactory)
+      ProjectDependencyPathFactory pathFactory,
+      IReadOnlyList<IReferencedProject> referencedProjects)
     {
       _destination = destination;
-      _referencedProjects = new List<IReferencedProject>();
+      _referencedProjects = referencedProjects;
       _pathFactory = pathFactory;
     }
 
     public IDependencyPathInProgress CloneWith(IReferencedProject project)
     {
-      return new DependencyPathInProgress(_destination, _pathFactory);
+      return new DependencyPathInProgress(
+        _destination,
+        _pathFactory,
+        _referencedProjects.Concat(new [] {project}).ToList()
+        );
     }
 
     public void FinalizeWith(IReferencedProject finalProject)

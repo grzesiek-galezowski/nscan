@@ -55,7 +55,7 @@ namespace TddXt.NScan.Specification
       dependingAssembly.Exists().Returns(true);
 
       projectDependencyPath.AssemblyMatching(dependencyCondition, dependingAssembly).Returns(dependencyAssembly);
-      dependencyAssembly.ExistsAfter(dependingAssembly).Returns(true);
+      dependencyAssembly.IsNotBefore(dependingAssembly).Returns(true);
 
       projectDependencyPath.SegmentBetween(dependingAssembly, dependencyAssembly).Returns(violatingPathSegment);
 
@@ -89,7 +89,7 @@ namespace TddXt.NScan.Specification
       dependingAssembly.Exists().Returns(true);
 
       projectDependencyPath.AssemblyMatching(dependencyCondition, dependingAssembly).Returns(dependencyAssembly);
-      dependencyAssembly.ExistsAfter(dependingAssembly).Returns(false);
+      dependencyAssembly.IsNotBefore(dependingAssembly).Returns(false);
 
       //WHEN
       rule.Check(report, projectDependencyPath);

@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Xunit;
+using static System.Environment;
 
 namespace TddXt.NScan.Specification.Component
 {
@@ -7,7 +8,7 @@ namespace TddXt.NScan.Specification.Component
   public class IndependentOfPackageRuleFeatureSpecification
   {
     [Fact]
-    public void ShouldReportAllSatisfiedRules()
+    public void ShouldReportAllSatisfiedRules() //bug
     {
       //GIVEN
       var projectName = "A";
@@ -25,9 +26,62 @@ namespace TddXt.NScan.Specification.Component
       context.ShouldIndicateSuccess();
     }
 
+    [Fact]
+    public void ShouldReportAllUnsatisfiedRules() //bug this is direct dependency
+    {
+      //GIVEN
+      var projectName = "A";
+      var packageName = "WhateverPackage";
+      var context = new NScanDriver();
+      context.HasProject(projectName).WithPackages(packageName);
+
+      context.AddIndependentOfPackageRule(projectName, packageName);
+
+      //WHEN
+      context.PerformAnalysis();
+
+      //THEN
+      context.ReportShouldContainText(DirectFailurePackageRuleText(projectName, packageName));
+      context.ShouldIndicateFailure();
+    }
+
+    [Fact]
+    public void ShouldReportIndirectRuleBreak()
+    {
+      //GIVEN
+      var projectName = "A";
+      var projectName2 = "B";
+      var packageName = "WhateverPackage";
+      var context = new NScanDriver();
+      context.HasProject(projectName).WithReferences(projectName2);
+      context.HasProject(projectName2).WithPackages(packageName);
+
+      context.AddIndependentOfPackageRule(projectName, packageName);
+
+      //WHEN
+      context.PerformAnalysis();
+
+      //THEN
+      context.ReportShouldContainText(
+        IndirectFailurePackageRuleText(projectName, projectName2, packageName));
+      context.ShouldIndicateFailure();
+    }
+
+    private string IndirectFailurePackageRuleText(string projectName, string projectName2, string packageName)
+    {
+      return $"[{projectName}] independentOf [package:{packageName}]: [ERROR]{NewLine}" +
+             $"Violation in path: [{projectName}]->[{projectName2}]";
+    }
+
+    private string DirectFailurePackageRuleText(string projectName, string packageName)
+    {
+      return $"[{projectName}] independentOf [package:{packageName}]: [ERROR]{NewLine}" +
+             $"Violation in path: [{projectName}]";
+    }
+
     private static string SuccessPackageRuleText(string projectName, string packageName)
     {
-      return $"[{projectName}] independentOf package:[{packageName}]: [OK]";
+      return $"[{projectName}] independentOf [package:{packageName}]: [OK]";
     }
 
     //bug

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TddXt.NScan.App;
 
 namespace TddXt.NScan.CompositionRoot
@@ -9,7 +10,7 @@ namespace TddXt.NScan.CompositionRoot
     {
       return new DependencyPathInProgress(
         destination, 
-        projects => new ProjectDependencyPath(projects, new ProjectFoundSearchResultFactory()));
+        projects => new ProjectDependencyPath(projects, new ProjectFoundSearchResultFactory()), new List<IReferencedProject>());
     }
   }
 }

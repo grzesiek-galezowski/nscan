@@ -90,14 +90,30 @@ namespace TddXt.NScan.Specification
     public XmlProjectDsl(XmlProject xmlProject)
     {
       _xmlProject = xmlProject;
+      _xmlProject.ItemGroups = _xmlProject.ItemGroups ?? new List<XmlItemGroup>();
     }
 
     public void WithReferences(params string[] names)
     {
-      _xmlProject.ItemGroups = new List<XmlItemGroup>
-      {
+      _xmlProject.ItemGroups.Add(
         new XmlItemGroup() {ProjectReferences = ProjectReferencesFrom(names)}
-      };
+      );
+    }
+
+    public void WithPackages(params string[] packageNames)
+    {
+      _xmlProject.ItemGroups.Add(
+        new XmlItemGroup() {PackageReferences = PackageReferencesFrom(packageNames)}
+      );
+    }
+
+    private IReadOnlyList<XmlPackageReference> PackageReferencesFrom(string[] packageNames)
+    {
+      return packageNames.Select(name => new XmlPackageReference()
+      {
+        Include = name,
+        Version = "0.0.0"
+      }).ToList();
     }
 
     private static List<XmlProjectReference> ProjectReferencesFrom(string[] names)
@@ -107,5 +123,7 @@ namespace TddXt.NScan.Specification
         Include = NScanDriver.AbsolutePathFor(n)
       }).ToList();
     }
+
+
   }
 }

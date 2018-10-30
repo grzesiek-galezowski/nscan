@@ -14,35 +14,32 @@ namespace TddXt.NScan
 
   public class JoinedDescribedCondition : IDescribedDependencyCondition
   {
-    private readonly Glob.Glob _dependencyAssemblyNamePattern;
-    private readonly Glob.Glob _dependingAssemblyNamePattern;
     private readonly IDependencyCondition _condition1;
     private readonly IDependencyCondition _condition2;
+    private readonly string _conditionDescription;
 
     public JoinedDescribedCondition(
-      Glob.Glob dependencyAssemblyNamePattern,
-      Glob.Glob dependingAssemblyNamePattern,
       IDependencyCondition condition1,
-      IDependencyCondition condition2)
+      IDependencyCondition condition2,
+      string conditionDescription)
     {
-      _dependencyAssemblyNamePattern = dependencyAssemblyNamePattern;
-      _dependingAssemblyNamePattern = dependingAssemblyNamePattern;
       _condition1 = condition1;
       _condition2 = condition2;
+      _conditionDescription = conditionDescription;
     }
 
     public bool Matches(IProjectSearchResult depending, IReferencedProject dependency)
     {
-      return _condition1.Matches(depending, dependency)
-             && _condition2
-               .Matches(depending, dependency);
+      if (_condition1.Matches(depending, dependency))
+      {
+        return _condition2.Matches(depending, dependency);
+      }
+      return false;
     }
 
     public string Description()
     {
-      return DependencyDescriptions.IndependentOf(
-        _dependingAssemblyNamePattern.Pattern, 
-        _dependencyAssemblyNamePattern.Pattern);
+      return _conditionDescription;
     }
   }
 }

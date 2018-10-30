@@ -252,6 +252,40 @@ namespace TddXt.NScan.Specification.App
       stringRepresentation.Should().Be(assemblyName);
     }
 
+    [Fact]
+    public void ShouldSayWhenItHasPackageReference()
+    {
+      //GIVEN
+      var packageReference = Any.String();
+      var project = new DotNetStandardProjectBuilder()
+      {
+        PackageReferences = new List<PackageReference>()
+        {
+          new PackageReference(packageReference, Any.String())
+        }
+      }.Build();
+
+      //WHEN
+      var result = project.HasPackageReferenceMatching(new Glob.Glob(packageReference));
+
+      //THEN
+      result.Should().BeTrue();
+    }
+
+    [Fact]
+    public void ShouldSayWhenItDoesNotHavePackageReference()
+    {
+      //GIVEN
+      var packageReference = Any.String();
+      var project = new DotNetStandardProjectBuilder().Build();
+
+      //WHEN
+      var result = project.HasPackageReferenceMatching(new Glob.Glob(packageReference));
+
+      //THEN
+      result.Should().Be(result);
+    }
+
     private class DotNetStandardProjectBuilder
     {
       public DotNetStandardProject Build()
@@ -259,7 +293,7 @@ namespace TddXt.NScan.Specification.App
         return new DotNetStandardProject(AssemblyName, ProjectId, ReferencedProjectIds, this.PackageReferences, Support);
       }
 
-      public IEnumerable<PackageReference> PackageReferences { private get; set; } = Any.Enumerable<PackageReference>();
+      public IReadOnlyList<PackageReference> PackageReferences { private get; set; } = Any.ReadOnlyList<PackageReference>();
 
       public ProjectId[] ReferencedProjectIds { private get; set; } = Any.Array<ProjectId>();
 

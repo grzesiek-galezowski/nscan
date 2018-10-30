@@ -9,7 +9,7 @@ namespace TddXt.NScan.CompositionRoot
     public string ApplyTo(IReadOnlyList<IReferencedProject> violationPath)
     {
       return violationPath.Skip(1).Aggregate(
-        "[" + violationPath.First().ToString() + "]", 
+        "[" + violationPath.First().ToString() + "]",
         (total, current) => total + "->" + "[" + current.ToString() + "]");
     }
   }

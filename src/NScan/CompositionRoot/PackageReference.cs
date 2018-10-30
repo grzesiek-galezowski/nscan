@@ -8,7 +8,7 @@ namespace TddXt.NScan.CompositionRoot
     {
       if (ReferenceEquals(null, other)) return false;
       if (ReferenceEquals(this, other)) return true;
-      return string.Equals(_name, other._name) && string.Equals(_version, other._version);
+      return string.Equals(Name, other.Name) && string.Equals(_version, other._version);
     }
 
     public override bool Equals(object obj)
@@ -23,7 +23,7 @@ namespace TddXt.NScan.CompositionRoot
     {
       unchecked
       {
-        return (_name.GetHashCode() * 397) ^ _version.GetHashCode();
+        return (Name.GetHashCode() * 397) ^ _version.GetHashCode();
       }
     }
 
@@ -37,12 +37,12 @@ namespace TddXt.NScan.CompositionRoot
       return !Equals(left, right);
     }
 
-    private readonly string _name;
+    public string Name { get; }
     private readonly string _version;
 
     public PackageReference(string name, string version)
     {
-      _name = name;
+      Name = name;
       _version = version;
     }
   }

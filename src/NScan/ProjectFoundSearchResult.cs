@@ -32,14 +32,14 @@ namespace TddXt.NScan
       return !_foundProject.Equals(e);
     }
 
-    public bool ExistsAfter(IProjectSearchResult dependingProjectSearchResult)
+    public bool IsNotBefore(IProjectSearchResult dependingProjectSearchResult)
     {
-      return dependingProjectSearchResult.IsBefore(this._occurenceIndex);
+      return dependingProjectSearchResult.IsNotAfter(_occurenceIndex);
     }
 
-    public bool IsBefore(int occurenceIndex)
+    public bool IsNotAfter(int occurenceIndex)
     {
-      return occurenceIndex > _occurenceIndex;
+      return occurenceIndex >= _occurenceIndex;
     }
   }
 }

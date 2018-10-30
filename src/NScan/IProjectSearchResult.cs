@@ -9,7 +9,7 @@ namespace TddXt.NScan
     IReadOnlyList<IReferencedProject> SegmentEndingWith(IProjectSearchResult terminator, IEnumerable<IReferencedProject> path);
     bool IsNot(IReferencedProject e);
     IReadOnlyList<IReferencedProject> TerminatedSegmentStartingFrom(int index, IEnumerable<IReferencedProject> path);
-    bool ExistsAfter(IProjectSearchResult dependingProjectSearchResult);
-    bool IsBefore(int occurenceIndex);
+    bool IsNotBefore(IProjectSearchResult dependingProjectSearchResult);
+    bool IsNotAfter(int occurenceIndex);
   }
 }

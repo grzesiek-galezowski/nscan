@@ -40,7 +40,7 @@ namespace TddXt.NScan.Specification.CompositionRoot
 
       //THEN
       rule.GetType().Should().Be<IndependentRule>();
-      rule.Should().DependOnTypeChain(typeof(FollowingAssemblyHasPackageMatchingCondition));
+      rule.Should().DependOnTypeChain(typeof(HasPackageReferenceMatchingCondition));
       rule.Should().DependOn(dependingId);
       //bug should it? rule.Should().DependOn(dependencyId);
     }

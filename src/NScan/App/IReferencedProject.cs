@@ -1,4 +1,6 @@
-﻿namespace TddXt.NScan.App
+﻿
+
+namespace TddXt.NScan.App
 {
   public interface IReferencedProject
   {
@@ -9,5 +11,6 @@
     bool HasAssemblyNameMatching(Glob.Glob glob);
 
     string ToString();
+    bool HasPackageReferenceMatching(Glob.Glob packagePattern);
   }
 }
