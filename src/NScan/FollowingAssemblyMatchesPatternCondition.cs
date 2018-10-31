@@ -1,12 +1,13 @@
+using GlobExpressions;
 using TddXt.NScan.App;
 
 namespace TddXt.NScan
 {
   public class FollowingAssemblyMatchesPatternCondition : IDependencyCondition
   {
-    private readonly Glob.Glob _dependencyAssemblyNamePattern;
+    private readonly Glob _dependencyAssemblyNamePattern;
 
-    public FollowingAssemblyMatchesPatternCondition(Glob.Glob dependencyAssemblyNamePattern)
+    public FollowingAssemblyMatchesPatternCondition(Glob dependencyAssemblyNamePattern)
     {
       _dependencyAssemblyNamePattern = dependencyAssemblyNamePattern;
     }

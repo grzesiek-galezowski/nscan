@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
+using GlobExpressions;
 using NSubstitute;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
@@ -20,7 +21,7 @@ namespace TddXt.NScan.Specification
     {
       //GIVEN
       var dependencyCondition = Substitute.For<IDescribedDependencyCondition>();
-      var dependingAssemblyNamePattern = Any.Instance<Glob.Glob>();
+      var dependingAssemblyNamePattern = Any.Instance<Glob>();
       var rule = new IndependentRule(dependencyCondition, dependingAssemblyNamePattern);
       var report = Substitute.For<IAnalysisReportInProgress>();
       var projectDependencyPath = Substitute.For<IProjectDependencyPath>();
@@ -41,7 +42,7 @@ namespace TddXt.NScan.Specification
       //GIVEN
       var dependencyCondition = Substitute.For<IDescribedDependencyCondition>();
       var conditionDescription = Any.String();
-      var dependingAssemblyNamePattern = Any.Instance<Glob.Glob>();
+      var dependingAssemblyNamePattern = Any.Instance<Glob>();
       var rule = new IndependentRule(dependencyCondition, dependingAssemblyNamePattern);
       var report = Substitute.For<IAnalysisReportInProgress>();
       var projectDependencyPath = Substitute.For<IProjectDependencyPath>();
@@ -76,7 +77,7 @@ namespace TddXt.NScan.Specification
       //GIVEN
       var dependencyCondition = Substitute.For<IDescribedDependencyCondition>();
       var conditionDescription = Any.String();
-      var dependingAssemblyNamePattern = Any.Instance<Glob.Glob>();
+      var dependingAssemblyNamePattern = Any.Instance<Glob>();
       var rule = new IndependentRule(dependencyCondition, dependingAssemblyNamePattern);
       var report = Substitute.For<IAnalysisReportInProgress>();
       var projectDependencyPath = Substitute.For<IProjectDependencyPath>();

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using FluentAssertions;
+using GlobExpressions;
 using NSubstitute;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
@@ -192,7 +193,7 @@ namespace TddXt.NScan.Specification.App
       }.Build();
 
       //WHEN
-      var hasProject = project.HasAssemblyNameMatching(new Glob.Glob(assemblyName));
+      var hasProject = project.HasAssemblyNameMatching(new Glob(assemblyName));
 
       //THEN
       hasProject.Should().BeTrue();
@@ -211,7 +212,7 @@ namespace TddXt.NScan.Specification.App
 
       //WHEN
       string assemblyNamePattern = "*." + assemblySuffix;
-      var hasProject = project.HasAssemblyNameMatching(new Glob.Glob(assemblyNamePattern));
+      var hasProject = project.HasAssemblyNameMatching(new Glob(assemblyNamePattern));
 
       //THEN
       hasProject.Should().BeTrue();
@@ -228,7 +229,7 @@ namespace TddXt.NScan.Specification.App
       }.Build();
 
       //WHEN
-      var hasProject = project.HasAssemblyNameMatching(new Glob.Glob(searchedAssemblyName));
+      var hasProject = project.HasAssemblyNameMatching(new Glob(searchedAssemblyName));
 
       //THEN
       hasProject.Should().BeFalse();
@@ -266,7 +267,7 @@ namespace TddXt.NScan.Specification.App
       }.Build();
 
       //WHEN
-      var result = project.HasPackageReferenceMatching(new Glob.Glob(packageReference));
+      var result = project.HasPackageReferenceMatching(new Glob(packageReference));
 
       //THEN
       result.Should().BeTrue();
@@ -280,7 +281,7 @@ namespace TddXt.NScan.Specification.App
       var project = new DotNetStandardProjectBuilder().Build();
 
       //WHEN
-      var result = project.HasPackageReferenceMatching(new Glob.Glob(packageReference));
+      var result = project.HasPackageReferenceMatching(new Glob(packageReference));
 
       //THEN
       result.Should().Be(result);

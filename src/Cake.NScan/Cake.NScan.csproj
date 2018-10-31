@@ -10,7 +10,7 @@
   <ItemGroup>
     <PackageReference Include="Buildalyzer" Version="2.1.0" />
     <PackageReference Include="Cake.Core" Version="0.30.0" />
-    <PackageReference Include="Glob" Version="0.4.0" />
+    <PackageReference Include="Glob" Version="1.0.4" />
     <PackageReference Include="Sprache" Version="2.2.0" />
   </ItemGroup>
 

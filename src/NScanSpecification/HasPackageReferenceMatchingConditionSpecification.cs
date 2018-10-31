@@ -1,5 +1,6 @@
 ﻿using System;
 using FluentAssertions;
+using GlobExpressions;
 using NSubstitute;
 using TddXt.AnyRoot;
 using TddXt.NScan.App;
@@ -16,7 +17,7 @@ namespace TddXt.NScan.Specification
     public void ShouldMatchDependingOnWhetherTheDependencyHasMatchingPackageReference()
     {
       //GIVEN
-      var packagePattern = Any.Instance<Glob.Glob>();
+      var packagePattern = Any.Instance<Glob>();
       var condition = new HasPackageReferenceMatchingCondition(packagePattern);
       var depending = Any.Instance<IProjectSearchResult>();
       var dependency = Substitute.For<IReferencedProject>();

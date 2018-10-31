@@ -1,5 +1,7 @@
 ﻿
 
+using GlobExpressions;
+
 namespace TddXt.NScan.App
 {
   public interface IReferencedProject
@@ -8,9 +10,9 @@ namespace TddXt.NScan.App
     void AddReferencingProject(ProjectId projectId, IReferencingProject referencingProject);
     void ResolveAsReferenceOf(IReferencingProject project);
     void FillAllBranchesOf(IDependencyPathInProgress dependencyPathInProgress);
-    bool HasAssemblyNameMatching(Glob.Glob glob);
+    bool HasAssemblyNameMatching(Glob glob);
 
     string ToString();
-    bool HasPackageReferenceMatching(Glob.Glob packagePattern);
+    bool HasPackageReferenceMatching(Glob packagePattern);
   }
 }

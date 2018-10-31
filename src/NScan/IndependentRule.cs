@@ -1,4 +1,5 @@
 ﻿using System;
+using GlobExpressions;
 using TddXt.NScan.App;
 
 namespace TddXt.NScan
@@ -6,9 +7,9 @@ namespace TddXt.NScan
   public class IndependentRule : IDependencyRule
   {
     private readonly IDescribedDependencyCondition _condition;
-    private readonly Glob.Glob _dependingAssemblyNamePattern;
+    private readonly Glob _dependingAssemblyNamePattern;
 
-    public IndependentRule(IDescribedDependencyCondition dependencyCondition, Glob.Glob dependingAssemblyNamePattern)
+    public IndependentRule(IDescribedDependencyCondition dependencyCondition, Glob dependingAssemblyNamePattern)
     {
       _condition = dependencyCondition;
       _dependingAssemblyNamePattern = dependingAssemblyNamePattern;

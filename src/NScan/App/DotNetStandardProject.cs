@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GlobExpressions;
 using TddXt.NScan.CompositionRoot;
 
 namespace TddXt.NScan.App
@@ -101,7 +102,7 @@ namespace TddXt.NScan.App
 
     }
 
-    public bool HasAssemblyNameMatching(Glob.Glob glob) => glob.IsMatch(_assemblyName);
+    public bool HasAssemblyNameMatching(Glob glob) => glob.IsMatch(_assemblyName);
 
     public void ResolveAsReferenceOf(IReferencingProject project)
     {
@@ -113,7 +114,7 @@ namespace TddXt.NScan.App
       return _assemblyName;
     }
 
-    public bool HasPackageReferenceMatching(Glob.Glob packagePattern)
+    public bool HasPackageReferenceMatching(Glob packagePattern)
     {
       return this._packageReferences.Any(pr => packagePattern.IsMatch(pr.Name));
     }

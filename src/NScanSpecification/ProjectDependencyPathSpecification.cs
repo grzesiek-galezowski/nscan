@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
+using GlobExpressions;
 using NSubstitute;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
@@ -94,7 +95,7 @@ namespace TddXt.NScan.Specification
     public void ShouldReturnResultWithFoundProjectAndItsIndexWhenTheProjectMatchesNamePattern()
     {
       //GIVEN
-      var pattern = Any.Instance<Glob.Glob>();
+      var pattern = Any.Instance<Glob>();
       var project1 = Substitute.For<IReferencedProject>();
       var project2 = Substitute.For<IReferencedProject>();
       var project3 = Substitute.For<IReferencedProject>();
@@ -123,7 +124,7 @@ namespace TddXt.NScan.Specification
     public void ShouldReturnNotFoundResultWhenNoneOfTheProjectsMatchNamePattern()
     {
       //GIVEN
-      var pattern = Any.Instance<Glob.Glob>();
+      var pattern = Any.Instance<Glob>();
       var project1 = Substitute.For<IReferencedProject>();
       var project2 = Substitute.For<IReferencedProject>();
       var project3 = Substitute.For<IReferencedProject>();

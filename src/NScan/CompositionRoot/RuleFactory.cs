@@ -1,4 +1,5 @@
-using Glob;
+
+using GlobExpressions;
 
 namespace TddXt.NScan.CompositionRoot
 {
@@ -6,8 +7,8 @@ namespace TddXt.NScan.CompositionRoot
   {
     public IDependencyRule CreateIndependentOfProjectRule(string dependingPattern, string dependencyPattern)
     {
-      var dependencyAssemblyNamePattern = new Glob.Glob(dependencyPattern);
-      var dependingAssemblyNamePattern = new Glob.Glob(dependingPattern);
+      var dependencyAssemblyNamePattern = new Glob(dependencyPattern);
+      var dependingAssemblyNamePattern = new Glob(dependingPattern);
 
       return new IndependentRule(
         new JoinedDescribedCondition(new IsFollowingAssemblyCondition(),
@@ -21,8 +22,8 @@ namespace TddXt.NScan.CompositionRoot
 
     public IDependencyRule CreateIndependentOfPackageRule(string dependingPattern, string packageNamePattern)
     {
-      var dependingPatternGlob = new Glob.Glob(dependingPattern);
-      var packagePatternGlob = new Glob.Glob(packageNamePattern);
+      var dependingPatternGlob = new Glob(dependingPattern);
+      var packagePatternGlob = new Glob(packageNamePattern);
       return new IndependentRule(
         new DescribedCondition(
           new HasPackageReferenceMatchingCondition(packagePatternGlob),
