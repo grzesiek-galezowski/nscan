@@ -22,11 +22,11 @@ var netcoreapp21 = new Framework("netcoreapp2.1");
 var solutionName = "NScan.sln";
 var mainDll = "TddXt.NScan.dll";
 var nscanConsoleTitle = "NScan.Console";
-var nscanConsoleVersion = "0.1.0";
+var nscanConsoleVersion = "0.2.0";
 var nscanTitle = "NScan";
-var nscanVersion = "0.1.0";
+var nscanVersion = "0.2.0";
 var cakeNscanTitle = "Cake.NScan";
-var cakeNscanVersion = "0.1.1";
+var cakeNscanVersion = "0.2.0";
 
 
 //////////////////////////////////////////////////////////////////////
