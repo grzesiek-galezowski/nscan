@@ -150,7 +150,7 @@ Task("PackNScan")
           title: nscanTitle,
           version: nscanVersion,
           summary: "A utility for enforcing project dependency conventions.",
-          releaseNotes: "Initial version",
+          releaseNotes: "Added support for package references",
           files: new [] 
             {
                 new NuSpecContent {Source = @".\publish\nscan\netstandard2.0\*NScan*", Exclude=@"**\*.json;**\*.config", Target = @"lib\netstandard2.0"},
@@ -174,7 +174,7 @@ Task("PackNScanConsole")
           title: nscanConsoleTitle,
           version: nscanConsoleVersion,
           summary: "A utility for enforcing project dependency conventions - console runner.",
-          releaseNotes: "Initial version",
+          releaseNotes: "Added support for package references",
           files: new [] 
             {
                 new NuSpecContent {Source = @".\publish\nscan.console\netcoreapp2.1\*NScan*", Exclude=@"**\*.json;**\*.config", Target = @"lib\netcoreapp2.1"},
@@ -199,7 +199,7 @@ Task("PackNScanConsole")
           title: cakeNscanTitle,
           version: cakeNscanVersion,
           summary: "A utility for enforcing project dependency conventions - cake plugin.",
-          releaseNotes: "Initial version",
+          releaseNotes: "Added support for package references",
           files: new [] 
             {
                 new NuSpecContent {Source = @".\publish\cake.nscan\netstandard2.0\*NScan*", Exclude=@"**\*.json;**\*.config", Target = @"lib\netstandard2.0"},
