@@ -10,5 +10,7 @@ namespace TddXt.NScan.Xml
     public List<XmlPackageReference> PackageReferences { get; set; }
     [XmlElement(ElementName = "ProjectReference")]
     public List<XmlProjectReference> ProjectReferences { get; set; }
+    [XmlElement(ElementName = "Reference")]
+    public List<XmlAssemblyReference> AssemblyReferences { get; set; }
   }
 }

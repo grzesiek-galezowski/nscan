@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
+using GlobExpressions;
 using TddXt.NScan.App;
 using TddXt.NScan.CompositionRoot;
 using TddXt.NScan.Xml;
@@ -54,12 +55,12 @@ namespace TddXt.NScan.Specification
 
       foreach (var (depending, dependent) in _independentOfProjectRules)
       {
-        _analysis.IndependentOfProject(depending, dependent);
+        _analysis.IndependentOfProject(new Glob(depending), new Glob(dependent));
       }
 
       foreach (var (depending, packageName) in _independentOfPackageRules)
       {
-        _analysis.IndependentOfPackage(depending, packageName);
+        _analysis.IndependentOfPackage(new Glob(depending), new Glob(packageName));
       }
 
       _analysis.Run();

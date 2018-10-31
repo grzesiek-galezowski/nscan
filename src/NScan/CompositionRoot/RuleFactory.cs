@@ -5,10 +5,10 @@ namespace TddXt.NScan.CompositionRoot
 {
   public class RuleFactory : IRuleFactory
   {
-    public IDependencyRule CreateIndependentOfProjectRule(string dependingPattern, string dependencyPattern)
+    public IDependencyRule CreateIndependentOfProjectRule(Glob dependingNamePattern, Glob dependencyNamePattern)
     {
-      var dependencyAssemblyNamePattern = new Glob(dependencyPattern);
-      var dependingAssemblyNamePattern = new Glob(dependingPattern);
+      var dependencyAssemblyNamePattern = dependencyNamePattern;
+      var dependingAssemblyNamePattern = dependingNamePattern;
 
       return new IndependentRule(
         new JoinedDescribedCondition(new IsFollowingAssemblyCondition(),
@@ -20,16 +20,14 @@ namespace TddXt.NScan.CompositionRoot
         dependingAssemblyNamePattern);
     }
 
-    public IDependencyRule CreateIndependentOfPackageRule(string dependingPattern, string packageNamePattern)
+    public IDependencyRule CreateIndependentOfPackageRule(Glob dependingNamePattern, Glob packageNamePattern)
     {
-      var dependingPatternGlob = new Glob(dependingPattern);
-      var packagePatternGlob = new Glob(packageNamePattern);
       return new IndependentRule(
         new DescribedCondition(
-          new HasPackageReferenceMatchingCondition(packagePatternGlob),
+          new HasPackageReferenceMatchingCondition(packageNamePattern),
           DependencyDescriptions.IndependentOf(
-            dependingPatternGlob.Pattern,
-            "package:" + packagePatternGlob.Pattern)), dependingPatternGlob);
+            dependingNamePattern.Pattern,
+            "package:" + packageNamePattern.Pattern)), dependingNamePattern);
     }
   }
 }

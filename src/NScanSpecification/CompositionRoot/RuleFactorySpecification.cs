@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using GlobExpressions;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.CompositionRoot;
 using TddXt.XFluentAssert.Root;
@@ -18,7 +19,7 @@ namespace TddXt.NScan.Specification.CompositionRoot
       //WHEN
       var dependingId = Any.String();
       var dependencyId = Any.String();
-      var rule = ruleFactory.CreateIndependentOfProjectRule(dependingId, dependencyId);
+      var rule = ruleFactory.CreateIndependentOfProjectRule(new Glob(dependingId), new Glob(dependencyId));
 
       //THEN
       rule.GetType().Should().Be<IndependentRule>();
@@ -36,13 +37,13 @@ namespace TddXt.NScan.Specification.CompositionRoot
       //WHEN
       var dependingId = Any.String();
       var dependencyId = Any.String();
-      var rule = ruleFactory.CreateIndependentOfPackageRule(dependingId, dependencyId);
+      var rule = ruleFactory.CreateIndependentOfPackageRule(new Glob(dependingId), new Glob(dependencyId));
 
       //THEN
       rule.GetType().Should().Be<IndependentRule>();
       rule.Should().DependOnTypeChain(typeof(HasPackageReferenceMatchingCondition));
       rule.Should().DependOn(dependingId);
-      //bug should it? rule.Should().DependOn(dependencyId);
+      rule.Should().DependOn(dependencyId);
     }
   }
 }

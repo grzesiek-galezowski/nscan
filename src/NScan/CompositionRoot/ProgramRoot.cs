@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using GlobExpressions;
 using Sprache;
 using TddXt.NScan.App;
 
@@ -22,15 +23,11 @@ namespace TddXt.NScan.CompositionRoot
       {
         if (ruleDto.DependencyType == "project")
         {
-          analysis.IndependentOfProject(
-            ruleDto.DependingPattern,
-            ruleDto.DependencyPattern);
+          analysis.IndependentOfProject(ruleDto.DependingPattern, ruleDto.DependencyPattern);
         }
         else if (ruleDto.DependencyType == "package")
         {
-          analysis.IndependentOfPackage(
-            ruleDto.DependingPattern,
-            ruleDto.DependencyPattern);
+          analysis.IndependentOfPackage(ruleDto.DependingPattern, ruleDto.DependencyPattern);
         }
       }
 
@@ -47,9 +44,9 @@ namespace TddXt.NScan.CompositionRoot
         from dependency in Parse.AnyChar.Until(Parse.LineEnd).Text()
         select new RuleDto
         {
-          DependingPattern = depending,
+          DependingPattern = new Glob(depending),
           RuleName = ruleName,
-          DependencyPattern = dependency,
+          DependencyPattern = new Glob(dependency),
           DependencyType = dependencyType
         };
     }

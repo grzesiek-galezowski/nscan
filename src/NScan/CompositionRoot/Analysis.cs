@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using GlobExpressions;
 using TddXt.NScan.App;
 using TddXt.NScan.Xml;
 
@@ -45,15 +46,15 @@ namespace TddXt.NScan.CompositionRoot
         new RuleFactory());
     }
 
-    public void IndependentOfProject(string depending, string dependent)
+    public void IndependentOfProject(Glob dependingNamePattern, Glob dependencyNamePattern)
     {
-      _pathRules.Add(_ruleFactory.CreateIndependentOfProjectRule(depending, dependent));
+      _pathRules.Add(_ruleFactory.CreateIndependentOfProjectRule(dependingNamePattern, dependencyNamePattern));
     }
 
 
-    public void IndependentOfPackage(string depending, string packageName)
+    public void IndependentOfPackage(Glob dependingNamePattern, Glob packageNamePattern)
     {
-      _pathRules.Add(_ruleFactory.CreateIndependentOfPackageRule(depending, packageName));
+      _pathRules.Add(_ruleFactory.CreateIndependentOfPackageRule(dependingNamePattern, packageNamePattern));
     }
   }
 }

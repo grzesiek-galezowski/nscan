@@ -1,5 +1,7 @@
 ﻿using FluentAssertions;
+using GlobExpressions;
 using NSubstitute;
+using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.App;
 using TddXt.NScan.CompositionRoot;
@@ -43,17 +45,17 @@ namespace TddXt.NScan.Specification
       var pathRuleSet = Substitute.For<IPathRuleSet>();
       var ruleFactory = Substitute.For<IRuleFactory>();
       var rule = Any.Instance<IDependencyRule>();
+      var dependingNamePattern = Any.Instance<Glob>();
+      var dependencyNamePattern = Any.Instance<Glob>();
       var analysis = new Analysis(
         Any.Instance<ISolution>(), 
         pathRuleSet, 
         Any.Instance<IAnalysisReportInProgress>(), ruleFactory);
-      var dependingId = Any.String();
-      var dependencyId = Any.String();
 
-      ruleFactory.CreateIndependentOfProjectRule(dependingId, dependencyId).Returns(rule);
+      ruleFactory.CreateIndependentOfProjectRule(dependingNamePattern, dependencyNamePattern).Returns(rule);
 
       //WHEN
-      analysis.IndependentOfProject(dependingId, dependencyId);
+      analysis.IndependentOfProject(dependingNamePattern, dependencyNamePattern);
 
       //THEN
       pathRuleSet.Received(1).Add(rule);
@@ -70,13 +72,13 @@ namespace TddXt.NScan.Specification
         Any.Instance<ISolution>(),
         pathRuleSet,
         Any.Instance<IAnalysisReportInProgress>(), ruleFactory);
-      var dependingId = Any.String();
-      var dependencyId = Any.String();
+      var dependingNamePattern = Any.Instance<Glob>();
+      var packageNamePattern = Any.Instance<Glob>();
 
-      ruleFactory.CreateIndependentOfPackageRule(dependingId, dependencyId).Returns(rule);
+      ruleFactory.CreateIndependentOfPackageRule(dependingNamePattern, packageNamePattern).Returns(rule);
 
       //WHEN
-      analysis.IndependentOfPackage(dependingId, dependencyId);
+      analysis.IndependentOfPackage(dependingNamePattern, packageNamePattern);
 
       //THEN
       pathRuleSet.Received(1).Add(rule);

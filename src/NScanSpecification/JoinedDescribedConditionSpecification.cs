@@ -12,8 +12,6 @@ namespace TddXt.NScan.Specification
   public class JoinedDescribedConditionSpecification
   {
     
-    //bug rewrite UTs
-
     [Fact]
     public void ShouldReturnsMatchBasedOnInnerConditionsMatchLogicalProduct()
     {
