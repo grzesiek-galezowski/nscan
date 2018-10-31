@@ -20,9 +20,18 @@ namespace TddXt.NScan.CompositionRoot
       var analysis = Analysis.PrepareFor(xmlProjects, consoleSupport);
       foreach (var ruleDto in ruleDtos)
       {
-        analysis.IndependentOfProject(
-          ruleDto.DependingPattern,
-          ruleDto.DependencyPattern);
+        if (ruleDto.DependencyType == "project")
+        {
+          analysis.IndependentOfProject(
+            ruleDto.DependingPattern,
+            ruleDto.DependencyPattern);
+        }
+        else if (ruleDto.DependencyType == "package")
+        {
+          analysis.IndependentOfPackage(
+            ruleDto.DependingPattern,
+            ruleDto.DependencyPattern);
+        }
       }
 
       analysis.Run();
@@ -34,12 +43,14 @@ namespace TddXt.NScan.CompositionRoot
     {
       return from depending in Parse.AnyChar.Until(Parse.WhiteSpace).Text()
         from ruleName in Parse.AnyChar.Until(Parse.WhiteSpace).Text()
+        from dependencyType in Parse.AnyChar.Until(Parse.Char(':')).Text()
         from dependency in Parse.AnyChar.Until(Parse.LineEnd).Text()
         select new RuleDto
         {
           DependingPattern = depending,
           RuleName = ruleName,
           DependencyPattern = dependency,
+          DependencyType = dependencyType
         };
     }
   }

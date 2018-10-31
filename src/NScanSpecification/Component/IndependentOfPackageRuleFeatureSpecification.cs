@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using TddXt.AnyRoot.Strings;
 using Xunit;
 using static System.Environment;
+using static TddXt.AnyRoot.Root;
 
 namespace TddXt.NScan.Specification.Component
 {
@@ -8,11 +10,11 @@ namespace TddXt.NScan.Specification.Component
   public class IndependentOfPackageRuleFeatureSpecification
   {
     [Fact]
-    public void ShouldReportAllSatisfiedRules() //bug
+    public void ShouldReportSuccessWhenNoProjectHasSpecifiedPackageReference()
     {
       //GIVEN
-      var projectName = "A";
-      var packageName = "WhateverPackage";
+      var projectName = Any.String(); 
+      var packageName = Any.String();
       var context = new NScanDriver();
       context.HasProject(projectName);
 
@@ -27,11 +29,11 @@ namespace TddXt.NScan.Specification.Component
     }
 
     [Fact]
-    public void ShouldReportAllUnsatisfiedRules() //bug this is direct dependency
+    public void ShouldReportFailureWhenProjectsHasSpecifiedPackageReferenceDirectly()
     {
       //GIVEN
-      var projectName = "A";
-      var packageName = "WhateverPackage";
+      var projectName = Any.String();
+      var packageName = Any.String();
       var context = new NScanDriver();
       context.HasProject(projectName).WithPackages(packageName);
 
@@ -49,9 +51,9 @@ namespace TddXt.NScan.Specification.Component
     public void ShouldReportIndirectRuleBreak()
     {
       //GIVEN
-      var projectName = "A";
-      var projectName2 = "B";
-      var packageName = "WhateverPackage";
+      var projectName = Any.String();
+      var projectName2 = Any.String();
+      var packageName = Any.String();
       var context = new NScanDriver();
       context.HasProject(projectName).WithReferences(projectName2);
       context.HasProject(projectName2).WithPackages(packageName);

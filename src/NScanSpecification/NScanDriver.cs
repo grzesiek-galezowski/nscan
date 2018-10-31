@@ -68,7 +68,6 @@ namespace TddXt.NScan.Specification
     public void ReportShouldContainText(string expected)
     {
       _analysis.Report.Should().Contain(expected);
-      //todo what bout return code?
     }
 
     public void ShouldIndicateSuccess()
@@ -107,7 +106,7 @@ namespace TddXt.NScan.Specification
       );
     }
 
-    private IReadOnlyList<XmlPackageReference> PackageReferencesFrom(string[] packageNames)
+    private List<XmlPackageReference> PackageReferencesFrom(string[] packageNames)
     {
       return packageNames.Select(name => new XmlPackageReference()
       {

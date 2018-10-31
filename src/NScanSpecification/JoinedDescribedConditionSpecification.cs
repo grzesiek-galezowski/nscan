@@ -1,6 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using NSubstitute;
+using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.App;
 using Xunit;
@@ -14,23 +15,43 @@ namespace TddXt.NScan.Specification
     //bug rewrite UTs
 
     [Fact]
-    public void ShouldHaveADescription()
+    public void ShouldReturnsMatchBasedOnInnerConditionsMatchLogicalProduct()
     {
       //GIVEN
-      var dependencyAssemblyNamePattern = Any.Instance<Glob.Glob>();
-      var dependingAssemblyNamePattern = Any.Instance<Glob.Glob>();
-      var condition = new JoinedDescribedCondition(new IsFollowingAssemblyCondition(), Any.Instance<IDescribedDependencyCondition>(), DependencyDescriptions.IndependentOf(
-        dependingAssemblyNamePattern.Pattern,
-        dependencyAssemblyNamePattern.Pattern));
+      var condition1 = Substitute.For<IDependencyCondition>();
+      var condition2 = Substitute.For<IDependencyCondition>();
+      var depending = Any.Instance<IProjectSearchResult>();
+      var dependency = Any.Instance<IReferencedProject>();
+      var condition1Result = Any.Boolean();
+      var condition2Result = Any.Boolean();
+
+      var joinedCondition = new JoinedDescribedCondition(condition1, condition2, Any.String());
+      
+      condition1.Matches(depending, dependency).Returns(condition1Result);
+      condition2.Matches(depending, dependency).Returns(condition2Result);
+      
+      //WHEN
+      var matches = joinedCondition.Matches(depending, dependency);
+
+      //THEN
+      matches.Should().Be(condition1Result && condition2Result);
+    }
+
+    [Fact]
+    public void ShouldReturnsADescriptionItWasCreatedWith()
+    {
+      //GIVEN
+      var initialDescription = Any.String();
+      var condition = new JoinedDescribedCondition(
+        Any.Instance<IDependencyCondition>(), 
+        Any.Instance<IDependencyCondition>(),
+        initialDescription);
       
       //WHEN
       var description = condition.Description();
 
       //THEN
-      description.Should().Be(
-        DependencyDescriptions.IndependentOf(
-          dependingAssemblyNamePattern.Pattern,
-          dependencyAssemblyNamePattern.Pattern));
+      description.Should().Be(initialDescription);
     }
   }
 }
