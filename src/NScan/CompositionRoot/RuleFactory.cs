@@ -1,5 +1,3 @@
-
-using System.Data;
 using GlobExpressions;
 
 namespace TddXt.NScan.CompositionRoot
