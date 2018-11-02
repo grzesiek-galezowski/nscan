@@ -3,11 +3,11 @@ using TddXt.NScan.App;
 
 namespace TddXt.NScan
 {
-  public class FollowingAssemblyMatchesPatternCondition : IDependencyCondition
+  public class HasAssemblyNameMatchingPatternCondition : IDependencyCondition
   {
     private readonly Glob _dependencyAssemblyNamePattern;
 
-    public FollowingAssemblyMatchesPatternCondition(Glob dependencyAssemblyNamePattern)
+    public HasAssemblyNameMatchingPatternCondition(Glob dependencyAssemblyNamePattern)
     {
       _dependencyAssemblyNamePattern = dependencyAssemblyNamePattern;
     }

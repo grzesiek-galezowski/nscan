@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using GlobExpressions;
 using Sprache;
@@ -21,21 +22,7 @@ namespace TddXt.NScan.CompositionRoot
       var xmlProjects = paths.LoadXmlProjects();
       var analysis = Analysis.PrepareFor(xmlProjects, consoleSupport);
       //TODO move this inside Analysis class and make the factory choose a rule
-      foreach (var ruleDto in ruleDtos)
-      {
-        if (ruleDto.DependencyType == "project")
-        {
-          analysis.IndependentOfProject(ruleDto.DependingPattern, ruleDto.DependencyPattern);
-        }
-        else if (ruleDto.DependencyType == "package")
-        {
-          analysis.IndependentOfPackage(ruleDto.DependingPattern, ruleDto.DependencyPattern);
-        }
-        else if (ruleDto.DependencyType == "assembly")
-        {
-          analysis.IndependentOfAssembly(ruleDto.DependingPattern, ruleDto.DependencyPattern);
-        }
-      }
+      analysis.AddRules(ruleDtos);
 
       analysis.Run();
       Console.WriteLine(analysis.Report);

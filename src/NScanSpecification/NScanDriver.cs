@@ -13,10 +13,8 @@ namespace TddXt.NScan.Specification
   {
     private readonly ISupport _consoleSupport = new ConsoleSupport();
     private readonly List<XmlProject> _xmlProjects = new List<XmlProject>();
-    private readonly List<(string, string)> _independentOfProjectRules = new List<(string, string)>();
-    private readonly List<(string, string)> _independentOfPackageRules = new List<(string, string)>();
-    private readonly List<(string, string)> _independentOfAssemblyRules = new List<(string, string)>();
     private Analysis _analysis;
+    private readonly List<RuleDto> _rules = new List<RuleDto>();
 
     public XmlProjectDsl HasProject(string assemblyName)
     {
@@ -43,38 +41,42 @@ namespace TddXt.NScan.Specification
 
     public void AddIndependentOfProjectRule(string dependingAssemblyName, string dependentAssemblyName)
     {
-      _independentOfProjectRules.Add((dependingAssemblyName, dependentAssemblyName));
+      _rules.Add(new RuleDto()
+      {
+        DependingPattern = new Glob(dependingAssemblyName),
+        DependencyPattern = new Glob(dependentAssemblyName),
+        DependencyType = "project",
+        RuleName = "independentOf"
+      });
     }
 
     public void AddIndependentOfPackageRule(string projectName, string packageName)
     {
-      _independentOfPackageRules.Add((projectName, packageName));
+      _rules.Add(new RuleDto()
+      {
+        DependingPattern = new Glob(projectName),
+        DependencyPattern = new Glob(packageName),
+        DependencyType = "package",
+        RuleName = "independentOf"
+      });
     }
 
     public void AddIndependentOfAssemblyRule(string projectName, string assemblyName)
     {
-      _independentOfAssemblyRules.Add((projectName, assemblyName));
+      _rules.Add(new RuleDto()
+      {
+        DependingPattern = new Glob(projectName),
+        DependencyPattern = new Glob(assemblyName),
+        DependencyType = "assembly",
+        RuleName = "independentOf"
+      });
+
     }
 
     public void PerformAnalysis()
     {
       _analysis = Analysis.PrepareFor(_xmlProjects, _consoleSupport);
-
-      foreach (var (depending, dependent) in _independentOfProjectRules)
-      {
-        _analysis.IndependentOfProject(new Glob(depending), new Glob(dependent));
-      }
-
-      foreach (var (depending, packageName) in _independentOfPackageRules)
-      {
-        _analysis.IndependentOfPackage(new Glob(depending), new Glob(packageName));
-      }
-
-      foreach (var (depending, packageName) in _independentOfAssemblyRules)
-      {
-        _analysis.IndependentOfAssembly(new Glob(depending), new Glob(packageName));
-      }
-
+      _analysis.AddRules(_rules);
       _analysis.Run();
     }
 

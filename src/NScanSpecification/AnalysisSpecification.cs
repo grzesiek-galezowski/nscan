@@ -1,7 +1,5 @@
 ﻿using FluentAssertions;
-using GlobExpressions;
 using NSubstitute;
-using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.App;
 using TddXt.NScan.CompositionRoot;
@@ -39,72 +37,34 @@ namespace TddXt.NScan.Specification
     }
 
     [Fact]
-    public void ShouldAddIndependentProjectRuleToPathRuleSet()
+    public void ShouldAddAllRulesFromDtosToRuleSet()
     {
       //GIVEN
       var pathRuleSet = Substitute.For<IPathRuleSet>();
       var ruleFactory = Substitute.For<IRuleFactory>();
-      var rule = Any.Instance<IDependencyRule>();
-      var dependingNamePattern = Any.Instance<Glob>();
-      var dependencyNamePattern = Any.Instance<Glob>();
-      var analysis = new Analysis(
-        Any.Instance<ISolution>(), 
-        pathRuleSet, 
-        Any.Instance<IAnalysisReportInProgress>(), ruleFactory);
-
-      ruleFactory.CreateIndependentOfProjectRule(dependingNamePattern, dependencyNamePattern).Returns(rule);
-
-      //WHEN
-      analysis.IndependentOfProject(dependingNamePattern, dependencyNamePattern);
-
-      //THEN
-      pathRuleSet.Received(1).Add(rule);
-    }
-
-    [Fact]
-    public void ShouldAddIndependentPackageRuleToPathRuleSet()
-    {
-      //GIVEN
-      var pathRuleSet = Substitute.For<IPathRuleSet>();
-      var ruleFactory = Substitute.For<IRuleFactory>();
-      var rule = Any.Instance<IDependencyRule>();
+      var rule1 = Any.Instance<IDependencyRule>();
+      var rule2 = Any.Instance<IDependencyRule>();
+      var rule3 = Any.Instance<IDependencyRule>();
+      var ruleDto1 = Any.Instance<RuleDto>();
+      var ruleDto2 = Any.Instance<RuleDto>();
+      var ruleDto3 = Any.Instance<RuleDto>();
       var analysis = new Analysis(
         Any.Instance<ISolution>(),
         pathRuleSet,
-        Any.Instance<IAnalysisReportInProgress>(), ruleFactory);
-      var dependingNamePattern = Any.Instance<Glob>();
-      var packageNamePattern = Any.Instance<Glob>();
+        Any.Instance<IAnalysisReportInProgress>(), 
+        ruleFactory);
 
-      ruleFactory.CreateIndependentOfPackageRule(dependingNamePattern, packageNamePattern).Returns(rule);
-
-      //WHEN
-      analysis.IndependentOfPackage(dependingNamePattern, packageNamePattern);
-
-      //THEN
-      pathRuleSet.Received(1).Add(rule);
-    }
-
-    [Fact]
-    public void ShouldAddIndependentOfAssemblyRuleToPathRuleSetWhenAsked()
-    {
-      //GIVEN
-      var pathRuleSet = Substitute.For<IPathRuleSet>();
-      var ruleFactory = Substitute.For<IRuleFactory>();
-      var rule = Any.Instance<IDependencyRule>();
-      var analysis = new Analysis(
-        Any.Instance<ISolution>(),
-        pathRuleSet,
-        Any.Instance<IAnalysisReportInProgress>(), ruleFactory);
-      var dependingNamePattern = Any.Instance<Glob>();
-      var assemblyNamePattern = Any.Instance<Glob>();
-
-      ruleFactory.CreateIndependentOfAssemblyRule(dependingNamePattern, assemblyNamePattern).Returns(rule);
+      ruleFactory.CreateDependencyRuleFrom(ruleDto1).Returns(rule1);
+      ruleFactory.CreateDependencyRuleFrom(ruleDto2).Returns(rule2);
+      ruleFactory.CreateDependencyRuleFrom(ruleDto3).Returns(rule3);
 
       //WHEN
-      analysis.IndependentOfAssembly(dependingNamePattern, assemblyNamePattern);
+      analysis.AddRules(new [] {ruleDto1, ruleDto2, ruleDto3});
 
       //THEN
-      pathRuleSet.Received(1).Add(rule);
+      pathRuleSet.Received(1).Add(rule1);
+      pathRuleSet.Received(1).Add(rule2);
+      pathRuleSet.Received(1).Add(rule3);
     }
 
     [Fact]

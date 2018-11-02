@@ -19,7 +19,7 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContainText("[A] independentOf [B]: [OK]");
+      context.ReportShouldContainText("[A] independentOf [project:B]: [OK]");
       context.ShouldIndicateSuccess();
     }
 
@@ -39,7 +39,7 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContainText($"[A] independentOf [B]: [ERROR]{Environment.NewLine}" +
+      context.ReportShouldContainText($"[A] independentOf [project:B]: [ERROR]{Environment.NewLine}" +
                                       $"Violation in path: [A]->[B]");
       context.ShouldIndicateFailure();
     }
@@ -60,7 +60,7 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContainText($"[A] independentOf [C]: [ERROR]{Environment.NewLine}" +
+      context.ReportShouldContainText($"[A] independentOf [project:C]: [ERROR]{Environment.NewLine}" +
                                       "Violation in path: [A]->[B]->[C]");
       context.ShouldIndicateFailure();
     }
@@ -82,10 +82,10 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContainText($"[A] independentOf [D]: [ERROR]{Environment.NewLine}" +
+      context.ReportShouldContainText($"[A] independentOf [project:D]: [ERROR]{Environment.NewLine}" +
                                       $"Violation in path: [A]->[B]->[D]{Environment.NewLine}" +
                                       $"Violation in path: [A]->[C]->[D]");
-      context.ReportShouldContainText($"[A] independentOf [B]: [ERROR]{Environment.NewLine}" +
+      context.ReportShouldContainText($"[A] independentOf [project:B]: [ERROR]{Environment.NewLine}" +
                                       "Violation in path: [A]->[B]");
       context.ShouldIndicateFailure();
     }
@@ -104,7 +104,7 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContainText($"[*.Domain] independentOf [*.Ports]: [ERROR]{Environment.NewLine}" +
+      context.ReportShouldContainText($"[*.Domain] independentOf [project:*.Ports]: [ERROR]{Environment.NewLine}" +
                                       $"Violation in path: [Posts.Domain]->[Posts.Ports]");
       context.ShouldIndicateFailure();
 

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.ComponentModel.Design;
-using System.Diagnostics.Contracts;
 using Cake.Core;
 using Cake.Core.Annotations;
 using TddXt.NScan;

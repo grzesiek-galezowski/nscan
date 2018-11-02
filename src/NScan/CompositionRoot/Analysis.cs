@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using GlobExpressions;
 using TddXt.NScan.App;
 using TddXt.NScan.Xml;
 
@@ -13,8 +12,21 @@ namespace TddXt.NScan.CompositionRoot
     private readonly IRuleFactory _ruleFactory;
 
     public string Report => _analysisReportInProgress.AsString();
-    public int ReturnCode => _analysisReportInProgress.HasViolations() ? -1 : 0; //todo 1 not -1?
+    public int ReturnCode => _analysisReportInProgress.HasViolations() ? -1 : 0;
 
+
+    public static Analysis PrepareFor(IReadOnlyList<XmlProject> xmlProjects, ISupport support)
+    {
+      var csharpWorkspaceModel = new CsharpWorkspaceModel(support, xmlProjects);
+      var projects = csharpWorkspaceModel.LoadProjects();
+
+      return new Analysis(new DotNetStandardSolution(projects,
+          new PathCache(
+            new DependencyPathFactory())),
+        new PathRuleSet(),
+        new AnalysisReportInProgress(new PlainProjectPathFormat()),
+        new RuleFactory());
+    }
 
     public Analysis(ISolution solution, IPathRuleSet pathRules,
       IAnalysisReportInProgress analysisReportInProgress, IRuleFactory ruleFactory)
@@ -33,33 +45,13 @@ namespace TddXt.NScan.CompositionRoot
       _solution.Check(_pathRules, _analysisReportInProgress);
     }
 
-    public static Analysis PrepareFor(IReadOnlyList<XmlProject> xmlProjects, ISupport support)
+    public void AddRules(IEnumerable<RuleDto> ruleDtos)
     {
-      var csharpWorkspaceModel = new CsharpWorkspaceModel(support, xmlProjects);
-      var projects = csharpWorkspaceModel.LoadProjects();
-
-      return new Analysis(new DotNetStandardSolution(projects, 
-        new PathCache(
-          new DependencyPathFactory())), 
-        new PathRuleSet(), 
-        new AnalysisReportInProgress(new PlainProjectPathFormat()), 
-        new RuleFactory());
-    }
-
-    public void IndependentOfProject(Glob dependingNamePattern, Glob dependencyNamePattern)
-    {
-      _pathRules.Add(_ruleFactory.CreateIndependentOfProjectRule(dependingNamePattern, dependencyNamePattern));
-    }
-
-
-    public void IndependentOfPackage(Glob dependingNamePattern, Glob packageNamePattern)
-    {
-      _pathRules.Add(_ruleFactory.CreateIndependentOfPackageRule(dependingNamePattern, packageNamePattern));
-    }
-
-    public void IndependentOfAssembly(Glob dependingPattern, Glob assemblyNamePattern)
-    {
-      _pathRules.Add(_ruleFactory.CreateIndependentOfAssemblyRule(dependingPattern, assemblyNamePattern));
+      foreach (var ruleDto in ruleDtos)
+      {
+        var rule = _ruleFactory.CreateDependencyRuleFrom(ruleDto);
+        _pathRules.Add(rule);
+      }
     }
   }
 }
