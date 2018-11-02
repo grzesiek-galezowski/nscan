@@ -15,7 +15,7 @@ namespace TddXt.NScan.CompositionRoot
     public int ReturnCode => _analysisReportInProgress.HasViolations() ? -1 : 0;
 
 
-    public static Analysis PrepareFor(IReadOnlyList<XmlProject> xmlProjects, ISupport support)
+    public static Analysis PrepareFor(IReadOnlyList<XmlProject> xmlProjects, INScanSupport support)
     {
       var csharpWorkspaceModel = new CsharpWorkspaceModel(support, xmlProjects);
       var projects = csharpWorkspaceModel.LoadProjects();

@@ -2,13 +2,13 @@
 
 namespace TddXt.NScan.App
 {
-  public interface ISupport
+  public interface INScanSupport
   {
     void Report(ReferencedProjectNotFoundInSolutionException exceptionFromResolution);
     void SkippingProjectBecauseOfError(InvalidOperationException invalidOperationException, string projectFilePath);
   }
 
-  public class ConsoleSupport : ISupport
+  public class ConsoleSupport : INScanSupport
   {
     public void Report(ReferencedProjectNotFoundInSolutionException exceptionFromResolution)
     {

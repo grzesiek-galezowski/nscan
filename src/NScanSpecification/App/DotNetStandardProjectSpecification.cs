@@ -47,7 +47,7 @@ namespace TddXt.NScan.Specification.App
       var id2 = Any.ProjectId();
       var id3 = Any.ProjectId();
       var referencedProjectsIds = new[] { id1, id2, id3 };
-      var support = Substitute.For<ISupport>();
+      var support = Substitute.For<INScanSupport>();
       var exceptionFromResolution = Any.Instance<ReferencedProjectNotFoundInSolutionException>();
       var project = new DotNetStandardProjectBuilder()
       {
@@ -345,7 +345,7 @@ namespace TddXt.NScan.Specification.App
 
       public string AssemblyName { private get; set; } = Any.String();
 
-      public ISupport Support { private get; set; } = Any.Support();
+      public INScanSupport Support { private get; set; } = Any.Support();
     }
   }
 }

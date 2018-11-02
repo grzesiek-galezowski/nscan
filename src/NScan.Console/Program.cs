@@ -1,4 +1,5 @@
 ﻿using Fclp;
+using TddXt.NScan.App;
 using TddXt.NScan.CompositionRoot;
 
 namespace TddXt.NScan.Console
@@ -12,7 +13,7 @@ namespace TddXt.NScan.Console
       var commandLineParserResult = parser.Parse(args);
       if (!commandLineParserResult.HasErrors)
       {
-        return ProgramRoot.RunProgramInConsole(cliOptions);
+        return NScanMain.Run(cliOptions, new ConsoleOutput(), new ConsoleSupport());
       }
       else
       {

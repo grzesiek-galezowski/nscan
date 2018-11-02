@@ -13,9 +13,9 @@ namespace TddXt.NScan.CompositionRoot
   public class ProjectPaths
   {
     private readonly IEnumerable<string> _projectFilePaths;
-    private readonly ISupport _support;
+    private readonly INScanSupport _support;
 
-    public ProjectPaths(IEnumerable<string> projectFilePaths, ISupport support)
+    public ProjectPaths(IEnumerable<string> projectFilePaths, INScanSupport support)
     {
       _projectFilePaths = projectFilePaths;
       _support = support;
@@ -78,7 +78,7 @@ namespace TddXt.NScan.CompositionRoot
       return xmlProjects;
     }
 
-    public static ProjectPaths From(string solutionFilePath, ConsoleSupport consoleSupport)
+    public static ProjectPaths From(string solutionFilePath, INScanSupport consoleSupport)
     {
       var analyzerManager = new AnalyzerManager(solutionFilePath);
       var projectFilePaths = analyzerManager.Projects.Select(p => p.Value.ProjectFile.Path).ToList();

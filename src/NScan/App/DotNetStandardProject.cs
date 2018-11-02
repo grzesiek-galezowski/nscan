@@ -14,7 +14,7 @@ namespace TddXt.NScan.App
     private readonly ProjectId[] _referencedProjectsIds;
     private readonly IReadOnlyList<PackageReference> _packageReferences;
     private readonly IReadOnlyList<AssemblyReference> _assemblyReferences;
-    private readonly ISupport _support;
+    private readonly INScanSupport _support;
     private readonly ProjectId _id;
 
     public DotNetStandardProject(string assemblyName,
@@ -22,7 +22,7 @@ namespace TddXt.NScan.App
       ProjectId[] referencedProjectsIds,
       IReadOnlyList<PackageReference> packageReferences,
       IReadOnlyList<AssemblyReference> assemblyReferences,
-      ISupport support)
+      INScanSupport support)
     {
       _assemblyName = assemblyName;
       _id = id;

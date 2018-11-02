@@ -13,10 +13,10 @@ namespace TddXt.NScan.CompositionRoot
 
   public class CsharpWorkspaceModel : IWorkspaceModel
   {
-    private readonly ISupport _support;
+    private readonly INScanSupport _support;
     private readonly IReadOnlyList<XmlProject> _xmlProjects;
 
-    public CsharpWorkspaceModel(ISupport support, IReadOnlyList<XmlProject> xmlProjects)
+    public CsharpWorkspaceModel(INScanSupport support, IReadOnlyList<XmlProject> xmlProjects)
     {
       _support = support;
       _xmlProjects = xmlProjects;

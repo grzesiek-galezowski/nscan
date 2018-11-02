@@ -2,6 +2,7 @@
 using Cake.Core;
 using Cake.Core.Annotations;
 using TddXt.NScan;
+using TddXt.NScan.App;
 using TddXt.NScan.CompositionRoot;
 
 namespace Cake.NScan
@@ -38,11 +39,15 @@ namespace Cake.NScan
         throw new ArgumentNullException(nameof(settings));
       }
 
-      var result = ProgramRoot.RunProgramInConsole(new InputArgumentsDto()
-      {
-        RulesFilePath = rulesFilePath,
-        SolutionPath = solutionPath
-      });
+      var result = NScanMain.Run(
+        new InputArgumentsDto()
+        {
+          RulesFilePath = rulesFilePath,
+          SolutionPath = solutionPath
+        },
+        new ConsoleOutput(),
+        new ConsoleSupport());
+
       if (result != 0)
       {
         throw new NScanFailedException(result);

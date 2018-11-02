@@ -11,7 +11,7 @@ namespace TddXt.NScan.Specification
 {
   public class NScanDriver
   {
-    private readonly ISupport _consoleSupport = new ConsoleSupport();
+    private readonly INScanSupport _consoleSupport = new ConsoleSupport();
     private readonly List<XmlProject> _xmlProjects = new List<XmlProject>();
     private Analysis _analysis;
     private readonly List<RuleDto> _rules = new List<RuleDto>();

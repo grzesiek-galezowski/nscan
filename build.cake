@@ -21,12 +21,18 @@ var netstandard20 = new Framework("netstandard2.0");
 var netcoreapp21 = new Framework("netcoreapp2.1");
 var solutionName = "NScan.sln";
 var mainDll = "TddXt.NScan.dll";
+
 var nscanConsoleTitle = "NScan.Console";
 var nscanConsoleVersion = "0.3.1";
+var nscanConsoleReleaseNotes = "Added support for assembly references";
+
 var nscanTitle = "NScan";
-var nscanVersion = "0.3.1";
+var nscanVersion = "0.4.0";
+var nscanReleaseNotes = "Changed entry point for the library";
+
 var cakeNscanTitle = "Cake.NScan";
 var cakeNscanVersion = "0.4.0";
+var cakeNScanReleaseNotes = "Changed assembly name and default namespace";
 
 
 //////////////////////////////////////////////////////////////////////
@@ -150,7 +156,7 @@ Task("PackNScan")
           title: nscanTitle,
           version: nscanVersion,
           summary: "A utility for enforcing project dependency conventions.",
-          releaseNotes: "Added support for assembly references",
+          releaseNotes: nscanReleaseNotes,
           files: new [] 
             {
                 new NuSpecContent {Source = @".\publish\nscan\netstandard2.0\*NScan*", Exclude=@"**\*.json;**\*.config", Target = @"lib\netstandard2.0"},
@@ -174,7 +180,7 @@ Task("PackNScanConsole")
           title: nscanConsoleTitle,
           version: nscanConsoleVersion,
           summary: "A utility for enforcing project dependency conventions - console runner.",
-          releaseNotes: "Added support for assembly references",
+          releaseNotes: nscanConsoleReleaseNotes,
           files: new [] 
             {
                 new NuSpecContent {Source = @".\publish\nscan.console\netcoreapp2.1\*NScan*", Exclude=@"**\*.json;**\*.config", Target = @"lib\netcoreapp2.1"},
@@ -199,7 +205,7 @@ Task("PackNScanConsole")
           title: cakeNscanTitle,
           version: cakeNscanVersion,
           summary: "A utility for enforcing project dependency conventions - cake plugin.",
-          releaseNotes: "Changed assembly name and default namespace",
+          releaseNotes: cakeNScanReleaseNotes,
           files: new [] 
             {
                 new NuSpecContent {Source = @".\publish\cake.nscan\netstandard2.0\*NScan*", Exclude=@"**\*.json;**\*.config", Target = @"lib\netstandard2.0"},
