@@ -22,11 +22,11 @@ var netcoreapp21 = new Framework("netcoreapp2.1");
 var solutionName = "NScan.sln";
 var mainDll = "TddXt.NScan.dll";
 var nscanConsoleTitle = "NScan.Console";
-var nscanConsoleVersion = "0.3.0";
+var nscanConsoleVersion = "0.3.1";
 var nscanTitle = "NScan";
-var nscanVersion = "0.3.0";
+var nscanVersion = "0.3.1";
 var cakeNscanTitle = "Cake.NScan";
-var cakeNscanVersion = "0.3.0";
+var cakeNscanVersion = "0.3.1";
 
 
 //////////////////////////////////////////////////////////////////////
@@ -150,7 +150,7 @@ Task("PackNScan")
           title: nscanTitle,
           version: nscanVersion,
           summary: "A utility for enforcing project dependency conventions.",
-          releaseNotes: "Added support for package references",
+          releaseNotes: "Added support for assembly references",
           files: new [] 
             {
                 new NuSpecContent {Source = @".\publish\nscan\netstandard2.0\*NScan*", Exclude=@"**\*.json;**\*.config", Target = @"lib\netstandard2.0"},
@@ -174,7 +174,7 @@ Task("PackNScanConsole")
           title: nscanConsoleTitle,
           version: nscanConsoleVersion,
           summary: "A utility for enforcing project dependency conventions - console runner.",
-          releaseNotes: "Added support for package references",
+          releaseNotes: "Added support for assembly references",
           files: new [] 
             {
                 new NuSpecContent {Source = @".\publish\nscan.console\netcoreapp2.1\*NScan*", Exclude=@"**\*.json;**\*.config", Target = @"lib\netcoreapp2.1"},
@@ -199,7 +199,7 @@ Task("PackNScanConsole")
           title: cakeNscanTitle,
           version: cakeNscanVersion,
           summary: "A utility for enforcing project dependency conventions - cake plugin.",
-          releaseNotes: "Added support for package references",
+          releaseNotes: "Added support for assembly references",
           files: new [] 
             {
                 new NuSpecContent {Source = @".\publish\cake.nscan\netstandard2.0\*NScan*", Exclude=@"**\*.json;**\*.config", Target = @"lib\netstandard2.0"},
@@ -233,6 +233,7 @@ Task("PackNScanConsole")
             Language = "en-US",
             ReleaseNotes = new[] {releaseNotes},
             ProjectUrl = new Uri("https://github.com/grzesiek-galezowski/nscan"),
+            IconUrl = new Uri("https://github.com/grzesiek-galezowski/nscan/raw/master/NScan.png"),
             OutputDirectory = "./nuget",
             Version = version,
             Files = files,
