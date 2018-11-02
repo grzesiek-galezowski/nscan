@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using GlobExpressions;
+using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.CompositionRoot;
 using TddXt.XFluentAssert.Root;
@@ -35,15 +36,33 @@ namespace TddXt.NScan.Specification.CompositionRoot
       var ruleFactory = new RuleFactory();
       
       //WHEN
-      var dependingId = Any.String();
-      var dependencyId = Any.String();
-      var rule = ruleFactory.CreateIndependentOfPackageRule(new Glob(dependingId), new Glob(dependencyId));
+      var dependingNamePattern = Any.Instance<Glob>();
+      var packageNamePattern = Any.Instance<Glob>();
+      var rule = ruleFactory.CreateIndependentOfPackageRule(dependingNamePattern, packageNamePattern);
 
       //THEN
       rule.GetType().Should().Be<IndependentRule>();
-      rule.Should().DependOnTypeChain(typeof(HasPackageReferenceMatchingCondition));
-      rule.Should().DependOn(dependingId);
-      rule.Should().DependOn(dependencyId);
+      rule.Should().DependOnTypeChain(typeof(DescribedCondition), typeof(HasPackageReferenceMatchingCondition));
+      rule.Should().DependOn(dependingNamePattern);
+      rule.Should().DependOn(packageNamePattern);
+    }
+    
+    [Fact]
+    public void ShouldCreateIndependentOfAssemblyRuleWithPassedIds()
+    {
+      //GIVEN
+      var ruleFactory = new RuleFactory();
+      
+      //WHEN
+      var dependingNamePattern = Any.Instance<Glob>();
+      var packageNamePattern = Any.Instance<Glob>();
+      var rule = ruleFactory.CreateIndependentOfAssemblyRule(dependingNamePattern, packageNamePattern);
+
+      //THEN
+      rule.Should().BeOfType<IndependentRule>();
+      rule.Should().DependOnTypeChain(typeof(DescribedCondition), typeof(HasAssemblyReferenceMatchingCondition));
+      rule.Should().DependOn(dependingNamePattern);
+      rule.Should().DependOn(packageNamePattern);
     }
   }
 }

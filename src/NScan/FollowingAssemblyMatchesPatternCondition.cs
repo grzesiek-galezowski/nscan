@@ -14,7 +14,7 @@ namespace TddXt.NScan
 
     public bool Matches(IProjectSearchResult depending, IReferencedProject dependency)
     {
-      return dependency.HasAssemblyNameMatching(_dependencyAssemblyNamePattern);
+      return dependency.HasProjectAssemblyNameMatching(_dependencyAssemblyNamePattern);
     }
 
   }

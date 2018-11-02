@@ -16,7 +16,7 @@ namespace TddXt.NScan.CompositionRoot
             dependencyAssemblyNamePattern),
           DependencyDescriptions.IndependentOf(
             dependingAssemblyNamePattern.Pattern,
-            dependencyAssemblyNamePattern.Pattern)), //todo refactor even higher the glob type?
+            dependencyAssemblyNamePattern.Pattern)),
         dependingAssemblyNamePattern);
     }
 
@@ -28,6 +28,13 @@ namespace TddXt.NScan.CompositionRoot
           DependencyDescriptions.IndependentOf(
             dependingNamePattern.Pattern,
             "package:" + packageNamePattern.Pattern)), dependingNamePattern);
+    }
+
+    public IDependencyRule CreateIndependentOfAssemblyRule(Glob dependingNamePattern, Glob assemblyNamePattern)
+    {
+      return new IndependentRule(new DescribedCondition(new HasAssemblyReferenceMatchingCondition(assemblyNamePattern), 
+        DependencyDescriptions.IndependentOf(dependingNamePattern.Pattern,
+          "assembly:" + assemblyNamePattern.Pattern)), dependingNamePattern);
     }
   }
 }

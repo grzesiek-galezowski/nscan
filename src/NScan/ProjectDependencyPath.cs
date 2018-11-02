@@ -86,7 +86,7 @@ namespace TddXt.NScan
 
       internal static Func<IReferencedProject, bool> AssemblyNameMatches(Glob glob)
       {
-        return p => p.HasAssemblyNameMatching(glob);
+        return p => p.HasProjectAssemblyNameMatching(glob);
       }
     }
 

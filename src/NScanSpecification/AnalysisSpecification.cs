@@ -85,6 +85,29 @@ namespace TddXt.NScan.Specification
     }
 
     [Fact]
+    public void ShouldAddIndependentOfAssemblyRuleToPathRuleSetWhenAsked()
+    {
+      //GIVEN
+      var pathRuleSet = Substitute.For<IPathRuleSet>();
+      var ruleFactory = Substitute.For<IRuleFactory>();
+      var rule = Any.Instance<IDependencyRule>();
+      var analysis = new Analysis(
+        Any.Instance<ISolution>(),
+        pathRuleSet,
+        Any.Instance<IAnalysisReportInProgress>(), ruleFactory);
+      var dependingNamePattern = Any.Instance<Glob>();
+      var assemblyNamePattern = Any.Instance<Glob>();
+
+      ruleFactory.CreateIndependentOfAssemblyRule(dependingNamePattern, assemblyNamePattern).Returns(rule);
+
+      //WHEN
+      analysis.IndependentOfAssembly(dependingNamePattern, assemblyNamePattern);
+
+      //THEN
+      pathRuleSet.Received(1).Add(rule);
+    }
+
+    [Fact]
     public void ShouldReturnStringGeneratedFromAnalysisInProgressReportWhenAskedForAnalysisReport()
     {
       //GIVEN

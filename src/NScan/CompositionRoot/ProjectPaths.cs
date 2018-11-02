@@ -10,7 +10,7 @@ using TddXt.NScan.Xml;
 
 namespace TddXt.NScan.CompositionRoot
 {
-  internal class ProjectPaths
+  public class ProjectPaths
   {
     private readonly IEnumerable<string> _projectFilePaths;
     private readonly ISupport _support;
@@ -44,15 +44,25 @@ namespace TddXt.NScan.CompositionRoot
 
     public static XmlProject LoadXmlProject(string projectFilePath)
     {
-      var xmlProject = ProjectPaths.DeserializeProjectFile(projectFilePath);
+      var xmlProject = DeserializeProjectFile(projectFilePath);
       xmlProject.AbsolutePath = projectFilePath;
-      ProjectPaths.NormalizeProjectDependencyPaths(projectFilePath, xmlProject);
+      NormalizeProjectDependencyPaths(projectFilePath, xmlProject);
+      NormalizeProjectAssemblyName(xmlProject);
       return xmlProject;
+    }
+
+    private static void NormalizeProjectAssemblyName(XmlProject xmlProject)
+    {
+      if (xmlProject.PropertyGroups.All(g => g.AssemblyName == null))
+      {
+        xmlProject.PropertyGroups.First().AssemblyName
+          = Path.GetFileNameWithoutExtension(
+            Path.GetFileName(xmlProject.AbsolutePath));
+      }
     }
 
     public List<XmlProject> LoadXmlProjects()
     {
-      //todo what about exceptions?
       var xmlProjects = _projectFilePaths.Select(path =>
       {
         try

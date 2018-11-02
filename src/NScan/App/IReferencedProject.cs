@@ -10,9 +10,10 @@ namespace TddXt.NScan.App
     void AddReferencingProject(ProjectId projectId, IReferencingProject referencingProject);
     void ResolveAsReferenceOf(IReferencingProject project);
     void FillAllBranchesOf(IDependencyPathInProgress dependencyPathInProgress);
-    bool HasAssemblyNameMatching(Glob glob);
+    bool HasProjectAssemblyNameMatching(Glob glob);
+    bool HasPackageReferenceMatching(Glob packagePattern);
+    bool HasAssemblyReferenceWithNameMatching(Glob pattern);
 
     string ToString();
-    bool HasPackageReferenceMatching(Glob packagePattern);
   }
 }

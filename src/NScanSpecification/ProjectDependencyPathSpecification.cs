@@ -108,9 +108,9 @@ namespace TddXt.NScan.Specification
 
       var path = new ProjectDependencyPath(projects, searchResultFactory);
 
-      project1.HasAssemblyNameMatching(pattern).Returns(false);
-      project2.HasAssemblyNameMatching(pattern).Returns(true);
-      project3.HasAssemblyNameMatching(pattern).Returns(false);
+      project1.HasProjectAssemblyNameMatching(pattern).Returns(false);
+      project2.HasProjectAssemblyNameMatching(pattern).Returns(true);
+      project3.HasProjectAssemblyNameMatching(pattern).Returns(false);
       searchResultFactory.ItemFound(project2, 1).Returns(foundResult);
 
       //WHEN
@@ -137,9 +137,9 @@ namespace TddXt.NScan.Specification
 
       var path = new ProjectDependencyPath(projects, searchResultFactory);
 
-      project1.HasAssemblyNameMatching(pattern).Returns(false);
-      project2.HasAssemblyNameMatching(pattern).Returns(false);
-      project3.HasAssemblyNameMatching(pattern).Returns(false);
+      project1.HasProjectAssemblyNameMatching(pattern).Returns(false);
+      project2.HasProjectAssemblyNameMatching(pattern).Returns(false);
+      project3.HasProjectAssemblyNameMatching(pattern).Returns(false);
       searchResultFactory.ItemNotFound().Returns(notFoundResult);
 
       //WHEN

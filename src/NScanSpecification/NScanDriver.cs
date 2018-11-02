@@ -2,6 +2,7 @@
 using System.Linq;
 using FluentAssertions;
 using GlobExpressions;
+using TddXt.AnyRoot.Strings;
 using TddXt.NScan.App;
 using TddXt.NScan.CompositionRoot;
 using TddXt.NScan.Xml;
@@ -14,6 +15,7 @@ namespace TddXt.NScan.Specification
     private readonly List<XmlProject> _xmlProjects = new List<XmlProject>();
     private readonly List<(string, string)> _independentOfProjectRules = new List<(string, string)>();
     private readonly List<(string, string)> _independentOfPackageRules = new List<(string, string)>();
+    private readonly List<(string, string)> _independentOfAssemblyRules = new List<(string, string)>();
     private Analysis _analysis;
 
     public XmlProjectDsl HasProject(string assemblyName)
@@ -49,6 +51,11 @@ namespace TddXt.NScan.Specification
       _independentOfPackageRules.Add((projectName, packageName));
     }
 
+    public void AddIndependentOfAssemblyRule(string projectName, string assemblyName)
+    {
+      _independentOfAssemblyRules.Add((projectName, assemblyName));
+    }
+
     public void PerformAnalysis()
     {
       _analysis = Analysis.PrepareFor(_xmlProjects, _consoleSupport);
@@ -61,6 +68,11 @@ namespace TddXt.NScan.Specification
       foreach (var (depending, packageName) in _independentOfPackageRules)
       {
         _analysis.IndependentOfPackage(new Glob(depending), new Glob(packageName));
+      }
+
+      foreach (var (depending, packageName) in _independentOfAssemblyRules)
+      {
+        _analysis.IndependentOfAssembly(new Glob(depending), new Glob(packageName));
       }
 
       _analysis.Run();
@@ -106,6 +118,23 @@ namespace TddXt.NScan.Specification
         new XmlItemGroup() {PackageReferences = PackageReferencesFrom(packageNames)}
       );
     }
+
+    public void WithAssemblyReferences(params string[] assemblyNames)
+    {
+      _xmlProject.ItemGroups.Add(
+        new XmlItemGroup() { AssemblyReferences = AssemblyReferencesFrom(assemblyNames) }
+      );
+    }
+
+    private List<XmlAssemblyReference> AssemblyReferencesFrom(string[] assemblyNames)
+    {
+      return assemblyNames.Select(name => new XmlAssemblyReference()
+      {
+        HintPath = AnyRoot.Root.Any.String(),
+        Include = name
+      }).ToList();
+    }
+
 
     private List<XmlPackageReference> PackageReferencesFrom(string[] packageNames)
     {

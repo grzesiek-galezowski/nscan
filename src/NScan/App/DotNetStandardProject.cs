@@ -13,6 +13,7 @@ namespace TddXt.NScan.App
     private readonly string _assemblyName;
     private readonly ProjectId[] _referencedProjectsIds;
     private readonly IReadOnlyList<PackageReference> _packageReferences;
+    private readonly IReadOnlyList<AssemblyReference> _assemblyReferences;
     private readonly ISupport _support;
     private readonly ProjectId _id;
 
@@ -20,12 +21,14 @@ namespace TddXt.NScan.App
       ProjectId id,
       ProjectId[] referencedProjectsIds,
       IReadOnlyList<PackageReference> packageReferences,
+      IReadOnlyList<AssemblyReference> assemblyReferences,
       ISupport support)
     {
       _assemblyName = assemblyName;
       _id = id;
       _referencedProjectsIds = referencedProjectsIds;
       _packageReferences = packageReferences;
+      _assemblyReferences = assemblyReferences;
       _support = support;
     }
 
@@ -102,11 +105,16 @@ namespace TddXt.NScan.App
 
     }
 
-    public bool HasAssemblyNameMatching(Glob glob) => glob.IsMatch(_assemblyName);
+    public bool HasProjectAssemblyNameMatching(Glob glob) => glob.IsMatch(_assemblyName);
 
     public void ResolveAsReferenceOf(IReferencingProject project)
     {
       project.AddReferencedProject(_id, this);
+    }
+
+    public bool HasAssemblyReferenceWithNameMatching(Glob pattern)
+    {
+      return _assemblyReferences.Any(r => pattern.IsMatch(r.Name));
     }
 
     public override string ToString()

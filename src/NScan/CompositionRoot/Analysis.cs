@@ -56,5 +56,10 @@ namespace TddXt.NScan.CompositionRoot
     {
       _pathRules.Add(_ruleFactory.CreateIndependentOfPackageRule(dependingNamePattern, packageNamePattern));
     }
+
+    public void IndependentOfAssembly(Glob dependingPattern, Glob assemblyNamePattern)
+    {
+      _pathRules.Add(_ruleFactory.CreateIndependentOfAssemblyRule(dependingPattern, assemblyNamePattern));
+    }
   }
 }

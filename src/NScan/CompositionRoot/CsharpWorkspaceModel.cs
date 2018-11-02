@@ -30,6 +30,7 @@ namespace TddXt.NScan.CompositionRoot
         new ProjectId(xmlProject.AbsolutePath),
         ProjectReferences(xmlProject).Select(MapToProjectId).ToArray(),
         PackageReferences(xmlProject),
+        AssemblyReferences(xmlProject),
         _support));
     }
 
@@ -54,6 +55,22 @@ namespace TddXt.NScan.CompositionRoot
 
       return projects;
     }
+
+    private static IReadOnlyList<AssemblyReference> AssemblyReferences(XmlProject xmlProject)
+    {
+      var xmlItemGroups = xmlProject.ItemGroups.Where(
+        ig => ig.AssemblyReferences != null && ig.AssemblyReferences.Any()).ToList();
+      if (xmlItemGroups.Any())
+      {
+        return xmlItemGroups
+          .First()
+          .AssemblyReferences
+          .Select(r => new AssemblyReference(r.Include, r.HintPath)).ToList();
+      }
+
+      return new List<AssemblyReference>();
+    }
+
 
     public static IEnumerable<XmlProjectReference> ProjectReferences(XmlProject xmlProject)
     {

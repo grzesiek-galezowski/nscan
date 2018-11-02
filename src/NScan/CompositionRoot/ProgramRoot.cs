@@ -8,6 +8,7 @@ namespace TddXt.NScan.CompositionRoot
 {
   public static class ProgramRoot
   {
+    //bug bug bug when no specific assembly name is set, the AssemblyName field is null!!!
     public static int RunProgramInConsole(InputArgumentsDto cliOptions)
     {
       string rulesString = File.ReadAllText(cliOptions.RulesFilePath);
@@ -19,6 +20,7 @@ namespace TddXt.NScan.CompositionRoot
         consoleSupport);
       var xmlProjects = paths.LoadXmlProjects();
       var analysis = Analysis.PrepareFor(xmlProjects, consoleSupport);
+      //TODO move this inside Analysis class and make the factory choose a rule
       foreach (var ruleDto in ruleDtos)
       {
         if (ruleDto.DependencyType == "project")
@@ -28,6 +30,10 @@ namespace TddXt.NScan.CompositionRoot
         else if (ruleDto.DependencyType == "package")
         {
           analysis.IndependentOfPackage(ruleDto.DependingPattern, ruleDto.DependencyPattern);
+        }
+        else if (ruleDto.DependencyType == "assembly")
+        {
+          analysis.IndependentOfAssembly(ruleDto.DependingPattern, ruleDto.DependencyPattern);
         }
       }
 

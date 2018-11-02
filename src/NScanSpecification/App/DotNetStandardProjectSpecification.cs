@@ -8,6 +8,7 @@ using TddXt.AnyRoot.Collections;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.App;
 using TddXt.NScan.CompositionRoot;
+using TddXt.NScan.Xml;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
@@ -193,14 +194,14 @@ namespace TddXt.NScan.Specification.App
       }.Build();
 
       //WHEN
-      var hasProject = project.HasAssemblyNameMatching(new Glob(assemblyName));
+      var hasProject = project.HasProjectAssemblyNameMatching(new Glob(assemblyName));
 
       //THEN
       hasProject.Should().BeTrue();
     }
 
     [Fact]
-    public void ShouldSayItHasProjectIdMatchingBlobPattern()
+    public void ShouldSayItHasProjectAssemblyNameMatchingBlobPattern()
     {
       //GIVEN
       var assemblySuffix = Any.String();
@@ -212,14 +213,14 @@ namespace TddXt.NScan.Specification.App
 
       //WHEN
       string assemblyNamePattern = "*." + assemblySuffix;
-      var hasProject = project.HasAssemblyNameMatching(new Glob(assemblyNamePattern));
+      var hasProject = project.HasProjectAssemblyNameMatching(new Glob(assemblyNamePattern));
 
       //THEN
       hasProject.Should().BeTrue();
     }
 
     [Fact]
-    public void ShouldSayItDoesNotHaveProjectIdWhenItWasNotCreatedWithIt()
+    public void ShouldSayItDoesNotHaveMatchingProjectAssemblyNameWhenItWasNotCreatedWithMatchingOne()
     {
       //GIVEN
       var searchedAssemblyName = Any.String();
@@ -229,7 +230,7 @@ namespace TddXt.NScan.Specification.App
       }.Build();
 
       //WHEN
-      var hasProject = project.HasAssemblyNameMatching(new Glob(searchedAssemblyName));
+      var hasProject = project.HasProjectAssemblyNameMatching(new Glob(searchedAssemblyName));
 
       //THEN
       hasProject.Should().BeFalse();
@@ -277,25 +278,67 @@ namespace TddXt.NScan.Specification.App
     public void ShouldSayWhenItDoesNotHavePackageReference()
     {
       //GIVEN
-      var packageReference = Any.String();
       var project = new DotNetStandardProjectBuilder().Build();
 
       //WHEN
-      var result = project.HasPackageReferenceMatching(new Glob(packageReference));
+      var result = project.HasPackageReferenceMatching(Any.Instance<Glob>());
 
       //THEN
-      result.Should().Be(result);
+      result.Should().BeFalse();
     }
+
+    [Fact]
+    public void ShouldSayWhenItHasAssemblyReference()
+    {
+      //GIVEN
+      var assemblyReferenceName = Any.String();
+      var project = new DotNetStandardProjectBuilder()
+      {
+        AssemblyReferences = new List<AssemblyReference>()
+        {
+          new AssemblyReference(assemblyReferenceName, Any.String())
+        }
+      }.Build();
+
+      //WHEN
+      var result = project.HasAssemblyReferenceWithNameMatching(new Glob(assemblyReferenceName));
+
+      //THEN
+      result.Should().BeTrue();
+    }
+
+    [Fact]
+    public void ShouldSayWhenItDoesNotHaveAssemblyReferenceMatchingGivenName()
+    {
+      //GIVEN
+      var project = new DotNetStandardProjectBuilder().Build();
+
+      //WHEN
+      var result = project.HasAssemblyReferenceWithNameMatching(Any.Instance<Glob>());
+
+      //THEN
+      result.Should().BeFalse();
+    }
+
 
     private class DotNetStandardProjectBuilder
     {
       public DotNetStandardProject Build()
       {
-        return new DotNetStandardProject(AssemblyName, ProjectId, ReferencedProjectIds, this.PackageReferences, Support);
+        return new DotNetStandardProject(
+          AssemblyName, 
+          ProjectId, 
+          ReferencedProjectIds, 
+          PackageReferences, 
+          AssemblyReferences,
+          Support);
       }
 
       public IReadOnlyList<PackageReference> PackageReferences { private get; set; } = Any.ReadOnlyList<PackageReference>();
 
+      public IReadOnlyList<AssemblyReference> AssemblyReferences { private get; set; } =
+        Any.ReadOnlyList<AssemblyReference>();
+      
       public ProjectId[] ReferencedProjectIds { private get; set; } = Any.Array<ProjectId>();
 
       public ProjectId ProjectId { private get; set; } = Any.ProjectId();
