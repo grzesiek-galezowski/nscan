@@ -4,7 +4,7 @@ using Cake.Core.Annotations;
 using TddXt.NScan;
 using TddXt.NScan.CompositionRoot;
 
-namespace Cake.TddXt.NScan
+namespace Cake.NScan
 {
   public static class NScan
   {

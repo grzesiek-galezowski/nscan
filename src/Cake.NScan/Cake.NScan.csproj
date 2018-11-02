@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <AssemblyName>Cake.TddXt.NScan</AssemblyName>
-    <RootNamespace>Cake.TddXt.NScan</RootNamespace>
+    <AssemblyName>Cake.NScan</AssemblyName>
+    <RootNamespace>Cake.NScan</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

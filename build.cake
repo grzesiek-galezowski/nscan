@@ -26,7 +26,7 @@ var nscanConsoleVersion = "0.3.1";
 var nscanTitle = "NScan";
 var nscanVersion = "0.3.1";
 var cakeNscanTitle = "Cake.NScan";
-var cakeNscanVersion = "0.3.1";
+var cakeNscanVersion = "0.4.0";
 
 
 //////////////////////////////////////////////////////////////////////
@@ -199,7 +199,7 @@ Task("PackNScanConsole")
           title: cakeNscanTitle,
           version: cakeNscanVersion,
           summary: "A utility for enforcing project dependency conventions - cake plugin.",
-          releaseNotes: "Added support for assembly references",
+          releaseNotes: "Changed assembly name and default namespace",
           files: new [] 
             {
                 new NuSpecContent {Source = @".\publish\cake.nscan\netstandard2.0\*NScan*", Exclude=@"**\*.json;**\*.config", Target = @"lib\netstandard2.0"},
