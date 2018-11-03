@@ -2,7 +2,6 @@
 using Cake.Core;
 using Cake.Core.Annotations;
 using TddXt.NScan;
-using TddXt.NScan.App;
 using TddXt.NScan.CompositionRoot;
 
 namespace Cake.NScan
@@ -46,8 +45,8 @@ namespace Cake.NScan
           RulesFilePath = rulesFilePath,
           SolutionPath = solutionPath
         },
-        new ConsoleOutput(),
-        new ConsoleSupport());
+        new CakeContextOutput(context.Log),
+        new CakeContextSupport(context.Log));
 
       if (result != 0)
       {

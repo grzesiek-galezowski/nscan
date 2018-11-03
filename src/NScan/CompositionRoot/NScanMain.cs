@@ -28,7 +28,7 @@ namespace TddXt.NScan.CompositionRoot
       analysis.AddRules(ruleDtos);
 
       analysis.Run();
-      output.Write(analysis.Report);
+      output.WriteAnalysisReport(analysis.Report);
       return analysis.ReturnCode;
     }
 
