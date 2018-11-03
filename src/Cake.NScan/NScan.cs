@@ -10,13 +10,15 @@ namespace Cake.NScan
   public static class NScan
   {
     [CakeMethodAlias]
-    public static void Analyze(this ICakeContext context, string solutionPath, string rulesFilePath)
+    public static void NScanAnalyze(this ICakeContext context, string solutionPath, string rulesFilePath)
     {
-      Analyze(context, solutionPath, rulesFilePath, new NScanSettings());
+      NScanAnalyze(context, solutionPath, rulesFilePath, new NScanSettings());
     }
 
+
+    //bug make support and output to use a Cake logger
     [CakeMethodAlias]
-    public static void Analyze(
+    public static void NScanAnalyze(
       this ICakeContext context, 
       string solutionPath, 
       string rulesFilePath,
@@ -38,7 +40,6 @@ namespace Cake.NScan
       {
         throw new ArgumentNullException(nameof(settings));
       }
-
       var result = NScanMain.Run(
         new InputArgumentsDto()
         {

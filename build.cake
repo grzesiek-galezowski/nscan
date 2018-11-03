@@ -23,16 +23,16 @@ var solutionName = "NScan.sln";
 var mainDll = "TddXt.NScan.dll";
 
 var nscanConsoleTitle = "NScan.Console";
-var nscanConsoleVersion = "0.3.1";
-var nscanConsoleReleaseNotes = "Added support for assembly references";
+var nscanConsoleVersion = "0.4.0";
+var nscanConsoleReleaseNotes = "Changed assembly name to NScan.Console";
 
 var nscanTitle = "NScan";
 var nscanVersion = "0.4.0";
 var nscanReleaseNotes = "Changed entry point for the library";
 
 var cakeNscanTitle = "Cake.NScan";
-var cakeNscanVersion = "0.4.0";
-var cakeNScanReleaseNotes = "Changed assembly name and default namespace";
+var cakeNscanVersion = "0.5.0";
+var cakeNScanReleaseNotes = "Changed alias name from Analyze to NScanAnalyze";
 
 
 //////////////////////////////////////////////////////////////////////
@@ -83,7 +83,7 @@ Task("Clean")
 
 Task("RunPreviousNScan").Does(() =>
 {
-  Analyze(@"C:\Users\grzes\Documents\GitHub\nscan\src\NScan.sln", @"C:\Users\grzes\Documents\GitHub\nscan\nscan.config");
+  NScanAnalyze(@"C:\Users\grzes\Documents\GitHub\nscan\src\NScan.sln", @"C:\Users\grzes\Documents\GitHub\nscan\nscan.config");
 });
 
 Task("BuildNScan")
