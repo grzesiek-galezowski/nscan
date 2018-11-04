@@ -26,8 +26,3 @@ namespace Cake.NScan
     }
   }
 }
-
-
-namespace Lol1
-{
-}
