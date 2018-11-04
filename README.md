@@ -11,3 +11,5 @@ NScan is provided in a form of:
 * A Cake build system addin
 
 Check out the [documentation pages](https://github.com/grzesiek-galezowski/nscan/wiki)
+
+[![](https://codescene.io/projects/3620/status.svg) Get more details at **codescene.io**.](https://codescene.io/projects/3620/jobs/latest-successful/results)
