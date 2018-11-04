@@ -44,23 +44,8 @@ namespace TddXt.NScan.CompositionRoot
     private static IEnumerable<RuleDto> ReadRules(InputArgumentsDto cliOptions)
     {
       var rulesString = File.ReadAllText(cliOptions.RulesFilePath);
-      var ruleDtos = SingleLine().Many().Parse(rulesString);
+      var ruleDtos = ParseRule.FromLine().Many().Parse(rulesString);
       return ruleDtos;
-    }
-
-    public static Parser<RuleDto> SingleLine()
-    {
-      return from depending in Parse.AnyChar.Until(Parse.WhiteSpace).Text()
-        from ruleName in Parse.AnyChar.Until(Parse.WhiteSpace).Text()
-        from dependencyType in Parse.AnyChar.Until(Parse.Char(':')).Text()
-        from dependency in Parse.AnyChar.Until(Parse.LineEnd).Text()
-        select new RuleDto
-        {
-          DependingPattern = new Glob(depending),
-          RuleName = ruleName,
-          DependencyPattern = new Glob(dependency),
-          DependencyType = dependencyType
-        };
     }
   }
 }
