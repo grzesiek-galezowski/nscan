@@ -22,6 +22,7 @@ namespace TddXt.NScan.CompositionRoot
       INScanSupport support)
     {
       var ruleDtos = ReadRules(inputArguments);
+      LogRules(ruleDtos, support);
       var xmlProjects = ReadXmlProjects(inputArguments, support);
       var analysis = Analysis.PrepareFor(xmlProjects, support);
 
@@ -30,6 +31,15 @@ namespace TddXt.NScan.CompositionRoot
       analysis.Run();
       output.WriteAnalysisReport(analysis.Report);
       return analysis.ReturnCode;
+    }
+
+    private static void LogRules(IEnumerable<RuleDto> ruleDtos, INScanSupport support)
+    {
+      foreach (var ruleDto in ruleDtos)
+      {
+        support.LogRule(ruleDto);
+
+      }
     }
 
     private static List<XmlProject> ReadXmlProjects(InputArgumentsDto cliOptions, INScanSupport support)

@@ -1,6 +1,7 @@
 ﻿using System;
 using Cake.Core.Diagnostics;
 using TddXt.NScan.App;
+using TddXt.NScan.CompositionRoot;
 
 namespace Cake.NScan
 {
@@ -23,6 +24,11 @@ namespace Cake.NScan
     {
       _contextLog.Write(Verbosity.Minimal, LogLevel.Warning,
         $"Invalid format - skipping {projectFilePath} because of {invalidOperationException}");
+    }
+
+    public void LogRule(RuleDto ruleDto)
+    {
+      throw new NotImplementedException();
     }
   }
 }

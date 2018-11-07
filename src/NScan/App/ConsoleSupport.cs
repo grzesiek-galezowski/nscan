@@ -1,4 +1,5 @@
 ﻿using System;
+using TddXt.NScan.CompositionRoot;
 
 namespace TddXt.NScan.App
 {
@@ -6,6 +7,7 @@ namespace TddXt.NScan.App
   {
     void Report(ReferencedProjectNotFoundInSolutionException exceptionFromResolution);
     void SkippingProjectBecauseOfError(InvalidOperationException invalidOperationException, string projectFilePath);
+    void LogRule(RuleDto ruleDto);
   }
 
   public class ConsoleSupport : INScanSupport
@@ -18,6 +20,11 @@ namespace TddXt.NScan.App
     public void SkippingProjectBecauseOfError(InvalidOperationException invalidOperationException, string projectFilePath)
     {
       Console.WriteLine("Invalid format - skipping " + projectFilePath + " because of " + invalidOperationException);
+    }
+
+    public void LogRule(RuleDto ruleDto)
+    {
+      Console.WriteLine($"Discovered rule: {ruleDto.DependingPattern.Pattern} {ruleDto.RuleName} {ruleDto.DependencyType}:{ruleDto.DependencyPattern.Pattern}" + "");
     }
   }
 }
