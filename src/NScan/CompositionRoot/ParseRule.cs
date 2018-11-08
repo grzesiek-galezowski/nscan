@@ -18,11 +18,16 @@ namespace TddXt.NScan.CompositionRoot
         from dependency in AnyChar.Until(LineEnd).Text()
         select new RuleDto
         {
-          DependingPattern = new Glob(depending),
+          DependingPattern = DependingPattern(depending).ReturnValue,
           RuleName = ruleName,
           DependencyPattern = new Glob(dependency),
           DependencyType = dependencyType
         };
+    }
+
+    private static GlobWithExclusion DependingPattern(string depending)
+    {
+      return new GlobWithExclusion(new Glob(depending));
     }
   }
 }
