@@ -5,6 +5,7 @@ using NSubstitute;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
 using TddXt.NScan.App;
+using TddXt.NScan.CompositionRoot;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
@@ -95,7 +96,7 @@ namespace TddXt.NScan.Specification
     public void ShouldReturnResultWithFoundProjectAndItsIndexWhenTheProjectMatchesNamePattern()
     {
       //GIVEN
-      var pattern = Any.Instance<Glob>();
+      var pattern = Any.Instance<Pattern>();
       var project1 = Substitute.For<IReferencedProject>();
       var project2 = Substitute.For<IReferencedProject>();
       var project3 = Substitute.For<IReferencedProject>();
@@ -124,7 +125,7 @@ namespace TddXt.NScan.Specification
     public void ShouldReturnNotFoundResultWhenNoneOfTheProjectsMatchNamePattern()
     {
       //GIVEN
-      var pattern = Any.Instance<Glob>();
+      var pattern = Any.Instance<Pattern>();
       var project1 = Substitute.For<IReferencedProject>();
       var project2 = Substitute.For<IReferencedProject>();
       var project3 = Substitute.For<IReferencedProject>();

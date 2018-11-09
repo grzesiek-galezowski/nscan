@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GlobExpressions;
 using TddXt.NScan.App;
+using TddXt.NScan.CompositionRoot;
 using static TddXt.NScan.ProjectDependencyPath.Predicates;
 
 namespace TddXt.NScan
@@ -12,7 +12,7 @@ namespace TddXt.NScan
     IProjectSearchResult AssemblyMatching(IDescribedDependencyCondition condition,
       IProjectSearchResult depending);
 
-    IProjectSearchResult AssemblyWithNameMatching(Glob glob);
+    IProjectSearchResult AssemblyWithNameMatching(Pattern pattern);
 
     IReadOnlyList<IReferencedProject> SegmentBetween(IProjectSearchResult dependingProjectSearchResult,
       IProjectSearchResult dependency);
@@ -47,12 +47,12 @@ namespace TddXt.NScan
     }
 
 
-    public IProjectSearchResult AssemblyWithNameMatching(Glob glob)
+    public IProjectSearchResult AssemblyWithNameMatching(Pattern pattern)
     {
-      if (_path.Any(AssemblyNameMatches(glob)))
+      if (_path.Any(AssemblyNameMatches(pattern)))
       {
         var (foundProject, occurenceIndex)
-          = FindWithIndexWhere(AssemblyNameMatches(glob));
+          = FindWithIndexWhere(AssemblyNameMatches(pattern));
         return _projectFoundSearchResultFactory.ItemFound(foundProject, occurenceIndex);
       }
       else
@@ -84,9 +84,9 @@ namespace TddXt.NScan
         return project => nextAssemblyMatchesCondition.Matches(depending, project);
       }
 
-      internal static Func<IReferencedProject, bool> AssemblyNameMatches(Glob glob)
+      internal static Func<IReferencedProject, bool> AssemblyNameMatches(Pattern pattern)
       {
-        return p => p.HasProjectAssemblyNameMatching(glob);
+        return p => p.HasProjectAssemblyNameMatching(pattern);
       }
     }
 

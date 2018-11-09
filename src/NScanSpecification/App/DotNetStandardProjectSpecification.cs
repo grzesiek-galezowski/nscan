@@ -8,7 +8,6 @@ using TddXt.AnyRoot.Collections;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.App;
 using TddXt.NScan.CompositionRoot;
-using TddXt.NScan.Xml;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
@@ -194,7 +193,7 @@ namespace TddXt.NScan.Specification.App
       }.Build();
 
       //WHEN
-      var hasProject = project.HasProjectAssemblyNameMatching(new Glob(assemblyName));
+      var hasProject = project.HasProjectAssemblyNameMatching(Pattern.WithoutExclusion(assemblyName));
 
       //THEN
       hasProject.Should().BeTrue();
@@ -210,10 +209,10 @@ namespace TddXt.NScan.Specification.App
       {
         AssemblyName = assemblyName
       }.Build();
+      string assemblyNamePattern = "*." + assemblySuffix;
 
       //WHEN
-      string assemblyNamePattern = "*." + assemblySuffix;
-      var hasProject = project.HasProjectAssemblyNameMatching(new Glob(assemblyNamePattern));
+      var hasProject = project.HasProjectAssemblyNameMatching(Pattern.WithoutExclusion(assemblyNamePattern));
 
       //THEN
       hasProject.Should().BeTrue();
@@ -224,13 +223,13 @@ namespace TddXt.NScan.Specification.App
     {
       //GIVEN
       var searchedAssemblyName = Any.String();
-      var project = new DotNetStandardProjectBuilder()
+      var project = new DotNetStandardProjectBuilder
       {
         AssemblyName = Any.OtherThan(searchedAssemblyName)
       }.Build();
 
       //WHEN
-      var hasProject = project.HasProjectAssemblyNameMatching(new Glob(searchedAssemblyName));
+      var hasProject = project.HasProjectAssemblyNameMatching(Pattern.WithoutExclusion(searchedAssemblyName));
 
       //THEN
       hasProject.Should().BeFalse();
@@ -242,7 +241,7 @@ namespace TddXt.NScan.Specification.App
     {
       //GIVEN
       var assemblyName = Any.String();
-      var project = new DotNetStandardProjectBuilder()
+      var project = new DotNetStandardProjectBuilder
       {
         AssemblyName = assemblyName
       }.Build();

@@ -5,12 +5,12 @@ using Xunit;
 
 namespace TddXt.NScan.Specification.CompositionRoot
 {
-  public class GlobWithExclusionSpecification
+  public class PatternSpecification
   {
     [Fact]
     public void ShouldBehaveLikeValueObject()
     {
-      typeof(GlobWithExclusion).Should().HaveValueSemantics();
+      typeof(Pattern).Should().HaveValueSemantics();
     }
   }
 }

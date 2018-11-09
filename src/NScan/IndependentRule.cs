@@ -1,15 +1,16 @@
 ﻿using System;
 using GlobExpressions;
 using TddXt.NScan.App;
+using TddXt.NScan.CompositionRoot;
 
 namespace TddXt.NScan
 {
   public class IndependentRule : IDependencyRule
   {
     private readonly IDescribedDependencyCondition _condition;
-    private readonly Glob _dependingAssemblyNamePattern;
+    private readonly Pattern _dependingAssemblyNamePattern;
 
-    public IndependentRule(IDescribedDependencyCondition dependencyCondition, Glob dependingAssemblyNamePattern)
+    public IndependentRule(IDescribedDependencyCondition dependencyCondition, Pattern dependingAssemblyNamePattern)
     {
       _condition = dependencyCondition;
       _dependingAssemblyNamePattern = dependingAssemblyNamePattern;

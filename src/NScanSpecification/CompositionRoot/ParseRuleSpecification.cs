@@ -24,7 +24,7 @@ namespace TddXt.NScan.Specification.CompositionRoot
         .Parse($"{depending} {ruleName} {dependencyType}:{dependency}{NewLine}");
 
       //THEN
-      ruleDto.DependingPattern.Pattern.Should().Be(depending);
+      ruleDto.DependingPattern.Should().Be(Pattern.WithoutExclusion(depending));
       ruleDto.RuleName.Should().Be(ruleName);
       ruleDto.DependencyType.Should().Be(dependencyType);
       ruleDto.DependencyPattern.Pattern.Should().Be(dependency);
@@ -45,7 +45,7 @@ namespace TddXt.NScan.Specification.CompositionRoot
         .Parse($"{depending} except {dependingException} {ruleName} {dependencyType}:{dependency}{NewLine}");
 
       //THEN
-      ruleDto.DependingPattern.Pattern.Should().Be(depending);
+      ruleDto.DependingPattern.Should().Be(Pattern.WithExclusion(depending, dependingException));
       ruleDto.RuleName.Should().Be(ruleName);
       ruleDto.DependencyType.Should().Be(dependencyType);
       ruleDto.DependencyPattern.Pattern.Should().Be(dependency);
@@ -67,7 +67,7 @@ namespace TddXt.NScan.Specification.CompositionRoot
       //THEN
       ruleDto.DependencyType.Should().Be(dependencyType);
       ruleDto.DependencyPattern.Pattern.Should().Be(dependency);
-      ruleDto.DependingPattern.Pattern.Should().Be(depending);
+      ruleDto.DependingPattern.Should().Be(Pattern.WithoutExclusion(depending));
       ruleDto.RuleName.Should().Be(ruleName);
     }
   }

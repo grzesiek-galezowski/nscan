@@ -12,17 +12,18 @@ namespace TddXt.NScan.CompositionRoot
     public IDependencyRule CreateDependencyRuleFrom(RuleDto ruleDto)
     {
       IDependencyRule rule = null;
+      var dependingAssemblyNamePattern = ruleDto.DependingPattern;
       if (ruleDto.DependencyType == ProjectDependencyType)
       {
-        rule = CreateIndependentOfProjectRule(ruleDto.DependingPattern, ruleDto.DependencyPattern, ruleDto.DependencyType);
+        rule = CreateIndependentOfProjectRule(dependingAssemblyNamePattern, ruleDto.DependencyPattern, ruleDto.DependencyType);
       }
       else if (ruleDto.DependencyType == PackageDependencyType)
       {
-        rule = CreateIndependentOfPackageRule(ruleDto.DependingPattern, ruleDto.DependencyPattern, ruleDto.DependencyType);
+        rule = CreateIndependentOfPackageRule(dependingAssemblyNamePattern, ruleDto.DependencyPattern, ruleDto.DependencyType);
       }
       else if (ruleDto.DependencyType == AssemblyDependencyType)
       {
-        rule = CreateIndependentOfAssemblyRule(ruleDto.DependingPattern, ruleDto.DependencyPattern, ruleDto.DependencyType);
+        rule = CreateIndependentOfAssemblyRule(dependingAssemblyNamePattern, ruleDto.DependencyPattern, ruleDto.DependencyType);
       }
       else
       {
@@ -32,37 +33,49 @@ namespace TddXt.NScan.CompositionRoot
       return rule;
     }
 
-    private IDependencyRule CreateIndependentOfProjectRule(Glob dependingNamePattern, Glob dependencyNamePattern,
+    private IDependencyRule CreateIndependentOfProjectRule(Pattern dependingNamePattern,
+      Glob dependencyNamePattern,
       string dependencyType)
     {
       return new IndependentRule(
         new JoinedDescribedCondition(new IsFollowingAssemblyCondition(),
           new HasAssemblyNameMatchingPatternCondition(
             dependencyNamePattern),
-          Description(dependingNamePattern, dependencyNamePattern, dependencyType)),
+          Description(dependingNamePattern, 
+            dependencyNamePattern, 
+            dependencyType)), 
         dependingNamePattern);
     }
 
-    private IDependencyRule CreateIndependentOfPackageRule(Glob dependingNamePattern, Glob packageNamePattern,
+    private static IDependencyRule CreateIndependentOfPackageRule(
+      Pattern dependingAssemblyNamePattern,
+      Glob packageNamePattern,
       string dependencyType)
     {
       return new IndependentRule(
         new DescribedCondition(
           new HasPackageReferenceMatchingCondition(packageNamePattern),
-          Description(dependingNamePattern, packageNamePattern, dependencyType)), dependingNamePattern);
+          Description(dependingAssemblyNamePattern, 
+            packageNamePattern, dependencyType)), 
+        dependingAssemblyNamePattern);
     }
 
-    private IDependencyRule CreateIndependentOfAssemblyRule(Glob dependingNamePattern, Glob assemblyNamePattern,
+    private static IDependencyRule CreateIndependentOfAssemblyRule(
+      Pattern dependingAssemblyNamePattern,
+      Glob assemblyNamePattern,
       string dependencyType)
     {
       return new IndependentRule(new DescribedCondition(new HasAssemblyReferenceMatchingCondition(assemblyNamePattern),
-        Description(dependingNamePattern, assemblyNamePattern, dependencyType)), dependingNamePattern);
+        Description(dependingAssemblyNamePattern, 
+          assemblyNamePattern, dependencyType)), 
+        dependingAssemblyNamePattern);
     }
 
-    private static string Description(Glob dependingNamePattern, Glob assemblyNamePattern, string dependencyType)
+    private static string Description(Pattern dependingNamePattern, Glob assemblyNamePattern,
+      string dependencyType)
     {
       //TODO consider moving to DependencyDescriptions
-      return DependencyDescriptions.IndependentOf(dependingNamePattern.Pattern,
+      return DependencyDescriptions.IndependentOf(dependingNamePattern.Description(),
         dependencyType + ":" + assemblyNamePattern.Pattern);
     }
   }

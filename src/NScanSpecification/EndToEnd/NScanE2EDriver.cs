@@ -44,7 +44,7 @@ namespace TddXt.NScan.Specification.EndToEnd
     {
       _rules.Add(new RuleDto()
       {
-        DependingPattern = new Glob(projectName),
+        DependingPattern = Pattern.WithoutExclusion(projectName),
         DependencyPattern = new Glob(dependencyProjectName),
         DependencyType = "project",
         RuleName = "independentOf"
@@ -100,7 +100,7 @@ namespace TddXt.NScan.Specification.EndToEnd
 
     private static string ToRuleString(RuleDto r)
     {
-      return $"{r.DependingPattern.Pattern} {r.RuleName} {r.DependencyType}:{r.DependencyPattern.Pattern}";
+      return $"{r.DependingPattern.Description()} {r.RuleName} {r.DependencyType}:{r.DependencyPattern.Pattern}";
     }
 
     private void AddAllProjectsToSolution()

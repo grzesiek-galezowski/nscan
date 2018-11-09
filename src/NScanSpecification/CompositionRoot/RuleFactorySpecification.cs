@@ -14,15 +14,15 @@ namespace TddXt.NScan.Specification.CompositionRoot
     {
       //GIVEN
       var ruleFactory = new RuleFactory();
-      var dependingId = Any.Instance<Glob>();
+      var dependingId = Any.Instance<Pattern>();
       var dependencyId = Any.Instance<Glob>();
       
       //WHEN
       var rule = ruleFactory.CreateDependencyRuleFrom(
         new RuleDto()
         {
-          DependencyPattern = dependencyId,
           DependingPattern = dependingId,
+          DependencyPattern = dependencyId,
           DependencyType = RuleFactory.ProjectDependencyType
         });
 
@@ -39,7 +39,7 @@ namespace TddXt.NScan.Specification.CompositionRoot
     {
       //GIVEN
       var ruleFactory = new RuleFactory();
-      var dependingNamePattern = Any.Instance<Glob>();
+      var dependingNamePattern = Any.Instance<Pattern>();
       var packageNamePattern = Any.Instance<Glob>();
       
       //WHEN
@@ -63,7 +63,7 @@ namespace TddXt.NScan.Specification.CompositionRoot
     {
       //GIVEN
       var ruleFactory = new RuleFactory();
-      var dependingNamePattern = Any.Instance<Glob>();
+      var dependingNamePattern = Any.Instance<Pattern>();
       var assemblyNamePattern = Any.Instance<Glob>();
       
       //WHEN

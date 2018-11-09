@@ -41,7 +41,7 @@ namespace TddXt.NScan.Specification
     {
       _rules.Add(new RuleDto()
       {
-        DependingPattern = new Glob(dependingAssemblyName),
+        DependingPattern = Pattern.WithoutExclusion(dependingAssemblyName),
         DependencyPattern = new Glob(dependentAssemblyName),
         DependencyType = "project",
         RuleName = "independentOf"
@@ -52,7 +52,7 @@ namespace TddXt.NScan.Specification
     {
       _rules.Add(new RuleDto()
       {
-        DependingPattern = new Glob(projectName),
+        DependingPattern = Pattern.WithoutExclusion(projectName),
         DependencyPattern = new Glob(packageName),
         DependencyType = "package",
         RuleName = "independentOf"
@@ -63,7 +63,7 @@ namespace TddXt.NScan.Specification
     {
       _rules.Add(new RuleDto()
       {
-        DependingPattern = new Glob(projectName),
+        DependingPattern = Pattern.WithoutExclusion(projectName),
         DependencyPattern = new Glob(assemblyName),
         DependencyType = "assembly",
         RuleName = "independentOf"
