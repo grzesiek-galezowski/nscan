@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using TddXt.NScan.CompositionRoot;
 
 namespace TddXt.NScan.ForFun

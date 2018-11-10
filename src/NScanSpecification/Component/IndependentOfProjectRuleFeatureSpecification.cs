@@ -1,6 +1,6 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using Xunit;
+using static System.Environment;
 using static TddXt.NScan.Specification.Component.DependencyRuleBuilder;
 
 namespace TddXt.NScan.Specification.Component
@@ -44,7 +44,7 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContainText($"[A] independentOf [project:B]: [ERROR]{Environment.NewLine}" +
+      context.ReportShouldContainText($"[A] independentOf [project:B]: [ERROR]{NewLine}" +
                                       "Violation in path: [A]->[B]");
       context.ShouldIndicateFailure();
     }
@@ -65,7 +65,7 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContainText($"[A] independentOf [project:C]: [ERROR]{Environment.NewLine}" +
+      context.ReportShouldContainText($"[A] independentOf [project:C]: [ERROR]{NewLine}" +
                                       "Violation in path: [A]->[B]->[C]");
       context.ShouldIndicateFailure();
     }
@@ -87,10 +87,10 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContainText($"[A] independentOf [project:D]: [ERROR]{Environment.NewLine}" +
-                                      $"Violation in path: [A]->[B]->[D]{Environment.NewLine}" +
+      context.ReportShouldContainText($"[A] independentOf [project:D]: [ERROR]{NewLine}" +
+                                      $"Violation in path: [A]->[B]->[D]{NewLine}" +
                                       "Violation in path: [A]->[C]->[D]");
-      context.ReportShouldContainText($"[A] independentOf [project:B]: [ERROR]{Environment.NewLine}" +
+      context.ReportShouldContainText($"[A] independentOf [project:B]: [ERROR]{NewLine}" +
                                       "Violation in path: [A]->[B]");
       context.ShouldIndicateFailure();
     }
@@ -109,34 +109,11 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContainText($"[*.Domain] independentOf [project:*.Ports]: [ERROR]{Environment.NewLine}" +
+      context.ReportShouldContainText($"[*.Domain] independentOf [project:*.Ports]: [ERROR]{NewLine}" +
                                       "Violation in path: [Posts.Domain]->[Posts.Ports]");
       context.ShouldIndicateFailure();
 
     }
-    
-    
-    //TODO exceptions here.
-    
-    [Fact]
-    public void ShouldAllowSpecifyingDependingPatternExclusions()
-    {
-      //GIVEN
-      var context = new NScanDriver();
-      context.HasProject("CompositionRoot");
-      context.HasProject("CompositionRootSpecification").WithReferences("CompositionRoot");
 
-      context.Add(Rule().Project("*").Except("*Specification*").IndependentOfProject("*CompositionRoot*"));
-
-      //WHEN
-      context.PerformAnalysis();
-
-      //THEN
-      context.ReportShouldContainText($"[* except *Specification*] independentOf [project:*CompositionRoot*]: [OK]");
-      context.ShouldIndicateFailure();
-
-    }
-
-    //rule for bad projects
   }
 }

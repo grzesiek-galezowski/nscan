@@ -9,10 +9,10 @@ namespace TddXt.NScan.CompositionRoot
     private readonly string _inclusionGlobString;
     private readonly Maybe<string> _exclusionGlob;
 
-    public static Pattern WithoutExclusion(string depending)
+    public static Pattern WithoutExclusion(string pattern)
     {
       return new Pattern(
-        depending ?? throw new ArgumentNullException(nameof(depending)), 
+        pattern ?? throw new ArgumentNullException(nameof(pattern)), 
         Maybe.Nothing<string>());
     }
 
@@ -33,14 +33,17 @@ namespace TddXt.NScan.CompositionRoot
 
     public string Description()
     {
-      return _inclusionGlobString;
+      return _exclusionGlob.Select(exclusionPattern => _inclusionGlobString + " except " + exclusionPattern)
+        .Otherwise(() => _inclusionGlobString);
     }
 
     public bool IsMatch(string assemblyName)
     {
       return
-        Glob.IsMatch(assemblyName, _inclusionGlobString);
-      //&& _exclusionGlob.Select(exclusion => !Glob.IsMatch(assemblyName, exclusion)).Otherwise(() => true);
+        Glob.IsMatch(assemblyName, _inclusionGlobString)
+      && _exclusionGlob.Select(
+          exclusion => !Glob.IsMatch(assemblyName, exclusion))
+          .Otherwise(() => true);
     }
 
     public bool Equals(Pattern other)
