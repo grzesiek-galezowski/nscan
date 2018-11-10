@@ -3,6 +3,7 @@ using TddXt.AnyRoot.Strings;
 using Xunit;
 using static System.Environment;
 using static TddXt.AnyRoot.Root;
+using static TddXt.NScan.Specification.Component.DependencyRuleBuilder;
 
 namespace TddXt.NScan.Specification.Component
 {
@@ -18,7 +19,7 @@ namespace TddXt.NScan.Specification.Component
       var context = new NScanDriver();
       context.HasProject(projectName);
 
-      context.AddIndependentOfPackageRule(projectName, packageName);
+      context.Add(Rule().Project(projectName).IndependentOfPackage(packageName));
 
       //WHEN
       context.PerformAnalysis();
@@ -37,7 +38,7 @@ namespace TddXt.NScan.Specification.Component
       var context = new NScanDriver();
       context.HasProject(projectName).WithPackages(packageName);
 
-      context.AddIndependentOfPackageRule(projectName, packageName);
+      context.Add(Rule().Project(projectName).IndependentOfPackage(packageName));
 
       //WHEN
       context.PerformAnalysis();
@@ -58,7 +59,7 @@ namespace TddXt.NScan.Specification.Component
       context.HasProject(projectName).WithReferences(projectName2);
       context.HasProject(projectName2).WithPackages(packageName);
 
-      context.AddIndependentOfPackageRule(projectName, packageName);
+      context.Add(Rule().Project(projectName).IndependentOfPackage(packageName));
 
       //WHEN
       context.PerformAnalysis();

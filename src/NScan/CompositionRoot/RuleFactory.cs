@@ -15,15 +15,24 @@ namespace TddXt.NScan.CompositionRoot
       var dependingAssemblyNamePattern = ruleDto.DependingPattern;
       if (ruleDto.DependencyType == ProjectDependencyType)
       {
-        rule = CreateIndependentOfProjectRule(dependingAssemblyNamePattern, ruleDto.DependencyPattern, ruleDto.DependencyType);
+        rule = CreateIndependentOfProjectRule(
+          dependingAssemblyNamePattern, 
+          ruleDto.DependencyPattern, 
+          ruleDto.DependencyType);
       }
       else if (ruleDto.DependencyType == PackageDependencyType)
       {
-        rule = CreateIndependentOfPackageRule(dependingAssemblyNamePattern, ruleDto.DependencyPattern, ruleDto.DependencyType);
+        rule = CreateIndependentOfPackageRule(
+          dependingAssemblyNamePattern, 
+          ruleDto.DependencyPattern, 
+          ruleDto.DependencyType);
       }
       else if (ruleDto.DependencyType == AssemblyDependencyType)
       {
-        rule = CreateIndependentOfAssemblyRule(dependingAssemblyNamePattern, ruleDto.DependencyPattern, ruleDto.DependencyType);
+        rule = CreateIndependentOfAssemblyRule(
+          dependingAssemblyNamePattern, 
+          ruleDto.DependencyPattern, 
+          ruleDto.DependencyType);
       }
       else
       {

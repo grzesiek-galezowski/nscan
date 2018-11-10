@@ -1,28 +1,68 @@
 using System;
 using GlobExpressions;
+using TddXt.NScan.ForFun;
 
 namespace TddXt.NScan.CompositionRoot
 {
   public sealed class Pattern : IEquatable<Pattern>
   {
+    private readonly string _inclusionGlobString;
+    private readonly Maybe<string> _exclusionGlob;
+
+    public static Pattern WithoutExclusion(string depending)
+    {
+      return new Pattern(
+        depending ?? throw new ArgumentNullException(nameof(depending)), 
+        Maybe.Nothing<string>());
+    }
+
+    public static Pattern WithExclusion(string depending, string dependingException)
+    {
+      return new Pattern(
+        depending ?? throw new ArgumentNullException(nameof(depending)),
+        Maybe.Just(dependingException)
+        ); //bug
+    }
+
+    public Pattern(string inclusionGlobString, Maybe<string> exclusionGlobString)
+    {
+      _inclusionGlobString = inclusionGlobString;
+      _exclusionGlob = exclusionGlobString;
+    }
+
+
+    public string Description()
+    {
+      return _inclusionGlobString;
+    }
+
+    public bool IsMatch(string assemblyName)
+    {
+      return
+        Glob.IsMatch(assemblyName, _inclusionGlobString);
+      //&& _exclusionGlob.Select(exclusion => !Glob.IsMatch(assemblyName, exclusion)).Otherwise(() => true);
+    }
+
     public bool Equals(Pattern other)
     {
       if (ReferenceEquals(null, other)) return false;
       if (ReferenceEquals(this, other)) return true;
-      return Equals(InnerGlob.Pattern, other.InnerGlob.Pattern);
+      return string.Equals(_inclusionGlobString, other._inclusionGlobString) && _exclusionGlob.Equals(other._exclusionGlob);
     }
 
     public override bool Equals(object obj)
     {
       if (ReferenceEquals(null, obj)) return false;
       if (ReferenceEquals(this, obj)) return true;
-      if (obj.GetType() != this.GetType()) return false;
-      return Equals((Pattern) obj);
+      return obj is Pattern other && Equals(other);
     }
 
     public override int GetHashCode()
     {
-      return (InnerGlob != null ? InnerGlob.Pattern.GetHashCode() : 0);
+      unchecked
+      {
+        return (_inclusionGlobString.GetHashCode() * 397) ^ _exclusionGlob.GetHashCode();
+      }
     }
 
     public static bool operator ==(Pattern left, Pattern right)
@@ -35,31 +75,6 @@ namespace TddXt.NScan.CompositionRoot
       return !Equals(left, right);
     }
 
-    public Pattern(string innerGlobPattern)
-    {
-      InnerGlob = new Glob(innerGlobPattern);
-    }
 
-    private Glob InnerGlob { get; } //bug remove
-
-    public string Description()
-    {
-      return InnerGlob.Pattern;
-    }
-
-    public bool IsMatch(string assemblyName)
-    {
-      return InnerGlob.IsMatch(assemblyName);
-    }
-
-    public static Pattern WithoutExclusion(string depending)
-    {
-      return new Pattern(depending ?? throw new ArgumentNullException(nameof(depending)));
-    }
-
-    public static Pattern WithExclusion(string depending, string dependingException)
-    {
-      return Pattern.WithoutExclusion(depending); //bug
-    }
   }
 }

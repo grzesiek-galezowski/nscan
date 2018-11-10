@@ -8,21 +8,29 @@ namespace TddXt.NScan.CompositionRoot
   public static class ParseRule
   {
     private static readonly Parser<IEnumerable<char>> Spaces = WhiteSpace.AtLeastOnce();
+    private static readonly Parser<string> TextUntilWhitespace = AnyChar.Until(Spaces).Text();
+    private static readonly Parser<IEnumerable<char>> ExceptKeyword = String("except");
+    private static readonly Parser<string> TextUntilEol = AnyChar.Until(LineEnd).Text();
 
     public static Parser<RuleDto> FromLine()
     {
-      return from depending in AnyChar.Until(Spaces).Text()
-        from optionalException in String("except").Then(_ => Spaces).Then(_ => AnyChar.Until(Spaces)).Optional()
-        from ruleName in AnyChar.Until(Spaces).Text()
+      return from depending in TextUntilWhitespace
+        from optionalException in ExceptKeyword.Then(_ => Spaces).Then(_ => TextUntilWhitespace).Optional()
+        from ruleName in TextUntilWhitespace
         from dependencyType in AnyChar.Until(Char(':')).Text()
-        from dependency in AnyChar.Until(LineEnd).Text()
+        from dependency in TextUntilEol
         select new RuleDto
         {
-          DependingPattern = Pattern.WithoutExclusion(depending),
+          DependingPattern = DependingPattern(depending, optionalException),
           RuleName = ruleName,
           DependencyPattern = new Glob(dependency),
           DependencyType = dependencyType
         };
+    }
+
+    private static Pattern DependingPattern(string depending, IOption<string> optionalException)
+    {
+      return optionalException.IsDefined ? Pattern.WithExclusion(depending, optionalException.Get()) : Pattern.WithoutExclusion(depending);
     }
   }
 }

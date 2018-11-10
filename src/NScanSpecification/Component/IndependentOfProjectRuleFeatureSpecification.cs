@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Xunit;
+using static TddXt.NScan.Specification.Component.DependencyRuleBuilder;
 
 namespace TddXt.NScan.Specification.Component
 {
+  [SuppressMessage("ReSharper", "TestFileNameWarning")]
   public class IndependentOfProjectRuleFeatureSpecification
   {
     [Fact]
@@ -13,7 +16,8 @@ namespace TddXt.NScan.Specification.Component
       context.HasProject("A");
       context.HasProject("B");
 
-      context.AddIndependentOfProjectRule("A", "B");
+      context.Add(Rule().Project("A")
+        .IndependentOfProject("B"));
 
       //WHEN
       context.PerformAnalysis();
@@ -33,14 +37,15 @@ namespace TddXt.NScan.Specification.Component
       context.HasProject("C");
       context.HasProject("D");
 
-      context.AddIndependentOfProjectRule("A", "B");
+      context.Add(Rule().Project("A")
+        .IndependentOfProject("B"));
 
       //WHEN
       context.PerformAnalysis();
 
       //THEN
       context.ReportShouldContainText($"[A] independentOf [project:B]: [ERROR]{Environment.NewLine}" +
-                                      $"Violation in path: [A]->[B]");
+                                      "Violation in path: [A]->[B]");
       context.ShouldIndicateFailure();
     }
 
@@ -54,7 +59,7 @@ namespace TddXt.NScan.Specification.Component
       context.HasProject("C");
       context.HasProject("D");
 
-      context.AddIndependentOfProjectRule("A", "C");
+      context.Add(Rule().Project("A").IndependentOfProject("C"));
 
       //WHEN
       context.PerformAnalysis();
@@ -75,8 +80,8 @@ namespace TddXt.NScan.Specification.Component
       context.HasProject("C").WithReferences("D");
       context.HasProject("D");
 
-      context.AddIndependentOfProjectRule("A", "D");
-      context.AddIndependentOfProjectRule("A", "B");
+      context.Add(Rule().Project("A").IndependentOfProject("D"));
+      context.Add(Rule().Project("A").IndependentOfProject("B"));
 
       //WHEN
       context.PerformAnalysis();
@@ -84,28 +89,50 @@ namespace TddXt.NScan.Specification.Component
       //THEN
       context.ReportShouldContainText($"[A] independentOf [project:D]: [ERROR]{Environment.NewLine}" +
                                       $"Violation in path: [A]->[B]->[D]{Environment.NewLine}" +
-                                      $"Violation in path: [A]->[C]->[D]");
+                                      "Violation in path: [A]->[C]->[D]");
       context.ReportShouldContainText($"[A] independentOf [project:B]: [ERROR]{Environment.NewLine}" +
                                       "Violation in path: [A]->[B]");
       context.ShouldIndicateFailure();
     }
 
     [Fact]
-    public void ShouldDetectRuleBreakWithRegularExpression()
+    public void ShouldDetectRuleBreakWithGlobExpression()
     {
       //GIVEN
       var context = new NScanDriver();
       context.HasProject("Posts.Domain").WithReferences("Posts.Ports");
       context.HasProject("Posts.Ports");
 
-      context.AddIndependentOfProjectRule("*.Domain", "*.Ports");
+      context.Add(Rule().Project("*.Domain").IndependentOfProject("*.Ports"));
 
       //WHEN
       context.PerformAnalysis();
 
       //THEN
       context.ReportShouldContainText($"[*.Domain] independentOf [project:*.Ports]: [ERROR]{Environment.NewLine}" +
-                                      $"Violation in path: [Posts.Domain]->[Posts.Ports]");
+                                      "Violation in path: [Posts.Domain]->[Posts.Ports]");
+      context.ShouldIndicateFailure();
+
+    }
+    
+    
+    //TODO exceptions here.
+    
+    [Fact]
+    public void ShouldAllowSpecifyingDependingPatternExclusions()
+    {
+      //GIVEN
+      var context = new NScanDriver();
+      context.HasProject("CompositionRoot");
+      context.HasProject("CompositionRootSpecification").WithReferences("CompositionRoot");
+
+      context.Add(Rule().Project("*").Except("*Specification*").IndependentOfProject("*CompositionRoot*"));
+
+      //WHEN
+      context.PerformAnalysis();
+
+      //THEN
+      context.ReportShouldContainText($"[* except *Specification*] independentOf [project:*CompositionRoot*]: [OK]");
       context.ShouldIndicateFailure();
 
     }

@@ -1,30 +1,32 @@
 ﻿using System;
+using TddXt.NScan.CompositionRoot;
 
 namespace TddXt.NScan.ForFun
 {
   public struct Maybe
   {
-    public static Maybe<T> Just<T>(T instance) where T : class
+    public static Maybe<T> Just<T>(T instance)
     {
       if (instance == null)
       {
-        throw new Exception("Cannot create just instance from null");
+        throw new ArgumentNullException(nameof(instance));
       }
-      return new Maybe<T>(instance); // extracting FromNullable does not preserve T
+      return new Maybe<T>(instance);
     }
 
-    public static Maybe<T> Nothing<T>() where T : class
+    public static Maybe<T> Nothing<T>()
     {
-      return new Maybe<T>(null);
+      return new Maybe<T>();
     }
   }
 
-  public struct Maybe<T> where T : class
+  public struct Maybe<T>
   {
     private readonly T _instance;
 
     public Maybe(T instance)
     {
+      HasValue = true;
       _instance = instance;
     }
 
@@ -38,7 +40,31 @@ namespace TddXt.NScan.ForFun
       return _instance;
     }
 
-    public bool HasValue => _instance != null;
+    public bool HasValue { get; }
+
+    public Maybe<TU> Select<TU>(Func<T, TU> func)
+    {
+      if (HasValue)
+      {
+        return Maybe.Just(func(_instance));
+      }
+      else
+      {
+        return Maybe.Nothing<TU>();
+      }
+    }
+
+    public T Otherwise(Func<T> fallbackFunc)
+    {
+      if (HasValue)
+      {
+        return Value();
+      }
+      else
+      {
+        return fallbackFunc();
+      }
+    }
   }
 
 }

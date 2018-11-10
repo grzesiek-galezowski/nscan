@@ -3,7 +3,9 @@ using FluentAssertions;
 using GlobExpressions;
 using TddXt.NScan.App;
 using TddXt.NScan.CompositionRoot;
+using TddXt.NScan.Specification.Component;
 using TddXt.NScan.Xml;
+using static TddXt.NScan.Specification.Component.DependencyRuleBuilder;
 
 namespace TddXt.NScan.Specification
 {
@@ -37,38 +39,9 @@ namespace TddXt.NScan.Specification
       return @"C:\" + assemblyName + ".cs";
     }
 
-    public void AddIndependentOfProjectRule(string dependingAssemblyName, string dependentAssemblyName)
+    public void Add(IFullRuleConstructed ruleDefinition)
     {
-      _rules.Add(new RuleDto()
-      {
-        DependingPattern = Pattern.WithoutExclusion(dependingAssemblyName),
-        DependencyPattern = new Glob(dependentAssemblyName),
-        DependencyType = "project",
-        RuleName = "independentOf"
-      });
-    }
-
-    public void AddIndependentOfPackageRule(string projectName, string packageName)
-    {
-      _rules.Add(new RuleDto()
-      {
-        DependingPattern = Pattern.WithoutExclusion(projectName),
-        DependencyPattern = new Glob(packageName),
-        DependencyType = "package",
-        RuleName = "independentOf"
-      });
-    }
-
-    public void AddIndependentOfAssemblyRule(string projectName, string assemblyName)
-    {
-      _rules.Add(new RuleDto()
-      {
-        DependingPattern = Pattern.WithoutExclusion(projectName),
-        DependencyPattern = new Glob(assemblyName),
-        DependencyType = "assembly",
-        RuleName = "independentOf"
-      });
-
+      _rules.Add(ruleDefinition.Build());
     }
 
     public void PerformAnalysis()
