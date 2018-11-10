@@ -23,16 +23,16 @@ var solutionName = "NScan.sln";
 var mainDll = "TddXt.NScan.dll";
 
 var nscanConsoleTitle = "NScan.Console";
-var nscanConsoleVersion = "0.4.0";
-var nscanConsoleReleaseNotes = "Changed assembly name to NScan.Console";
+var nscanConsoleVersion = "0.5.0";
+var nscanConsoleReleaseNotes = "Added exclusion syntax for depending project assembly names";
 
 var nscanTitle = "NScan";
-var nscanVersion = "0.4.0";
-var nscanReleaseNotes = "Changed entry point for the library";
+var nscanVersion = "0.5.0";
+var nscanReleaseNotes = nscanConsoleReleaseNotes;
 
 var cakeNscanTitle = "Cake.NScan";
-var cakeNscanVersion = "0.5.0";
-var cakeNScanReleaseNotes = "Changed alias name from Analyze to NScanAnalyze";
+var cakeNscanVersion = "0.6.0";
+var cakeNScanReleaseNotes = nscanConsoleReleaseNotes;
 
 
 //////////////////////////////////////////////////////////////////////
