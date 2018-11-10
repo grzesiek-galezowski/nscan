@@ -105,7 +105,6 @@ namespace TddXt.NScan.App
 
     }
 
-    //bug
     public bool HasProjectAssemblyNameMatching(Pattern pattern) => 
       pattern.IsMatch(_assemblyName);
 

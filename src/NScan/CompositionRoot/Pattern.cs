@@ -6,8 +6,8 @@ namespace TddXt.NScan.CompositionRoot
 {
   public sealed class Pattern : IEquatable<Pattern>
   {
-    private readonly string _inclusionGlobString;
-    private readonly Maybe<string> _exclusionGlob;
+    private readonly string _inclusionPattern;
+    private readonly Maybe<string> _exclusionPattern;
 
     public static Pattern WithoutExclusion(string pattern)
     {
@@ -16,32 +16,32 @@ namespace TddXt.NScan.CompositionRoot
         Maybe.Nothing<string>());
     }
 
-    public static Pattern WithExclusion(string depending, string dependingException)
+    public static Pattern WithExclusion(string inclusionPattern, string exclusionPattern)
     {
       return new Pattern(
-        depending ?? throw new ArgumentNullException(nameof(depending)),
-        Maybe.Just(dependingException)
-        ); //bug
+        inclusionPattern ?? throw new ArgumentNullException(nameof(inclusionPattern)),
+        Maybe.Just(exclusionPattern)
+        );
     }
 
-    public Pattern(string inclusionGlobString, Maybe<string> exclusionGlobString)
+    public Pattern(string inclusionPattern, Maybe<string> exclusionPattern)
     {
-      _inclusionGlobString = inclusionGlobString;
-      _exclusionGlob = exclusionGlobString;
+      _inclusionPattern = inclusionPattern;
+      _exclusionPattern = exclusionPattern;
     }
 
 
     public string Description()
     {
-      return _exclusionGlob.Select(exclusionPattern => _inclusionGlobString + " except " + exclusionPattern)
-        .Otherwise(() => _inclusionGlobString);
+      return _exclusionPattern.Select(exclusionPattern => _inclusionPattern + " except " + exclusionPattern)
+        .Otherwise(() => _inclusionPattern);
     }
 
     public bool IsMatch(string assemblyName)
     {
       return
-        Glob.IsMatch(assemblyName, _inclusionGlobString)
-      && _exclusionGlob.Select(
+        Glob.IsMatch(assemblyName, _inclusionPattern)
+      && _exclusionPattern.Select(
           exclusion => !Glob.IsMatch(assemblyName, exclusion))
           .Otherwise(() => true);
     }
@@ -50,7 +50,7 @@ namespace TddXt.NScan.CompositionRoot
     {
       if (ReferenceEquals(null, other)) return false;
       if (ReferenceEquals(this, other)) return true;
-      return string.Equals(_inclusionGlobString, other._inclusionGlobString) && _exclusionGlob.Equals(other._exclusionGlob);
+      return string.Equals(_inclusionPattern, other._inclusionPattern) && _exclusionPattern.Equals(other._exclusionPattern);
     }
 
     public override bool Equals(object obj)
@@ -64,7 +64,7 @@ namespace TddXt.NScan.CompositionRoot
     {
       unchecked
       {
-        return (_inclusionGlobString.GetHashCode() * 397) ^ _exclusionGlob.GetHashCode();
+        return (_inclusionPattern.GetHashCode() * 397) ^ _exclusionPattern.GetHashCode();
       }
     }
 
