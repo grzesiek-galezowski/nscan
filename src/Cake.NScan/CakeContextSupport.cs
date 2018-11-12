@@ -28,7 +28,7 @@ namespace Cake.NScan
 
     public void LogRule(RuleDto ruleDto)
     {
-      throw new NotImplementedException();
+      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {ruleDto.DependingPattern.Description()} {ruleDto.RuleName} {ruleDto.IndependentRuleComplement.DependencyType}:{ruleDto.IndependentRuleComplement.DependencyPattern.Pattern}" + "");
     }
   }
 }
