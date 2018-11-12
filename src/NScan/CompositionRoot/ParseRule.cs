@@ -29,6 +29,21 @@ namespace TddXt.NScan.CompositionRoot
 
     private static Parser<ComplementDto> Complement()
     {
+      return IndependentOfRuleComplement()
+        .Or(HasCorrectNamespacesRuleComplement());
+    }
+
+    private static Parser<ComplementDto> HasCorrectNamespacesRuleComplement()
+    {
+      return String(RuleNames.HasCorrectNamespaces).Return(new ComplementDto
+      {
+        CorrectNamespacesRuleComplement = new CorrectNamespacesRuleComplementDto(),
+        RuleName = RuleNames.HasCorrectNamespaces
+      });
+    }
+
+    private static Parser<ComplementDto> IndependentOfRuleComplement()
+    {
       return IndependentOfKeyword
         .Then(_ => from dependencyType in AnyChar.Until(Char(':')).Text().Token()
           from dependency in TextUntilEol
@@ -41,12 +56,7 @@ namespace TddXt.NScan.CompositionRoot
             },
             RuleName = RuleNames.IndependentOf
 
-          })
-        .Or(String(RuleNames.HasCorrectNamespaces).Return(new ComplementDto
-        {
-          CorrectNamespacesRuleComplement = new CorrectNamespacesRuleComplementDto(),
-          RuleName = RuleNames.HasCorrectNamespaces
-        }));
+          });
     }
 
     private static Pattern DependingPattern(string depending, IOption<string> optionalException)

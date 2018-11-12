@@ -85,7 +85,6 @@ namespace TddXt.NScan.Specification.Component
         IndependentRuleComplement = new IndependentRuleComplementDto
         {
           DependencyType = _dependencyType,
-          RuleName = _ruleName,
           DependencyPattern = _dependencyPattern
         },
         RuleName = _ruleName,
