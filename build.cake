@@ -31,8 +31,8 @@ var nscanVersion = "0.5.0";
 var nscanReleaseNotes = nscanConsoleReleaseNotes;
 
 var cakeNscanTitle = "Cake.NScan";
-var cakeNscanVersion = "0.6.0";
-var cakeNScanReleaseNotes = nscanConsoleReleaseNotes;
+var cakeNscanVersion = "0.6.1";
+var cakeNScanReleaseNotes = "Fixed a NotImplementedException";
 
 
 //////////////////////////////////////////////////////////////////////
