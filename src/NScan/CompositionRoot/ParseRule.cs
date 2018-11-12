@@ -21,7 +21,9 @@ namespace TddXt.NScan.CompositionRoot
         select new RuleDto
         {
           DependingPattern = DependingPattern(depending, optionalException),
-          IndependentRuleComplement = complementDto.IndependentRuleComplement
+          IndependentRuleComplement = complementDto.IndependentRuleComplement, //bug maybe
+          CorrectNamespacesRuleComplement = complementDto.CorrectNamespacesRuleComplement, //bug maybe
+          RuleName = complementDto.RuleName
         };
     }
 
@@ -34,11 +36,17 @@ namespace TddXt.NScan.CompositionRoot
           {
             IndependentRuleComplement = new IndependentRuleComplementDto
             {
-              RuleName = "independentOf",
               DependencyPattern = new Glob(dependency),
               DependencyType = dependencyType
-            }
-          });
+            },
+            RuleName = RuleNames.IndependentOf
+
+          })
+        .Or(String(RuleNames.HasCorrectNamespaces).Return(new ComplementDto
+        {
+          CorrectNamespacesRuleComplement = new CorrectNamespacesRuleComplementDto(),
+          RuleName = RuleNames.HasCorrectNamespaces
+        }));
     }
 
     private static Pattern DependingPattern(string depending, IOption<string> optionalException)
@@ -47,15 +55,5 @@ namespace TddXt.NScan.CompositionRoot
     }
   }
 
-  internal class ComplementDto
-  {
-    public IndependentRuleComplementDto IndependentRuleComplement { get; set; }
-  }
 
-  public class IndependentRuleComplementDto
-  {
-    public Glob DependencyPattern { get; set; }
-    public string DependencyType { get; set; }
-    public string RuleName { get; set; }
-  }
 }

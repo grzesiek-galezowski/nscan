@@ -24,9 +24,9 @@ namespace TddXt.NScan.Specification.CompositionRoot
 
       //THEN
       ruleDto.DependingPattern.Should().Be(Pattern.WithoutExclusion(depending));
-      ruleDto.IndependentRuleComplement.RuleName.Should().Be(RuleNames.IndependentOf);
       ruleDto.IndependentRuleComplement.DependencyType.Should().Be(dependencyType);
       ruleDto.IndependentRuleComplement.DependencyPattern.Pattern.Should().Be(dependency);
+      ruleDto.RuleName.Should().Be(RuleNames.IndependentOf);
     }
 
     [Fact]
@@ -44,9 +44,9 @@ namespace TddXt.NScan.Specification.CompositionRoot
 
       //THEN
       ruleDto.DependingPattern.Should().Be(Pattern.WithExclusion(depending, dependingException));
-      ruleDto.IndependentRuleComplement.RuleName.Should().Be(RuleNames.IndependentOf);
       ruleDto.IndependentRuleComplement.DependencyType.Should().Be(dependencyType);
       ruleDto.IndependentRuleComplement.DependencyPattern.Pattern.Should().Be(dependency);
+      ruleDto.RuleName.Should().Be(RuleNames.IndependentOf);
     }
 
     [Fact]
@@ -65,28 +65,23 @@ namespace TddXt.NScan.Specification.CompositionRoot
       ruleDto.IndependentRuleComplement.DependencyType.Should().Be(dependencyType);
       ruleDto.IndependentRuleComplement.DependencyPattern.Pattern.Should().Be(dependency);
       ruleDto.DependingPattern.Should().Be(Pattern.WithoutExclusion(depending));
-      ruleDto.IndependentRuleComplement.RuleName.Should().Be(RuleNames.IndependentOf);
+      ruleDto.RuleName.Should().Be(RuleNames.IndependentOf);
     }
     
-    /*
     [Fact]
     public void ShouldParseNamespacesIntactRuleDefinition()
     {
       //GIVEN
       var depending = Any.String();
-      var dependencyType = Any.String();
-      var dependency = Any.String();
-      var ruleName = Any.String();
 
       //WHEN
       var ruleDto = ParseRule.FromLine()
-        .Parse($"{depending}  {ruleName}  {dependencyType}:{dependency}{NewLine}");
+        .Parse($"{depending}  hasCorrectNamespaces");
 
       //THEN
-      ruleDto.DependencyType.Should().Be(dependencyType);
-      ruleDto.DependencyPattern.Pattern.Should().Be(dependency);
-      ruleDto.DependingPattern.Should().Be(Pattern.WithoutExclusion(depending));
-      ruleDto.RuleName.Should().Be(ruleName);
-    }*/
+      ruleDto.IndependentRuleComplement.Should().BeNull(); //bug maybe!
+      ruleDto.CorrectNamespacesRuleComplement.Should().NotBeNull();
+      ruleDto.RuleName.Should().Be(RuleNames.HasCorrectNamespaces);
+    }
   }
 }

@@ -87,7 +87,8 @@ namespace TddXt.NScan.Specification.Component
           DependencyType = _dependencyType,
           RuleName = _ruleName,
           DependencyPattern = _dependencyPattern
-        }
+        },
+        RuleName = _ruleName,
       };
     }
 

@@ -95,7 +95,7 @@ namespace TddXt.NScan.Specification.EndToEnd
 
     private static string ToRuleString(RuleDto r)
     {
-      return $"{r.DependingPattern.Description()} {r.IndependentRuleComplement.RuleName} {r.IndependentRuleComplement.DependencyType}:{r.IndependentRuleComplement.DependencyPattern.Pattern}";
+      return $"{r.DependingPattern.Description()} {r.RuleName} {r.IndependentRuleComplement.DependencyType}:{r.IndependentRuleComplement.DependencyPattern.Pattern}";
     }
 
     private void AddAllProjectsToSolution()
