@@ -5,7 +5,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using Buildalyzer;
 using TddXt.NScan.App;
-using TddXt.NScan.ForFun;
+using TddXt.NScan.Lib;
 using TddXt.NScan.Xml;
 
 namespace TddXt.NScan.CompositionRoot

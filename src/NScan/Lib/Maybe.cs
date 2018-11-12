@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
-using TddXt.NScan.CompositionRoot;
 
-namespace TddXt.NScan.ForFun
+namespace TddXt.NScan.Lib
 {
   public struct Maybe
   {
@@ -35,7 +33,7 @@ namespace TddXt.NScan.ForFun
     {
       if (!HasValue)
       {
-        throw new Exception("no data");
+        throw new NoValueException<T>();
       }
 
       return _instance;
@@ -67,5 +65,4 @@ namespace TddXt.NScan.ForFun
       }
     }
   }
-
 }

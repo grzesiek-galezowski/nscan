@@ -15,7 +15,6 @@ namespace Cake.NScan
     }
 
 
-    //bug make support and output to use a Cake logger
     [CakeMethodAlias]
     public static void NScanAnalyze(
       this ICakeContext context, 

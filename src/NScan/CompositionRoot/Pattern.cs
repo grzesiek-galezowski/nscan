@@ -1,6 +1,6 @@
 using System;
 using GlobExpressions;
-using TddXt.NScan.ForFun;
+using TddXt.NScan.Lib;
 
 namespace TddXt.NScan.CompositionRoot
 {

@@ -1,7 +1,8 @@
 ﻿using System.Threading.Tasks;
 using GlobExpressions;
 using TddXt.NScan.CompositionRoot;
-using static TddXt.NScan.ForFun.Maybe;
+using TddXt.NScan.Lib;
+using static TddXt.NScan.Lib.Maybe;
 
 namespace TddXt.NScan.Specification.Component
 {
@@ -33,7 +34,7 @@ namespace TddXt.NScan.Specification.Component
     private Glob _dependencyPattern;
     private string _dependencyType;
     private string _ruleName;
-    private ForFun.Maybe<string> _exclusionPattern = Nothing<string>();
+    private Maybe<string> _exclusionPattern = Nothing<string>();
 
     public IProjectNameStated Project(string dependingAssemblyName)
     {
