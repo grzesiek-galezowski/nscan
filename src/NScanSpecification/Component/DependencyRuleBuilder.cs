@@ -47,7 +47,7 @@ namespace TddXt.NScan.Specification.Component
     {
       _dependencyPattern = new Glob(dependentAssemblyName);
       _dependencyType = "project";
-      _ruleName = "independentOf";
+      _ruleName = RuleNames.IndependentOf;
       return this;
     }
 
@@ -55,7 +55,7 @@ namespace TddXt.NScan.Specification.Component
     {
       _dependencyPattern = new Glob(packageName);
       _dependencyType = "package";
-      _ruleName = "independentOf";
+      _ruleName = RuleNames.IndependentOf;
       return this;
 
     }
@@ -64,7 +64,7 @@ namespace TddXt.NScan.Specification.Component
     {
       _dependencyPattern = new Glob(assemblyName);
       _dependencyType = "assembly";
-      _ruleName = "independentOf";
+      _ruleName = RuleNames.IndependentOf;
       return this;
     }
 

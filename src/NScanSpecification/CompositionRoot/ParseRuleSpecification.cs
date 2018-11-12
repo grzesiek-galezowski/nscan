@@ -17,15 +17,14 @@ namespace TddXt.NScan.Specification.CompositionRoot
       var depending = Any.String();
       var dependencyType = Any.String();
       var dependency = Any.String();
-      var ruleName = Any.String();
 
       //WHEN
       var ruleDto = ParseRule.FromLine()
-        .Parse($"{depending} {ruleName} {dependencyType}:{dependency}{NewLine}");
+        .Parse($"{depending} {RuleNames.IndependentOf} {dependencyType}:{dependency}{NewLine}");
 
       //THEN
       ruleDto.DependingPattern.Should().Be(Pattern.WithoutExclusion(depending));
-      ruleDto.RuleName.Should().Be(ruleName);
+      ruleDto.RuleName.Should().Be(RuleNames.IndependentOf);
       ruleDto.DependencyType.Should().Be(dependencyType);
       ruleDto.DependencyPattern.Pattern.Should().Be(dependency);
     }
@@ -37,22 +36,41 @@ namespace TddXt.NScan.Specification.CompositionRoot
       var depending = Any.String();
       var dependencyType = Any.String();
       var dependency = Any.String();
-      var ruleName = Any.String();
       var dependingException = Any.String();
 
       //WHEN
       var ruleDto = ParseRule.FromLine()
-        .Parse($"{depending} except {dependingException} {ruleName} {dependencyType}:{dependency}{NewLine}");
+        .Parse($"{depending} except {dependingException} {RuleNames.IndependentOf} {dependencyType}:{dependency}{NewLine}");
 
       //THEN
       ruleDto.DependingPattern.Should().Be(Pattern.WithExclusion(depending, dependingException));
-      ruleDto.RuleName.Should().Be(ruleName);
+      ruleDto.RuleName.Should().Be(RuleNames.IndependentOf);
       ruleDto.DependencyType.Should().Be(dependencyType);
       ruleDto.DependencyPattern.Pattern.Should().Be(dependency);
     }
 
     [Fact]
     public void ShouldParseDefaultRuleSyntaxWithMoreThanOneSpace()
+    {
+      //GIVEN
+      var depending = Any.String();
+      var dependencyType = Any.String();
+      var dependency = Any.String();
+
+      //WHEN
+      var ruleDto = ParseRule.FromLine()
+        .Parse($"{depending}  {RuleNames.IndependentOf}  {dependencyType}:{dependency}{NewLine}");
+
+      //THEN
+      ruleDto.DependencyType.Should().Be(dependencyType);
+      ruleDto.DependencyPattern.Pattern.Should().Be(dependency);
+      ruleDto.DependingPattern.Should().Be(Pattern.WithoutExclusion(depending));
+      ruleDto.RuleName.Should().Be(RuleNames.IndependentOf);
+    }
+    
+    /*
+    [Fact]
+    public void ShouldParseNamespacesIntactRuleDefinition()
     {
       //GIVEN
       var depending = Any.String();
@@ -69,6 +87,6 @@ namespace TddXt.NScan.Specification.CompositionRoot
       ruleDto.DependencyPattern.Pattern.Should().Be(dependency);
       ruleDto.DependingPattern.Should().Be(Pattern.WithoutExclusion(depending));
       ruleDto.RuleName.Should().Be(ruleName);
-    }
+    }*/
   }
 }

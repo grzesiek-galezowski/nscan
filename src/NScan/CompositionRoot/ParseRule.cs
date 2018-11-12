@@ -16,7 +16,7 @@ namespace TddXt.NScan.CompositionRoot
     {
       return from depending in TextUntilWhitespace
         from optionalException in ExceptKeyword.Then(_ => Spaces).Then(_ => TextUntilWhitespace).Optional()
-        from ruleName in TextUntilWhitespace
+        from ruleName in String(RuleNames.IndependentOf).Then(_ => Spaces).Return(RuleNames.IndependentOf)
         from dependencyType in AnyChar.Until(Char(':')).Text()
         from dependency in TextUntilEol
         select new RuleDto
