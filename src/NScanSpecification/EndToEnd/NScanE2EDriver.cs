@@ -12,6 +12,7 @@ using RunProcessAsTask;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.CompositionRoot;
+using TddXt.NScan.Specification.Component;
 
 namespace TddXt.NScan.Specification.EndToEnd
 {
@@ -42,13 +43,7 @@ namespace TddXt.NScan.Specification.EndToEnd
 
     public void AddIndependentOfProjectRule(string projectName, string dependencyProjectName)
     {
-      _rules.Add(new RuleDto()
-      {
-        DependingPattern = Pattern.WithoutExclusion(projectName),
-        DependencyPattern = new Glob(dependencyProjectName),
-        DependencyType = "project",
-        RuleName = "independentOf"
-      });
+      _rules.Add(DependencyRuleBuilder.Rule().Project(projectName).IndependentOfProject(dependencyProjectName).Build());
 
     }
 
@@ -100,7 +95,7 @@ namespace TddXt.NScan.Specification.EndToEnd
 
     private static string ToRuleString(RuleDto r)
     {
-      return $"{r.DependingPattern.Description()} {r.RuleName} {r.DependencyType}:{r.DependencyPattern.Pattern}";
+      return $"{r.DependingPattern.Description()} {r.IndependentRuleComplement.RuleName} {r.IndependentRuleComplement.DependencyType}:{r.IndependentRuleComplement.DependencyPattern.Pattern}";
     }
 
     private void AddAllProjectsToSolution()

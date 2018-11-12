@@ -24,7 +24,7 @@ namespace TddXt.NScan.App
 
     public void LogRule(RuleDto ruleDto)
     {
-      Console.WriteLine($"Discovered rule: {ruleDto.DependingPattern.Description()} {ruleDto.RuleName} {ruleDto.DependencyType}:{ruleDto.DependencyPattern.Pattern}" + "");
+      Console.WriteLine($"Discovered rule: {ruleDto.DependingPattern.Description()} {ruleDto.IndependentRuleComplement.RuleName} {ruleDto.IndependentRuleComplement.DependencyType}:{ruleDto.IndependentRuleComplement.DependencyPattern.Pattern}" + "");
     }
   }
 }

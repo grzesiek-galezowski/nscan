@@ -13,30 +13,30 @@ namespace TddXt.NScan.CompositionRoot
     {
       IDependencyRule rule = null;
       var dependingAssemblyNamePattern = ruleDto.DependingPattern;
-      if (ruleDto.DependencyType == ProjectDependencyType)
+      if (ruleDto.IndependentRuleComplement.DependencyType == ProjectDependencyType)
       {
         rule = CreateIndependentOfProjectRule(
           dependingAssemblyNamePattern, 
-          ruleDto.DependencyPattern, 
-          ruleDto.DependencyType);
+          ruleDto.IndependentRuleComplement.DependencyPattern, 
+          ruleDto.IndependentRuleComplement.DependencyType);
       }
-      else if (ruleDto.DependencyType == PackageDependencyType)
+      else if (ruleDto.IndependentRuleComplement.DependencyType == PackageDependencyType)
       {
         rule = CreateIndependentOfPackageRule(
           dependingAssemblyNamePattern, 
-          ruleDto.DependencyPattern, 
-          ruleDto.DependencyType);
+          ruleDto.IndependentRuleComplement.DependencyPattern, 
+          ruleDto.IndependentRuleComplement.DependencyType);
       }
-      else if (ruleDto.DependencyType == AssemblyDependencyType)
+      else if (ruleDto.IndependentRuleComplement.DependencyType == AssemblyDependencyType)
       {
         rule = CreateIndependentOfAssemblyRule(
           dependingAssemblyNamePattern, 
-          ruleDto.DependencyPattern, 
-          ruleDto.DependencyType);
+          ruleDto.IndependentRuleComplement.DependencyPattern, 
+          ruleDto.IndependentRuleComplement.DependencyType);
       }
       else
       {
-        throw new InvalidRuleException(ruleDto.DependencyType);
+        throw new InvalidRuleException(ruleDto.IndependentRuleComplement.DependencyType);
       }
 
       return rule;

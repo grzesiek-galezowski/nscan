@@ -76,14 +76,18 @@ namespace TddXt.NScan.Specification.Component
 
     public RuleDto Build()
     {
+      var dependingPattern = _exclusionPattern
+        .Select(p => Pattern.WithExclusion(_dependingPattern, p))
+        .Otherwise(() => Pattern.WithoutExclusion(_dependingPattern));
       return new RuleDto
       {
-        DependingPattern = _exclusionPattern
-          .Select(p => Pattern.WithExclusion(_dependingPattern, p))
-          .Otherwise(() => Pattern.WithoutExclusion(_dependingPattern)),
-        DependencyPattern = _dependencyPattern,
-        DependencyType = _dependencyType,
-        RuleName = _ruleName
+        DependingPattern = dependingPattern,
+        IndependentRuleComplement = new IndependentRuleComplementDto
+        {
+          DependencyType = _dependencyType,
+          RuleName = _ruleName,
+          DependencyPattern = _dependencyPattern
+        }
       };
     }
 

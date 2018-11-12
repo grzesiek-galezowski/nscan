@@ -22,8 +22,11 @@ namespace TddXt.NScan.Specification.CompositionRoot
         new RuleDto()
         {
           DependingPattern = dependingId,
-          DependencyPattern = dependencyId,
-          DependencyType = RuleFactory.ProjectDependencyType
+          IndependentRuleComplement = new IndependentRuleComplementDto()
+          {
+            DependencyType = RuleFactory.ProjectDependencyType,
+            DependencyPattern = dependencyId
+          }
         });
 
       //THEN
@@ -41,14 +44,17 @@ namespace TddXt.NScan.Specification.CompositionRoot
       var ruleFactory = new RuleFactory();
       var dependingNamePattern = Any.Instance<Pattern>();
       var packageNamePattern = Any.Instance<Glob>();
-      
+
       //WHEN
       var rule = ruleFactory.CreateDependencyRuleFrom(
         new RuleDto()
         {
-          DependencyPattern = packageNamePattern,
           DependingPattern = dependingNamePattern,
-          DependencyType = RuleFactory.PackageDependencyType
+          IndependentRuleComplement = new IndependentRuleComplementDto()
+          {
+            DependencyType = RuleFactory.PackageDependencyType,
+            DependencyPattern = packageNamePattern
+          }
         });
 
       //THEN
@@ -57,7 +63,7 @@ namespace TddXt.NScan.Specification.CompositionRoot
       rule.Should().DependOn(dependingNamePattern);
       rule.Should().DependOn(packageNamePattern);
     }
-    
+
     [Fact]
     public void ShouldCreateIndependentOfAssemblyRuleWithPassedIds()
     {
@@ -70,9 +76,12 @@ namespace TddXt.NScan.Specification.CompositionRoot
       var rule = ruleFactory.CreateDependencyRuleFrom(
         new RuleDto()
         {
-          DependencyPattern = assemblyNamePattern,
           DependingPattern = dependingNamePattern,
-          DependencyType = RuleFactory.AssemblyDependencyType
+          IndependentRuleComplement = new IndependentRuleComplementDto()
+          {
+            DependencyType = RuleFactory.AssemblyDependencyType,
+            DependencyPattern = assemblyNamePattern
+          }
         });
 
       //THEN
