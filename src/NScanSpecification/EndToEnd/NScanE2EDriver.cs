@@ -12,6 +12,7 @@ using RunProcessAsTask;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.CompositionRoot;
+using TddXt.NScan.RuleInputData;
 using TddXt.NScan.Specification.Component;
 
 namespace TddXt.NScan.Specification.EndToEnd

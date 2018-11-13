@@ -6,6 +6,7 @@ using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
 using TddXt.NScan.App;
 using TddXt.NScan.CompositionRoot;
+using TddXt.NScan.Domain;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 

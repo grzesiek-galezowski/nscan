@@ -3,6 +3,7 @@ using Cake.Core;
 using Cake.Core.Annotations;
 using TddXt.NScan;
 using TddXt.NScan.CompositionRoot;
+using TddXt.NScan.Domain;
 
 namespace Cake.NScan
 {

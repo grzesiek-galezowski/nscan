@@ -3,6 +3,8 @@ using System.IO;
 using GlobExpressions;
 using Sprache;
 using TddXt.NScan.App;
+using TddXt.NScan.Domain;
+using TddXt.NScan.RuleInputData;
 using TddXt.NScan.Xml;
 
 namespace TddXt.NScan.CompositionRoot

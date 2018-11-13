@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using TddXt.NScan.Domain;
 using Xunit;
 
 namespace TddXt.NScan.Specification

@@ -1,6 +1,7 @@
 using TddXt.AnyExtensibility;
 using TddXt.AnyRoot;
 using TddXt.NScan.App;
+using TddXt.NScan.Domain;
 
 namespace TddXt.NScan.Specification
 {

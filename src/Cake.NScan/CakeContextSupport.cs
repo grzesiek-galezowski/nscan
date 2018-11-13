@@ -1,7 +1,7 @@
 ﻿using System;
 using Cake.Core.Diagnostics;
 using TddXt.NScan.App;
-using TddXt.NScan.CompositionRoot;
+using TddXt.NScan.RuleInputData;
 
 namespace Cake.NScan
 {

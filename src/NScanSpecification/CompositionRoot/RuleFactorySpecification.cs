@@ -1,6 +1,8 @@
 ﻿using FluentAssertions;
 using GlobExpressions;
 using TddXt.NScan.CompositionRoot;
+using TddXt.NScan.Domain;
+using TddXt.NScan.RuleInputData;
 using TddXt.XFluentAssert.Root;
 using Xunit;
 using static TddXt.AnyRoot.Root;

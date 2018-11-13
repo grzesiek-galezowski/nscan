@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TddXt.NScan.App;
+using TddXt.NScan.Domain;
 using TddXt.NScan.Xml;
 
 namespace TddXt.NScan.CompositionRoot

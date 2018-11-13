@@ -4,6 +4,7 @@ using NSubstitute;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.App;
+using TddXt.NScan.Domain;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 

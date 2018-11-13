@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using TddXt.NScan.App;
+using TddXt.NScan.Domain;
 
 namespace TddXt.NScan.CompositionRoot
 {

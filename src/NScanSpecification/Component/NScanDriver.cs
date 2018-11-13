@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
-using GlobExpressions;
 using TddXt.NScan.App;
-using TddXt.NScan.CompositionRoot;
-using TddXt.NScan.Specification.Component;
+using TddXt.NScan.Domain;
+using TddXt.NScan.RuleInputData;
 using TddXt.NScan.Xml;
-using static TddXt.NScan.Specification.Component.DependencyRuleBuilder;
 
-namespace TddXt.NScan.Specification
+namespace TddXt.NScan.Specification.Component
 {
   public class NScanDriver
   {

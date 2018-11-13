@@ -1,5 +1,6 @@
 ﻿using System;
 using TddXt.NScan.CompositionRoot;
+using TddXt.NScan.RuleInputData;
 
 namespace TddXt.NScan.App
 {

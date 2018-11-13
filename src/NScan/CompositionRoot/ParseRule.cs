@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using GlobExpressions;
 using Sprache;
+using TddXt.NScan.Domain;
+using TddXt.NScan.RuleInputData;
 using static Sprache.Parse;
 
 namespace TddXt.NScan.CompositionRoot

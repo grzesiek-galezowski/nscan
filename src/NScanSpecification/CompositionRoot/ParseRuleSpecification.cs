@@ -2,6 +2,7 @@
 using Sprache;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.CompositionRoot;
+using TddXt.NScan.Domain;
 using Xunit;
 using static System.Environment;
 using static TddXt.AnyRoot.Root;

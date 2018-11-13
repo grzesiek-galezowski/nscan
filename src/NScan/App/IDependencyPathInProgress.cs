@@ -1,4 +1,6 @@
-﻿namespace TddXt.NScan.App
+﻿using TddXt.NScan.Domain;
+
+namespace TddXt.NScan.App
 {
   public interface IDependencyPathInProgress
   {

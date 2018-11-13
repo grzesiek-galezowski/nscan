@@ -3,7 +3,7 @@ using System.Linq;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Xml;
 
-namespace TddXt.NScan.Specification
+namespace TddXt.NScan.Specification.Component
 {
   public class XmlProjectDsl
   {

@@ -1,6 +1,7 @@
 ﻿using NSubstitute;
 using TddXt.NScan.App;
 using TddXt.NScan.CompositionRoot;
+using TddXt.NScan.Domain;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 

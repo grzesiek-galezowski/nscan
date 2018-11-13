@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.CompositionRoot;
+using TddXt.NScan.Domain;
 using TddXt.XFluentAssert.Root;
 using Xunit;
 using static TddXt.AnyRoot.Root;

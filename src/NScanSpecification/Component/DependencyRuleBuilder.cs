@@ -1,7 +1,9 @@
 ﻿using System.Threading.Tasks;
 using GlobExpressions;
 using TddXt.NScan.CompositionRoot;
+using TddXt.NScan.Domain;
 using TddXt.NScan.Lib;
+using TddXt.NScan.RuleInputData;
 using static TddXt.NScan.Lib.Maybe;
 
 namespace TddXt.NScan.Specification.Component

@@ -1,6 +1,7 @@
 ﻿using Fclp;
 using TddXt.NScan.App;
 using TddXt.NScan.CompositionRoot;
+using TddXt.NScan.Domain;
 
 namespace TddXt.NScan.Console
 {
