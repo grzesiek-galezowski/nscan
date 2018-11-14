@@ -1,10 +1,9 @@
 using NSubstitute;
-using TddXt.NScan.CompositionRoot;
 using TddXt.NScan.Domain;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace TddXt.NScan.Specification
+namespace TddXt.NScan.Specification.Domain
 {
   public class PathRuleSetSpecification
   {

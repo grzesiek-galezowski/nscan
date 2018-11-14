@@ -1,16 +1,13 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
-using GlobExpressions;
 using NSubstitute;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
-using TddXt.NScan.App;
-using TddXt.NScan.CompositionRoot;
 using TddXt.NScan.Domain;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace TddXt.NScan.Specification
+namespace TddXt.NScan.Specification.Domain
 {
   public class ProjectDependencyPathSpecification
   {

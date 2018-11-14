@@ -9,7 +9,7 @@ using TddXt.XNSubstitute.Root;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace TddXt.NScan.Specification
+namespace TddXt.NScan.Specification.Domain
 {
   public class DotNetStandardSolutionSpecification
   {

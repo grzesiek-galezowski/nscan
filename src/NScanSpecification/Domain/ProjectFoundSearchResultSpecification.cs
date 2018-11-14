@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using FluentAssertions;
 using NSubstitute;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
 using TddXt.AnyRoot.Numbers;
-using TddXt.NScan.App;
 using TddXt.NScan.Domain;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace TddXt.NScan.Specification
+namespace TddXt.NScan.Specification.Domain
 {
-  public class SearchResultSpecification
+  public class ProjectFoundSearchResultSpecification
   {
     [Fact]
     public void ShouldExistWhenWrappingNonNullInstance()

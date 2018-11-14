@@ -6,13 +6,11 @@ using FluentAssertions;
 using NSubstitute;
 using TddXt.AnyRoot.Collections;
 using TddXt.AnyRoot.Strings;
-using TddXt.NScan.App;
-using TddXt.NScan.CompositionRoot;
 using TddXt.NScan.Domain;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace TddXt.NScan.Specification.CompositionRoot
+namespace TddXt.NScan.Specification.Domain
 {
   public class AnalysisReportInProgressSpecification
   {
@@ -190,7 +188,7 @@ namespace TddXt.NScan.Specification.CompositionRoot
     //TODO move to X fluent assert
     private void AssertContainsInOrder(string output, params string[] subtexts)
     {
-      var indices = subtexts.Select(subtext => output.IndexOf(subtext, StringComparison.Ordinal)).ToList();
+      var indices = subtexts.Select(subtext => output.IndexOf((string) subtext, StringComparison.Ordinal)).ToList();
 
       indices.Should().NotContain(-1, output);
       indices.Should().BeInAscendingOrder(output);

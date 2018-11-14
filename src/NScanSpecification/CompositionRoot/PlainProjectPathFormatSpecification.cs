@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
-using TddXt.NScan.App;
 using TddXt.NScan.CompositionRoot;
 using TddXt.NScan.Domain;
 using Xunit;

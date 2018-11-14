@@ -2,7 +2,7 @@
 using TddXt.NScan.Domain;
 using Xunit;
 
-namespace TddXt.NScan.Specification
+namespace TddXt.NScan.Specification.Domain
 {
   public class RuleNamesSpecification
   {

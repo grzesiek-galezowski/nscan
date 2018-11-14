@@ -1,12 +1,11 @@
 ﻿using FluentAssertions;
+using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
-using TddXt.NScan.CompositionRoot;
 using TddXt.NScan.Domain;
 using TddXt.XFluentAssert.Root;
 using Xunit;
-using static TddXt.AnyRoot.Root;
 
-namespace TddXt.NScan.Specification.CompositionRoot
+namespace TddXt.NScan.Specification.Domain
 {
   public class PatternSpecification
   {
@@ -72,7 +71,7 @@ namespace TddXt.NScan.Specification.CompositionRoot
     public void ShouldDescribeOnlyInclusionPatternWhenThereIsNoExclusionPattern()
     {
       //GIVEN
-      var inclusionPattern = Any.String();
+      var inclusionPattern = Root.Any.String();
       var pattern = Pattern.WithoutExclusion(inclusionPattern);
       //WHEN
       var description = pattern.Description();
@@ -84,8 +83,8 @@ namespace TddXt.NScan.Specification.CompositionRoot
     public void ShouldDescribeBothInclusionAndExclusionPatternsWhenBothArePresent()
     {
       //GIVEN
-      var inclusionPattern = Any.String();
-      var exclusionPattern = Any.String();
+      var inclusionPattern = Root.Any.String();
+      var exclusionPattern = Root.Any.String();
       var pattern = Pattern.WithExclusion(inclusionPattern, exclusionPattern);
       //WHEN
       var description = pattern.Description();
