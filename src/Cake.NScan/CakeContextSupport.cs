@@ -26,9 +26,14 @@ namespace Cake.NScan
         $"Invalid format - skipping {projectFilePath} because of {invalidOperationException}");
     }
 
-    public void LogRule(RuleDto ruleDto)
+    public void LogIndependentRule(RuleDto ruleDto)
     {
       _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {ruleDto.DependingPattern.Description()} {ruleDto.RuleName} {ruleDto.IndependentRuleComplement.DependencyType}:{ruleDto.IndependentRuleComplement.DependencyPattern.Pattern}" + "");
+    }
+
+    public void LogNamespacesRule(RuleDto ruleDto)
+    {
+      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {ruleDto.DependingPattern.Description()} {ruleDto.RuleName}");
     }
   }
 }

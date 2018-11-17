@@ -39,8 +39,9 @@ namespace TddXt.NScan.CompositionRoot
     {
       foreach (var ruleDto in ruleDtos)
       {
-        support.LogRule(ruleDto);
-
+        RuleNames.Switch(ruleDto, 
+          independent => support.LogIndependentRule(ruleDto), 
+          namespaces => support.LogNamespacesRule(ruleDto));
       }
     }
 

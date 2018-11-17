@@ -1,4 +1,4 @@
-﻿using TddXt.NScan.CompositionRoot;
+﻿using System;
 using TddXt.NScan.Domain;
 
 namespace TddXt.NScan.RuleInputData

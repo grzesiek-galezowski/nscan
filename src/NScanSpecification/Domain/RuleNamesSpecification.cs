@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using TddXt.NScan.Domain;
 using Xunit;
 
@@ -13,4 +14,5 @@ namespace TddXt.NScan.Specification.Domain
       RuleNames.HasCorrectNamespaces.Should().Be("hasCorrectNamespaces");
     }
   }
+
 }

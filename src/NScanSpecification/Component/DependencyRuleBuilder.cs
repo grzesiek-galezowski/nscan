@@ -18,6 +18,7 @@ namespace TddXt.NScan.Specification.Component
   public interface IProjectNameStated : IFullDependingPartStated
   {
     IFullDependingPartStated Except(string exclusionPattern);
+    IFullRuleConstructed HasCorrectAssemblyNames();
   }
 
   public interface IRuleDefinitionStart
@@ -33,10 +34,9 @@ namespace TddXt.NScan.Specification.Component
   public class DependencyRuleBuilder : IRuleDefinitionStart, IFullRuleConstructed, IProjectNameStated
   {
     private string _dependingPattern;
-    private Glob _dependencyPattern;
-    private string _dependencyType;
     private string _ruleName;
     private Maybe<string> _exclusionPattern = Nothing<string>();
+    private Maybe<IndependentRuleComplementDto> _independentRuleComplementDto = Nothing<IndependentRuleComplementDto>();
 
     public IProjectNameStated Project(string dependingAssemblyName)
     {
@@ -47,16 +47,23 @@ namespace TddXt.NScan.Specification.Component
 
     public IFullRuleConstructed IndependentOfProject(string dependentAssemblyName)
     {
-      _dependencyPattern = new Glob(dependentAssemblyName);
-      _dependencyType = "project";
+      _independentRuleComplementDto = Just(new IndependentRuleComplementDto()
+      {
+        DependencyType = "project",
+        DependencyPattern = new Glob(dependentAssemblyName)
+      });
+      
       _ruleName = RuleNames.IndependentOf;
       return this;
     }
 
     public IFullRuleConstructed IndependentOfPackage(string packageName)
     {
-      _dependencyPattern = new Glob(packageName);
-      _dependencyType = "package";
+      _independentRuleComplementDto = Maybe.Just(new IndependentRuleComplementDto()
+      {
+        DependencyType = "package",
+        DependencyPattern = new Glob(packageName)
+      });
       _ruleName = RuleNames.IndependentOf;
       return this;
 
@@ -64,8 +71,11 @@ namespace TddXt.NScan.Specification.Component
 
     public IFullRuleConstructed IndependentOfAssembly(string assemblyName)
     {
-      _dependencyPattern = new Glob(assemblyName);
-      _dependencyType = "assembly";
+      _independentRuleComplementDto = Just(new IndependentRuleComplementDto
+      {
+        DependencyType = "assembly",
+        DependencyPattern = new Glob(assemblyName)
+      });
       _ruleName = RuleNames.IndependentOf;
       return this;
     }
@@ -73,6 +83,12 @@ namespace TddXt.NScan.Specification.Component
     public IFullDependingPartStated Except(string exclusionPattern)
     {
       _exclusionPattern = Just(exclusionPattern);
+      return this;
+    }
+
+    public IFullRuleConstructed HasCorrectAssemblyNames()
+    {
+      _ruleName = RuleNames.HasCorrectNamespaces;
       return this;
     }
 
@@ -84,11 +100,7 @@ namespace TddXt.NScan.Specification.Component
       return new RuleDto
       {
         DependingPattern = dependingPattern,
-        IndependentRuleComplement = new IndependentRuleComplementDto
-        {
-          DependencyType = _dependencyType,
-          DependencyPattern = _dependencyPattern
-        },
+        IndependentRuleComplement = _independentRuleComplementDto.Value(),
         RuleName = _ruleName,
       };
     }
