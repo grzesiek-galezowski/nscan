@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Xml;
@@ -64,5 +65,10 @@ namespace TddXt.NScan.Specification.Component
     }
 
 
+    public XmlProjectDsl WithFile(string fileName, string fileContent)
+    {
+      _xmlProject.SourceCodeFiles.Add(new SourceCodeFile(fileName, fileContent));
+      return this;
+    }
   }
 }

@@ -1,26 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xunit;
+﻿using Xunit;
 using static TddXt.NScan.Specification.Component.DependencyRuleBuilder;
 
 namespace TddXt.NScan.Specification.Component
 {
   public class CorrectNamespacesRuleFeatureSpecification
   {
-    /*
+    //TODO happy path
+
     [Fact]
-    public void ShouldDOWHAT()
+    public void ShouldReportErrorWhenFileIsInWrongNamespace()
     {
       //GIVEN
       var context = new NScanDriver();
+      context.HasProject("MyProject")
+        .WithFile("lol.cs", "namespace WrongNamespace {}");
+      context.Add(Rule().Project("*MyProject*").HasCorrectNamespaces());
+
       //WHEN
-      context.Add(Rule().Project("projectName").HasCorrectAssemblyNames());
+      context.PerformAnalysis();
 
       //THEN
-      context.HasProject("projectName")
-        .WithFile("Lol.cs", TopLevelFileContentBuilder.WithNamespace("myprojectName"));
-      throw new NotImplementedException("Not finished");
-    }*/
+      context.ReportShouldContainText("trolololo failed, MyProject->lol.cs " +
+                                      "should be in namespace MyProject, but was in namespace WrongNamespace");
+
+      
+    }
+
+    //backlog nested namespaces
+    //backlog multiple namespaces per file
   }
 }

@@ -13,15 +13,33 @@ namespace TddXt.NScan.Domain
     {
       if (ruleDto.RuleName == IndependentOf)
       {
-        independentRuleAction(ruleDto.IndependentRuleComplement);
+        independentRuleAction(ruleDto.Either.Left);
       }
       else if (ruleDto.RuleName == HasCorrectNamespaces)
       {
-        namespacesRuleAction(ruleDto.CorrectNamespacesRuleComplement);
+        namespacesRuleAction(ruleDto.Either.Right);
       }
       else
       {
         throw new InvalidOperationException($"Unknown rule name {ruleDto.RuleName}");
+      }
+    }
+
+    public static T Switch<T>(string ruleName, 
+      Func<T> independentOfValueFactory,
+      Func<T> correctNamespacesValueFactory)
+    {
+      if (ruleName == IndependentOf)
+      {
+        return independentOfValueFactory();
+      }
+      else if (ruleName == HasCorrectNamespaces)
+      {
+        return correctNamespacesValueFactory();
+      }
+      else
+      {
+        throw new InvalidOperationException($"Unknown rule name {ruleName}");
       }
     }
   }

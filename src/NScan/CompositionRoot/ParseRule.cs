@@ -19,45 +19,55 @@ namespace TddXt.NScan.CompositionRoot
     {
       return from depending in TextUntilWhitespace
         from optionalException in ExceptKeyword.Token().Then(_ => TextUntilWhitespace).Optional()
-        from complementDto in Complement()
+        from either in Complement(DependingPattern(depending, optionalException))
         select new RuleDto
         {
-          DependingPattern = DependingPattern(depending, optionalException),
-          IndependentRuleComplement = complementDto.IndependentRuleComplement, //bug maybe
-          CorrectNamespacesRuleComplement = complementDto.CorrectNamespacesRuleComplement, //bug maybe
-          RuleName = complementDto.RuleName
+          Either = either,
+          DependingPattern = DependingPattern(depending, optionalException), //bug remove
+          IndependentRuleComplement = either.Left, //bug maybe //bug remove
+          CorrectNamespacesRuleComplement = either.Right, //bug maybe //bug remove
+          RuleName = either.Left?.RuleName ?? either.Right.RuleName //bug remove
         };
     }
 
-    private static Parser<ComplementDto> Complement()
+    private static Parser<Either<IndependentRuleComplementDto, CorrectNamespacesRuleComplementDto>> Complement(
+      Pattern dependingPattern)
     {
-      return IndependentOfRuleComplement()
-        .Or(HasCorrectNamespacesRuleComplement());
+      return IndependentOfRuleComplement(dependingPattern)
+        .Or(HasCorrectNamespacesRuleComplement(dependingPattern));
     }
 
-    private static Parser<ComplementDto> HasCorrectNamespacesRuleComplement()
+    private static Parser<Either<IndependentRuleComplementDto, CorrectNamespacesRuleComplementDto>>
+      HasCorrectNamespacesRuleComplement(Pattern dependingPattern)
     {
-      return String(RuleNames.HasCorrectNamespaces).Return(new ComplementDto
+      return String(RuleNames.HasCorrectNamespaces).Return(
+        new Either<IndependentRuleComplementDto, CorrectNamespacesRuleComplementDto>
       {
-        CorrectNamespacesRuleComplement = new CorrectNamespacesRuleComplementDto(),
+        Right = new CorrectNamespacesRuleComplementDto()
+        {
+          ProjectAssemblyNamePattern = dependingPattern,
+        },
         RuleName = RuleNames.HasCorrectNamespaces
       });
     }
 
-    private static Parser<ComplementDto> IndependentOfRuleComplement()
+    private static Parser<Either<IndependentRuleComplementDto, CorrectNamespacesRuleComplementDto>>
+      IndependentOfRuleComplement(Pattern dependingPattern)
     {
+
       return IndependentOfKeyword
         .Then(_ => from dependencyType in AnyChar.Until(Char(':')).Text().Token()
           from dependency in TextUntilEol
-          select new ComplementDto
+          select new Either<IndependentRuleComplementDto, CorrectNamespacesRuleComplementDto>
           {
-            IndependentRuleComplement = new IndependentRuleComplementDto
+            Left = new IndependentRuleComplementDto
             {
+              DependingPattern = dependingPattern,
               DependencyPattern = new Glob(dependency),
-              DependencyType = dependencyType
+              DependencyType = dependencyType,
+              RuleName = RuleNames.IndependentOf,
             },
-            RuleName = RuleNames.IndependentOf
-
+            RuleName = RuleNames.HasCorrectNamespaces
           });
     }
 
@@ -67,5 +77,9 @@ namespace TddXt.NScan.CompositionRoot
     }
   }
 
-
+  public enum RuleTypes
+  {
+    PathRule, 
+    ProjectScopedRule
+  }
 }

@@ -26,12 +26,12 @@ namespace TddXt.NScan.App
 
     public void LogIndependentRule(RuleDto ruleDto)
     {
-      Console.WriteLine($"Discovered rule: {ruleDto.DependingPattern.Description()} {ruleDto.RuleName} {ruleDto.IndependentRuleComplement.DependencyType}:{ruleDto.IndependentRuleComplement.DependencyPattern.Pattern}" + "");
+      Console.WriteLine($"Discovered rule: {ruleDto.Either.Left.DependingPattern.Description()} {ruleDto.Either.Left.RuleName} {ruleDto.Either.Left.DependencyType}:{ruleDto.Either.Left.DependencyPattern.Pattern}" + "");
     }
 
     public void LogNamespacesRule(RuleDto ruleDto)
     {
-      Console.WriteLine($"Discovered rule: {ruleDto.DependingPattern.Description()} {ruleDto.RuleName}");
+      Console.WriteLine($"Discovered rule: {ruleDto.Either.Right.ProjectAssemblyNamePattern.Description()} {ruleDto.Either.Right.RuleName}");
     }
   }
 }

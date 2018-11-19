@@ -1,4 +1,5 @@
 ﻿using System;
+using TddXt.NScan.RuleInputData;
 
 namespace TddXt.NScan.Lib
 {
@@ -63,6 +64,11 @@ namespace TddXt.NScan.Lib
       {
         return fallbackFunc();
       }
+    }
+
+    public T ValueOrDefault()
+    {
+      return this.Otherwise(() => default);
     }
   }
 }

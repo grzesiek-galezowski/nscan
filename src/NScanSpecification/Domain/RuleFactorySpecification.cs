@@ -26,7 +26,8 @@ namespace TddXt.NScan.Specification.Domain
           IndependentRuleComplement = new IndependentRuleComplementDto()
           {
             DependencyType = RuleFactory.ProjectDependencyType,
-            DependencyPattern = dependencyId
+            DependencyPattern = dependencyId,
+            DependingPattern = dependingId
           }
         });
 
@@ -54,7 +55,8 @@ namespace TddXt.NScan.Specification.Domain
           IndependentRuleComplement = new IndependentRuleComplementDto()
           {
             DependencyType = RuleFactory.PackageDependencyType,
-            DependencyPattern = packageNamePattern
+            DependencyPattern = packageNamePattern,
+            DependingPattern = dependingNamePattern
           }
         });
 
@@ -81,7 +83,8 @@ namespace TddXt.NScan.Specification.Domain
           IndependentRuleComplement = new IndependentRuleComplementDto()
           {
             DependencyType = RuleFactory.AssemblyDependencyType,
-            DependencyPattern = assemblyNamePattern
+            DependencyPattern = assemblyNamePattern,
+            DependingPattern = dependingNamePattern
           }
         });
 

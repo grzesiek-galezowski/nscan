@@ -25,6 +25,7 @@ namespace TddXt.NScan.Specification.CompositionRoot
 
       //THEN
       ruleDto.DependingPattern.Should().Be(Pattern.WithoutExclusion(depending));
+      ruleDto.IndependentRuleComplement.DependingPattern.Should().Be(Pattern.WithoutExclusion(depending));
       ruleDto.IndependentRuleComplement.DependencyType.Should().Be(dependencyType);
       ruleDto.IndependentRuleComplement.DependencyPattern.Pattern.Should().Be(dependency);
       ruleDto.RuleName.Should().Be(RuleNames.IndependentOf);
@@ -45,8 +46,10 @@ namespace TddXt.NScan.Specification.CompositionRoot
 
       //THEN
       ruleDto.DependingPattern.Should().Be(Pattern.WithExclusion(depending, dependingException));
+      ruleDto.IndependentRuleComplement.DependingPattern.Should().Be(Pattern.WithExclusion(depending, dependingException));
       ruleDto.IndependentRuleComplement.DependencyType.Should().Be(dependencyType);
       ruleDto.IndependentRuleComplement.DependencyPattern.Pattern.Should().Be(dependency);
+      ruleDto.IndependentRuleComplement.RuleName.Should().Be(RuleNames.IndependentOf);
       ruleDto.RuleName.Should().Be(RuleNames.IndependentOf);
     }
 
@@ -65,6 +68,8 @@ namespace TddXt.NScan.Specification.CompositionRoot
       //THEN
       ruleDto.IndependentRuleComplement.DependencyType.Should().Be(dependencyType);
       ruleDto.IndependentRuleComplement.DependencyPattern.Pattern.Should().Be(dependency);
+      ruleDto.IndependentRuleComplement.DependingPattern.Should().Be(Pattern.WithoutExclusion(depending));
+      ruleDto.IndependentRuleComplement.RuleName.Should().Be(RuleNames.IndependentOf);
       ruleDto.DependingPattern.Should().Be(Pattern.WithoutExclusion(depending));
       ruleDto.RuleName.Should().Be(RuleNames.IndependentOf);
     }
@@ -82,7 +87,10 @@ namespace TddXt.NScan.Specification.CompositionRoot
       //THEN
       ruleDto.IndependentRuleComplement.Should().BeNull(); //bug maybe!
       ruleDto.CorrectNamespacesRuleComplement.Should().NotBeNull();
+      ruleDto.CorrectNamespacesRuleComplement.ProjectAssemblyNamePattern.Should()
+        .Be(Pattern.WithoutExclusion(depending));
       ruleDto.RuleName.Should().Be(RuleNames.HasCorrectNamespaces);
+      ruleDto.CorrectNamespacesRuleComplement.RuleName.Should().Be(RuleNames.HasCorrectNamespaces);
     }
   }
 }

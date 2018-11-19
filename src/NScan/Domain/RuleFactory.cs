@@ -13,31 +13,31 @@ namespace TddXt.NScan.Domain
     public IDependencyRule CreateDependencyRuleFrom(RuleDto ruleDto)
     {
       IDependencyRule rule = null;
-      var dependingAssemblyNamePattern = ruleDto.DependingPattern;
-      if (ruleDto.IndependentRuleComplement.DependencyType == ProjectDependencyType)
+      var dependingAssemblyNamePattern = ruleDto.Either.Left.DependingPattern;
+      if (ruleDto.Either.Left.DependencyType == ProjectDependencyType)
       {
         rule = CreateIndependentOfProjectRule(
           dependingAssemblyNamePattern, 
-          ruleDto.IndependentRuleComplement.DependencyPattern, 
-          ruleDto.IndependentRuleComplement.DependencyType);
+          ruleDto.Either.Left.DependencyPattern, 
+          ruleDto.Either.Left.DependencyType);
       }
-      else if (ruleDto.IndependentRuleComplement.DependencyType == PackageDependencyType)
+      else if (ruleDto.Either.Left.DependencyType == PackageDependencyType)
       {
         rule = CreateIndependentOfPackageRule(
           dependingAssemblyNamePattern, 
-          ruleDto.IndependentRuleComplement.DependencyPattern, 
-          ruleDto.IndependentRuleComplement.DependencyType);
+          ruleDto.Either.Left.DependencyPattern, 
+          ruleDto.Either.Left.DependencyType);
       }
-      else if (ruleDto.IndependentRuleComplement.DependencyType == AssemblyDependencyType)
+      else if (ruleDto.Either.Left.DependencyType == AssemblyDependencyType)
       {
         rule = CreateIndependentOfAssemblyRule(
           dependingAssemblyNamePattern, 
-          ruleDto.IndependentRuleComplement.DependencyPattern, 
-          ruleDto.IndependentRuleComplement.DependencyType);
+          ruleDto.Either.Left.DependencyPattern, 
+          ruleDto.Either.Left.DependencyType);
       }
       else
       {
-        throw new InvalidRuleException(ruleDto.IndependentRuleComplement.DependencyType);
+        throw new InvalidRuleException(ruleDto.Either.Left.DependencyType);
       }
 
       return rule;

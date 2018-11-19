@@ -28,12 +28,12 @@ namespace Cake.NScan
 
     public void LogIndependentRule(RuleDto ruleDto)
     {
-      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {ruleDto.DependingPattern.Description()} {ruleDto.RuleName} {ruleDto.IndependentRuleComplement.DependencyType}:{ruleDto.IndependentRuleComplement.DependencyPattern.Pattern}" + "");
+      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {ruleDto.Either.Left.DependingPattern.Description()} {ruleDto.Either.Left.RuleName} {ruleDto.Either.Left.DependencyType}:{ruleDto.Either.Left.DependencyPattern.Pattern}" + "");
     }
 
     public void LogNamespacesRule(RuleDto ruleDto)
     {
-      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {ruleDto.DependingPattern.Description()} {ruleDto.RuleName}");
+      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {ruleDto.Either.Right.ProjectAssemblyNamePattern.Description()} {ruleDto.Either.Right.RuleName}");
     }
   }
 }

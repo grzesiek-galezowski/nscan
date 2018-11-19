@@ -1,3 +1,12 @@
 ﻿<ProjectConfiguration>
-  <Settings />
+  <Settings>
+    <IgnoredTests>
+      <FixtureTestSelector>
+        <FixtureName>TddXt.NScan.Specification.EndToEnd.IndependentOfProjectRuleFeatureSpecification</FixtureName>
+      </FixtureTestSelector>
+      <NamedTestSelector>
+        <TestName>TddXt.NScan.Specification.Component.CorrectNamespacesRuleFeatureSpecification.ShouldReportErrorWhenFileIsInWrongNamespace</TestName>
+      </NamedTestSelector>
+    </IgnoredTests>
+  </Settings>
 </ProjectConfiguration>

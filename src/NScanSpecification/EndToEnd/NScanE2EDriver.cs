@@ -4,14 +4,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Fclp.Internals.Extensions;
 using FluentAssertions;
-using FluentAssertions.Numeric;
-using GlobExpressions;
 using RunProcessAsTask;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
-using TddXt.NScan.CompositionRoot;
 using TddXt.NScan.RuleInputData;
 using TddXt.NScan.Specification.Component;
 
