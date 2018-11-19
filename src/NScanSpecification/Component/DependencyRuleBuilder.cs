@@ -93,26 +93,19 @@ namespace TddXt.NScan.Specification.Component
 
       return new RuleDto
       {
-        DependingPattern = dependingPattern,
         Either = RuleNames.Switch(
           _ruleName,
-          () => new Either<IndependentRuleComplementDto, CorrectNamespacesRuleComplementDto>()
+          () => Either.FromLeft(new IndependentRuleComplementDto
           {
-            Left = new IndependentRuleComplementDto
-            {
-              DependencyType = _dependencyType,
-              DependencyPattern = new Glob(_dependencyName),
-              RuleName = _ruleName,
-              DependingPattern = dependingPattern
-            }
-          },
-          () => new Either<IndependentRuleComplementDto, CorrectNamespacesRuleComplementDto>()
+            DependencyType = _dependencyType,
+            DependencyPattern = new Glob(_dependencyName),
+            RuleName = _ruleName,
+            DependingPattern = dependingPattern
+          }),
+          () => Either.FromRight(new CorrectNamespacesRuleComplementDto()
           {
-            Right = new CorrectNamespacesRuleComplementDto()
-            {
-              ProjectAssemblyNamePattern = dependingPattern
-            },
-          }), //bug eliminate null
+            ProjectAssemblyNamePattern = dependingPattern
+          })),
         RuleName = _ruleName
 
       };

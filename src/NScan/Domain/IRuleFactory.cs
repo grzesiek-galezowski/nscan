@@ -4,6 +4,6 @@ namespace TddXt.NScan.Domain
 {
   public interface IRuleFactory
   {
-    IDependencyRule CreateDependencyRuleFrom(RuleDto ruleDto);
+    IDependencyRule CreateDependencyRuleFrom(IndependentRuleComplementDto independentRuleComplementDto);
   }
 }

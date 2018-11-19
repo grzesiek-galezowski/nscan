@@ -15,19 +15,12 @@ namespace TddXt.NScan.CompositionRoot
     private static readonly Parser<string> TextUntilEol = AnyChar.Until(LineEnd).Text().Token();
     private static readonly Parser<IEnumerable<char>> IndependentOfKeyword = String(RuleNames.IndependentOf);
 
-    public static Parser<RuleDto> FromLine()
+    public static Parser<Either<IndependentRuleComplementDto, CorrectNamespacesRuleComplementDto>> FromLine()
     {
       return from depending in TextUntilWhitespace
         from optionalException in ExceptKeyword.Token().Then(_ => TextUntilWhitespace).Optional()
         from either in Complement(DependingPattern(depending, optionalException))
-        select new RuleDto
-        {
-          Either = either,
-          DependingPattern = DependingPattern(depending, optionalException), //bug remove
-          IndependentRuleComplement = either.Left, //bug maybe //bug remove
-          CorrectNamespacesRuleComplement = either.Right, //bug maybe //bug remove
-          RuleName = either.Left?.RuleName ?? either.Right.RuleName //bug remove
-        };
+        select either;
     }
 
     private static Parser<Either<IndependentRuleComplementDto, CorrectNamespacesRuleComplementDto>> Complement(

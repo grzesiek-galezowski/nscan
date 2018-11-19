@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using TddXt.NScan.App;
 using TddXt.NScan.CompositionRoot;
 using TddXt.NScan.RuleInputData;
@@ -47,11 +48,11 @@ namespace TddXt.NScan.Domain
       _solution.Check(_pathRules, _analysisReportInProgress);
     }
 
-    public void AddRules(IEnumerable<RuleDto> ruleDtos)
+    public void AddRules(IEnumerable<Either<IndependentRuleComplementDto, CorrectNamespacesRuleComplementDto>> eithers)
     {
-      foreach (var ruleDto in ruleDtos)
+      foreach (var ruleDto in eithers)
       {
-        var rule = _ruleFactory.CreateDependencyRuleFrom(ruleDto);
+        var rule = _ruleFactory.CreateDependencyRuleFrom(ruleDto.Left);
         _pathRules.Add(rule);
       }
     }

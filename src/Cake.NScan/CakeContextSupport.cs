@@ -26,14 +26,14 @@ namespace Cake.NScan
         $"Invalid format - skipping {projectFilePath} because of {invalidOperationException}");
     }
 
-    public void LogIndependentRule(RuleDto ruleDto)
+    public void LogIndependentRule(IndependentRuleComplementDto independentRuleComplementDto)
     {
-      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {ruleDto.Either.Left.DependingPattern.Description()} {ruleDto.Either.Left.RuleName} {ruleDto.Either.Left.DependencyType}:{ruleDto.Either.Left.DependencyPattern.Pattern}" + "");
+      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {independentRuleComplementDto.DependingPattern.Description()} {independentRuleComplementDto.RuleName} {independentRuleComplementDto.DependencyType}:{independentRuleComplementDto.DependencyPattern.Pattern}" + "");
     }
 
-    public void LogNamespacesRule(RuleDto ruleDto)
+    public void LogNamespacesRule(CorrectNamespacesRuleComplementDto dto)
     {
-      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {ruleDto.Either.Right.ProjectAssemblyNamePattern.Description()} {ruleDto.Either.Right.RuleName}");
+      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName}");
     }
   }
 }

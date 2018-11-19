@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using GlobExpressions;
 using Sprache;
 using TddXt.NScan.App;
@@ -35,13 +36,22 @@ namespace TddXt.NScan.CompositionRoot
       return analysis.ReturnCode;
     }
 
-    private static void LogRules(IEnumerable<RuleDto> ruleDtos, INScanSupport support)
+    private static IEnumerable<Either<IndependentRuleComplementDto, CorrectNamespacesRuleComplementDto>> ReadRules(InputArgumentsDto inputArguments)
     {
-      foreach (var ruleDto in ruleDtos)
+      var rulesString = File.ReadAllText(inputArguments.RulesFilePath);
+      var ruleDtos = ParseRule.FromLine().Many().Parse(rulesString);
+      return ruleDtos;
+    }
+
+    private static void LogRules(
+      IEnumerable<Either<IndependentRuleComplementDto, CorrectNamespacesRuleComplementDto>> enumerable,
+      INScanSupport support)
+    {
+      foreach (var either in enumerable)
       {
-        RuleNames.Switch(ruleDto, 
-          independent => support.LogIndependentRule(ruleDto), 
-          namespaces => support.LogNamespacesRule(ruleDto));
+        either.Switch( 
+          independent => support.LogIndependentRule(either.Left), 
+          namespaces => support.LogNamespacesRule(either.Right));
       }
     }
 
@@ -52,13 +62,6 @@ namespace TddXt.NScan.CompositionRoot
         support);
       var xmlProjects = paths.LoadXmlProjects();
       return xmlProjects;
-    }
-
-    private static IEnumerable<RuleDto> ReadRules(InputArgumentsDto cliOptions)
-    {
-      var rulesString = File.ReadAllText(cliOptions.RulesFilePath);
-      var ruleDtos = ParseRule.FromLine().Many().Parse(rulesString);
-      return ruleDtos;
     }
   }
 }

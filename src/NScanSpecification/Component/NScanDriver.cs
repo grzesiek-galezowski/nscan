@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using FluentAssertions;
 using TddXt.NScan.App;
 using TddXt.NScan.Domain;
@@ -45,7 +46,7 @@ namespace TddXt.NScan.Specification.Component
     public void PerformAnalysis()
     {
       _analysis = Analysis.PrepareFor(_xmlProjects, _consoleSupport);
-      _analysis.AddRules(_rules);
+      _analysis.AddRules(_rules.Select(d => d.Either));
       _analysis.Run();
     }
 

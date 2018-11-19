@@ -28,6 +28,24 @@ namespace TddXt.NScan.RuleInputData
       }
     }
 
+    public T Switch<T>(
+      Func<TLeft, T> independentRuleAction,
+      Func<TRight, T> namespacesRuleAction)
+    {
+      if (RuleName == RuleNames.IndependentOf)
+      {
+        return independentRuleAction(Left);
+      }
+      else if (RuleName == RuleNames.HasCorrectNamespaces)
+      {
+        return namespacesRuleAction(Right);
+      }
+      else
+      {
+        throw new InvalidOperationException($"Unknown rule name {RuleName}");
+      }
+    }
+
 
     public T Switch<T>(Func<T> whenLeft, Func<T> whenRight)
     {
@@ -39,6 +57,29 @@ namespace TddXt.NScan.RuleInputData
       {
         return whenRight();
       }
+    }
+  }
+
+  public static class Either
+  {
+    public static Either<IndependentRuleComplementDto, CorrectNamespacesRuleComplementDto> FromRight(CorrectNamespacesRuleComplementDto correctNamespacesRuleComplementDto)
+    {
+      return new Either<IndependentRuleComplementDto, CorrectNamespacesRuleComplementDto>()
+      {
+        Right = correctNamespacesRuleComplementDto,
+        RuleName = correctNamespacesRuleComplementDto.RuleName
+      };
+
+    }
+
+    public static Either<IndependentRuleComplementDto, CorrectNamespacesRuleComplementDto> FromLeft(IndependentRuleComplementDto independentRuleComplementDto)
+    {
+      return new Either<IndependentRuleComplementDto, CorrectNamespacesRuleComplementDto>()
+      {
+        Left = independentRuleComplementDto,
+        RuleName = independentRuleComplementDto.RuleName
+
+      };
     }
   }
 }

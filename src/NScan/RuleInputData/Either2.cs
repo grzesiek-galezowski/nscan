@@ -1,0 +1,4 @@
+namespace TddXt.NScan.RuleInputData
+{
+  
+}

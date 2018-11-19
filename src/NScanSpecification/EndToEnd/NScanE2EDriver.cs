@@ -85,14 +85,22 @@ namespace TddXt.NScan.Specification.EndToEnd
 
     private void CreateRulesFile()
     {
-      var lines = _rules.Select(ToRuleString)
-        .ToList();
+      //bug here!!!!!
+      var lines = _rules.Select(dto => dto.Either.Switch(
+          independent => ToRuleString(dto.Either.Left), 
+          correctNamespaces => ToRuleString(dto.Either.Right))
+        ).ToList();
       File.WriteAllLines(_fullRulesPath, lines);
     }
 
-    private static string ToRuleString(RuleDto r)
+    private string ToRuleString(CorrectNamespacesRuleComplementDto dto)
     {
-      return $"{r.DependingPattern.Description()} {r.RuleName} {r.IndependentRuleComplement.DependencyType}:{r.IndependentRuleComplement.DependencyPattern.Pattern}";
+      return $"{dto.ProjectAssemblyNamePattern} {dto.RuleName}";
+    }
+
+    private static string ToRuleString(IndependentRuleComplementDto dto)
+    {
+      return $"{dto.DependingPattern.Description()} {dto.RuleName} {dto.DependencyType}:{dto.DependencyPattern.Pattern}";
     }
 
     private void AddAllProjectsToSolution()

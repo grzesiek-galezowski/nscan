@@ -1,4 +1,6 @@
-﻿using FluentAssertions;
+﻿using System.Collections.Generic;
+using System.Linq;
+using FluentAssertions;
 using NSubstitute;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Domain;
@@ -45,9 +47,9 @@ namespace TddXt.NScan.Specification.Domain
       var rule1 = Any.Instance<IDependencyRule>();
       var rule2 = Any.Instance<IDependencyRule>();
       var rule3 = Any.Instance<IDependencyRule>();
-      var ruleDto1 = Any.Instance<RuleDto>();
-      var ruleDto2 = Any.Instance<RuleDto>();
-      var ruleDto3 = Any.Instance<RuleDto>();
+      var ruleDto1 = Any.Instance<IndependentRuleComplementDto>();
+      var ruleDto2 = Any.Instance<IndependentRuleComplementDto>();
+      var ruleDto3 = Any.Instance<IndependentRuleComplementDto>();
       var analysis = new Analysis(
         Any.Instance<ISolution>(),
         pathRuleSet,
@@ -57,9 +59,15 @@ namespace TddXt.NScan.Specification.Domain
       ruleFactory.CreateDependencyRuleFrom(ruleDto1).Returns(rule1);
       ruleFactory.CreateDependencyRuleFrom(ruleDto2).Returns(rule2);
       ruleFactory.CreateDependencyRuleFrom(ruleDto3).Returns(rule3);
+      var ruleDtos = new []
+      {
+        Either.FromLeft(ruleDto1), 
+        Either.FromLeft(ruleDto2), 
+        Either.FromLeft(ruleDto3)
+      };
 
       //WHEN
-      analysis.AddRules(new [] {ruleDto1, ruleDto2, ruleDto3});
+      analysis.AddRules(ruleDtos);
 
       //THEN
       pathRuleSet.Received(1).Add(rule1);

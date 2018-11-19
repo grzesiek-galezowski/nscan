@@ -8,8 +8,8 @@ namespace TddXt.NScan.App
   {
     void Report(ReferencedProjectNotFoundInSolutionException exceptionFromResolution);
     void SkippingProjectBecauseOfError(InvalidOperationException invalidOperationException, string projectFilePath);
-    void LogIndependentRule(RuleDto ruleDto);
-    void LogNamespacesRule(RuleDto ruleDto);
+    void LogIndependentRule(IndependentRuleComplementDto independentRuleComplementDto);
+    void LogNamespacesRule(CorrectNamespacesRuleComplementDto dto);
   }
 
   public class ConsoleSupport : INScanSupport
@@ -24,14 +24,14 @@ namespace TddXt.NScan.App
       Console.WriteLine("Invalid format - skipping " + projectFilePath + " because of " + invalidOperationException);
     }
 
-    public void LogIndependentRule(RuleDto ruleDto)
+    public void LogIndependentRule(IndependentRuleComplementDto ruleComplementDto)
     {
-      Console.WriteLine($"Discovered rule: {ruleDto.Either.Left.DependingPattern.Description()} {ruleDto.Either.Left.RuleName} {ruleDto.Either.Left.DependencyType}:{ruleDto.Either.Left.DependencyPattern.Pattern}" + "");
+      Console.WriteLine($"Discovered rule: {ruleComplementDto.DependingPattern.Description()} {ruleComplementDto.RuleName} {ruleComplementDto.DependencyType}:{ruleComplementDto.DependencyPattern.Pattern}" + "");
     }
 
-    public void LogNamespacesRule(RuleDto ruleDto)
+    public void LogNamespacesRule(CorrectNamespacesRuleComplementDto dto)
     {
-      Console.WriteLine($"Discovered rule: {ruleDto.Either.Right.ProjectAssemblyNamePattern.Description()} {ruleDto.Either.Right.RuleName}");
+      Console.WriteLine($"Discovered rule: {dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName}");
     }
   }
 }

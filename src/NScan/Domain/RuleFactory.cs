@@ -10,34 +10,34 @@ namespace TddXt.NScan.Domain
     public const string AssemblyDependencyType = "assembly";
 
 
-    public IDependencyRule CreateDependencyRuleFrom(RuleDto ruleDto)
+    public IDependencyRule CreateDependencyRuleFrom(IndependentRuleComplementDto independentRuleComplementDto)
     {
       IDependencyRule rule = null;
-      var dependingAssemblyNamePattern = ruleDto.Either.Left.DependingPattern;
-      if (ruleDto.Either.Left.DependencyType == ProjectDependencyType)
+      var dependingAssemblyNamePattern = independentRuleComplementDto.DependingPattern;
+      if (independentRuleComplementDto.DependencyType == ProjectDependencyType)
       {
         rule = CreateIndependentOfProjectRule(
           dependingAssemblyNamePattern, 
-          ruleDto.Either.Left.DependencyPattern, 
-          ruleDto.Either.Left.DependencyType);
+          independentRuleComplementDto.DependencyPattern, 
+          independentRuleComplementDto.DependencyType);
       }
-      else if (ruleDto.Either.Left.DependencyType == PackageDependencyType)
+      else if (independentRuleComplementDto.DependencyType == PackageDependencyType)
       {
         rule = CreateIndependentOfPackageRule(
           dependingAssemblyNamePattern, 
-          ruleDto.Either.Left.DependencyPattern, 
-          ruleDto.Either.Left.DependencyType);
+          independentRuleComplementDto.DependencyPattern, 
+          independentRuleComplementDto.DependencyType);
       }
-      else if (ruleDto.Either.Left.DependencyType == AssemblyDependencyType)
+      else if (independentRuleComplementDto.DependencyType == AssemblyDependencyType)
       {
         rule = CreateIndependentOfAssemblyRule(
           dependingAssemblyNamePattern, 
-          ruleDto.Either.Left.DependencyPattern, 
-          ruleDto.Either.Left.DependencyType);
+          independentRuleComplementDto.DependencyPattern, 
+          independentRuleComplementDto.DependencyType);
       }
       else
       {
-        throw new InvalidRuleException(ruleDto.Either.Left.DependencyType);
+        throw new InvalidRuleException(independentRuleComplementDto.DependencyType);
       }
 
       return rule;
