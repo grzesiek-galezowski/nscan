@@ -86,9 +86,9 @@ namespace TddXt.NScan.Specification.EndToEnd
     private void CreateRulesFile()
     {
       //bug here!!!!!
-      var lines = _rules.Select(dto => dto.Either.Switch(
-          independent => ToRuleString(dto.Either.Left), 
-          correctNamespaces => ToRuleString(dto.Either.Right))
+      var lines = _rules.Select(dto => dto.RuleUnionDto.Switch(
+          independent => ToRuleString(dto.RuleUnionDto.Left), 
+          correctNamespaces => ToRuleString(dto.RuleUnionDto.Right))
         ).ToList();
       File.WriteAllLines(_fullRulesPath, lines);
     }

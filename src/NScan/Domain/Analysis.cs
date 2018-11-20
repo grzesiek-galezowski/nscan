@@ -48,9 +48,9 @@ namespace TddXt.NScan.Domain
       _solution.Check(_pathRules, _analysisReportInProgress);
     }
 
-    public void AddRules(IEnumerable<Either<IndependentRuleComplementDto, CorrectNamespacesRuleComplementDto>> eithers)
+    public void AddRules(IEnumerable<RuleUnionDto> rules)
     {
-      foreach (var ruleDto in eithers)
+      foreach (var ruleDto in rules)
       {
         var rule = _ruleFactory.CreateDependencyRuleFrom(ruleDto.Left);
         _pathRules.Add(rule);

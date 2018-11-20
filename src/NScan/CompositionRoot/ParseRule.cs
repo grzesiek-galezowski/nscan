@@ -15,7 +15,7 @@ namespace TddXt.NScan.CompositionRoot
     private static readonly Parser<string> TextUntilEol = AnyChar.Until(LineEnd).Text().Token();
     private static readonly Parser<IEnumerable<char>> IndependentOfKeyword = String(RuleNames.IndependentOf);
 
-    public static Parser<Either<IndependentRuleComplementDto, CorrectNamespacesRuleComplementDto>> FromLine()
+    public static Parser<RuleUnionDto> FromLine()
     {
       return from depending in TextUntilWhitespace
         from optionalException in ExceptKeyword.Token().Then(_ => TextUntilWhitespace).Optional()
@@ -23,18 +23,18 @@ namespace TddXt.NScan.CompositionRoot
         select either;
     }
 
-    private static Parser<Either<IndependentRuleComplementDto, CorrectNamespacesRuleComplementDto>> Complement(
+    private static Parser<RuleUnionDto> Complement(
       Pattern dependingPattern)
     {
       return IndependentOfRuleComplement(dependingPattern)
         .Or(HasCorrectNamespacesRuleComplement(dependingPattern));
     }
 
-    private static Parser<Either<IndependentRuleComplementDto, CorrectNamespacesRuleComplementDto>>
+    private static Parser<RuleUnionDto>
       HasCorrectNamespacesRuleComplement(Pattern dependingPattern)
     {
       return String(RuleNames.HasCorrectNamespaces).Return(
-        new Either<IndependentRuleComplementDto, CorrectNamespacesRuleComplementDto>
+        new RuleUnionDto
       {
         Right = new CorrectNamespacesRuleComplementDto()
         {
@@ -44,14 +44,14 @@ namespace TddXt.NScan.CompositionRoot
       });
     }
 
-    private static Parser<Either<IndependentRuleComplementDto, CorrectNamespacesRuleComplementDto>>
+    private static Parser<RuleUnionDto>
       IndependentOfRuleComplement(Pattern dependingPattern)
     {
 
       return IndependentOfKeyword
         .Then(_ => from dependencyType in AnyChar.Until(Char(':')).Text().Token()
           from dependency in TextUntilEol
-          select new Either<IndependentRuleComplementDto, CorrectNamespacesRuleComplementDto>
+          select new RuleUnionDto
           {
             Left = new IndependentRuleComplementDto
             {

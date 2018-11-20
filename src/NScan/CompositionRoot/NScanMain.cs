@@ -36,7 +36,7 @@ namespace TddXt.NScan.CompositionRoot
       return analysis.ReturnCode;
     }
 
-    private static IEnumerable<Either<IndependentRuleComplementDto, CorrectNamespacesRuleComplementDto>> ReadRules(InputArgumentsDto inputArguments)
+    private static IEnumerable<RuleUnionDto> ReadRules(InputArgumentsDto inputArguments)
     {
       var rulesString = File.ReadAllText(inputArguments.RulesFilePath);
       var ruleDtos = ParseRule.FromLine().Many().Parse(rulesString);
@@ -44,7 +44,7 @@ namespace TddXt.NScan.CompositionRoot
     }
 
     private static void LogRules(
-      IEnumerable<Either<IndependentRuleComplementDto, CorrectNamespacesRuleComplementDto>> enumerable,
+      IEnumerable<RuleUnionDto> enumerable,
       INScanSupport support)
     {
       foreach (var either in enumerable)

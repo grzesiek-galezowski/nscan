@@ -61,9 +61,9 @@ namespace TddXt.NScan.Specification.Domain
       ruleFactory.CreateDependencyRuleFrom(ruleDto3).Returns(rule3);
       var ruleDtos = new []
       {
-        Either.FromLeft(ruleDto1), 
-        Either.FromLeft(ruleDto2), 
-        Either.FromLeft(ruleDto3)
+        RuleUnionDto.FromLeft(ruleDto1), 
+        RuleUnionDto.FromLeft(ruleDto2), 
+        RuleUnionDto.FromLeft(ruleDto3)
       };
 
       //WHEN

@@ -13,11 +13,11 @@ namespace TddXt.NScan.Domain
     {
       if (ruleDto.RuleName == IndependentOf)
       {
-        independentRuleAction(ruleDto.Either.Left);
+        independentRuleAction(ruleDto.RuleUnionDto.Left);
       }
       else if (ruleDto.RuleName == HasCorrectNamespaces)
       {
-        namespacesRuleAction(ruleDto.Either.Right);
+        namespacesRuleAction(ruleDto.RuleUnionDto.Right);
       }
       else
       {
