@@ -1,12 +1,11 @@
 ﻿using System;
-using TddXt.NScan.CompositionRoot;
 using TddXt.NScan.RuleInputData;
 
 namespace TddXt.NScan.App
 {
   public interface INScanSupport
   {
-    void Report(ReferencedProjectNotFoundInSolutionException exceptionFromResolution);
+    void Report(Exception exceptionFromResolution);
     void SkippingProjectBecauseOfError(InvalidOperationException invalidOperationException, string projectFilePath);
     void LogIndependentRule(IndependentRuleComplementDto independentRuleComplementDto);
     void LogNamespacesRule(CorrectNamespacesRuleComplementDto dto);
@@ -14,7 +13,7 @@ namespace TddXt.NScan.App
 
   public class ConsoleSupport : INScanSupport
   {
-    public void Report(ReferencedProjectNotFoundInSolutionException exceptionFromResolution)
+    public void Report(Exception exceptionFromResolution)
     {
       Console.WriteLine(exceptionFromResolution);
     }

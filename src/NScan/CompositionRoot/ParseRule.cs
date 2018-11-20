@@ -60,7 +60,7 @@ namespace TddXt.NScan.CompositionRoot
               DependencyType = dependencyType,
               RuleName = RuleNames.IndependentOf,
             },
-            RuleName = RuleNames.HasCorrectNamespaces
+            RuleName = RuleNames.IndependentOf
           });
     }
 

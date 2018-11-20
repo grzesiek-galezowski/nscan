@@ -28,6 +28,7 @@ namespace TddXt.NScan.Specification.CompositionRoot
       either.Left.DependencyType.Should().Be(dependencyType);
       either.Left.DependencyPattern.Pattern.Should().Be(dependency);
       either.Left.RuleName.Should().Be(RuleNames.IndependentOf);
+      either.RuleName.Should().Be(RuleNames.IndependentOf);
     }
 
     [Fact]
@@ -48,6 +49,7 @@ namespace TddXt.NScan.Specification.CompositionRoot
       either.Left.DependencyType.Should().Be(dependencyType);
       either.Left.DependencyPattern.Pattern.Should().Be(dependency);
       either.Left.RuleName.Should().Be(RuleNames.IndependentOf);
+      either.RuleName.Should().Be(RuleNames.IndependentOf);
     }
 
     [Fact]
@@ -67,8 +69,9 @@ namespace TddXt.NScan.Specification.CompositionRoot
       either.Left.DependencyPattern.Pattern.Should().Be(dependency);
       either.Left.DependingPattern.Should().Be(Pattern.WithoutExclusion(depending));
       either.Left.RuleName.Should().Be(RuleNames.IndependentOf);
+      either.RuleName.Should().Be(RuleNames.IndependentOf);
     }
-    
+
     [Fact]
     public void ShouldParseNamespacesIntactRuleDefinition()
     {

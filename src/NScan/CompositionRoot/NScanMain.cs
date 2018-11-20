@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using GlobExpressions;
 using Sprache;
 using TddXt.NScan.App;
@@ -24,16 +27,26 @@ namespace TddXt.NScan.CompositionRoot
       INScanOutput output, 
       INScanSupport support)
     {
-      var ruleDtos = ReadRules(inputArguments);
-      LogRules(ruleDtos, support);
-      var xmlProjects = ReadXmlProjects(inputArguments, support);
-      var analysis = Analysis.PrepareFor(xmlProjects, support);
+      try
+      {
+        //SpinWait.SpinUntil(() => Debugger.IsAttached);
 
-      analysis.AddRules(ruleDtos);
+        var ruleDtos = ReadRules(inputArguments);
+        LogRules(ruleDtos, support);
+        var xmlProjects = ReadXmlProjects(inputArguments, support);
+        var analysis = Analysis.PrepareFor(xmlProjects, support);
 
-      analysis.Run();
-      output.WriteAnalysisReport(analysis.Report);
-      return analysis.ReturnCode;
+        analysis.AddRules(ruleDtos);
+
+        analysis.Run();
+        output.WriteAnalysisReport(analysis.Report);
+        return analysis.ReturnCode;
+      }
+      catch (Exception e)
+      {
+        support.Report(e);
+        return -2; //bug
+      }
     }
 
     private static IEnumerable<RuleUnionDto> ReadRules(InputArgumentsDto inputArguments)

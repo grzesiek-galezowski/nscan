@@ -11,11 +11,10 @@ namespace Cake.NScan
 
     public CakeContextSupport(ICakeLog contextLog)
     {
-      Console.WriteLine(Environment.NewLine);
       _contextLog = contextLog;
     }
 
-    public void Report(ReferencedProjectNotFoundInSolutionException exceptionFromResolution)
+    public void Report(Exception exceptionFromResolution)
     {
       _contextLog.Write(Verbosity.Minimal, LogLevel.Error, exceptionFromResolution.ToString());
     }
