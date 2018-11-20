@@ -58,7 +58,9 @@ namespace TddXt.NScan.Specification.EndToEnd
 
     public void ReportShouldContainText(string ruleText)
     {
-      String.Join(Environment.NewLine, _analysisResult.StandardOutput).Should().Contain(ruleText);
+      string.Join(Environment.NewLine, _analysisResult.StandardOutput).Should()
+        .Contain(ruleText, 
+          string.Join(Environment.NewLine, _analysisResult.StandardOutput.Concat(_analysisResult.StandardError)));
     }
 
     public void ShouldIndicateSuccess()
@@ -152,7 +154,7 @@ namespace TddXt.NScan.Specification.EndToEnd
 
     private static void AssertSuccess(ProcessResults processInfo)
     {
-      processInfo.ExitCode.Should().Be(0, string.Join(Environment.NewLine, processInfo.StandardError));
+      processInfo.ExitCode.Should().Be(0, string.Join(Environment.NewLine, processInfo.StandardError.Concat(processInfo.StandardOutput)));
     }
 
     private static DirectoryInfo GetTemporaryDirectory()
