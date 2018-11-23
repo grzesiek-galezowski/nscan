@@ -5,5 +5,6 @@ namespace TddXt.NScan.Domain
   public interface IRuleFactory
   {
     IDependencyRule CreateDependencyRuleFrom(IndependentRuleComplementDto independentRuleComplementDto);
+    IProjectScopedRule CreateProjectScopedRuleFrom(CorrectNamespacesRuleComplementDto ruleDto);
   }
 }

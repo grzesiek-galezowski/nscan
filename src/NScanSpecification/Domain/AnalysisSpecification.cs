@@ -96,9 +96,9 @@ namespace TddXt.NScan.Specification.Domain
       //GIVEN
       var pathRuleSet = Substitute.For<IPathRuleSet>();
       var ruleFactory = Substitute.For<IRuleFactory>();
-      var rule1 = Any.Instance<IDependencyRule>();
-      var rule2 = Any.Instance<IDependencyRule>();
-      var rule3 = Any.Instance<IDependencyRule>();
+      var rule1 = Any.Instance<IProjectScopedRule>();
+      var rule2 = Any.Instance<IProjectScopedRule>();
+      var rule3 = Any.Instance<IProjectScopedRule>();
       var ruleDto1 = Any.Instance<CorrectNamespacesRuleComplementDto>();
       var ruleDto2 = Any.Instance<CorrectNamespacesRuleComplementDto>();
       var ruleDto3 = Any.Instance<CorrectNamespacesRuleComplementDto>();
@@ -111,6 +111,7 @@ namespace TddXt.NScan.Specification.Domain
       ruleFactory.CreateProjectScopedRuleFrom(ruleDto1).Returns(rule1);
       ruleFactory.CreateProjectScopedRuleFrom(ruleDto2).Returns(rule2);
       ruleFactory.CreateProjectScopedRuleFrom(ruleDto3).Returns(rule3);
+      
       var ruleDtos = new[]
       {
         RuleUnionDto.With(ruleDto1),
@@ -122,6 +123,7 @@ namespace TddXt.NScan.Specification.Domain
       analysis.AddRules(ruleDtos);
 
       //THEN
+      var projectScopedRuleSet = Substitute.For<IProjectScopedRuleSet>();
       projectScopedRuleSet.Received(1).Add(rule1);
       projectScopedRuleSet.Received(1).Add(rule2);
       projectScopedRuleSet.Received(1).Add(rule3);

@@ -7,9 +7,7 @@ namespace TddXt.NScan.RuleInputData
   {
     public IndependentRuleComplementDto Left { get; private set; }
     public CorrectNamespacesRuleComplementDto Right { get; private set; }
-
-
-    public string RuleName { get; set; }
+    public string RuleName { get; private set; }
 
     public static RuleUnionDto With(CorrectNamespacesRuleComplementDto correctNamespacesRuleComplementDto)
     {
