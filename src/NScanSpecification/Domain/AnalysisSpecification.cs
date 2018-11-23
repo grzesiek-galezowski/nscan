@@ -54,7 +54,7 @@ namespace TddXt.NScan.Specification.Domain
     }
 
     [Fact]
-    public void ShouldAddAllRulesFromDtosToRuleSet()
+    public void ShouldAddAllDependencyRulesFromDtosToRuleSet()
     {
       //GIVEN
       var pathRuleSet = Substitute.For<IPathRuleSet>();
@@ -70,15 +70,15 @@ namespace TddXt.NScan.Specification.Domain
         RuleSet = pathRuleSet,
         Factory = ruleFactory
       }.Build();
-        
+
       ruleFactory.CreateDependencyRuleFrom(ruleDto1).Returns(rule1);
       ruleFactory.CreateDependencyRuleFrom(ruleDto2).Returns(rule2);
       ruleFactory.CreateDependencyRuleFrom(ruleDto3).Returns(rule3);
       var ruleDtos = new []
       {
-        RuleUnionDto.FromLeft(ruleDto1), 
-        RuleUnionDto.FromLeft(ruleDto2), 
-        RuleUnionDto.FromLeft(ruleDto3)
+        RuleUnionDto.With(ruleDto1),
+        RuleUnionDto.With(ruleDto2),
+        RuleUnionDto.With(ruleDto3)
       };
 
       //WHEN
@@ -89,6 +89,44 @@ namespace TddXt.NScan.Specification.Domain
       pathRuleSet.Received(1).Add(rule2);
       pathRuleSet.Received(1).Add(rule3);
     }
+
+    [Fact]
+    public void ShouldAddAllProjectScopedRulesFromDtosToRuleSet()
+    {
+      //GIVEN
+      var pathRuleSet = Substitute.For<IPathRuleSet>();
+      var ruleFactory = Substitute.For<IRuleFactory>();
+      var rule1 = Any.Instance<IDependencyRule>();
+      var rule2 = Any.Instance<IDependencyRule>();
+      var rule3 = Any.Instance<IDependencyRule>();
+      var ruleDto1 = Any.Instance<CorrectNamespacesRuleComplementDto>();
+      var ruleDto2 = Any.Instance<CorrectNamespacesRuleComplementDto>();
+      var ruleDto3 = Any.Instance<CorrectNamespacesRuleComplementDto>();
+      var analysis = new AnalysisBuilder()
+      {
+        RuleSet = pathRuleSet,
+        Factory = ruleFactory
+      }.Build();
+
+      ruleFactory.CreateProjectScopedRuleFrom(ruleDto1).Returns(rule1);
+      ruleFactory.CreateProjectScopedRuleFrom(ruleDto2).Returns(rule2);
+      ruleFactory.CreateProjectScopedRuleFrom(ruleDto3).Returns(rule3);
+      var ruleDtos = new[]
+      {
+        RuleUnionDto.With(ruleDto1),
+        RuleUnionDto.With(ruleDto2),
+        RuleUnionDto.With(ruleDto3)
+      };
+
+      //WHEN
+      analysis.AddRules(ruleDtos);
+
+      //THEN
+      projectScopedRuleSet.Received(1).Add(rule1);
+      projectScopedRuleSet.Received(1).Add(rule2);
+      projectScopedRuleSet.Received(1).Add(rule3);
+    }
+
 
     [Fact]
     public void ShouldReturnStringGeneratedFromAnalysisInProgressReportWhenAskedForAnalysisReport()

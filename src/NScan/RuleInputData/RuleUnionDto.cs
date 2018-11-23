@@ -10,7 +10,7 @@ namespace TddXt.NScan.RuleInputData
 
     public string RuleName { get; set; }
 
-    public static RuleUnionDto FromRight(CorrectNamespacesRuleComplementDto correctNamespacesRuleComplementDto)
+    public static RuleUnionDto With(CorrectNamespacesRuleComplementDto correctNamespacesRuleComplementDto)
     {
       return new RuleUnionDto()
       {
@@ -20,7 +20,7 @@ namespace TddXt.NScan.RuleInputData
 
     }
 
-    public static RuleUnionDto FromLeft(IndependentRuleComplementDto independentRuleComplementDto)
+    public static RuleUnionDto With(IndependentRuleComplementDto independentRuleComplementDto)
     {
       return new RuleUnionDto()
       {

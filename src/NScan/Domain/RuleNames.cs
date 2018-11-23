@@ -1,5 +1,4 @@
 ﻿using System;
-using TddXt.NScan.RuleInputData;
 
 namespace TddXt.NScan.Domain
 {
@@ -8,24 +7,7 @@ namespace TddXt.NScan.Domain
     public const string IndependentOf = "independentOf";
     public const string HasCorrectNamespaces = "hasCorrectNamespaces";
 
-    public static void Switch(RuleDto ruleDto, Action<IndependentRuleComplementDto> independentRuleAction,
-      Action<CorrectNamespacesRuleComplementDto> namespacesRuleAction)
-    {
-      if (ruleDto.RuleName == IndependentOf)
-      {
-        independentRuleAction(ruleDto.RuleUnionDto.Left);
-      }
-      else if (ruleDto.RuleName == HasCorrectNamespaces)
-      {
-        namespacesRuleAction(ruleDto.RuleUnionDto.Right);
-      }
-      else
-      {
-        throw new InvalidOperationException($"Unknown rule name {ruleDto.RuleName}");
-      }
-    }
-
-    public static T Switch<T>(string ruleName, 
+    public static T Switch<T>(string ruleName,
       Func<T> independentOfValueFactory,
       Func<T> correctNamespacesValueFactory)
     {

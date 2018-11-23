@@ -13,7 +13,7 @@ namespace TddXt.NScan.Specification.Component
     private readonly INScanSupport _consoleSupport = new ConsoleSupport();
     private readonly List<XmlProject> _xmlProjects = new List<XmlProject>();
     private Analysis _analysis;
-    private readonly List<RuleDto> _rules = new List<RuleDto>();
+    private readonly List<RuleUnionDto> _rules = new List<RuleUnionDto>();
 
     public XmlProjectDsl HasProject(string assemblyName)
     {
@@ -46,7 +46,7 @@ namespace TddXt.NScan.Specification.Component
     public void PerformAnalysis()
     {
       _analysis = Analysis.PrepareFor(_xmlProjects, _consoleSupport);
-      _analysis.AddRules(_rules.Select(d => d.RuleUnionDto));
+      _analysis.AddRules(_rules);
       _analysis.Run();
     }
 

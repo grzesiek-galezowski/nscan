@@ -29,7 +29,7 @@ namespace TddXt.NScan.Specification.Component
 
   public interface IFullRuleConstructed
   {
-    RuleDto Build();
+    RuleUnionDto Build();
   }
 
   public class DependencyRuleBuilder : IRuleDefinitionStart, IFullRuleConstructed, IProjectNameStated
@@ -84,31 +84,25 @@ namespace TddXt.NScan.Specification.Component
       return this;
     }
 
-    public RuleDto Build()
+    public RuleUnionDto Build()
     {
       var dependingPattern = _exclusionPattern
         .Select(p => Pattern.WithExclusion(_dependingPattern, p))
         .Otherwise(() => Pattern.WithoutExclusion(_dependingPattern));
 
-
-      return new RuleDto
-      {
-        RuleUnionDto = RuleNames.Switch(
-          _ruleName,
-          () => RuleUnionDto.FromLeft(new IndependentRuleComplementDto
-          {
-            DependencyType = _dependencyType,
-            DependencyPattern = new Glob(_dependencyName),
-            RuleName = _ruleName,
-            DependingPattern = dependingPattern
-          }),
-          () => RuleUnionDto.FromRight(new CorrectNamespacesRuleComplementDto()
-          {
-            ProjectAssemblyNamePattern = dependingPattern
-          })),
-        RuleName = _ruleName
-
-      };
+      return RuleNames.Switch(
+        _ruleName,
+        () => RuleUnionDto.With(new IndependentRuleComplementDto
+        {
+          DependencyType = _dependencyType,
+          DependencyPattern = new Glob(_dependencyName),
+          RuleName = _ruleName,
+          DependingPattern = dependingPattern
+        }),
+        () => RuleUnionDto.With(new CorrectNamespacesRuleComplementDto()
+        {
+          ProjectAssemblyNamePattern = dependingPattern
+        }));
     }
 
 

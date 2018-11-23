@@ -18,7 +18,7 @@ namespace TddXt.NScan.Specification.EndToEnd
     private readonly List<string> _projects = new List<string>();
     private readonly DirectoryInfo _solutionDir = GetTemporaryDirectory();
     private readonly string _solutionName = Root.Any.AlphaString();
-    private readonly List<RuleDto> _rules = new List<RuleDto>();
+    private readonly List<RuleUnionDto> _rules = new List<RuleUnionDto>();
 
     private ProcessResults _analysisResult;
     private readonly string _fullSolutionPath;
@@ -40,7 +40,8 @@ namespace TddXt.NScan.Specification.EndToEnd
 
     public void AddIndependentOfProjectRule(string projectName, string dependencyProjectName)
     {
-      _rules.Add(DependencyRuleBuilder.Rule().Project(projectName).IndependentOfProject(dependencyProjectName).Build());
+      _rules.Add(
+        DependencyRuleBuilder.Rule().Project(projectName).IndependentOfProject(dependencyProjectName).Build());
 
     }
 
@@ -59,7 +60,7 @@ namespace TddXt.NScan.Specification.EndToEnd
     public void ReportShouldContainText(string ruleText)
     {
       string.Join(Environment.NewLine, _analysisResult.StandardOutput).Should()
-        .Contain(ruleText, 
+        .Contain(ruleText,
           string.Join(Environment.NewLine, _analysisResult.StandardOutput.Concat(_analysisResult.StandardError)));
     }
 
@@ -81,16 +82,15 @@ namespace TddXt.NScan.Specification.EndToEnd
 
     private void RunAnalysis()
     {
-      string nscanConsoleProjectPath = "C:\\Users\\grzes\\Documents\\GitHub\\nscan\\src\\NScan.Console\\NScan.Console.csproj";
+      string nscanConsoleProjectPath = "C:\\Users\\ftw637\\Documents\\GitHub\\nscan\\src\\NScan.Console\\NScan.Console.csproj";
       _analysisResult = RunDotNetExe($"run --project {nscanConsoleProjectPath} -- -p {_fullSolutionPath} -r {_fullRulesPath}").Result;
     }
 
     private void CreateRulesFile()
     {
-      //bug here!!!!!
-      var lines = _rules.Select(dto => dto.RuleUnionDto.Switch(
-          independent => ToRuleString(dto.RuleUnionDto.Left), 
-          correctNamespaces => ToRuleString(dto.RuleUnionDto.Right))
+      var lines = _rules.Select(dto => dto.Switch(
+          independent => ToRuleString(dto.Left),
+          correctNamespaces => ToRuleString(dto.Right))
         ).ToList();
       File.WriteAllLines(_fullRulesPath, lines);
     }
