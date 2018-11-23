@@ -2,6 +2,7 @@
 using System.Linq;
 using FluentAssertions;
 using NSubstitute;
+using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Domain;
 using TddXt.NScan.RuleInputData;
@@ -10,6 +11,19 @@ using static TddXt.AnyRoot.Root;
 
 namespace TddXt.NScan.Specification.Domain
 {
+  public class AnalysisBuilder
+  {
+    public ISolution Solution { private get; set; } = Any.Instance<ISolution>();
+    public IPathRuleSet RuleSet { private get; set; } = Any.Instance<IPathRuleSet>();
+    public IAnalysisReportInProgress ReportInProgress { private get; set; } = Any.Instance<IAnalysisReportInProgress>();
+    public IRuleFactory Factory { private get; set; } = Any.Instance<IRuleFactory>();
+
+    public Analysis Build()
+    {
+      return new Analysis(Solution, RuleSet, ReportInProgress, Factory);
+    }
+  }
+
   public class AnalysisSpecification
   {
     [Fact]
@@ -19,11 +33,12 @@ namespace TddXt.NScan.Specification.Domain
       var solution = Substitute.For<ISolution>();
       var pathRuleSet = Any.Instance<IPathRuleSet>();
       var analysisReport = Any.Instance<IAnalysisReportInProgress>();
-      var analysis = new Analysis(
-        solution, 
-        pathRuleSet, 
-        analysisReport, 
-        Any.Instance<IRuleFactory>());
+      var analysis = new AnalysisBuilder()
+      {
+        ReportInProgress = analysisReport,
+        RuleSet = pathRuleSet,
+        Solution = solution
+      }.Build();
 
       //WHEN
       analysis.Run();
@@ -50,12 +65,12 @@ namespace TddXt.NScan.Specification.Domain
       var ruleDto1 = Any.Instance<IndependentRuleComplementDto>();
       var ruleDto2 = Any.Instance<IndependentRuleComplementDto>();
       var ruleDto3 = Any.Instance<IndependentRuleComplementDto>();
-      var analysis = new Analysis(
-        Any.Instance<ISolution>(),
-        pathRuleSet,
-        Any.Instance<IAnalysisReportInProgress>(), 
-        ruleFactory);
-
+      var analysis = new AnalysisBuilder()
+      {
+        RuleSet = pathRuleSet,
+        Factory = ruleFactory
+      }.Build();
+        
       ruleFactory.CreateDependencyRuleFrom(ruleDto1).Returns(rule1);
       ruleFactory.CreateDependencyRuleFrom(ruleDto2).Returns(rule2);
       ruleFactory.CreateDependencyRuleFrom(ruleDto3).Returns(rule3);
@@ -80,11 +95,10 @@ namespace TddXt.NScan.Specification.Domain
     {
       //GIVEN
       var analysisInProgressReport = Substitute.For<IAnalysisReportInProgress>();
-      var analysis = new Analysis(
-        Any.Instance<ISolution>(), 
-        Any.Instance<IPathRuleSet>(), 
-        analysisInProgressReport, 
-        Any.Instance<IRuleFactory>());
+      var analysis = new AnalysisBuilder()
+      {
+        ReportInProgress = analysisInProgressReport
+      }.Build();
       var reportStringGeneratedFromInProgressReport = Any.String();
 
       analysisInProgressReport.AsString().Returns(reportStringGeneratedFromInProgressReport);
@@ -103,11 +117,10 @@ namespace TddXt.NScan.Specification.Domain
     {
       //GIVEN
       var reportInProgress = Substitute.For<IAnalysisReportInProgress>();
-      var analysis = new Analysis(
-        Any.Instance<ISolution>(), 
-        Any.Instance<IPathRuleSet>(), 
-        reportInProgress, 
-        Any.Instance<IRuleFactory>());
+      var analysis = new AnalysisBuilder
+      {
+        ReportInProgress = reportInProgress,
+      }.Build();
 
       reportInProgress.HasViolations().Returns(hasViolations);
 
@@ -117,7 +130,5 @@ namespace TddXt.NScan.Specification.Domain
       //THEN
       analysisReturnCode.Should().Be(expectedCode);
     }
-
-
   }
 }
