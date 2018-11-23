@@ -34,14 +34,10 @@ namespace TddXt.NScan.CompositionRoot
       HasCorrectNamespacesRuleComplement(Pattern dependingPattern)
     {
       return String(RuleNames.HasCorrectNamespaces).Return(
-        new RuleUnionDto
-      {
-        Right = new CorrectNamespacesRuleComplementDto()
+        RuleUnionDto.With(new CorrectNamespacesRuleComplementDto()
         {
           ProjectAssemblyNamePattern = dependingPattern,
-        },
-        RuleName = RuleNames.HasCorrectNamespaces
-      });
+        }));
     }
 
     private static Parser<RuleUnionDto>
@@ -51,17 +47,13 @@ namespace TddXt.NScan.CompositionRoot
       return IndependentOfKeyword
         .Then(_ => from dependencyType in AnyChar.Until(Char(':')).Text().Token()
           from dependency in TextUntilEol
-          select new RuleUnionDto
-          {
-            Left = new IndependentRuleComplementDto
+          select RuleUnionDto.With(new IndependentRuleComplementDto
             {
               DependingPattern = dependingPattern,
               DependencyPattern = new Glob(dependency),
               DependencyType = dependencyType,
               RuleName = RuleNames.IndependentOf,
-            },
-            RuleName = RuleNames.IndependentOf
-          });
+            }));
     }
 
     private static Pattern DependingPattern(string depending, IOption<string> optionalException)

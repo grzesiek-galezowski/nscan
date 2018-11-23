@@ -5,13 +5,19 @@ namespace TddXt.NScan.RuleInputData
 {
   public class RuleUnionDto
   {
-    public IndependentRuleComplementDto Left { get; set; }
-    public CorrectNamespacesRuleComplementDto Right { get; set; }
+    public IndependentRuleComplementDto Left { get; private set; }
+    public CorrectNamespacesRuleComplementDto Right { get; private set; }
+
 
     public string RuleName { get; set; }
 
     public static RuleUnionDto With(CorrectNamespacesRuleComplementDto correctNamespacesRuleComplementDto)
     {
+      if (correctNamespacesRuleComplementDto == null)
+      {
+        throw new ArgumentNullException(nameof(correctNamespacesRuleComplementDto));
+      }
+
       return new RuleUnionDto()
       {
         Right = correctNamespacesRuleComplementDto,
@@ -22,7 +28,12 @@ namespace TddXt.NScan.RuleInputData
 
     public static RuleUnionDto With(IndependentRuleComplementDto independentRuleComplementDto)
     {
-      return new RuleUnionDto()
+      if (independentRuleComplementDto == null)
+      {
+        throw new ArgumentNullException(nameof(independentRuleComplementDto));
+      }
+
+      return new RuleUnionDto
       {
         Left = independentRuleComplementDto,
         RuleName = independentRuleComplementDto.RuleName
