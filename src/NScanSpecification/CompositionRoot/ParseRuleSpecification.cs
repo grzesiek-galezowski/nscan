@@ -32,7 +32,7 @@ namespace TddXt.NScan.Specification.CompositionRoot
     }
 
     [Fact]
-    public void ShouldParseRuleSyntaxWithDependingException() //TODO will be new feature
+    public void ShouldParseRuleSyntaxWithDependingException()
     {
       //GIVEN
       var depending = Any.String();

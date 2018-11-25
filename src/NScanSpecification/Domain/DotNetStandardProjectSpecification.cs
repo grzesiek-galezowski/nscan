@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using FluentAssertions;
 using GlobExpressions;
 using NSubstitute;
@@ -320,31 +321,51 @@ namespace TddXt.NScan.Specification.Domain
     }
 
 
+    [Fact]
+    public void ShouldPassAllItsFilesToProjectScopedRuleAlongWithRootNamespace()
+    {
+      //GIVEN
+      var files = Any.ReadOnlyList<ISourceCodeFile>();
+      var rootNamespace = Any.String();
+      var project = new DotNetStandardProjectBuilder()
+      {
+        RootNamespace = rootNamespace,
+        Files = files
+      }.Build();
+      var rule = Substitute.For<IProjectScopedRule>();
+      var report = Any.Instance<IAnalysisReportInProgress>();
+      
+      //WHEN
+      project.Evaluate(rule, report);
+
+      //THEN
+      rule.Received(1).Check(files, rootNamespace, report);
+    }
+
     private class DotNetStandardProjectBuilder
     {
       public DotNetStandardProject Build()
       {
         return new DotNetStandardProject(
+          RootNamespace,
           AssemblyName, 
           ProjectId, 
           ReferencedProjectIds, 
           PackageReferences, 
           AssemblyReferences,
+          Files,
           Support);
       }
 
       public IReadOnlyList<PackageReference> PackageReferences { private get; set; } = Any.ReadOnlyList<PackageReference>();
-
       public IReadOnlyList<AssemblyReference> AssemblyReferences { private get; set; } =
         Any.ReadOnlyList<AssemblyReference>();
-      
       public ProjectId[] ReferencedProjectIds { private get; set; } = Any.Array<ProjectId>();
-
       public ProjectId ProjectId { private get; set; } = Any.ProjectId();
-
       public string AssemblyName { private get; set; } = Any.String();
-
       public INScanSupport Support { private get; set; } = Any.Support();
+      public string RootNamespace { get; set; } = Any.String(); //bug value object
+      public IReadOnlyList<ISourceCodeFile> Files { get; set; } = Any.ReadOnlyList<ISourceCodeFile>();
     }
   }
 }

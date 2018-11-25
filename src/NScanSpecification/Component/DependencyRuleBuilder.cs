@@ -96,7 +96,6 @@ namespace TddXt.NScan.Specification.Component
         {
           DependencyType = _dependencyType,
           DependencyPattern = new Glob(_dependencyName),
-          RuleName = _ruleName,
           DependingPattern = dependingPattern
         }),
         () => RuleUnionDto.With(new CorrectNamespacesRuleComplementDto()

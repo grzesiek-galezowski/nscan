@@ -52,7 +52,6 @@ namespace TddXt.NScan.CompositionRoot
               DependingPattern = dependingPattern,
               DependencyPattern = new Glob(dependency),
               DependencyType = dependencyType,
-              RuleName = RuleNames.IndependentOf,
             }));
     }
 

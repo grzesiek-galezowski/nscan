@@ -34,9 +34,14 @@ namespace TddXt.NScan.Domain
       }
     }
 
-    public void Check(IPathRuleSet pathRuleSet, IAnalysisReportInProgress analysisReportInProgress)
+    public void Check(IPathRuleSet ruleSet, IAnalysisReportInProgress analysisReportInProgress)
     {
-      pathRuleSet.Check(_pathCache, analysisReportInProgress);
+      ruleSet.Check(_pathCache, analysisReportInProgress);
+    }
+
+    public void Check(IProjectScopedRuleSet ruleSet, IAnalysisReportInProgress analysisReportInProgress)
+    {
+      ruleSet.Check(_projectsById.Values.ToList(), analysisReportInProgress);
     }
 
     public void BuildCache()

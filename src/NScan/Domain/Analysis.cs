@@ -11,6 +11,7 @@ namespace TddXt.NScan.Domain
   {
     private readonly ISolution _solution;
     private readonly IPathRuleSet _pathRules;
+    private readonly IProjectScopedRuleSet _projectScopedRules;
     private readonly IAnalysisReportInProgress _analysisReportInProgress;
     private readonly IRuleFactory _ruleFactory;
 
@@ -26,16 +27,22 @@ namespace TddXt.NScan.Domain
       return new Analysis(new DotNetStandardSolution(projects,
           new PathCache(
             new DependencyPathFactory())),
-        new PathRuleSet(),
+        new PathRuleSet(), 
+        new ProjectScopedRuleSet(), 
         new AnalysisReportInProgress(new PlainProjectPathFormat()),
         new RuleFactory());
     }
 
-    public Analysis(ISolution solution, IPathRuleSet pathRules,
-      IAnalysisReportInProgress analysisReportInProgress, IRuleFactory ruleFactory)
+    public Analysis(
+      ISolution solution, 
+      IPathRuleSet pathRules,
+      IProjectScopedRuleSet projectScopedRules,
+      IAnalysisReportInProgress analysisReportInProgress, 
+      IRuleFactory ruleFactory)
     {
       _solution = solution;
       _pathRules = pathRules;
+      _projectScopedRules = projectScopedRules;
       _analysisReportInProgress = analysisReportInProgress;
       _ruleFactory = ruleFactory;
     }
@@ -46,14 +53,25 @@ namespace TddXt.NScan.Domain
       _solution.BuildCache();
       _solution.PrintDebugInfo();
       _solution.Check(_pathRules, _analysisReportInProgress);
+      _solution.Check(_projectScopedRules, _analysisReportInProgress);
     }
 
     public void AddRules(IEnumerable<RuleUnionDto> rules)
     {
       foreach (var ruleDto in rules)
       {
-        var rule = _ruleFactory.CreateDependencyRuleFrom(ruleDto.Left);
-        _pathRules.Add(rule);
+        ruleDto.Switch(
+          independentRule =>
+          {
+            var rule = _ruleFactory.CreateDependencyRuleFrom(ruleDto.Left);
+            _pathRules.Add(rule);
+          },
+          correctNamespacesDto =>
+          {
+            var rule = _ruleFactory.CreateProjectScopedRuleFrom(correctNamespacesDto);
+            _projectScopedRules.Add(rule);
+          }
+        );
       }
     }
   }

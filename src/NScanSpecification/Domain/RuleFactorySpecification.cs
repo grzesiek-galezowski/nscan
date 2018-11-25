@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using GlobExpressions;
+using TddXt.AnyRoot;
 using TddXt.NScan.Domain;
 using TddXt.NScan.RuleInputData;
 using TddXt.XFluentAssert.Root;
@@ -81,6 +82,23 @@ namespace TddXt.NScan.Specification.Domain
       rule.Should().DependOnTypeChain(typeof(DescribedCondition), typeof(HasAssemblyReferenceMatchingCondition));
       rule.Should().DependOn(dependingNamePattern);
       rule.Should().DependOn(assemblyNamePattern);
+    }
+
+    [Fact]
+    public void ShouldCreateCorrectNamespacesRule()
+    {
+      //GIVEN
+      var ruleFactory = new RuleFactory();
+      var ruleDto = Any.Instance<CorrectNamespacesRuleComplementDto>();
+
+
+      //WHEN
+      var projectScopedRule = ruleFactory.CreateProjectScopedRuleFrom(ruleDto);
+
+      //THEN
+      projectScopedRule.Should().BeOfType<CorrectNamespacesRule>();
+      projectScopedRule.Should().DependOn(ruleDto);
+
     }
   }
 }

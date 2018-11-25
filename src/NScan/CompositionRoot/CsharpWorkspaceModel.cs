@@ -26,13 +26,24 @@ namespace TddXt.NScan.CompositionRoot
     //todo this is pulled into unit test scope, so write UTs for it...
     private (ProjectId, DotNetStandardProject) CreateProject(XmlProject xmlProject)
     {
-      return (new ProjectId(xmlProject.AbsolutePath), new DotNetStandardProject(
-        DetermineAssemblyName(xmlProject),
+      var assemblyName = DetermineAssemblyName(xmlProject);
+      var dotNetStandardProject = new DotNetStandardProject(DetermineRootNamespace(xmlProject, assemblyName), assemblyName,
         new ProjectId(xmlProject.AbsolutePath),
         ProjectReferences(xmlProject).Select(MapToProjectId).ToArray(),
         PackageReferences(xmlProject),
-        AssemblyReferences(xmlProject),
-        _support));
+        AssemblyReferences(xmlProject), 
+        SourceCodeFiles(xmlProject), _support);
+      return (new ProjectId(xmlProject.AbsolutePath), dotNetStandardProject);
+    }
+
+    private static List<SourceCodeFile> SourceCodeFiles(XmlProject xmlProject)
+    {
+      return xmlProject.SourceCodeFiles.Select(scf => new SourceCodeFile(scf)).ToList();
+    }
+
+    private static string DetermineRootNamespace(XmlProject xmlProject, string assemblyName)
+    {
+      return xmlProject.PropertyGroups.First().RootNamespace ?? assemblyName;
     }
 
     private static string DetermineAssemblyName(XmlProject xmlProject)

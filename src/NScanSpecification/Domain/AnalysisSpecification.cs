@@ -14,29 +14,32 @@ namespace TddXt.NScan.Specification.Domain
   public class AnalysisBuilder
   {
     public ISolution Solution { private get; set; } = Any.Instance<ISolution>();
-    public IPathRuleSet RuleSet { private get; set; } = Any.Instance<IPathRuleSet>();
+    public IPathRuleSet PathRuleSet { private get; set; } = Any.Instance<IPathRuleSet>();
     public IAnalysisReportInProgress ReportInProgress { private get; set; } = Any.Instance<IAnalysisReportInProgress>();
     public IRuleFactory Factory { private get; set; } = Any.Instance<IRuleFactory>();
+    public IProjectScopedRuleSet ProjectScopedRuleSet { get; set; } = Any.Instance<IProjectScopedRuleSet>();
 
     public Analysis Build()
     {
-      return new Analysis(Solution, RuleSet, ReportInProgress, Factory);
+      return new Analysis(Solution, PathRuleSet, ProjectScopedRuleSet, ReportInProgress, Factory);
     }
   }
 
   public class AnalysisSpecification
   {
     [Fact]
-    public void ShouldBuildUpMetadataAndCheckRuleSetWhenRan()
+    public void ShouldBuildUpMetadataAndCheckRuleSetsWhenRan()
     {
       //GIVEN
       var solution = Substitute.For<ISolution>();
       var pathRuleSet = Any.Instance<IPathRuleSet>();
       var analysisReport = Any.Instance<IAnalysisReportInProgress>();
+      var projectScopedRuleSet = Any.Instance<IProjectScopedRuleSet>();
       var analysis = new AnalysisBuilder()
       {
         ReportInProgress = analysisReport,
-        RuleSet = pathRuleSet,
+        PathRuleSet = pathRuleSet,
+        ProjectScopedRuleSet = projectScopedRuleSet,
         Solution = solution
       }.Build();
 
@@ -50,6 +53,7 @@ namespace TddXt.NScan.Specification.Domain
         solution.BuildCache();
         solution.PrintDebugInfo();
         solution.Check(pathRuleSet, analysisReport);
+        solution.Check(projectScopedRuleSet, analysisReport);
       });
     }
 
@@ -67,7 +71,7 @@ namespace TddXt.NScan.Specification.Domain
       var ruleDto3 = Any.Instance<IndependentRuleComplementDto>();
       var analysis = new AnalysisBuilder()
       {
-        RuleSet = pathRuleSet,
+        PathRuleSet = pathRuleSet,
         Factory = ruleFactory
       }.Build();
 
@@ -94,7 +98,7 @@ namespace TddXt.NScan.Specification.Domain
     public void ShouldAddAllProjectScopedRulesFromDtosToRuleSet()
     {
       //GIVEN
-      var pathRuleSet = Substitute.For<IPathRuleSet>();
+      var projectScopedRuleSet = Substitute.For<IProjectScopedRuleSet>();
       var ruleFactory = Substitute.For<IRuleFactory>();
       var rule1 = Any.Instance<IProjectScopedRule>();
       var rule2 = Any.Instance<IProjectScopedRule>();
@@ -104,7 +108,7 @@ namespace TddXt.NScan.Specification.Domain
       var ruleDto3 = Any.Instance<CorrectNamespacesRuleComplementDto>();
       var analysis = new AnalysisBuilder()
       {
-        RuleSet = pathRuleSet,
+        ProjectScopedRuleSet = projectScopedRuleSet,
         Factory = ruleFactory
       }.Build();
 
@@ -123,7 +127,6 @@ namespace TddXt.NScan.Specification.Domain
       analysis.AddRules(ruleDtos);
 
       //THEN
-      var projectScopedRuleSet = Substitute.For<IProjectScopedRuleSet>();
       projectScopedRuleSet.Received(1).Add(rule1);
       projectScopedRuleSet.Received(1).Add(rule2);
       projectScopedRuleSet.Received(1).Add(rule3);
@@ -159,7 +162,7 @@ namespace TddXt.NScan.Specification.Domain
       var reportInProgress = Substitute.For<IAnalysisReportInProgress>();
       var analysis = new AnalysisBuilder
       {
-        ReportInProgress = reportInProgress,
+        ReportInProgress = reportInProgress
       }.Build();
 
       reportInProgress.HasViolations().Returns(hasViolations);

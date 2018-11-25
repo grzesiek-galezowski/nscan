@@ -2,8 +2,10 @@
 
 namespace TddXt.NScan.Domain
 {
-  public interface IDotNetProject : IReferencedProject, IReferencingProject
+  //bug further separate interfaces - scoped rules need different and path rules need different
+
+  public interface IDotNetProject : IReferencedProject, IReferencingProject, IProjectScopedRuleTarget
   {
-    
+    //bug separate interface
   }
 }

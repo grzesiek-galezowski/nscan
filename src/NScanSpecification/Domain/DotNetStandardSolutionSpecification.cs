@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using FluentAssertions;
 using NSubstitute;
+using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
 using TddXt.NScan.App;
 using TddXt.NScan.Domain;
@@ -111,7 +112,7 @@ namespace TddXt.NScan.Specification.Domain
     }
 
     [Fact]
-    public void ShouldOrderTheRuleSetToCheckThePathsInTheCacheForVerification()
+    public void ShouldOrderThePathRuleSetToCheckThePathsInTheCacheForVerification()
     {
       //GIVEN
       var projectsById = Any.Dictionary<ProjectId, IDotNetProject>();
@@ -126,6 +127,39 @@ namespace TddXt.NScan.Specification.Domain
       //THEN
       ruleSet.Received(1).Check(pathCache, report);
     }
+    
+    [Fact]
+    public void ShouldOrderTheProjectScopedRuleSetToCheckTheProjectsForVerification()
+    {
+      //GIVEN
+      var project1 = Any.Instance<IDotNetProject>();
+      var project2 = Any.Instance<IDotNetProject>();
+      var project3 = Any.Instance<IDotNetProject>();
+      var projectsById = new Dictionary<ProjectId, IDotNetProject>()
+      {
+        {Any.ProjectId(), project1},
+        {Any.ProjectId(), project2},
+        {Any.ProjectId(), project3},
+      };
+      var solution = new DotNetStandardSolution(projectsById, Any.Instance<IPathCache>());
+      var ruleSet = Substitute.For<IProjectScopedRuleSet>();
+      var report = Any.Instance<IAnalysisReportInProgress>();
+      
+      //WHEN
+      solution.Check(ruleSet, report);
 
+      //THEN
+      ruleSet.Received(1).Check(ListContaining(project1, project2, project3), report);
+    }
+
+    private static IReadOnlyList<IDotNetProject> ListContaining(IDotNetProject project1, IDotNetProject project2, IDotNetProject project3)
+    {
+      return Arg<IReadOnlyList<IDotNetProject>>.That(Contains(project1, project2, project3));
+    }
+
+    private static Action<IReadOnlyList<IDotNetProject>> Contains(IDotNetProject project1, IDotNetProject project2, IDotNetProject project3)
+    {
+      return rol => rol.Should().BeEquivalentTo(project1, project2, project3);
+    }
   }
 }

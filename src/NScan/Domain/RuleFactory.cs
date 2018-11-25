@@ -43,6 +43,11 @@ namespace TddXt.NScan.Domain
       return rule;
     }
 
+    public IProjectScopedRule CreateProjectScopedRuleFrom(CorrectNamespacesRuleComplementDto ruleDto)
+    {
+      return new CorrectNamespacesRule(ruleDto);
+    }
+
     private IDependencyRule CreateIndependentOfProjectRule(Pattern dependingNamePattern,
       Glob dependencyNamePattern,
       string dependencyType)

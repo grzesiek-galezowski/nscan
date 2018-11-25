@@ -17,6 +17,6 @@ namespace TddXt.NScan.Xml
     public string AbsolutePath { get; set; }
 
     [XmlIgnore]
-    public List<SourceCodeFile> SourceCodeFiles { get; }= new List<SourceCodeFile>();
+    public List<XmlSourceCodeFile> SourceCodeFiles { get; }= new List<XmlSourceCodeFile>();
   }
 }

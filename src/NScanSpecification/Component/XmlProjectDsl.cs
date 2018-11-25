@@ -67,7 +67,7 @@ namespace TddXt.NScan.Specification.Component
 
     public XmlProjectDsl WithFile(string fileName, string fileContent)
     {
-      _xmlProject.SourceCodeFiles.Add(new SourceCodeFile(fileName, fileContent));
+      _xmlProject.SourceCodeFiles.Add(new XmlSourceCodeFile(fileName, fileContent));
       return this;
     }
   }
