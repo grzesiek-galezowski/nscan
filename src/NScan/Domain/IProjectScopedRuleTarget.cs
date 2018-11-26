@@ -2,6 +2,7 @@
 {
   public interface IProjectScopedRuleTarget
   {
-    void Evaluate(IProjectScopedRule rule, IAnalysisReportInProgress report);
+    void AnalyzeFiles(IProjectScopedRule rule, IAnalysisReportInProgress report);
+    bool HasProjectAssemblyNameMatching(Pattern pattern);
   }
 }

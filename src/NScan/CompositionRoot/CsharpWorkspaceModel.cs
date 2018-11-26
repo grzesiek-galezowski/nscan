@@ -27,13 +27,19 @@ namespace TddXt.NScan.CompositionRoot
     private (ProjectId, DotNetStandardProject) CreateProject(XmlProject xmlProject)
     {
       var assemblyName = DetermineAssemblyName(xmlProject);
-      var dotNetStandardProject = new DotNetStandardProject(DetermineRootNamespace(xmlProject, assemblyName), assemblyName,
-        new ProjectId(xmlProject.AbsolutePath),
+      var dotNetStandardProject = new DotNetStandardProject(
+        DetermineRootNamespace(xmlProject, assemblyName), assemblyName,
+        IdOf(xmlProject),
         ProjectReferences(xmlProject).Select(MapToProjectId).ToArray(),
         PackageReferences(xmlProject),
         AssemblyReferences(xmlProject), 
         SourceCodeFiles(xmlProject), _support);
       return (new ProjectId(xmlProject.AbsolutePath), dotNetStandardProject);
+    }
+
+    private static ProjectId IdOf(XmlProject xmlProject)
+    {
+      return new ProjectId(xmlProject.AbsolutePath);
     }
 
     private static List<SourceCodeFile> SourceCodeFiles(XmlProject xmlProject)

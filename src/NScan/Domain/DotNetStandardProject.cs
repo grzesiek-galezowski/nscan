@@ -139,9 +139,8 @@ namespace TddXt.NScan.Domain
       return _assemblyName;
     }
 
-    public void Evaluate(IProjectScopedRule rule, IAnalysisReportInProgress report)
+    public void AnalyzeFiles(IProjectScopedRule rule, IAnalysisReportInProgress report)
     {
-      rule.Check(_files, _rootNamespace, report);
     }
 
     public bool HasPackageReferenceMatching(Glob packagePattern)

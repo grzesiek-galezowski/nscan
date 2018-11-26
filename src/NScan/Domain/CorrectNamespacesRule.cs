@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using TddXt.NScan.RuleInputData;
+﻿using TddXt.NScan.RuleInputData;
 
 namespace TddXt.NScan.Domain
 {
@@ -12,9 +11,12 @@ namespace TddXt.NScan.Domain
       _ruleDto = ruleDto;
     }
 
-    public void Check(IReadOnlyList<ISourceCodeFile> files, string rootNamespace, IAnalysisReportInProgress report)
+    public void Check(IProjectScopedRuleTarget project, IAnalysisReportInProgress report)
     {
-      throw new System.NotImplementedException();
+      if (project.HasProjectAssemblyNameMatching(_ruleDto.ProjectAssemblyNamePattern))
+      {
+        project.AnalyzeFiles(this, report);
+      }
     }
   }
 }

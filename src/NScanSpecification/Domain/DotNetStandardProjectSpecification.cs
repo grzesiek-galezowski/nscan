@@ -336,10 +336,9 @@ namespace TddXt.NScan.Specification.Domain
       var report = Any.Instance<IAnalysisReportInProgress>();
       
       //WHEN
-      project.Evaluate(rule, report);
+      project.AnalyzeFiles(rule, report);
 
       //THEN
-      rule.Received(1).Check(files, rootNamespace, report);
     }
 
     private class DotNetStandardProjectBuilder
