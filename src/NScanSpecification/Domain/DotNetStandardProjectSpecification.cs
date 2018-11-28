@@ -339,6 +339,7 @@ namespace TddXt.NScan.Specification.Domain
       project.AnalyzeFiles(rule, report);
 
       //THEN
+      rule.Received(1).Check(files, report);
     }
 
     private class DotNetStandardProjectBuilder

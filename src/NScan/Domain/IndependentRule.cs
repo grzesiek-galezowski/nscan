@@ -22,7 +22,7 @@ namespace TddXt.NScan.Domain
         var dependencyAssembly = dependencyPath.AssemblyMatching(_condition, dependingAssembly);
         if (dependencyAssembly.IsNotBefore(dependingAssembly))
         {
-          report.Violation(
+          report.PathViolation(
             _condition.Description(),
             dependencyPath.SegmentBetween(dependingAssembly, dependencyAssembly));
         }

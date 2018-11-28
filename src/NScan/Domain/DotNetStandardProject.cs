@@ -141,6 +141,7 @@ namespace TddXt.NScan.Domain
 
     public void AnalyzeFiles(IProjectScopedRule rule, IAnalysisReportInProgress report)
     {
+      rule.Check(_files, report);
     }
 
     public bool HasPackageReferenceMatching(Glob packagePattern)

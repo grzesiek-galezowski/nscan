@@ -42,7 +42,7 @@ namespace TddXt.NScan.Domain
       return result.ToString();
     }
 
-    public void Violation(string ruleDescription, IReadOnlyList<IReferencedProject> violationPath)
+    public void PathViolation(string ruleDescription, IReadOnlyList<IReferencedProject> violationPath)
     {
       if (!_ruleNames.Contains(ruleDescription))
       {
@@ -55,7 +55,7 @@ namespace TddXt.NScan.Domain
       }
 
       //TODO when there is a single project say project, not path
-      _violations[ruleDescription].Add($"Violation in path: {_projectPathFormat.ApplyTo(violationPath)}");
+      _violations[ruleDescription].Add($"PathViolation in path: {_projectPathFormat.ApplyTo(violationPath)}");
     }
 
     public void Ok(string ruleDescription)

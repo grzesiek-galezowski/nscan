@@ -62,7 +62,7 @@ namespace TddXt.NScan.Specification.Domain
       //THEN
       XReceived.Only(() =>
       {
-        report.Violation(conditionDescription, violatingPathSegment);
+        report.PathViolation(conditionDescription, violatingPathSegment);
       });
       
     }

@@ -55,7 +55,7 @@ namespace TddXt.NScan.Specification.EndToEnd
     private string DirectFailureAssemblyRuleText(string projectName, string dependencyProjectName)
     {
       return $"[{projectName}] independentOf [project:{dependencyProjectName}]: [ERROR]{Environment.NewLine}" +
-             $"Violation in path: [{projectName}]";
+             $"PathViolation in path: [{projectName}]";
     }
     private static string SuccessAssemblyRuleText(string projectName, string dependencyProjectName)
     {

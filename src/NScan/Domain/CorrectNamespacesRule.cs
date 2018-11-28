@@ -1,4 +1,5 @@
-﻿using TddXt.NScan.RuleInputData;
+﻿using System.Collections.Generic;
+using TddXt.NScan.RuleInputData;
 
 namespace TddXt.NScan.Domain
 {
@@ -16,6 +17,14 @@ namespace TddXt.NScan.Domain
       if (project.HasProjectAssemblyNameMatching(_ruleDto.ProjectAssemblyNamePattern))
       {
         project.AnalyzeFiles(this, report);
+      }
+    }
+
+    public void Check(IReadOnlyList<ISourceCodeFile> sourceCodeFiles, IAnalysisReportInProgress report)
+    {
+      foreach (var sourceCodeFile in sourceCodeFiles)
+      {
+        sourceCodeFile.EvaluateNamespacesCorrectness(report);
       }
     }
   }

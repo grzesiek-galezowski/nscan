@@ -60,9 +60,9 @@ namespace TddXt.NScan.Specification.Domain
       projectPathFormat.ApplyTo(violationPath2).Returns(formattedPath2);
       projectPathFormat.ApplyTo(violationPath3).Returns(formattedPath3);
 
-      report.Violation(anyDescription1, violationPath1);
-      report.Violation(anyDescription2, violationPath2);
-      report.Violation(anyDescription3, violationPath3);
+      report.PathViolation(anyDescription1, violationPath1);
+      report.PathViolation(anyDescription2, violationPath2);
+      report.PathViolation(anyDescription3, violationPath3);
 
       //WHEN
       var output = report.AsString();
@@ -94,8 +94,8 @@ namespace TddXt.NScan.Specification.Domain
       projectPathFormat.ApplyTo(violationPath1).Returns(formattedPath1);
       projectPathFormat.ApplyTo(violationPath2).Returns(formattedPath2);
 
-      report.Violation(anyDescription1, violationPath1);
-      report.Violation(anyDescription1, violationPath2);
+      report.PathViolation(anyDescription1, violationPath1);
+      report.PathViolation(anyDescription1, violationPath2);
 
       //WHEN
       var output = report.AsString();
@@ -126,9 +126,9 @@ namespace TddXt.NScan.Specification.Domain
       projectPathFormat.ApplyTo(violationPath2).Returns(formattedPath1);
       projectPathFormat.ApplyTo(violationPath3).Returns(formattedPath1);
 
-      report.Violation(anyDescription1, violationPath1);
-      report.Violation(anyDescription1, violationPath2);
-      report.Violation(anyDescription1, violationPath3);
+      report.PathViolation(anyDescription1, violationPath1);
+      report.PathViolation(anyDescription1, violationPath2);
+      report.PathViolation(anyDescription1, violationPath3);
 
       //WHEN
       var output = report.AsString();
@@ -162,7 +162,7 @@ namespace TddXt.NScan.Specification.Domain
       var projectPathFormat = Substitute.For<IProjectPathFormat>();
       var report = new AnalysisReportInProgress(projectPathFormat);
 
-      report.Violation(Any.String(), Any.List<IReferencedProject>());
+      report.PathViolation(Any.String(), Any.List<IReferencedProject>());
       report.Ok(Any.String());
 
       //WHEN

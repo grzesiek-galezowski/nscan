@@ -45,7 +45,7 @@ namespace TddXt.NScan.Specification.Component
 
       //THEN
       context.ReportShouldContainText($"[* except *Tests*] independentOf [project:*CompositionRoot*]: [ERROR]{Environment.NewLine}" +
-                                      "Violation in path: [CompositionRootSpecification]->[CompositionRoot]");
+                                      "PathViolation in path: [CompositionRootSpecification]->[CompositionRoot]");
       context.ShouldIndicateFailure();
 
     }

@@ -5,7 +5,7 @@ namespace TddXt.NScan.Domain
   public interface IAnalysisReportInProgress
   {
     string AsString();
-    void Violation(string ruleDescription, IReadOnlyList<IReferencedProject> violationPath);
+    void PathViolation(string ruleDescription, IReadOnlyList<IReferencedProject> violationPath);
     void Ok(string ruleDescription);
     bool HasViolations();
   }

@@ -73,13 +73,13 @@ namespace TddXt.NScan.Specification.Component
     private string IndirectFailurePackageRuleText(string projectName, string projectName2, string packageName)
     {
       return $"[{projectName}] independentOf [package:{packageName}]: [ERROR]{NewLine}" +
-             $"Violation in path: [{projectName}]->[{projectName2}]";
+             $"PathViolation in path: [{projectName}]->[{projectName2}]";
     }
 
     private string DirectFailurePackageRuleText(string projectName, string packageName)
     {
       return $"[{projectName}] independentOf [package:{packageName}]: [ERROR]{NewLine}" +
-             $"Violation in path: [{projectName}]";
+             $"PathViolation in path: [{projectName}]";
     }
 
     private static string SuccessPackageRuleText(string projectName, string packageName)

@@ -45,7 +45,7 @@ namespace TddXt.NScan.Specification.Component
 
       //THEN
       context.ReportShouldContainText($"[A] independentOf [project:B]: [ERROR]{NewLine}" +
-                                      "Violation in path: [A]->[B]");
+                                      "PathViolation in path: [A]->[B]");
       context.ShouldIndicateFailure();
     }
 
@@ -66,7 +66,7 @@ namespace TddXt.NScan.Specification.Component
 
       //THEN
       context.ReportShouldContainText($"[A] independentOf [project:C]: [ERROR]{NewLine}" +
-                                      "Violation in path: [A]->[B]->[C]");
+                                      "PathViolation in path: [A]->[B]->[C]");
       context.ShouldIndicateFailure();
     }
 
@@ -88,10 +88,10 @@ namespace TddXt.NScan.Specification.Component
 
       //THEN
       context.ReportShouldContainText($"[A] independentOf [project:D]: [ERROR]{NewLine}" +
-                                      $"Violation in path: [A]->[B]->[D]{NewLine}" +
-                                      "Violation in path: [A]->[C]->[D]");
+                                      $"PathViolation in path: [A]->[B]->[D]{NewLine}" +
+                                      "PathViolation in path: [A]->[C]->[D]");
       context.ReportShouldContainText($"[A] independentOf [project:B]: [ERROR]{NewLine}" +
-                                      "Violation in path: [A]->[B]");
+                                      "PathViolation in path: [A]->[B]");
       context.ShouldIndicateFailure();
     }
 
@@ -110,7 +110,7 @@ namespace TddXt.NScan.Specification.Component
 
       //THEN
       context.ReportShouldContainText($"[*.Domain] independentOf [project:*.Ports]: [ERROR]{NewLine}" +
-                                      "Violation in path: [Posts.Domain]->[Posts.Ports]");
+                                      "PathViolation in path: [Posts.Domain]->[Posts.Ports]");
       context.ShouldIndicateFailure();
 
     }
