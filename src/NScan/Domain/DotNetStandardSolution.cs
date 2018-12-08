@@ -17,7 +17,7 @@ namespace TddXt.NScan.Domain
       _pathCache = pathCache;
     }
 
-    public void ResolveAllProjectsReferences(IAnalysisReportInProgress analysisReportInProgress)
+    public void ResolveAllProjectsReferences()
     {
       //bug use the analysis report to write what projects are skipped - write a separate acceptance test for that
       foreach (var referencingProject in _projectsById.Values)

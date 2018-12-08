@@ -23,9 +23,9 @@ namespace TddXt.NScan.Specification.Domain
       var anyDescription2 = Any.String();
       var anyDescription3 = Any.String();
 
-      report.Ok(anyDescription1);
-      report.Ok(anyDescription2);
-      report.Ok(anyDescription3);
+      report.FinishedChecking(anyDescription1);
+      report.FinishedChecking(anyDescription2);
+      report.FinishedChecking(anyDescription3);
 
       //WHEN
       var output = report.AsString();
@@ -163,7 +163,7 @@ namespace TddXt.NScan.Specification.Domain
       var report = new AnalysisReportInProgress(projectPathFormat);
 
       report.PathViolation(Any.String(), Any.List<IReferencedProject>());
-      report.Ok(Any.String());
+      report.FinishedChecking(Any.String());
 
       //WHEN
       var hasViolations = report.HasViolations();

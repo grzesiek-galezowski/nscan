@@ -49,7 +49,7 @@ namespace TddXt.NScan.Domain
 
     public void Run()
     {
-      _solution.ResolveAllProjectsReferences(_analysisReportInProgress);
+      _solution.ResolveAllProjectsReferences();
       _solution.BuildCache();
       _solution.PrintDebugInfo();
       _solution.Check(_pathRules, _analysisReportInProgress);

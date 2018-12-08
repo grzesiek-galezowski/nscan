@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using FluentAssertions;
+﻿using FluentAssertions;
 using NSubstitute;
-using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Domain;
 using TddXt.NScan.RuleInputData;
@@ -49,7 +46,7 @@ namespace TddXt.NScan.Specification.Domain
       //THEN
       Received.InOrder(() =>
       {
-        solution.ResolveAllProjectsReferences(analysisReport);
+        solution.ResolveAllProjectsReferences();
         solution.BuildCache();
         solution.PrintDebugInfo();
         solution.Check(pathRuleSet, analysisReport);

@@ -28,12 +28,12 @@ namespace TddXt.NScan.Domain
         }
         else
         {
-          report.Ok(_condition.Description());
+          report.FinishedChecking(_condition.Description());
         }
       }
       else
       {
-        report.Ok(_condition.Description());
+        report.FinishedChecking(_condition.Description());
       }
     }
   }

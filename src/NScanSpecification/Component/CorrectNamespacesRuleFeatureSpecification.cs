@@ -1,4 +1,5 @@
 ﻿using Xunit;
+using static System.Environment;
 using static TddXt.NScan.Specification.Component.DependencyRuleBuilder;
 
 namespace TddXt.NScan.Specification.Component
@@ -13,15 +14,16 @@ namespace TddXt.NScan.Specification.Component
       //GIVEN
       var context = new NScanDriver();
       context.HasProject("MyProject")
-        .WithFile("lol.cs", "namespace WrongNamespace {}");
+        .WithRootNamespace("MyProject")
+        .WithFile("lol.cs", "WrongNamespace");
       context.Add(Rule().Project("*MyProject*").HasCorrectNamespaces());
 
       //WHEN
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContainText("trolololo failed, MyProject->lol.cs " +
-                                      "should be in namespace MyProject, but was in namespace WrongNamespace");
+      context.ReportShouldContainText($"MyProject hasCorrectNamespace: [ERROR]{NewLine}" +
+                                      $"MyProject has root namespace MyProject but the file lol.cs located in project root folder has incorrect namespace WrongNamespace");
 
       
     }

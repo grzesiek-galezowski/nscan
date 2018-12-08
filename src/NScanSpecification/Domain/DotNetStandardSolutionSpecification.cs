@@ -31,7 +31,7 @@ namespace TddXt.NScan.Specification.Domain
       
 
       //WHEN
-      dotNetStandardSolution.ResolveAllProjectsReferences(Any.Instance<IAnalysisReportInProgress>());
+      dotNetStandardSolution.ResolveAllProjectsReferences();
 
       //THEN
       Received.InOrder(() =>

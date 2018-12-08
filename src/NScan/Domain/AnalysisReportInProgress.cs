@@ -44,27 +44,43 @@ namespace TddXt.NScan.Domain
 
     public void PathViolation(string ruleDescription, IReadOnlyList<IReferencedProject> violationPath)
     {
-      if (!_ruleNames.Contains(ruleDescription))
-      {
-        _ruleNames.Add(ruleDescription);
-      }
-
-      if (!_violations.ContainsKey(ruleDescription))
-      {
-        _violations.Add(ruleDescription, new HashSet<string>());
-      }
-
+      AddRuleIfNotRegisteredYet(ruleDescription);
+      AddViolationsFor(ruleDescription);
       //TODO when there is a single project say project, not path
       _violations[ruleDescription].Add($"PathViolation in path: {_projectPathFormat.ApplyTo(violationPath)}");
     }
 
-    public void Ok(string ruleDescription)
+    private void AddViolationsFor(string ruleDescription)
+    {
+      if (!_violations.ContainsKey(ruleDescription))
+      {
+        _violations.Add(ruleDescription, new HashSet<string>());
+      }
+    }
+
+    private void AddRuleIfNotRegisteredYet(string ruleDescription)
+    {
+      if (!_ruleNames.Contains(ruleDescription))
+      {
+        _ruleNames.Add(ruleDescription);
+      }
+    }
+
+    public void FinishedChecking(string ruleDescription)
     {
       if (!_ruleNames.Contains(ruleDescription))
       {
         _ruleNames.Add(ruleDescription);
       }
 
+    }
+
+    public void ProjectScopedViolation(string ruleDescription, string violationDescription)
+    {
+      AddRuleIfNotRegisteredYet(ruleDescription);
+      AddViolationsFor(ruleDescription);
+      //TODO when there is a single project say project, not path
+      _violations[ruleDescription].Add(violationDescription);
     }
 
     public bool HasViolations()

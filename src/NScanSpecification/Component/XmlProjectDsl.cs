@@ -65,9 +65,20 @@ namespace TddXt.NScan.Specification.Component
     }
 
 
-    public XmlProjectDsl WithFile(string fileName, string fileContent)
+    public XmlProjectDsl WithFile(string fileName, string @namespace)
     {
-      _xmlProject.SourceCodeFiles.Add(new XmlSourceCodeFile(fileName, fileContent));
+      _xmlProject.SourceCodeFiles.Add(new XmlSourceCodeFile(
+        fileName, 
+        @namespace, 
+        _xmlProject.PropertyGroups.First().RootNamespace,
+        _xmlProject.PropertyGroups.First().AssemblyName
+        ));
+      return this;
+    }
+
+    public XmlProjectDsl WithRootNamespace(string rootNamespace)
+    {
+      _xmlProject.PropertyGroups.First().RootNamespace = rootNamespace;
       return this;
     }
   }

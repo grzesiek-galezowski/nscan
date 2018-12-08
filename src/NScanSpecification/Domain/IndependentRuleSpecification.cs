@@ -29,7 +29,7 @@ namespace TddXt.NScan.Specification.Domain
       rule.Check(report, projectDependencyPath);
 
       //THEN
-      XReceived.Only(() => report.Ok(dependencyCondition.Description()));
+      XReceived.Only(() => report.FinishedChecking(dependencyCondition.Description()));
     }
 
     [Fact]
@@ -94,7 +94,7 @@ namespace TddXt.NScan.Specification.Domain
       //THEN
       XReceived.Only(() =>
       {
-        report.Ok(conditionDescription);
+        report.FinishedChecking(conditionDescription);
       });
 
     }

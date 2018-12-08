@@ -6,7 +6,8 @@ namespace TddXt.NScan.Domain
   {
     string AsString();
     void PathViolation(string ruleDescription, IReadOnlyList<IReferencedProject> violationPath);
-    void Ok(string ruleDescription);
+    void FinishedChecking(string ruleDescription);
+    void ProjectScopedViolation(string ruleDescription, string violationDescription);
     bool HasViolations();
   }
 }

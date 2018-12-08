@@ -82,7 +82,7 @@ namespace TddXt.NScan.Specification.EndToEnd
 
     private void RunAnalysis()
     {
-      string nscanConsoleProjectPath = "C:\\Users\\ftw637\\Documents\\GitHub\\nscan\\src\\NScan.Console\\NScan.Console.csproj";
+      string nscanConsoleProjectPath = "C:\\Users\\grzes\\Documents\\GitHub\\nscan\\src\\NScan.Console\\NScan.Console.csproj";
       _analysisResult = RunDotNetExe($"run --project {nscanConsoleProjectPath} -- -p {_fullSolutionPath} -r {_fullRulesPath}").Result;
     }
 
