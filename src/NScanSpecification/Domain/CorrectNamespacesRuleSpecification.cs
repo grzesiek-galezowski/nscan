@@ -55,8 +55,9 @@ namespace TddXt.NScan.Specification.Domain
     public void ShouldAnalyzeNamespaceCorrectnessOnEachAnalyzedFiles()
     {
       //GIVEN
+      var correctNamespacesRuleComplementDto = Any.Instance<CorrectNamespacesRuleComplementDto>();
       var rule = new CorrectNamespacesRule(
-          Any.Instance<CorrectNamespacesRuleComplementDto>());
+        correctNamespacesRuleComplementDto);
       var file1 = Substitute.For<ISourceCodeFile>();
       var file2 = Substitute.For<ISourceCodeFile>();
       var file3 = Substitute.For<ISourceCodeFile>();
@@ -65,14 +66,21 @@ namespace TddXt.NScan.Specification.Domain
         file1, file2, file3
       };
       var report = Any.Instance<IAnalysisReportInProgress>();
-      
+
       //WHEN
       rule.Check(files, report);
 
       //THEN
-      file1.Received(1).EvaluateNamespacesCorrectness(report);
-      file2.Received(1).EvaluateNamespacesCorrectness(report);
-      file3.Received(1).EvaluateNamespacesCorrectness(report);
+      Received.InOrder(() =>
+      {
+        file1.Received(1).EvaluateNamespacesCorrectness(report, rule.ToString());
+        file2.Received(1).EvaluateNamespacesCorrectness(report, rule.ToString());
+        file3.Received(1).EvaluateNamespacesCorrectness(report, rule.ToString());
+        report.FinishedChecking(correctNamespacesRuleComplementDto.ProjectAssemblyNamePattern +
+                                " hasCorrectNamespaces");
+      });
+
+      //bug FinishedChecking is per project but what if somebody says "* hasCorrectNamespaces"?
     }
   }
 }

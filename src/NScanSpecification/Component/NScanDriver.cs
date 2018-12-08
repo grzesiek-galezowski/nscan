@@ -65,5 +65,9 @@ namespace TddXt.NScan.Specification.Component
       _analysis.ReturnCode.Should().Be(-1);
     }
 
+    public void ReportShouldNotContainText(string text)
+    {
+      _analysis.Report.Should().NotContain(text);
+    }
   }
 }

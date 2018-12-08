@@ -60,9 +60,10 @@ namespace TddXt.NScan.Specification.Domain
       rule.Check(report, projectDependencyPath);
 
       //THEN
-      XReceived.Only(() =>
+      Received.InOrder(() =>
       {
         report.PathViolation(conditionDescription, violatingPathSegment);
+        report.FinishedChecking(conditionDescription);
       });
       
     }

@@ -26,7 +26,7 @@ namespace TddXt.NScan.Domain
         if (_violations.ContainsKey(ruleDescription))
         {
           result.AppendLine(ruleDescription + ": [ERROR]");
-          result.Append(String.Join(Environment.NewLine, _violations[ruleDescription]));
+          result.Append(string.Join(Environment.NewLine, _violations[ruleDescription]));
         }
         else
         {
@@ -45,12 +45,32 @@ namespace TddXt.NScan.Domain
     public void PathViolation(string ruleDescription, IReadOnlyList<IReferencedProject> violationPath)
     {
       AddRuleIfNotRegisteredYet(ruleDescription);
-      AddViolationsFor(ruleDescription);
+      InitializeViolationsFor(ruleDescription);
       //TODO when there is a single project say project, not path
-      _violations[ruleDescription].Add($"PathViolation in path: {_projectPathFormat.ApplyTo(violationPath)}");
+      AddViolation(ruleDescription, _projectPathFormat.ApplyTo(violationPath), "PathViolation in path: ");
     }
 
-    private void AddViolationsFor(string ruleDescription)
+    public void FinishedChecking(string ruleDescription)
+    {
+      AddRuleIfNotRegisteredYet(ruleDescription);
+
+    }
+
+    //bug UT
+    public void ProjectScopedViolation(string ruleDescription, string violationDescription)
+    {
+      AddRuleIfNotRegisteredYet(ruleDescription);
+      InitializeViolationsFor(ruleDescription);
+      //TODO Maybe some prefix to the violation?
+      AddViolation(ruleDescription, violationDescription, string.Empty);
+    }
+
+    public bool HasViolations()
+    {
+      return _violations.Any();
+    }
+
+    private void InitializeViolationsFor(string ruleDescription)
     {
       if (!_violations.ContainsKey(ruleDescription))
       {
@@ -66,26 +86,10 @@ namespace TddXt.NScan.Domain
       }
     }
 
-    public void FinishedChecking(string ruleDescription)
+    private void AddViolation(string ruleDescription, string violationDescription, string prefixPhrase)
     {
-      if (!_ruleNames.Contains(ruleDescription))
-      {
-        _ruleNames.Add(ruleDescription);
-      }
-
+      _violations[ruleDescription].Add(prefixPhrase + violationDescription);
     }
 
-    public void ProjectScopedViolation(string ruleDescription, string violationDescription)
-    {
-      AddRuleIfNotRegisteredYet(ruleDescription);
-      AddViolationsFor(ruleDescription);
-      //TODO when there is a single project say project, not path
-      _violations[ruleDescription].Add(violationDescription);
-    }
-
-    public bool HasViolations()
-    {
-      return _violations.Any();
-    }
   }
 }

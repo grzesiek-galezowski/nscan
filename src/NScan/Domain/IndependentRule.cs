@@ -26,15 +26,8 @@ namespace TddXt.NScan.Domain
             _condition.Description(),
             dependencyPath.SegmentBetween(dependingAssembly, dependencyAssembly));
         }
-        else
-        {
-          report.FinishedChecking(_condition.Description());
-        }
       }
-      else
-      {
-        report.FinishedChecking(_condition.Description());
-      }
+      report.FinishedChecking(_condition.Description());
     }
   }
 

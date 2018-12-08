@@ -18,16 +18,17 @@ namespace TddXt.NScan.Specification.Domain
       var xmlSourceCodeFile = Any.Instance<XmlSourceCodeFile>();
       var file = new SourceCodeFile(xmlSourceCodeFile);
       var report = Substitute.For<IAnalysisReportInProgress>();
+      var ruleDescription = Any.String();
 
       xmlSourceCodeFile.ParentProjectRootNamespace = Any.String();
       xmlSourceCodeFile.Namespace = Any.OtherThan(xmlSourceCodeFile.ParentProjectRootNamespace);
 
       //WHEN
-      file.EvaluateNamespacesCorrectness(report);
+      file.EvaluateNamespacesCorrectness(report, ruleDescription);
 
       //THEN
       XReceived.Only(() => report.ProjectScopedViolation(
-        xmlSourceCodeFile.ParentProjectAssemblyName + " hasCorrectNamespace",
+        ruleDescription,
         xmlSourceCodeFile.ParentProjectAssemblyName + " has root namespace " + 
         xmlSourceCodeFile.ParentProjectRootNamespace + " but the file "
         + xmlSourceCodeFile.Name + " located in project root folder has incorrect namespace "
@@ -46,14 +47,11 @@ namespace TddXt.NScan.Specification.Domain
       xmlSourceCodeFile.Namespace = xmlSourceCodeFile.ParentProjectRootNamespace;
 
       //WHEN
-      file.EvaluateNamespacesCorrectness(report);
+      file.EvaluateNamespacesCorrectness(report, Any.String());
 
       //THEN
-      XReceived.Only(() => report.FinishedChecking(xmlSourceCodeFile.ParentProjectAssemblyName + " hasCorrectNamespace"));
-      //TODO this is per file, but should be per project...
+      report.ReceivedNothing();
     }
-    //bug multiple namespaces
-    //bug non-root files
-    //bug happy path as well!!!
+
   }
 }

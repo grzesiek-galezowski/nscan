@@ -11,16 +11,11 @@ namespace TddXt.NScan.Domain
       _xmlSourceCodeFile = xmlSourceCodeFile;
     }
 
-    public void EvaluateNamespacesCorrectness(IAnalysisReportInProgress report)
+    public void EvaluateNamespacesCorrectness(IAnalysisReportInProgress report, string ruleDescription)
     {
-        var ruleDescription = _xmlSourceCodeFile.ParentProjectAssemblyName + " hasCorrectNamespace";
-      if (_xmlSourceCodeFile.ParentProjectRootNamespace == _xmlSourceCodeFile.Namespace)
+      if (_xmlSourceCodeFile.ParentProjectRootNamespace != _xmlSourceCodeFile.Namespace)
       {
-        report.FinishedChecking(ruleDescription);
-      }
-      else
-      {
-        report.ProjectScopedViolation(ruleDescription, 
+        report.ProjectScopedViolation(ruleDescription,
           _xmlSourceCodeFile.ParentProjectAssemblyName + " has root namespace " +
           _xmlSourceCodeFile.ParentProjectRootNamespace + " but the file "
           + _xmlSourceCodeFile.Name + " located in project root folder has incorrect namespace "

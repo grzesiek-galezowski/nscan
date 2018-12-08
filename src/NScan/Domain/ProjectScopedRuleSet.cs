@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 
 namespace TddXt.NScan.Domain
 {
@@ -20,6 +18,7 @@ namespace TddXt.NScan.Domain
         foreach (var rule in _rules)
         {
           rule.Check(target, report);
+          report.FinishedChecking(rule.ToString());
         }
       }
     }

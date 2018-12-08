@@ -24,8 +24,13 @@ namespace TddXt.NScan.Domain
     {
       foreach (var sourceCodeFile in sourceCodeFiles)
       {
-        sourceCodeFile.EvaluateNamespacesCorrectness(report);
+        sourceCodeFile.EvaluateNamespacesCorrectness(report, ToString());
       }
+    }
+
+    public override string ToString()
+    {
+      return _ruleDto.ProjectAssemblyNamePattern.Description() + " " + _ruleDto.RuleName;
     }
   }
 }
