@@ -10,12 +10,14 @@ using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.RuleInputData;
 using TddXt.NScan.Specification.Component;
+using TddXt.NScan.Xml;
 
 namespace TddXt.NScan.Specification.EndToEnd
 {
   public class NScanE2EDriver : IDisposable
   {
     private readonly List<string> _projects = new List<string>();
+    private readonly Dictionary<string, XmlSourceCodeFile> _filesByProject = new Dictionary<string, XmlSourceCodeFile>(); //bug
     private readonly DirectoryInfo _solutionDir = GetTemporaryDirectory();
     private readonly string _solutionName = Root.Any.AlphaString();
     private readonly List<RuleUnionDto> _rules = new List<RuleUnionDto>();
@@ -24,7 +26,8 @@ namespace TddXt.NScan.Specification.EndToEnd
     private readonly string _fullSolutionPath;
     private readonly string _fullRulesPath;
     private const string RulesFileName = "rules.config";
-    private readonly List<(string, string)> _projectReferences = new List<(string, string)>();
+    private readonly List<(string, string)> _projectReferences 
+        = new List<(string, string)>();
 
     public NScanE2EDriver()
     {
@@ -89,7 +92,8 @@ namespace TddXt.NScan.Specification.EndToEnd
 
     private void RunAnalysis()
     {
-      string nscanConsoleProjectPath = "C:\\Users\\grzes\\Documents\\GitHub\\nscan\\src\\NScan.Console\\NScan.Console.csproj";
+      var homeFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+      var nscanConsoleProjectPath = $"{homeFolder}\\Documents\\GitHub\\nscan\\src\\NScan.Console\\NScan.Console.csproj";
       _analysisResult = RunDotNetExe($"run --project {nscanConsoleProjectPath} -- -p {_fullSolutionPath} -r {_fullRulesPath}").Result;
     }
 
@@ -177,6 +181,7 @@ namespace TddXt.NScan.Specification.EndToEnd
   {
     private readonly string _projectName;
     private readonly List<(string, string)> _assemblyReferences;
+    
 
     public E2EProjectDsl(string projectName, List<(string, string)> assemblyReferences)
     {
@@ -196,7 +201,7 @@ namespace TddXt.NScan.Specification.EndToEnd
 
     public E2EProjectDsl WithRootNamespace(string @namespace)
     {
-
+      //bug for future
       return this;
     }
 

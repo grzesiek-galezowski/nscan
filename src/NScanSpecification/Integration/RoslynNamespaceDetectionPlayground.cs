@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
@@ -31,7 +31,6 @@ namespace TddXt.NScan.Specification.Integration
 
   public class RoslynNamespaceDetectionPlayground
   {
-
     [Fact]
     public void ShouldParseTopmostNonNestedNamespaces()
     {
@@ -42,4 +41,5 @@ namespace TddXt.NScan.Specification.Integration
       CSharpSyntax.GetAllUniqueNamespacesFrom(@"namespace Lolek { namespace Lolek1 {} }").Should().Contain("Lolek").And.HaveCount(1);
     }
   }
-}
+} bug
+*/

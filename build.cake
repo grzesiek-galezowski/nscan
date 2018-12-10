@@ -45,6 +45,7 @@ var sprache           = new[] { "Sprache"                            , "2.2.0"  
 var fluentCommandline = new[] { "FluentCommandLineParser-netstandard", "1.4.3.13"   };
 var cakeCore          = new[] { "Cake.Core"                          , "0.30.0"     };
 var nscanDependency   = new[] { nscanTitle                           , nscanVersion };
+var roslyn            = new[] { "Microsoft.CodeAnalysis.CSharp"      , "2.10.0"};
 
 //////////////////////////////////////////////////////////////////////
 // PREPARATION
@@ -166,6 +167,7 @@ Task("PackNScan")
                 netstandard20.Dependency(buildalyzer),
                 netstandard20.Dependency(glob),
                 netstandard20.Dependency(sprache),
+                netstandard20.Dependency(roslyn),
             }
         );
     });
@@ -190,6 +192,7 @@ Task("PackNScanConsole")
                 netcoreapp21.Dependency(buildalyzer),
                 netcoreapp21.Dependency(glob),
                 netcoreapp21.Dependency(sprache),
+                netcoreapp21.Dependency(roslyn),
                 netcoreapp21.Dependency(fluentCommandline),
             }
         );
@@ -215,6 +218,7 @@ Task("PackNScanConsole")
                 netstandard20.Dependency(buildalyzer),
                 netstandard20.Dependency(glob),
                 netstandard20.Dependency(sprache),
+                netstandard20.Dependency(roslyn),
                 netstandard20.Dependency(cakeCore),
             }
         );
