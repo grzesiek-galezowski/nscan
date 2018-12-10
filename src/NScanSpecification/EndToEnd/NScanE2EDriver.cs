@@ -38,12 +38,19 @@ namespace TddXt.NScan.Specification.EndToEnd
       return new E2EProjectDsl(projectName, _projectReferences);
     }
 
+    //bug remove?
     public void AddIndependentOfProjectRule(string projectName, string dependencyProjectName)
     {
       _rules.Add(
         DependencyRuleBuilder.Rule().Project(projectName).IndependentOfProject(dependencyProjectName).Build());
 
     }
+
+    public void Add(IFullRuleConstructed ruleDefinition)
+    {
+      _rules.Add(ruleDefinition.Build());
+    }
+
 
     public void PerformAnalysis()
     {
@@ -177,12 +184,25 @@ namespace TddXt.NScan.Specification.EndToEnd
       _assemblyReferences = assemblyReferences;
     }
 
-    public void WithAssemblyReferences(params string[] assemblyNames)
+    public E2EProjectDsl WithAssemblyReferences(params string[] assemblyNames)
     {
       foreach (var assemblyName in assemblyNames)
       {
         _assemblyReferences.Add((_projectName, assemblyName));
       }
+
+      return this;
+    }
+
+    public E2EProjectDsl WithRootNamespace(string @namespace)
+    {
+
+      return this;
+    }
+
+    public E2EProjectDsl WithFile(string fileName, string fileNamespace)
+    {
+      return this;
     }
   }
 }
