@@ -14,9 +14,9 @@
       ParentProjectAssemblyName = parentProjectAssemblyName;
     }
 
-    public string ParentProjectAssemblyName { get; set; }
-    public string ParentProjectRootNamespace { get; set; }
-    public string Name { get; set; }
-    public string Namespace { get; set; }
+    public string ParentProjectAssemblyName { get; }
+    public string ParentProjectRootNamespace { get; set; } //bug introduce builder
+    public string Name { get; }
+    public string Namespace { get; set; } //bug introduce builder
   }
 }

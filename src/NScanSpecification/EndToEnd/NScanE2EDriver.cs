@@ -17,7 +17,7 @@ namespace TddXt.NScan.Specification.EndToEnd
   public class NScanE2EDriver : IDisposable
   {
     private readonly List<string> _projects = new List<string>();
-    private readonly Dictionary<string, XmlSourceCodeFile> _filesByProject = new Dictionary<string, XmlSourceCodeFile>(); //bug
+    private readonly Dictionary<string, List<XmlSourceCodeFile>> _filesByProject = new Dictionary<string, List<XmlSourceCodeFile>>(); //bug
     private readonly DirectoryInfo _solutionDir = GetTemporaryDirectory();
     private readonly string _solutionName = Root.Any.AlphaString();
     private readonly List<RuleUnionDto> _rules = new List<RuleUnionDto>();
@@ -38,7 +38,7 @@ namespace TddXt.NScan.Specification.EndToEnd
     public E2EProjectDsl HasProject(string projectName)
     {
       _projects.Add(projectName);
-      return new E2EProjectDsl(projectName, _projectReferences);
+      return new E2EProjectDsl(projectName, _projectReferences, _filesByProject);
     }
 
     //bug remove?
@@ -181,12 +181,16 @@ namespace TddXt.NScan.Specification.EndToEnd
   {
     private readonly string _projectName;
     private readonly List<(string, string)> _assemblyReferences;
-    
+    private readonly Dictionary<string, List<XmlSourceCodeFile>> _filesByProject;
+    private string _rootNamespace;
 
-    public E2EProjectDsl(string projectName, List<(string, string)> assemblyReferences)
+
+    public E2EProjectDsl(string projectName, List<(string, string)> assemblyReferences,
+      Dictionary<string, List<XmlSourceCodeFile>> filesByProject)
     {
       _projectName = projectName;
       _assemblyReferences = assemblyReferences;
+      _filesByProject = filesByProject;
     }
 
     public E2EProjectDsl WithAssemblyReferences(params string[] assemblyNames)
@@ -201,12 +205,18 @@ namespace TddXt.NScan.Specification.EndToEnd
 
     public E2EProjectDsl WithRootNamespace(string @namespace)
     {
-      //bug for future
+      _rootNamespace = @namespace;
       return this;
     }
 
     public E2EProjectDsl WithFile(string fileName, string fileNamespace)
     {
+      if (_filesByProject.ContainsKey(_projectName))
+      {
+        _filesByProject[_projectName] = new List<XmlSourceCodeFile>();
+      }
+      _filesByProject[_projectName].Add(new XmlSourceCodeFile(fileName, fileNamespace, _rootNamespace, _projectName));
+      ;
       return this;
     }
   }
