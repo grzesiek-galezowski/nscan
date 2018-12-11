@@ -48,7 +48,21 @@ namespace TddXt.NScan.Xml
       xmlProject.AbsolutePath = projectFilePath;
       NormalizeProjectDependencyPaths(projectFilePath, xmlProject);
       NormalizeProjectAssemblyName(xmlProject);
+      LoadFilesInto(xmlProject);
       return xmlProject;
+    }
+
+    private static void LoadFilesInto(XmlProject xmlProject)
+    {
+      var projectDirectory = Path.GetFileNameWithoutExtension(xmlProject.AbsolutePath);
+      foreach (var file in Directory.EnumerateFiles(projectDirectory, "*.cs", SearchOption.TopDirectoryOnly))
+      {
+        xmlProject.SourceCodeFiles.Add(new XmlSourceCodeFile(
+          file, 
+          "lol", 
+          xmlProject.PropertyGroups.First().RootNamespace, 
+          xmlProject.PropertyGroups.First().AssemblyName));
+      }
     }
 
     private static void NormalizeProjectAssemblyName(XmlProject xmlProject)

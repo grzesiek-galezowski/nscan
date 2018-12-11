@@ -61,10 +61,24 @@ namespace TddXt.NScan.Specification.EndToEnd
       CreateAllProjects();
       AddProjectsReferences();
       AddAllProjectsToSolution();
+      AddFilesToProjects();
+
       CreateRulesFile();
       RunAnalysis();
     }
 
+    private void AddFilesToProjects()
+    {
+      foreach (var projectName in _filesByProject.Keys)
+      {
+        foreach (var sourceCodeFile in _filesByProject[projectName])
+        {
+          //bug not implemented in production code!!!
+          File.WriteAllText(Path.Combine(_solutionDir.FullName, projectName, sourceCodeFile.Name), $"namespace {sourceCodeFile.Namespace}" + " {}");
+        }
+
+      }
+    }
 
 
     public void ReportShouldContainText(string ruleText)
@@ -108,7 +122,7 @@ namespace TddXt.NScan.Specification.EndToEnd
 
     private string ToRuleString(CorrectNamespacesRuleComplementDto dto)
     {
-      return $"{dto.ProjectAssemblyNamePattern} {dto.RuleName}";
+      return $"{dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName}";
     }
 
     private static string ToRuleString(IndependentRuleComplementDto dto)
@@ -141,11 +155,13 @@ namespace TddXt.NScan.Specification.EndToEnd
                                  $"{obj.dependency}.csproj").Result);
     }
 
-    private void CreateProjectAsync(string projectName)
+    private void CreateProjectAsync(string projectName) //bug are they in separate folders? If not, they should be...
     {
+      var projectDirPath = Path.Combine(_solutionDir.FullName, projectName);
       AssertSuccess(
-        RunDotNetExe($"new classlib --name {Path.Combine(_solutionDir.FullName, projectName)}")
+        RunDotNetExe($"new classlib --name {projectDirPath}")
           .Result);
+      File.Delete(Path.Combine(projectDirPath, "Class1.cs")); //remove default created file
     }
 
     private void CreateSolution()
@@ -211,12 +227,12 @@ namespace TddXt.NScan.Specification.EndToEnd
 
     public E2EProjectDsl WithFile(string fileName, string fileNamespace)
     {
-      if (_filesByProject.ContainsKey(_projectName))
+      if (!_filesByProject.ContainsKey(_projectName))
       {
         _filesByProject[_projectName] = new List<XmlSourceCodeFile>();
       }
       _filesByProject[_projectName].Add(new XmlSourceCodeFile(fileName, fileNamespace, _rootNamespace, _projectName));
-      ;
+      
       return this;
     }
   }
