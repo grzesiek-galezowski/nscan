@@ -50,12 +50,23 @@ namespace TddXt.NScan.Xml
       xmlProject.AbsolutePath = projectFilePath;
       NormalizeProjectDependencyPaths(projectFilePath, xmlProject);
       NormalizeProjectAssemblyName(xmlProject);
+      NormalizeProjectRootNamespace(xmlProject);
       LoadFilesInto(xmlProject);
       return xmlProject;
     }
 
+      private static void NormalizeProjectRootNamespace(XmlProject xmlProject)
+      {
+          if (xmlProject.PropertyGroups.All(g => g.RootNamespace == null))
+          {
+              xmlProject.PropertyGroups.First().RootNamespace
+                  = Path.GetFileNameWithoutExtension(
+                      Path.GetFileName(xmlProject.AbsolutePath));
+          }
+      }
 
-    public List<XmlProject> LoadXmlProjects()
+
+      public List<XmlProject> LoadXmlProjects()
     {
       var xmlProjects = _projectFilePaths.Select(path =>
       {

@@ -133,7 +133,7 @@ namespace TddXt.NScan.Specification.EndToEnd
     private void AddAllProjectsToSolution()
     {
       AssertSuccess(
-        RunDotNetExe($"sln {_solutionName}.sln add {string.Join(" ", _projects.Select(s => s + ".csproj"))}")
+        RunDotNetExe($"sln {_solutionName}.sln add {string.Join(" ", _projects)}")
           .Result);
     }
 
@@ -150,16 +150,16 @@ namespace TddXt.NScan.Specification.EndToEnd
     private void AddReferenceAsync((string dependent, string dependency) obj)
     {
       AssertSuccess(RunDotNetExe($"add " +
-                                 $"{obj.dependent}.csproj " +
+                                 $"{obj.dependent} " +
                                  $"reference " +
-                                 $"{obj.dependency}.csproj").Result);
+                                 $"{obj.dependency}").Result);
     }
 
     private void CreateProjectAsync(string projectName) //bug are they in separate folders? If not, they should be...
     {
       var projectDirPath = Path.Combine(_solutionDir.FullName, projectName);
       AssertSuccess(
-        RunDotNetExe($"new classlib --name {projectDirPath}")
+        RunDotNetExe($"new classlib --name {projectName}")
           .Result);
       File.Delete(Path.Combine(projectDirPath, "Class1.cs")); //remove default created file
     }
@@ -174,6 +174,7 @@ namespace TddXt.NScan.Specification.EndToEnd
       var processInfo = await ProcessEx.RunAsync(
         new ProcessStartInfo("dotnet.exe", arguments)
         {
+            
           WorkingDirectory = _solutionDir.FullName,
         }).ConfigureAwait(false);
       return processInfo;
