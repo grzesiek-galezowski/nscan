@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 using Buildalyzer;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using TddXt.NScan.App;
 using TddXt.NScan.CompositionRoot;
 using TddXt.NScan.Lib;
@@ -52,28 +54,6 @@ namespace TddXt.NScan.Xml
       return xmlProject;
     }
 
-    private static void LoadFilesInto(XmlProject xmlProject)
-    {
-      var projectDirectory = Path.GetFileNameWithoutExtension(xmlProject.AbsolutePath);
-      foreach (var file in Directory.EnumerateFiles(projectDirectory, "*.cs", SearchOption.TopDirectoryOnly))
-      {
-        xmlProject.SourceCodeFiles.Add(new XmlSourceCodeFile(
-          file, 
-          "lol", 
-          xmlProject.PropertyGroups.First().RootNamespace, 
-          xmlProject.PropertyGroups.First().AssemblyName));
-      }
-    }
-
-    private static void NormalizeProjectAssemblyName(XmlProject xmlProject)
-    {
-      if (xmlProject.PropertyGroups.All(g => g.AssemblyName == null))
-      {
-        xmlProject.PropertyGroups.First().AssemblyName
-          = Path.GetFileNameWithoutExtension(
-            Path.GetFileName(xmlProject.AbsolutePath));
-      }
-    }
 
     public List<XmlProject> LoadXmlProjects()
     {
@@ -98,6 +78,49 @@ namespace TddXt.NScan.Xml
       var projectFilePaths = analyzerManager.Projects.Select(p => p.Value.ProjectFile.Path).ToList();
       var paths = new ProjectPaths(projectFilePaths, consoleSupport);
       return paths;
+    }
+
+    private static void LoadFilesInto(XmlProject xmlProject)
+    {
+      var projectDirectory = Path.GetFileNameWithoutExtension(xmlProject.AbsolutePath);
+      foreach (var file in Directory.EnumerateFiles(projectDirectory, "*.cs", SearchOption.TopDirectoryOnly))
+      {
+        xmlProject.SourceCodeFiles.Add(new XmlSourceCodeFile(
+          file, 
+          CSharpSyntax.GetAllUniqueNamespacesFrom(File.ReadAllText(file)).First(), //bug multiple namespaces not supported yet
+          xmlProject.PropertyGroups.First().RootNamespace, 
+          xmlProject.PropertyGroups.First().AssemblyName));
+      }
+    }
+
+    private static void NormalizeProjectAssemblyName(XmlProject xmlProject)
+    {
+      if (xmlProject.PropertyGroups.All(g => g.AssemblyName == null))
+      {
+        xmlProject.PropertyGroups.First().AssemblyName
+          = Path.GetFileNameWithoutExtension(
+            Path.GetFileName(xmlProject.AbsolutePath));
+      }
+    }
+  }
+
+  public static class CSharpSyntax
+  {
+    public static IEnumerable<string> GetAllUniqueNamespacesFrom(string fileText)
+    {
+      var tree = CSharpSyntaxTree.ParseText(fileText);
+      return new HashSet<string>(tree.GetCompilationUnitRoot().Members.Where(MemberIsNamespace())
+        .Cast<NamespaceDeclarationSyntax>().Select(NamespaceName()));
+    }
+
+    private static Func<NamespaceDeclarationSyntax, string> NamespaceName()
+    {
+      return ns => ns.Name.ToString();
+    }
+
+    private static Func<MemberDeclarationSyntax, bool> MemberIsNamespace()
+    {
+      return m => m is NamespaceDeclarationSyntax;
     }
   }
 }

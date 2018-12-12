@@ -1,33 +1,15 @@
-﻿/*using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using TddXt.NScan.Xml;
 using Xunit;
 
 namespace TddXt.NScan.Specification.Integration
 {
-  public static class CSharpSyntax
-  {
-    public static IEnumerable<string> GetAllUniqueNamespacesFrom(string fileText)
-    {
-      var tree = CSharpSyntaxTree.ParseText(fileText);
-
-      return tree.GetCompilationUnitRoot().Members.Where(MemberIsNamespace())
-        .Cast<NamespaceDeclarationSyntax>().Select(NamespaceName()).ToHashSet<string>();
-    }
-
-    private static Func<NamespaceDeclarationSyntax, string> NamespaceName()
-    {
-      return ns => ns.Name.ToString();
-    }
-
-    private static Func<MemberDeclarationSyntax, bool> MemberIsNamespace()
-    {
-      return m => m is NamespaceDeclarationSyntax;
-    }
-  }
+  
 
   public class RoslynNamespaceDetectionPlayground
   {
@@ -41,5 +23,4 @@ namespace TddXt.NScan.Specification.Integration
       CSharpSyntax.GetAllUniqueNamespacesFrom(@"namespace Lolek { namespace Lolek1 {} }").Should().Contain("Lolek").And.HaveCount(1);
     }
   }
-} bug
-*/
+}
