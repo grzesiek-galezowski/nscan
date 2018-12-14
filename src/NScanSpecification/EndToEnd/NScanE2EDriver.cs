@@ -73,8 +73,15 @@ namespace TddXt.NScan.Specification.EndToEnd
       {
         foreach (var sourceCodeFile in _filesByProject[projectName])
         {
-          //bug not implemented in production code!!!
-          File.WriteAllText(Path.Combine(_solutionDir.FullName, projectName, sourceCodeFile.Name), $"namespace {sourceCodeFile.Namespace}" + " {}");
+          var fullFilePath = Path.Combine(Path.Combine(_solutionDir.FullName, projectName), sourceCodeFile.Name);
+          var directoryInfo = new DirectoryInfo(Path.GetDirectoryName(fullFilePath));
+          if (!directoryInfo.Exists)
+          {
+            directoryInfo.Create();
+          }
+
+          File.WriteAllText(fullFilePath, $"namespace {sourceCodeFile.Namespace}" + " {}");
+          
         }
 
       }
