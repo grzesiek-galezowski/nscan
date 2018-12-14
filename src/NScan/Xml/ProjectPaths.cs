@@ -93,15 +93,21 @@ namespace TddXt.NScan.Xml
 
     private static void LoadFilesInto(XmlProject xmlProject)
     {
-      var projectDirectory = Path.GetFileNameWithoutExtension(xmlProject.AbsolutePath);
+      var projectDirectory = Path.GetDirectoryName(xmlProject.AbsolutePath);
       foreach (var file in Directory.EnumerateFiles(projectDirectory, "*.cs", SearchOption.TopDirectoryOnly))
       {
+        var fileRelativeToProjectRoot = GetPathRelativeTo(projectDirectory, file);
         xmlProject.SourceCodeFiles.Add(new XmlSourceCodeFile(
-          file, 
+          fileRelativeToProjectRoot, //bug this is bad... For nested files, we want to get the path - debug it why there's project folder inside
           CSharpSyntax.GetAllUniqueNamespacesFrom(File.ReadAllText(file)).First(), //bug multiple namespaces not supported yet
           xmlProject.PropertyGroups.First().RootNamespace, 
           xmlProject.PropertyGroups.First().AssemblyName));
       }
+    }
+
+    private static string GetPathRelativeTo(string projectDirectory, string file)
+    {
+      return file.Replace(projectDirectory + Path.DirectorySeparatorChar, "");
     }
 
     private static void NormalizeProjectAssemblyName(XmlProject xmlProject)

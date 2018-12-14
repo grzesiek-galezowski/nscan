@@ -83,10 +83,29 @@ namespace TddXt.NScan.Specification.EndToEnd
 
     public void ReportShouldContainText(string ruleText)
     {
-      string.Join(Environment.NewLine, _analysisResult.StandardOutput).Should()
+      ConsoleStandardOutput().Should()
         .Contain(ruleText,
-          string.Join(Environment.NewLine, _analysisResult.StandardOutput.Concat(_analysisResult.StandardError)));
+          ConsoleStandardOutputAndErrorString());
     }
+
+    public void ReportShouldNotContainText(string text)
+    {
+      ConsoleStandardOutput().Should().NotContain(text,
+          ConsoleStandardOutputAndErrorString());
+
+    }
+
+    private string ConsoleStandardOutput()
+    {
+      return string.Join(Environment.NewLine, _analysisResult.StandardOutput);
+    }
+
+    private string ConsoleStandardOutputAndErrorString()
+    {
+      return string.Join(Environment.NewLine, _analysisResult.StandardOutput.Concat(_analysisResult.StandardError));
+    }
+
+
 
     public void ShouldIndicateSuccess()
     {
