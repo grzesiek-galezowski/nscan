@@ -45,7 +45,7 @@ namespace TddXt.NScan.CompositionRoot
       catch (Exception e)
       {
         support.Report(e);
-        return -2; //bug
+        return -2;
       }
     }
 

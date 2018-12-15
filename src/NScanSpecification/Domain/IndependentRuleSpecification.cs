@@ -10,8 +10,6 @@ namespace TddXt.NScan.Specification.Domain
 {
   public class IndependentRuleSpecification
   {
-    //todo what about the situation where there is only root?
-
     [Fact]
     public void ShouldReportOkWhenPathDoesNotContainADependingProject()
     {

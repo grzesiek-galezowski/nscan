@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using TddXt.AnyRoot.Strings;
 using Xunit;
 using static TddXt.AnyRoot.Root;
+using static TddXt.NScan.Specification.Component.DependencyRuleBuilder;
 
 namespace TddXt.NScan.Specification.EndToEnd
 {
@@ -19,7 +20,7 @@ namespace TddXt.NScan.Specification.EndToEnd
       {
         context.HasProject(projectName);
 
-        context.AddIndependentOfProjectRule(projectName, assemblyName);
+        context.Add(Rule().Project(projectName).IndependentOfProject(assemblyName));
 
         //WHEN
         context.PerformAnalysis();
@@ -41,7 +42,7 @@ namespace TddXt.NScan.Specification.EndToEnd
         context.HasProject(dependencyProjectName);
         context.HasProject(projectName).WithAssemblyReferences(dependencyProjectName);
 
-        context.AddIndependentOfProjectRule(projectName, dependencyProjectName);
+        context.Add(Rule().Project(projectName).IndependentOfProject(dependencyProjectName));
 
         //WHEN
         context.PerformAnalysis();

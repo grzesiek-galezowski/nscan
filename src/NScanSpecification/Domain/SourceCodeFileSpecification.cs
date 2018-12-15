@@ -34,9 +34,7 @@ namespace TddXt.NScan.Specification.Domain
         xmlSourceCodeFile.ParentProjectRootNamespace + " but the file "
         + xmlSourceCodeFile.Name + " has incorrect namespace "
         + xmlSourceCodeFile.DeclaredNamespace));
-    } //bug different error message
-    
-    
+    }
 
     [Fact]
     public void ShouldReportOkWhenIsInRootFolderAndItsOnlyNamespaceMatchesRootNamespace()

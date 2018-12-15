@@ -172,8 +172,6 @@ namespace TddXt.NScan.Specification.Domain
       hasViolations.Should().BeTrue();
     }
 
-    //bug combining OK and ERROR for the same rule should only give errors
-
     //TODO move to X fluent assert
     private void AssertContainsOnce(string output, string substring)
     {

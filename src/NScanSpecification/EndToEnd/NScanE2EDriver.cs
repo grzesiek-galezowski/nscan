@@ -17,7 +17,7 @@ namespace TddXt.NScan.Specification.EndToEnd
   public class NScanE2EDriver : IDisposable
   {
     private readonly List<string> _projects = new List<string>();
-    private readonly Dictionary<string, List<XmlSourceCodeFile>> _filesByProject = new Dictionary<string, List<XmlSourceCodeFile>>(); //bug
+    private readonly Dictionary<string, List<XmlSourceCodeFile>> _filesByProject = new Dictionary<string, List<XmlSourceCodeFile>>();
     private readonly DirectoryInfo _solutionDir = GetTemporaryDirectory();
     private readonly string _solutionName = Root.Any.AlphaString();
     private readonly List<RuleUnionDto> _rules = new List<RuleUnionDto>();
@@ -39,14 +39,6 @@ namespace TddXt.NScan.Specification.EndToEnd
     {
       _projects.Add(projectName);
       return new E2EProjectDsl(projectName, _projectReferences, _filesByProject);
-    }
-
-    //bug remove?
-    public void AddIndependentOfProjectRule(string projectName, string dependencyProjectName)
-    {
-      _rules.Add(
-        DependencyRuleBuilder.Rule().Project(projectName).IndependentOfProject(dependencyProjectName).Build());
-
     }
 
     public void Add(IFullRuleConstructed ruleDefinition)
@@ -181,13 +173,18 @@ namespace TddXt.NScan.Specification.EndToEnd
                                  $"{obj.dependency}").Result);
     }
 
-    private void CreateProjectAsync(string projectName) //bug are they in separate folders? If not, they should be...
+    private void CreateProjectAsync(string projectName)
     {
       var projectDirPath = Path.Combine(_solutionDir.FullName, projectName);
       AssertSuccess(
         RunDotNetExe($"new classlib --name {projectName}")
           .Result);
-      File.Delete(Path.Combine(projectDirPath, "Class1.cs")); //remove default created file
+      RemoveDefaultFileCreatedbyTemplate(projectDirPath);
+    }
+
+    private static void RemoveDefaultFileCreatedbyTemplate(string projectDirPath)
+    {
+      File.Delete(Path.Combine(projectDirPath, "Class1.cs"));
     }
 
     private void CreateSolution()

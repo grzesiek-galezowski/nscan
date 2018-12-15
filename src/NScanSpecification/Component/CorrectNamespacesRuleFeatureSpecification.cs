@@ -6,8 +6,6 @@ namespace TddXt.NScan.Specification.Component
 {
   public class CorrectNamespacesRuleFeatureSpecification
   {
-    //TODO happy path
-
     [Fact]
     public void ShouldNotReportErrorWhenMultipleFilesOfSingleProjectAreInCorrectNamespace()
     {

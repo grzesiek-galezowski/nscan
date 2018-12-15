@@ -15,7 +15,7 @@ namespace TddXt.NScan.Specification.Domain
   public class DotNetStandardSolutionSpecification
   {
     [Fact]
-    public void ShouldResolveReferencesOfAllProjectUsingItselfAsAContext() //todo update this test and code to handle the report
+    public void ShouldResolveReferencesOfAllProjectUsingItselfAsAContext()
     {
       //GIVEN
       var project1 = Substitute.For<IDotNetProject>();

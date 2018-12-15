@@ -61,7 +61,6 @@ namespace TddXt.NScan.Domain
     {
       AddRuleIfNotRegisteredYet(ruleDescription);
       InitializeViolationsFor(ruleDescription);
-      //TODO Maybe some prefix to the violation?
       AddViolation(ruleDescription, violationDescription, string.Empty);
     }
 

@@ -79,8 +79,6 @@ namespace TddXt.NScan.Specification.Domain
         report.FinishedChecking(correctNamespacesRuleComplementDto.ProjectAssemblyNamePattern +
                                 " hasCorrectNamespaces");
       });
-
-      //bug FinishedChecking is per project but what if somebody says "* hasCorrectNamespaces"?
     }
   }
 }
