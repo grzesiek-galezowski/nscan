@@ -62,8 +62,8 @@ namespace TddXt.NScan.Specification.Component
 
       //THEN
       context.ReportShouldContainText($"*MyProject* hasCorrectNamespaces: [ERROR]{NewLine}" +
-                                      $"MyProject has root namespace MyProject but the file lol1.cs located in project root folder has incorrect namespace WrongNamespace{NewLine}" +
-                                      $"MyProject has root namespace MyProject but the file lol2.cs located in project root folder has incorrect namespace WrongNamespace");
+                                      $"MyProject has root namespace MyProject but the file lol1.cs has incorrect namespace WrongNamespace{NewLine}" +
+                                      $"MyProject has root namespace MyProject but the file lol2.cs has incorrect namespace WrongNamespace");
       context.ReportShouldNotContainText("lol3");
 
     }
@@ -90,17 +90,37 @@ namespace TddXt.NScan.Specification.Component
 
       //THEN
       context.ReportShouldContainText($"*MyProject* hasCorrectNamespaces: [ERROR]{NewLine}" + 
-                                      $"MyProject1 has root namespace MyProject1 but the file lol1.cs located in project root folder has incorrect namespace WrongNamespace{NewLine}" +
-                                      $"MyProject1 has root namespace MyProject1 but the file lol2.cs located in project root folder has incorrect namespace WrongNamespace{NewLine}" +
-                                      $"MyProject2 has root namespace MyProject2 but the file lol1.cs located in project root folder has incorrect namespace WrongNamespace{NewLine}" +
-                                      "MyProject2 has root namespace MyProject2 but the file lol2.cs located in project root folder has incorrect namespace WrongNamespace");
+                                      $"MyProject1 has root namespace MyProject1 but the file lol1.cs has incorrect namespace WrongNamespace{NewLine}" +
+                                      $"MyProject1 has root namespace MyProject1 but the file lol2.cs has incorrect namespace WrongNamespace{NewLine}" +
+                                      $"MyProject2 has root namespace MyProject2 but the file lol1.cs has incorrect namespace WrongNamespace{NewLine}" +
+                                      "MyProject2 has root namespace MyProject2 but the file lol2.cs has incorrect namespace WrongNamespace");
       context.ReportShouldNotContainText("lol3");
 
     }
 
+    [Fact]
+    public void
+      ShouldReportErrorWhenMultipleNestedFilesOfSingleProjectAreInWrongNamespaceEvenThoughSomeAreInTheRightOne()
+    {
+      //GIVEN
+      var context = new NScanDriver();
+      context.HasProject("MyProject")
+        .WithRootNamespace("MyProject")
+        .WithFile("Domain\\lol4.cs", "MyProject.Domain")
+        .WithFile("Domain\\lol5.cs", "MyProject");
+      context.Add(Rule().Project("*MyProject*").HasCorrectNamespaces());
+
+      //WHEN
+      context.PerformAnalysis();
+
+      //THEN
+      context.ReportShouldContainText($"*MyProject* hasCorrectNamespaces: [ERROR]{NewLine}" +
+                                      $"MyProject has root namespace MyProject but the file Domain\\lol5.cs has incorrect namespace MyProject");
+      context.ReportShouldNotContainText("lol4");
+    }
+
+
     //backlog nested namespaces
     //backlog multiple namespaces per file
-    //backlog multiple namespaces
-    //backlog non-root files
   }
 }

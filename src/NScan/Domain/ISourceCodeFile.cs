@@ -4,5 +4,4 @@ namespace TddXt.NScan.Domain
   {
     void EvaluateNamespacesCorrectness(IAnalysisReportInProgress report, string ruleDescription);
   }
-  //bug only for projects where assembly name matches pattern
 }

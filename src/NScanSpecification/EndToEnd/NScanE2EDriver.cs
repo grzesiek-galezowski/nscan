@@ -80,7 +80,7 @@ namespace TddXt.NScan.Specification.EndToEnd
             directoryInfo.Create();
           }
 
-          File.WriteAllText(fullFilePath, $"namespace {sourceCodeFile.Namespace}" + " {}");
+          File.WriteAllText(fullFilePath, $"namespace {sourceCodeFile.DeclaredNamespace}" + " {}");
           
         }
 
