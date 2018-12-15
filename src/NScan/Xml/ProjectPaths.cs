@@ -94,15 +94,22 @@ namespace TddXt.NScan.Xml
     private static void LoadFilesInto(XmlProject xmlProject)
     {
       var projectDirectory = Path.GetDirectoryName(xmlProject.AbsolutePath);
-      foreach (var file in Directory.EnumerateFiles(projectDirectory, "*.cs", SearchOption.AllDirectories))
+      foreach (var file in Directory.EnumerateFiles(projectDirectory, "*.cs", SearchOption.AllDirectories)
+        .Where(IsNotInFolder(projectDirectory, "obj")))
       {
         var fileRelativeToProjectRoot = GetPathRelativeTo(projectDirectory, file);
+        var declaredNamespace = CSharpSyntax.GetAllUniqueNamespacesFromFile(file).FirstOrDefault();
         xmlProject.SourceCodeFiles.Add(new XmlSourceCodeFile(
           fileRelativeToProjectRoot,
-          CSharpSyntax.GetAllUniqueNamespacesFrom(File.ReadAllText(file)).First(), //bug multiple namespaces not supported yet
+          declaredNamespace, //bug multiple namespaces not supported yet
           xmlProject.PropertyGroups.First().RootNamespace, 
           xmlProject.PropertyGroups.First().AssemblyName));
       }
+    }
+
+    private static Func<string, bool> IsNotInFolder(string projectDirectory, string dirName)
+    {
+      return f => !GetPathRelativeTo(projectDirectory, f).StartsWith(dirName + Path.DirectorySeparatorChar);
     }
 
     private static string GetPathRelativeTo(string projectDirectory, string file)
@@ -138,6 +145,11 @@ namespace TddXt.NScan.Xml
     private static Func<MemberDeclarationSyntax, bool> MemberIsNamespace()
     {
       return m => m is NamespaceDeclarationSyntax;
+    }
+
+    public static IEnumerable<string> GetAllUniqueNamespacesFromFile(string file)
+    {
+      return CSharpSyntax.GetAllUniqueNamespacesFrom(File.ReadAllText(file));
     }
   }
 }

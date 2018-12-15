@@ -76,5 +76,26 @@ namespace TddXt.NScan.Specification.EndToEnd
       }
     }
 
+    [Fact]
+    public void
+      ShouldIgnoreObjFolderWhenCheckingProjectScopedRule()
+    {
+      //GIVEN
+      using (var context = new NScanE2EDriver())
+      {
+        context.HasProject("MyProject")
+          .WithRootNamespace("MyProject")
+          .WithFile("obj\\lol4.cs", "Trolololo");
+        context.Add(DependencyRuleBuilder.Rule().Project("*MyProject*").HasCorrectNamespaces());
+
+        //WHEN
+        context.PerformAnalysis();
+
+        //THEN
+        context.ReportShouldContainText($"*MyProject* hasCorrectNamespaces: [OK]");
+        context.ReportShouldNotContainText("lol4");
+      }
+    }
+
   }
 }
