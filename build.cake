@@ -23,16 +23,16 @@ var solutionName = "NScan.sln";
 var mainDll = "TddXt.NScan.dll";
 
 var nscanConsoleTitle = "NScan.Console";
-var nscanConsoleVersion = "0.5.0";
-var nscanConsoleReleaseNotes = "Added exclusion syntax for depending project assembly names";
+var nscanConsoleVersion = "0.7.0";
+var nscanConsoleReleaseNotes = "Added hasCorrectNamespaces rule for checking namespaces";
 
 var nscanTitle = "NScan";
-var nscanVersion = "0.5.0";
+var nscanVersion = "0.7.0";
 var nscanReleaseNotes = nscanConsoleReleaseNotes;
 
 var cakeNscanTitle = "Cake.NScan";
-var cakeNscanVersion = "0.6.1";
-var cakeNScanReleaseNotes = "Fixed a NotImplementedException";
+var cakeNscanVersion = "0.7.0";
+var cakeNScanReleaseNotes = nscanConsoleReleaseNotes;
 
 
 //////////////////////////////////////////////////////////////////////
