@@ -4,8 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 using Buildalyzer;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using TddXt.NScan.App;
 using TddXt.NScan.CompositionRoot;
 using TddXt.NScan.Lib;
@@ -94,8 +92,7 @@ namespace TddXt.NScan.Xml
     private static void LoadFilesInto(XmlProject xmlProject)
     {
       var projectDirectory = Path.GetDirectoryName(xmlProject.AbsolutePath);
-      foreach (var file in Directory.EnumerateFiles(projectDirectory, "*.cs", SearchOption.AllDirectories)
-        .Where(IsNotInFolder(projectDirectory, "obj")))
+      foreach (var file in SourceCodeFilesIn(projectDirectory))
       {
         var fileRelativeToProjectRoot = GetPathRelativeTo(projectDirectory, file);
         var declaredNamespace = CSharpSyntax.GetAllUniqueNamespacesFromFile(file).FirstOrDefault();
@@ -107,7 +104,14 @@ namespace TddXt.NScan.Xml
       }
     }
 
-    private static Func<string, bool> IsNotInFolder(string projectDirectory, string dirName)
+    private static IEnumerable<string> SourceCodeFilesIn(string projectDirectory)
+    {
+      return Directory.EnumerateFiles(
+          projectDirectory, "*.cs", SearchOption.AllDirectories)
+        .Where(IsNotInDirectory(projectDirectory, "obj"));
+    }
+
+    private static Func<string, bool> IsNotInDirectory(string projectDirectory, string dirName)
     {
       return f => !GetPathRelativeTo(projectDirectory, f).StartsWith(dirName + Path.DirectorySeparatorChar);
     }
@@ -125,31 +129,6 @@ namespace TddXt.NScan.Xml
           = Path.GetFileNameWithoutExtension(
             Path.GetFileName(xmlProject.AbsolutePath));
       }
-    }
-  }
-
-  public static class CSharpSyntax
-  {
-    public static IEnumerable<string> GetAllUniqueNamespacesFrom(string fileText)
-    {
-      var tree = CSharpSyntaxTree.ParseText(fileText);
-      return new HashSet<string>(tree.GetCompilationUnitRoot().Members.Where(MemberIsNamespace())
-        .Cast<NamespaceDeclarationSyntax>().Select(NamespaceName()));
-    }
-
-    private static Func<NamespaceDeclarationSyntax, string> NamespaceName()
-    {
-      return ns => ns.Name.ToString();
-    }
-
-    private static Func<MemberDeclarationSyntax, bool> MemberIsNamespace()
-    {
-      return m => m is NamespaceDeclarationSyntax;
-    }
-
-    public static IEnumerable<string> GetAllUniqueNamespacesFromFile(string file)
-    {
-      return CSharpSyntax.GetAllUniqueNamespacesFrom(File.ReadAllText(file));
     }
   }
 }

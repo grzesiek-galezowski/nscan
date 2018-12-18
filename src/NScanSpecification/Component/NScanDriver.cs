@@ -69,5 +69,10 @@ namespace TddXt.NScan.Specification.Component
     {
       _analysis.Report.Should().NotContain(text);
     }
+
+    public void ReportShouldContain(RuleMessage message)
+    {
+      ReportShouldContainText(message._returnValue);
+    }
   }
 }

@@ -1,4 +1,0 @@
-namespace TddXt.NScan.RuleInputData
-{
-  
-}

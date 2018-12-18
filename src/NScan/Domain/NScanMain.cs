@@ -1,17 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Threading;
-using GlobExpressions;
 using Sprache;
 using TddXt.NScan.App;
-using TddXt.NScan.Domain;
+using TddXt.NScan.CompositionRoot;
 using TddXt.NScan.RuleInputData;
 using TddXt.NScan.Xml;
 
-namespace TddXt.NScan.CompositionRoot
+namespace TddXt.NScan.Domain
 {
   public static class NScanMain
   {
@@ -63,8 +59,8 @@ namespace TddXt.NScan.CompositionRoot
       foreach (var either in enumerable)
       {
         either.Switch( 
-          independent => support.LogIndependentRule(either.Left), 
-          namespaces => support.LogNamespacesRule(either.Right));
+          independent => support.Log(either.Left), 
+          namespaces => support.Log(either.Right));
       }
     }
 

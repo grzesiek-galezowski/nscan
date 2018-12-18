@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using TddXt.NScan.App;
-using TddXt.NScan.Domain;
 
-namespace TddXt.NScan.CompositionRoot
+namespace TddXt.NScan.Domain
 {
   public class PlainProjectPathFormat : IProjectPathFormat
   {
