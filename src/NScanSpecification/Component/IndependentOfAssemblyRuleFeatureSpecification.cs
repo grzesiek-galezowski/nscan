@@ -27,7 +27,7 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContainText(SuccessAssemblyRuleText(projectName, assemblyName));
+      context.ReportShouldContainText(RuleMessage.SuccessAssemblyRuleText(projectName, assemblyName));
       context.ShouldIndicateSuccess();
     }
 
@@ -46,7 +46,7 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContainText(DirectFailureAssemblyRuleText(projectName, assemblyName));
+      context.ReportShouldContainText(RuleMessage.DirectFailureAssemblyRuleText(projectName, assemblyName));
       context.ShouldIndicateFailure();
     }
 
@@ -67,27 +67,8 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContainText(
-        IndirectFailureAssemblyRuleText(projectName, projectName2, assemblyName));
+      context.ReportShouldContainText(RuleMessage.IndirectFailureAssemblyRuleText(projectName, projectName2, assemblyName));
       context.ShouldIndicateFailure();
     }
-
-    private string IndirectFailureAssemblyRuleText(string projectName, string projectName2, string packageName)
-    {
-      return $"[{projectName}] independentOf [assembly:{packageName}]: [ERROR]{NewLine}" +
-             $"PathViolation in path: [{projectName}]->[{projectName2}]";
-    }
-
-    private string DirectFailureAssemblyRuleText(string projectName, string packageName)
-    {
-      return $"[{projectName}] independentOf [assembly:{packageName}]: [ERROR]{NewLine}" +
-             $"PathViolation in path: [{projectName}]";
-    }
-
-    private static string SuccessAssemblyRuleText(string projectName, string packageName)
-    {
-      return $"[{projectName}] independentOf [assembly:{packageName}]: [OK]";
-    }
-
   }
 }

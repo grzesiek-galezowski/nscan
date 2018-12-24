@@ -44,6 +44,40 @@ namespace TddXt.NScan.Specification.Component
              $"{projectName} has root namespace {rootNamespace}" +
              $" but the file {fileName} has incorrect namespace {actualNamespace}");
     }
+
+    public static string SuccessAssemblyRuleText(string projectName, string packageName)
+    {
+      return $"[{projectName}] independentOf [assembly:{packageName}]: [OK]";
+    }
+
+    public static string IndirectFailureAssemblyRuleText(string projectName, string projectName2, string packageName)
+    {
+      return $"[{projectName}] independentOf [assembly:{packageName}]: [ERROR]{NewLine}" +
+             $"PathViolation in path: [{projectName}]->[{projectName2}]";
+    }
+
+    public static string DirectFailureAssemblyRuleText(string projectName, string packageName)
+    {
+      return $"[{projectName}] independentOf [assembly:{packageName}]: [ERROR]{NewLine}" +
+             $"PathViolation in path: [{projectName}]";
+    }
+
+    public static string IndirectFailurePackageRuleText(string projectName, string projectName2, string packageName)
+    {
+      return $"[{projectName}] independentOf [package:{packageName}]: [ERROR]{NewLine}" +
+             $"PathViolation in path: [{projectName}]->[{projectName2}]";
+    }
+
+    public static string DirectFailurePackageRuleText(string projectName, string packageName)
+    {
+      return $"[{projectName}] independentOf [package:{packageName}]: [ERROR]{NewLine}" +
+             $"PathViolation in path: [{projectName}]";
+    }
+
+    public static string SuccessPackageRuleText(string projectName, string packageName)
+    {
+      return $"[{projectName}] independentOf [package:{packageName}]: [OK]";
+    }
   }
 
   public class CorrectNamespacesRuleFeatureSpecification
