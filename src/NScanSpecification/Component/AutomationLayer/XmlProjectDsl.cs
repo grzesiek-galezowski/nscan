@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Xml;
 
-namespace TddXt.NScan.Specification.Component
+namespace TddXt.NScan.Specification.Component.AutomationLayer
 {
   public class XmlProjectDsl
   {

@@ -10,6 +10,7 @@ using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.RuleInputData;
 using TddXt.NScan.Specification.Component;
+using TddXt.NScan.Specification.Component.AutomationLayer;
 using TddXt.NScan.Xml;
 
 namespace TddXt.NScan.Specification.EndToEnd

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using FluentAssertions;
+﻿using System.Diagnostics.CodeAnalysis;
 using TddXt.AnyRoot.Strings;
+using TddXt.NScan.Specification.Component.AutomationLayer;
 using Xunit;
-using static System.Environment;
 using static TddXt.AnyRoot.Root;
-using static TddXt.NScan.Specification.Component.DependencyRuleBuilder;
+using static TddXt.NScan.Specification.Component.AutomationLayer.DependencyRuleBuilder;
 
 namespace TddXt.NScan.Specification.Component
 {
@@ -27,7 +25,8 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContainText(RuleMessage.SuccessAssemblyRuleText(projectName, assemblyName));
+      context.ReportShouldContain(
+        ReportedMessage.ProjectIndependentOfAssembly(projectName, assemblyName).Ok());
       context.ShouldIndicateSuccess();
     }
 
@@ -46,7 +45,9 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContainText(RuleMessage.DirectFailureAssemblyRuleText(projectName, assemblyName));
+      context.ReportShouldContain(
+        ReportedMessage.ProjectIndependentOfAssembly(projectName, assemblyName).Error()
+          .ViolationPath(projectName));
       context.ShouldIndicateFailure();
     }
 
@@ -67,7 +68,9 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContainText(RuleMessage.IndirectFailureAssemblyRuleText(projectName, projectName2, assemblyName));
+      context.ReportShouldContain(
+        ReportedMessage.ProjectIndependentOfAssembly(projectName, assemblyName).Error()
+          .ViolationPath(projectName, projectName2));
       context.ShouldIndicateFailure();
     }
   }

@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using FluentAssertions;
 using TddXt.NScan.App;
 using TddXt.NScan.Domain;
 using TddXt.NScan.RuleInputData;
 using TddXt.NScan.Xml;
 
-namespace TddXt.NScan.Specification.Component
+namespace TddXt.NScan.Specification.Component.AutomationLayer
 {
   public class NScanDriver
   {
@@ -50,11 +49,6 @@ namespace TddXt.NScan.Specification.Component
       _analysis.Run();
     }
 
-    public void ReportShouldContainText(string expected)
-    {
-      _analysis.Report.Should().Contain(expected);
-    }
-
     public void ShouldIndicateSuccess()
     {
       _analysis.ReturnCode.Should().Be(0);
@@ -70,9 +64,9 @@ namespace TddXt.NScan.Specification.Component
       _analysis.Report.Should().NotContain(text);
     }
 
-    public void ReportShouldContain(RuleMessage message)
+    public void ReportShouldContain(ReportedMessage message)
     {
-      ReportShouldContainText(message._returnValue);
+      _analysis.Report.Should().Contain(message.ToString());
     }
   }
 }

@@ -1,13 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using GlobExpressions;
-using TddXt.NScan.CompositionRoot;
+﻿using GlobExpressions;
 using TddXt.NScan.Domain;
 using TddXt.NScan.Lib;
 using TddXt.NScan.RuleInputData;
-using static TddXt.NScan.Lib.Maybe;
 
-namespace TddXt.NScan.Specification.Component
+namespace TddXt.NScan.Specification.Component.AutomationLayer
 {
   public interface IFullDependingPartStated
   {
@@ -36,7 +32,7 @@ namespace TddXt.NScan.Specification.Component
   {
     private string _dependingPattern;
     private string _ruleName;
-    private Maybe<string> _exclusionPattern = Nothing<string>();
+    private Maybe<string> _exclusionPattern = Maybe.Nothing<string>();
     private string _dependencyName;
     private string _dependencyType;
 
@@ -74,7 +70,7 @@ namespace TddXt.NScan.Specification.Component
 
     public IFullDependingPartStated Except(string exclusionPattern)
     {
-      _exclusionPattern = Just(exclusionPattern);
+      _exclusionPattern = Maybe.Just(exclusionPattern);
       return this;
     }
 

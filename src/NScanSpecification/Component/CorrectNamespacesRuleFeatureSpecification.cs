@@ -1,85 +1,9 @@
-﻿using Xunit;
-using static System.Environment;
-using static TddXt.NScan.Specification.Component.DependencyRuleBuilder;
+﻿using TddXt.NScan.Specification.Component.AutomationLayer;
+using Xunit;
+using static TddXt.NScan.Specification.Component.AutomationLayer.DependencyRuleBuilder;
 
 namespace TddXt.NScan.Specification.Component
 {
-  public class RuleMessage
-  {
-    public string _returnValue;
-
-    public RuleMessage(string returnValue)
-    {
-      _returnValue = returnValue;
-    }
-
-    public RuleMessage Error()
-    {
-      return new RuleMessage(_returnValue + "[ERROR]");
-    }
-
-    public RuleMessage Ok()
-    {
-      return new RuleMessage(_returnValue + "[OK]");
-    }
-
-    public static RuleMessage HasCorrectNamespacesOk(string projectGlob)
-    {
-      return new RuleMessage($"{projectGlob} hasCorrectNamespaces: ").Ok();
-    }
-
-    public static RuleMessage HasCorrectNamespaces(string projectGlob)
-    {
-      return new RuleMessage($"{projectGlob} hasCorrectNamespaces: ");
-    }
-
-    public RuleMessage WithCorrectNamespaceRuleBroken(
-      string projectName, 
-      string rootNamespace, 
-      string fileName, 
-      string actualNamespace)
-    {
-      return new RuleMessage(_returnValue +
-             $"{NewLine}" +
-             $"{projectName} has root namespace {rootNamespace}" +
-             $" but the file {fileName} has incorrect namespace {actualNamespace}");
-    }
-
-    public static string SuccessAssemblyRuleText(string projectName, string packageName)
-    {
-      return $"[{projectName}] independentOf [assembly:{packageName}]: [OK]";
-    }
-
-    public static string IndirectFailureAssemblyRuleText(string projectName, string projectName2, string packageName)
-    {
-      return $"[{projectName}] independentOf [assembly:{packageName}]: [ERROR]{NewLine}" +
-             $"PathViolation in path: [{projectName}]->[{projectName2}]";
-    }
-
-    public static string DirectFailureAssemblyRuleText(string projectName, string packageName)
-    {
-      return $"[{projectName}] independentOf [assembly:{packageName}]: [ERROR]{NewLine}" +
-             $"PathViolation in path: [{projectName}]";
-    }
-
-    public static string IndirectFailurePackageRuleText(string projectName, string projectName2, string packageName)
-    {
-      return $"[{projectName}] independentOf [package:{packageName}]: [ERROR]{NewLine}" +
-             $"PathViolation in path: [{projectName}]->[{projectName2}]";
-    }
-
-    public static string DirectFailurePackageRuleText(string projectName, string packageName)
-    {
-      return $"[{projectName}] independentOf [package:{packageName}]: [ERROR]{NewLine}" +
-             $"PathViolation in path: [{projectName}]";
-    }
-
-    public static string SuccessPackageRuleText(string projectName, string packageName)
-    {
-      return $"[{projectName}] independentOf [package:{packageName}]: [OK]";
-    }
-  }
-
   public class CorrectNamespacesRuleFeatureSpecification
   {
     [Fact]
@@ -97,7 +21,7 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContainText(RuleMessage.HasCorrectNamespacesOk("*MyProject*")._returnValue);
+      context.ReportShouldContain(ReportedMessage.HasCorrectNamespaces("*MyProject*").Ok());
     }
 
     [Fact]
@@ -115,7 +39,7 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContainText($"*MyProject* hasCorrectNamespaces: [OK]");
+      context.ReportShouldContain(ReportedMessage.HasCorrectNamespaces($"*MyProject*").Ok());
     }
 
 
@@ -136,11 +60,12 @@ namespace TddXt.NScan.Specification.Component
 
       //THEN
       context.ReportShouldContain(
-        RuleMessage.HasCorrectNamespaces("*MyProject*").Error()
-          .WithCorrectNamespaceRuleBroken("MyProject", "MyProject", "lol1.cs", "WrongNamespace")
-          .WithCorrectNamespaceRuleBroken("MyProject", "MyProject", "lol2.cs", "WrongNamespace"));
+        ReportedMessage.HasCorrectNamespaces("*MyProject*").Error()
+          .ExpectedNamespace("MyProject", "MyProject")
+          .ButFoundIncorrectNamespaceFor("lol1.cs", "WrongNamespace")
+          .ExpectedNamespace("MyProject", "MyProject")
+          .ButFoundIncorrectNamespaceFor("lol2.cs", "WrongNamespace"));
       context.ReportShouldNotContainText("lol3");
-
     }
 
     [Fact]
@@ -165,11 +90,15 @@ namespace TddXt.NScan.Specification.Component
 
       //THEN
       context.ReportShouldContain(
-        RuleMessage.HasCorrectNamespaces("*MyProject*").Error()
-          .WithCorrectNamespaceRuleBroken("MyProject1", "MyProject1", "lol1.cs", "WrongNamespace")
-          .WithCorrectNamespaceRuleBroken("MyProject1", "MyProject1", "lol2.cs", "WrongNamespace")
-          .WithCorrectNamespaceRuleBroken("MyProject2", "MyProject2", "lol1.cs", "WrongNamespace") //bug
-          .WithCorrectNamespaceRuleBroken("MyProject2", "MyProject2", "lol2.cs", "WrongNamespace")); //bug
+        ReportedMessage.HasCorrectNamespaces("*MyProject*").Error()
+          .ExpectedNamespace("MyProject1", "MyProject1")
+          .ButFoundIncorrectNamespaceFor("lol1.cs", "WrongNamespace")
+          .ExpectedNamespace("MyProject1", "MyProject1")
+          .ButFoundIncorrectNamespaceFor("lol2.cs", "WrongNamespace")
+          .ExpectedNamespace("MyProject2", "MyProject2")
+          .ButFoundIncorrectNamespaceFor("lol1.cs", "WrongNamespace")
+          .ExpectedNamespace("MyProject2", "MyProject2")
+          .ButFoundIncorrectNamespaceFor("lol2.cs", "WrongNamespace"));
       context.ReportShouldNotContainText("lol3");
     }
 
@@ -189,9 +118,10 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContain(RuleMessage
+      context.ReportShouldContain(ReportedMessage
         .HasCorrectNamespaces("*MyProject*").Error()
-        .WithCorrectNamespaceRuleBroken("MyProject", "MyProject", "Domain\\lol5.cs", "MyProject"));
+        .ExpectedNamespace("MyProject", "MyProject")
+        .ButFoundIncorrectNamespaceFor("Domain\\lol5.cs", "MyProject"));
       context.ReportShouldNotContainText("lol4");
     }
 

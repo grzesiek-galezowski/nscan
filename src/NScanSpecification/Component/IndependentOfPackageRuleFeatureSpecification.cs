@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using TddXt.AnyRoot.Strings;
+using TddXt.NScan.Specification.Component.AutomationLayer;
 using Xunit;
-using static System.Environment;
 using static TddXt.AnyRoot.Root;
-using static TddXt.NScan.Specification.Component.DependencyRuleBuilder;
+using static TddXt.NScan.Specification.Component.AutomationLayer.DependencyRuleBuilder;
 
 namespace TddXt.NScan.Specification.Component
 {
@@ -25,7 +25,8 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContainText(RuleMessage.SuccessPackageRuleText(projectName, packageName));
+      context.ReportShouldContain(
+        ReportedMessage.ProjectIndependentOfPackage(projectName, packageName).Ok());
       context.ShouldIndicateSuccess();
     }
 
@@ -44,7 +45,9 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContainText(RuleMessage.DirectFailurePackageRuleText(projectName, packageName));
+      context.ReportShouldContain(
+        ReportedMessage.ProjectIndependentOfPackage(projectName, packageName).Error()
+        .ViolationPath(projectName));
       context.ShouldIndicateFailure();
     }
 
@@ -65,7 +68,9 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContainText(RuleMessage.IndirectFailurePackageRuleText(projectName, projectName2, packageName));
+      context.ReportShouldContain(
+        ReportedMessage.ProjectIndependentOfPackage(projectName, packageName).Error()
+          .ViolationPath(projectName, projectName2));
       context.ShouldIndicateFailure();
     }
   }

@@ -1,4 +1,5 @@
 ﻿using System;
+using TddXt.NScan.Specification.Component.AutomationLayer;
 using Xunit;
 
 namespace TddXt.NScan.Specification.Component
@@ -22,7 +23,10 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContainText("[* except *Specification*] independentOf [project:*CompositionRoot*]: [OK]");
+      context.ReportShouldContain(
+        ReportedMessage.ProjectIndependentOfProject(
+          "* except *Specification*", "*CompositionRoot*"
+          ).Ok());
       context.ShouldIndicateSuccess();
 
     }
@@ -34,6 +38,7 @@ namespace TddXt.NScan.Specification.Component
       var context = new NScanDriver();
       context.HasProject("CompositionRoot");
       context.HasProject("CompositionRootSpecification").WithReferences("CompositionRoot");
+      context.HasProject("CompositionRootTests").WithReferences("CompositionRoot");
 
       context.Add(DependencyRuleBuilder.Rule()
         .Project("*")
@@ -44,8 +49,11 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContainText($"[* except *Tests*] independentOf [project:*CompositionRoot*]: [ERROR]{Environment.NewLine}" +
-                                      "PathViolation in path: [CompositionRootSpecification]->[CompositionRoot]");
+      context.ReportShouldContain(
+        ReportedMessage.ProjectIndependentOfProject(
+          "* except *Tests*", "*CompositionRoot*").Error()
+          .ViolationPath("CompositionRootSpecification", "CompositionRoot"));
+      context.ReportShouldNotContainText("CompositionRootTests");
       context.ShouldIndicateFailure();
 
     }

@@ -1,7 +1,9 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using TddXt.NScan.Specification.Component.AutomationLayer;
 using Xunit;
 using static System.Environment;
-using static TddXt.NScan.Specification.Component.DependencyRuleBuilder;
+using static TddXt.NScan.Specification.Component.AutomationLayer.DependencyRuleBuilder;
 
 namespace TddXt.NScan.Specification.Component
 {
@@ -23,7 +25,8 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContainText("[A] independentOf [project:B]: [OK]");
+      context.ReportShouldContain(
+        ReportedMessage.ProjectIndependentOfProject("A", "B").Ok());
       context.ShouldIndicateSuccess();
     }
 
@@ -44,8 +47,9 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContainText($"[A] independentOf [project:B]: [ERROR]{NewLine}" +
-                                      "PathViolation in path: [A]->[B]");
+      context.ReportShouldContain(
+        ReportedMessage.ProjectIndependentOfProject("A", "B").Error()
+          .ViolationPath("A", "B"));
       context.ShouldIndicateFailure();
     }
 
@@ -65,8 +69,9 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContainText($"[A] independentOf [project:C]: [ERROR]{NewLine}" +
-                                      "PathViolation in path: [A]->[B]->[C]");
+      context.ReportShouldContain(
+        ReportedMessage.ProjectIndependentOfProject("A", "C").Error()
+          .ViolationPath("A", "B", "C"));
       context.ShouldIndicateFailure();
     }
 
@@ -87,11 +92,13 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContainText($"[A] independentOf [project:D]: [ERROR]{NewLine}" +
-                                      $"PathViolation in path: [A]->[B]->[D]{NewLine}" +
-                                      "PathViolation in path: [A]->[C]->[D]");
-      context.ReportShouldContainText($"[A] independentOf [project:B]: [ERROR]{NewLine}" +
-                                      "PathViolation in path: [A]->[B]");
+      context.ReportShouldContain(
+        ReportedMessage.ProjectIndependentOfProject("A", "D").Error()
+          .ViolationPath("A", "B", "D")
+          .ViolationPath("A", "C", "D"));
+      context.ReportShouldContain(
+        ReportedMessage.ProjectIndependentOfProject("A", "B").Error()
+          .ViolationPath("A", "B"));
       context.ShouldIndicateFailure();
     }
 
@@ -109,11 +116,10 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContainText($"[*.Domain] independentOf [project:*.Ports]: [ERROR]{NewLine}" +
-                                      "PathViolation in path: [Posts.Domain]->[Posts.Ports]");
+      context.ReportShouldContain(
+        ReportedMessage.ProjectIndependentOfProject("*.Domain", "*.Ports").Error()
+          .ViolationPath("Posts.Domain", "Posts.Ports"));
       context.ShouldIndicateFailure();
-
     }
-
   }
 }

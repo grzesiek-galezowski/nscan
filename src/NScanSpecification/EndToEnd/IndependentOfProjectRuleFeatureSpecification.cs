@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using TddXt.AnyRoot.Strings;
 using Xunit;
 using static TddXt.AnyRoot.Root;
-using static TddXt.NScan.Specification.Component.DependencyRuleBuilder;
+using static TddXt.NScan.Specification.Component.AutomationLayer.DependencyRuleBuilder;
 
 namespace TddXt.NScan.Specification.EndToEnd
 {

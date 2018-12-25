@@ -1,4 +1,5 @@
 ﻿using TddXt.NScan.Specification.Component;
+using TddXt.NScan.Specification.Component.AutomationLayer;
 using Xunit;
 using static System.Environment;
 
