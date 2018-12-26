@@ -125,8 +125,9 @@ namespace TddXt.NScan.Specification.Component
       context.ReportShouldNotContainText("lol4");
     }
 
-
     //backlog nested namespaces
     //backlog multiple namespaces per file
+    //backlog for all such unmade design decisions, throw exception with reference to github issue
+    //        and allow disabling detection of such features via config or commandline parameters
   }
 }

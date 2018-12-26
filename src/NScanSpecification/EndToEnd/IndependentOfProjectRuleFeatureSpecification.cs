@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using TddXt.AnyRoot.Strings;
+using TddXt.NScan.Specification.Component.AutomationLayer;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 using static TddXt.NScan.Specification.Component.AutomationLayer.DependencyRuleBuilder;
@@ -26,7 +27,8 @@ namespace TddXt.NScan.Specification.EndToEnd
         context.PerformAnalysis();
 
         //THEN
-        context.ReportShouldContainText(SuccessAssemblyRuleText(projectName, assemblyName));
+        context.ReportShouldContain(
+          ReportedMessage.ProjectIndependentOfProject(projectName, assemblyName).Ok());
         context.ShouldIndicateSuccess();
       }
     }
@@ -48,20 +50,11 @@ namespace TddXt.NScan.Specification.EndToEnd
         context.PerformAnalysis();
 
         //THEN
-        context.ReportShouldContainText(DirectFailureAssemblyRuleText(projectName, dependencyProjectName));
+        context.ReportShouldContain(
+          ReportedMessage.ProjectIndependentOfProject(projectName, dependencyProjectName).Error()
+            .ViolationPath(projectName));
         context.ShouldIndicateFailure();
       }
     }
-
-    private string DirectFailureAssemblyRuleText(string projectName, string dependencyProjectName)
-    {
-      return $"[{projectName}] independentOf [project:{dependencyProjectName}]: [ERROR]{Environment.NewLine}" +
-             $"PathViolation in path: [{projectName}]";
-    }
-    private static string SuccessAssemblyRuleText(string projectName, string dependencyProjectName)
-    {
-      return $"[{projectName}] independentOf [project:{dependencyProjectName}]: [OK]";
-    }
-
   }
 }

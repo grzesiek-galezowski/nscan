@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using FluentAssertions;
 using RunProcessAsTask;
@@ -12,6 +13,7 @@ using TddXt.NScan.RuleInputData;
 using TddXt.NScan.Specification.Component;
 using TddXt.NScan.Specification.Component.AutomationLayer;
 using TddXt.NScan.Xml;
+using Xunit;
 
 namespace TddXt.NScan.Specification.EndToEnd
 {
@@ -125,9 +127,16 @@ namespace TddXt.NScan.Specification.EndToEnd
 
     private void RunAnalysis()
     {
-      var homeFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-      var nscanConsoleProjectPath = $"{homeFolder}\\Documents\\GitHub\\nscan\\src\\NScan.Console\\NScan.Console.csproj";
-      _analysisResult = RunDotNetExe($"run --project {nscanConsoleProjectPath} -- -p {_fullSolutionPath} -r {_fullRulesPath}").Result;
+      var nscanConsoleProjectPath = Path.Combine(
+        RepositoryPath(), "src", "NScan.Console", "NScan.Console.csproj");
+      _analysisResult = RunDotNetExe($"run --project {nscanConsoleProjectPath} -- -p \"{_fullSolutionPath}\" -r \"{_fullRulesPath}\"").Result;
+    }
+
+    private static string RepositoryPath()
+    {
+      return new DirectoryInfo(Path.Combine(
+        Assembly.GetExecutingAssembly().EscapedCodeBase.Split("nscan").First()
+          .Split("file:///").ToArray()[1], "nscan")).FullName;
     }
 
     private void CreateRulesFile()
@@ -216,6 +225,10 @@ namespace TddXt.NScan.Specification.EndToEnd
       return new DirectoryInfo(tempDirectory);
     }
 
+    public void ReportShouldContain(ReportedMessage reportedMessage)
+    {
+      ReportShouldContainText(reportedMessage.ToString());
+    }
   }
 
   public class E2EProjectDsl
@@ -261,4 +274,6 @@ namespace TddXt.NScan.Specification.EndToEnd
       return this;
     }
   }
+
+
 }

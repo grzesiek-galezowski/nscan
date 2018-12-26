@@ -1,7 +1,5 @@
-﻿using TddXt.NScan.Specification.Component;
-using TddXt.NScan.Specification.Component.AutomationLayer;
+﻿using TddXt.NScan.Specification.Component.AutomationLayer;
 using Xunit;
-using static System.Environment;
 
 namespace TddXt.NScan.Specification.EndToEnd
 {
@@ -23,7 +21,7 @@ namespace TddXt.NScan.Specification.EndToEnd
         context.PerformAnalysis();
 
         //THEN
-        context.ReportShouldContainText("*MyProject* hasCorrectNamespaces: [OK]");
+        context.ReportShouldContain(ReportedMessage.HasCorrectNamespaces("*MyProject*").Ok());
       }
     }
 
@@ -45,9 +43,10 @@ namespace TddXt.NScan.Specification.EndToEnd
         context.PerformAnalysis();
 
         //THEN
-        context.ReportShouldContainText($"*MyProject* hasCorrectNamespaces: [ERROR]{NewLine}" +
-                                        $"MyProject has root namespace MyProject but the file lol1.cs has incorrect namespace WrongNamespace{NewLine}" +
-                                        $"MyProject has root namespace MyProject but the file lol2.cs has incorrect namespace WrongNamespace");
+        context.ReportShouldContain(
+          ReportedMessage.HasCorrectNamespaces("*MyProject*").Error()
+            .ExpectedNamespace("MyProject", "MyProject").ButFoundIncorrectNamespaceFor("lol1.cs", "WrongNamespace")
+            .ExpectedNamespace("MyProject", "MyProject").ButFoundIncorrectNamespaceFor("lol2.cs", "WrongNamespace"));
         context.ReportShouldNotContainText("lol3");
       }
     }
@@ -69,8 +68,10 @@ namespace TddXt.NScan.Specification.EndToEnd
         context.PerformAnalysis();
 
         //THEN
-        context.ReportShouldContainText($"*MyProject* hasCorrectNamespaces: [ERROR]{NewLine}" +
-                                        $"MyProject has root namespace MyProject but the file Domain\\lol5.cs has incorrect namespace MyProject");
+        context.ReportShouldContain(
+          ReportedMessage.HasCorrectNamespaces("*MyProject*").Error()
+            .ExpectedNamespace("MyProject", "MyProject")
+            .ButFoundIncorrectNamespaceFor("Domain\\lol5.cs", "MyProject"));
         context.ReportShouldNotContainText("lol4");
       }
     }
@@ -91,7 +92,8 @@ namespace TddXt.NScan.Specification.EndToEnd
         context.PerformAnalysis();
 
         //THEN
-        context.ReportShouldContainText($"*MyProject* hasCorrectNamespaces: [OK]");
+        context.ReportShouldContain(
+          ReportedMessage.HasCorrectNamespaces("*MyProject*").Ok());
         context.ReportShouldNotContainText("lol4");
       }
     }

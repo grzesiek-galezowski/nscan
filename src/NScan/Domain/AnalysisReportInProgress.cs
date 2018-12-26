@@ -56,7 +56,6 @@ namespace TddXt.NScan.Domain
 
     }
 
-    //bug UT
     public void ProjectScopedViolation(string ruleDescription, string violationDescription)
     {
       AddRuleIfNotRegisteredYet(ruleDescription);
