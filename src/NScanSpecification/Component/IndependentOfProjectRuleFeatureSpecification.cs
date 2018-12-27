@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using TddXt.NScan.Specification.AutomationLayer;
 using TddXt.NScan.Specification.Component.AutomationLayer;
 using Xunit;
 using static System.Environment;

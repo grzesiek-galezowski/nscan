@@ -9,6 +9,9 @@ namespace TddXt.NScan.Domain
 {
   public class Analysis
   {
+    public const int ReturnCodeOk = 0;
+    public const int ReturnCodeAnalysisFailed = -1;
+
     private readonly ISolution _solution;
     private readonly IPathRuleSet _pathRules;
     private readonly IProjectScopedRuleSet _projectScopedRules;

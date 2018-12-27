@@ -12,17 +12,29 @@ namespace TddXt.NScan.Specification.Domain
 {
   public class SourceCodeFileSpecification
   {
+    public class XmlSourceCodeFileBuilder
+    {
+      public XmlSourceCodeFile Build()
+      {
+        return new XmlSourceCodeFile(FileName, DeclaredNamespace, ParentProjectRootNamespace, ParentProjectAssemblyName);
+      }
+
+      public string ParentProjectAssemblyName { get; set; } = Any.Instance<string>();
+      public string ParentProjectRootNamespace { get; set; } = Any.Instance<string>();
+      public string DeclaredNamespace { get; set; } = Any.Instance<string>();
+      public string FileName { get; set; } = Any.Instance<string>();
+    }
+
     [Fact]
     public void ShouldReportIncorrectNamespaceWhenIsInRootFolderAndItsOnlyNamespaceDoesNotMatchRootNamespace()
     {
       //GIVEN
-      var xmlSourceCodeFile = Any.Instance<XmlSourceCodeFile>();
-      var file = new SourceCodeFile(xmlSourceCodeFile);
+      var xmlSourceCodeFile = new XmlSourceCodeFileBuilder();
+      xmlSourceCodeFile.DeclaredNamespace = Any.OtherThan(xmlSourceCodeFile.ParentProjectRootNamespace);
+      var file = new SourceCodeFile(xmlSourceCodeFile.Build());
       var report = Substitute.For<IAnalysisReportInProgress>();
       var ruleDescription = Any.String();
 
-      xmlSourceCodeFile.ParentProjectRootNamespace = Any.String();
-      xmlSourceCodeFile.DeclaredNamespace = Any.OtherThan(xmlSourceCodeFile.ParentProjectRootNamespace);
 
       //WHEN
       file.EvaluateNamespacesCorrectness(report, ruleDescription);
@@ -32,7 +44,7 @@ namespace TddXt.NScan.Specification.Domain
         ruleDescription,
         xmlSourceCodeFile.ParentProjectAssemblyName + " has root namespace " + 
         xmlSourceCodeFile.ParentProjectRootNamespace + " but the file "
-        + xmlSourceCodeFile.Name + " has incorrect namespace "
+        + xmlSourceCodeFile.FileName + " has incorrect namespace "
         + xmlSourceCodeFile.DeclaredNamespace));
     }
 
@@ -40,12 +52,11 @@ namespace TddXt.NScan.Specification.Domain
     public void ShouldReportOkWhenIsInRootFolderAndItsOnlyNamespaceMatchesRootNamespace()
     {
       //GIVEN
-      var xmlSourceCodeFile = Any.Instance<XmlSourceCodeFile>();
-      var file = new SourceCodeFile(xmlSourceCodeFile);
+      var xmlSourceCodeFile = new XmlSourceCodeFileBuilder();
+      xmlSourceCodeFile.DeclaredNamespace = xmlSourceCodeFile.ParentProjectRootNamespace;
+      var file = new SourceCodeFile(xmlSourceCodeFile.Build());
       var report = Substitute.For<IAnalysisReportInProgress>();
 
-      xmlSourceCodeFile.ParentProjectRootNamespace = Any.String();
-      xmlSourceCodeFile.DeclaredNamespace = xmlSourceCodeFile.ParentProjectRootNamespace;
 
       //WHEN
       file.EvaluateNamespacesCorrectness(report, Any.String());
@@ -61,14 +72,13 @@ namespace TddXt.NScan.Specification.Domain
       var folder = Any.String();
       var subfolder = Any.String();
       var fileName = Path.Combine(folder, subfolder, Any.String());
-      var xmlSourceCodeFile = Any.Instance<XmlSourceCodeFile>();
+      var xmlSourceCodeFile = new XmlSourceCodeFileBuilder();
+      xmlSourceCodeFile.FileName = fileName;
+      xmlSourceCodeFile.DeclaredNamespace = $"{xmlSourceCodeFile.ParentProjectRootNamespace}.{folder}.{subfolder}";
 
-      var file = new SourceCodeFile(xmlSourceCodeFile);
+      var file = new SourceCodeFile(xmlSourceCodeFile.Build());
       var report = Substitute.For<IAnalysisReportInProgress>();
 
-      xmlSourceCodeFile.Name = fileName;
-      xmlSourceCodeFile.ParentProjectRootNamespace = Any.String();
-      xmlSourceCodeFile.DeclaredNamespace = $"{xmlSourceCodeFile.ParentProjectRootNamespace}.{folder}.{subfolder}";
 
       //WHEN
       file.EvaluateNamespacesCorrectness(report, Any.String());

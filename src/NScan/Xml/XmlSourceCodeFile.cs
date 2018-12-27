@@ -1,4 +1,6 @@
-﻿namespace TddXt.NScan.Xml
+﻿using System;
+
+namespace TddXt.NScan.Xml
 {
   public class XmlSourceCodeFile
   {
@@ -8,15 +10,15 @@
       string parentProjectRootNamespace, 
       string parentProjectAssemblyName)
     {
-      Name = fileName;
-      DeclaredNamespace = declaredNamespace;
-      ParentProjectRootNamespace = parentProjectRootNamespace;
-      ParentProjectAssemblyName = parentProjectAssemblyName;
+      Name = fileName ?? throw new ArgumentNullException(nameof(fileName));
+      DeclaredNamespace = declaredNamespace ?? throw new ArgumentNullException(nameof(declaredNamespace));
+      ParentProjectRootNamespace = parentProjectRootNamespace ?? throw new ArgumentNullException(nameof(parentProjectRootNamespace));
+      ParentProjectAssemblyName = parentProjectAssemblyName ?? throw new ArgumentNullException(nameof(parentProjectAssemblyName));
     }
 
     public string ParentProjectAssemblyName { get; }
-    public string ParentProjectRootNamespace { get; set; } //bug introduce builder
-    public string Name { get; set; }
-    public string DeclaredNamespace { get; set; } //bug introduce builder
+    public string ParentProjectRootNamespace { get; }
+    public string Name { get; }
+    public string DeclaredNamespace { get; }
   }
 }

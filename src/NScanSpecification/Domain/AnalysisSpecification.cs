@@ -151,8 +151,16 @@ namespace TddXt.NScan.Specification.Domain
     }
 
     [Theory]
-    [InlineData(false, 0)] //todo extract to constant
-    [InlineData(true, -1)]
+    [InlineData(Analysis.ReturnCodeAnalysisFailed, -1)]
+    [InlineData(Analysis.ReturnCodeOk, 0)]
+    public void ShouldDefineReturnCodes(int value, int expected)
+    {
+      value.Should().Be(expected);
+    }
+
+    [Theory]
+    [InlineData(false, Analysis.ReturnCodeOk)]
+    [InlineData(true, Analysis.ReturnCodeAnalysisFailed)]
     public void ShouldReturnSuccessWhenNoViolationAreInReport(bool hasViolations, int expectedCode)
     {
       //GIVEN

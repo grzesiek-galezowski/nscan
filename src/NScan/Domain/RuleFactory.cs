@@ -55,10 +55,8 @@ namespace TddXt.NScan.Domain
       return new IndependentRule(
         new JoinedDescribedCondition(new IsFollowingAssemblyCondition(),
           new HasAssemblyNameMatchingPatternCondition(
-            dependencyNamePattern),
-          Description(dependingNamePattern, 
-            dependencyNamePattern, 
-            dependencyType)), 
+            dependencyNamePattern), DependencyDescriptions.Description(dependingNamePattern, 
+            dependencyType, dependencyNamePattern)), 
         dependingNamePattern);
     }
 
@@ -69,9 +67,7 @@ namespace TddXt.NScan.Domain
     {
       return new IndependentRule(
         new DescribedCondition(
-          new HasPackageReferenceMatchingCondition(packageNamePattern),
-          Description(dependingAssemblyNamePattern, 
-            packageNamePattern, dependencyType)), 
+          new HasPackageReferenceMatchingCondition(packageNamePattern), DependencyDescriptions.Description(dependingAssemblyNamePattern, dependencyType, packageNamePattern)), 
         dependingAssemblyNamePattern);
     }
 
@@ -80,18 +76,8 @@ namespace TddXt.NScan.Domain
       Glob assemblyNamePattern,
       string dependencyType)
     {
-      return new IndependentRule(new DescribedCondition(new HasAssemblyReferenceMatchingCondition(assemblyNamePattern),
-        Description(dependingAssemblyNamePattern, 
-          assemblyNamePattern, dependencyType)), 
+      return new IndependentRule(new DescribedCondition(new HasAssemblyReferenceMatchingCondition(assemblyNamePattern), DependencyDescriptions.Description(dependingAssemblyNamePattern, dependencyType, assemblyNamePattern)), 
         dependingAssemblyNamePattern);
-    }
-
-    private static string Description(Pattern dependingNamePattern, Glob assemblyNamePattern,
-      string dependencyType)
-    {
-      //TODO consider moving to DependencyDescriptions
-      return DependencyDescriptions.IndependentOf(dependingNamePattern.Description(),
-        dependencyType + ":" + assemblyNamePattern.Pattern);
     }
   }
 }

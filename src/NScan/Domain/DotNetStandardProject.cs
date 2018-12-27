@@ -92,7 +92,7 @@ namespace TddXt.NScan.Domain
       if (_referencingProjects.ContainsKey(referencingProjectId)
           && !_referencingProjects[referencingProjectId].Equals(referencingProject))
       {
-        throw new Exception("Two distinct projects attempted to be added with the same path"); //bug better exception
+        throw new ProjectShadowingException(_referencingProjects[referencingProjectId], referencingProject);
       }
     }
 
@@ -147,6 +147,18 @@ namespace TddXt.NScan.Domain
     public bool HasPackageReferenceMatching(Glob packagePattern)
     {
       return this._packageReferences.Any(pr => packagePattern.IsMatch(pr.Name));
+    }
+  }
+
+  internal class ProjectShadowingException : Exception
+  {
+    public ProjectShadowingException(IReferencingProject previousProject, IReferencingProject newProject)
+    : base(
+      $"Two distinct projects are being added with the same path. " +
+      $"{previousProject} would be shadowed by {newProject}. " +
+      $"This typically indicates a programmer error.")
+    {
+      
     }
   }
 }

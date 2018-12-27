@@ -23,6 +23,30 @@ namespace TddXt.NScan.CompositionRoot
       _xmlProjects = xmlProjects;
     }
 
+    public Dictionary<ProjectId, IDotNetProject> LoadProjects()
+    {
+      var projects = new Dictionary<ProjectId, IDotNetProject>();
+      foreach (var xmlProject in _xmlProjects)
+      {
+        var (id, project) = CreateProject(xmlProject);
+        projects.Add(id, project);
+      }
+
+      return projects;
+    }
+
+    public static IEnumerable<XmlProjectReference> ProjectReferences(XmlProject xmlProject)
+    {
+      var xmlItemGroups = xmlProject.ItemGroups
+        .Where(ig => ig.ProjectReferences != null && ig.ProjectReferences.Any()).ToList();
+      if (xmlItemGroups.Any())
+      {
+        return xmlItemGroups.First().ProjectReferences;
+      }
+
+      return new List<XmlProjectReference>();
+    }
+
     //todo this is pulled into unit test scope, so write UTs for it...
     private (ProjectId, DotNetStandardProject) CreateProject(XmlProject xmlProject)
     {
@@ -62,18 +86,6 @@ namespace TddXt.NScan.CompositionRoot
       return new ProjectId(dto.Include);
     }
 
-    public Dictionary<ProjectId, IDotNetProject> LoadProjects()
-    {
-      var projects = new Dictionary<ProjectId, IDotNetProject>();
-      foreach (var xmlProject in _xmlProjects)
-      {
-          var (id, project) = CreateProject(xmlProject);
-          projects.Add(id, project);
-      }
-
-      return projects;
-    }
-
     private static IReadOnlyList<AssemblyReference> AssemblyReferences(XmlProject xmlProject)
     {
       var xmlItemGroups = xmlProject.ItemGroups.Where(
@@ -87,19 +99,6 @@ namespace TddXt.NScan.CompositionRoot
       }
 
       return new List<AssemblyReference>();
-    }
-
-
-    public static IEnumerable<XmlProjectReference> ProjectReferences(XmlProject xmlProject)
-    {
-      var xmlItemGroups = xmlProject.ItemGroups
-        .Where(ig => ig.ProjectReferences != null && ig.ProjectReferences.Any()).ToList();
-      if (xmlItemGroups.Any())
-      {
-        return xmlItemGroups.First().ProjectReferences;
-      }
-
-      return new List<XmlProjectReference>();
     }
 
     private IReadOnlyList<PackageReference> PackageReferences(XmlProject xmlProject)

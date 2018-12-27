@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace TddXt.NScan.Specification.Component.AutomationLayer
+namespace TddXt.NScan.Specification.AutomationLayer
 {
   public class ReportedMessage
   {
