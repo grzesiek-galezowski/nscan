@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using NSubstitute;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
@@ -16,7 +17,7 @@ namespace TddXt.NScan.Specification.Domain
     {
       public XmlSourceCodeFile Build()
       {
-        return new XmlSourceCodeFile(FileName, DeclaredNamespace, ParentProjectRootNamespace, ParentProjectAssemblyName);
+        return new XmlSourceCodeFile(FileName, DeclaredNamespace, ParentProjectRootNamespace, ParentProjectAssemblyName, new List<string>(/* bug */));
       }
 
       public string ParentProjectAssemblyName { get; set; } = Any.Instance<string>();

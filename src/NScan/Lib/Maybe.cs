@@ -70,5 +70,10 @@ namespace TddXt.NScan.Lib
     {
       return this.Otherwise(() => default);
     }
+
+    public T ValueOr(T fallback)
+    {
+      return this.Otherwise(() => fallback);
+    }
   }
 }

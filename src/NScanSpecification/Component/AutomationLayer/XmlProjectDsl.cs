@@ -70,8 +70,8 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
         fileName, 
         @namespace, 
         _xmlProject.PropertyGroups.First().RootNamespace,
-        _xmlProject.PropertyGroups.First().AssemblyName
-        ));
+        _xmlProject.PropertyGroups.First().AssemblyName, 
+        new List<string>(/* bug */)));
       return this;
     }
 

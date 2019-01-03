@@ -1,6 +1,7 @@
 ﻿using TddXt.NScan.Specification.AutomationLayer;
 using TddXt.NScan.Specification.Component.AutomationLayer;
 using Xunit;
+using static TddXt.NScan.Specification.EndToEnd.XmlSourceCodeFileBuilder;
 
 namespace TddXt.NScan.Specification.EndToEnd
 {
@@ -14,8 +15,8 @@ namespace TddXt.NScan.Specification.EndToEnd
       {
         context.HasProject("MyProject")
           .WithRootNamespace("MyProject")
-          .WithFile("lol1.cs", "MyProject")
-          .WithFile("lol2.cs", "MyProject");
+          .With(SourceCodeFile("lol1.cs", "MyProject"))
+          .With(SourceCodeFile("lol2.cs", "MyProject"));
         context.Add(DependencyRuleBuilder.Rule().Project("*MyProject*").HasCorrectNamespaces());
 
         //WHEN
@@ -35,9 +36,9 @@ namespace TddXt.NScan.Specification.EndToEnd
       {
         context.HasProject("MyProject")
           .WithRootNamespace("MyProject")
-          .WithFile("lol1.cs", "WrongNamespace")
-          .WithFile("lol2.cs", "WrongNamespace")
-          .WithFile("lol3.cs", "MyProject");
+          .With(SourceCodeFile("lol1.cs", "WrongNamespace"))
+          .With(SourceCodeFile("lol2.cs", "WrongNamespace"))
+          .With(SourceCodeFile("lol3.cs", "MyProject"));
         context.Add(DependencyRuleBuilder.Rule().Project("*MyProject*").HasCorrectNamespaces());
 
         //WHEN
@@ -61,8 +62,8 @@ namespace TddXt.NScan.Specification.EndToEnd
       {
         context.HasProject("MyProject")
           .WithRootNamespace("MyProject")
-          .WithFile("Domain\\lol4.cs", "MyProject.Domain")
-          .WithFile("Domain\\lol5.cs", "MyProject");
+          .With(SourceCodeFile("Domain\\lol4.cs", "MyProject.Domain"))
+          .With(SourceCodeFile("Domain\\lol5.cs", "MyProject"));
         context.Add(DependencyRuleBuilder.Rule().Project("*MyProject*").HasCorrectNamespaces());
 
         //WHEN
@@ -86,7 +87,7 @@ namespace TddXt.NScan.Specification.EndToEnd
       {
         context.HasProject("MyProject")
           .WithRootNamespace("MyProject")
-          .WithFile("obj\\lol4.cs", "Trolololo");
+          .With(SourceCodeFile("obj\\lol4.cs", "Trolololo"));
         context.Add(DependencyRuleBuilder.Rule().Project("*MyProject*").HasCorrectNamespaces());
 
         //WHEN

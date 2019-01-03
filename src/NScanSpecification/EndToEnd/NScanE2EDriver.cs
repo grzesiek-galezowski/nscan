@@ -143,10 +143,16 @@ namespace TddXt.NScan.Specification.EndToEnd
     private void CreateRulesFile()
     {
       var lines = _rules.Select(dto => dto.Switch(
-          independent => ToRuleString(dto.Left),
-          correctNamespaces => ToRuleString(dto.Right))
+          independent => ToRuleString(dto.IndependentRule),
+          correctNamespaces => ToRuleString(dto.CorrectNamespacesRule), 
+          noCircularUsings => ToRuleString(dto.NoCircularUsingsRule))
         ).ToList();
       File.WriteAllLines(_fullRulesPath, lines);
+    }
+
+    private string ToRuleString(NoCircularUsingsRuleComplementDto dto)
+    {
+      return $"{dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName}";
     }
 
     private string ToRuleString(CorrectNamespacesRuleComplementDto dto)
@@ -232,6 +238,29 @@ namespace TddXt.NScan.Specification.EndToEnd
     }
   }
 
+  public class XmlSourceCodeFileBuilder
+  {
+    public static XmlSourceCodeFileBuilder SourceCodeFile(string fileName, string fileNamespace)
+    {
+      return new XmlSourceCodeFileBuilder(fileName, fileNamespace);
+    }
+
+    private XmlSourceCodeFileBuilder(string fileName, string fileNamespace)
+    {
+      FileName = fileName;
+      FileNamespace = fileNamespace;
+    }
+
+    public string FileName { get; private set; }
+    public string FileNamespace { get; private set; }
+
+    public XmlSourceCodeFile BuildWith(string parentProjectAssemblyName, string parentProjectRootNamespace)
+    {
+      return new XmlSourceCodeFile(FileName, FileNamespace, parentProjectRootNamespace, parentProjectAssemblyName, new List<string>(/* bug */)
+      );
+    }
+  }
+
   public class E2EProjectDsl
   {
     private readonly string _projectName;
@@ -264,13 +293,14 @@ namespace TddXt.NScan.Specification.EndToEnd
       return this;
     }
 
-    public E2EProjectDsl WithFile(string fileName, string fileNamespace)
+    public E2EProjectDsl With(XmlSourceCodeFileBuilder sourceCodeFileBuilder)
     {
       if (!_filesByProject.ContainsKey(_projectName))
       {
         _filesByProject[_projectName] = new List<XmlSourceCodeFile>();
       }
-      _filesByProject[_projectName].Add(new XmlSourceCodeFile(fileName, fileNamespace, _rootNamespace, _projectName));
+      _filesByProject[_projectName].Add(
+        sourceCodeFileBuilder.BuildWith(_projectName, _rootNamespace));
       
       return this;
     }

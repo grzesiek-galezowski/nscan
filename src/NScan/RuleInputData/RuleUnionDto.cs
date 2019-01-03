@@ -5,11 +5,14 @@ namespace TddXt.NScan.RuleInputData
 {
   public class RuleUnionDto
   {
-    public IndependentRuleComplementDto Left { get; private set; }
-    public CorrectNamespacesRuleComplementDto Right { get; private set; }
+    public IndependentRuleComplementDto IndependentRule { get; private set; }
+    public CorrectNamespacesRuleComplementDto CorrectNamespacesRule { get; private set; }
+    public NoCircularUsingsRuleComplementDto NoCircularUsingsRule { get; set; }
+
     public string RuleName { get; private set; }
 
-    public static RuleUnionDto With(CorrectNamespacesRuleComplementDto correctNamespacesRuleComplementDto)
+    public static RuleUnionDto With(
+      CorrectNamespacesRuleComplementDto correctNamespacesRuleComplementDto)
     {
       if (correctNamespacesRuleComplementDto == null)
       {
@@ -18,8 +21,23 @@ namespace TddXt.NScan.RuleInputData
 
       return new RuleUnionDto()
       {
-        Right = correctNamespacesRuleComplementDto,
+        CorrectNamespacesRule = correctNamespacesRuleComplementDto,
         RuleName = correctNamespacesRuleComplementDto.RuleName
+      };
+
+    }
+
+    public static RuleUnionDto With(NoCircularUsingsRuleComplementDto noCircularUsingsRuleComplementDto)
+    {
+      if (noCircularUsingsRuleComplementDto == null)
+      {
+        throw new ArgumentNullException(nameof(noCircularUsingsRuleComplementDto));
+      }
+
+      return new RuleUnionDto()
+      {
+        NoCircularUsingsRule = noCircularUsingsRuleComplementDto,
+        RuleName = noCircularUsingsRuleComplementDto.RuleName
       };
 
     }
@@ -33,7 +51,7 @@ namespace TddXt.NScan.RuleInputData
 
       return new RuleUnionDto
       {
-        Left = independentRuleComplementDto,
+        IndependentRule = independentRuleComplementDto,
         RuleName = independentRuleComplementDto.RuleName
 
       };
@@ -45,11 +63,11 @@ namespace TddXt.NScan.RuleInputData
     {
       if (RuleName == RuleNames.IndependentOf)
       {
-        independentRuleAction(Left);
+        independentRuleAction(IndependentRule);
       }
       else if (RuleName == RuleNames.HasCorrectNamespaces)
       {
-        namespacesRuleAction(Right);
+        namespacesRuleAction(CorrectNamespacesRule);
       }
       else
       {
@@ -58,33 +76,25 @@ namespace TddXt.NScan.RuleInputData
     }
 
     public T Switch<T>(
-      Func<IndependentRuleComplementDto, T> independentRuleAction,
-      Func<CorrectNamespacesRuleComplementDto, T> namespacesRuleAction)
+      Func<IndependentRuleComplementDto, T> independentRuleMappping,
+      Func<CorrectNamespacesRuleComplementDto, T> namespacesRuleMapping, 
+      Func<NoCircularUsingsRuleComplementDto, T> noCircularUsingsMapping)
     {
       if (RuleName == RuleNames.IndependentOf)
       {
-        return independentRuleAction(Left);
+        return independentRuleMappping(IndependentRule);
       }
       else if (RuleName == RuleNames.HasCorrectNamespaces)
       {
-        return namespacesRuleAction(Right);
+        return namespacesRuleMapping(CorrectNamespacesRule);
+      }
+      else if (RuleName == RuleNames.HasNoCircularUsings)
+      {
+        return noCircularUsingsMapping(NoCircularUsingsRule);
       }
       else
       {
         throw new InvalidOperationException($"Unknown rule name {RuleName}");
-      }
-    }
-
-
-    public T Switch<T>(Func<T> whenLeft, Func<T> whenRight)
-    {
-      if (Left == null)
-      {
-        return whenLeft();
-      }
-      else
-      {
-        return whenRight();
       }
     }
   }

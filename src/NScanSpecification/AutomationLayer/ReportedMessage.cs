@@ -32,6 +32,11 @@ namespace TddXt.NScan.Specification.AutomationLayer
       return new ReportedMessage($"{projectGlob} hasCorrectNamespaces: ");
     }
 
+    public static ReportedMessage HasNoCircularUsings(string projectGlob)
+    {
+      return new ReportedMessage($"{projectGlob} hasNoCircularUsings: ");
+    }
+
     public ReportedMessage ButFoundIncorrectNamespaceFor(string fileName, string actualNamespace)
     {
       return new ReportedMessage(ToString() +
@@ -66,5 +71,6 @@ namespace TddXt.NScan.Specification.AutomationLayer
                                  "PathViolation in path: "+ string.Join("->", 
                                    path.Select(c => $"[{c}]")));
     }
+
   }
 }

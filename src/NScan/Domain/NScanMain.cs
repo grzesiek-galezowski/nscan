@@ -59,8 +59,8 @@ namespace TddXt.NScan.Domain
       foreach (var either in enumerable)
       {
         either.Switch( 
-          independent => support.Log(either.Left), 
-          namespaces => support.Log(either.Right));
+          independent => support.Log(either.IndependentRule), 
+          namespaces => support.Log(either.CorrectNamespacesRule));
       }
     }
 

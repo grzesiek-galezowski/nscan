@@ -6,6 +6,7 @@ using System.Xml.Serialization;
 using Buildalyzer;
 using TddXt.NScan.App;
 using TddXt.NScan.CompositionRoot;
+using TddXt.NScan.CSharp;
 using TddXt.NScan.Lib;
 
 namespace TddXt.NScan.Xml
@@ -92,7 +93,12 @@ namespace TddXt.NScan.Xml
     private static void LoadFilesInto(XmlProject xmlProject)
     {
       var projectDirectory = Path.GetDirectoryName(xmlProject.AbsolutePath);
-      foreach (var file in SourceCodeFilesIn(projectDirectory))
+      var sourceCodeFilesInProject = SourceCodeFilesIn(projectDirectory);
+
+      var classDeclarationSignatures
+        = CSharpSyntax.GetClassDeclarationSignaturesFromFiles(sourceCodeFilesInProject);
+
+      foreach (var file in sourceCodeFilesInProject)
       {
         var fileRelativeToProjectRoot = GetPathRelativeTo(projectDirectory, file);
         var declaredNamespace = CSharpSyntax.GetAllUniqueNamespacesFromFile(file).FirstOrDefault();
@@ -100,7 +106,9 @@ namespace TddXt.NScan.Xml
           fileRelativeToProjectRoot,
           declaredNamespace, //bug multiple namespaces not supported yet
           xmlProject.PropertyGroups.First().RootNamespace, 
-          xmlProject.PropertyGroups.First().AssemblyName));
+          xmlProject.PropertyGroups.First().AssemblyName, 
+          CSharpSyntax.GetAllUsingsFromFile(file, classDeclarationSignatures)
+          ));
       }
     }
 

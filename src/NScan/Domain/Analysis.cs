@@ -66,7 +66,7 @@ namespace TddXt.NScan.Domain
         ruleDto.Switch(
           independentRule =>
           {
-            var rule = _ruleFactory.CreateDependencyRuleFrom(ruleDto.Left);
+            var rule = _ruleFactory.CreateDependencyRuleFrom(ruleDto.IndependentRule);
             _pathRules.Add(rule);
           },
           correctNamespacesDto =>

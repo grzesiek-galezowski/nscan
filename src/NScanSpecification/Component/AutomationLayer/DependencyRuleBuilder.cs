@@ -1,4 +1,5 @@
-﻿using GlobExpressions;
+﻿using System;
+using GlobExpressions;
 using TddXt.NScan.Domain;
 using TddXt.NScan.Lib;
 using TddXt.NScan.RuleInputData;
@@ -16,6 +17,7 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
   {
     IFullDependingPartStated Except(string exclusionPattern);
     IFullRuleConstructed HasCorrectNamespaces();
+    IFullRuleConstructed HasNoCircularUsings();
   }
 
   public interface IRuleDefinitionStart
@@ -80,6 +82,12 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
       return this;
     }
 
+    public IFullRuleConstructed HasNoCircularUsings()
+    {
+      _ruleName = RuleNames.HasNoCircularUsings;
+      return this;
+    }
+
     public RuleUnionDto Build()
     {
       var dependingPattern = _exclusionPattern
@@ -94,7 +102,11 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
           DependencyPattern = new Glob(_dependencyName),
           DependingPattern = dependingPattern
         }),
-        () => RuleUnionDto.With(new CorrectNamespacesRuleComplementDto()
+        () => RuleUnionDto.With(new CorrectNamespacesRuleComplementDto
+        {
+          ProjectAssemblyNamePattern = dependingPattern
+        }), 
+        () => RuleUnionDto.With(new NoCircularUsingsRuleComplementDto
         {
           ProjectAssemblyNamePattern = dependingPattern
         }));

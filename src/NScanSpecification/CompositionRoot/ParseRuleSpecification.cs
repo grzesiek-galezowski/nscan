@@ -24,10 +24,10 @@ namespace TddXt.NScan.Specification.CompositionRoot
         .Parse($"{depending} {RuleNames.IndependentOf} {dependencyType}:{dependency}{NewLine}");
 
       //THEN
-      ruleUnionDto.Left.DependingPattern.Should().Be(Pattern.WithoutExclusion(depending));
-      ruleUnionDto.Left.DependencyType.Should().Be(dependencyType);
-      ruleUnionDto.Left.DependencyPattern.Pattern.Should().Be(dependency);
-      ruleUnionDto.Left.RuleName.Should().Be(RuleNames.IndependentOf);
+      ruleUnionDto.IndependentRule.DependingPattern.Should().Be(Pattern.WithoutExclusion(depending));
+      ruleUnionDto.IndependentRule.DependencyType.Should().Be(dependencyType);
+      ruleUnionDto.IndependentRule.DependencyPattern.Pattern.Should().Be(dependency);
+      ruleUnionDto.IndependentRule.RuleName.Should().Be(RuleNames.IndependentOf);
       ruleUnionDto.RuleName.Should().Be(RuleNames.IndependentOf);
     }
 
@@ -45,10 +45,10 @@ namespace TddXt.NScan.Specification.CompositionRoot
         .Parse($"{depending} except {dependingException} {RuleNames.IndependentOf} {dependencyType}:{dependency}{NewLine}");
 
       //THEN
-      ruleUnionDto.Left.DependingPattern.Should().Be(Pattern.WithExclusion(depending, dependingException));
-      ruleUnionDto.Left.DependencyType.Should().Be(dependencyType);
-      ruleUnionDto.Left.DependencyPattern.Pattern.Should().Be(dependency);
-      ruleUnionDto.Left.RuleName.Should().Be(RuleNames.IndependentOf);
+      ruleUnionDto.IndependentRule.DependingPattern.Should().Be(Pattern.WithExclusion(depending, dependingException));
+      ruleUnionDto.IndependentRule.DependencyType.Should().Be(dependencyType);
+      ruleUnionDto.IndependentRule.DependencyPattern.Pattern.Should().Be(dependency);
+      ruleUnionDto.IndependentRule.RuleName.Should().Be(RuleNames.IndependentOf);
       ruleUnionDto.RuleName.Should().Be(RuleNames.IndependentOf);
     }
 
@@ -65,10 +65,10 @@ namespace TddXt.NScan.Specification.CompositionRoot
         .Parse($"{depending}  {RuleNames.IndependentOf}  {dependencyType}:{dependency}{NewLine}");
 
       //THEN
-      ruleUnionDto.Left.DependencyType.Should().Be(dependencyType);
-      ruleUnionDto.Left.DependencyPattern.Pattern.Should().Be(dependency);
-      ruleUnionDto.Left.DependingPattern.Should().Be(Pattern.WithoutExclusion(depending));
-      ruleUnionDto.Left.RuleName.Should().Be(RuleNames.IndependentOf);
+      ruleUnionDto.IndependentRule.DependencyType.Should().Be(dependencyType);
+      ruleUnionDto.IndependentRule.DependencyPattern.Pattern.Should().Be(dependency);
+      ruleUnionDto.IndependentRule.DependingPattern.Should().Be(Pattern.WithoutExclusion(depending));
+      ruleUnionDto.IndependentRule.RuleName.Should().Be(RuleNames.IndependentOf);
       ruleUnionDto.RuleName.Should().Be(RuleNames.IndependentOf);
     }
 
@@ -82,10 +82,10 @@ namespace TddXt.NScan.Specification.CompositionRoot
       var ruleUnionDto = ParseRule.FromLine().Parse($"{depending}  {RuleNames.HasCorrectNamespaces}");
 
       //THEN
-      ruleUnionDto.Left.Should().BeNull(); //bug maybe!
-      ruleUnionDto.Right.Should().NotBeNull();
-      ruleUnionDto.Right.RuleName.Should().Be(RuleNames.HasCorrectNamespaces);
-      ruleUnionDto.Right.ProjectAssemblyNamePattern.Should()
+      ruleUnionDto.IndependentRule.Should().BeNull(); //bug maybe!
+      ruleUnionDto.CorrectNamespacesRule.Should().NotBeNull();
+      ruleUnionDto.CorrectNamespacesRule.RuleName.Should().Be(RuleNames.HasCorrectNamespaces);
+      ruleUnionDto.CorrectNamespacesRule.ProjectAssemblyNamePattern.Should()
         .Be(Pattern.WithoutExclusion(depending));
       ruleUnionDto.RuleName.Should().Be(RuleNames.HasCorrectNamespaces);
     }

@@ -12,6 +12,7 @@ namespace TddXt.NScan.Specification.Domain
     {
       RuleNames.IndependentOf.Should().Be("independentOf");
       RuleNames.HasCorrectNamespaces.Should().Be("hasCorrectNamespaces");
+      RuleNames.HasNoCircularUsings.Should().Be("hasNoCircularUsings");
     }
   }
 
