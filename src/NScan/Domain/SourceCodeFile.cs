@@ -1,4 +1,5 @@
 using System.IO;
+using System.Linq;
 using TddXt.NScan.Xml;
 
 namespace TddXt.NScan.Domain
@@ -14,18 +15,18 @@ namespace TddXt.NScan.Domain
 
     public void EvaluateNamespacesCorrectness(IAnalysisReportInProgress report, string ruleDescription)
     {
-      if (ExpectedNamespaceOf() != _xmlSourceCodeFile.DeclaredNamespace)
+      if (!_xmlSourceCodeFile.DeclaredNamespaces.Contains(ExpectedNamespace()))
       {
         report.ProjectScopedViolation(ruleDescription,
           _xmlSourceCodeFile.ParentProjectAssemblyName + " has root namespace " +
           _xmlSourceCodeFile.ParentProjectRootNamespace + " but the file "
           + _xmlSourceCodeFile.Name + " has incorrect namespace "
-          + _xmlSourceCodeFile.DeclaredNamespace
+          + _xmlSourceCodeFile.DeclaredNamespaces.Single()
         );
       }
     }
 
-    private string ExpectedNamespaceOf()
+    private string ExpectedNamespace()
     {
       if (Path.GetFileName(_xmlSourceCodeFile.Name) == _xmlSourceCodeFile.Name)
       {

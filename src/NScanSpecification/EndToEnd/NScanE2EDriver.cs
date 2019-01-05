@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -76,7 +77,7 @@ namespace TddXt.NScan.Specification.EndToEnd
             directoryInfo.Create();
           }
 
-          File.WriteAllText(fullFilePath, $"namespace {sourceCodeFile.DeclaredNamespace}" + " {}");
+          File.WriteAllText(fullFilePath, $"namespace {sourceCodeFile.DeclaredNamespaces.Single()}" + " {}");
           
         }
 
@@ -135,9 +136,24 @@ namespace TddXt.NScan.Specification.EndToEnd
 
     private static string RepositoryPath()
     {
-      return new DirectoryInfo(Path.Combine(
-        Assembly.GetExecutingAssembly().EscapedCodeBase.Split("nscan").First()
-          .Split("file:///").ToArray()[1], "nscan")).FullName;
+      if (NCrunch.RunsThisTest())
+      {
+        var originalSolutionPath = NCrunch.OriginalSolutionPath();
+        return Path.Combine(originalSolutionPath.Split("nscan").First(), "nscan");
+      }
+      else
+      {
+        var executingAssemblyPath = new DirectoryInfo(Assembly.GetExecutingAssembly().EscapedCodeBase.Split("file:///").ToArray()[1]).FullName;
+        return Path.Combine(executingAssemblyPath.Split("nscan").First(), "nscan");
+      }
+
+    }
+
+    public static Dictionary<K, V> HashtableToDictionary<K, V>(IDictionary table)
+    {
+      return table
+        .Cast<DictionaryEntry>()
+        .ToDictionary(kvp => (K)kvp.Key, kvp => (V)kvp.Value);
     }
 
     private void CreateRulesFile()
@@ -256,8 +272,8 @@ namespace TddXt.NScan.Specification.EndToEnd
 
     public XmlSourceCodeFile BuildWith(string parentProjectAssemblyName, string parentProjectRootNamespace)
     {
-      return new XmlSourceCodeFile(FileName, FileNamespace, parentProjectRootNamespace, parentProjectAssemblyName, new List<string>(/* bug */)
-      );
+      return new XmlSourceCodeFile(FileName, new List<string>() { FileNamespace}, parentProjectRootNamespace, parentProjectAssemblyName, 
+        new List<string>(/* bug */));
     }
   }
 

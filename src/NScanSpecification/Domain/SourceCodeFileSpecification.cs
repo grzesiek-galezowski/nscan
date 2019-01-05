@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using NSubstitute;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
@@ -17,12 +18,17 @@ namespace TddXt.NScan.Specification.Domain
     {
       public XmlSourceCodeFile Build()
       {
-        return new XmlSourceCodeFile(FileName, DeclaredNamespace, ParentProjectRootNamespace, ParentProjectAssemblyName, new List<string>(/* bug */));
+        return new XmlSourceCodeFile(
+          FileName, 
+          DeclaredNamespaces, 
+          ParentProjectRootNamespace, 
+          ParentProjectAssemblyName, 
+          new List<string>(/* bug */));
       }
 
       public string ParentProjectAssemblyName { get; set; } = Any.Instance<string>();
       public string ParentProjectRootNamespace { get; set; } = Any.Instance<string>();
-      public string DeclaredNamespace { get; set; } = Any.Instance<string>();
+      public List<string> DeclaredNamespaces { get; set; } = new List<string> { Any.String() };
       public string FileName { get; set; } = Any.Instance<string>();
     }
 
@@ -31,7 +37,7 @@ namespace TddXt.NScan.Specification.Domain
     {
       //GIVEN
       var xmlSourceCodeFile = new XmlSourceCodeFileBuilder();
-      xmlSourceCodeFile.DeclaredNamespace = Any.OtherThan(xmlSourceCodeFile.ParentProjectRootNamespace);
+      xmlSourceCodeFile.DeclaredNamespaces = new List<string> {Any.OtherThan(xmlSourceCodeFile.ParentProjectRootNamespace)};
       var file = new SourceCodeFile(xmlSourceCodeFile.Build());
       var report = Substitute.For<IAnalysisReportInProgress>();
       var ruleDescription = Any.String();
@@ -46,7 +52,8 @@ namespace TddXt.NScan.Specification.Domain
         xmlSourceCodeFile.ParentProjectAssemblyName + " has root namespace " + 
         xmlSourceCodeFile.ParentProjectRootNamespace + " but the file "
         + xmlSourceCodeFile.FileName + " has incorrect namespace "
-        + xmlSourceCodeFile.DeclaredNamespace));
+        + xmlSourceCodeFile.DeclaredNamespaces.Single()
+        ));
     }
 
     [Fact]
@@ -54,10 +61,9 @@ namespace TddXt.NScan.Specification.Domain
     {
       //GIVEN
       var xmlSourceCodeFile = new XmlSourceCodeFileBuilder();
-      xmlSourceCodeFile.DeclaredNamespace = xmlSourceCodeFile.ParentProjectRootNamespace;
+      xmlSourceCodeFile.DeclaredNamespaces = new List<string>() { xmlSourceCodeFile.ParentProjectRootNamespace };
       var file = new SourceCodeFile(xmlSourceCodeFile.Build());
       var report = Substitute.For<IAnalysisReportInProgress>();
-
 
       //WHEN
       file.EvaluateNamespacesCorrectness(report, Any.String());
@@ -75,7 +81,8 @@ namespace TddXt.NScan.Specification.Domain
       var fileName = Path.Combine(folder, subfolder, Any.String());
       var xmlSourceCodeFile = new XmlSourceCodeFileBuilder();
       xmlSourceCodeFile.FileName = fileName;
-      xmlSourceCodeFile.DeclaredNamespace = $"{xmlSourceCodeFile.ParentProjectRootNamespace}.{folder}.{subfolder}";
+      xmlSourceCodeFile.DeclaredNamespaces =
+        new List<string> {$"{xmlSourceCodeFile.ParentProjectRootNamespace}.{folder}.{subfolder}"};
 
       var file = new SourceCodeFile(xmlSourceCodeFile.Build());
       var report = Substitute.For<IAnalysisReportInProgress>();

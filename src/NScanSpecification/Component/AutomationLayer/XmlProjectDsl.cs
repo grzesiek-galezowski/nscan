@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Castle.Components.DictionaryAdapter;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Xml;
 
@@ -68,7 +69,7 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
     {
       _xmlProject.SourceCodeFiles.Add(new XmlSourceCodeFile(
         fileName, 
-        @namespace, 
+        new List<string> { @namespace } ,
         _xmlProject.PropertyGroups.First().RootNamespace,
         _xmlProject.PropertyGroups.First().AssemblyName, 
         new List<string>(/* bug */)));

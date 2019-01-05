@@ -1,5 +1,7 @@
 ﻿using System;
-using TddXt.NScan.RuleInputData;
+using System.Collections.Generic;
+using System.Linq;
+using static TddXt.NScan.Lib.Maybe;
 
 namespace TddXt.NScan.Lib
 {
@@ -46,11 +48,11 @@ namespace TddXt.NScan.Lib
     {
       if (HasValue)
       {
-        return Maybe.Just(func(_instance));
+        return Just(func(_instance));
       }
       else
       {
-        return Maybe.Nothing<TU>();
+        return Nothing<TU>();
       }
     }
 
@@ -74,6 +76,21 @@ namespace TddXt.NScan.Lib
     public T ValueOr(T fallback)
     {
       return this.Otherwise(() => fallback);
+    }
+  }
+
+  public static class MaybeEnumerableExtensions
+  {
+    public static Maybe<T> FirstMaybe<T>(this IEnumerable<T> enumerable)
+    {
+      if (enumerable.Any())
+      {
+        return Just(enumerable.First());
+      }
+      else
+      {
+        return Nothing<T>();
+      }
     }
   }
 }

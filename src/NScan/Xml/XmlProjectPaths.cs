@@ -101,10 +101,11 @@ namespace TddXt.NScan.Xml
       foreach (var file in sourceCodeFilesInProject)
       {
         var fileRelativeToProjectRoot = GetPathRelativeTo(projectDirectory, file);
-        var declaredNamespace = CSharpSyntax.GetAllUniqueNamespacesFromFile(file).FirstOrDefault();
+        var declaredNamespaces = CSharpSyntax.GetAllUniqueNamespacesFromFile(file).ToList();
         xmlProject.SourceCodeFiles.Add(new XmlSourceCodeFile(
           fileRelativeToProjectRoot,
-          declaredNamespace, //bug multiple namespaces not supported yet
+          declaredNamespaces, //bug multiple namespaces not supported yet
+          //bug no namespace in file throws exception
           xmlProject.PropertyGroups.First().RootNamespace, 
           xmlProject.PropertyGroups.First().AssemblyName, 
           CSharpSyntax.GetAllUsingsFromFile(file, classDeclarationSignatures)
