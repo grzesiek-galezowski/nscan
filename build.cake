@@ -84,7 +84,7 @@ Task("Clean")
 
 Task("RunPreviousNScan").Does(() =>
 {
-  NScanAnalyze(@"C:\Users\grzes\Documents\GitHub\nscan\src\NScan.sln", @"C:\Users\grzes\Documents\GitHub\nscan\nscan.config");
+  NScanAnalyze(slnNetStandard, @".\nscan.config");
 });
 
 Task("BuildNScan")
