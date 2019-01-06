@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using FluentAssertions;
+using FluentAssertions.Primitives;
 using RunProcessAsTask;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
@@ -129,9 +130,25 @@ namespace TddXt.NScan.Specification.EndToEnd
 
     private void RunAnalysis()
     {
+      var repositoryPath = RepositoryPath();
+      AssertDirectoryExists(repositoryPath);
+
       var nscanConsoleProjectPath = Path.Combine(
-        RepositoryPath(), "src", "NScan.Console", "NScan.Console.csproj");
+        repositoryPath, "src", "NScan.Console", "NScan.Console.csproj");
+      
+      AssertFileExists(nscanConsoleProjectPath);
+
       _analysisResult = RunDotNetExe($"run --project {nscanConsoleProjectPath} -- -p \"{_fullSolutionPath}\" -r \"{_fullRulesPath}\"").Result;
+    }
+
+    private void AssertFileExists(string filePath)
+    {
+      File.Exists(filePath).Should().BeTrue(filePath + " should exist");
+    }
+
+    private static void AssertDirectoryExists(string directoryPath)
+    {
+      Directory.Exists(directoryPath).Should().BeTrue(directoryPath + " should exist");
     }
 
     private static string RepositoryPath()
