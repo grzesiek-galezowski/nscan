@@ -160,8 +160,10 @@ namespace TddXt.NScan.Specification.EndToEnd
       }
       else
       {
-        var executingAssemblyPath = new DirectoryInfo(Assembly.GetExecutingAssembly().EscapedCodeBase.Split("file:///").ToArray()[1]);
-        while (!Directory.EnumerateDirectories(executingAssemblyPath.FullName).Contains(".git"))
+        var executingAssemblyPath = new FileInfo(
+          
+            Assembly.GetExecutingAssembly().EscapedCodeBase.Split("file:///").ToArray()[1]).Directory;
+        while (!Directory.EnumerateDirectories(executingAssemblyPath.FullName).Any(s => s.EndsWith(".git")))
         {
           executingAssemblyPath = executingAssemblyPath.Parent;
         }
