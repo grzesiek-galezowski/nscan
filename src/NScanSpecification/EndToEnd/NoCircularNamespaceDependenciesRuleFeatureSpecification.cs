@@ -1,7 +1,7 @@
 ﻿using TddXt.NScan.Specification.AutomationLayer;
 using Xunit;
 using static TddXt.NScan.Specification.Component.AutomationLayer.DependencyRuleBuilder;
-using static TddXt.NScan.Specification.EndToEnd.XmlSourceCodeFileBuilder;
+using static TddXt.NScan.Specification.AutomationLayer.XmlSourceCodeFileBuilder;
 
 namespace TddXt.NScan.Specification.EndToEnd
 {
@@ -15,7 +15,7 @@ namespace TddXt.NScan.Specification.EndToEnd
       {
         context.HasProject("MyProject")
           .WithRootNamespace("MyProject")
-          .With(SourceCodeFile("lol1.cs", "MyProject"));
+          .With(FileWithNamespace("lol1.cs", "MyProject"));
         context.Add(Rule().Project("*MyProject*").HasNoCircularUsings());
 
         //WHEN

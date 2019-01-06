@@ -28,7 +28,7 @@ namespace TddXt.NScan.Specification.Domain
 
       public string ParentProjectAssemblyName { get; set; } = Any.Instance<string>();
       public string ParentProjectRootNamespace { get; set; } = Any.Instance<string>();
-      public List<string> DeclaredNamespaces { get; set; } = new List<string> { Any.String() };
+      public List<string> DeclaredNamespaces { get; set; } = Any.String().AsList();
       public string FileName { get; set; } = Any.Instance<string>();
     }
 
@@ -37,7 +37,7 @@ namespace TddXt.NScan.Specification.Domain
     {
       //GIVEN
       var xmlSourceCodeFile = new XmlSourceCodeFileBuilder();
-      xmlSourceCodeFile.DeclaredNamespaces = new List<string> {Any.OtherThan(xmlSourceCodeFile.ParentProjectRootNamespace)};
+      xmlSourceCodeFile.DeclaredNamespaces = Any.OtherThan(xmlSourceCodeFile.ParentProjectRootNamespace).AsList();
       var file = new SourceCodeFile(xmlSourceCodeFile.Build());
       var report = Substitute.For<IAnalysisReportInProgress>();
       var ruleDescription = Any.String();
@@ -55,13 +55,36 @@ namespace TddXt.NScan.Specification.Domain
         + xmlSourceCodeFile.DeclaredNamespaces.Single()
         ));
     }
+    
+    [Fact]
+    public void ShouldReportErrorWhenFileDeclaresNoNamespaces()
+    {
+      //GIVEN
+      var xmlSourceCodeFile = new XmlSourceCodeFileBuilder();
+      xmlSourceCodeFile.DeclaredNamespaces = new List<string>();
+      var file = new SourceCodeFile(xmlSourceCodeFile.Build());
+      var report = Substitute.For<IAnalysisReportInProgress>();
+      var ruleDescription = Any.String();
+
+
+      //WHEN
+      file.EvaluateNamespacesCorrectness(report, ruleDescription);
+
+      //THEN
+      XReceived.Only(() => report.ProjectScopedViolation(
+        ruleDescription,
+        xmlSourceCodeFile.ParentProjectAssemblyName + " has root namespace " + 
+        xmlSourceCodeFile.ParentProjectRootNamespace + " but the file "
+        + xmlSourceCodeFile.FileName + " has no namespace declared"
+        ));
+    }
 
     [Fact]
     public void ShouldReportOkWhenIsInRootFolderAndItsOnlyNamespaceMatchesRootNamespace()
     {
       //GIVEN
       var xmlSourceCodeFile = new XmlSourceCodeFileBuilder();
-      xmlSourceCodeFile.DeclaredNamespaces = new List<string>() { xmlSourceCodeFile.ParentProjectRootNamespace };
+      xmlSourceCodeFile.DeclaredNamespaces = xmlSourceCodeFile.ParentProjectRootNamespace.AsList();
       var file = new SourceCodeFile(xmlSourceCodeFile.Build());
       var report = Substitute.For<IAnalysisReportInProgress>();
 
@@ -81,8 +104,7 @@ namespace TddXt.NScan.Specification.Domain
       var fileName = Path.Combine(folder, subfolder, Any.String());
       var xmlSourceCodeFile = new XmlSourceCodeFileBuilder();
       xmlSourceCodeFile.FileName = fileName;
-      xmlSourceCodeFile.DeclaredNamespaces =
-        new List<string> {$"{xmlSourceCodeFile.ParentProjectRootNamespace}.{folder}.{subfolder}"};
+      xmlSourceCodeFile.DeclaredNamespaces = $"{xmlSourceCodeFile.ParentProjectRootNamespace}.{folder}.{subfolder}".AsList();
 
       var file = new SourceCodeFile(xmlSourceCodeFile.Build());
       var report = Substitute.For<IAnalysisReportInProgress>();
@@ -95,5 +117,13 @@ namespace TddXt.NScan.Specification.Domain
       report.ReceivedNothing();
     }
 
+  }
+
+  public static class ToCollectionExtensions
+  {
+    public static List<T> AsList<T>(this T item)
+    {
+      return new List<T> { item };
+    }
   }
 }

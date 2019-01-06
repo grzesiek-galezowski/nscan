@@ -2,6 +2,7 @@
 using System.Linq;
 using Castle.Components.DictionaryAdapter;
 using TddXt.AnyRoot.Strings;
+using TddXt.NScan.Specification.AutomationLayer;
 using TddXt.NScan.Xml;
 
 namespace TddXt.NScan.Specification.Component.AutomationLayer
@@ -65,14 +66,15 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
     }
 
 
-    public XmlProjectDsl WithFile(string fileName, string @namespace)
+    public XmlProjectDsl With(XmlSourceCodeFileBuilder xmlSourceCodeFileBuilder)
     {
-      _xmlProject.SourceCodeFiles.Add(new XmlSourceCodeFile(
-        fileName, 
-        new List<string> { @namespace } ,
-        _xmlProject.PropertyGroups.First().RootNamespace,
-        _xmlProject.PropertyGroups.First().AssemblyName, 
-        new List<string>(/* bug */)));
+      var xmlSourceCodeFile = xmlSourceCodeFileBuilder
+        .BuildWith(
+          _xmlProject.PropertyGroups.First().RootNamespace,
+          _xmlProject.PropertyGroups.First().AssemblyName
+        );
+
+      _xmlProject.SourceCodeFiles.Add(xmlSourceCodeFile);
       return this;
     }
 

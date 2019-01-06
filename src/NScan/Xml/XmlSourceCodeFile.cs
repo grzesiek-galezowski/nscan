@@ -13,11 +13,7 @@ namespace TddXt.NScan.Xml
       IReadOnlyList<string> usings)
     {
       Name = fileName ?? throw new ArgumentNullException(nameof(fileName));
-      DeclaredNamespaces = declaredNamespaces;
-      if (!DeclaredNamespaces.Any())
-      {
-        throw new ArgumentException(nameof(declaredNamespaces));
-      }
+      DeclaredNamespaces = declaredNamespaces ?? throw new ArgumentException(nameof(declaredNamespaces));
       ParentProjectRootNamespace = parentProjectRootNamespace ?? throw new ArgumentNullException(nameof(parentProjectRootNamespace));
       ParentProjectAssemblyName = parentProjectAssemblyName ?? throw new ArgumentNullException(nameof(parentProjectAssemblyName));
     }

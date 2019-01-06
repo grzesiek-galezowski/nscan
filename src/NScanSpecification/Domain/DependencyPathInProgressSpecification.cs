@@ -28,8 +28,7 @@ namespace TddXt.NScan.Specification.Domain
         projectDependencyPathFactory,
         initialProjects);
 
-      projectDependencyPathFactory.Invoke(
-          Concatenated(initialProjects, additionalProject, finalProject)).Returns(newDependencyPath);
+      projectDependencyPathFactory.Invoke(Concatenated(initialProjects, additionalProject, finalProject)).Returns(newDependencyPath);
 
       var clonedPath = dependencyPathInProgress.CloneWith(additionalProject);
 
@@ -37,13 +36,12 @@ namespace TddXt.NScan.Specification.Domain
       clonedPath.FinalizeWith(finalProject);
 
       //THEN
-      projectDependencyPathFactory.Received(1).Invoke(
-            Concatenated(initialProjects, additionalProject, finalProject));
+      projectDependencyPathFactory.Received(1).Invoke(Concatenated(initialProjects, additionalProject, finalProject));
       destination.Received(1).Add(newDependencyPath);
     }
 
     private static IReadOnlyList<IReferencedProject> Concatenated(
-      List<IReferencedProject> alreadyAggregatedProjects,
+      IReadOnlyCollection<IReferencedProject> alreadyAggregatedProjects,
       params IReferencedProject[] additionalProjects)
     {
       return Arg<IReadOnlyList<IReferencedProject>>.That(

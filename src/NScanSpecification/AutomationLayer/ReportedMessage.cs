@@ -43,6 +43,11 @@ namespace TddXt.NScan.Specification.AutomationLayer
                                  $" but the file {fileName} has incorrect namespace {actualNamespace}");
     }
 
+    public ReportedMessage ButNoNamespaceDeclaredIn(string fileName)
+    {
+      return new ReportedMessage(ToString() + $" but the file {fileName} has no namespace declared");
+    }
+
     public ReportedMessage ExpectedNamespace(string projectName, string rootNamespace)
     {
       return new ReportedMessage(ToString() + $"{Environment.NewLine}" + $"{projectName} has root namespace {rootNamespace}");

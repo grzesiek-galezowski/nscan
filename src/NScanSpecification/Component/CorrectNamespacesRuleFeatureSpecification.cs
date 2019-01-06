@@ -1,6 +1,7 @@
 ﻿using TddXt.NScan.Specification.AutomationLayer;
 using TddXt.NScan.Specification.Component.AutomationLayer;
 using Xunit;
+using static TddXt.NScan.Specification.AutomationLayer.XmlSourceCodeFileBuilder;
 using static TddXt.NScan.Specification.Component.AutomationLayer.DependencyRuleBuilder;
 
 namespace TddXt.NScan.Specification.Component
@@ -14,8 +15,8 @@ namespace TddXt.NScan.Specification.Component
       var context = new NScanDriver();
       context.HasProject("MyProject")
         .WithRootNamespace("MyProject")
-        .WithFile("lol1.cs", "MyProject")
-        .WithFile("lol2.cs", "MyProject");
+        .With(FileWithNamespace("lol1.cs", "MyProject"))
+        .With(FileWithNamespace("lol2.cs", "MyProject"));
       context.Add(Rule().Project("*MyProject*").HasCorrectNamespaces());
 
       //WHEN
@@ -51,9 +52,9 @@ namespace TddXt.NScan.Specification.Component
       var context = new NScanDriver();
       context.HasProject("MyProject")
         .WithRootNamespace("MyProject")
-        .WithFile("lol1.cs", "WrongNamespace")
-        .WithFile("lol2.cs", "WrongNamespace")
-        .WithFile("lol3.cs", "MyProject");
+        .With(FileWithNamespace("lol1.cs", "WrongNamespace"))
+        .With(FileWithNamespace("lol2.cs", "WrongNamespace"))
+        .With(FileWithNamespace("lol3.cs", "MyProject"));
       context.Add(Rule().Project("*MyProject*").HasCorrectNamespaces());
 
       //WHEN
@@ -76,14 +77,14 @@ namespace TddXt.NScan.Specification.Component
       var context = new NScanDriver();
       context.HasProject("MyProject1")
         .WithRootNamespace("MyProject1")
-        .WithFile("lol1.cs", "WrongNamespace")
-        .WithFile("lol2.cs", "WrongNamespace")
-        .WithFile("lol3.cs", "MyProject1");
+        .With(FileWithNamespace("lol1.cs", "WrongNamespace"))
+        .With(FileWithNamespace("lol2.cs", "WrongNamespace"))
+        .With(FileWithNamespace("lol3.cs", "MyProject1"));
       context.HasProject("MyProject2")
         .WithRootNamespace("MyProject2")
-        .WithFile("lol1.cs", "WrongNamespace")
-        .WithFile("lol2.cs", "WrongNamespace")
-        .WithFile("lol3.cs", "MyProject2");
+        .With(FileWithNamespace("lol1.cs", "WrongNamespace"))
+        .With(FileWithNamespace("lol2.cs", "WrongNamespace"))
+        .With(FileWithNamespace("lol3.cs", "MyProject2"));
       context.Add(Rule().Project("*MyProject*").HasCorrectNamespaces());
 
       //WHEN
@@ -111,8 +112,8 @@ namespace TddXt.NScan.Specification.Component
       var context = new NScanDriver();
       context.HasProject("MyProject")
         .WithRootNamespace("MyProject")
-        .WithFile("Domain\\lol4.cs", "MyProject.Domain")
-        .WithFile("Domain\\lol5.cs", "MyProject");
+        .With(FileWithNamespace("Domain\\lol4.cs", "MyProject.Domain"))
+        .With(FileWithNamespace("Domain\\lol5.cs", "MyProject"));
       context.Add(Rule().Project("*MyProject*").HasCorrectNamespaces());
 
       //WHEN
@@ -125,6 +126,27 @@ namespace TddXt.NScan.Specification.Component
         .ButFoundIncorrectNamespaceFor("Domain\\lol5.cs", "MyProject"));
       context.ReportShouldNotContainText("lol4");
     }
+
+    [Fact]
+    public void ShouldReportErrorWhenAFileHasNoNamespace()
+    {
+      //GIVEN
+      var context = new NScanDriver();
+      context.HasProject("MyProject")
+        .WithRootNamespace("MyProject")
+        .With(EmptyFile("lol.cs"));
+      context.Add(Rule().Project("*MyProject*").HasCorrectNamespaces());
+
+      //WHEN
+      context.PerformAnalysis();
+
+      //THEN
+      context.ReportShouldContain(ReportedMessage
+        .HasCorrectNamespaces("*MyProject*").Error()
+        .ExpectedNamespace("MyProject", "MyProject")
+        .ButNoNamespaceDeclaredIn("lol.cs"));
+    }
+
 
     //backlog nested namespaces
     //backlog multiple namespaces per file

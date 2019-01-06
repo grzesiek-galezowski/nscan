@@ -1,7 +1,7 @@
 ﻿using TddXt.NScan.Specification.AutomationLayer;
 using TddXt.NScan.Specification.Component.AutomationLayer;
 using Xunit;
-using static TddXt.NScan.Specification.EndToEnd.XmlSourceCodeFileBuilder;
+using static TddXt.NScan.Specification.AutomationLayer.XmlSourceCodeFileBuilder;
 
 namespace TddXt.NScan.Specification.EndToEnd
 {
@@ -15,8 +15,8 @@ namespace TddXt.NScan.Specification.EndToEnd
       {
         context.HasProject("MyProject")
           .WithRootNamespace("MyProject")
-          .With(SourceCodeFile("lol1.cs", "MyProject"))
-          .With(SourceCodeFile("lol2.cs", "MyProject"));
+          .With(FileWithNamespace("lol1.cs", "MyProject"))
+          .With(FileWithNamespace("lol2.cs", "MyProject"));
         context.Add(DependencyRuleBuilder.Rule().Project("*MyProject*").HasCorrectNamespaces());
 
         //WHEN
@@ -36,9 +36,9 @@ namespace TddXt.NScan.Specification.EndToEnd
       {
         context.HasProject("MyProject")
           .WithRootNamespace("MyProject")
-          .With(SourceCodeFile("lol1.cs", "WrongNamespace"))
-          .With(SourceCodeFile("lol2.cs", "WrongNamespace"))
-          .With(SourceCodeFile("lol3.cs", "MyProject"));
+          .With(FileWithNamespace("lol1.cs", "WrongNamespace"))
+          .With(FileWithNamespace("lol2.cs", "WrongNamespace"))
+          .With(FileWithNamespace("lol3.cs", "MyProject"));
         context.Add(DependencyRuleBuilder.Rule().Project("*MyProject*").HasCorrectNamespaces());
 
         //WHEN
@@ -62,8 +62,8 @@ namespace TddXt.NScan.Specification.EndToEnd
       {
         context.HasProject("MyProject")
           .WithRootNamespace("MyProject")
-          .With(SourceCodeFile("Domain\\lol4.cs", "MyProject.Domain"))
-          .With(SourceCodeFile("Domain\\lol5.cs", "MyProject"));
+          .With(FileWithNamespace("Domain\\lol4.cs", "MyProject.Domain"))
+          .With(FileWithNamespace("Domain\\lol5.cs", "MyProject"));
         context.Add(DependencyRuleBuilder.Rule().Project("*MyProject*").HasCorrectNamespaces());
 
         //WHEN
@@ -87,7 +87,7 @@ namespace TddXt.NScan.Specification.EndToEnd
       {
         context.HasProject("MyProject")
           .WithRootNamespace("MyProject")
-          .With(SourceCodeFile("obj\\lol4.cs", "Trolololo"));
+          .With(FileWithNamespace("obj\\lol4.cs", "Trolololo"));
         context.Add(DependencyRuleBuilder.Rule().Project("*MyProject*").HasCorrectNamespaces());
 
         //WHEN

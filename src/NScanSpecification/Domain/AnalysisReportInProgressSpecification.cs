@@ -187,7 +187,7 @@ namespace TddXt.NScan.Specification.Domain
       //TODO move to X fluent assert
       private void AssertContainsInOrder(string output, params string[] subtexts)
       {
-        var indices = subtexts.Select(subtext => output.IndexOf((string) subtext, StringComparison.Ordinal)).ToList();
+        var indices = subtexts.Select(subtext => output.IndexOf((string) subtext, StringComparison.Ordinal));
 
         indices.Should().NotContain(-1, output);
         indices.Should().BeInAscendingOrder(output);
@@ -313,7 +313,7 @@ namespace TddXt.NScan.Specification.Domain
       //TODO move to X fluent assert
       private void AssertContainsInOrder(string output, params string[] subtexts)
       {
-        var indices = subtexts.Select(subtext => output.IndexOf((string) subtext, StringComparison.Ordinal)).ToList();
+        var indices = subtexts.Select(subtext => output.IndexOf((string) subtext, StringComparison.Ordinal));
 
         indices.Should().NotContain(-1, output);
         indices.Should().BeInAscendingOrder(output);

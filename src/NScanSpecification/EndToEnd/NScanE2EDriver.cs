@@ -254,29 +254,6 @@ namespace TddXt.NScan.Specification.EndToEnd
     }
   }
 
-  public class XmlSourceCodeFileBuilder
-  {
-    public static XmlSourceCodeFileBuilder SourceCodeFile(string fileName, string fileNamespace)
-    {
-      return new XmlSourceCodeFileBuilder(fileName, fileNamespace);
-    }
-
-    private XmlSourceCodeFileBuilder(string fileName, string fileNamespace)
-    {
-      FileName = fileName;
-      FileNamespace = fileNamespace;
-    }
-
-    public string FileName { get; private set; }
-    public string FileNamespace { get; private set; }
-
-    public XmlSourceCodeFile BuildWith(string parentProjectAssemblyName, string parentProjectRootNamespace)
-    {
-      return new XmlSourceCodeFile(FileName, new List<string>() { FileNamespace}, parentProjectRootNamespace, parentProjectAssemblyName, 
-        new List<string>(/* bug */));
-    }
-  }
-
   public class E2EProjectDsl
   {
     private readonly string _projectName;

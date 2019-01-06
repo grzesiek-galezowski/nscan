@@ -1,14 +1,17 @@
 using System;
 
-static internal class NCrunch
+namespace TddXt.NScan.Specification.EndToEnd
 {
-  public static bool RunsThisTest()
+  internal static class NCrunch
   {
-    return Environment.GetEnvironmentVariable("NCrunch") == "1";
-  }
+    public static bool RunsThisTest()
+    {
+      return Environment.GetEnvironmentVariable("NCrunch") == "1";
+    }
 
-  public static string OriginalSolutionPath()
-  {
-    return Environment.GetEnvironmentVariable("NCrunch.OriginalSolutionPath");
+    public static string OriginalSolutionPath()
+    {
+      return Environment.GetEnvironmentVariable("NCrunch.OriginalSolutionPath");
+    }
   }
 }

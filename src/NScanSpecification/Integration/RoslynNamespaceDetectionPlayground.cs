@@ -17,7 +17,7 @@ namespace TddXt.NScan.Specification.Integration
       CSharpSyntax.GetAllUniqueNamespacesFrom(@"namespace Lolek1 {} namespace Lolek2 {}").Should().Contain("Lolek1").And.Contain("Lolek2").And.HaveCount(2);
       CSharpSyntax.GetAllUniqueNamespacesFrom(@"namespace Lolek.Lolek1 {}").Should().Contain("Lolek.Lolek1").And.HaveCount(1);
       CSharpSyntax.GetAllUniqueNamespacesFrom(@"namespace Lolek { namespace Lolek1 {} }").Should().Contain("Lolek").And.Contain("Lolek1").And.HaveCount(2);
-      CSharpSyntax.GetAllUniqueNamespacesFrom(@"").Should().BeEmpty(); //bug if file does not have any namespace, then NScan throws an exception
+      CSharpSyntax.GetAllUniqueNamespacesFrom(@"").Should().BeEmpty();
     }
   }
 }

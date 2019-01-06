@@ -1,4 +1,4 @@
-#tool "nuget:?package=ILRepack"
+#tool "nuget:?package=ILRepack&version=2.0.16"
 #addin nuget:?package=Cake.SemVer
 #addin nuget:?package=semver&version=2.0.4
 #tool "nuget:?package=GitVersion.CommandLine"
