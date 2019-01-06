@@ -147,6 +147,26 @@ namespace TddXt.NScan.Specification.Component
         .ButNoNamespaceDeclaredIn("lol.cs"));
     }
 
+    [Fact]
+    public void ShouldReportErrorWhenAFileHasMoreThanOneNamespace()
+    {
+      //GIVEN
+      var context = new NScanDriver();
+      context.HasProject("MyProject")
+        .WithRootNamespace("MyProject")
+        .With(FileWithNamespaces("lol.cs", "MyProject", "MyProject2"));
+      context.Add(Rule().Project("*MyProject*").HasCorrectNamespaces());
+
+      //WHEN
+      context.PerformAnalysis();
+
+      //THEN
+      context.ReportShouldContain(ReportedMessage
+        .HasCorrectNamespaces("*MyProject*").Error()
+        .ExpectedNamespace("MyProject", "MyProject")
+        .ButHasMultipleNamespaces("lol.cs", "MyProject", "MyProject2"));
+    }
+
 
     //backlog nested namespaces
     //backlog multiple namespaces per file

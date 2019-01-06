@@ -17,6 +17,11 @@ namespace TddXt.NScan.Specification.AutomationLayer
       return new XmlSourceCodeFileBuilder(fileName, Enumerable.Empty<string>().ToList());
     }
 
+    public static XmlSourceCodeFileBuilder FileWithNamespaces(string fileName, params string[] namespaces)
+    {
+      return new XmlSourceCodeFileBuilder(fileName, namespaces.ToList());
+    }
+
     private XmlSourceCodeFileBuilder(string fileName, List<string> declaredNamespaces)
     {
       FileName = fileName;
@@ -31,5 +36,6 @@ namespace TddXt.NScan.Specification.AutomationLayer
       return new XmlSourceCodeFile(FileName, DeclaredNamespaces, parentProjectRootNamespace, parentProjectAssemblyName, 
         new List<string>(/* bug */));
     }
+
   }
 }

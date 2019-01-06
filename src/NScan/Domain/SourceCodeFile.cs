@@ -15,12 +15,21 @@ namespace TddXt.NScan.Domain
 
     public void EvaluateNamespacesCorrectness(IAnalysisReportInProgress report, string ruleDescription)
     {
-      if (!_xmlSourceCodeFile.DeclaredNamespaces.Any())
+      //TODO some duplication
+      if (_xmlSourceCodeFile.DeclaredNamespaces.Count == 0)
       {
         report.ProjectScopedViolation(ruleDescription,
           _xmlSourceCodeFile.ParentProjectAssemblyName + " has root namespace " +
           _xmlSourceCodeFile.ParentProjectRootNamespace + " but the file "
           + _xmlSourceCodeFile.Name + " has no namespace declared"
+        );
+      }
+      else if (_xmlSourceCodeFile.DeclaredNamespaces.Count > 1)
+      {
+        report.ProjectScopedViolation(ruleDescription,
+          _xmlSourceCodeFile.ParentProjectAssemblyName + " has root namespace " +
+          _xmlSourceCodeFile.ParentProjectRootNamespace + " but the file "
+          + _xmlSourceCodeFile.Name + $" declares multiple namespaces: {string.Join(", ", _xmlSourceCodeFile.DeclaredNamespaces)}"
         );
       }
       else if (!_xmlSourceCodeFile.DeclaredNamespaces.Contains(ExpectedNamespace()))

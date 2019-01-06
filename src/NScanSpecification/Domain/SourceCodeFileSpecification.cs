@@ -77,6 +77,32 @@ namespace TddXt.NScan.Specification.Domain
         xmlSourceCodeFile.ParentProjectRootNamespace + " but the file "
         + xmlSourceCodeFile.FileName + " has no namespace declared"
         ));
+    }    
+    
+    [Fact]
+    public void ShouldReportErrorWhenFileDeclaresMoreThanOneNamespace()
+    {
+      //GIVEN
+      var xmlSourceCodeFile = new XmlSourceCodeFileBuilder();
+      var namespace1 = Any.String();
+      var namespace2 = Any.String();
+      xmlSourceCodeFile.DeclaredNamespaces = new List<string> {namespace1, namespace2};
+      var file = new SourceCodeFile(xmlSourceCodeFile.Build());
+      var report = Substitute.For<IAnalysisReportInProgress>();
+      var ruleDescription = Any.String();
+
+
+      //WHEN
+      file.EvaluateNamespacesCorrectness(report, ruleDescription);
+
+      //THEN
+      XReceived.Only(() => report.ProjectScopedViolation(
+        ruleDescription,
+        $"{xmlSourceCodeFile.ParentProjectAssemblyName} " +
+        $"has root namespace {xmlSourceCodeFile.ParentProjectRootNamespace} " +
+        $"but the file {xmlSourceCodeFile.FileName} " +
+        $"declares multiple namespaces: {namespace1}, {namespace2}"
+      ));
     }
 
     [Fact]

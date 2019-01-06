@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -161,7 +160,6 @@ namespace TddXt.NScan.Specification.EndToEnd
       else
       {
         var executingAssemblyPath = new FileInfo(
-          
             Assembly.GetExecutingAssembly().EscapedCodeBase.Split("file:///").ToArray()[1]).Directory;
         while (!Directory.EnumerateDirectories(executingAssemblyPath.FullName).Any(s => s.EndsWith(".git")))
         {
@@ -171,13 +169,6 @@ namespace TddXt.NScan.Specification.EndToEnd
         return executingAssemblyPath.FullName;
       }
 
-    }
-
-    public static Dictionary<K, V> HashtableToDictionary<K, V>(IDictionary table)
-    {
-      return table
-        .Cast<DictionaryEntry>()
-        .ToDictionary(kvp => (K)kvp.Key, kvp => (V)kvp.Value);
     }
 
     private void CreateRulesFile()

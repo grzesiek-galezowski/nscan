@@ -48,6 +48,12 @@ namespace TddXt.NScan.Specification.AutomationLayer
       return new ReportedMessage(ToString() + $" but the file {fileName} has no namespace declared");
     }
 
+    public ReportedMessage ButHasMultipleNamespaces(string fileName, params string[] namespaces)
+    {
+      return new ReportedMessage(ToString() + $" but the file {fileName} declares multiple namespaces: {string.Join(", ", namespaces)}");
+    }
+
+
     public ReportedMessage ExpectedNamespace(string projectName, string rootNamespace)
     {
       return new ReportedMessage(ToString() + $"{Environment.NewLine}" + $"{projectName} has root namespace {rootNamespace}");
