@@ -21,7 +21,7 @@ steps:
 - task: PublishTestResults@2
   condition: succeededOrFailed()
   inputs:
-    testRunner: xUnit
-    testResultsFiles: '**/*.xml'
+    testResultsFormat: VSTest
+    testResultsFiles: '**/*.trx'
 
 - task: PublishBuildArtifacts@1

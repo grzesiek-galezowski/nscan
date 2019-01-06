@@ -7,6 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScan.Console", "NScan.Cons
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{59EAA725-B4EA-47B0-B749-DB013C66E989}"
 	ProjectSection(SolutionItems) = preProject
+		..\azure-pipelines.yml = ..\azure-pipelines.yml
 		..\build.cake = ..\build.cake
 		..\nscan.config = ..\nscan.config
 		..\NScan.nuspec = ..\NScan.nuspec
@@ -18,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScanSpecification", "NScan
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cake.NScan", "Cake.NScan\Cake.NScan.csproj", "{C6FA1FE6-CD67-4453-A532-FD4938F76919}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Project", "Test.Project\Test.Project.csproj", "{25C5697E-F9E5-4D30-BDC1-F3011AB5826D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.Project", "Test.Project\Test.Project.csproj", "{25C5697E-F9E5-4D30-BDC1-F3011AB5826D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

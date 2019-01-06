@@ -134,7 +134,8 @@ Task("RunNScanUnitTests")
     {
         DotNetCoreTest(file.FullPath, new DotNetCoreTestSettings           
         {
-           Configuration = configuration
+           Configuration = configuration,
+           Logger = "trx"
         });
     }
 });
