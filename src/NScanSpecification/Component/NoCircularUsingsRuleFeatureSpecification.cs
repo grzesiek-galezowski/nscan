@@ -1,18 +1,20 @@
 ﻿using TddXt.NScan.Specification.AutomationLayer;
+using TddXt.NScan.Specification.Component.AutomationLayer;
+using TddXt.NScan.Specification.EndToEnd;
 using Xunit;
-using static TddXt.NScan.Specification.Component.AutomationLayer.DependencyRuleBuilder;
 using static TddXt.NScan.Specification.AutomationLayer.XmlSourceCodeFileBuilder;
+using static TddXt.NScan.Specification.Component.AutomationLayer.DependencyRuleBuilder;
 
-namespace TddXt.NScan.Specification.EndToEnd
+namespace TddXt.NScan.Specification.Component
 {
-  public class NoCircularNamespaceDependenciesRuleFeatureSpecification
+  public class NoCircularUsingsRuleFeatureSpecification
   {
     [Fact]
     public void ShouldReportSuccessWhenThereAreNoCircularDependenciesBetweenNamespaces()
     {
       //GIVEN
-      using (var context = new NScanE2EDriver())
-      {
+      var context = new NScanDriver();
+      
         context.HasProject("MyProject")
           .WithRootNamespace("MyProject")
           .With(FileWithNamespace("lol1.cs", "MyProject"));
@@ -23,8 +25,7 @@ namespace TddXt.NScan.Specification.EndToEnd
 
         //THEN
         context.ReportShouldContain(ReportedMessage.HasNoCircularUsings("*MyProject*").Ok());
-      }
+      
     }
-
   }
 }

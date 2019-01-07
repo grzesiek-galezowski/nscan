@@ -20,7 +20,7 @@ namespace TddXt.NScan.Specification.EndToEnd
       {
         context.HasProject(projectName);
 
-        context.Add(Rule().Project(projectName).IndependentOfProject(assemblyName));
+        context.Add(RuleRequiring().Project(projectName).IndependentOfProject(assemblyName));
 
         //WHEN
         context.PerformAnalysis();
@@ -43,7 +43,7 @@ namespace TddXt.NScan.Specification.EndToEnd
         context.HasProject(dependencyProjectName);
         context.HasProject(projectName).WithAssemblyReferences(dependencyProjectName);
 
-        context.Add(Rule().Project(projectName).IndependentOfProject(dependencyProjectName));
+        context.Add(RuleRequiring().Project(projectName).IndependentOfProject(dependencyProjectName));
 
         //WHEN
         context.PerformAnalysis();

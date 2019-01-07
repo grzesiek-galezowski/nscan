@@ -113,7 +113,7 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
     }
 
 
-    public static IRuleDefinitionStart Rule()
+    public static IRuleDefinitionStart RuleRequiring()
     {
       return new DependencyRuleBuilder();
     }

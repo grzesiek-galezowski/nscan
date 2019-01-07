@@ -15,35 +15,38 @@ namespace TddXt.NScan.Domain
 
     public void EvaluateNamespacesCorrectness(IAnalysisReportInProgress report, string ruleDescription)
     {
-      //TODO some duplication
       if (_xmlSourceCodeFile.DeclaredNamespaces.Count == 0)
       {
         report.ProjectScopedViolation(ruleDescription,
-          _xmlSourceCodeFile.ParentProjectAssemblyName + " has root namespace " +
-          _xmlSourceCodeFile.ParentProjectRootNamespace + " but the file "
-          + _xmlSourceCodeFile.Name + " has no namespace declared"
+          ViolationDescription("has no namespace declared")
         );
       }
       else if (_xmlSourceCodeFile.DeclaredNamespaces.Count > 1)
       {
         report.ProjectScopedViolation(ruleDescription,
-          _xmlSourceCodeFile.ParentProjectAssemblyName + " has root namespace " +
-          _xmlSourceCodeFile.ParentProjectRootNamespace + " but the file "
-          + _xmlSourceCodeFile.Name + $" declares multiple namespaces: {string.Join(", ", _xmlSourceCodeFile.DeclaredNamespaces)}"
-        );
+          ViolationDescription($"declares multiple namespaces: {NamespacesString()}"));
       }
-      else if (!_xmlSourceCodeFile.DeclaredNamespaces.Contains(ExpectedNamespace()))
+      else if (!_xmlSourceCodeFile.DeclaredNamespaces.Contains(CorrectNamespace()))
       {
         report.ProjectScopedViolation(ruleDescription,
-          _xmlSourceCodeFile.ParentProjectAssemblyName + " has root namespace " +
-          _xmlSourceCodeFile.ParentProjectRootNamespace + " but the file "
-          + _xmlSourceCodeFile.Name + " has incorrect namespace "
-          + _xmlSourceCodeFile.DeclaredNamespaces.Single()
+          ViolationDescription($"has incorrect namespace {_xmlSourceCodeFile.DeclaredNamespaces.Single()}")
         );
       }
     }
 
-    private string ExpectedNamespace()
+    private string NamespacesString()
+    {
+      return string.Join(", ", _xmlSourceCodeFile.DeclaredNamespaces);
+    }
+
+    private string ViolationDescription(string reason)
+    {
+      return _xmlSourceCodeFile.ParentProjectAssemblyName + " has root namespace " +
+             _xmlSourceCodeFile.ParentProjectRootNamespace + " but the file "
+             + _xmlSourceCodeFile.Name + " " + reason;
+    }
+
+    private string CorrectNamespace()
     {
       if (Path.GetFileName(_xmlSourceCodeFile.Name) == _xmlSourceCodeFile.Name)
       {
