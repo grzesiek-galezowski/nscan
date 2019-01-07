@@ -56,11 +56,12 @@ namespace TddXt.NScan.Domain
       IEnumerable<RuleUnionDto> enumerable,
       INScanSupport support)
     {
-      foreach (var either in enumerable)
+      foreach (var ruleUnion in enumerable)
       {
-        either.Switch( 
-          independent => support.Log(either.IndependentRule), 
-          namespaces => support.Log(either.CorrectNamespacesRule));
+        ruleUnion.Switch( 
+          independent => support.Log(ruleUnion.IndependentRule), 
+          namespaces => support.Log(ruleUnion.CorrectNamespacesRule), 
+          noCircularUsings => support.Log(ruleUnion.NoCircularUsingsRule));
       }
     }
 

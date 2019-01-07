@@ -9,6 +9,7 @@ namespace TddXt.NScan.App
     void SkippingProjectBecauseOfError(InvalidOperationException invalidOperationException, string projectFilePath);
     void Log(IndependentRuleComplementDto independentRuleDto);
     void Log(CorrectNamespacesRuleComplementDto correctNamespacesRuleDto);
+    void Log(NoCircularUsingsRuleComplementDto noCircularUsingsRuleDto);
   }
 
   public class ConsoleSupport : INScanSupport
@@ -31,6 +32,11 @@ namespace TddXt.NScan.App
     public void Log(CorrectNamespacesRuleComplementDto correctNamespacesRuleDto)
     {
       Console.WriteLine($"Discovered rule: {correctNamespacesRuleDto.ProjectAssemblyNamePattern.Description()} {correctNamespacesRuleDto.RuleName}");
+    }
+
+    public void Log(NoCircularUsingsRuleComplementDto noCircularUsingsRuleDto)
+    {
+      Console.WriteLine($"Discovered rule: {noCircularUsingsRuleDto.ProjectAssemblyNamePattern.Description()} {noCircularUsingsRuleDto.RuleName}");
     }
   }
 }

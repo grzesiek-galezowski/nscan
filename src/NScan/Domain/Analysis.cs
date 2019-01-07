@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TddXt.NScan.App;
@@ -73,8 +74,12 @@ namespace TddXt.NScan.Domain
           {
             var rule = _ruleFactory.CreateProjectScopedRuleFrom(correctNamespacesDto);
             _projectScopedRules.Add(rule);
-          }
-        );
+          }, 
+          noCricularUsingsDto =>
+          {
+            var rule = _ruleFactory.CreateProjectScopedRuleFrom(noCricularUsingsDto);
+            _projectScopedRules.Add(rule);
+          });
       }
     }
   }

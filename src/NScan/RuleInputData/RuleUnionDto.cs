@@ -59,7 +59,8 @@ namespace TddXt.NScan.RuleInputData
 
     public void Switch(
       Action<IndependentRuleComplementDto> independentRuleAction,
-      Action<CorrectNamespacesRuleComplementDto> namespacesRuleAction)
+      Action<CorrectNamespacesRuleComplementDto> namespacesRuleAction, 
+      Action<NoCircularUsingsRuleComplementDto> noCircularUsingsRuleAction)
     {
       if (RuleName == RuleNames.IndependentOf)
       {
@@ -68,6 +69,10 @@ namespace TddXt.NScan.RuleInputData
       else if (RuleName == RuleNames.HasCorrectNamespaces)
       {
         namespacesRuleAction(CorrectNamespacesRule);
+      }
+      else if (RuleName == RuleNames.HasNoCircularUsings)
+      {
+        noCircularUsingsRuleAction(NoCircularUsingsRule);
       }
       else
       {

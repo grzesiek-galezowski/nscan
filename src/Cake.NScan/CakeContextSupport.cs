@@ -34,5 +34,10 @@ namespace Cake.NScan
     {
       _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {correctNamespacesRuleDto.ProjectAssemblyNamePattern.Description()} {correctNamespacesRuleDto.RuleName}");
     }
+
+    public void Log(NoCircularUsingsRuleComplementDto noCircularUsingsRuleDto)
+    {
+      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {noCircularUsingsRuleDto.ProjectAssemblyNamePattern.Description()} {noCircularUsingsRuleDto.RuleName}");
+    }
   }
 }

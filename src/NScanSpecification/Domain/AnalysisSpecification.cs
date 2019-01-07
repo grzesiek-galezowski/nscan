@@ -101,7 +101,7 @@ namespace TddXt.NScan.Specification.Domain
       var rule2 = Any.Instance<IProjectScopedRule>();
       var rule3 = Any.Instance<IProjectScopedRule>();
       var ruleDto1 = Any.Instance<CorrectNamespacesRuleComplementDto>();
-      var ruleDto2 = Any.Instance<CorrectNamespacesRuleComplementDto>();
+      var ruleDto2 = Any.Instance<NoCircularUsingsRuleComplementDto>();
       var ruleDto3 = Any.Instance<CorrectNamespacesRuleComplementDto>();
       var analysis = new AnalysisBuilder()
       {

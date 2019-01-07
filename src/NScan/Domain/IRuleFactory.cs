@@ -6,5 +6,6 @@ namespace TddXt.NScan.Domain
   {
     IDependencyRule CreateDependencyRuleFrom(IndependentRuleComplementDto independentRuleComplementDto);
     IProjectScopedRule CreateProjectScopedRuleFrom(CorrectNamespacesRuleComplementDto ruleDto);
+    IProjectScopedRule CreateProjectScopedRuleFrom(NoCircularUsingsRuleComplementDto ruleDto);
   }
 }
