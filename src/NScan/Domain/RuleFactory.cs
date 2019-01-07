@@ -50,7 +50,7 @@ namespace TddXt.NScan.Domain
 
     public IProjectScopedRule CreateProjectScopedRuleFrom(NoCircularUsingsRuleComplementDto ruleDto)
     {
-      throw new System.NotImplementedException();
+      return new NoCircularUsingsRule(ruleDto);
     }
 
     private IDependencyRule CreateIndependentOfProjectRule(Pattern dependingNamePattern,
