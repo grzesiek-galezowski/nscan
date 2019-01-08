@@ -108,12 +108,11 @@ namespace TddXt.NScan.Specification.Domain
       var ruleFactory = new RuleFactory();
       var ruleDto = Any.Instance<NoCircularUsingsRuleComplementDto>();
 
-
       //WHEN
-      var projectScopedRule = ruleFactory.CreateProjectScopedRuleFrom(ruleDto);
+      var projectScopedRule = ruleFactory.CreateNamespacesBasedRuleFrom(ruleDto);
 
       //THEN
-      projectScopedRule.Should().BeOfType<CorrectNamespacesRule>();
+      projectScopedRule.Should().BeOfType<NoCircularUsingsRule>();
       projectScopedRule.Should().DependOn(ruleDto);
 
     }

@@ -48,7 +48,7 @@ namespace TddXt.NScan.Domain
       return new CorrectNamespacesRule(ruleDto);
     }
 
-    public IProjectScopedRule CreateProjectScopedRuleFrom(NoCircularUsingsRuleComplementDto ruleDto)
+    public INamespacesBasedRule CreateNamespacesBasedRuleFrom(NoCircularUsingsRuleComplementDto ruleDto)
     {
       return new NoCircularUsingsRule(ruleDto);
     }

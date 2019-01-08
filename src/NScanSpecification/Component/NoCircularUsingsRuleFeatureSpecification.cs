@@ -14,18 +14,18 @@ namespace TddXt.NScan.Specification.Component
     {
       //GIVEN
       var context = new NScanDriver();
-      
-        context.HasProject("MyProject")
-          .WithRootNamespace("MyProject")
-          .With(FileWithNamespace("lol1.cs", "MyProject"));
-        context.Add(RuleRequiring().Project("*MyProject*").HasNoCircularUsings());
 
-        //WHEN
-        context.PerformAnalysis();
+      context.HasProject("MyProject")
+        .WithRootNamespace("MyProject")
+        .With(FileWithNamespace("lol1.cs", "MyProject"));
+      context.Add(RuleRequiring().Project("*MyProject*").HasNoCircularUsings());
 
-        //THEN
-        context.ReportShouldContain(ReportedMessage.HasNoCircularUsings("*MyProject*").Ok());
-      
+      //WHEN
+      context.PerformAnalysis();
+
+      //THEN
+      context.ReportShouldContain(ReportedMessage.HasNoCircularUsings("*MyProject*").Ok());
+
     }
   }
 }

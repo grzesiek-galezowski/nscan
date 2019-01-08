@@ -15,6 +15,7 @@ namespace TddXt.NScan.Specification.Domain
     public IAnalysisReportInProgress ReportInProgress { private get; set; } = Any.Instance<IAnalysisReportInProgress>();
     public IRuleFactory Factory { private get; set; } = Any.Instance<IRuleFactory>();
     public IProjectScopedRuleSet ProjectScopedRuleSet { get; set; } = Any.Instance<IProjectScopedRuleSet>();
+    public INamespacesBasedRuleSet ProjectNamespacesRuleSet { get; set; }
 
     public Analysis Build()
     {
@@ -92,6 +93,44 @@ namespace TddXt.NScan.Specification.Domain
     }
 
     [Fact]
+    public void ShouldAddAllNamespaceBasedRulesFromDtosToRuleSet()
+    {
+      //GIVEN
+      var projectNamespacesRuleSet = Substitute.For<INamespacesBasedRuleSet>();
+      var ruleFactory = Substitute.For<IRuleFactory>();
+      var rule1 = Any.Instance<INamespacesBasedRule>();
+      var rule2 = Any.Instance<INamespacesBasedRule>();
+      var rule3 = Any.Instance<INamespacesBasedRule>();
+      var ruleDto1 = Any.Instance<NoCircularUsingsRuleComplementDto>();
+      var ruleDto2 = Any.Instance<NoCircularUsingsRuleComplementDto>();
+      var ruleDto3 = Any.Instance<NoCircularUsingsRuleComplementDto>();
+      var analysis = new AnalysisBuilder()
+      {
+        ProjectNamespacesRuleSet = projectNamespacesRuleSet,
+        Factory = ruleFactory
+      }.Build();
+
+      ruleFactory.CreateNamespacesBasedRuleFrom(ruleDto1).Returns(rule1);
+      ruleFactory.CreateNamespacesBasedRuleFrom(ruleDto2).Returns(rule2);
+      ruleFactory.CreateNamespacesBasedRuleFrom(ruleDto3).Returns(rule3);
+      
+      var ruleDtos = new[]
+      {
+        RuleUnionDto.With(ruleDto1),
+        RuleUnionDto.With(ruleDto2),
+        RuleUnionDto.With(ruleDto3)
+      };
+
+      //WHEN
+      analysis.AddRules(ruleDtos);
+
+      //THEN
+      projectNamespacesRuleSet.Received(1).Add(rule1);
+      projectNamespacesRuleSet.Received(1).Add(rule2);
+      projectNamespacesRuleSet.Received(1).Add(rule3);
+    }
+
+    [Fact]
     public void ShouldAddAllProjectScopedRulesFromDtosToRuleSet()
     {
       //GIVEN
@@ -101,7 +140,7 @@ namespace TddXt.NScan.Specification.Domain
       var rule2 = Any.Instance<IProjectScopedRule>();
       var rule3 = Any.Instance<IProjectScopedRule>();
       var ruleDto1 = Any.Instance<CorrectNamespacesRuleComplementDto>();
-      var ruleDto2 = Any.Instance<NoCircularUsingsRuleComplementDto>();
+      var ruleDto2 = Any.Instance<CorrectNamespacesRuleComplementDto>();
       var ruleDto3 = Any.Instance<CorrectNamespacesRuleComplementDto>();
       var analysis = new AnalysisBuilder()
       {
@@ -179,4 +218,5 @@ namespace TddXt.NScan.Specification.Domain
       analysisReturnCode.Should().Be(expectedCode);
     }
   }
+    
 }

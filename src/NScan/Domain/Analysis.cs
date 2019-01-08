@@ -77,7 +77,7 @@ namespace TddXt.NScan.Domain
           }, 
           noCricularUsingsDto =>
           {
-            var rule = _ruleFactory.CreateProjectScopedRuleFrom(noCricularUsingsDto);
+            var rule = _ruleFactory.CreateNamespacesBasedRuleFrom(noCricularUsingsDto);
             _projectScopedRules.Add(rule);
           });
       }

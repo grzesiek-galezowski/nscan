@@ -4,12 +4,14 @@ using TddXt.NScan.RuleInputData;
 
 namespace TddXt.NScan.Domain
 {
-  public class NoCircularUsingsRule : IProjectScopedRule
+  public class NoCircularUsingsRule : IProjectScopedRule, INamespacesBasedRule
   {
-    public NoCircularUsingsRule(NoCircularUsingsRuleComplementDto ruleDto)
-    {
-      throw new NotImplementedException();
-    }
+      private readonly NoCircularUsingsRuleComplementDto _ruleDto;
+
+      public NoCircularUsingsRule(NoCircularUsingsRuleComplementDto ruleDto)
+      {
+          _ruleDto = ruleDto;
+      }
 
     public void Check(IProjectScopedRuleTarget project, IAnalysisReportInProgress report)
     {
