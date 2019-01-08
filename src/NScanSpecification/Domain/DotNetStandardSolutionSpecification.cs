@@ -27,7 +27,7 @@ namespace TddXt.NScan.Specification.Domain
         { Any.ProjectId(), project2 },
         { Any.ProjectId(), project3 },
       };
-      var dotNetStandardSolution = new DotNetStandardSolution(projectsById, Any.Instance<IPathCache>());
+      var dotNetStandardSolution = new DotNetStandardSolution(projectsById, Any.Instance<IPathCache>(), Any.Instance<INamespacesCache>());
       
 
       //WHEN
@@ -54,7 +54,7 @@ namespace TddXt.NScan.Specification.Domain
         { Any.ProjectId(), project1 },
         { project2Id, project2 },
       };
-      var dotNetStandardSolution = new DotNetStandardSolution(projectsById, Any.Instance<IPathCache>());
+      var dotNetStandardSolution = new DotNetStandardSolution(projectsById, Any.Instance<IPathCache>(), Any.Instance<INamespacesCache>());
       
 
       //WHEN
@@ -79,7 +79,7 @@ namespace TddXt.NScan.Specification.Domain
         { Any.ProjectId(), root2}
       };
       var pathCache = Substitute.For<IPathCache>();
-      var solution = new DotNetStandardSolution(projectsById, pathCache);
+      var solution = new DotNetStandardSolution(projectsById, pathCache, Any.Instance<INamespacesCache>());
 
       root1.IsRoot().Returns(true);
       root2.IsRoot().Returns(true);
@@ -90,6 +90,21 @@ namespace TddXt.NScan.Specification.Domain
 
       //THEN
       pathCache.Received(1).BuildStartingFrom(root1, root2);
+    }
+    
+    [Fact]
+    public void ShouldBuildNamespacesCacheWhenAskedToBuildCache()
+    {
+      //GIVEN
+      var projectsById = Any.Dictionary<ProjectId, IDotNetProject>();
+      var namespacesCache = Substitute.For<INamespacesCache>();
+      var solution = new DotNetStandardSolution(projectsById, Any.Instance<IPathCache>(), namespacesCache);
+
+      //WHEN
+      solution.BuildCache();
+
+      //THEN
+      namespacesCache.Received(1).BuildForEachOf(projectsById.Values);
     }
 
     [Fact]
@@ -102,7 +117,7 @@ namespace TddXt.NScan.Specification.Domain
       {
         { project1Id, project1 },
       };
-      var dotNetStandardSolution = new DotNetStandardSolution(projectsById, Any.Instance<IPathCache>());
+      var dotNetStandardSolution = new DotNetStandardSolution(projectsById, Any.Instance<IPathCache>(), Any.Instance<INamespacesCache>());
 
 
       //WHEN - THEN
@@ -117,7 +132,7 @@ namespace TddXt.NScan.Specification.Domain
       //GIVEN
       var projectsById = Any.Dictionary<ProjectId, IDotNetProject>();
       var pathCache = Any.Instance<IPathCache>();
-      var solution = new DotNetStandardSolution(projectsById, pathCache);
+      var solution = new DotNetStandardSolution(projectsById, pathCache, Any.Instance<INamespacesCache>());
       var ruleSet = Substitute.For<IPathRuleSet>();
       var report = Any.Instance<IAnalysisReportInProgress>();
       
@@ -141,7 +156,7 @@ namespace TddXt.NScan.Specification.Domain
         {Any.ProjectId(), project2},
         {Any.ProjectId(), project3},
       };
-      var solution = new DotNetStandardSolution(projectsById, Any.Instance<IPathCache>());
+      var solution = new DotNetStandardSolution(projectsById, Any.Instance<IPathCache>(), Any.Instance<INamespacesCache>());
       var ruleSet = Substitute.For<IProjectScopedRuleSet>();
       var report = Any.Instance<IAnalysisReportInProgress>();
       

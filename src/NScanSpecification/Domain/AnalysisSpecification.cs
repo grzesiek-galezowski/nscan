@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using NSubstitute;
+using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Domain;
 using TddXt.NScan.RuleInputData;
@@ -15,11 +16,11 @@ namespace TddXt.NScan.Specification.Domain
     public IAnalysisReportInProgress ReportInProgress { private get; set; } = Any.Instance<IAnalysisReportInProgress>();
     public IRuleFactory Factory { private get; set; } = Any.Instance<IRuleFactory>();
     public IProjectScopedRuleSet ProjectScopedRuleSet { get; set; } = Any.Instance<IProjectScopedRuleSet>();
-    public INamespacesBasedRuleSet ProjectNamespacesRuleSet { get; set; }
+    public INamespacesBasedRuleSet ProjectNamespacesRuleSet { private get; set; }
 
     public Analysis Build()
     {
-      return new Analysis(Solution, PathRuleSet, ProjectScopedRuleSet, ReportInProgress, Factory);
+      return new Analysis(Solution, PathRuleSet, ProjectScopedRuleSet, ProjectNamespacesRuleSet, ReportInProgress, Factory);
     }
   }
 
@@ -33,11 +34,13 @@ namespace TddXt.NScan.Specification.Domain
       var pathRuleSet = Any.Instance<IPathRuleSet>();
       var analysisReport = Any.Instance<IAnalysisReportInProgress>();
       var projectScopedRuleSet = Any.Instance<IProjectScopedRuleSet>();
+      var namespacesBasedRuleSet = Any.Instance<INamespacesBasedRuleSet>();
       var analysis = new AnalysisBuilder()
       {
         ReportInProgress = analysisReport,
         PathRuleSet = pathRuleSet,
         ProjectScopedRuleSet = projectScopedRuleSet,
+        ProjectNamespacesRuleSet = namespacesBasedRuleSet,
         Solution = solution
       }.Build();
 
@@ -52,6 +55,7 @@ namespace TddXt.NScan.Specification.Domain
         solution.PrintDebugInfo();
         solution.Check(pathRuleSet, analysisReport);
         solution.Check(projectScopedRuleSet, analysisReport);
+        solution.Check(namespacesBasedRuleSet, analysisReport);
       });
     }
 
@@ -96,7 +100,7 @@ namespace TddXt.NScan.Specification.Domain
     public void ShouldAddAllNamespaceBasedRulesFromDtosToRuleSet()
     {
       //GIVEN
-      var projectNamespacesRuleSet = Substitute.For<INamespacesBasedRuleSet>();
+      var namespaceBasedRuleSet = Substitute.For<INamespacesBasedRuleSet>();
       var ruleFactory = Substitute.For<IRuleFactory>();
       var rule1 = Any.Instance<INamespacesBasedRule>();
       var rule2 = Any.Instance<INamespacesBasedRule>();
@@ -106,7 +110,7 @@ namespace TddXt.NScan.Specification.Domain
       var ruleDto3 = Any.Instance<NoCircularUsingsRuleComplementDto>();
       var analysis = new AnalysisBuilder()
       {
-        ProjectNamespacesRuleSet = projectNamespacesRuleSet,
+        ProjectNamespacesRuleSet = namespaceBasedRuleSet,
         Factory = ruleFactory
       }.Build();
 
@@ -125,9 +129,9 @@ namespace TddXt.NScan.Specification.Domain
       analysis.AddRules(ruleDtos);
 
       //THEN
-      projectNamespacesRuleSet.Received(1).Add(rule1);
-      projectNamespacesRuleSet.Received(1).Add(rule2);
-      projectNamespacesRuleSet.Received(1).Add(rule3);
+      namespaceBasedRuleSet.Received(1).Add(rule1);
+      namespaceBasedRuleSet.Received(1).Add(rule2);
+      namespaceBasedRuleSet.Received(1).Add(rule3);
     }
 
     [Fact]

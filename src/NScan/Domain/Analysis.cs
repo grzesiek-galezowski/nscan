@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using TddXt.NScan.App;
@@ -16,6 +15,7 @@ namespace TddXt.NScan.Domain
     private readonly ISolution _solution;
     private readonly IPathRuleSet _pathRules;
     private readonly IProjectScopedRuleSet _projectScopedRules;
+    private readonly INamespacesBasedRuleSet _namespacesBasedRuleSet;
     private readonly IAnalysisReportInProgress _analysisReportInProgress;
     private readonly IRuleFactory _ruleFactory;
 
@@ -30,23 +30,26 @@ namespace TddXt.NScan.Domain
 
       return new Analysis(new DotNetStandardSolution(projects,
           new PathCache(
-            new DependencyPathFactory())),
+            new DependencyPathFactory()),
+          new NamespacesCache()),
         new PathRuleSet(), 
         new ProjectScopedRuleSet(), 
+        new NamespacesBasedRuleSet(),
         new AnalysisReportInProgress(new PlainProjectPathFormat()),
         new RuleFactory());
     }
 
-    public Analysis(
-      ISolution solution, 
+    public Analysis(ISolution solution,
       IPathRuleSet pathRules,
       IProjectScopedRuleSet projectScopedRules,
-      IAnalysisReportInProgress analysisReportInProgress, 
+      INamespacesBasedRuleSet namespacesBasedRuleSet,
+      IAnalysisReportInProgress analysisReportInProgress,
       IRuleFactory ruleFactory)
     {
       _solution = solution;
       _pathRules = pathRules;
       _projectScopedRules = projectScopedRules;
+      _namespacesBasedRuleSet = namespacesBasedRuleSet;
       _analysisReportInProgress = analysisReportInProgress;
       _ruleFactory = ruleFactory;
     }
@@ -58,6 +61,7 @@ namespace TddXt.NScan.Domain
       _solution.PrintDebugInfo();
       _solution.Check(_pathRules, _analysisReportInProgress);
       _solution.Check(_projectScopedRules, _analysisReportInProgress);
+      _solution.Check(_namespacesBasedRuleSet, _analysisReportInProgress);
     }
 
     public void AddRules(IEnumerable<RuleUnionDto> rules)
@@ -78,7 +82,7 @@ namespace TddXt.NScan.Domain
           noCricularUsingsDto =>
           {
             var rule = _ruleFactory.CreateNamespacesBasedRuleFrom(noCricularUsingsDto);
-            _projectScopedRules.Add(rule);
+            _namespacesBasedRuleSet.Add(rule);
           });
       }
     }

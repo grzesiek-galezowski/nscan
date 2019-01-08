@@ -9,9 +9,8 @@ namespace TddXt.NScan.Domain
     private readonly Dictionary<ProjectId, IDotNetProject> _projectsById;
     private readonly IPathCache _pathCache;
 
-    public DotNetStandardSolution(
-      Dictionary<ProjectId, IDotNetProject> projectsById, 
-      IPathCache pathCache)
+    public DotNetStandardSolution(Dictionary<ProjectId, IDotNetProject> projectsById,
+      IPathCache pathCache, INamespacesCache namespacesCache)
     {
       _projectsById = projectsById;
       _pathCache = pathCache;
@@ -42,6 +41,11 @@ namespace TddXt.NScan.Domain
     public void Check(IProjectScopedRuleSet ruleSet, IAnalysisReportInProgress analysisReportInProgress)
     {
       ruleSet.Check(_projectsById.Values.ToList(), analysisReportInProgress);
+    }
+
+    public void Check(INamespacesBasedRuleSet namespacesBasedRuleSet, IAnalysisReportInProgress analysisReportInProgress)
+    {
+      //bug throw new System.NotImplementedException();
     }
 
     public void BuildCache()
