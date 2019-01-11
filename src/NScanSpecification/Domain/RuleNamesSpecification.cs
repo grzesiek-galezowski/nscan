@@ -1,6 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using TddXt.NScan.Domain;
+using TddXt.NScan.ReadingRules.Ports;
 using Xunit;
 
 namespace TddXt.NScan.Specification.Domain

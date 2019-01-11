@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using TddXt.NScan.CSharp;
+using TddXt.NScan.ReadingCSharpSourceCode;
 using Xunit;
 
 namespace TddXt.NScan.Specification.Integration

@@ -1,8 +1,8 @@
 ﻿using System;
 using Fclp;
-using TddXt.NScan.App;
-using TddXt.NScan.CompositionRoot;
 using TddXt.NScan.Domain;
+using TddXt.NScan.NotifyingSupport.Adapters;
+using TddXt.NScan.WritingProgramOutput.Adapters;
 
 namespace TddXt.NScan.Console
 {

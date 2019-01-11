@@ -7,7 +7,7 @@
 
     public ProjectId(string absolutePath)
     {
-      this._absolutePath = absolutePath;
+      _absolutePath = absolutePath;
     }
 
     public override string ToString()

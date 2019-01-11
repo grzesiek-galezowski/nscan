@@ -1,6 +1,5 @@
 ﻿using GlobExpressions;
-using TddXt.NScan.App;
-using TddXt.NScan.CompositionRoot;
+using TddXt.NScan.ReadingRules.Ports;
 
 namespace TddXt.NScan.Domain
 {

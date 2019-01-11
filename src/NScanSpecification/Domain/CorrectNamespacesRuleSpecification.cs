@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 using NSubstitute;
-using TddXt.AnyRoot;
-using TddXt.AnyRoot.Collections;
-using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Domain;
-using TddXt.NScan.RuleInputData;
-using TddXt.XNSubstitute.Root;
+using TddXt.NScan.ReadingRules.Ports;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 

@@ -9,10 +9,12 @@ using FluentAssertions;
 using RunProcessAsTask;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
-using TddXt.NScan.RuleInputData;
+using TddXt.NScan.ReadingRules;
+using TddXt.NScan.ReadingRules.Ports;
+using TddXt.NScan.ReadingSolution;
+using TddXt.NScan.ReadingSolution.Ports;
 using TddXt.NScan.Specification.AutomationLayer;
 using TddXt.NScan.Specification.Component.AutomationLayer;
-using TddXt.NScan.Xml;
 using static System.Environment;
 
 namespace TddXt.NScan.Specification.EndToEnd

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using TddXt.NScan.RuleInputData;
+using TddXt.NScan.ReadingRules.Ports;
 
 namespace TddXt.NScan.Domain
 {

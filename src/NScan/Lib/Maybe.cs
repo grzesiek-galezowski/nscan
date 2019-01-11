@@ -70,12 +70,12 @@ namespace TddXt.NScan.Lib
 
     public T ValueOrDefault()
     {
-      return this.Otherwise(() => default);
+      return Otherwise(() => default);
     }
 
     public T ValueOr(T fallback)
     {
-      return this.Otherwise(() => fallback);
+      return Otherwise(() => fallback);
     }
   }
 

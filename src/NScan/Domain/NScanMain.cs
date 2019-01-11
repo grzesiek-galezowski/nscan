@@ -2,10 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Sprache;
-using TddXt.NScan.App;
-using TddXt.NScan.CompositionRoot;
-using TddXt.NScan.RuleInputData;
-using TddXt.NScan.Xml;
+using TddXt.NScan.NotifyingSupport.Ports;
+using TddXt.NScan.ReadingRules.Adapters;
+using TddXt.NScan.ReadingRules.Ports;
+using TddXt.NScan.ReadingSolution;
+using TddXt.NScan.ReadingSolution.Adapters;
+using TddXt.NScan.ReadingSolution.Ports;
+using TddXt.NScan.WritingProgramOutput.Ports;
 
 namespace TddXt.NScan.Domain
 {

@@ -2,7 +2,8 @@
 using GlobExpressions;
 using TddXt.AnyRoot;
 using TddXt.NScan.Domain;
-using TddXt.NScan.RuleInputData;
+using TddXt.NScan.ReadingRules;
+using TddXt.NScan.ReadingRules.Ports;
 using TddXt.XFluentAssert.Root;
 using Xunit;
 using static TddXt.AnyRoot.Root;

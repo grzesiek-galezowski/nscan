@@ -1,9 +1,8 @@
 ﻿using FluentAssertions;
 using NSubstitute;
-using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Domain;
-using TddXt.NScan.RuleInputData;
+using TddXt.NScan.ReadingRules.Ports;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
@@ -52,7 +51,6 @@ namespace TddXt.NScan.Specification.Domain
       {
         solution.ResolveAllProjectsReferences();
         solution.BuildCache();
-        solution.PrintDebugInfo();
         solution.Check(pathRuleSet, analysisReport);
         solution.Check(projectScopedRuleSet, analysisReport);
         solution.Check(namespacesBasedRuleSet, analysisReport);

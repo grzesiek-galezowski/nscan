@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
-using TddXt.NScan.App;
 using TddXt.NScan.Domain;
-using TddXt.NScan.RuleInputData;
+using TddXt.NScan.NotifyingSupport.Adapters;
+using TddXt.NScan.NotifyingSupport.Ports;
+using TddXt.NScan.ReadingRules;
+using TddXt.NScan.ReadingRules.Ports;
+using TddXt.NScan.ReadingSolution;
+using TddXt.NScan.ReadingSolution.Ports;
 using TddXt.NScan.Specification.AutomationLayer;
-using TddXt.NScan.Xml;
 
 namespace TddXt.NScan.Specification.Component.AutomationLayer
 {

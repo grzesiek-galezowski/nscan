@@ -1,5 +1,5 @@
 ﻿using Cake.Core.Diagnostics;
-using TddXt.NScan.CompositionRoot;
+using TddXt.NScan.WritingProgramOutput.Ports;
 
 namespace Cake.NScan
 {

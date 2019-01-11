@@ -2,7 +2,8 @@
 using GlobExpressions;
 using TddXt.NScan.Domain;
 using TddXt.NScan.Lib;
-using TddXt.NScan.RuleInputData;
+using TddXt.NScan.ReadingRules;
+using TddXt.NScan.ReadingRules.Ports;
 
 namespace TddXt.NScan.Specification.Component.AutomationLayer
 {

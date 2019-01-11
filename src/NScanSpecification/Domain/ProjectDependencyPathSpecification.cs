@@ -4,6 +4,7 @@ using NSubstitute;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
 using TddXt.NScan.Domain;
+using TddXt.NScan.ReadingRules.Ports;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 

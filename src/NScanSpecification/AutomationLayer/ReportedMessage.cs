@@ -80,7 +80,7 @@ namespace TddXt.NScan.Specification.AutomationLayer
     {
       return new ReportedMessage(this
                                  + NewLine +
-                                 "PathViolation in path: "+ string.Join("->", 
+                                 "Violating path: "+ string.Join("->", 
                                    path.Select(c => $"[{c}]")));
     }
 

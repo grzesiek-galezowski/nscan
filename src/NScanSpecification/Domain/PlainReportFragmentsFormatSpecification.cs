@@ -11,6 +11,36 @@ namespace TddXt.NScan.Specification.Domain
   public class PlainReportFragmentsFormatSpecification
   {
     [Fact]
+    public void ShouldCreateStringWithConcatenatedStringRepresentationOfProjectPathWhenApplied()
+    {
+      //GIVEN
+      var format = new PlainReportFragmentsFormat();
+      var p1 = Any.Instance<IReferencedProject>();
+      var p2 = Any.Instance<IReferencedProject>();
+      var p3 = Any.Instance<IReferencedProject>();
+
+      //WHEN
+      var result = format.ApplyToPath(new List<IReferencedProject>() {p1, p2, p3});
+
+      //THEN
+      result.Should().Be($"[{p1.ToString()}]->[{p2.ToString()}]->[{p3.ToString()}]");
+    }
+
+    [Fact]
+    public void ShouldCreateStringWithSingleProjectWhenViolationPathConsistsOfASingleProject()
+    {
+      //GIVEN
+      var format = new PlainReportFragmentsFormat();
+      var p1 = Any.Instance<IReferencedProject>();
+
+      //WHEN
+      var result = format.ApplyToPath(new List<IReferencedProject>() {p1});
+
+      //THEN
+      result.Should().Be($"[{p1.ToString()}]");
+    }
+
+    [Fact]
     public void ShouldFormatCycles()
     {
       //GIVEN

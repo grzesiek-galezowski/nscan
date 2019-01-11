@@ -1,9 +1,8 @@
 using System.Collections.Generic;
-using System.Linq;
-using TddXt.NScan.App;
-using TddXt.NScan.CompositionRoot;
-using TddXt.NScan.RuleInputData;
-using TddXt.NScan.Xml;
+using TddXt.NScan.NotifyingSupport.Ports;
+using TddXt.NScan.ReadingRules.Ports;
+using TddXt.NScan.ReadingSolution;
+using TddXt.NScan.ReadingSolution.Ports;
 
 namespace TddXt.NScan.Domain
 {
@@ -57,7 +56,7 @@ namespace TddXt.NScan.Domain
     {
       _solution.ResolveAllProjectsReferences();
       _solution.BuildCache();
-      _solution.PrintDebugInfo();
+      //_solution.PrintDebugInfo();
       _solution.Check(_pathRules, _analysisReportInProgress);
       _solution.Check(_projectScopedRules, _analysisReportInProgress);
       _solution.Check(_namespacesBasedRuleSet, _analysisReportInProgress);

@@ -1,7 +1,7 @@
 using TddXt.AnyExtensibility;
 using TddXt.AnyRoot;
-using TddXt.NScan.App;
 using TddXt.NScan.Domain;
+using TddXt.NScan.NotifyingSupport.Ports;
 
 namespace TddXt.NScan.Specification
 {

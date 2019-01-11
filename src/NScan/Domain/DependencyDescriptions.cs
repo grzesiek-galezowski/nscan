@@ -1,4 +1,5 @@
 using GlobExpressions;
+using TddXt.NScan.ReadingRules.Ports;
 
 namespace TddXt.NScan.Domain
 {
@@ -15,7 +16,7 @@ namespace TddXt.NScan.Domain
       Glob dependencyNamePattern)
     {
       //TODO consider moving to DependencyDescriptions
-      return DependencyDescriptions.IndependentOf(dependingNamePattern.Description(),
+      return IndependentOf(dependingNamePattern.Description(),
         dependencyType + ":" + dependencyNamePattern.Pattern);
     }
   }

@@ -1,7 +1,8 @@
 ﻿using System;
 using Cake.Core.Diagnostics;
-using TddXt.NScan.App;
-using TddXt.NScan.RuleInputData;
+using TddXt.NScan.NotifyingSupport.Ports;
+using TddXt.NScan.ReadingRules;
+using TddXt.NScan.ReadingRules.Ports;
 
 namespace Cake.NScan
 {

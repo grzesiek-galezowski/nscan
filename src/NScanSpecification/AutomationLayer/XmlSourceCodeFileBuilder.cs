@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using TddXt.NScan.Xml;
+using TddXt.NScan.ReadingSolution;
+using TddXt.NScan.ReadingSolution.Ports;
 
 namespace TddXt.NScan.Specification.AutomationLayer
 {

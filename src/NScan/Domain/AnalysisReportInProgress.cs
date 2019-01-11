@@ -47,7 +47,7 @@ namespace TddXt.NScan.Domain
       AddRuleIfNotRegisteredYet(ruleDescription);
       InitializeViolationsFor(ruleDescription);
       //TODO when there is a single project say project, not path
-      AddViolation(ruleDescription, _reportFragmentsFormat.ApplyToPath(violationPath), "PathViolation in path: ");
+      AddViolation(ruleDescription, _reportFragmentsFormat.ApplyToPath(violationPath), "Violating path: ");
     }
 
     public void NamespacesBasedRuleViolation(string ruleDescription, string projectAssemblyName,

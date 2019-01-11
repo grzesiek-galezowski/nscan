@@ -2,6 +2,7 @@
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Domain;
+using TddXt.NScan.ReadingRules.Ports;
 using TddXt.XFluentAssert.Root;
 using Xunit;
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TddXt.NScan.CompositionRoot;
+using TddXt.NScan.ReadingRules.Ports;
 
 namespace TddXt.NScan.Domain
 {

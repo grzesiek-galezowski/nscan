@@ -7,8 +7,9 @@ using NSubstitute;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
 using TddXt.AnyRoot.Strings;
-using TddXt.NScan.App;
 using TddXt.NScan.Domain;
+using TddXt.NScan.NotifyingSupport.Ports;
+using TddXt.NScan.ReadingRules.Ports;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using GlobExpressions;
-using TddXt.NScan.App;
+using TddXt.NScan.NotifyingSupport.Ports;
+using TddXt.NScan.ReadingRules.Ports;
 
 namespace TddXt.NScan.Domain
 {
@@ -163,7 +164,7 @@ namespace TddXt.NScan.Domain
 
     public bool HasPackageReferenceMatching(Glob packagePattern)
     {
-      return this._packageReferences.Any(pr => packagePattern.IsMatch(pr.Name));
+      return _packageReferences.Any(pr => packagePattern.IsMatch(pr.Name));
     }
   }
 

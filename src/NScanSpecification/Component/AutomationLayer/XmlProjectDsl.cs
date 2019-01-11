@@ -2,8 +2,9 @@
 using System.Linq;
 using Castle.Components.DictionaryAdapter;
 using TddXt.AnyRoot.Strings;
+using TddXt.NScan.ReadingSolution;
+using TddXt.NScan.ReadingSolution.Ports;
 using TddXt.NScan.Specification.AutomationLayer;
-using TddXt.NScan.Xml;
 
 namespace TddXt.NScan.Specification.Component.AutomationLayer
 {

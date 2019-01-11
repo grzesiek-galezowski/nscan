@@ -1,4 +1,6 @@
-﻿namespace TddXt.NScan.Domain
+﻿using TddXt.NScan.ReadingRules.Ports;
+
+namespace TddXt.NScan.Domain
 {
   public interface IProjectScopedRuleTarget
   {

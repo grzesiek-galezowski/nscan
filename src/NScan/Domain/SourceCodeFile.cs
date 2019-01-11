@@ -1,6 +1,7 @@
 using System.IO;
 using System.Linq;
-using TddXt.NScan.Xml;
+using TddXt.NScan.ReadingSolution;
+using TddXt.NScan.ReadingSolution.Ports;
 
 namespace TddXt.NScan.Domain
 {
