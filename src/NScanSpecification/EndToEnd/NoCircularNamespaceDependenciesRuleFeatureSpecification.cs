@@ -26,5 +26,28 @@ namespace TddXt.NScan.Specification.EndToEnd
       }
     }
 
+    [Fact]
+    public void ShouldReportErrorWhenACycleIsDiscovered()
+    {
+      //GIVEN
+      using (var context = new NScanE2EDriver())
+      {
+        context.HasProject("MyProject")
+          .WithRootNamespace("MyProject")
+          .With(FileWithNamespace("lol1.cs", "MyProject").Using("MyProject.Util"))
+          .With(FileWithNamespace("lol2.cs", "MyProject.Util").Using("MyProject"));
+        context.Add(RuleRequiring().Project("*MyProject*").HasNoCircularUsings());
+
+        //WHEN
+        context.PerformAnalysis();
+
+        //THEN
+        context.ReportShouldContain(ReportedMessage.HasNoCircularUsings("*MyProject*").Error()
+          .CycleFound("MyProject", "MyProject", "MyProject.Util", "MyProject"));
+      }
+    }
+
+    //bug test on component level - if file is referencing its own namespace, it should be OK
+
   }
 }

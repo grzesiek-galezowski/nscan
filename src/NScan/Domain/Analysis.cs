@@ -34,7 +34,7 @@ namespace TddXt.NScan.Domain
         new PathRuleSet(), 
         new ProjectScopedRuleSet(), 
         new NamespacesBasedRuleSet(),
-        new AnalysisReportInProgress(new PlainProjectPathFormat()),
+        new AnalysisReportInProgress(new PlainReportFragmentsFormat()),
         new RuleFactory());
     }
 

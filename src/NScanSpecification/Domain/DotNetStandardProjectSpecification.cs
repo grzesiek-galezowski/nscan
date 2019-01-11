@@ -274,16 +274,18 @@ namespace TddXt.NScan.Specification.Domain
       var namespacesCache = Any.Instance<INamespacesDependenciesCache>();
       var rule = Substitute.For<INamespacesBasedRule>();
       var report = Any.Instance<IAnalysisReportInProgress>();
+      var projectAssemblyName = Any.String();
       var project = new DotNetStandardProjectBuilder
       {
         NamespacesDependenciesCache = namespacesCache,
+        AssemblyName = projectAssemblyName
       }.Build();
 
       //WHEN
       project.Evaluate(rule, report);
 
       //THEN
-      rule.Received(1).Evaluate(namespacesCache, report);
+      rule.Received(1).Evaluate(projectAssemblyName, namespacesCache, report);
     }
 
 

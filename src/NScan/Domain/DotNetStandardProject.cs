@@ -134,7 +134,7 @@ namespace TddXt.NScan.Domain
 
     public void Evaluate(INamespacesBasedRule rule, IAnalysisReportInProgress report)
     {
-      rule.Evaluate(_namespacesDependenciesCache, report);
+      rule.Evaluate(_assemblyName, _namespacesDependenciesCache, report);
     }
 
     //bug UT

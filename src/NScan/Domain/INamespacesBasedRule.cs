@@ -3,6 +3,7 @@
   public interface INamespacesBasedRule
   {
     string Description();
-    void Evaluate(INamespacesDependenciesCache namespacesCache, IAnalysisReportInProgress report);
+    void Evaluate(string projectAssemblyName, INamespacesDependenciesCache namespacesCache,
+      IAnalysisReportInProgress report);
   }
 }

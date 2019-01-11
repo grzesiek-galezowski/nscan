@@ -1,20 +1,20 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static System.Environment;
 
 namespace TddXt.NScan.Domain
 {
   public class AnalysisReportInProgress : IAnalysisReportInProgress
   {
-    private readonly IProjectPathFormat _projectPathFormat;
+    private readonly IReportFragmentsFormat _reportFragmentsFormat;
     private readonly Dictionary<string, HashSet<string>> _violations
       = new Dictionary<string, HashSet<string>>();
     private readonly List<string> _ruleNames = new List<string>();
 
-    public AnalysisReportInProgress(IProjectPathFormat projectPathFormat)
+    public AnalysisReportInProgress(IReportFragmentsFormat reportFragmentsFormat)
     {
-      _projectPathFormat = projectPathFormat;
+      _reportFragmentsFormat = reportFragmentsFormat;
     }
 
     public string AsString()
@@ -26,7 +26,7 @@ namespace TddXt.NScan.Domain
         if (_violations.ContainsKey(ruleDescription))
         {
           result.AppendLine(ruleDescription + ": [ERROR]");
-          result.Append(string.Join(Environment.NewLine, _violations[ruleDescription]));
+          result.Append(string.Join(NewLine, _violations[ruleDescription]));
         }
         else
         {
@@ -35,7 +35,7 @@ namespace TddXt.NScan.Domain
 
         if (index != _ruleNames.Count - 1)
         {
-          result.Append(Environment.NewLine);
+          result.Append(NewLine);
         }
       }
 
@@ -47,13 +47,21 @@ namespace TddXt.NScan.Domain
       AddRuleIfNotRegisteredYet(ruleDescription);
       InitializeViolationsFor(ruleDescription);
       //TODO when there is a single project say project, not path
-      AddViolation(ruleDescription, _projectPathFormat.ApplyTo(violationPath), "PathViolation in path: ");
+      AddViolation(ruleDescription, _reportFragmentsFormat.ApplyToPath(violationPath), "PathViolation in path: ");
+    }
+
+    public void NamespacesBasedRuleViolation(string ruleDescription, string projectAssemblyName,
+      IReadOnlyList<IReadOnlyList<string>> cycles)
+    {
+      AddRuleIfNotRegisteredYet(ruleDescription);
+      InitializeViolationsFor(ruleDescription);
+      AddViolation(ruleDescription, _reportFragmentsFormat.ApplyToCycles(cycles), 
+        $"Discovered cycle(s) in project {projectAssemblyName}:{NewLine}");
     }
 
     public void FinishedChecking(string ruleDescription)
     {
       AddRuleIfNotRegisteredYet(ruleDescription);
-
     }
 
     public void ProjectScopedViolation(string ruleDescription, string violationDescription)

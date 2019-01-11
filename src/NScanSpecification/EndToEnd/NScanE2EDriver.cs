@@ -6,16 +6,14 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using FluentAssertions;
-using FluentAssertions.Primitives;
 using RunProcessAsTask;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.RuleInputData;
 using TddXt.NScan.Specification.AutomationLayer;
-using TddXt.NScan.Specification.Component;
 using TddXt.NScan.Specification.Component.AutomationLayer;
 using TddXt.NScan.Xml;
-using Xunit;
+using static System.Environment;
 
 namespace TddXt.NScan.Specification.EndToEnd
 {
@@ -77,11 +75,15 @@ namespace TddXt.NScan.Specification.EndToEnd
             directoryInfo.Create();
           }
 
-          File.WriteAllText(fullFilePath, $"namespace {sourceCodeFile.DeclaredNamespaces.Single()}" + " {}");
-          
+          File.WriteAllText(fullFilePath, StringBodyOf(sourceCodeFile));
         }
 
       }
+    }
+
+    private static string StringBodyOf(XmlSourceCodeFile sourceCodeFile)
+    {
+      return string.Join(NewLine, sourceCodeFile.Usings.Select(n => $"using {n};")) + $"namespace {sourceCodeFile.DeclaredNamespaces.Single()}" + " {}";
     }
 
 
@@ -101,12 +103,12 @@ namespace TddXt.NScan.Specification.EndToEnd
 
     private string ConsoleStandardOutput()
     {
-      return string.Join(Environment.NewLine, _analysisResult.StandardOutput);
+      return string.Join(NewLine, _analysisResult.StandardOutput);
     }
 
     private string ConsoleStandardOutputAndErrorString()
     {
-      return string.Join(Environment.NewLine, _analysisResult.StandardOutput.Concat(_analysisResult.StandardError));
+      return string.Join(NewLine, _analysisResult.StandardOutput.Concat(_analysisResult.StandardError));
     }
 
 
@@ -129,6 +131,8 @@ namespace TddXt.NScan.Specification.EndToEnd
 
     private void RunAnalysis()
     {
+      //RunForDebug();
+
       var repositoryPath = RepositoryPath();
       AssertDirectoryExists(repositoryPath);
 
@@ -138,6 +142,17 @@ namespace TddXt.NScan.Specification.EndToEnd
       AssertFileExists(nscanConsoleProjectPath);
 
       _analysisResult = RunDotNetExe($"run --project {nscanConsoleProjectPath} -- -p \"{_fullSolutionPath}\" -r \"{_fullRulesPath}\"").Result;
+    }
+
+    private void RunForDebug() //todo expand on this ability. This may be interesting if there's a good way to capture console output or when I add logging to a file
+    {
+      var repositoryPath2 = RepositoryPath();
+      var nscanConsoleDllPath = Path.Combine(
+        repositoryPath2, "src", "NScan.Console", "bin", "Debug", "netcoreapp2.1", "NScan.Console.dll");
+
+      AssertFileExists(nscanConsoleDllPath);
+      AppDomain.CurrentDomain.ExecuteAssembly(nscanConsoleDllPath,
+        new[] {"-p", _fullSolutionPath, "-r", _fullRulesPath});
     }
 
     private void AssertFileExists(string filePath)
@@ -253,7 +268,7 @@ namespace TddXt.NScan.Specification.EndToEnd
 
     private static void AssertSuccess(ProcessResults processInfo)
     {
-      processInfo.ExitCode.Should().Be(0, string.Join(Environment.NewLine, processInfo.StandardError.Concat(processInfo.StandardOutput)));
+      processInfo.ExitCode.Should().Be(0, string.Join(NewLine, processInfo.StandardError.Concat(processInfo.StandardOutput)));
     }
 
     private static DirectoryInfo GetTemporaryDirectory()

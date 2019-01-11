@@ -7,6 +7,7 @@ namespace TddXt.NScan.Specification.AutomationLayer
 {
   public class XmlSourceCodeFileBuilder
   {
+
     public static XmlSourceCodeFileBuilder FileWithNamespace(string fileName, string fileNamespace)
     {
       return new XmlSourceCodeFileBuilder(fileName, new List<string> { fileNamespace });
@@ -30,11 +31,22 @@ namespace TddXt.NScan.Specification.AutomationLayer
 
     public List<string> DeclaredNamespaces { get; }
     public string FileName { get; private set; }
+    public List<string> Usings { get; } = new List<string>();
+
+    public XmlSourceCodeFileBuilder Using(string usingDeclaration)
+    {
+      Usings.Add(usingDeclaration);
+      return this;
+    }
 
     public XmlSourceCodeFile BuildWith(string parentProjectAssemblyName, string parentProjectRootNamespace)
     {
-      return new XmlSourceCodeFile(FileName, DeclaredNamespaces, parentProjectRootNamespace, parentProjectAssemblyName, 
-        new List<string>(/* bug */));
+      return new XmlSourceCodeFile(
+        FileName, 
+        DeclaredNamespaces, 
+        parentProjectRootNamespace, 
+        parentProjectAssemblyName, 
+        Usings);
     }
 
   }

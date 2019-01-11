@@ -1,3 +1,4 @@
+using System.Linq;
 using TddXt.NScan.RuleInputData;
 
 namespace TddXt.NScan.Domain
@@ -16,9 +17,16 @@ namespace TddXt.NScan.Domain
       return $"{_ruleDto.ProjectAssemblyNamePattern.Description()} {_ruleDto.RuleName}";
     }
 
-    public void Evaluate(INamespacesDependenciesCache namespacesCache, IAnalysisReportInProgress report)
+    public void Evaluate(
+      string projectAssemblyName, 
+      INamespacesDependenciesCache namespacesCache,
+      IAnalysisReportInProgress report)
     {
-      //bug throw new NotImplementedException();
+      var cycles = namespacesCache.RetrieveCycles();
+      if (cycles.Any())
+      {
+        report.NamespacesBasedRuleViolation(Description(), projectAssemblyName, cycles);
+      }
     }
   }
 }
