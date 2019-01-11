@@ -1,3 +1,15 @@
 ﻿<ProjectConfiguration>
-  <Settings />
+  <Settings>
+    <IgnoredTests>
+      <FixtureTestSelector>
+        <FixtureName>TddXt.NScan.Specification.EndToEnd.NoCircularNamespaceDependenciesRuleFeatureSpecification</FixtureName>
+      </FixtureTestSelector>
+      <FixtureTestSelector>
+        <FixtureName>TddXt.NScan.Specification.EndToEnd.CorrectNamespacesRuleFeatureSpecification</FixtureName>
+      </FixtureTestSelector>
+      <FixtureTestSelector>
+        <FixtureName>TddXt.NScan.Specification.EndToEnd.IndependentOfProjectRuleFeatureSpecification</FixtureName>
+      </FixtureTestSelector>
+    </IgnoredTests>
+  </Settings>
 </ProjectConfiguration>

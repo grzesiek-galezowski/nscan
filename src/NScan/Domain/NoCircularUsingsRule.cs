@@ -1,26 +1,24 @@
-using System;
-using System.Collections.Generic;
 using TddXt.NScan.RuleInputData;
 
 namespace TddXt.NScan.Domain
 {
-  public class NoCircularUsingsRule : IProjectScopedRule, INamespacesBasedRule
+  public class NoCircularUsingsRule : INamespacesBasedRule
   {
-      private readonly NoCircularUsingsRuleComplementDto _ruleDto;
+    private readonly NoCircularUsingsRuleComplementDto _ruleDto;
 
-      public NoCircularUsingsRule(NoCircularUsingsRuleComplementDto ruleDto)
-      {
-          _ruleDto = ruleDto;
-      }
-
-    public void Check(IProjectScopedRuleTarget project, IAnalysisReportInProgress report)
+    public NoCircularUsingsRule(NoCircularUsingsRuleComplementDto ruleDto)
     {
-      throw new NotImplementedException();
+      _ruleDto = ruleDto;
     }
 
-    public void Check(IReadOnlyList<ISourceCodeFile> sourceCodeFiles, IAnalysisReportInProgress report)
+    public string Description()
     {
-      throw new NotImplementedException();
+      return $"{_ruleDto.ProjectAssemblyNamePattern.Description()} {_ruleDto.RuleName}";
+    }
+
+    public void Evaluate(INamespacesDependenciesCache namespacesCache, IAnalysisReportInProgress report)
+    {
+      //bug throw new NotImplementedException();
     }
   }
 }

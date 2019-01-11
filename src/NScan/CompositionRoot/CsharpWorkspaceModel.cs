@@ -57,7 +57,9 @@ namespace TddXt.NScan.CompositionRoot
         ProjectReferences(xmlProject).Select(MapToProjectId).ToArray(),
         PackageReferences(xmlProject),
         AssemblyReferences(xmlProject), 
-        SourceCodeFiles(xmlProject), _support);
+        SourceCodeFiles(xmlProject), 
+        new NamespacesDependenciesCache(), 
+        _support);
       return (new ProjectId(xmlProject.AbsolutePath), dotNetStandardProject);
     }
 

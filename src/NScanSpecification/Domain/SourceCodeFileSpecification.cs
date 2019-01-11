@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using NSubstitute;
 using TddXt.AnyRoot;
+using TddXt.AnyRoot.Collections;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Domain;
 using TddXt.NScan.Xml;
@@ -16,6 +17,7 @@ namespace TddXt.NScan.Specification.Domain
   {
     public class XmlSourceCodeFileBuilder
     {
+
       public XmlSourceCodeFile Build()
       {
         return new XmlSourceCodeFile(
@@ -23,9 +25,10 @@ namespace TddXt.NScan.Specification.Domain
           DeclaredNamespaces, 
           ParentProjectRootNamespace, 
           ParentProjectAssemblyName, 
-          new List<string>(/* bug */));
+          Usings);
       }
 
+      public List<string> Usings { get; set; } = Any.List<string>();
       public string ParentProjectAssemblyName { get; set; } = Any.Instance<string>();
       public string ParentProjectRootNamespace { get; set; } = Any.Instance<string>();
       public List<string> DeclaredNamespaces { get; set; } = Any.String().AsList();
@@ -122,25 +125,37 @@ namespace TddXt.NScan.Specification.Domain
     }
     
     [Fact]
-    public void ShouldReportOkWhenIsInNestedFolderAndItsOnlyNamespaceMatchesRootNamespaceSuffixedWithFolderPath()
+    public void ShouldAddMappingBetweenNamespaceAndUsingsToCacheWhenAsked()
     {
       //GIVEN
-      var folder = Any.String();
-      var subfolder = Any.String();
-      var fileName = Path.Combine(folder, subfolder, Any.String());
-      var xmlSourceCodeFile = new XmlSourceCodeFileBuilder();
-      xmlSourceCodeFile.FileName = fileName;
-      xmlSourceCodeFile.DeclaredNamespaces = $"{xmlSourceCodeFile.ParentProjectRootNamespace}.{folder}.{subfolder}".AsList();
-
+      var namespace1 = Any.String();
+      var namespace2 = Any.String();
+      var namespace3 = Any.String();
+      var using1 = Any.String();
+      var using2 = Any.String();
+      var using3 = Any.String();
+      var cache = Substitute.For<INamespacesDependenciesCache>();
+      var xmlSourceCodeFile = new XmlSourceCodeFileBuilder
+      {
+        DeclaredNamespaces = new List<string>() {namespace1, namespace2, namespace3},
+        Usings = new List<string>() { using1, using2, using3}
+      };
+      //TODO think about limiting this to a single namespace. Maybe throw an exception?
       var file = new SourceCodeFile(xmlSourceCodeFile.Build());
-      var report = Substitute.For<IAnalysisReportInProgress>();
-
 
       //WHEN
-      file.EvaluateNamespacesCorrectness(report, Any.String());
+      file.AddNamespaceMappingTo(cache);
 
       //THEN
-      report.ReceivedNothing();
+      cache.Received(1).AddMapping(namespace1, using1);
+      cache.Received(1).AddMapping(namespace1, using2);
+      cache.Received(1).AddMapping(namespace1, using3);
+      cache.Received(1).AddMapping(namespace2, using1);
+      cache.Received(1).AddMapping(namespace2, using2);
+      cache.Received(1).AddMapping(namespace2, using3);
+      cache.Received(1).AddMapping(namespace3, using1);
+      cache.Received(1).AddMapping(namespace3, using2);
+      cache.Received(1).AddMapping(namespace3, using3);
     }
 
   }

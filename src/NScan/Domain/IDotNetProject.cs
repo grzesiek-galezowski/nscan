@@ -6,6 +6,7 @@ namespace TddXt.NScan.Domain
 
   public interface IDotNetProject : IReferencedProject, IReferencingProject, IProjectScopedRuleTarget
   {
-
+    void RefreshNamespacesCache(); //bug another interface perhaps?
+    void Evaluate(INamespacesBasedRule rule, IAnalysisReportInProgress report);  //bug another interface perhaps?
   }
 }

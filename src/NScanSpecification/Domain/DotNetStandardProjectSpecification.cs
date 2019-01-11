@@ -236,6 +236,56 @@ namespace TddXt.NScan.Specification.Domain
       hasProject.Should().BeFalse();
     }
 
+    [Fact]
+    public void ShouldAddAllFilesInfoToNamespacesCacheWhenAskedToRefreshIt()
+    {
+      //GIVEN
+      var file1 = Substitute.For<ISourceCodeFile>();
+      var file2 = Substitute.For<ISourceCodeFile>();
+      var file3 = Substitute.For<ISourceCodeFile>();
+      var files = new List<ISourceCodeFile>()
+      {
+        file1, file2, file3
+      };
+      var namespacesCache = Any.Instance<INamespacesDependenciesCache>();
+      var project = new DotNetStandardProjectBuilder
+      {
+        NamespacesDependenciesCache = namespacesCache,
+        Files = files
+      }.Build();
+
+      //WHEN
+      project.RefreshNamespacesCache();
+
+      //THEN
+      Received.InOrder(() =>
+      {
+        file1.AddNamespaceMappingTo(namespacesCache);
+        file2.AddNamespaceMappingTo(namespacesCache);
+        file3.AddNamespaceMappingTo(namespacesCache);
+        namespacesCache.Build();
+      });
+    }
+
+    [Fact]
+    public void ShouldEvaluateRuleWithItsNamespaceDependenciesMapping()
+    {
+      //GIVEN
+      var namespacesCache = Any.Instance<INamespacesDependenciesCache>();
+      var rule = Substitute.For<INamespacesBasedRule>();
+      var report = Any.Instance<IAnalysisReportInProgress>();
+      var project = new DotNetStandardProjectBuilder
+      {
+        NamespacesDependenciesCache = namespacesCache,
+      }.Build();
+
+      //WHEN
+      project.Evaluate(rule, report);
+
+      //THEN
+      rule.Received(1).Evaluate(namespacesCache, report);
+    }
+
 
     [Fact]
     public void ShouldReturnAssemblyNameWhenAskedForStringRepresentation()
@@ -354,6 +404,7 @@ namespace TddXt.NScan.Specification.Domain
           PackageReferences, 
           AssemblyReferences,
           Files,
+          NamespacesDependenciesCache,
           Support);
       }
 
@@ -366,6 +417,7 @@ namespace TddXt.NScan.Specification.Domain
       public INScanSupport Support { private get; set; } = Any.Support();
       public string RootNamespace { get; set; } = Any.String(); //bug value object
       public IReadOnlyList<ISourceCodeFile> Files { get; set; } = Any.ReadOnlyList<ISourceCodeFile>();
+      public INamespacesDependenciesCache NamespacesDependenciesCache { get; set; } = Any.Instance<INamespacesDependenciesCache>();
     }
   }
 }

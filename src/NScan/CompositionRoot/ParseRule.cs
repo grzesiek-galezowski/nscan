@@ -10,30 +10,41 @@ namespace TddXt.NScan.CompositionRoot
   public static class ParseRule
   {
     private static readonly Parser<IEnumerable<char>> Spaces = WhiteSpace.AtLeastOnce();
+    private static readonly Parser<IEnumerable<char>> OptionalSpacesUntilEol = WhiteSpace.Until(LineTerminator);
     private static readonly Parser<string> TextUntilWhitespace = AnyChar.Until(Spaces).Text();
     private static readonly Parser<IEnumerable<char>> ExceptKeyword = String("except");
-    private static readonly Parser<string> TextUntilEol = AnyChar.Until(LineEnd).Text().Token();
+    private static readonly Parser<string> TextUntilEol = AnyChar.Until(LineTerminator).Text().Token();
     private static readonly Parser<IEnumerable<char>> IndependentOfKeyword = String(RuleNames.IndependentOf);
 
     public static Parser<RuleUnionDto> FromLine()
     {
       return from depending in TextUntilWhitespace
         from optionalException in ExceptKeyword.Token().Then(_ => TextUntilWhitespace).Optional()
-        from either in Complement(DependingPattern(depending, optionalException))
-        select either;
+        from ruleUnion in Complement(DependingPattern(depending, optionalException))
+        select ruleUnion;
     }
 
     private static Parser<RuleUnionDto> Complement(
       Pattern dependingPattern)
     {
       return IndependentOfRuleComplement(dependingPattern)
-        .Or(HasCorrectNamespacesRuleComplement(dependingPattern));
+        .Or(HasCorrectNamespacesRuleComplement(dependingPattern))
+        .Or(HasNoCircularUsingsRuleComplement(dependingPattern));
+    }
+
+    private static Parser<RuleUnionDto> HasNoCircularUsingsRuleComplement(Pattern dependingPattern)
+    {
+      return String(RuleNames.HasNoCircularUsings).Then(_ => OptionalSpacesUntilEol).Return(
+        RuleUnionDto.With(new NoCircularUsingsRuleComplementDto
+        {
+          ProjectAssemblyNamePattern = dependingPattern,
+        }));
     }
 
     private static Parser<RuleUnionDto>
       HasCorrectNamespacesRuleComplement(Pattern dependingPattern)
     {
-      return String(RuleNames.HasCorrectNamespaces).Return(
+      return String(RuleNames.HasCorrectNamespaces).Then(_ => OptionalSpacesUntilEol).Return(
         RuleUnionDto.With(new CorrectNamespacesRuleComplementDto()
         {
           ProjectAssemblyNamePattern = dependingPattern,

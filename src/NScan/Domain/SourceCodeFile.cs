@@ -34,6 +34,17 @@ namespace TddXt.NScan.Domain
       }
     }
 
+    public void AddNamespaceMappingTo(INamespacesDependenciesCache namespacesDependenciesCache)
+    {
+      foreach (var declaredNamespace in _xmlSourceCodeFile.DeclaredNamespaces)
+      {
+        foreach (var @using in _xmlSourceCodeFile.Usings)
+        {
+          namespacesDependenciesCache.AddMapping(declaredNamespace, @using);
+        }
+      }
+    }
+
     private string NamespacesString()
     {
       return string.Join(", ", _xmlSourceCodeFile.DeclaredNamespaces);

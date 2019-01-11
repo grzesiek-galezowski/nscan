@@ -9,8 +9,9 @@ namespace TddXt.NScan.Domain
     private readonly Dictionary<ProjectId, IDotNetProject> _projectsById;
     private readonly IPathCache _pathCache;
 
-    public DotNetStandardSolution(Dictionary<ProjectId, IDotNetProject> projectsById,
-      IPathCache pathCache, INamespacesCache namespacesCache)
+    public DotNetStandardSolution(
+      Dictionary<ProjectId, IDotNetProject> projectsById,
+      IPathCache pathCache)
     {
       _projectsById = projectsById;
       _pathCache = pathCache;
@@ -43,14 +44,18 @@ namespace TddXt.NScan.Domain
       ruleSet.Check(_projectsById.Values.ToList(), analysisReportInProgress);
     }
 
-    public void Check(INamespacesBasedRuleSet namespacesBasedRuleSet, IAnalysisReportInProgress analysisReportInProgress)
+    public void Check(INamespacesBasedRuleSet ruleSet, IAnalysisReportInProgress analysisReportInProgress)
     {
-      //bug throw new System.NotImplementedException();
+      ruleSet.Check(Projects(), analysisReportInProgress);
     }
 
     public void BuildCache()
     {
       _pathCache.BuildStartingFrom(RootProjects());
+      foreach (var dotNetProject in Projects())
+      {
+        dotNetProject.RefreshNamespacesCache();
+      }
     }
 
     public void ResolveReferenceFrom(IReferencingProject referencingProject, ProjectId referencedProjectId)
@@ -77,7 +82,12 @@ namespace TddXt.NScan.Domain
 
     private IDotNetProject[] RootProjects()
     {
-      return _projectsById.Values.Where(project => project.IsRoot()).ToArray();
+      return Projects().Where(project => project.IsRoot()).ToArray();
+    }
+
+    private IReadOnlyList<IDotNetProject> Projects()
+    {
+      return _projectsById.Values.ToList();
     }
   }
 }

@@ -20,17 +20,18 @@ namespace TddXt.NScan.Domain
     private readonly IReadOnlyList<PackageReference> _packageReferences;
     private readonly IReadOnlyList<AssemblyReference> _assemblyReferences;
     private readonly IReadOnlyList<ISourceCodeFile> _files;
+    private readonly INamespacesDependenciesCache _namespacesDependenciesCache;
     private readonly INScanSupport _support;
     private readonly ProjectId _id;
 
-    public DotNetStandardProject(
-      string rootNamespace, 
+    public DotNetStandardProject(string rootNamespace,
       string assemblyName,
       ProjectId id,
       ProjectId[] referencedProjectsIds,
       IReadOnlyList<PackageReference> packageReferences,
       IReadOnlyList<AssemblyReference> assemblyReferences,
       IReadOnlyList<ISourceCodeFile> files,
+      INamespacesDependenciesCache namespacesDependenciesCache,
       INScanSupport support)
     {
       _rootNamespace = rootNamespace;
@@ -40,6 +41,7 @@ namespace TddXt.NScan.Domain
       _packageReferences = packageReferences;
       _assemblyReferences = assemblyReferences;
       _files = files;
+      _namespacesDependenciesCache = namespacesDependenciesCache;
       _support = support;
     }
 
@@ -119,6 +121,21 @@ namespace TddXt.NScan.Domain
 
     public bool HasProjectAssemblyNameMatching(Pattern pattern) => 
       pattern.IsMatch(_assemblyName);
+
+    public void RefreshNamespacesCache()
+    {
+      foreach (var sourceCodeFile in _files)
+      {
+        //TODO if this is where a cache is finalized, it may not be a good encapsulation idea to pass it from outside...
+        sourceCodeFile.AddNamespaceMappingTo(_namespacesDependenciesCache);
+        _namespacesDependenciesCache.Build();
+      }
+    }
+
+    public void Evaluate(INamespacesBasedRule rule, IAnalysisReportInProgress report)
+    {
+      rule.Evaluate(_namespacesDependenciesCache, report);
+    }
 
     //bug UT
     public bool HasProjectAssemblyNameMatching(Glob glob) => 

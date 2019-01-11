@@ -30,8 +30,7 @@ namespace TddXt.NScan.Domain
 
       return new Analysis(new DotNetStandardSolution(projects,
           new PathCache(
-            new DependencyPathFactory()),
-          new NamespacesCache()),
+            new DependencyPathFactory())),
         new PathRuleSet(), 
         new ProjectScopedRuleSet(), 
         new NamespacesBasedRuleSet(),

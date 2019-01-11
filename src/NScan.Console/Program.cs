@@ -1,4 +1,5 @@
-﻿using Fclp;
+﻿using System;
+using Fclp;
 using TddXt.NScan.App;
 using TddXt.NScan.CompositionRoot;
 using TddXt.NScan.Domain;
@@ -9,6 +10,7 @@ namespace TddXt.NScan.Console
   {
     public static int Main(string[] args)
     {
+      //backlog investigate runnint end-to-end tests like AppDomain.CurrentDomain.ExecuteAssembly() - maybe code coverage will be calculated and debugging enabled?
       var cliOptions = new InputArgumentsDto();
       var parser = CreateCliParser(cliOptions);
       var commandLineParserResult = parser.Parse(args);

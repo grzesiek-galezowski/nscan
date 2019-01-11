@@ -40,10 +40,10 @@ var cakeNScanReleaseNotes = nscanConsoleReleaseNotes;
 //////////////////////////////////////////////////////////////////////
 
 var buildalyzer       = new[] { "Buildalyzer"                        , "2.1.0"      };
-var glob              = new[] { "Glob"                               , "1.0.4"      };
+var glob              = new[] { "Glob"                               , "1.1.1"      };
 var sprache           = new[] { "Sprache"                            , "2.2.0"      };
 var fluentCommandline = new[] { "FluentCommandLineParser-netstandard", "1.4.3.13"   };
-var cakeCore          = new[] { "Cake.Core"                          , "0.30.0"     };
+var cakeCore          = new[] { "Cake.Core"                          , "0.32.1"     };
 var nscanDependency   = new[] { nscanTitle                           , nscanVersion };
 var roslyn            = new[] { "Microsoft.CodeAnalysis.CSharp"      , "2.10.0"};
 

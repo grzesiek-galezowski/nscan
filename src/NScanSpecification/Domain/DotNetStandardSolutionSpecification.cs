@@ -27,7 +27,7 @@ namespace TddXt.NScan.Specification.Domain
         { Any.ProjectId(), project2 },
         { Any.ProjectId(), project3 },
       };
-      var dotNetStandardSolution = new DotNetStandardSolution(projectsById, Any.Instance<IPathCache>(), Any.Instance<INamespacesCache>());
+      var dotNetStandardSolution = new DotNetStandardSolution(projectsById, Any.Instance<IPathCache>());
       
 
       //WHEN
@@ -54,7 +54,7 @@ namespace TddXt.NScan.Specification.Domain
         { Any.ProjectId(), project1 },
         { project2Id, project2 },
       };
-      var dotNetStandardSolution = new DotNetStandardSolution(projectsById, Any.Instance<IPathCache>(), Any.Instance<INamespacesCache>());
+      var dotNetStandardSolution = new DotNetStandardSolution(projectsById, Any.Instance<IPathCache>());
       
 
       //WHEN
@@ -79,7 +79,7 @@ namespace TddXt.NScan.Specification.Domain
         { Any.ProjectId(), root2}
       };
       var pathCache = Substitute.For<IPathCache>();
-      var solution = new DotNetStandardSolution(projectsById, pathCache, Any.Instance<INamespacesCache>());
+      var solution = new DotNetStandardSolution(projectsById, pathCache);
 
       root1.IsRoot().Returns(true);
       root2.IsRoot().Returns(true);
@@ -96,15 +96,25 @@ namespace TddXt.NScan.Specification.Domain
     public void ShouldBuildNamespacesCacheWhenAskedToBuildCache()
     {
       //GIVEN
-      var projectsById = Any.Dictionary<ProjectId, IDotNetProject>();
-      var namespacesCache = Substitute.For<INamespacesCache>();
-      var solution = new DotNetStandardSolution(projectsById, Any.Instance<IPathCache>(), namespacesCache);
+      var namespacesCache = Substitute.For<INamespacesDependenciesCache>();
+      var project1 = Substitute.For<IDotNetProject>();
+      var project2 = Substitute.For<IDotNetProject>();
+      var project3 = Substitute.For<IDotNetProject>();
+      var projectsById = new Dictionary<ProjectId, IDotNetProject>()
+      {
+        {Any.ProjectId(), project1},
+        {Any.ProjectId(), project2},
+        {Any.ProjectId(), project3},
+      };
+      var solution = new DotNetStandardSolution(projectsById, Any.Instance<IPathCache>());
 
       //WHEN
       solution.BuildCache();
 
       //THEN
-      namespacesCache.Received(1).BuildForEachOf(projectsById.Values);
+      project1.Received(1).RefreshNamespacesCache();
+      project2.Received(1).RefreshNamespacesCache();
+      project3.Received(1).RefreshNamespacesCache();
     }
 
     [Fact]
@@ -117,7 +127,7 @@ namespace TddXt.NScan.Specification.Domain
       {
         { project1Id, project1 },
       };
-      var dotNetStandardSolution = new DotNetStandardSolution(projectsById, Any.Instance<IPathCache>(), Any.Instance<INamespacesCache>());
+      var dotNetStandardSolution = new DotNetStandardSolution(projectsById, Any.Instance<IPathCache>());
 
 
       //WHEN - THEN
@@ -132,7 +142,7 @@ namespace TddXt.NScan.Specification.Domain
       //GIVEN
       var projectsById = Any.Dictionary<ProjectId, IDotNetProject>();
       var pathCache = Any.Instance<IPathCache>();
-      var solution = new DotNetStandardSolution(projectsById, pathCache, Any.Instance<INamespacesCache>());
+      var solution = new DotNetStandardSolution(projectsById, pathCache);
       var ruleSet = Substitute.For<IPathRuleSet>();
       var report = Any.Instance<IAnalysisReportInProgress>();
       
@@ -156,8 +166,35 @@ namespace TddXt.NScan.Specification.Domain
         {Any.ProjectId(), project2},
         {Any.ProjectId(), project3},
       };
-      var solution = new DotNetStandardSolution(projectsById, Any.Instance<IPathCache>(), Any.Instance<INamespacesCache>());
+      var solution = new DotNetStandardSolution(projectsById, Any.Instance<IPathCache>());
       var ruleSet = Substitute.For<IProjectScopedRuleSet>();
+      var report = Any.Instance<IAnalysisReportInProgress>();
+      
+      //WHEN
+      solution.Check(ruleSet, report);
+
+      //THEN
+      ruleSet.Received(1).Check(ListContaining(project1, project2, project3), report);
+    }
+
+    [Fact]
+    public void ShouldOrderTheNamespacesBasedRuleSetToCheckTheProjectsForVerification()
+    {
+      //GIVEN
+      var project1 = Any.Instance<IDotNetProject>();
+      var project2 = Any.Instance<IDotNetProject>();
+      var project3 = Any.Instance<IDotNetProject>();
+      var projectsById = new Dictionary<ProjectId, IDotNetProject>()
+      {
+        {Any.ProjectId(), project1},
+        {Any.ProjectId(), project2},
+        {Any.ProjectId(), project3},
+      };
+      var namespacesCache = Substitute.For<INamespacesDependenciesCache>();
+      var solution = new DotNetStandardSolution(
+        projectsById, 
+        Any.Instance<IPathCache>());
+      var ruleSet = Substitute.For<INamespacesBasedRuleSet>();
       var report = Any.Instance<IAnalysisReportInProgress>();
       
       //WHEN

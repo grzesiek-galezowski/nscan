@@ -1,4 +1,6 @@
-﻿using FluentAssertions;
+﻿using System;
+using System.Linq;
+using FluentAssertions;
 using Sprache;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.CompositionRoot;
@@ -88,6 +90,47 @@ namespace TddXt.NScan.Specification.CompositionRoot
       ruleUnionDto.CorrectNamespacesRule.ProjectAssemblyNamePattern.Should()
         .Be(Pattern.WithoutExclusion(depending));
       ruleUnionDto.RuleName.Should().Be(RuleNames.HasCorrectNamespaces);
+    }
+
+    [Fact]
+    public void ShouldParseNoCircularUsingsRuleDefinition()
+    {
+      //GIVEN
+      var depending = Any.String();
+
+      //WHEN
+      var ruleUnionDto = ParseRule.FromLine().Parse($"{depending} {RuleNames.HasNoCircularUsings}");
+
+      //THEN
+      ruleUnionDto.IndependentRule.Should().BeNull(); //bug maybe!
+      ruleUnionDto.NoCircularUsingsRule.Should().NotBeNull();
+      ruleUnionDto.NoCircularUsingsRule.RuleName.Should().Be(RuleNames.HasNoCircularUsings);
+      ruleUnionDto.RuleName.Should().Be(RuleNames.HasNoCircularUsings);
+      ruleUnionDto.NoCircularUsingsRule.ProjectAssemblyNamePattern.Should()
+        .Be(Pattern.WithoutExclusion(depending));
+    }
+
+    [Fact]
+    public void ShouldParseNoCircularUsingsRuleDefinitionMultipleTimes()
+    {
+      //GIVEN
+      var depending = Any.String();
+
+      //WHEN
+      var ruleUnionDtos = ParseRule.FromLine().Many().Parse(
+        $"{depending} {RuleNames.HasNoCircularUsings}{NewLine}" + 
+        $"{depending} {RuleNames.HasNoCircularUsings}{NewLine}"
+        );
+
+      //THEN
+      ruleUnionDtos.Count().Should().Be(2);
+      var ruleUnionDto = ruleUnionDtos.First();
+      ruleUnionDto.IndependentRule.Should().BeNull(); //bug maybe!
+      ruleUnionDto.NoCircularUsingsRule.Should().NotBeNull();
+      ruleUnionDto.NoCircularUsingsRule.RuleName.Should().Be(RuleNames.HasNoCircularUsings);
+      ruleUnionDto.RuleName.Should().Be(RuleNames.HasNoCircularUsings);
+      ruleUnionDto.NoCircularUsingsRule.ProjectAssemblyNamePattern.Should()
+        .Be(Pattern.WithoutExclusion(depending));
     }
   }
 }
