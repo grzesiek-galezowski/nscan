@@ -1,6 +1,6 @@
 #tool "nuget:?package=ILRepack&version=2.0.16"
-#addin nuget:?package=Cake.SemVer
-#addin nuget:?package=semver&version=2.0.4
+#addin nuget:?package=Cake.SemVer&loaddependencies=true
+#addin nuget:?package=semver&version=2.0.4&loaddependencies=true
 #tool "nuget:?package=GitVersion.CommandLine"
 #addin nuget:?package=Cake.NScan&loaddependencies=true
 
@@ -23,15 +23,15 @@ var solutionName = "NScan.sln";
 var mainDll = "TddXt.NScan.dll";
 
 var nscanConsoleTitle = "NScan.Console";
-var nscanConsoleVersion = "0.7.0";
-var nscanConsoleReleaseNotes = "Added hasCorrectNamespaces rule for checking namespaces";
+var nscanConsoleVersion = "0.8.0";
+var nscanConsoleReleaseNotes = "Added hasNoCircularUsings for checking if there is a cycle between namespaces in a project";
 
 var nscanTitle = "NScan";
-var nscanVersion = "0.7.0";
+var nscanVersion = "0.8.0";
 var nscanReleaseNotes = nscanConsoleReleaseNotes;
 
 var cakeNscanTitle = "Cake.NScan";
-var cakeNscanVersion = "0.7.0";
+var cakeNscanVersion = "0.8.0";
 var cakeNScanReleaseNotes = nscanConsoleReleaseNotes;
 
 
@@ -39,7 +39,7 @@ var cakeNScanReleaseNotes = nscanConsoleReleaseNotes;
 // DEPENDENCIES
 //////////////////////////////////////////////////////////////////////
 
-var buildalyzer       = new[] { "Buildalyzer"                        , "2.1.0"      };
+var buildalyzer       = new[] { "Buildalyzer"                        , "2.2.0"      };
 var glob              = new[] { "Glob"                               , "1.1.1"      };
 var sprache           = new[] { "Sprache"                            , "2.2.0"      };
 var fluentCommandline = new[] { "FluentCommandLineParser-netstandard", "1.4.3.13"   };
@@ -245,6 +245,7 @@ Task("PackNScanConsole")
             ReleaseNotes = new[] {releaseNotes},
             ProjectUrl = new Uri("https://github.com/grzesiek-galezowski/nscan"),
             IconUrl = new Uri("https://github.com/grzesiek-galezowski/nscan/raw/master/NScan.png"),
+            LicenseUrl = new Uri("https://github.com/grzesiek-galezowski/nscan/blob/master/LICENSE"),
             OutputDirectory = "./nuget",
             Version = version,
             Files = files,
