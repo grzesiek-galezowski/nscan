@@ -1,6 +1,5 @@
 #tool "nuget:?package=ILRepack&version=2.0.16"
 #addin nuget:?package=Cake.SemVer&loaddependencies=true
-#addin nuget:?package=semver&version=2.0.4&loaddependencies=true
 #tool "nuget:?package=GitVersion.CommandLine"
 #addin nuget:?package=Cake.NScan&loaddependencies=true
 
