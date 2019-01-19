@@ -24,7 +24,8 @@ namespace TddXt.NScan.Domain
 
     public static Analysis PrepareFor(IReadOnlyList<XmlProject> xmlProjects, INScanSupport support)
     {
-      var csharpWorkspaceModel = new CsharpWorkspaceModel(support, xmlProjects);
+      var plainReportFragmentsFormat = new PlainReportFragmentsFormat();
+      var csharpWorkspaceModel = new CsharpWorkspaceModel(support, xmlProjects, new RuleViolationFactory(plainReportFragmentsFormat));
       var projects = csharpWorkspaceModel.LoadProjects();
 
       return new Analysis(new DotNetStandardSolution(projects,
@@ -33,7 +34,7 @@ namespace TddXt.NScan.Domain
         new PathRuleSet(), 
         new ProjectScopedRuleSet(), 
         new NamespacesBasedRuleSet(),
-        new AnalysisReportInProgress(new PlainReportFragmentsFormat()),
+        new AnalysisReportInProgress(),
         new RuleFactory());
     }
 

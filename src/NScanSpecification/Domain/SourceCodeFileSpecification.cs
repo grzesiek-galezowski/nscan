@@ -42,22 +42,25 @@ namespace TddXt.NScan.Specification.Domain
       //GIVEN
       var xmlSourceCodeFile = new XmlSourceCodeFileBuilder();
       xmlSourceCodeFile.DeclaredNamespaces = Any.OtherThan(xmlSourceCodeFile.ParentProjectRootNamespace).AsList();
-      var file = new SourceCodeFile(xmlSourceCodeFile.Build());
+      var ruleViolationFactory = Substitute.For<IRuleViolationFactory>();
+      var file = new SourceCodeFile(xmlSourceCodeFile.Build(), ruleViolationFactory);
       var report = Substitute.For<IAnalysisReportInProgress>();
       var ruleDescription = Any.String();
+      var violation = Any.Instance<RuleViolation>();
+
+      ruleViolationFactory.ProjectScopedRuleViolation(
+        ruleDescription, 
+        xmlSourceCodeFile.ParentProjectAssemblyName + " has root namespace " +
+        xmlSourceCodeFile.ParentProjectRootNamespace + " but the file " +
+        xmlSourceCodeFile.FileName + " has incorrect namespace " +
+        xmlSourceCodeFile.DeclaredNamespaces.Single()).Returns(violation);
 
 
       //WHEN
       file.EvaluateNamespacesCorrectness(report, ruleDescription);
 
       //THEN
-      XReceived.Only(() => report.ProjectScopedViolation(
-        ruleDescription,
-        xmlSourceCodeFile.ParentProjectAssemblyName + " has root namespace " + 
-        xmlSourceCodeFile.ParentProjectRootNamespace + " but the file "
-        + xmlSourceCodeFile.FileName + " has incorrect namespace "
-        + xmlSourceCodeFile.DeclaredNamespaces.Single()
-        ));
+      XReceived.Only(() => report.Add(violation));
     }
     
     [Fact]
@@ -66,21 +69,22 @@ namespace TddXt.NScan.Specification.Domain
       //GIVEN
       var xmlSourceCodeFile = new XmlSourceCodeFileBuilder();
       xmlSourceCodeFile.DeclaredNamespaces = new List<string>();
-      var file = new SourceCodeFile(xmlSourceCodeFile.Build());
+      var ruleViolationFactory = Substitute.For<IRuleViolationFactory>();
+      var file = new SourceCodeFile(xmlSourceCodeFile.Build(), ruleViolationFactory);
       var report = Substitute.For<IAnalysisReportInProgress>();
       var ruleDescription = Any.String();
+      var violation = Any.Instance<RuleViolation>();
 
+      ruleViolationFactory.ProjectScopedRuleViolation(ruleDescription,
+        xmlSourceCodeFile.ParentProjectAssemblyName + " has root namespace " +
+        xmlSourceCodeFile.ParentProjectRootNamespace + " but the file " +
+        xmlSourceCodeFile.FileName + " has no namespace declared").Returns(violation);
 
       //WHEN
       file.EvaluateNamespacesCorrectness(report, ruleDescription);
 
       //THEN
-      XReceived.Only(() => report.ProjectScopedViolation(
-        ruleDescription,
-        xmlSourceCodeFile.ParentProjectAssemblyName + " has root namespace " + 
-        xmlSourceCodeFile.ParentProjectRootNamespace + " but the file "
-        + xmlSourceCodeFile.FileName + " has no namespace declared"
-        ));
+      XReceived.Only(() => report.Add(violation));
     }    
     
     [Fact]
@@ -91,22 +95,23 @@ namespace TddXt.NScan.Specification.Domain
       var namespace1 = Any.String();
       var namespace2 = Any.String();
       xmlSourceCodeFile.DeclaredNamespaces = new List<string> {namespace1, namespace2};
-      var file = new SourceCodeFile(xmlSourceCodeFile.Build());
+      var ruleViolationFactory = Substitute.For<IRuleViolationFactory>();
+      var file = new SourceCodeFile(xmlSourceCodeFile.Build(), ruleViolationFactory);
       var report = Substitute.For<IAnalysisReportInProgress>();
       var ruleDescription = Any.String();
+      var violation = Any.Instance<RuleViolation>();
 
+      ruleViolationFactory.ProjectScopedRuleViolation(ruleDescription,
+        $"{xmlSourceCodeFile.ParentProjectAssemblyName} " +
+        $"has root namespace {xmlSourceCodeFile.ParentProjectRootNamespace} " +
+        $"but the file {xmlSourceCodeFile.FileName} " +
+        $"declares multiple namespaces: {namespace1}, {namespace2}").Returns(violation);
 
       //WHEN
       file.EvaluateNamespacesCorrectness(report, ruleDescription);
 
       //THEN
-      XReceived.Only(() => report.ProjectScopedViolation(
-        ruleDescription,
-        $"{xmlSourceCodeFile.ParentProjectAssemblyName} " +
-        $"has root namespace {xmlSourceCodeFile.ParentProjectRootNamespace} " +
-        $"but the file {xmlSourceCodeFile.FileName} " +
-        $"declares multiple namespaces: {namespace1}, {namespace2}"
-      ));
+      XReceived.Only(() => report.Add(violation));
     }
 
     [Fact]
@@ -115,7 +120,7 @@ namespace TddXt.NScan.Specification.Domain
       //GIVEN
       var xmlSourceCodeFile = new XmlSourceCodeFileBuilder();
       xmlSourceCodeFile.DeclaredNamespaces = xmlSourceCodeFile.ParentProjectRootNamespace.AsList();
-      var file = new SourceCodeFile(xmlSourceCodeFile.Build());
+      var file = new SourceCodeFile(xmlSourceCodeFile.Build(), Any.Instance<IRuleViolationFactory>());
       var report = Substitute.For<IAnalysisReportInProgress>();
 
       //WHEN
@@ -142,7 +147,7 @@ namespace TddXt.NScan.Specification.Domain
         Usings = new List<string>() { using1, using2, using3}
       };
       //TODO think about limiting this to a single namespace. Maybe throw an exception?
-      var file = new SourceCodeFile(xmlSourceCodeFile.Build());
+      var file = new SourceCodeFile(xmlSourceCodeFile.Build(), Any.Instance<IRuleViolationFactory>());
 
       //WHEN
       file.AddNamespaceMappingTo(cache);

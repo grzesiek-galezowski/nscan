@@ -5,6 +5,11 @@ namespace TddXt.NScan.Domain
 {
   public class RuleFactory : IRuleFactory
   {
+    private static IRuleViolationFactory RuleViolationFactory()
+    {
+      return new RuleViolationFactory(new PlainReportFragmentsFormat());
+    }
+
     public const string ProjectDependencyType = "project";
     public const string PackageDependencyType = "package";
     public const string AssemblyDependencyType = "assembly";
@@ -50,7 +55,7 @@ namespace TddXt.NScan.Domain
 
     public INamespacesBasedRule CreateNamespacesBasedRuleFrom(NoCircularUsingsRuleComplementDto ruleDto)
     {
-      return new NoCircularUsingsRule(ruleDto);
+      return new NoCircularUsingsRule(ruleDto, RuleViolationFactory());
     }
 
     private IDependencyRule CreateIndependentOfProjectRule(Pattern dependingNamePattern,
@@ -62,7 +67,8 @@ namespace TddXt.NScan.Domain
           new HasAssemblyNameMatchingPatternCondition(
             dependencyNamePattern), DependencyDescriptions.Description(dependingNamePattern, 
             dependencyType, dependencyNamePattern)), 
-        dependingNamePattern);
+        dependingNamePattern,
+        RuleViolationFactory());
     }
 
     private static IDependencyRule CreateIndependentOfPackageRule(
@@ -73,7 +79,7 @@ namespace TddXt.NScan.Domain
       return new IndependentRule(
         new DescribedCondition(
           new HasPackageReferenceMatchingCondition(packageNamePattern), DependencyDescriptions.Description(dependingAssemblyNamePattern, dependencyType, packageNamePattern)), 
-        dependingAssemblyNamePattern);
+        dependingAssemblyNamePattern, RuleViolationFactory());
     }
 
     private static IDependencyRule CreateIndependentOfAssemblyRule(
@@ -82,7 +88,7 @@ namespace TddXt.NScan.Domain
       string dependencyType)
     {
       return new IndependentRule(new DescribedCondition(new HasAssemblyReferenceMatchingCondition(assemblyNamePattern), DependencyDescriptions.Description(dependingAssemblyNamePattern, dependencyType, assemblyNamePattern)), 
-        dependingAssemblyNamePattern);
+        dependingAssemblyNamePattern, RuleViolationFactory());
     }
   }
 }

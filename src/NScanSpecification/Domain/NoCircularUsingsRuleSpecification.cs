@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
 using NSubstitute;
+using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Domain;
-using TddXt.NScan.ReadingRules;
 using TddXt.NScan.ReadingRules.Ports;
 using TddXt.XNSubstitute.Root;
 using Xunit;
@@ -19,7 +19,7 @@ namespace TddXt.NScan.Specification.Domain
     {
       //GIVEN
       var dto = Any.Instance<NoCircularUsingsRuleComplementDto>();
-      var rule = new NoCircularUsingsRule(dto);
+      var rule = new NoCircularUsingsRule(dto, Any.Instance<IRuleViolationFactory>());
 
       //WHEN
       var description = rule.Description();
@@ -32,26 +32,29 @@ namespace TddXt.NScan.Specification.Domain
     public void ShouldReportErrorWhenNamespacesCacheContainsAnyCycles()
     {
       //GIVEN
-      var rule = new NoCircularUsingsRule(Any.Instance<NoCircularUsingsRuleComplementDto>());
+      var ruleViolationFactory = Substitute.For<IRuleViolationFactory>();
+      var rule = new NoCircularUsingsRule(Any.Instance<NoCircularUsingsRuleComplementDto>(), ruleViolationFactory);
       var cache = Substitute.For<INamespacesDependenciesCache>();
       var report = Substitute.For<IAnalysisReportInProgress>();
       var cycles = Any.ReadOnlyList<IReadOnlyList<string>>();
+      var violation = Any.Instance<RuleViolation>();
       var projectAssemblyName = Any.String();
 
       cache.RetrieveCycles().Returns(cycles);
+      ruleViolationFactory.NoCyclesRuleViolation(rule.Description(), projectAssemblyName, cycles).Returns(violation);
 
       //WHEN
       rule.Evaluate(projectAssemblyName, cache, report);
 
       //THEN
-      report.Received(1).NamespacesBasedRuleViolation(rule.Description(), projectAssemblyName, cycles);
+      report.Received(1).Add(violation);
     }
 
     [Fact]
     public void ShouldNotReportErrorWhenNamespacesCacheContainsNoCycles()
     {
       //GIVEN
-      var rule = new NoCircularUsingsRule(Any.Instance<NoCircularUsingsRuleComplementDto>());
+      var rule = new NoCircularUsingsRule(Any.Instance<NoCircularUsingsRuleComplementDto>(), (IRuleViolationFactory)null);
       var cache = Substitute.For<INamespacesDependenciesCache>();
       var report = Substitute.For<IAnalysisReportInProgress>();
 

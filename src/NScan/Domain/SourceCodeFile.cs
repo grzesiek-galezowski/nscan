@@ -1,6 +1,5 @@
 using System.IO;
 using System.Linq;
-using TddXt.NScan.ReadingSolution;
 using TddXt.NScan.ReadingSolution.Ports;
 
 namespace TddXt.NScan.Domain
@@ -8,29 +7,31 @@ namespace TddXt.NScan.Domain
   public class SourceCodeFile : ISourceCodeFile
   {
     private readonly XmlSourceCodeFile _xmlSourceCodeFile;
+    private readonly IRuleViolationFactory _ruleViolationFactory;
 
-    public SourceCodeFile(XmlSourceCodeFile xmlSourceCodeFile)
+    public SourceCodeFile(XmlSourceCodeFile xmlSourceCodeFile, IRuleViolationFactory ruleViolationFactory)
     {
       _xmlSourceCodeFile = xmlSourceCodeFile;
+      _ruleViolationFactory = ruleViolationFactory;
     }
 
     public void EvaluateNamespacesCorrectness(IAnalysisReportInProgress report, string ruleDescription)
     {
       if (_xmlSourceCodeFile.DeclaredNamespaces.Count == 0)
       {
-        report.ProjectScopedViolation(ruleDescription,
-          ViolationDescription("has no namespace declared")
+        report.Add(_ruleViolationFactory.ProjectScopedRuleViolation(ruleDescription, 
+          ViolationDescription("has no namespace declared"))
         );
       }
       else if (_xmlSourceCodeFile.DeclaredNamespaces.Count > 1)
       {
-        report.ProjectScopedViolation(ruleDescription,
-          ViolationDescription($"declares multiple namespaces: {NamespacesString()}"));
+        report.Add(_ruleViolationFactory.ProjectScopedRuleViolation(ruleDescription, 
+          ViolationDescription($"declares multiple namespaces: {NamespacesString()}")));
       }
       else if (!_xmlSourceCodeFile.DeclaredNamespaces.Contains(CorrectNamespace()))
       {
-        report.ProjectScopedViolation(ruleDescription,
-          ViolationDescription($"has incorrect namespace {_xmlSourceCodeFile.DeclaredNamespaces.Single()}")
+        report.Add(_ruleViolationFactory.ProjectScopedRuleViolation(ruleDescription, 
+          ViolationDescription($"has incorrect namespace {_xmlSourceCodeFile.DeclaredNamespaces.Single()}"))
         );
       }
     }

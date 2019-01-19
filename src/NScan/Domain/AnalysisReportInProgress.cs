@@ -7,15 +7,9 @@ namespace TddXt.NScan.Domain
 {
   public class AnalysisReportInProgress : IAnalysisReportInProgress
   {
-    private readonly IReportFragmentsFormat _reportFragmentsFormat;
     private readonly Dictionary<string, HashSet<string>> _violations
       = new Dictionary<string, HashSet<string>>();
     private readonly List<string> _ruleNames = new List<string>();
-
-    public AnalysisReportInProgress(IReportFragmentsFormat reportFragmentsFormat)
-    {
-      _reportFragmentsFormat = reportFragmentsFormat;
-    }
 
     public string AsString()
     {
@@ -42,38 +36,22 @@ namespace TddXt.NScan.Domain
       return result.ToString();
     }
 
-    public void PathViolation(string ruleDescription, IReadOnlyList<IReferencedProject> violationPath)
-    {
-      AddRuleIfNotRegisteredYet(ruleDescription);
-      InitializeViolationsFor(ruleDescription);
-      //TODO when there is a single project say project, not path
-      AddViolation(ruleDescription, _reportFragmentsFormat.ApplyToPath(violationPath), "Violating path: ");
-    }
-
-    public void NamespacesBasedRuleViolation(string ruleDescription, string projectAssemblyName,
-      IReadOnlyList<IReadOnlyList<string>> cycles)
-    {
-      AddRuleIfNotRegisteredYet(ruleDescription);
-      InitializeViolationsFor(ruleDescription);
-      AddViolation(ruleDescription, _reportFragmentsFormat.ApplyToCycles(cycles), 
-        $"Discovered cycle(s) in project {projectAssemblyName}:{NewLine}");
-    }
 
     public void FinishedChecking(string ruleDescription)
     {
       AddRuleIfNotRegisteredYet(ruleDescription);
     }
 
-    public void ProjectScopedViolation(string ruleDescription, string violationDescription)
-    {
-      AddRuleIfNotRegisteredYet(ruleDescription);
-      InitializeViolationsFor(ruleDescription);
-      AddViolation(ruleDescription, violationDescription, string.Empty);
-    }
 
     public bool HasViolations()
     {
       return _violations.Any();
+    }
+
+    private void InitializeForCollecting(string ruleDescription)
+    {
+      AddRuleIfNotRegisteredYet(ruleDescription);
+      InitializeViolationsFor(ruleDescription);
     }
 
     private void InitializeViolationsFor(string ruleDescription)
@@ -92,9 +70,10 @@ namespace TddXt.NScan.Domain
       }
     }
 
-    private void AddViolation(string ruleDescription, string violationDescription, string prefixPhrase)
+    public void Add(RuleViolation ruleViolation)
     {
-      _violations[ruleDescription].Add(prefixPhrase + violationDescription);
+      InitializeForCollecting(ruleViolation.RuleDescription);
+      _violations[ruleViolation.RuleDescription].Add(ruleViolation.PrefixPhrase + ruleViolation.ViolationDescription);
     }
 
   }

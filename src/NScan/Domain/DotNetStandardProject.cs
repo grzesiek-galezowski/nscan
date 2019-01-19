@@ -15,7 +15,6 @@ namespace TddXt.NScan.Domain
     private readonly Dictionary<ProjectId, IReferencingProject> _referencingProjects 
       = new Dictionary<ProjectId, IReferencingProject>();
 
-    private readonly string _rootNamespace;
     private readonly string _assemblyName;
     private readonly ProjectId[] _referencedProjectsIds;
     private readonly IReadOnlyList<PackageReference> _packageReferences;
@@ -25,8 +24,7 @@ namespace TddXt.NScan.Domain
     private readonly INScanSupport _support;
     private readonly ProjectId _id;
 
-    public DotNetStandardProject(string rootNamespace,
-      string assemblyName,
+    public DotNetStandardProject(string assemblyName,
       ProjectId id,
       ProjectId[] referencedProjectsIds,
       IReadOnlyList<PackageReference> packageReferences,
@@ -35,7 +33,6 @@ namespace TddXt.NScan.Domain
       INamespacesDependenciesCache namespacesDependenciesCache,
       INScanSupport support)
     {
-      _rootNamespace = rootNamespace;
       _assemblyName = assemblyName;
       _id = id;
       _referencedProjectsIds = referencedProjectsIds;

@@ -6,10 +6,12 @@ namespace TddXt.NScan.Domain
   public class NoCircularUsingsRule : INamespacesBasedRule
   {
     private readonly NoCircularUsingsRuleComplementDto _ruleDto;
+    private readonly IRuleViolationFactory _ruleViolationFactory;
 
-    public NoCircularUsingsRule(NoCircularUsingsRuleComplementDto ruleDto)
+    public NoCircularUsingsRule(NoCircularUsingsRuleComplementDto ruleDto, IRuleViolationFactory ruleViolationFactory)
     {
       _ruleDto = ruleDto;
+      _ruleViolationFactory = ruleViolationFactory;
     }
 
     public string Description()
@@ -25,7 +27,7 @@ namespace TddXt.NScan.Domain
       var cycles = namespacesCache.RetrieveCycles();
       if (cycles.Any())
       {
-        report.NamespacesBasedRuleViolation(Description(), projectAssemblyName, cycles);
+        report.Add(_ruleViolationFactory.NoCyclesRuleViolation(Description(), projectAssemblyName, cycles));
       }
     }
   }

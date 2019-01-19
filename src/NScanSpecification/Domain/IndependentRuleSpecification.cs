@@ -1,4 +1,5 @@
 ﻿using NSubstitute;
+using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Domain;
@@ -17,7 +18,7 @@ namespace TddXt.NScan.Specification.Domain
       //GIVEN
       var dependencyCondition = Substitute.For<IDescribedDependencyCondition>();
       var dependingAssemblyNamePattern = Any.Instance<Pattern>();
-      var rule = new IndependentRule(dependencyCondition, dependingAssemblyNamePattern);
+      var rule = new IndependentRule(dependencyCondition, dependingAssemblyNamePattern, Any.Instance<IRuleViolationFactory>());
       var report = Substitute.For<IAnalysisReportInProgress>();
       var projectDependencyPath = Substitute.For<IProjectDependencyPath>();
 
@@ -38,12 +39,14 @@ namespace TddXt.NScan.Specification.Domain
       var dependencyCondition = Substitute.For<IDescribedDependencyCondition>();
       var conditionDescription = Any.String();
       var dependingAssemblyNamePattern = Any.Instance<Pattern>();
-      var rule = new IndependentRule(dependencyCondition, dependingAssemblyNamePattern);
+      var ruleViolationFactory = Substitute.For<IRuleViolationFactory>();
+      var rule = new IndependentRule(dependencyCondition, dependingAssemblyNamePattern, ruleViolationFactory);
       var report = Substitute.For<IAnalysisReportInProgress>();
       var projectDependencyPath = Substitute.For<IProjectDependencyPath>();
       var dependingAssembly = Substitute.For<IProjectSearchResult>();
       var dependencyAssembly = Substitute.For<IProjectSearchResult>();
       var violatingPathSegment = Any.ReadOnlyList<IReferencedProject>();
+      var violation = Any.Instance<RuleViolation>();
 
       dependencyCondition.Description().Returns(conditionDescription);
 
@@ -54,6 +57,8 @@ namespace TddXt.NScan.Specification.Domain
       dependencyAssembly.IsNotBefore(dependingAssembly).Returns(true);
 
       projectDependencyPath.SegmentBetween(dependingAssembly, dependencyAssembly).Returns(violatingPathSegment);
+      ruleViolationFactory.PathRuleViolation(conditionDescription, violatingPathSegment).Returns(violation);
+
 
       //WHEN
       rule.Check(report, projectDependencyPath);
@@ -61,7 +66,7 @@ namespace TddXt.NScan.Specification.Domain
       //THEN
       Received.InOrder(() =>
       {
-        report.PathViolation(conditionDescription, violatingPathSegment);
+        report.Add(violation);
         report.FinishedChecking(conditionDescription);
       });
       
@@ -74,7 +79,7 @@ namespace TddXt.NScan.Specification.Domain
       var dependencyCondition = Substitute.For<IDescribedDependencyCondition>();
       var conditionDescription = Any.String();
       var dependingAssemblyNamePattern = Any.Instance<Pattern>();
-      var rule = new IndependentRule(dependencyCondition, dependingAssemblyNamePattern);
+      var rule = new IndependentRule(dependencyCondition, dependingAssemblyNamePattern, Any.Instance<IRuleViolationFactory>());
       var report = Substitute.For<IAnalysisReportInProgress>();
       var projectDependencyPath = Substitute.For<IProjectDependencyPath>();
       var dependingAssembly = Substitute.For<IProjectSearchResult>();

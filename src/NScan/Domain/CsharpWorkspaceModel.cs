@@ -16,11 +16,16 @@ namespace TddXt.NScan.Domain
   {
     private readonly INScanSupport _support;
     private readonly IReadOnlyList<XmlProject> _xmlProjects;
+    private readonly IRuleViolationFactory _ruleViolationFactory;
 
-    public CsharpWorkspaceModel(INScanSupport support, IReadOnlyList<XmlProject> xmlProjects)
+    public CsharpWorkspaceModel(
+      INScanSupport support, 
+      IReadOnlyList<XmlProject> xmlProjects,
+      IRuleViolationFactory ruleViolationFactory)
     {
       _support = support;
       _xmlProjects = xmlProjects;
+      _ruleViolationFactory = ruleViolationFactory;
     }
 
     public Dictionary<ProjectId, IDotNetProject> LoadProjects()
@@ -39,13 +44,13 @@ namespace TddXt.NScan.Domain
     private (ProjectId, DotNetStandardProject) CreateProject(XmlProject xmlProject)
     {
       var assemblyName = DetermineAssemblyName(xmlProject);
-      var dotNetStandardProject = new DotNetStandardProject(
-        DetermineRootNamespace(xmlProject, assemblyName), assemblyName,
-        IdOf(xmlProject), CsharpProjectReferencesExtraction.ProjectReferences(xmlProject).Select(MapToProjectId).ToArray(),
+      var dotNetStandardProject = new DotNetStandardProject(assemblyName,
+        IdOf(xmlProject), 
+        CsharpProjectReferencesExtraction.ProjectReferences(xmlProject).Select(MapToProjectId).ToArray(),
         PackageReferences(xmlProject),
         AssemblyReferences(xmlProject), 
         SourceCodeFiles(xmlProject), 
-        new NamespacesDependenciesCache(), 
+        new NamespacesDependenciesCache(),
         _support);
       return (new ProjectId(xmlProject.AbsolutePath), dotNetStandardProject);
     }
@@ -55,14 +60,9 @@ namespace TddXt.NScan.Domain
       return new ProjectId(xmlProject.AbsolutePath);
     }
 
-    private static List<SourceCodeFile> SourceCodeFiles(XmlProject xmlProject)
+    private List<SourceCodeFile> SourceCodeFiles(XmlProject xmlProject)
     {
-      return xmlProject.SourceCodeFiles.Select(scf => new SourceCodeFile(scf)).ToList();
-    }
-
-    private static string DetermineRootNamespace(XmlProject xmlProject, string assemblyName)
-    {
-      return xmlProject.PropertyGroups.First().RootNamespace ?? assemblyName;
+      return xmlProject.SourceCodeFiles.Select(scf => new SourceCodeFile(scf, _ruleViolationFactory)).ToList();
     }
 
     private static string DetermineAssemblyName(XmlProject xmlProject)

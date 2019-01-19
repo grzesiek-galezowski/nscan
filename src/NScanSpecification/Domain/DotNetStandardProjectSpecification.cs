@@ -399,15 +399,13 @@ namespace TddXt.NScan.Specification.Domain
     {
       public DotNetStandardProject Build()
       {
-        return new DotNetStandardProject(
-          RootNamespace,
-          AssemblyName, 
+        return new DotNetStandardProject(AssemblyName, 
           ProjectId, 
           ReferencedProjectIds, 
           PackageReferences, 
           AssemblyReferences,
           Files,
-          NamespacesDependenciesCache,
+          NamespacesDependenciesCache, 
           Support);
       }
 
