@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using static System.Environment;
 
 namespace TddXt.NScan.Domain
 {
@@ -13,27 +11,35 @@ namespace TddXt.NScan.Domain
 
     public string AsString()
     {
-      var result = new StringBuilder();
+      var resultBuilder = new ResultBuilder();
       for (var index = 0; index < _ruleNames.Count; index++)
       {
-        var ruleDescription = _ruleNames[index];
-        if (_violations.ContainsKey(ruleDescription))
-        {
-          result.AppendLine(ruleDescription + ": [ERROR]");
-          result.Append(string.Join(NewLine, _violations[ruleDescription]));
-        }
-        else
-        {
-          result.Append(ruleDescription + ": [OK]");
-        }
-
-        if (index != _ruleNames.Count - 1)
-        {
-          result.Append(NewLine);
-        }
+        AppendRuleResult(index, resultBuilder);
+        AppendNewLineIfNotLastRule(index, resultBuilder);
       }
 
-      return result.ToString();
+      return resultBuilder.Text();
+    }
+
+    private void AppendRuleResult(int index, ResultBuilder resultBuilder)
+    {
+      var ruleDescription = _ruleNames[index];
+      if (_violations.ContainsKey(ruleDescription))
+      {
+        resultBuilder.AppendViolations(ruleDescription, _violations);
+      }
+      else
+      {
+        resultBuilder.AppendOk(ruleDescription);
+      }
+    }
+
+    private void AppendNewLineIfNotLastRule(int index, ResultBuilder resultBuilder)
+    {
+      if (index != _ruleNames.Count - 1)
+      {
+        resultBuilder.AppendRuleSeparator();
+      }
     }
 
 
