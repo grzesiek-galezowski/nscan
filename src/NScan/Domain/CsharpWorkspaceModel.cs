@@ -2,14 +2,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TddXt.NScan.NotifyingSupport.Ports;
-using TddXt.NScan.ReadingSolution;
 using TddXt.NScan.ReadingSolution.Ports;
 
 namespace TddXt.NScan.Domain
 {
   public interface IWorkspaceModel
   {
-    Dictionary<ProjectId, IDotNetProject> LoadProjects();
+    Dictionary<ProjectId, IDotNetProject> CreateProjectsDictionary();
   }
 
   public class CsharpWorkspaceModel : IWorkspaceModel
@@ -28,7 +27,7 @@ namespace TddXt.NScan.Domain
       _ruleViolationFactory = ruleViolationFactory;
     }
 
-    public Dictionary<ProjectId, IDotNetProject> LoadProjects()
+    public Dictionary<ProjectId, IDotNetProject> CreateProjectsDictionary()
     {
       var projects = new Dictionary<ProjectId, IDotNetProject>();
       foreach (var xmlProject in _xmlProjects)

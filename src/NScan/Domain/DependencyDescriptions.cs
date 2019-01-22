@@ -15,7 +15,6 @@ namespace TddXt.NScan.Domain
       string dependencyType, 
       Glob dependencyNamePattern)
     {
-      //TODO consider moving to DependencyDescriptions
       return IndependentOf(dependingNamePattern.Description(),
         dependencyType + ":" + dependencyNamePattern.Pattern);
     }

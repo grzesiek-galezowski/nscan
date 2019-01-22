@@ -26,7 +26,7 @@ namespace TddXt.NScan.Domain
     {
       var plainReportFragmentsFormat = new PlainReportFragmentsFormat();
       var csharpWorkspaceModel = new CsharpWorkspaceModel(support, xmlProjects, new RuleViolationFactory(plainReportFragmentsFormat));
-      var projects = csharpWorkspaceModel.LoadProjects();
+      var projects = csharpWorkspaceModel.CreateProjectsDictionary();
 
       return new Analysis(new DotNetStandardSolution(projects,
           new PathCache(
