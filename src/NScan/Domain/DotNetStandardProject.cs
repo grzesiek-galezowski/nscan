@@ -136,8 +136,7 @@ namespace TddXt.NScan.Domain
     }
 
     //bug UT
-    public bool HasProjectAssemblyNameMatching(Glob glob) => 
-      glob.IsMatch(_assemblyName);
+    public bool HasProjectAssemblyNameMatching(Glob glob) => glob.IsMatch(_assemblyName);
 
     public void ResolveAsReferenceOf(IReferencingProject project)
     {

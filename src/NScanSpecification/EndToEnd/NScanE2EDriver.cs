@@ -23,7 +23,7 @@ namespace TddXt.NScan.Specification.EndToEnd
   {
     private readonly List<string> _projects = new List<string>();
     private readonly Dictionary<string, List<XmlSourceCodeFile>> _filesByProject = new Dictionary<string, List<XmlSourceCodeFile>>();
-    private readonly DirectoryInfo _solutionDir = GetTemporaryDirectory();
+    private readonly DirectoryInfo _solutionDir = TemporaryDirectory.CreateNew();
     private readonly string _solutionName = Root.Any.AlphaString();
     private readonly List<RuleUnionDto> _rules = new List<RuleUnionDto>();
 
@@ -34,16 +34,19 @@ namespace TddXt.NScan.Specification.EndToEnd
     private readonly List<(string, string)> _projectReferences 
         = new List<(string, string)>();
 
+    private readonly ProjectFiles _projectFiles;
+
     public NScanE2EDriver()
     {
       _fullSolutionPath = Path.Combine(_solutionDir.FullName, _solutionName + ".sln");
       _fullRulesPath = Path.Combine(_solutionDir.FullName, RulesFileName);
+      _projectFiles = new ProjectFiles(_solutionDir, _filesByProject);
     }
 
     public E2EProjectDsl HasProject(string projectName)
     {
       _projects.Add(projectName);
-      return new E2EProjectDsl(projectName, _projectReferences, _filesByProject);
+      return new E2EProjectDsl(projectName, _projectReferences, _projectFiles);
     }
 
     public void Add(IFullRuleConstructed ruleDefinition)
@@ -58,34 +61,10 @@ namespace TddXt.NScan.Specification.EndToEnd
       CreateAllProjects();
       AddProjectsReferences();
       AddAllProjectsToSolution();
-      AddFilesToProjects();
+      _projectFiles.AddFilesToProjects();
 
       CreateRulesFile();
       RunAnalysis();
-    }
-
-    private void AddFilesToProjects()
-    {
-      foreach (var projectName in _filesByProject.Keys)
-      {
-        foreach (var sourceCodeFile in _filesByProject[projectName])
-        {
-          var fullFilePath = Path.Combine(Path.Combine(_solutionDir.FullName, projectName), sourceCodeFile.Name);
-          var directoryInfo = new DirectoryInfo(Path.GetDirectoryName(fullFilePath));
-          if (!directoryInfo.Exists)
-          {
-            directoryInfo.Create();
-          }
-
-          File.WriteAllText(fullFilePath, StringBodyOf(sourceCodeFile));
-        }
-
-      }
-    }
-
-    private static string StringBodyOf(XmlSourceCodeFile sourceCodeFile)
-    {
-      return string.Join(NewLine, sourceCodeFile.Usings.Select(n => $"using {n};")) + $"namespace {sourceCodeFile.DeclaredNamespaces.Single()}" + " {}";
     }
 
 
@@ -273,63 +252,9 @@ namespace TddXt.NScan.Specification.EndToEnd
       processInfo.ExitCode.Should().Be(0, string.Join(NewLine, processInfo.StandardError.Concat(processInfo.StandardOutput)));
     }
 
-    private static DirectoryInfo GetTemporaryDirectory()
-    {
-      var tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
-      Directory.CreateDirectory(tempDirectory);
-      return new DirectoryInfo(tempDirectory);
-    }
-
     public void ReportShouldContain(ReportedMessage reportedMessage)
     {
       ReportShouldContainText(reportedMessage.ToString());
     }
   }
-
-  public class E2EProjectDsl
-  {
-    private readonly string _projectName;
-    private readonly List<(string, string)> _assemblyReferences;
-    private readonly Dictionary<string, List<XmlSourceCodeFile>> _filesByProject;
-    private string _rootNamespace;
-
-
-    public E2EProjectDsl(string projectName, List<(string, string)> assemblyReferences,
-      Dictionary<string, List<XmlSourceCodeFile>> filesByProject)
-    {
-      _projectName = projectName;
-      _assemblyReferences = assemblyReferences;
-      _filesByProject = filesByProject;
-    }
-
-    public E2EProjectDsl WithAssemblyReferences(params string[] assemblyNames)
-    {
-      foreach (var assemblyName in assemblyNames)
-      {
-        _assemblyReferences.Add((_projectName, assemblyName));
-      }
-
-      return this;
-    }
-
-    public E2EProjectDsl WithRootNamespace(string @namespace)
-    {
-      _rootNamespace = @namespace;
-      return this;
-    }
-
-    public E2EProjectDsl With(XmlSourceCodeFileBuilder sourceCodeFileBuilder)
-    {
-      if (!_filesByProject.ContainsKey(_projectName))
-      {
-        _filesByProject[_projectName] = new List<XmlSourceCodeFile>();
-      }
-      _filesByProject[_projectName].Add(
-        sourceCodeFileBuilder.BuildWith(_projectName, _rootNamespace));
-      
-      return this;
-    }
-  }
-
-
 }
