@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Functional.Maybe;
+using Functional.Maybe.Just;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using TddXt.NScan.Lib;
 
 namespace TddXt.NScan.ReadingCSharpSourceCode
 {
@@ -24,13 +25,13 @@ namespace TddXt.NScan.ReadingCSharpSourceCode
     public override void VisitClassDeclaration(ClassDeclarationSyntax node)
     {
       var className = node.Identifier.ValueText;
-      var currentNamespace = Maybe.Nothing<string>();
+      var currentNamespace = Maybe<string>.Nothing;
       var currentParent = (CSharpSyntaxNode)node.Parent;
       while (!(currentParent is CompilationUnitSyntax))
       {
         if (currentParent is NamespaceDeclarationSyntax enclosingNamespace)
         {
-          currentNamespace = Maybe.Just(currentNamespace.Select(n => enclosingNamespace.Name + "." + n).ValueOr(enclosingNamespace.Name.ToString()));
+          currentNamespace = currentNamespace.Select(n => enclosingNamespace.Name + "." + n).OrElse(() => enclosingNamespace.Name.ToString()).Just();
         }
         else if (currentParent is ClassDeclarationSyntax enclosingClass)
         {
@@ -41,7 +42,7 @@ namespace TddXt.NScan.ReadingCSharpSourceCode
       }
 
       _classes.Add(
-        new ClassDeclarationInfo(className, currentNamespace.ValueOr(string.Empty)));
+        new ClassDeclarationInfo(className, currentNamespace.OrElse(() => string.Empty)));
       VisitChildrenOf(node);
     }
 

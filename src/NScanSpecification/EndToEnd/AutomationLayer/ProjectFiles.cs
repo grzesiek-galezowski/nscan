@@ -4,17 +4,17 @@ using System.IO;
 using System.Linq;
 using TddXt.NScan.ReadingSolution.Ports;
 
-namespace TddXt.NScan.Specification.EndToEnd
+namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 {
   public class ProjectFiles
   {
     private readonly DirectoryInfo _solutionDir;
     private readonly Dictionary<string, List<XmlSourceCodeFile>> _filesByProject;
 
-    public ProjectFiles(DirectoryInfo solutionDir, Dictionary<string, List<XmlSourceCodeFile>> filesByProject)
+    public ProjectFiles(DirectoryInfo solutionDir)
     {
       _solutionDir = solutionDir;
-      _filesByProject = filesByProject;
+      _filesByProject = new Dictionary<string, List<XmlSourceCodeFile>>();
     }
 
     public void AddFilesToProjects()

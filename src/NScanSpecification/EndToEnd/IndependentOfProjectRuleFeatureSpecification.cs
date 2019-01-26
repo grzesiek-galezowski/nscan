@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Specification.AutomationLayer;
+using TddXt.NScan.Specification.EndToEnd.AutomationLayer;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 using static TddXt.NScan.Specification.Component.AutomationLayer.DependencyRuleBuilder;

@@ -1,4 +1,5 @@
 ﻿using TddXt.NScan.Specification.AutomationLayer;
+using TddXt.NScan.Specification.EndToEnd.AutomationLayer;
 using Xunit;
 using static TddXt.NScan.Specification.Component.AutomationLayer.DependencyRuleBuilder;
 using static TddXt.NScan.Specification.AutomationLayer.XmlSourceCodeFileBuilder;

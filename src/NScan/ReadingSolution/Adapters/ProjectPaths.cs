@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 using Buildalyzer;
-using TddXt.NScan.Lib;
+using Functional.Maybe.Just;
 using TddXt.NScan.NotifyingSupport.Ports;
 using TddXt.NScan.ReadingCSharpSourceCode;
 using TddXt.NScan.ReadingSolution.Ports;
@@ -71,14 +71,14 @@ namespace TddXt.NScan.ReadingSolution.Adapters
       {
         try
         {
-          return Maybe.Just(LoadXmlProject(path));
+          return LoadXmlProject(path).Just();
         }
         catch (InvalidOperationException e)
         {
           _support.SkippingProjectBecauseOfError(e, path);
-          return Maybe.Nothing<XmlProject>();
+          return Functional.Maybe.Maybe<XmlProject>.Nothing;
         }
-      }).Where(o => o.HasValue).Select(o => o.Value()).ToList();
+      }).Where(o => o.HasValue).Select(o => o.Value).ToList();
       return xmlProjects;
     }
 

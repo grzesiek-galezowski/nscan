@@ -1,6 +1,6 @@
 using System;
 
-namespace TddXt.NScan.Specification.EndToEnd
+namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 {
   internal static class NCrunch
   {

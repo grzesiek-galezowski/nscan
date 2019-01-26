@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Functional.Maybe;
+using Functional.Maybe.Just;
 using GlobExpressions;
-using TddXt.NScan.Domain;
-using TddXt.NScan.Lib;
-using TddXt.NScan.ReadingRules;
 using TddXt.NScan.ReadingRules.Ports;
 
 namespace TddXt.NScan.Specification.Component.AutomationLayer
@@ -35,7 +33,7 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
   {
     private string _dependingPattern;
     private string _ruleName;
-    private Maybe<string> _exclusionPattern = Maybe.Nothing<string>();
+    private Maybe<string> _exclusionPattern = Maybe<string>.Nothing;
     private string _dependencyName;
     private string _dependencyType;
 
@@ -73,7 +71,7 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
 
     public IFullDependingPartStated Except(string exclusionPattern)
     {
-      _exclusionPattern = Maybe.Just(exclusionPattern);
+      _exclusionPattern = exclusionPattern.Just();
       return this;
     }
 
@@ -93,7 +91,7 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
     {
       var dependingPattern = _exclusionPattern
         .Select(p => Pattern.WithExclusion(_dependingPattern, p))
-        .Otherwise(() => Pattern.WithoutExclusion(_dependingPattern));
+        .OrElse(() => Pattern.WithoutExclusion(_dependingPattern));
 
       return RuleNames.Switch(
         _ruleName,

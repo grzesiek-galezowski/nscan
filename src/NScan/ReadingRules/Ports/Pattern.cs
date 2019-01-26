@@ -1,6 +1,7 @@
 using System;
+using Functional.Maybe;
+using Functional.Maybe.Just;
 using GlobExpressions;
-using TddXt.NScan.Lib;
 
 namespace TddXt.NScan.ReadingRules.Ports
 {
@@ -13,14 +14,14 @@ namespace TddXt.NScan.ReadingRules.Ports
     {
       return new Pattern(
         pattern ?? throw new ArgumentNullException(nameof(pattern)), 
-        Maybe.Nothing<string>());
+        Maybe<string>.Nothing);
     }
 
     public static Pattern WithExclusion(string inclusionPattern, string exclusionPattern)
     {
       return new Pattern(
         inclusionPattern ?? throw new ArgumentNullException(nameof(inclusionPattern)),
-        Maybe.Just(exclusionPattern)
+        exclusionPattern.Just()
         );
     }
 
@@ -34,7 +35,7 @@ namespace TddXt.NScan.ReadingRules.Ports
     public string Description()
     {
       return _exclusionPattern.Select(exclusionPattern => _inclusionPattern + " except " + exclusionPattern)
-        .Otherwise(() => _inclusionPattern);
+        .OrElse(() => _inclusionPattern);
     }
 
     public bool IsMatch(string assemblyName)
@@ -43,7 +44,7 @@ namespace TddXt.NScan.ReadingRules.Ports
         Glob.IsMatch(assemblyName, _inclusionPattern)
       && _exclusionPattern.Select(
           exclusion => !Glob.IsMatch(assemblyName, exclusion))
-          .Otherwise(() => true);
+          .OrElse(() => true);
     }
 
     public bool Equals(Pattern other)

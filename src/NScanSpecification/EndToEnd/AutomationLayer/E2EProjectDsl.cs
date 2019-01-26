@@ -1,29 +1,25 @@
-﻿using System.Collections.Generic;
-using TddXt.NScan.Specification.AutomationLayer;
+﻿using TddXt.NScan.Specification.AutomationLayer;
 
-namespace TddXt.NScan.Specification.EndToEnd
+namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 {
   public class E2EProjectDsl
   {
     private readonly string _projectName;
-    private readonly List<(string, string)> _assemblyReferences;
     private readonly ProjectFiles _projectFiles;
     private string _rootNamespace;
+    private readonly AssemblyReferences _assemblyReferences;
 
 
-    public E2EProjectDsl(string projectName, List<(string, string)> assemblyReferences, ProjectFiles projectFiles)
+    public E2EProjectDsl(string projectName, ProjectFiles projectFiles, AssemblyReferences assemblyReferences)
     {
       _projectName = projectName;
-      _assemblyReferences = assemblyReferences;
       _projectFiles = projectFiles;
+      _assemblyReferences = assemblyReferences;
     }
 
     public E2EProjectDsl WithAssemblyReferences(params string[] assemblyNames)
     {
-      foreach (var assemblyName in assemblyNames)
-      {
-        _assemblyReferences.Add((_projectName, assemblyName));
-      }
+      _assemblyReferences.Add(_projectName, assemblyNames);
 
       return this;
     }

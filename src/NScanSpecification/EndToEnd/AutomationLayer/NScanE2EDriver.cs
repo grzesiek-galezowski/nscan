@@ -9,49 +9,45 @@ using FluentAssertions;
 using RunProcessAsTask;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
-using TddXt.NScan.ReadingRules;
-using TddXt.NScan.ReadingRules.Ports;
-using TddXt.NScan.ReadingSolution;
-using TddXt.NScan.ReadingSolution.Ports;
 using TddXt.NScan.Specification.AutomationLayer;
 using TddXt.NScan.Specification.Component.AutomationLayer;
-using static System.Environment;
 
-namespace TddXt.NScan.Specification.EndToEnd
+namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 {
   public class NScanE2EDriver : IDisposable
   {
     private readonly List<string> _projects = new List<string>();
-    private readonly Dictionary<string, List<XmlSourceCodeFile>> _filesByProject = new Dictionary<string, List<XmlSourceCodeFile>>();
     private readonly DirectoryInfo _solutionDir = TemporaryDirectory.CreateNew();
     private readonly string _solutionName = Root.Any.AlphaString();
-    private readonly List<RuleUnionDto> _rules = new List<RuleUnionDto>();
 
     private ProcessResults _analysisResult;
     private readonly string _fullSolutionPath;
     private readonly string _fullRulesPath;
     private const string RulesFileName = "rules.config";
-    private readonly List<(string, string)> _projectReferences 
-        = new List<(string, string)>();
-
     private readonly ProjectFiles _projectFiles;
+    private readonly AssemblyReferences _references;
+    private readonly DotNetExe _dotNetExe;
+    private readonly Rules _rules;
 
     public NScanE2EDriver()
     {
       _fullSolutionPath = Path.Combine(_solutionDir.FullName, _solutionName + ".sln");
       _fullRulesPath = Path.Combine(_solutionDir.FullName, RulesFileName);
-      _projectFiles = new ProjectFiles(_solutionDir, _filesByProject);
+      _projectFiles = new ProjectFiles(_solutionDir);
+      _dotNetExe = new DotNetExe(_solutionDir);
+      _references = new AssemblyReferences(_dotNetExe);
+      _rules = new Rules();
     }
 
     public E2EProjectDsl HasProject(string projectName)
     {
       _projects.Add(projectName);
-      return new E2EProjectDsl(projectName, _projectReferences, _projectFiles);
+      return new E2EProjectDsl(projectName, _projectFiles, _references);
     }
 
     public void Add(IFullRuleConstructed ruleDefinition)
     {
-      _rules.Add(ruleDefinition.Build());
+      _rules.Add(ruleDefinition);
     }
 
 
@@ -59,11 +55,10 @@ namespace TddXt.NScan.Specification.EndToEnd
     {
       CreateSolution();
       CreateAllProjects();
-      AddProjectsReferences();
+      _references.AddToProjects();
       AddAllProjectsToSolution();
       _projectFiles.AddFilesToProjects();
-
-      CreateRulesFile();
+      _rules.SaveIn(_fullRulesPath);
       RunAnalysis();
     }
 
@@ -84,12 +79,12 @@ namespace TddXt.NScan.Specification.EndToEnd
 
     private string ConsoleStandardOutput()
     {
-      return string.Join(NewLine, _analysisResult.StandardOutput);
+      return string.Join(Environment.NewLine, _analysisResult.StandardOutput);
     }
 
     private string ConsoleStandardOutputAndErrorString()
     {
-      return string.Join(NewLine, _analysisResult.StandardOutput.Concat(_analysisResult.StandardError));
+      return string.Join(Environment.NewLine, _analysisResult.StandardOutput.Concat(_analysisResult.StandardError));
     }
 
 
@@ -122,7 +117,7 @@ namespace TddXt.NScan.Specification.EndToEnd
       
       AssertFileExists(nscanConsoleProjectPath);
 
-      _analysisResult = RunDotNetExe($"run --project {nscanConsoleProjectPath} -- -p \"{_fullSolutionPath}\" -r \"{_fullRulesPath}\"").Result;
+      _analysisResult = _dotNetExe.RunWith($"run --project {nscanConsoleProjectPath} -- -p \"{_fullSolutionPath}\" -r \"{_fullRulesPath}\"").Result;
     }
 
     private void RunForDebug() //todo expand on this ability. This may be interesting if there's a good way to capture console output or when I add logging to a file
@@ -167,35 +162,10 @@ namespace TddXt.NScan.Specification.EndToEnd
 
     }
 
-    private void CreateRulesFile()
-    {
-      var lines = _rules.Select(dto => dto.Switch(
-          independent => ToRuleString(dto.IndependentRule),
-          correctNamespaces => ToRuleString(dto.CorrectNamespacesRule), 
-          noCircularUsings => ToRuleString(dto.NoCircularUsingsRule))
-        ).ToList();
-      File.WriteAllLines(_fullRulesPath, lines);
-    }
-
-    private string ToRuleString(NoCircularUsingsRuleComplementDto dto)
-    {
-      return $"{dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName}";
-    }
-
-    private string ToRuleString(CorrectNamespacesRuleComplementDto dto)
-    {
-      return $"{dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName}";
-    }
-
-    private static string ToRuleString(IndependentRuleComplementDto dto)
-    {
-      return $"{dto.DependingPattern.Description()} {dto.RuleName} {dto.DependencyType}:{dto.DependencyPattern.Pattern}";
-    }
-
     private void AddAllProjectsToSolution()
     {
-      AssertSuccess(
-        RunDotNetExe($"sln {_solutionName}.sln add {string.Join(" ", _projects)}")
+      ProcessAssertions.AssertSuccess(
+        _dotNetExe.RunWith($"sln {_solutionName}.sln add {string.Join(" ", _projects)}")
           .Result);
     }
 
@@ -204,24 +174,11 @@ namespace TddXt.NScan.Specification.EndToEnd
       _projects.AsParallel().ForAll(CreateProjectAsync);
     }
 
-    private void AddProjectsReferences()
-    {
-      _projectReferences.AsParallel().ForAll(AddReferenceAsync);
-    }
-
-    private void AddReferenceAsync((string dependent, string dependency) obj)
-    {
-      AssertSuccess(RunDotNetExe($"add " +
-                                 $"{obj.dependent} " +
-                                 $"reference " +
-                                 $"{obj.dependency}").Result);
-    }
-
     private void CreateProjectAsync(string projectName)
     {
       var projectDirPath = Path.Combine(_solutionDir.FullName, projectName);
-      AssertSuccess(
-        RunDotNetExe($"new classlib --name {projectName}")
+      ProcessAssertions.AssertSuccess(
+        _dotNetExe.RunWith($"new classlib --name {projectName}")
           .Result);
       RemoveDefaultFileCreatedbyTemplate(projectDirPath);
     }
@@ -233,28 +190,33 @@ namespace TddXt.NScan.Specification.EndToEnd
 
     private void CreateSolution()
     {
-      AssertSuccess(RunDotNetExe($"new sln --name {_solutionName}").Result);
-    }
-
-    private async Task<ProcessResults> RunDotNetExe(string arguments)
-    {
-      var processInfo = await ProcessEx.RunAsync(
-        new ProcessStartInfo("dotnet.exe", arguments)
-        {
-            
-          WorkingDirectory = _solutionDir.FullName,
-        }).ConfigureAwait(false);
-      return processInfo;
-    }
-
-    private static void AssertSuccess(ProcessResults processInfo)
-    {
-      processInfo.ExitCode.Should().Be(0, string.Join(NewLine, processInfo.StandardError.Concat(processInfo.StandardOutput)));
+      ProcessAssertions.AssertSuccess(_dotNetExe.RunWith($"new sln --name {_solutionName}").Result);
     }
 
     public void ReportShouldContain(ReportedMessage reportedMessage)
     {
       ReportShouldContainText(reportedMessage.ToString());
+    }
+  }
+
+  public class DotNetExe
+  {
+    private readonly DirectoryInfo _workingDirectory;
+
+    public DotNetExe(DirectoryInfo workingDirectory)
+    {
+      _workingDirectory = workingDirectory;
+    }
+
+    public async Task<ProcessResults> RunWith(string arguments)
+    {
+      var processInfo = await ProcessEx.RunAsync(
+        new ProcessStartInfo("dotnet.exe", arguments)
+        {
+            
+          WorkingDirectory = _workingDirectory.FullName,
+        }).ConfigureAwait(false);
+      return processInfo;
     }
   }
 }
