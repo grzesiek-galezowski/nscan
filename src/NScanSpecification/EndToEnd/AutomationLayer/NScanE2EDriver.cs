@@ -1,24 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using FluentAssertions;
 using RunProcessAsTask;
-using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Specification.AutomationLayer;
 using TddXt.NScan.Specification.Component.AutomationLayer;
+using static TddXt.AnyRoot.Root;
 
 namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 {
   public class NScanE2EDriver : IDisposable
   {
-    private readonly List<string> _projects = new List<string>();
     private readonly DirectoryInfo _solutionDir = TemporaryDirectory.CreateNew();
-    private readonly string _solutionName = Root.Any.AlphaString();
+    private readonly string _solutionName = Any.AlphaString();
 
     private ProcessResults _analysisResult;
     private readonly string _fullSolutionPath;
@@ -28,6 +24,7 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
     private readonly AssemblyReferences _references;
     private readonly DotNetExe _dotNetExe;
     private readonly Rules _rules;
+    private readonly ProjectsCollection _projectsCollection;
 
     public NScanE2EDriver()
     {
@@ -37,11 +34,12 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
       _dotNetExe = new DotNetExe(_solutionDir);
       _references = new AssemblyReferences(_dotNetExe);
       _rules = new Rules();
+      _projectsCollection = new ProjectsCollection(_dotNetExe);
     }
 
     public E2EProjectDsl HasProject(string projectName)
     {
-      _projects.Add(projectName);
+      _projectsCollection.Add(projectName);
       return new E2EProjectDsl(projectName, _projectFiles, _references);
     }
 
@@ -54,9 +52,9 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
     public void PerformAnalysis()
     {
       CreateSolution();
-      CreateAllProjects();
+      _projectsCollection.CreateOnDisk(_solutionDir, _dotNetExe);
       _references.AddToProjects();
-      AddAllProjectsToSolution();
+      _projectsCollection.AddToSolution(_solutionName);
       _projectFiles.AddFilesToProjects();
       _rules.SaveIn(_fullRulesPath);
       RunAnalysis();
@@ -162,32 +160,6 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 
     }
 
-    private void AddAllProjectsToSolution()
-    {
-      ProcessAssertions.AssertSuccess(
-        _dotNetExe.RunWith($"sln {_solutionName}.sln add {string.Join(" ", _projects)}")
-          .Result);
-    }
-
-    private void CreateAllProjects()
-    {
-      _projects.AsParallel().ForAll(CreateProjectAsync);
-    }
-
-    private void CreateProjectAsync(string projectName)
-    {
-      var projectDirPath = Path.Combine(_solutionDir.FullName, projectName);
-      ProcessAssertions.AssertSuccess(
-        _dotNetExe.RunWith($"new classlib --name {projectName}")
-          .Result);
-      RemoveDefaultFileCreatedbyTemplate(projectDirPath);
-    }
-
-    private static void RemoveDefaultFileCreatedbyTemplate(string projectDirPath)
-    {
-      File.Delete(Path.Combine(projectDirPath, "Class1.cs"));
-    }
-
     private void CreateSolution()
     {
       ProcessAssertions.AssertSuccess(_dotNetExe.RunWith($"new sln --name {_solutionName}").Result);
@@ -196,27 +168,6 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
     public void ReportShouldContain(ReportedMessage reportedMessage)
     {
       ReportShouldContainText(reportedMessage.ToString());
-    }
-  }
-
-  public class DotNetExe
-  {
-    private readonly DirectoryInfo _workingDirectory;
-
-    public DotNetExe(DirectoryInfo workingDirectory)
-    {
-      _workingDirectory = workingDirectory;
-    }
-
-    public async Task<ProcessResults> RunWith(string arguments)
-    {
-      var processInfo = await ProcessEx.RunAsync(
-        new ProcessStartInfo("dotnet.exe", arguments)
-        {
-            
-          WorkingDirectory = _workingDirectory.FullName,
-        }).ConfigureAwait(false);
-      return processInfo;
     }
   }
 }
