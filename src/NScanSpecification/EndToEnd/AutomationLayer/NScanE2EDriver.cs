@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using FluentAssertions;
-using RunProcessAsTask;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Specification.AutomationLayer;
 using TddXt.NScan.Specification.Component.AutomationLayer;
@@ -13,10 +12,9 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 {
   public class NScanE2EDriver : IDisposable
   {
-    private readonly DirectoryInfo _solutionDir = TemporaryDirectory.CreateNew();
+    private readonly DirectoryInfo _solutionDir = RelevantPaths.CreateNew();
     private readonly string _solutionName = Any.AlphaString();
 
-    private ProcessResults _analysisResult;
     private readonly string _fullSolutionPath;
     private readonly string _fullRulesPath;
     private const string RulesFileName = "rules.config";
@@ -25,6 +23,7 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
     private readonly DotNetExe _dotNetExe;
     private readonly Rules _rules;
     private readonly ProjectsCollection _projectsCollection;
+    private readonly AnalysisResult _analysisResult;
 
     public NScanE2EDriver()
     {
@@ -35,6 +34,7 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
       _references = new AssemblyReferences(_dotNetExe);
       _rules = new Rules();
       _projectsCollection = new ProjectsCollection(_dotNetExe);
+      _analysisResult = new AnalysisResult();
     }
 
     public E2EProjectDsl HasProject(string projectName)
@@ -60,43 +60,20 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
       RunAnalysis();
     }
 
-
-    public void ReportShouldContainText(string ruleText)
-    {
-      ConsoleStandardOutput().Should()
-        .Contain(ruleText,
-          ConsoleStandardOutputAndErrorString());
-    }
-
     public void ReportShouldNotContainText(string text)
     {
-      ConsoleStandardOutput().Should().NotContain(text,
-          ConsoleStandardOutputAndErrorString());
-
+      _analysisResult.ReportShouldNotContainText(text);
     }
-
-    private string ConsoleStandardOutput()
-    {
-      return string.Join(Environment.NewLine, _analysisResult.StandardOutput);
-    }
-
-    private string ConsoleStandardOutputAndErrorString()
-    {
-      return string.Join(Environment.NewLine, _analysisResult.StandardOutput.Concat(_analysisResult.StandardError));
-    }
-
-
 
     public void ShouldIndicateSuccess()
     {
-      _analysisResult.ExitCode.Should().Be(0);
+      _analysisResult.ShouldIndicateSuccess();
     }
 
     public void ShouldIndicateFailure()
     {
-      _analysisResult.ExitCode.Should().Be(-1);
+      _analysisResult.ShouldIndicateFailure();
     }
-
 
     public void Dispose()
     {
@@ -107,7 +84,7 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
     {
       //RunForDebug();
 
-      var repositoryPath = RepositoryPath();
+      var repositoryPath = RelevantPaths.RepositoryPath();
       AssertDirectoryExists(repositoryPath);
 
       var nscanConsoleProjectPath = Path.Combine(
@@ -115,12 +92,13 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
       
       AssertFileExists(nscanConsoleProjectPath);
 
-      _analysisResult = _dotNetExe.RunWith($"run --project {nscanConsoleProjectPath} -- -p \"{_fullSolutionPath}\" -r \"{_fullRulesPath}\"").Result;
+      var analysisResultAnalysisResult = _dotNetExe.RunWith($"run --project {nscanConsoleProjectPath} -- -p \"{_fullSolutionPath}\" -r \"{_fullRulesPath}\"").Result;
+      _analysisResult.Assign(analysisResultAnalysisResult);
     }
 
     private void RunForDebug() //todo expand on this ability. This may be interesting if there's a good way to capture console output or when I add logging to a file
     {
-      var repositoryPath2 = RepositoryPath();
+      var repositoryPath2 = RelevantPaths.RepositoryPath();
       var nscanConsoleDllPath = Path.Combine(
         repositoryPath2, "src", "NScan.Console", "bin", "Debug", "netcoreapp2.1", "NScan.Console.dll");
 
@@ -139,27 +117,6 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
       Directory.Exists(directoryPath).Should().BeTrue(directoryPath + " should exist");
     }
 
-    private static string RepositoryPath()
-    {
-      if (NCrunch.RunsThisTest())
-      {
-        var originalSolutionPath = NCrunch.OriginalSolutionPath();
-        return Path.Combine(originalSolutionPath.Split("nscan").First(), "nscan");
-      }
-      else
-      {
-        var executingAssemblyPath = new FileInfo(
-            Assembly.GetExecutingAssembly().EscapedCodeBase.Split("file:///").ToArray()[1]).Directory;
-        while (!Directory.EnumerateDirectories(executingAssemblyPath.FullName).Any(s => s.EndsWith(".git")))
-        {
-          executingAssemblyPath = executingAssemblyPath.Parent;
-        }
-
-        return executingAssemblyPath.FullName;
-      }
-
-    }
-
     private void CreateSolution()
     {
       ProcessAssertions.AssertSuccess(_dotNetExe.RunWith($"new sln --name {_solutionName}").Result);
@@ -167,7 +124,7 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 
     public void ReportShouldContain(ReportedMessage reportedMessage)
     {
-      ReportShouldContainText(reportedMessage.ToString());
+      _analysisResult.ReportShouldContainText(reportedMessage.ToString());
     }
   }
 }
