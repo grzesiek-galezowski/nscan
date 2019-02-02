@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.IO;
 using System.Threading.Tasks;
 using RunProcessAsTask;
 
@@ -7,9 +6,9 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 {
   public class DotNetExe
   {
-    private readonly DirectoryInfo _workingDirectory;
+    private readonly SolutionDir _workingDirectory;
 
-    public DotNetExe(DirectoryInfo workingDirectory)
+    public DotNetExe(SolutionDir workingDirectory)
     {
       _workingDirectory = workingDirectory;
     }
@@ -20,7 +19,7 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
         new ProcessStartInfo("dotnet.exe", arguments)
         {
             
-          WorkingDirectory = _workingDirectory.FullName,
+          WorkingDirectory = _workingDirectory.FullName(),
         }).ConfigureAwait(false);
       return processInfo;
     }

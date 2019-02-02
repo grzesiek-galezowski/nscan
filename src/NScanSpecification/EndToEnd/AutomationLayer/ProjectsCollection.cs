@@ -26,9 +26,10 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
           .Result);
     }
 
-    public void CreateOnDisk(DirectoryInfo directoryInfo, DotNetExe dotNetExe)
+    public void CreateOnDisk(SolutionDir solutionDir, DotNetExe dotNetExe)
     {
-      _projects.AsParallel().ForAll(projectName => CreateProjectAsync(dotNetExe, projectName, Path.Combine(directoryInfo.FullName, projectName)));
+      _projects.AsParallel().ForAll(projectName => CreateProjectAsync(dotNetExe, projectName, 
+        solutionDir.PathToProject(projectName)));
     }
 
     private static void CreateProjectAsync(DotNetExe dotNetExe, string projectName, string projectDirPath)

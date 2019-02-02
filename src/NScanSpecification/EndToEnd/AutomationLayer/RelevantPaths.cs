@@ -6,7 +6,7 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 {
   public static class RelevantPaths
   {
-    public static DirectoryInfo CreateNew()
+    public static DirectoryInfo CreateRandomPath()
     {
       var tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
       Directory.CreateDirectory(tempDirectory);

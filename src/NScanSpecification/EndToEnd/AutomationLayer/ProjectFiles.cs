@@ -8,12 +8,12 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 {
   public class ProjectFiles
   {
-    private readonly DirectoryInfo _solutionDir;
+    private readonly SolutionDir _dir;
     private readonly Dictionary<string, List<XmlSourceCodeFile>> _filesByProject;
 
-    public ProjectFiles(DirectoryInfo solutionDir)
+    public ProjectFiles(SolutionDir dir)
     {
-      _solutionDir = solutionDir;
+      _dir = dir;
       _filesByProject = new Dictionary<string, List<XmlSourceCodeFile>>();
     }
 
@@ -23,14 +23,13 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
       {
         foreach (var sourceCodeFile in _filesByProject[projectName])
         {
-          var fullFilePath = Path.Combine(Path.Combine(_solutionDir.FullName, projectName), sourceCodeFile.Name);
-          var directoryInfo = new DirectoryInfo(Path.GetDirectoryName(fullFilePath));
+          var directoryInfo = _dir.PathToFileInProject(projectName, sourceCodeFile);
           if (!directoryInfo.Exists)
           {
             directoryInfo.Create();
           }
 
-          File.WriteAllText(fullFilePath, StringBodyOf(sourceCodeFile));
+          File.WriteAllText(directoryInfo.FullName, StringBodyOf(sourceCodeFile));
         }
 
       }

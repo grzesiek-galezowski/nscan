@@ -12,7 +12,6 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 {
   public class NScanE2EDriver : IDisposable
   {
-    private readonly DirectoryInfo _solutionDir = RelevantPaths.CreateNew();
     private readonly string _solutionName = Any.AlphaString();
 
     private readonly string _fullSolutionPath;
@@ -24,11 +23,13 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
     private readonly Rules _rules;
     private readonly ProjectsCollection _projectsCollection;
     private readonly AnalysisResult _analysisResult;
+    private readonly SolutionDir _solutionDir;
 
     public NScanE2EDriver()
     {
-      _fullSolutionPath = Path.Combine(_solutionDir.FullName, _solutionName + ".sln");
-      _fullRulesPath = Path.Combine(_solutionDir.FullName, RulesFileName);
+      _solutionDir = new SolutionDir(RelevantPaths.CreateRandomPath(), _solutionName);
+      _fullSolutionPath = _solutionDir.SolutionFilePath();
+      _fullRulesPath = _solutionDir.PathToFile(RulesFileName);
       _projectFiles = new ProjectFiles(_solutionDir);
       _dotNetExe = new DotNetExe(_solutionDir);
       _references = new AssemblyReferences(_dotNetExe);
@@ -77,7 +78,7 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 
     public void Dispose()
     {
-      _solutionDir.Delete(true);
+      _solutionDir.DeleteWithContent();
     }
 
     private void RunAnalysis()
