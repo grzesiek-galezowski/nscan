@@ -24,11 +24,11 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
       return Path.Combine(_solutionDir.FullName, rulesFileName);
     }
 
-    public DirectoryInfo PathToFileInProject(string projectName, XmlSourceCodeFile sourceCodeFile)
+    public FileInfo PathToFileInProject(string projectName, XmlSourceCodeFile sourceCodeFile)
     {
       var fullFilePath = Path.Combine(Path.Combine(_solutionDir.FullName, projectName), sourceCodeFile.Name);
-      var directoryInfo = new DirectoryInfo(Path.GetDirectoryName(fullFilePath));
-      return directoryInfo;
+      var fileInfo = new FileInfo(fullFilePath);
+      return fileInfo;
     }
 
     public string FullName()

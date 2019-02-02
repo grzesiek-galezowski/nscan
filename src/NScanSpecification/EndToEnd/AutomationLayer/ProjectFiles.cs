@@ -23,13 +23,13 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
       {
         foreach (var sourceCodeFile in _filesByProject[projectName])
         {
-          var directoryInfo = _dir.PathToFileInProject(projectName, sourceCodeFile);
-          if (!directoryInfo.Exists)
+          var fileInfo = _dir.PathToFileInProject(projectName, sourceCodeFile);
+          if (!fileInfo.Directory.Exists)
           {
-            directoryInfo.Create();
+            fileInfo.Directory.Create();
           }
 
-          File.WriteAllText(directoryInfo.FullName, StringBodyOf(sourceCodeFile));
+          File.WriteAllText(fileInfo.FullName, StringBodyOf(sourceCodeFile));
         }
 
       }
