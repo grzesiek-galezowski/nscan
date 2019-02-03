@@ -3,6 +3,8 @@ using NSubstitute;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Domain;
+using TddXt.NScan.Domain.DependencyPathBasedRules;
+using TddXt.NScan.Domain.SharedKernel;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 

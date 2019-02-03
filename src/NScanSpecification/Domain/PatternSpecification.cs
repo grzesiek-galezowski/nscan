@@ -5,6 +5,7 @@ using TddXt.NScan.Domain;
 using TddXt.NScan.ReadingRules.Ports;
 using TddXt.XFluentAssert.Root;
 using Xunit;
+using static TddXt.AnyRoot.Root;
 
 namespace TddXt.NScan.Specification.Domain
 {
@@ -72,7 +73,7 @@ namespace TddXt.NScan.Specification.Domain
     public void ShouldDescribeOnlyInclusionPatternWhenThereIsNoExclusionPattern()
     {
       //GIVEN
-      var inclusionPattern = Root.Any.String();
+      var inclusionPattern = Any.String();
       var pattern = Pattern.WithoutExclusion(inclusionPattern);
       //WHEN
       var description = pattern.Description();
@@ -84,8 +85,8 @@ namespace TddXt.NScan.Specification.Domain
     public void ShouldDescribeBothInclusionAndExclusionPatternsWhenBothArePresent()
     {
       //GIVEN
-      var inclusionPattern = Root.Any.String();
-      var exclusionPattern = Root.Any.String();
+      var inclusionPattern = Any.String();
+      var exclusionPattern = Any.String();
       var pattern = Pattern.WithExclusion(inclusionPattern, exclusionPattern);
       //WHEN
       var description = pattern.Description();

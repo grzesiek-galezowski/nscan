@@ -3,6 +3,8 @@ using Cake.Core;
 using Cake.Core.Annotations;
 using TddXt.NScan;
 using TddXt.NScan.Domain;
+using TddXt.NScan.Domain.Root;
+using TddXt.NScan.Domain.SharedKernel;
 
 namespace Cake.NScan
 {

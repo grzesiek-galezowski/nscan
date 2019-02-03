@@ -2,6 +2,7 @@ using GlobExpressions;
 using TddXt.AnyExtensibility;
 using TddXt.AnyRoot;
 using TddXt.NScan.Domain;
+using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.NotifyingSupport.Ports;
 
 namespace TddXt.NScan.Specification

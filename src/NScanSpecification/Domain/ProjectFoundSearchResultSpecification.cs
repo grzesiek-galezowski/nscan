@@ -5,6 +5,8 @@ using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
 using TddXt.AnyRoot.Numbers;
 using TddXt.NScan.Domain;
+using TddXt.NScan.Domain.DependencyPathBasedRules;
+using TddXt.NScan.Domain.SharedKernel;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
@@ -69,7 +71,7 @@ namespace TddXt.NScan.Specification.Domain
       var project2 = Any.Instance<IReferencedProject>();
       var project3 = Any.Instance<IReferencedProject>();
       var project4 = Any.Instance<IReferencedProject>();
-      var projectPath = new List<IReferencedProject>
+      var projectPath = new List<IDependencyPathBasedRuleTarget>
       {
         project1,
         project2,

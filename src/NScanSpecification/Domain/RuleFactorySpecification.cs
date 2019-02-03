@@ -2,6 +2,11 @@
 using GlobExpressions;
 using TddXt.AnyRoot;
 using TddXt.NScan.Domain;
+using TddXt.NScan.Domain.DependencyPathBasedRules;
+using TddXt.NScan.Domain.NamespaceBasedRules;
+using TddXt.NScan.Domain.ProjectScopedRules;
+using TddXt.NScan.Domain.Root;
+using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.ReadingRules;
 using TddXt.NScan.ReadingRules.Ports;
 using TddXt.XFluentAssert.Root;

@@ -3,6 +3,8 @@ using System.Linq;
 using FluentAssertions;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Domain;
+using TddXt.NScan.Domain.NamespaceBasedRules;
+using TddXt.NScan.Domain.SharedKernel;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 

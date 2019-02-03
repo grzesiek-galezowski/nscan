@@ -2,6 +2,8 @@
 using FluentAssertions;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Domain;
+using TddXt.NScan.Domain.DependencyPathBasedRules;
+using TddXt.NScan.Domain.SharedKernel;
 using Xunit;
 using static System.Environment;
 using static TddXt.AnyRoot.Root;
@@ -20,7 +22,7 @@ namespace TddXt.NScan.Specification.Domain
       var p3 = Any.Instance<IReferencedProject>();
 
       //WHEN
-      var result = format.ApplyToPath(new List<IReferencedProject>() {p1, p2, p3});
+      var result = format.ApplyToPath(new List<IDependencyPathBasedRuleTarget>() {p1, p2, p3});
 
       //THEN
       result.Should().Be($"[{p1.ToString()}]->[{p2.ToString()}]->[{p3.ToString()}]");
@@ -31,10 +33,10 @@ namespace TddXt.NScan.Specification.Domain
     {
       //GIVEN
       var format = new PlainReportFragmentsFormat();
-      var p1 = Any.Instance<IReferencedProject>();
+      var p1 = Any.Instance<IDependencyPathBasedRuleTarget>();
 
       //WHEN
-      var result = format.ApplyToPath(new List<IReferencedProject>() {p1});
+      var result = format.ApplyToPath(new List<IDependencyPathBasedRuleTarget>() {p1});
 
       //THEN
       result.Should().Be($"[{p1.ToString()}]");

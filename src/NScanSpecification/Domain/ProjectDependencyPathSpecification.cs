@@ -4,6 +4,8 @@ using NSubstitute;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
 using TddXt.NScan.Domain;
+using TddXt.NScan.Domain.DependencyPathBasedRules;
+using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.ReadingRules.Ports;
 using Xunit;
 using static TddXt.AnyRoot.Root;
@@ -38,7 +40,7 @@ namespace TddXt.NScan.Specification.Domain
       var project1 = Any.Instance<IReferencedProject>();
       var project2 = Any.Instance<IReferencedProject>();
       var project3 = Any.Instance<IReferencedProject>();
-      var projects = new List<IReferencedProject>
+      var projects = new List<IDependencyPathBasedRuleTarget>
       {
         project1, project2, project3
       };
@@ -68,7 +70,7 @@ namespace TddXt.NScan.Specification.Domain
       var project1 = Any.Instance<IReferencedProject>();
       var project2 = Any.Instance<IReferencedProject>();
       var project3 = Any.Instance<IReferencedProject>();
-      var projects = new List<IReferencedProject>
+      var projects = new List<IDependencyPathBasedRuleTarget>
       {
         project1, project2, project3
       };
@@ -99,7 +101,7 @@ namespace TddXt.NScan.Specification.Domain
       var project1 = Substitute.For<IReferencedProject>();
       var project2 = Substitute.For<IReferencedProject>();
       var project3 = Substitute.For<IReferencedProject>();
-      var projects = new List<IReferencedProject>
+      var projects = new List<IDependencyPathBasedRuleTarget>
       {
         project1, project2, project3
       };
@@ -128,7 +130,7 @@ namespace TddXt.NScan.Specification.Domain
       var project1 = Substitute.For<IReferencedProject>();
       var project2 = Substitute.For<IReferencedProject>();
       var project3 = Substitute.For<IReferencedProject>();
-      var projects = new List<IReferencedProject>
+      var projects = new List<IDependencyPathBasedRuleTarget>
       {
         project1, project2, project3
       };
