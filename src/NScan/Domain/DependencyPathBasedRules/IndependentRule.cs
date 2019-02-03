@@ -7,12 +7,12 @@ namespace TddXt.NScan.Domain.DependencyPathBasedRules
   {
     private readonly IDescribedDependencyCondition _condition;
     private readonly Pattern _dependingAssemblyNamePattern;
-    private readonly IRuleViolationFactory _ruleViolationFactory;
+    private readonly IDependencyPathRuleViolationFactory _ruleViolationFactory;
 
     public IndependentRule(
       IDescribedDependencyCondition dependencyCondition, 
       Pattern dependingAssemblyNamePattern,
-      IRuleViolationFactory ruleViolationFactory)
+      IDependencyPathRuleViolationFactory ruleViolationFactory)
     {
       _condition = dependencyCondition;
       _dependingAssemblyNamePattern = dependingAssemblyNamePattern;

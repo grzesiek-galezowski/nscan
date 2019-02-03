@@ -5,7 +5,7 @@ using TddXt.NScan.Domain.SharedKernel;
 
 namespace TddXt.NScan.Domain.Root
 {
-  public interface IDotNetProject : IReferencedProject, IReferencingProject, IProjectScopedRuleTarget, INamespaceBasedRuleTarget
+  public interface IDotNetProject : IReferencedProject, IReferencingProject, IProjectScopedRuleTarget, INamespaceBasedRuleTarget, IDependencyPathBasedRuleTarget
   {
   }
 }

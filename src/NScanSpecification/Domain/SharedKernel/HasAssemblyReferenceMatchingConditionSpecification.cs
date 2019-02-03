@@ -2,13 +2,11 @@
 using GlobExpressions;
 using NSubstitute;
 using TddXt.AnyRoot;
-using TddXt.NScan.Domain;
 using TddXt.NScan.Domain.DependencyPathBasedRules;
-using TddXt.NScan.Domain.SharedKernel;
+using TddXt.NScan.Domain.Root;
 using Xunit;
-using static TddXt.AnyRoot.Root;
 
-namespace TddXt.NScan.Specification.Domain
+namespace TddXt.NScan.Specification.Domain.SharedKernel
 {
   public class HasAssemblyReferenceMatchingConditionSpecification
   {
@@ -16,10 +14,10 @@ namespace TddXt.NScan.Specification.Domain
     public void ShouldReturnResultOfQueryWhetherProjectHasAssembly()
     {
       //GIVEN
-      var depending = Any.Instance<IProjectSearchResult>();
+      var depending = AnyRoot.Root.Any.Instance<IProjectSearchResult>();
       var dependency = Substitute.For<IReferencedProject>();
-      var pattern = Any.Instance<Glob>();
-      var dependencyResponse = Any.Boolean();
+      var pattern = AnyRoot.Root.Any.Instance<Glob>();
+      var dependencyResponse = AnyRoot.Root.Any.Boolean();
       var condition = new HasAssemblyReferenceMatchingCondition(pattern);
 
       dependency.HasAssemblyReferenceWithNameMatching(pattern).Returns(dependencyResponse);

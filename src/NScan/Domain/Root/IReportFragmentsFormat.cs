@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using TddXt.NScan.Domain.DependencyPathBasedRules;
 
-namespace TddXt.NScan.Domain.SharedKernel
+namespace TddXt.NScan.Domain.Root
 {
   public interface IReportFragmentsFormat
   {

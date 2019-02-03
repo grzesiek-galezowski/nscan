@@ -7,9 +7,9 @@ namespace TddXt.NScan.Domain.NamespaceBasedRules
   public class NoCircularUsingsRule : INamespacesBasedRule
   {
     private readonly NoCircularUsingsRuleComplementDto _ruleDto;
-    private readonly IRuleViolationFactory _ruleViolationFactory;
+    private readonly INamespaceBasedRuleViolationFactory _ruleViolationFactory;
 
-    public NoCircularUsingsRule(NoCircularUsingsRuleComplementDto ruleDto, IRuleViolationFactory ruleViolationFactory)
+    public NoCircularUsingsRule(NoCircularUsingsRuleComplementDto ruleDto, INamespaceBasedRuleViolationFactory ruleViolationFactory)
     {
       _ruleDto = ruleDto;
       _ruleViolationFactory = ruleViolationFactory;

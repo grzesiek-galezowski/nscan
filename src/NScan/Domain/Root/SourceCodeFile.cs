@@ -1,6 +1,7 @@
 using System.IO;
 using System.Linq;
 using TddXt.NScan.Domain.NamespaceBasedRules;
+using TddXt.NScan.Domain.ProjectScopedRules;
 using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.ReadingSolution.Ports;
 
@@ -9,9 +10,9 @@ namespace TddXt.NScan.Domain.Root
   public class SourceCodeFile : ISourceCodeFile
   {
     private readonly XmlSourceCodeFile _xmlSourceCodeFile;
-    private readonly IRuleViolationFactory _ruleViolationFactory;
+    private readonly IProjectScopedRuleViolationFactory _ruleViolationFactory;
 
-    public SourceCodeFile(XmlSourceCodeFile xmlSourceCodeFile, IRuleViolationFactory ruleViolationFactory)
+    public SourceCodeFile(XmlSourceCodeFile xmlSourceCodeFile, IProjectScopedRuleViolationFactory ruleViolationFactory)
     {
       _xmlSourceCodeFile = xmlSourceCodeFile;
       _ruleViolationFactory = ruleViolationFactory;

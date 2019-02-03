@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using TddXt.NScan.Domain.DependencyPathBasedRules;
+using TddXt.NScan.Domain.NamespaceBasedRules;
+using TddXt.NScan.Domain.ProjectScopedRules;
+using TddXt.NScan.Domain.SharedKernel;
 
-namespace TddXt.NScan.Domain.SharedKernel
+namespace TddXt.NScan.Domain.Root
 {
-  public interface IRuleViolationFactory
+  public interface IRuleViolationFactory : INamespaceBasedRuleViolationFactory, IDependencyPathRuleViolationFactory, IProjectScopedRuleViolationFactory
   {
-    RuleViolation NoCyclesRuleViolation(string ruleDescription, string projectAssemblyName, IReadOnlyList<IReadOnlyList<string>> cycles);
-    RuleViolation PathRuleViolation(string ruleDescription, IReadOnlyList<IDependencyPathBasedRuleTarget> violationPath);
-    RuleViolation ProjectScopedRuleViolation(string ruleDescription, string violationDescription);
   }
 
   public class RuleViolationFactory : IRuleViolationFactory

@@ -1,6 +1,7 @@
 ﻿using TddXt.NScan.Domain.DependencyPathBasedRules;
+using TddXt.NScan.Domain.SharedKernel;
 
-namespace TddXt.NScan.Domain.SharedKernel
+namespace TddXt.NScan.Domain.Root
 {
   public interface IReferencedProject : IDependencyPathBasedRuleTarget
   {

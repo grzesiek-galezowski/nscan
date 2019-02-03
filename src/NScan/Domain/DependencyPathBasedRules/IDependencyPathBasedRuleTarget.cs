@@ -5,11 +5,11 @@ namespace TddXt.NScan.Domain.DependencyPathBasedRules
 {
   public interface IDependencyPathBasedRuleTarget
   {
+    void FillAllBranchesOf(IDependencyPathInProgress dependencyPathInProgress);
     bool HasProjectAssemblyNameMatching(Pattern glob);
     bool HasProjectAssemblyNameMatching(Glob glob);
     bool HasPackageReferenceMatching(Glob packagePattern);
     bool HasAssemblyReferenceWithNameMatching(Glob pattern);
-    void FillAllBranchesOf(IDependencyPathInProgress dependencyPathInProgress);
     string ToString();
   }
 }

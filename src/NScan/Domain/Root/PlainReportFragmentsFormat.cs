@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TddXt.NScan.Domain.DependencyPathBasedRules;
+using TddXt.NScan.Domain.SharedKernel;
 
-namespace TddXt.NScan.Domain.SharedKernel
+namespace TddXt.NScan.Domain.Root
 {
   public class PlainReportFragmentsFormat : IReportFragmentsFormat
   {

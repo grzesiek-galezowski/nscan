@@ -14,6 +14,7 @@ using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.NotifyingSupport.Ports;
 using TddXt.NScan.ReadingRules.Ports;
 using Xunit;
+using static TddXt.AnyRoot.Root;
 
 namespace TddXt.NScan.Specification.Domain.Root
 {
@@ -23,9 +24,9 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldTellSolutionToResolveAllItsReferencesByIds()
     {
       //GIVEN
-      var id1 = AnyRoot.Root.Any.ProjectId();
-      var id2 = AnyRoot.Root.Any.ProjectId();
-      var id3 = AnyRoot.Root.Any.ProjectId();
+      var id1 = Any.ProjectId();
+      var id2 = Any.ProjectId();
+      var id3 = Any.ProjectId();
       var referencedProjectsIds = new[] { id1, id2, id3 };
       var project = new DotNetStandardProjectBuilder()
       {
@@ -46,12 +47,12 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldLogErrorAndIgnoreProjectThatCannotBeResolved()
     {
       //GIVEN
-      var id1 = AnyRoot.Root.Any.ProjectId();
-      var id2 = AnyRoot.Root.Any.ProjectId();
-      var id3 = AnyRoot.Root.Any.ProjectId();
+      var id1 = Any.ProjectId();
+      var id2 = Any.ProjectId();
+      var id3 = Any.ProjectId();
       var referencedProjectsIds = new[] { id1, id2, id3 };
       var support = Substitute.For<INScanSupport>();
-      var exceptionFromResolution = AnyRoot.Root.Any.Instance<ReferencedProjectNotFoundInSolutionException>();
+      var exceptionFromResolution = Any.Instance<ReferencedProjectNotFoundInSolutionException>();
       var project = new DotNetStandardProjectBuilder()
       {
         ReferencedProjectIds = referencedProjectsIds,
@@ -82,7 +83,7 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       //GIVEN
       var referencingProject = Substitute.For<IReferencingProject>();
-      var projectId = AnyRoot.Root.Any.ProjectId();
+      var projectId = Any.ProjectId();
       var project = new DotNetStandardProjectBuilder()
       {
         ProjectId = projectId
@@ -100,7 +101,7 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       //GIVEN
       var referencedProject = Substitute.For<IReferencedProject>();
-      var projectId = AnyRoot.Root.Any.ProjectId();
+      var projectId = Any.ProjectId();
       var project = new DotNetStandardProjectBuilder()
       {
         ProjectId = projectId
@@ -131,7 +132,7 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       //GIVEN
       var project = new DotNetStandardProjectBuilder().Build();
-      project.AddReferencingProject(AnyRoot.Root.Any.ProjectId(), AnyRoot.Root.Any.Instance<IReferencingProject>());
+      project.AddReferencingProject(Any.ProjectId(), Any.Instance<IDependencyPathBasedRuleTarget>());
 
       //WHEN
       var isRoot = project.IsRoot();
@@ -149,13 +150,13 @@ namespace TddXt.NScan.Specification.Domain.Root
       var reference2 = Substitute.For<IReferencedProject>();
       var reference3 = Substitute.For<IReferencedProject>();
       var dependencyPathInProgress = Substitute.For<IDependencyPathInProgress>();
-      var clonedPathInProgress1 = AnyRoot.Root.Any.Instance<IDependencyPathInProgress>();
-      var clonedPathInProgress2 = AnyRoot.Root.Any.Instance<IDependencyPathInProgress>();
-      var clonedPathInProgress3 = AnyRoot.Root.Any.Instance<IDependencyPathInProgress>();
+      var clonedPathInProgress1 = Any.Instance<IDependencyPathInProgress>();
+      var clonedPathInProgress2 = Any.Instance<IDependencyPathInProgress>();
+      var clonedPathInProgress3 = Any.Instance<IDependencyPathInProgress>();
 
-      project.AddReferencedProject(AnyRoot.Root.Any.ProjectId(), reference1);
-      project.AddReferencedProject(AnyRoot.Root.Any.ProjectId(), reference2);
-      project.AddReferencedProject(AnyRoot.Root.Any.ProjectId(), reference3);
+      project.AddReferencedProject(Any.ProjectId(), reference1);
+      project.AddReferencedProject(Any.ProjectId(), reference2);
+      project.AddReferencedProject(Any.ProjectId(), reference3);
 
       dependencyPathInProgress.CloneWith(project).Returns(
         clonedPathInProgress1,
@@ -190,7 +191,7 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldSayItHasProjectIdMatchingTheOneItWasCreatedWith()
     {
       //GIVEN
-      var assemblyName = AnyRoot.Root.Any.String();
+      var assemblyName = Any.String();
       var project = new DotNetStandardProjectBuilder()
       {
         AssemblyName = assemblyName
@@ -207,8 +208,8 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldSayItHasProjectAssemblyNameMatchingBlobPattern()
     {
       //GIVEN
-      var assemblySuffix = AnyRoot.Root.Any.String();
-      var assemblyName = AnyRoot.Root.Any.String() + "." + assemblySuffix;
+      var assemblySuffix = Any.String();
+      var assemblyName = Any.String() + "." + assemblySuffix;
       var project = new DotNetStandardProjectBuilder()
       {
         AssemblyName = assemblyName
@@ -226,10 +227,10 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldSayItDoesNotHaveMatchingProjectAssemblyNameWhenItWasNotCreatedWithMatchingOne()
     {
       //GIVEN
-      var searchedAssemblyName = AnyRoot.Root.Any.String();
+      var searchedAssemblyName = Any.String();
       var project = new DotNetStandardProjectBuilder
       {
-        AssemblyName = AnyRoot.Root.Any.OtherThan(searchedAssemblyName)
+        AssemblyName = Any.OtherThan(searchedAssemblyName)
       }.Build();
 
       //WHEN
@@ -250,7 +251,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       {
         file1, file2, file3
       };
-      var namespacesCache = AnyRoot.Root.Any.Instance<INamespacesDependenciesCache>();
+      var namespacesCache = Any.Instance<INamespacesDependenciesCache>();
       var project = new DotNetStandardProjectBuilder
       {
         NamespacesDependenciesCache = namespacesCache,
@@ -273,10 +274,10 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldEvaluateRuleWithItsNamespaceDependenciesMapping()
     {
       //GIVEN
-      var namespacesCache = AnyRoot.Root.Any.Instance<INamespacesDependenciesCache>();
+      var namespacesCache = Any.Instance<INamespacesDependenciesCache>();
       var rule = Substitute.For<INamespacesBasedRule>();
-      var report = AnyRoot.Root.Any.Instance<IAnalysisReportInProgress>();
-      var projectAssemblyName = AnyRoot.Root.Any.String();
+      var report = Any.Instance<IAnalysisReportInProgress>();
+      var projectAssemblyName = Any.String();
       var project = new DotNetStandardProjectBuilder
       {
         NamespacesDependenciesCache = namespacesCache,
@@ -295,7 +296,7 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldReturnAssemblyNameWhenAskedForStringRepresentation()
     {
       //GIVEN
-      var assemblyName = AnyRoot.Root.Any.String();
+      var assemblyName = Any.String();
       var project = new DotNetStandardProjectBuilder
       {
         AssemblyName = assemblyName
@@ -312,12 +313,12 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldSayWhenItHasPackageReference()
     {
       //GIVEN
-      var packageReference = AnyRoot.Root.Any.String();
+      var packageReference = Any.String();
       var project = new DotNetStandardProjectBuilder()
       {
         PackageReferences = new List<PackageReference>()
         {
-          new PackageReference(packageReference, AnyRoot.Root.Any.String())
+          new PackageReference(packageReference, Any.String())
         }
       }.Build();
 
@@ -335,7 +336,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       var project = new DotNetStandardProjectBuilder().Build();
 
       //WHEN
-      var result = project.HasPackageReferenceMatching(AnyRoot.Root.Any.Instance<Glob>());
+      var result = project.HasPackageReferenceMatching(Any.Instance<Glob>());
 
       //THEN
       result.Should().BeFalse();
@@ -345,12 +346,12 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldSayWhenItHasAssemblyReference()
     {
       //GIVEN
-      var assemblyReferenceName = AnyRoot.Root.Any.String();
+      var assemblyReferenceName = Any.String();
       var project = new DotNetStandardProjectBuilder()
       {
         AssemblyReferences = new List<AssemblyReference>()
         {
-          new AssemblyReference(assemblyReferenceName, AnyRoot.Root.Any.String())
+          new AssemblyReference(assemblyReferenceName, Any.String())
         }
       }.Build();
 
@@ -368,7 +369,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       var project = new DotNetStandardProjectBuilder().Build();
 
       //WHEN
-      var result = project.HasAssemblyReferenceWithNameMatching(AnyRoot.Root.Any.Instance<Glob>());
+      var result = project.HasAssemblyReferenceWithNameMatching(Any.Instance<Glob>());
 
       //THEN
       result.Should().BeFalse();
@@ -379,15 +380,15 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldPassAllItsFilesToProjectScopedRuleAlongWithRootNamespace()
     {
       //GIVEN
-      var files = AnyRoot.Root.Any.ReadOnlyList<ISourceCodeFile>();
-      var rootNamespace = AnyRoot.Root.Any.String();
+      var files = Any.ReadOnlyList<ISourceCodeFile>();
+      var rootNamespace = Any.String();
       var project = new DotNetStandardProjectBuilder()
       {
         RootNamespace = rootNamespace,
         Files = files
       }.Build();
       var rule = Substitute.For<IProjectScopedRule>();
-      var report = AnyRoot.Root.Any.Instance<IAnalysisReportInProgress>();
+      var report = Any.Instance<IAnalysisReportInProgress>();
       
       //WHEN
       project.AnalyzeFiles(rule, report);
@@ -404,7 +405,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       //GIVEN
       var project = new DotNetStandardProjectBuilder
       {
-        AssemblyName = AnyRoot.Root.Any.String()
+        AssemblyName = Any.String()
       }.Build();
       var pattern = new Glob(patternString);
       
@@ -429,16 +430,16 @@ namespace TddXt.NScan.Specification.Domain.Root
           Support);
       }
 
-      public IReadOnlyList<PackageReference> PackageReferences { private get; set; } = AnyRoot.Root.Any.ReadOnlyList<PackageReference>();
+      public IReadOnlyList<PackageReference> PackageReferences { private get; set; } = Any.ReadOnlyList<PackageReference>();
       public IReadOnlyList<AssemblyReference> AssemblyReferences { private get; set; } =
-        AnyRoot.Root.Any.ReadOnlyList<AssemblyReference>();
-      public ProjectId[] ReferencedProjectIds { private get; set; } = AnyRoot.Root.Any.Array<ProjectId>();
-      public ProjectId ProjectId { private get; set; } = AnyRoot.Root.Any.ProjectId();
-      public string AssemblyName { private get; set; } = AnyRoot.Root.Any.String();
-      public INScanSupport Support { private get; set; } = AnyRoot.Root.Any.Support();
-      public string RootNamespace { get; set; } = AnyRoot.Root.Any.String(); //bug value object
-      public IReadOnlyList<ISourceCodeFile> Files { get; set; } = AnyRoot.Root.Any.ReadOnlyList<ISourceCodeFile>();
-      public INamespacesDependenciesCache NamespacesDependenciesCache { get; set; } = AnyRoot.Root.Any.Instance<INamespacesDependenciesCache>();
+        Any.ReadOnlyList<AssemblyReference>();
+      public ProjectId[] ReferencedProjectIds { private get; set; } = Any.Array<ProjectId>();
+      public ProjectId ProjectId { private get; set; } = Any.ProjectId();
+      public string AssemblyName { private get; set; } = Any.String();
+      public INScanSupport Support { private get; set; } = Any.Support();
+      public string RootNamespace { get; set; } = Any.String(); //bug value object
+      public IReadOnlyList<ISourceCodeFile> Files { get; set; } = Any.ReadOnlyList<ISourceCodeFile>();
+      public INamespacesDependenciesCache NamespacesDependenciesCache { get; set; } = Any.Instance<INamespacesDependenciesCache>();
     }
   }
 

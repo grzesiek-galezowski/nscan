@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TddXt.NScan.Domain.NamespaceBasedRules;
+using TddXt.NScan.Domain.ProjectScopedRules;
 using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.NotifyingSupport.Ports;
 using TddXt.NScan.ReadingSolution.Ports;
@@ -17,12 +18,12 @@ namespace TddXt.NScan.Domain.Root
   {
     private readonly INScanSupport _support;
     private readonly IReadOnlyList<XmlProject> _xmlProjects;
-    private readonly IRuleViolationFactory _ruleViolationFactory;
+    private readonly IProjectScopedRuleViolationFactory _ruleViolationFactory;
 
     public CsharpWorkspaceModel(
       INScanSupport support, 
       IReadOnlyList<XmlProject> xmlProjects,
-      IRuleViolationFactory ruleViolationFactory)
+      IProjectScopedRuleViolationFactory ruleViolationFactory)
     {
       _support = support;
       _xmlProjects = xmlProjects;
