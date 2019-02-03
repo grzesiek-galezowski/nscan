@@ -5,6 +5,6 @@ namespace TddXt.NScan.Domain
   public interface INamespacesBasedRuleSet
   {
     void Add(INamespacesBasedRule rule);
-    void Check(IReadOnlyList<IDotNetProject> dotNetProjects, IAnalysisReportInProgress report);
+    void Check(IReadOnlyList<INamespaceBasedRuleTarget> dotNetProjects, IAnalysisReportInProgress report);
   }
 }

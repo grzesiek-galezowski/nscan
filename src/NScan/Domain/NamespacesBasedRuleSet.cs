@@ -11,7 +11,7 @@ namespace TddXt.NScan.Domain
       _rules.Add(rule);
     }
 
-    public void Check(IReadOnlyList<IDotNetProject> dotNetProjects /* bug upper-level interface */, IAnalysisReportInProgress report)
+    public void Check(IReadOnlyList<INamespaceBasedRuleTarget> dotNetProjects /* bug upper-level interface */, IAnalysisReportInProgress report)
     {
       foreach (var rule in _rules)
       {

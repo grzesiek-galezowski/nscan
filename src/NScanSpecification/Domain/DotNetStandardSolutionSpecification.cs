@@ -208,7 +208,7 @@ namespace TddXt.NScan.Specification.Domain
       return Arg<IReadOnlyList<IDotNetProject>>.That(Contains(project1, project2, project3));
     }
 
-    private static Action<IReadOnlyList<IDotNetProject>> Contains(IDotNetProject project1, IDotNetProject project2, IDotNetProject project3)
+    private static Action<IReadOnlyList<INamespaceBasedRuleTarget>> Contains(IDotNetProject project1, INamespaceBasedRuleTarget project2, INamespaceBasedRuleTarget project3)
     {
       return rol => rol.Should().BeEquivalentTo(project1, project2, project3);
     }

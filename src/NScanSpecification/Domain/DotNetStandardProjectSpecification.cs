@@ -395,6 +395,25 @@ namespace TddXt.NScan.Specification.Domain
       rule.Received(1).Check(files, report);
     }
 
+    [Theory]
+    [InlineData("*", true)]
+    [InlineData("", false)]
+    public void ShouldReturnTrueWhenAssemblyNameMatchesPatternOtherwiseFalse(string patternString, bool expectedResult)
+    {
+      //GIVEN
+      var project = new DotNetStandardProjectBuilder
+      {
+        AssemblyName = Any.String()
+      }.Build();
+      var pattern = new Glob(patternString);
+      
+      //WHEN
+      var result = project.HasProjectAssemblyNameMatching(pattern);
+
+      //THEN
+      result.Should().Be(expectedResult);
+    }
+
     private class DotNetStandardProjectBuilder
     {
       public DotNetStandardProject Build()
@@ -421,4 +440,6 @@ namespace TddXt.NScan.Specification.Domain
       public INamespacesDependenciesCache NamespacesDependenciesCache { get; set; } = Any.Instance<INamespacesDependenciesCache>();
     }
   }
+
+  
 }

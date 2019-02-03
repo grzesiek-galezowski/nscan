@@ -13,7 +13,7 @@ namespace TddXt.NScan.Domain
       _projectDependencyPaths = new List<IProjectDependencyPath>();
     }
 
-    public void BuildStartingFrom(params IDotNetProject[] rootProjects)
+    public void BuildStartingFrom(params IReferencingProject[] rootProjects)
     {
       foreach (var dotNetProject in rootProjects)
       {

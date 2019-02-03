@@ -3,12 +3,11 @@ using TddXt.NScan.ReadingRules.Ports;
 
 namespace TddXt.NScan.Domain
 {
-  public interface IReferencedProject
+  public interface IReferencedProject : IDependencyPathBasedRuleTarget
   {
     void Print(int nestingLevel);
     void AddReferencingProject(ProjectId projectId, IReferencingProject referencingProject);
     void ResolveAsReferenceOf(IReferencingProject project);
-    void FillAllBranchesOf(IDependencyPathInProgress dependencyPathInProgress);
     bool HasProjectAssemblyNameMatching(Pattern glob);
     bool HasProjectAssemblyNameMatching(Glob glob);
     bool HasPackageReferenceMatching(Glob packagePattern);

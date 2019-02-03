@@ -18,7 +18,7 @@ namespace TddXt.NScan.Domain
 
     public void ResolveAllProjectsReferences()
     {
-      //bug use the analysis report to write what projects are skipped - write a separate acceptance test for that
+      //backlog use the analysis report to write what projects are skipped - write a separate acceptance test for that
       foreach (var referencingProject in _projectsById.Values)
       {
         referencingProject.ResolveReferencesFrom(this);
@@ -79,7 +79,7 @@ namespace TddXt.NScan.Domain
              "probably because it was in an incompatible format and was skipped during project collection phase.";
     }
 
-    private IDotNetProject[] RootProjects()
+    private IReferencingProject[] RootProjects()
     {
       return Projects().Where(project => project.IsRoot()).ToArray();
     }

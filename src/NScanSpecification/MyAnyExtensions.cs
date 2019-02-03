@@ -1,3 +1,4 @@
+using GlobExpressions;
 using TddXt.AnyExtensibility;
 using TddXt.AnyRoot;
 using TddXt.NScan.Domain;
@@ -10,6 +11,11 @@ namespace TddXt.NScan.Specification
     public static ProjectId ProjectId(this BasicGenerator gen)
     {
       return gen.Instance<ProjectId>();
+    }
+
+    public static Glob Glob(this BasicGenerator gen)
+    {
+      return gen.Instance<Glob>();
     }
 
     public static INScanSupport Support(this BasicGenerator gen)

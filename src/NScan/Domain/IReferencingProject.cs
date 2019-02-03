@@ -1,6 +1,6 @@
 ﻿namespace TddXt.NScan.Domain
 {
-  public interface IReferencingProject
+  public interface IReferencingProject : IDependencyPathBasedRuleTarget
   {
     void AddReferencedProject(ProjectId projectId, IReferencedProject referencedProject);
     void ResolveReferencesFrom(ISolutionContext solution);

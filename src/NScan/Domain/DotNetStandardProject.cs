@@ -43,16 +43,16 @@ namespace TddXt.NScan.Domain
       _support = support;
     }
 
-    public void AddReferencedProject(ProjectId referencedProjectId, IReferencedProject referencedProject)
+    public void AddReferencedProject(ProjectId projectId, IReferencedProject referencedProject)
     {
-      _referencedProjects.Add(referencedProjectId, referencedProject);
+      _referencedProjects.Add(projectId, referencedProject);
     }
 
 
-    public void AddReferencingProject(ProjectId referencingProjectId, IReferencingProject referencingCsProject)
+    public void AddReferencingProject(ProjectId projectId, IReferencingProject referencingProject)
     {
-      AssertThisIsAddingTheSameReferenceNotShadowing(referencingProjectId, referencingCsProject);
-      _referencingProjects[referencingProjectId] = referencingCsProject;
+      AssertThisIsAddingTheSameReferenceNotShadowing(projectId, referencingProject);
+      _referencingProjects[projectId] = referencingProject;
     }
 
     public bool IsRoot()
@@ -135,7 +135,6 @@ namespace TddXt.NScan.Domain
       rule.Evaluate(_assemblyName, _namespacesDependenciesCache, report);
     }
 
-    //bug UT
     public bool HasProjectAssemblyNameMatching(Glob glob) => glob.IsMatch(_assemblyName);
 
     public void ResolveAsReferenceOf(IReferencingProject project)
@@ -164,13 +163,13 @@ namespace TddXt.NScan.Domain
     }
   }
 
-  internal class ProjectShadowingException : Exception
+  public class ProjectShadowingException : Exception
   {
     public ProjectShadowingException(IReferencingProject previousProject, IReferencingProject newProject)
     : base(
-      $"Two distinct projects are being added with the same path. " +
+      "Two distinct projects are being added with the same path. " +
       $"{previousProject} would be shadowed by {newProject}. " +
-      $"This typically indicates a programmer error.")
+      "This typically indicates a programmer error.")
     {
       
     }

@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using FluentAssertions;
 using NSubstitute;
-using TddXt.AnyRoot;
 using TddXt.NScan.Domain;
 using Xunit;
 using static TddXt.AnyRoot.Root;
@@ -11,7 +9,7 @@ namespace TddXt.NScan.Specification.Domain
   public class NamespacesBasedRuleSetSpecification
   {
     [Fact]
-    public void ShouldXXXYYZZZ()
+    public void ShouldEvaluateEachProjectForEachRuleAndReportFinishAfterEachRuleCheckWhenChecked()
     {
       //GIVEN
       var ruleSet = new NamespacesBasedRuleSet();
@@ -27,7 +25,7 @@ namespace TddXt.NScan.Specification.Domain
       ruleSet.Add(rule3);
 
       //WHEN
-      ruleSet.Check(new List<IDotNetProject>() {project1, project2, project3}, report);
+      ruleSet.Check(new List<INamespaceBasedRuleTarget> {project1, project2, project3}, report);
 
       //THEN
       Received.InOrder(() =>
