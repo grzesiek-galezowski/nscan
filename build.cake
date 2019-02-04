@@ -38,15 +38,15 @@ var cakeNScanReleaseNotes = nscanConsoleReleaseNotes;
 // DEPENDENCIES
 //////////////////////////////////////////////////////////////////////
 
-var buildalyzer       = new[] { "Buildalyzer"                        , "2.2.0"      };
-var glob              = new[] { "Glob"                               , "1.1.1"      };
-var sprache           = new[] { "Sprache"                            , "2.2.0"      };
-var functionalMaybe   = new[] { "Functional.Maybe"                   , "2.0.9"      };
-var functionalMaybeJust= new[] { "Functional.Maybe.Just"             , "1.0.0"      };
-var fluentCommandline = new[] { "FluentCommandLineParser-netstandard", "1.4.3.13"   };
-var cakeCore          = new[] { "Cake.Core"                          , "0.32.1"     };
-var nscanDependency   = new[] { nscanTitle                           , nscanVersion };
-var roslyn            = new[] { "Microsoft.CodeAnalysis.CSharp"      , "2.10.0"};
+var buildalyzer         = new[] { "Buildalyzer"                        , "2.2.0"      };
+var glob                = new[] { "Glob"                               , "1.1.1"      };
+var sprache             = new[] { "Sprache"                            , "2.2.0"      };
+var functionalMaybe     = new[] { "Functional.Maybe"                   , "2.0.10"     };
+var functionalMaybeJust = new[] { "Functional.Maybe.Just"              , "1.0.0"      };
+var fluentCommandline   = new[] { "FluentCommandLineParser-netstandard", "1.4.3.13"   };
+var cakeCore            = new[] { "Cake.Core"                          , "0.32.1"     };
+var nscanDependency     = new[] { nscanTitle                           , nscanVersion };
+var roslyn              = new[] { "Microsoft.CodeAnalysis.CSharp"      , "2.10.0"};
 
 //////////////////////////////////////////////////////////////////////
 // PREPARATION
