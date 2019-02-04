@@ -1,12 +1,10 @@
 ﻿using NSubstitute;
-using TddXt.NScan.Domain;
 using TddXt.NScan.Domain.DependencyPathBasedRules;
 using TddXt.NScan.Domain.Root;
 using TddXt.NScan.Domain.SharedKernel;
 using Xunit;
-using static TddXt.AnyRoot.Root;
 
-namespace TddXt.NScan.Specification.Domain
+namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
 {
   public class PathCacheSpecification
   {
@@ -19,9 +17,9 @@ namespace TddXt.NScan.Specification.Domain
       var project1 = Substitute.For<IDotNetProject>();
       var project2 = Substitute.For<IDotNetProject>();
       var project3 = Substitute.For<IDotNetProject>();
-      var dependencyStartingPath1 = Any.Instance<IDependencyPathInProgress>();
-      var dependencyStartingPath2 = Any.Instance<IDependencyPathInProgress>();
-      var dependencyStartingPath3 = Any.Instance<IDependencyPathInProgress>();
+      var dependencyStartingPath1 = AnyRoot.Root.Any.Instance<IDependencyPathInProgress>();
+      var dependencyStartingPath2 = AnyRoot.Root.Any.Instance<IDependencyPathInProgress>();
+      var dependencyStartingPath3 = AnyRoot.Root.Any.Instance<IDependencyPathInProgress>();
 
       dependencyPathFactory.NewDependencyPathFor((IFinalDependencyPathDestination)pathCache).Returns(
         dependencyStartingPath1,
@@ -41,12 +39,12 @@ namespace TddXt.NScan.Specification.Domain
     public void ShouldMakePassedRuleCheckAllItsPaths()
     {
       //GIVEN
-      var pathCache = new PathCache(Any.Instance<IDependencyPathFactory>());
+      var pathCache = new PathCache(AnyRoot.Root.Any.Instance<IDependencyPathFactory>());
       var rule = Substitute.For<IDependencyRule>();
-      var report = Any.Instance<IAnalysisReportInProgress>();
-      var path1 = Any.Instance<IProjectDependencyPath>();
-      var path2 = Any.Instance<IProjectDependencyPath>();
-      var path3 = Any.Instance<IProjectDependencyPath>();
+      var report = AnyRoot.Root.Any.Instance<IAnalysisReportInProgress>();
+      var path1 = AnyRoot.Root.Any.Instance<IProjectDependencyPath>();
+      var path2 = AnyRoot.Root.Any.Instance<IProjectDependencyPath>();
+      var path3 = AnyRoot.Root.Any.Instance<IProjectDependencyPath>();
       pathCache.Add(path1);
       pathCache.Add(path2);
       pathCache.Add(path3);

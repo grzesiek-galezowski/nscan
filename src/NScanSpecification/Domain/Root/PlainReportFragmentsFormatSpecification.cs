@@ -1,15 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using FluentAssertions;
 using TddXt.AnyRoot.Strings;
-using TddXt.NScan.Domain;
 using TddXt.NScan.Domain.DependencyPathBasedRules;
 using TddXt.NScan.Domain.Root;
-using TddXt.NScan.Domain.SharedKernel;
 using Xunit;
-using static System.Environment;
-using static TddXt.AnyRoot.Root;
 
-namespace TddXt.NScan.Specification.Domain
+namespace TddXt.NScan.Specification.Domain.Root
 {
   public class PlainReportFragmentsFormatSpecification
   {
@@ -18,9 +15,9 @@ namespace TddXt.NScan.Specification.Domain
     {
       //GIVEN
       var format = new PlainReportFragmentsFormat();
-      var p1 = Any.Instance<IReferencedProject>();
-      var p2 = Any.Instance<IReferencedProject>();
-      var p3 = Any.Instance<IReferencedProject>();
+      var p1 = AnyRoot.Root.Any.Instance<IReferencedProject>();
+      var p2 = AnyRoot.Root.Any.Instance<IReferencedProject>();
+      var p3 = AnyRoot.Root.Any.Instance<IReferencedProject>();
 
       //WHEN
       var result = format.ApplyToPath(new List<IDependencyPathBasedRuleTarget>() {p1, p2, p3});
@@ -34,7 +31,7 @@ namespace TddXt.NScan.Specification.Domain
     {
       //GIVEN
       var format = new PlainReportFragmentsFormat();
-      var p1 = Any.Instance<IDependencyPathBasedRuleTarget>();
+      var p1 = AnyRoot.Root.Any.Instance<IDependencyPathBasedRuleTarget>();
 
       //WHEN
       var result = format.ApplyToPath(new List<IDependencyPathBasedRuleTarget>() {p1});
@@ -48,12 +45,12 @@ namespace TddXt.NScan.Specification.Domain
     {
       //GIVEN
       var format = new PlainReportFragmentsFormat();
-      var namespace1 = Any.String();
-      var namespace2 = Any.String();
-      var namespace3 = Any.String();
-      var namespace4 = Any.String();
-      var namespace5 = Any.String();
-      var namespace6 = Any.String();
+      var namespace1 = AnyRoot.Root.Any.String();
+      var namespace2 = AnyRoot.Root.Any.String();
+      var namespace3 = AnyRoot.Root.Any.String();
+      var namespace4 = AnyRoot.Root.Any.String();
+      var namespace5 = AnyRoot.Root.Any.String();
+      var namespace6 = AnyRoot.Root.Any.String();
       var cycles = new List<IReadOnlyList<string>>
       {
         new List<string> {namespace1, namespace2, namespace3},
@@ -65,14 +62,14 @@ namespace TddXt.NScan.Specification.Domain
 
       //THEN
       result.Should().Be(
-        $"Cycle 1:{NewLine}" +
-        $"  {namespace1}{NewLine}" + 
-        $"    {namespace2}{NewLine}" + 
-        $"      {namespace3}{NewLine}" + 
-        $"Cycle 2:{NewLine}" +
-        $"  {namespace4}{NewLine}" + 
-        $"    {namespace5}{NewLine}" + 
-        $"      {namespace6}{NewLine}");
+        $"Cycle 1:{Environment.NewLine}" +
+        $"  {namespace1}{Environment.NewLine}" + 
+        $"    {namespace2}{Environment.NewLine}" + 
+        $"      {namespace3}{Environment.NewLine}" + 
+        $"Cycle 2:{Environment.NewLine}" +
+        $"  {namespace4}{Environment.NewLine}" + 
+        $"    {namespace5}{Environment.NewLine}" + 
+        $"      {namespace6}{Environment.NewLine}");
     }
 
   }

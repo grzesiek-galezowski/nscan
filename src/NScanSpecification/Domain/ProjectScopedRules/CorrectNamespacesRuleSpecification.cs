@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NSubstitute;
-using TddXt.NScan.Domain.NamespaceBasedRules;
 using TddXt.NScan.Domain.ProjectScopedRules;
+using TddXt.NScan.Domain.Root;
 using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.ReadingRules.Ports;
 using Xunit;

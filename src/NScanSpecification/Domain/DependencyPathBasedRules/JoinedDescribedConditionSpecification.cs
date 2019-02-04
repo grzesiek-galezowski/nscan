@@ -2,14 +2,11 @@
 using NSubstitute;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
-using TddXt.NScan.Domain;
 using TddXt.NScan.Domain.DependencyPathBasedRules;
 using TddXt.NScan.Domain.Root;
-using TddXt.NScan.Domain.SharedKernel;
 using Xunit;
-using static TddXt.AnyRoot.Root;
 
-namespace TddXt.NScan.Specification.Domain
+namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
 {
   public class JoinedDescribedConditionSpecification
   {
@@ -20,12 +17,12 @@ namespace TddXt.NScan.Specification.Domain
       //GIVEN
       var condition1 = Substitute.For<IDependencyCondition>();
       var condition2 = Substitute.For<IDependencyCondition>();
-      var depending = Any.Instance<IProjectSearchResult>();
-      var dependency = Any.Instance<IReferencedProject>();
-      var condition1Result = Any.Boolean();
-      var condition2Result = Any.Boolean();
+      var depending = AnyRoot.Root.Any.Instance<IProjectSearchResult>();
+      var dependency = AnyRoot.Root.Any.Instance<IReferencedProject>();
+      var condition1Result = AnyRoot.Root.Any.Boolean();
+      var condition2Result = AnyRoot.Root.Any.Boolean();
 
-      var joinedCondition = new JoinedDescribedCondition(condition1, condition2, Any.String());
+      var joinedCondition = new JoinedDescribedCondition(condition1, condition2, AnyRoot.Root.Any.String());
       
       condition1.Matches(depending, dependency).Returns(condition1Result);
       condition2.Matches(depending, dependency).Returns(condition2Result);
@@ -41,10 +38,10 @@ namespace TddXt.NScan.Specification.Domain
     public void ShouldReturnsADescriptionItWasCreatedWith()
     {
       //GIVEN
-      var initialDescription = Any.String();
+      var initialDescription = AnyRoot.Root.Any.String();
       var condition = new JoinedDescribedCondition(
-        Any.Instance<IDependencyCondition>(), 
-        Any.Instance<IDependencyCondition>(),
+        AnyRoot.Root.Any.Instance<IDependencyCondition>(), 
+        AnyRoot.Root.Any.Instance<IDependencyCondition>(),
         initialDescription);
       
       //WHEN

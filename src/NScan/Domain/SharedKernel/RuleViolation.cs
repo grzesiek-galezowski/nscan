@@ -9,8 +9,8 @@ namespace TddXt.NScan.Domain.SharedKernel
       ViolationDescription = violationDescription;
     }
 
-    public string RuleDescription { get; private set; }
-    public string PrefixPhrase { get; private set; }
-    public string ViolationDescription { get; private set; }
+    public string RuleDescription { get; }
+    public string PrefixPhrase { get; }
+    public string ViolationDescription { get; }
   }
 }

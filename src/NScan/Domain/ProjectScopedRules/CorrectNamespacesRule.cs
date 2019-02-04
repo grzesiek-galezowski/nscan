@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using TddXt.NScan.Domain.NamespaceBasedRules;
 using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.ReadingRules.Ports;
 
@@ -22,7 +21,7 @@ namespace TddXt.NScan.Domain.ProjectScopedRules
       }
     }
 
-    public void Check(IReadOnlyList<ISourceCodeFile> sourceCodeFiles, IAnalysisReportInProgress report)
+    public void Check(IReadOnlyList<ISourceCodeFileInNamespace> sourceCodeFiles, IAnalysisReportInProgress report)
     {
       foreach (var sourceCodeFile in sourceCodeFiles)
       {

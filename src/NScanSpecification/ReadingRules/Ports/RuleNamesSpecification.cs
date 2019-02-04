@@ -1,10 +1,8 @@
-﻿using System;
-using FluentAssertions;
-using TddXt.NScan.Domain;
+﻿using FluentAssertions;
 using TddXt.NScan.ReadingRules.Ports;
 using Xunit;
 
-namespace TddXt.NScan.Specification.Domain
+namespace TddXt.NScan.Specification.ReadingRules.Ports
 {
   public class RuleNamesSpecification
   {

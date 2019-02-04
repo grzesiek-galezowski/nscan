@@ -1,11 +1,9 @@
 using NSubstitute;
-using TddXt.NScan.Domain;
 using TddXt.NScan.Domain.DependencyPathBasedRules;
 using TddXt.NScan.Domain.SharedKernel;
 using Xunit;
-using static TddXt.AnyRoot.Root;
 
-namespace TddXt.NScan.Specification.Domain
+namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
 {
   public class PathRuleSetSpecification
   {
@@ -14,11 +12,11 @@ namespace TddXt.NScan.Specification.Domain
     {
       //GIVEN
       var ruleSet = new PathRuleSet();
-      var report = Any.Instance<IAnalysisReportInProgress>();
+      var report = AnyRoot.Root.Any.Instance<IAnalysisReportInProgress>();
       var pathCache = Substitute.For<IPathCache>();
-      var rule1 = Any.Instance<IDependencyRule>();
-      var rule2 = Any.Instance<IDependencyRule>();
-      var rule3 = Any.Instance<IDependencyRule>();
+      var rule1 = AnyRoot.Root.Any.Instance<IDependencyRule>();
+      var rule2 = AnyRoot.Root.Any.Instance<IDependencyRule>();
+      var rule3 = AnyRoot.Root.Any.Instance<IDependencyRule>();
       ruleSet.Add(rule1);
       ruleSet.Add(rule2);
       ruleSet.Add(rule3);

@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
 using NSubstitute;
-using TddXt.NScan.Domain;
 using TddXt.NScan.Domain.NamespaceBasedRules;
 using TddXt.NScan.Domain.Root;
 using TddXt.NScan.Domain.SharedKernel;
 using Xunit;
-using static TddXt.AnyRoot.Root;
 
-namespace TddXt.NScan.Specification.Domain
+namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
 {
   public class NamespacesBasedRuleSetSpecification
   {
@@ -20,9 +18,9 @@ namespace TddXt.NScan.Specification.Domain
       var project1 = Substitute.For<IDotNetProject>();
       var project2 = Substitute.For<IDotNetProject>();
       var project3 = Substitute.For<IDotNetProject>();
-      var rule1 = Any.Instance<INamespacesBasedRule>();
-      var rule2 = Any.Instance<INamespacesBasedRule>();
-      var rule3 = Any.Instance<INamespacesBasedRule>();
+      var rule1 = AnyRoot.Root.Any.Instance<INamespacesBasedRule>();
+      var rule2 = AnyRoot.Root.Any.Instance<INamespacesBasedRule>();
+      var rule3 = AnyRoot.Root.Any.Instance<INamespacesBasedRule>();
       ruleSet.Add(rule1);
       ruleSet.Add(rule2);
       ruleSet.Add(rule3);

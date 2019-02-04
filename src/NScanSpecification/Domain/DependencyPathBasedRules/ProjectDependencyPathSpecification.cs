@@ -3,15 +3,12 @@ using FluentAssertions;
 using NSubstitute;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
-using TddXt.NScan.Domain;
 using TddXt.NScan.Domain.DependencyPathBasedRules;
 using TddXt.NScan.Domain.Root;
-using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.ReadingRules.Ports;
 using Xunit;
-using static TddXt.AnyRoot.Root;
 
-namespace TddXt.NScan.Specification.Domain
+namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
 {
   public class ProjectDependencyPathSpecification
   {
@@ -19,11 +16,11 @@ namespace TddXt.NScan.Specification.Domain
     public void ShouldReturnSegmentBetweenTwoResultsAsSegmentStartingWithDependingAndEndingWithDependency()
     {
       //GIVEN
-      var projects = Any.ReadOnlyList<IReferencedProject>();
-      var projectsSegment = Any.OtherThan(projects);
-      var path = new ProjectDependencyPath(projects, Any.Instance<IProjectFoundSearchResultFactory>());
+      var projects = AnyRoot.Root.Any.ReadOnlyList<IReferencedProject>();
+      var projectsSegment = AnyRoot.Root.Any.OtherThan(projects);
+      var path = new ProjectDependencyPath(projects, AnyRoot.Root.Any.Instance<IProjectFoundSearchResultFactory>());
       var depending = Substitute.For<IProjectSearchResult>();
-      var dependency = Any.Instance<IProjectSearchResult>();
+      var dependency = AnyRoot.Root.Any.Instance<IProjectSearchResult>();
 
       depending.SegmentEndingWith(dependency, projects).Returns(projectsSegment);
 
@@ -38,9 +35,9 @@ namespace TddXt.NScan.Specification.Domain
     public void ShouldReturnResultWithFoundProjectAndItsIndexWhenTheProjectMatchesCondition()
     {
       //GIVEN
-      var project1 = Any.Instance<IReferencedProject>();
-      var project2 = Any.Instance<IReferencedProject>();
-      var project3 = Any.Instance<IReferencedProject>();
+      var project1 = AnyRoot.Root.Any.Instance<IReferencedProject>();
+      var project2 = AnyRoot.Root.Any.Instance<IReferencedProject>();
+      var project3 = AnyRoot.Root.Any.Instance<IReferencedProject>();
       var projects = new List<IDependencyPathBasedRuleTarget>
       {
         project1, project2, project3
@@ -48,7 +45,7 @@ namespace TddXt.NScan.Specification.Domain
       var searchResultFactory = Substitute.For<IProjectFoundSearchResultFactory>();
       var depending = Substitute.For<IProjectSearchResult>();
       var condition = Substitute.For<IDescribedDependencyCondition>();
-      var foundResult = Any.Instance<IProjectSearchResult>();
+      var foundResult = AnyRoot.Root.Any.Instance<IProjectSearchResult>();
 
       var path = new ProjectDependencyPath(projects, searchResultFactory);
 
@@ -68,9 +65,9 @@ namespace TddXt.NScan.Specification.Domain
     public void ShouldReturnNotFoundResultWhenNoneOfTheProjectsMatchCondition()
     {
       //GIVEN
-      var project1 = Any.Instance<IReferencedProject>();
-      var project2 = Any.Instance<IReferencedProject>();
-      var project3 = Any.Instance<IReferencedProject>();
+      var project1 = AnyRoot.Root.Any.Instance<IReferencedProject>();
+      var project2 = AnyRoot.Root.Any.Instance<IReferencedProject>();
+      var project3 = AnyRoot.Root.Any.Instance<IReferencedProject>();
       var projects = new List<IDependencyPathBasedRuleTarget>
       {
         project1, project2, project3
@@ -78,7 +75,7 @@ namespace TddXt.NScan.Specification.Domain
       var searchResultFactory = Substitute.For<IProjectFoundSearchResultFactory>();
       var depending = Substitute.For<IProjectSearchResult>();
       var condition = Substitute.For<IDescribedDependencyCondition>();
-      var notFoundResult = Any.Instance<IProjectSearchResult>();
+      var notFoundResult = AnyRoot.Root.Any.Instance<IProjectSearchResult>();
 
       var path = new ProjectDependencyPath(projects, searchResultFactory);
 
@@ -98,7 +95,7 @@ namespace TddXt.NScan.Specification.Domain
     public void ShouldReturnResultWithFoundProjectAndItsIndexWhenTheProjectMatchesNamePattern()
     {
       //GIVEN
-      var pattern = Any.Instance<Pattern>();
+      var pattern = AnyRoot.Root.Any.Instance<Pattern>();
       var project1 = Substitute.For<IReferencedProject>();
       var project2 = Substitute.For<IReferencedProject>();
       var project3 = Substitute.For<IReferencedProject>();
@@ -107,7 +104,7 @@ namespace TddXt.NScan.Specification.Domain
         project1, project2, project3
       };
       var searchResultFactory = Substitute.For<IProjectFoundSearchResultFactory>();
-      var foundResult = Any.Instance<IProjectSearchResult>();
+      var foundResult = AnyRoot.Root.Any.Instance<IProjectSearchResult>();
 
       var path = new ProjectDependencyPath(projects, searchResultFactory);
 
@@ -127,7 +124,7 @@ namespace TddXt.NScan.Specification.Domain
     public void ShouldReturnNotFoundResultWhenNoneOfTheProjectsMatchNamePattern()
     {
       //GIVEN
-      var pattern = Any.Instance<Pattern>();
+      var pattern = AnyRoot.Root.Any.Instance<Pattern>();
       var project1 = Substitute.For<IReferencedProject>();
       var project2 = Substitute.For<IReferencedProject>();
       var project3 = Substitute.For<IReferencedProject>();
@@ -136,7 +133,7 @@ namespace TddXt.NScan.Specification.Domain
         project1, project2, project3
       };
       var searchResultFactory = Substitute.For<IProjectFoundSearchResultFactory>();
-      var notFoundResult = Any.Instance<IProjectSearchResult>();
+      var notFoundResult = AnyRoot.Root.Any.Instance<IProjectSearchResult>();
 
       var path = new ProjectDependencyPath(projects, searchResultFactory);
 

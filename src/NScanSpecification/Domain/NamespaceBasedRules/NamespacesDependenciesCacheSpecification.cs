@@ -2,13 +2,10 @@
 using System.Linq;
 using FluentAssertions;
 using TddXt.AnyRoot.Strings;
-using TddXt.NScan.Domain;
 using TddXt.NScan.Domain.NamespaceBasedRules;
-using TddXt.NScan.Domain.SharedKernel;
 using Xunit;
-using static TddXt.AnyRoot.Root;
 
-namespace TddXt.NScan.Specification.Domain
+namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
 {
   public class NamespacesDependenciesCacheSpecification
   {
@@ -30,9 +27,9 @@ namespace TddXt.NScan.Specification.Domain
     {
       //GIVEN
       var cache = new NamespacesDependenciesCache();
-      var namespace1 = Any.String();
-      var namespace2 = Any.String();
-      var namespace3 = Any.String();
+      var namespace1 = AnyRoot.Root.Any.String();
+      var namespace2 = AnyRoot.Root.Any.String();
+      var namespace3 = AnyRoot.Root.Any.String();
 
       cache.AddMapping(namespace1, namespace2);
       cache.AddMapping(namespace2, namespace3);
@@ -49,8 +46,8 @@ namespace TddXt.NScan.Specification.Domain
     {
       //GIVEN
       var cache = new NamespacesDependenciesCache();
-      var namespace1 = Any.String();
-      var namespace2 = Any.String();
+      var namespace1 = AnyRoot.Root.Any.String();
+      var namespace2 = AnyRoot.Root.Any.String();
 
       cache.AddMapping(namespace1, namespace2);
       cache.AddMapping(namespace2, namespace1);
@@ -67,9 +64,9 @@ namespace TddXt.NScan.Specification.Domain
     {
       //GIVEN
       var cache = new NamespacesDependenciesCache();
-      var namespace1 = Any.String();
-      var namespace2 = Any.String();
-      var namespace3 = Any.String();
+      var namespace1 = AnyRoot.Root.Any.String();
+      var namespace2 = AnyRoot.Root.Any.String();
+      var namespace3 = AnyRoot.Root.Any.String();
 
       cache.AddMapping(namespace1, namespace2);
       cache.AddMapping(namespace2, namespace3);
@@ -87,10 +84,10 @@ namespace TddXt.NScan.Specification.Domain
     {
       //GIVEN
       var cache = new NamespacesDependenciesCache();
-      var namespace1 = Any.String();
-      var namespace2 = Any.String();
-      var namespace3 = Any.String();
-      var namespace4 = Any.String();
+      var namespace1 = AnyRoot.Root.Any.String();
+      var namespace2 = AnyRoot.Root.Any.String();
+      var namespace3 = AnyRoot.Root.Any.String();
+      var namespace4 = AnyRoot.Root.Any.String();
 
       cache.AddMapping(namespace1, namespace2);
       cache.AddMapping(namespace2, namespace1);

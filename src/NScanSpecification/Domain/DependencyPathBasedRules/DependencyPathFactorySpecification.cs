@@ -1,11 +1,10 @@
 ﻿using FluentAssertions;
 using NSubstitute;
 using TddXt.NScan.Domain.DependencyPathBasedRules;
-using TddXt.NScan.Domain.SharedKernel;
 using TddXt.XFluentAssert.Root;
 using Xunit;
 
-namespace TddXt.NScan.Specification.Domain.SharedKernel
+namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
 {
   public class DependencyPathFactorySpecification
   {

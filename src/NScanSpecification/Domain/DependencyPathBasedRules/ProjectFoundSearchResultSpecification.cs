@@ -4,14 +4,11 @@ using NSubstitute;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
 using TddXt.AnyRoot.Numbers;
-using TddXt.NScan.Domain;
 using TddXt.NScan.Domain.DependencyPathBasedRules;
 using TddXt.NScan.Domain.Root;
-using TddXt.NScan.Domain.SharedKernel;
 using Xunit;
-using static TddXt.AnyRoot.Root;
 
-namespace TddXt.NScan.Specification.Domain
+namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
 {
   public class ProjectFoundSearchResultSpecification
   {
@@ -19,7 +16,7 @@ namespace TddXt.NScan.Specification.Domain
     public void ShouldExistWhenWrappingNonNullInstance()
     {
       //GIVEN
-      var result = new ProjectFoundSearchResult(Any.Instance<IReferencedProject>(), Any.Integer());
+      var result = new ProjectFoundSearchResult(AnyRoot.Root.Any.Instance<IReferencedProject>(), AnyRoot.Root.Any.Integer());
 
       //WHEN
       var exists = result.Exists();
@@ -32,8 +29,8 @@ namespace TddXt.NScan.Specification.Domain
     public void ShouldExistAfterAnotherResultWhenItExistsAndAnotherResultIsBeforeItsccurenceIndex()
     {
       //GIVEN
-      var resultOccurenceIndex = Any.Integer();
-      var result = new ProjectFoundSearchResult(Any.Instance<IReferencedProject>(), resultOccurenceIndex);
+      var resultOccurenceIndex = AnyRoot.Root.Any.Integer();
+      var result = new ProjectFoundSearchResult(AnyRoot.Root.Any.Instance<IReferencedProject>(), resultOccurenceIndex);
       var anotherResult = Substitute.For<IProjectSearchResult>();
 
       anotherResult.IsNotAfter(resultOccurenceIndex).Returns(true);
@@ -49,11 +46,11 @@ namespace TddXt.NScan.Specification.Domain
     public void ShouldReturnSegmentEndingWithAnotherResultAsTerminatedSegmentStartingFromItsIndex()
     {
       //GIVEN
-      var resultOccurenceIndex = Any.Integer();
-      var result = new ProjectFoundSearchResult(Any.Instance<IReferencedProject>(), resultOccurenceIndex);
+      var resultOccurenceIndex = AnyRoot.Root.Any.Integer();
+      var result = new ProjectFoundSearchResult(AnyRoot.Root.Any.Instance<IReferencedProject>(), resultOccurenceIndex);
       var anotherResult = Substitute.For<IProjectSearchResult>();
-      var expectedResult = Any.ReadOnlyList<IReferencedProject>();
-      var projectPath = Any.Enumerable<IReferencedProject>();
+      var expectedResult = AnyRoot.Root.Any.ReadOnlyList<IReferencedProject>();
+      var projectPath = AnyRoot.Root.Any.Enumerable<IReferencedProject>();
 
       anotherResult.TerminatedSegmentStartingFrom(resultOccurenceIndex, projectPath).Returns(expectedResult);
 
@@ -68,10 +65,10 @@ namespace TddXt.NScan.Specification.Domain
     public void ShouldReturnTerminatedSegmentUsingPassedStartIndex()
     {
       //GIVEN
-      var project1 = Any.Instance<IReferencedProject>();
-      var project2 = Any.Instance<IReferencedProject>();
-      var project3 = Any.Instance<IReferencedProject>();
-      var project4 = Any.Instance<IReferencedProject>();
+      var project1 = AnyRoot.Root.Any.Instance<IReferencedProject>();
+      var project2 = AnyRoot.Root.Any.Instance<IReferencedProject>();
+      var project3 = AnyRoot.Root.Any.Instance<IReferencedProject>();
+      var project4 = AnyRoot.Root.Any.Instance<IReferencedProject>();
       var projectPath = new List<IDependencyPathBasedRuleTarget>
       {
         project1,
@@ -81,7 +78,7 @@ namespace TddXt.NScan.Specification.Domain
       };
       var startIndex = 1;
       var endIndex = 2;
-      var result = new ProjectFoundSearchResult(Any.Instance<IReferencedProject>(), endIndex);
+      var result = new ProjectFoundSearchResult(AnyRoot.Root.Any.Instance<IReferencedProject>(), endIndex);
 
       //WHEN
       var segment = result.TerminatedSegmentStartingFrom(startIndex, projectPath);
@@ -95,11 +92,11 @@ namespace TddXt.NScan.Specification.Domain
     public void ShouldNotBeAnotherProject()
     {
       //GIVEN
-      var project = Any.Instance<IReferencedProject>();
-      var searchResult = new ProjectFoundSearchResult(project, Any.Integer());
+      var project = AnyRoot.Root.Any.Instance<IReferencedProject>();
+      var searchResult = new ProjectFoundSearchResult(project, AnyRoot.Root.Any.Integer());
 
       //WHEN
-      var isNotAnotherProject = searchResult.IsNot(Any.OtherThan(project));
+      var isNotAnotherProject = searchResult.IsNot(AnyRoot.Root.Any.OtherThan(project));
 
       //THEN
       isNotAnotherProject.Should().BeTrue();
@@ -109,8 +106,8 @@ namespace TddXt.NScan.Specification.Domain
     public void ShouldBeItself()
     {
       //GIVEN
-      var project = Any.Instance<IReferencedProject>();
-      var searchResult = new ProjectFoundSearchResult(project, Any.Integer());
+      var project = AnyRoot.Root.Any.Instance<IReferencedProject>();
+      var searchResult = new ProjectFoundSearchResult(project, AnyRoot.Root.Any.Integer());
 
       //WHEN
       var isNotItself = searchResult.IsNot(project);
@@ -124,8 +121,8 @@ namespace TddXt.NScan.Specification.Domain
     public void ShouldBeBeforeHigherIndex()
     {
       //GIVEN
-      var occurenceIndex = Any.Integer();
-      var searchResult = new ProjectFoundSearchResult(Any.Instance<IReferencedProject>(), occurenceIndex);
+      var occurenceIndex = AnyRoot.Root.Any.Integer();
+      var searchResult = new ProjectFoundSearchResult(AnyRoot.Root.Any.Instance<IReferencedProject>(), occurenceIndex);
 
       //WHEN
       var isBefore = searchResult.IsNotAfter(occurenceIndex + 1);
@@ -138,9 +135,9 @@ namespace TddXt.NScan.Specification.Domain
     public void ShouldSayItIsNotAfterItsIndex()
     {
       //GIVEN
-      var occurenceIndex = Any.Integer();
+      var occurenceIndex = AnyRoot.Root.Any.Integer();
       var searchResult = new ProjectFoundSearchResult(
-        Any.Instance<IReferencedProject>(),
+        AnyRoot.Root.Any.Instance<IReferencedProject>(),
         occurenceIndex);
 
       //WHEN

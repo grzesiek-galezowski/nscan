@@ -1,21 +1,18 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using NSubstitute;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
 using TddXt.AnyRoot.Strings;
-using TddXt.NScan.Domain;
 using TddXt.NScan.Domain.NamespaceBasedRules;
 using TddXt.NScan.Domain.Root;
 using TddXt.NScan.Domain.SharedKernel;
-using TddXt.NScan.ReadingSolution;
 using TddXt.NScan.ReadingSolution.Ports;
 using TddXt.XNSubstitute.Root;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace TddXt.NScan.Specification.Domain
+namespace TddXt.NScan.Specification.Domain.Root
 {
   public class SourceCodeFileSpecification
   {
