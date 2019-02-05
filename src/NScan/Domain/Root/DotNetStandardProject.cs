@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using GlobExpressions;
 using TddXt.NScan.Domain.DependencyPathBasedRules;
@@ -14,21 +13,15 @@ namespace TddXt.NScan.Domain.Root
 {
   public class DotNetStandardProject : IDotNetProject
   {
-    private readonly Dictionary<ProjectId, IReferencedProject> _referencedProjects 
-      = new Dictionary<ProjectId, IReferencedProject>();
-    private readonly Dictionary<ProjectId, IDependencyPathBasedRuleTarget> _referencingProjects 
-      = new Dictionary<ProjectId, IDependencyPathBasedRuleTarget>();
-
     private readonly string _assemblyName;
-    private readonly ProjectId[] _referencedProjectsIds;
     private readonly IReadOnlyList<PackageReference> _packageReferences;
     private readonly IReadOnlyList<AssemblyReference> _assemblyReferences;
     private readonly IReadOnlyList<ISourceCodeFile> _files;
     private readonly INamespacesDependenciesCache _namespacesDependenciesCache;
-    private readonly INScanSupport _support;
     private readonly ProjectId _id;
 
-    public DotNetStandardProject(string assemblyName,
+    public DotNetStandardProject(
+      string assemblyName,
       ProjectId id,
       ProjectId[] referencedProjectsIds,
       IReadOnlyList<PackageReference> packageReferences,
@@ -39,65 +32,42 @@ namespace TddXt.NScan.Domain.Root
     {
       _assemblyName = assemblyName;
       _id = id;
-      _referencedProjectsIds = referencedProjectsIds;
       _packageReferences = packageReferences;
       _assemblyReferences = assemblyReferences;
       _files = files;
       _namespacesDependenciesCache = namespacesDependenciesCache;
-      _support = support;
+      ReferencedProjects = new ReferencedProjects(referencedProjectsIds, support);
+      ReferencingProjects = new ReferencingProjects();
     }
+
+    private ReferencedProjects ReferencedProjects { get; }
+
+    private ReferencingProjects ReferencingProjects { get; }
 
     public void AddReferencedProject(ProjectId projectId, IReferencedProject referencedProject)
     {
-      _referencedProjects.Add(projectId, referencedProject);
+      ReferencedProjects.Add(projectId, referencedProject);
     }
-
 
     public void AddReferencingProject(ProjectId projectId, IDependencyPathBasedRuleTarget referencingProject)
     {
-      AssertThisIsAddingTheSameReferenceNotShadowing(projectId, referencingProject);
-      _referencingProjects[projectId] = referencingProject;
+      ReferencingProjects.Put(projectId, referencingProject);
     }
 
     public bool IsRoot()
     {
-      return !_referencingProjects.Any();
+      return ReferencingProjects.AreEmpty();
     }
 
     public void Print(int nestingLevel)
     {
       Console.WriteLine(nestingLevel + nestingLevel.Spaces() + _assemblyName);
-      foreach (var referencedProjectsValue in _referencedProjects.Values)
-      {
-        referencedProjectsValue.Print(nestingLevel+1);
-      }
+      ReferencedProjects.Print(nestingLevel);
     }
 
     public void ResolveReferencesFrom(ISolutionContext solution)
     {
-      foreach (var projectId in _referencedProjectsIds)
-      {
-        try
-        {
-          solution.ResolveReferenceFrom(this, projectId);
-        }
-        catch (ReferencedProjectNotFoundInSolutionException e)
-        {
-          _support.Report(e);
-        }
-      }
-    }
-
-    [SuppressMessage("ReSharper", "ParameterOnlyUsedForPreconditionCheck.Local")]
-    private void AssertThisIsAddingTheSameReferenceNotShadowing(
-      ProjectId referencingProjectId,
-      IDependencyPathBasedRuleTarget referencingProject)
-    {
-      if (_referencingProjects.ContainsKey(referencingProjectId)
-          && !_referencingProjects[referencingProjectId].Equals(referencingProject))
-      {
-        throw new ProjectShadowingException(_referencingProjects[referencingProjectId], referencingProject);
-      }
+      this.ReferencedProjects.ResolveFrom(this, solution);
     }
 
     public void ResolveAsReferencing(IReferencedProject project)
@@ -107,18 +77,7 @@ namespace TddXt.NScan.Domain.Root
 
     public void FillAllBranchesOf(IDependencyPathInProgress dependencyPathInProgress)
     {
-      if (_referencedProjects.Any())
-      {
-        foreach (var reference in _referencedProjects.Values)
-        {
-          reference.FillAllBranchesOf(dependencyPathInProgress.CloneWith(this));
-        }
-      }
-      else
-      {
-        dependencyPathInProgress.FinalizeWith(this);
-      }
-
+      ReferencedProjects.FillAllBranchesOf(dependencyPathInProgress, this);
     }
 
     public bool HasProjectAssemblyNameMatching(Pattern pattern) => 
