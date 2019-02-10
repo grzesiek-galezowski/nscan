@@ -52,7 +52,7 @@ namespace TddXt.NScan.Domain.Root
         PackageReferences(xmlProject),
         AssemblyReferences(xmlProject), 
         SourceCodeFiles(xmlProject), 
-        new NamespacesDependenciesCache(), new ReferencedProjects(referencedProjectsIds, _support));
+        new NamespacesDependenciesCache(), new ReferencedProjects(referencedProjectsIds, _support), new ReferencingProjects());
       return (new ProjectId(xmlProject.AbsolutePath), dotNetStandardProject);
     }
 

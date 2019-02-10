@@ -77,30 +77,42 @@ namespace TddXt.NScan.Specification.Domain.Root
     }
 
     [Fact]
-    public void ShouldSayItIsARootWhenItHasNoReferencingProjects()
+    public void ShouldSayItIsARootWhenItHasNoReferencingProjectsOtherwiseNo()
     {
       //GIVEN
-      var project = new DotNetStandardProjectBuilder().Build();
+      var referencingProjects = Substitute.For<IReferencingProjects>();
+      var areThereAnyReferencingProjects = Any.Boolean();
+      var project = new DotNetStandardProjectBuilder
+      {
+        ReferencingProjects = referencingProjects
+      }.Build();
+
+      referencingProjects.AreEmpty().Returns(areThereAnyReferencingProjects);
 
       //WHEN
       var isRoot = project.IsRoot();
 
       //THEN
-      isRoot.Should().BeTrue();
+      isRoot.Should().Be(areThereAnyReferencingProjects);
     }
 
     [Fact]
-    public void ShouldSayItIsNotARootWhenItHasAtLeastOneReferencingProject()
+    public void ShouldAddReferencingProjectToReferencingProjects()
     {
       //GIVEN
-      var project = new DotNetStandardProjectBuilder().Build();
-      project.AddReferencingProject(Any.ProjectId(), Any.Instance<IDependencyPathBasedRuleTarget>());
+      var referencingProjects = Substitute.For<IReferencingProjects>();
+      var projectId = Any.ProjectId();
+      var referencingProject = Any.Instance<IDependencyPathBasedRuleTarget>();
+      var project = new DotNetStandardProjectBuilder()
+      {
+        ReferencingProjects = referencingProjects
+      }.Build();
 
       //WHEN
-      var isRoot = project.IsRoot();
+      project.AddReferencingProject(projectId, referencingProject);
 
       //THEN
-      isRoot.Should().BeFalse();
+      referencingProjects.Received(1).Put(projectId, referencingProject);
     }
 
     [Fact]
@@ -355,13 +367,15 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       public DotNetStandardProject Build()
       {
-        return new DotNetStandardProject(AssemblyName,
+        return new DotNetStandardProject(
+          AssemblyName,
           ProjectId,
           PackageReferences,
           AssemblyReferences,
           Files,
           NamespacesDependenciesCache,
-          ReferencedProjects);
+          ReferencedProjects, 
+          ReferencingProjects);
       }
 
       public IReferencedProjects ReferencedProjects { get; set; } = Any.Instance<IReferencedProjects>();
@@ -375,6 +389,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       public string RootNamespace { get; set; } = Any.String(); //bug value object
       public IReadOnlyList<ISourceCodeFile> Files { get; set; } = Any.ReadOnlyList<ISourceCodeFile>();
       public INamespacesDependenciesCache NamespacesDependenciesCache { get; set; } = Any.Instance<INamespacesDependenciesCache>();
+      public IReferencingProjects ReferencingProjects { get; set; } = Any.Instance<IReferencingProjects>();
     }
   }
 

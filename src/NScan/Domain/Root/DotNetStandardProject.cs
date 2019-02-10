@@ -18,6 +18,8 @@ namespace TddXt.NScan.Domain.Root
     private readonly IReadOnlyList<ISourceCodeFile> _files;
     private readonly INamespacesDependenciesCache _namespacesDependenciesCache;
     private readonly ProjectId _id;
+    private readonly IReferencedProjects _referencedProjects;
+    private readonly IReferencingProjects _referencingProjects;
 
     public DotNetStandardProject(
       string assemblyName,
@@ -26,7 +28,8 @@ namespace TddXt.NScan.Domain.Root
       IReadOnlyList<AssemblyReference> assemblyReferences,
       IReadOnlyList<ISourceCodeFile> files,
       INamespacesDependenciesCache namespacesDependenciesCache, 
-      IReferencedProjects referencedProjects)
+      IReferencedProjects referencedProjects, 
+      IReferencingProjects referencingProjects)
     {
       _assemblyName = assemblyName;
       _id = id;
@@ -34,38 +37,34 @@ namespace TddXt.NScan.Domain.Root
       _assemblyReferences = assemblyReferences;
       _files = files;
       _namespacesDependenciesCache = namespacesDependenciesCache;
-      ReferencedProjects = referencedProjects;
-      ReferencingProjects = new ReferencingProjects();
+      _referencedProjects = referencedProjects;
+      _referencingProjects = referencingProjects;
     }
-
-    private IReferencedProjects ReferencedProjects { get; }
-
-    private ReferencingProjects ReferencingProjects { get; }
 
     public void AddReferencedProject(ProjectId projectId, IReferencedProject referencedProject)
     {
-      ReferencedProjects.Add(projectId, referencedProject);
+      _referencedProjects.Add(projectId, referencedProject);
     }
 
     public void AddReferencingProject(ProjectId projectId, IDependencyPathBasedRuleTarget referencingProject)
     {
-      ReferencingProjects.Put(projectId, referencingProject);
+      _referencingProjects.Put(projectId, referencingProject);
     }
 
     public bool IsRoot()
     {
-      return ReferencingProjects.AreEmpty();
+      return _referencingProjects.AreEmpty();
     }
 
     public void Print(int nestingLevel)
     {
       Console.WriteLine(nestingLevel + nestingLevel.Spaces() + _assemblyName);
-      ReferencedProjects.Print(nestingLevel);
+      _referencedProjects.Print(nestingLevel);
     }
 
     public void ResolveReferencesFrom(ISolutionContext solution)
     {
-      this.ReferencedProjects.ResolveFrom(this, solution);
+      this._referencedProjects.ResolveFrom(this, solution);
     }
 
     public void ResolveAsReferencing(IReferencedProject project)
@@ -75,7 +74,7 @@ namespace TddXt.NScan.Domain.Root
 
     public void FillAllBranchesOf(IDependencyPathInProgress dependencyPathInProgress)
     {
-      ReferencedProjects.FillAllBranchesOf(dependencyPathInProgress, this);
+      _referencedProjects.FillAllBranchesOf(dependencyPathInProgress, this);
     }
 
     public bool HasProjectAssemblyNameMatching(Pattern pattern) => 
@@ -119,18 +118,6 @@ namespace TddXt.NScan.Domain.Root
     public bool HasPackageReferenceMatching(Glob packagePattern)
     {
       return _packageReferences.Any(pr => packagePattern.IsMatch(pr.Name));
-    }
-  }
-
-  public class ProjectShadowingException : Exception
-  {
-    public ProjectShadowingException(IDependencyPathBasedRuleTarget previousProject, IDependencyPathBasedRuleTarget newProject)
-    : base(
-      "Two distinct projects are being added with the same path. " +
-      $"{previousProject} would be shadowed by {newProject}. " +
-      "This typically indicates a programmer error.")
-    {
-      
     }
   }
 }

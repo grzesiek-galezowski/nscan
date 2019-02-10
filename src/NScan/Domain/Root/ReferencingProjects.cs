@@ -6,13 +6,19 @@ using TddXt.NScan.Domain.SharedKernel;
 
 namespace TddXt.NScan.Domain.Root
 {
-  public class ReferencingProjects
+  public interface IReferencingProjects
+  {
+    void Put(ProjectId projectId, IDependencyPathBasedRuleTarget referencingProject);
+    bool AreEmpty();
+  }
+
+  public class ReferencingProjects : IReferencingProjects
   {
     private readonly IDictionary<ProjectId, IDependencyPathBasedRuleTarget> _referencingProjects 
       = new Dictionary<ProjectId, IDependencyPathBasedRuleTarget>();
 
     [SuppressMessage("ReSharper", "ParameterOnlyUsedForPreconditionCheck.Local")]
-    public void AssertThisIsAddingTheSameReferenceNotShadowing(
+    private void AssertThisIsAddingTheSameReferenceNotShadowing(
       ProjectId referencingProjectId,
       IDependencyPathBasedRuleTarget referencingProject)
     {
