@@ -24,13 +24,10 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldTellSolutionToResolveAllItsReferencesByIds()
     {
       //GIVEN
-      var id1 = Any.ProjectId();
-      var id2 = Any.ProjectId();
-      var id3 = Any.ProjectId();
-      var referencedProjectsIds = new[] { id1, id2, id3 };
-      var project = new DotNetStandardProjectBuilder()
+      var referencedProjects = Substitute.For<IReferencedProjects>();
+      var project = new DotNetStandardProjectBuilder
       {
-        ReferencedProjectIds = referencedProjectsIds
+        ReferencedProjects = referencedProjects
       }.Build();
       var solution = Substitute.For<ISolutionContext>();
 
@@ -38,45 +35,10 @@ namespace TddXt.NScan.Specification.Domain.Root
       project.ResolveReferencesFrom(solution);
 
       //THEN
-      solution.Received(1).ResolveReferenceFrom(project, id1);
-      solution.Received(1).ResolveReferenceFrom(project, id2);
-      solution.Received(1).ResolveReferenceFrom(project, id3);
+      referencedProjects.Received(1).ResolveFrom(project, solution);
     }
 
-    [Fact]
-    public void ShouldLogErrorAndIgnoreProjectThatCannotBeResolved()
-    {
-      //GIVEN
-      var id1 = Any.ProjectId();
-      var id2 = Any.ProjectId();
-      var id3 = Any.ProjectId();
-      var referencedProjectsIds = new[] { id1, id2, id3 };
-      var support = Substitute.For<INScanSupport>();
-      var exceptionFromResolution = Any.Instance<ReferencedProjectNotFoundInSolutionException>();
-      var project = new DotNetStandardProjectBuilder()
-      {
-        ReferencedProjectIds = referencedProjectsIds,
-        Support = support
-      }.Build();
-      var solution = Substitute.For<ISolutionContext>();
 
-      solution.When(ResolvingReferencesFrom(project, id2)).Throw(exceptionFromResolution);
-
-
-      //WHEN
-      project.ResolveReferencesFrom(solution);
-
-      //THEN
-      solution.Received(1).ResolveReferenceFrom(project, id1);
-      solution.Received(1).ResolveReferenceFrom(project, id2);
-      solution.Received(1).ResolveReferenceFrom(project, id3);
-      support.Received(1).Report(exceptionFromResolution);
-    }
-
-    private static Action<ISolutionContext> ResolvingReferencesFrom(IReferencingProject project, ProjectId id2)
-    {
-      return s => s.ResolveReferenceFrom(project, id2);
-    }
 
     [Fact]
     public void ShouldAddItselfWithItsIdAsAReferenceToAnotherProjectWhenAskedToResolveAsReferenceOfThisProject()
@@ -142,48 +104,21 @@ namespace TddXt.NScan.Specification.Domain.Root
     }
 
     [Fact]
-    public void ShouldAddItselfToPathThenFillCopyForEachReferencedProjects()
+    public void ShouldDelegateFillingAllBranchesOfDependencyPathsToReferencedProjects()
     {
       //GIVEN
-      var project = new DotNetStandardProjectBuilder().Build();
-      var reference1 = Substitute.For<IReferencedProject>();
-      var reference2 = Substitute.For<IReferencedProject>();
-      var reference3 = Substitute.For<IReferencedProject>();
-      var dependencyPathInProgress = Substitute.For<IDependencyPathInProgress>();
-      var clonedPathInProgress1 = Any.Instance<IDependencyPathInProgress>();
-      var clonedPathInProgress2 = Any.Instance<IDependencyPathInProgress>();
-      var clonedPathInProgress3 = Any.Instance<IDependencyPathInProgress>();
-
-      project.AddReferencedProject(Any.ProjectId(), reference1);
-      project.AddReferencedProject(Any.ProjectId(), reference2);
-      project.AddReferencedProject(Any.ProjectId(), reference3);
-
-      dependencyPathInProgress.CloneWith(project).Returns(
-        clonedPathInProgress1,
-        clonedPathInProgress2,
-        clonedPathInProgress3);
-
-      //WHEN
-      project.FillAllBranchesOf(dependencyPathInProgress);
-
-      //THEN
-      reference1.Received(1).FillAllBranchesOf(clonedPathInProgress1);
-      reference2.Received(1).FillAllBranchesOf(clonedPathInProgress2);
-      reference3.Received(1).FillAllBranchesOf(clonedPathInProgress3);
-    }
-
-    [Fact]
-    public void ShouldFinalizePathWithItselfWhenItDoesNotHaveAnyReferences()
-    {
-      //GIVEN
-      var project = new DotNetStandardProjectBuilder().Build();
+      var referencedProjects = Substitute.For<IReferencedProjects>();
+      var project = new DotNetStandardProjectBuilder()
+      {
+        ReferencedProjects = referencedProjects
+      }.Build();
       var dependencyPathInProgress = Substitute.For<IDependencyPathInProgress>();
 
       //WHEN
       project.FillAllBranchesOf(dependencyPathInProgress);
 
       //THEN
-      dependencyPathInProgress.Received(1).FinalizeWith(project);
+      referencedProjects.Received(1).FillAllBranchesOf(dependencyPathInProgress, project);
     }
 
 
@@ -420,23 +355,23 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       public DotNetStandardProject Build()
       {
-        return new DotNetStandardProject(AssemblyName, 
-          ProjectId, 
-          ReferencedProjectIds, 
-          PackageReferences, 
+        return new DotNetStandardProject(AssemblyName,
+          ProjectId,
+          PackageReferences,
           AssemblyReferences,
           Files,
-          NamespacesDependenciesCache, 
-          Support);
+          NamespacesDependenciesCache,
+          ReferencedProjects);
       }
+
+      public IReferencedProjects ReferencedProjects { get; set; } = Any.Instance<IReferencedProjects>();
 
       public IReadOnlyList<PackageReference> PackageReferences { private get; set; } = Any.ReadOnlyList<PackageReference>();
       public IReadOnlyList<AssemblyReference> AssemblyReferences { private get; set; } =
         Any.ReadOnlyList<AssemblyReference>();
-      public ProjectId[] ReferencedProjectIds { private get; set; } = Any.Array<ProjectId>();
+
       public ProjectId ProjectId { private get; set; } = Any.ProjectId();
       public string AssemblyName { private get; set; } = Any.String();
-      public INScanSupport Support { private get; set; } = Any.Support();
       public string RootNamespace { get; set; } = Any.String(); //bug value object
       public IReadOnlyList<ISourceCodeFile> Files { get; set; } = Any.ReadOnlyList<ISourceCodeFile>();
       public INamespacesDependenciesCache NamespacesDependenciesCache { get; set; } = Any.Instance<INamespacesDependenciesCache>();

@@ -6,7 +6,6 @@ using TddXt.NScan.Domain.DependencyPathBasedRules;
 using TddXt.NScan.Domain.NamespaceBasedRules;
 using TddXt.NScan.Domain.ProjectScopedRules;
 using TddXt.NScan.Domain.SharedKernel;
-using TddXt.NScan.NotifyingSupport.Ports;
 using TddXt.NScan.ReadingRules.Ports;
 
 namespace TddXt.NScan.Domain.Root
@@ -23,12 +22,11 @@ namespace TddXt.NScan.Domain.Root
     public DotNetStandardProject(
       string assemblyName,
       ProjectId id,
-      ProjectId[] referencedProjectsIds,
       IReadOnlyList<PackageReference> packageReferences,
       IReadOnlyList<AssemblyReference> assemblyReferences,
       IReadOnlyList<ISourceCodeFile> files,
-      INamespacesDependenciesCache namespacesDependenciesCache,
-      INScanSupport support)
+      INamespacesDependenciesCache namespacesDependenciesCache, 
+      IReferencedProjects referencedProjects)
     {
       _assemblyName = assemblyName;
       _id = id;
@@ -36,11 +34,11 @@ namespace TddXt.NScan.Domain.Root
       _assemblyReferences = assemblyReferences;
       _files = files;
       _namespacesDependenciesCache = namespacesDependenciesCache;
-      ReferencedProjects = new ReferencedProjects(referencedProjectsIds, support);
+      ReferencedProjects = referencedProjects;
       ReferencingProjects = new ReferencingProjects();
     }
 
-    private ReferencedProjects ReferencedProjects { get; }
+    private IReferencedProjects ReferencedProjects { get; }
 
     private ReferencingProjects ReferencingProjects { get; }
 

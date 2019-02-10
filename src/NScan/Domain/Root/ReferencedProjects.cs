@@ -6,7 +6,16 @@ using TddXt.NScan.NotifyingSupport.Ports;
 
 namespace TddXt.NScan.Domain.Root
 {
+  public interface IReferencedProjects
+  {
+    void Add(ProjectId projectId, IReferencedProject referencedProject);
+    void Print(int nestingLevel);
+    void FillAllBranchesOf(IDependencyPathInProgress dependencyPathInProgress, IDependencyPathBasedRuleTarget owner);
+    void ResolveFrom(IReferencingProject referencingProject, ISolutionContext solution);
+  }
+
   public class ReferencedProjects //bug migrate UT
+    : IReferencedProjects
   {
     private readonly ProjectId[] _referencedProjectsIds;
     private readonly INScanSupport _support;
@@ -33,18 +42,18 @@ namespace TddXt.NScan.Domain.Root
       }
     }
 
-    public void FillAllBranchesOf(IDependencyPathInProgress dependencyPathInProgress, IDependencyPathBasedRuleTarget project)
+    public void FillAllBranchesOf(IDependencyPathInProgress dependencyPathInProgress, IDependencyPathBasedRuleTarget owner)
     {
       if (_referencedProjects.Any())
       {
         foreach (var reference in _referencedProjects.Values)
         {
-          reference.FillAllBranchesOf(dependencyPathInProgress.CloneWith(project));
+          reference.FillAllBranchesOf(dependencyPathInProgress.CloneWith(owner));
         }
       }
       else
       {
-        dependencyPathInProgress.FinalizeWith(project);
+        dependencyPathInProgress.FinalizeWith(owner);
       }
     }
 

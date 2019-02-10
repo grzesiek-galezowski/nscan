@@ -12,7 +12,7 @@ namespace TddXt.NScan.Domain.NamespaceBasedRules
       _rules.Add(rule);
     }
 
-    public void Check(IReadOnlyList<INamespaceBasedRuleTarget> dotNetProjects /* bug upper-level interface */, IAnalysisReportInProgress report)
+    public void Check(IReadOnlyList<INamespaceBasedRuleTarget> dotNetProjects, IAnalysisReportInProgress report)
     {
       foreach (var rule in _rules)
       {
