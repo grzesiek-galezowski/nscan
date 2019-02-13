@@ -23,6 +23,6 @@ namespace TddXt.NScan.ReadingSolution.Ports
     public string ParentProjectAssemblyName { get; }
     public string ParentProjectRootNamespace { get; }
     public string Name { get; }
-    public List<string> DeclaredNamespaces { get; } //bug read only list?
+    public IReadOnlyList<string> DeclaredNamespaces { get; }
   }
 }

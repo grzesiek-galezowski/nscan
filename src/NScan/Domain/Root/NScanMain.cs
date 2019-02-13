@@ -62,9 +62,9 @@ namespace TddXt.NScan.Domain.Root
       foreach (var ruleUnion in enumerable)
       {
         ruleUnion.Switch( 
-          independent => support.Log(ruleUnion.IndependentRule), 
-          namespaces => support.Log(ruleUnion.CorrectNamespacesRule), 
-          noCircularUsings => support.Log(ruleUnion.NoCircularUsingsRule));
+          support.Log, 
+          support.Log, 
+          support.Log);
       }
     }
 

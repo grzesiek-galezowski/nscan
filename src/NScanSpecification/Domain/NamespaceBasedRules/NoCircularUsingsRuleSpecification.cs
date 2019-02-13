@@ -71,7 +71,5 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
     {
       return new List<IReadOnlyList<string>>();
     }
-    //bug no error when no cycles
-
   }
 }

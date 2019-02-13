@@ -4,9 +4,9 @@ namespace TddXt.NScan.ReadingRules.Ports
 {
   public class RuleUnionDto
   {
-    public IndependentRuleComplementDto IndependentRule { get; private set; }
-    public CorrectNamespacesRuleComplementDto CorrectNamespacesRule { get; private set; }
-    public NoCircularUsingsRuleComplementDto NoCircularUsingsRule { get; set; }
+    private IndependentRuleComplementDto IndependentRule { get; set; }
+    private CorrectNamespacesRuleComplementDto CorrectNamespacesRule { get; set; }
+    private NoCircularUsingsRuleComplementDto NoCircularUsingsRule { get; set; }
 
     public string RuleName { get; private set; }
 

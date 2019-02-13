@@ -146,7 +146,6 @@ namespace TddXt.NScan.Specification.Domain.Root
         DeclaredNamespaces = new List<string>() {namespace1, namespace2, namespace3},
         Usings = new List<string>() { using1, using2, using3}
       };
-      //TODO think about limiting this to a single namespace. Maybe throw an exception?
       var file = new SourceCodeFile(xmlSourceCodeFile.Build(), Any.Instance<IRuleViolationFactory>());
 
       //WHEN

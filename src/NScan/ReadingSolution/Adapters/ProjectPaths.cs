@@ -104,7 +104,7 @@ namespace TddXt.NScan.ReadingSolution.Adapters
         var declaredNamespaces = CSharpSyntax.GetAllUniqueNamespacesFromFile(file).ToList();
         xmlProject.SourceCodeFiles.Add(new XmlSourceCodeFile(
           fileRelativeToProjectRoot,
-          declaredNamespaces, //bug multiple namespaces not supported yet
+          declaredNamespaces,
           //bug no namespace in file throws exception
           xmlProject.PropertyGroups.First().RootNamespace, 
           xmlProject.PropertyGroups.First().AssemblyName, 

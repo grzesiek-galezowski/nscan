@@ -14,8 +14,7 @@ namespace TddXt.NScan.Domain.Root
     void ResolveFrom(IReferencingProject referencingProject, ISolutionContext solution);
   }
 
-  public class ReferencedProjects //bug migrate UT
-    : IReferencedProjects
+  public class ReferencedProjects : IReferencedProjects
   {
     private readonly ProjectId[] _referencedProjectsIds;
     private readonly INScanSupport _support;

@@ -13,9 +13,9 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
     public void SaveIn(string fullRulesPath)
     {
       var lines = _rules.Select(dto => dto.Switch(
-        independent => ToRuleString(dto.IndependentRule),
-        correctNamespaces => ToRuleString(dto.CorrectNamespacesRule), 
-        noCircularUsings => ToRuleString(dto.NoCircularUsingsRule))
+        ToRuleString,
+        ToRuleString, 
+        ToRuleString)
       ).ToList();
       File.WriteAllLines(fullRulesPath, lines);
     }
