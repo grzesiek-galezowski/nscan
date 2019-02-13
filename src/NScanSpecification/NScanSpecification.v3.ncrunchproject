@@ -10,24 +10,6 @@
       <FixtureTestSelector>
         <FixtureName>TddXt.NScan.Specification.EndToEnd.NoCircularNamespaceDependenciesRuleFeatureSpecification</FixtureName>
       </FixtureTestSelector>
-      <FixtureTestSelector>
-        <FixtureName>TddXt.NScan.Specification.Component.NoCircularUsingsRuleFeatureSpecification</FixtureName>
-      </FixtureTestSelector>
-      <FixtureTestSelector>
-        <FixtureName>TddXt.NScan.Specification.Component.IndependentOfAssemblyRuleFeatureSpecification</FixtureName>
-      </FixtureTestSelector>
-      <FixtureTestSelector>
-        <FixtureName>TddXt.NScan.Specification.Component.IndependentOfPackageRuleFeatureSpecification</FixtureName>
-      </FixtureTestSelector>
-      <FixtureTestSelector>
-        <FixtureName>TddXt.NScan.Specification.Component.IndependentOfProjectRuleFeatureSpecification</FixtureName>
-      </FixtureTestSelector>
-      <FixtureTestSelector>
-        <FixtureName>TddXt.NScan.Specification.Component.SpecifyingExceptionsFeatureSpecification</FixtureName>
-      </FixtureTestSelector>
-      <FixtureTestSelector>
-        <FixtureName>TddXt.NScan.Specification.Component.CorrectNamespacesRuleFeatureSpecification</FixtureName>
-      </FixtureTestSelector>
     </IgnoredTests>
   </Settings>
 </ProjectConfiguration>

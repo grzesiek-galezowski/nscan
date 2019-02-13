@@ -26,6 +26,25 @@ namespace TddXt.NScan.Specification.Component
       context.ReportShouldContain(ReportedMessage.HasNoCircularUsings("*MyProject*").Ok());
 
     }
+    
+    [Fact]
+    public void ShouldReportSuccessWhenAFileHasUsingForItsOwnNamespace()
+    {
+      //GIVEN
+      var context = new NScanDriver();
+
+      context.HasProject("MyProject")
+        .WithRootNamespace("MyProject")
+        .With(FileWithNamespace("lol1.cs", "MyProject").Using("MyProject"));
+      context.Add(RuleRequiring().Project("*MyProject*").HasNoCircularUsings());
+
+      //WHEN
+      context.PerformAnalysis();
+
+      //THEN
+      context.ReportShouldContain(ReportedMessage.HasNoCircularUsings("*MyProject*").Ok());
+
+    }
 
     [Fact]
     public void ShouldReportErrorWhenACycleIsDiscovered()

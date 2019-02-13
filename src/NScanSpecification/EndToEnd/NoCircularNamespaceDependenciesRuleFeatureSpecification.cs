@@ -48,7 +48,6 @@ namespace TddXt.NScan.Specification.EndToEnd
       }
     }
 
-    //bug test on component level - if file is referencing its own namespace, it should be OK
 
   }
 }

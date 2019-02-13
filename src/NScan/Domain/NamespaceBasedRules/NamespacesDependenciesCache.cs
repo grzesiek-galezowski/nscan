@@ -31,6 +31,10 @@ namespace TddXt.NScan.Domain.NamespaceBasedRules
       if (PathEndedWithoutACycle(@namespace))
       {
       }
+      else if (SelfUsingFound(@namespace, currentPath))
+      {
+
+      }
       else if (FullCycleDetected(@namespace, currentPath))
       {
         //full cycle is a cycle that starts with current namespace, e.g. A->B->A
@@ -51,6 +55,11 @@ namespace TddXt.NScan.Domain.NamespaceBasedRules
           Fill(neighbour, currentPath.Append(@namespace).ToList(), cycles);
         }
       }
+    }
+
+    private static bool SelfUsingFound(string @namespace, List<string> currentPath)
+    {
+      return currentPath.Count == 1 && currentPath[0] == @namespace;
     }
 
     private bool PathEndedWithoutACycle(string @namespace)
