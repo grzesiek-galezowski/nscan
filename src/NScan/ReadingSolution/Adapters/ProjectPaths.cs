@@ -105,7 +105,6 @@ namespace TddXt.NScan.ReadingSolution.Adapters
         xmlProject.SourceCodeFiles.Add(new XmlSourceCodeFile(
           fileRelativeToProjectRoot,
           declaredNamespaces,
-          //bug no namespace in file throws exception
           xmlProject.PropertyGroups.First().RootNamespace, 
           xmlProject.PropertyGroups.First().AssemblyName, 
           CSharpSyntax.GetAllUsingsFromFile(file, classDeclarationSignatures)

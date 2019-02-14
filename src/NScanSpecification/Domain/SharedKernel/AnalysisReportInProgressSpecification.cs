@@ -142,12 +142,6 @@ namespace TddXt.NScan.Specification.Domain.SharedKernel
         hasViolations.Should().BeTrue();
       }
 
-      //TODO move to X fluent assert
-      private void AssertContainsOnce(string output, string substring)
-      {
-        IndexOfAll(output, substring).Should().HaveCount(1,
-          "\"" + output + "\"" + " should contain exactly 1 occurence of " + "\"" + substring + "\"");
-      }
 
       private static string ErrorHeaderWith(string anyDescription1)
       {
@@ -157,10 +151,17 @@ namespace TddXt.NScan.Specification.Domain.SharedKernel
       //TODO move to X fluent assert
       private void AssertContainsInOrder(string output, params string[] subtexts)
       {
-        var indices = subtexts.Select(subtext => output.IndexOf((string) subtext, StringComparison.Ordinal));
+        var indices = subtexts.Select(subtext => output.IndexOf(subtext, StringComparison.Ordinal));
 
         indices.Should().NotContain(-1, output);
         indices.Should().BeInAscendingOrder(output);
+      }
+
+      //TODO move to X fluent assert
+      private void AssertContainsOnce(string output, string substring)
+      {
+        IndexOfAll(output, substring).Should().HaveCount(1,
+          "\"" + output + "\"" + " should contain exactly 1 occurence of " + "\"" + substring + "\"");
       }
 
       public static IEnumerable<int> IndexOfAll(string sourceString, string subString)

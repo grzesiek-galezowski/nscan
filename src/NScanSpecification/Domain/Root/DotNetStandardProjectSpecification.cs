@@ -326,10 +326,8 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       //GIVEN
       var files = Any.ReadOnlyList<ISourceCodeFile>();
-      var rootNamespace = Any.String();
       var project = new DotNetStandardProjectBuilder()
       {
-        RootNamespace = rootNamespace,
         Files = files
       }.Build();
       var rule = Substitute.For<IProjectScopedRule>();
@@ -384,10 +382,9 @@ namespace TddXt.NScan.Specification.Domain.Root
 
       public ProjectId ProjectId { private get; set; } = Any.ProjectId();
       public string AssemblyName { private get; set; } = Any.String();
-      public string RootNamespace { get; set; } = Any.String(); //bug value object
-      public IReadOnlyList<ISourceCodeFile> Files { get; set; } = Any.ReadOnlyList<ISourceCodeFile>();
-      public INamespacesDependenciesCache NamespacesDependenciesCache { get; set; } = Any.Instance<INamespacesDependenciesCache>();
-      public IReferencingProjects ReferencingProjects { get; set; } = Any.Instance<IReferencingProjects>();
+      public IReadOnlyList<ISourceCodeFile> Files { private get; set; } = Any.ReadOnlyList<ISourceCodeFile>();
+      public INamespacesDependenciesCache NamespacesDependenciesCache { private get; set; } = Any.Instance<INamespacesDependenciesCache>();
+      public IReferencingProjects ReferencingProjects { private get; set; } = Any.Instance<IReferencingProjects>();
     }
   }
 

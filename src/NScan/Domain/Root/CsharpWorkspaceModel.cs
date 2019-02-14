@@ -47,12 +47,15 @@ namespace TddXt.NScan.Domain.Root
     {
       var assemblyName = DetermineAssemblyName(xmlProject);
       ProjectId[] referencedProjectsIds = CsharpProjectReferencesExtraction.ProjectReferences(xmlProject).Select(MapToProjectId).ToArray();
-      var dotNetStandardProject = new DotNetStandardProject(assemblyName,
+      var dotNetStandardProject = new DotNetStandardProject(
+        assemblyName,
         IdOf(xmlProject),
         PackageReferences(xmlProject),
         AssemblyReferences(xmlProject), 
         SourceCodeFiles(xmlProject), 
-        new NamespacesDependenciesCache(), new ReferencedProjects(referencedProjectsIds, _support), new ReferencingProjects());
+        new NamespacesDependenciesCache(), 
+        new ReferencedProjects(referencedProjectsIds, _support), 
+        new ReferencingProjects());
       return (new ProjectId(xmlProject.AbsolutePath), dotNetStandardProject);
     }
 
