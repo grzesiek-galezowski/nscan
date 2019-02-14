@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using FluentAssertions;
+﻿using FluentAssertions;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Domain.SharedKernel;
+using TddXt.XFluentAssert.Root;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
@@ -69,7 +66,7 @@ namespace TddXt.NScan.Specification.Domain.SharedKernel
         var output = report.AsString();
 
         //THEN
-        AssertContainsInOrder(output,
+        output.Should().ContainInOrder(
           $"{violation1.RuleDescription}: [ERROR]",
           violation1.ViolationDescription,
           $"{violation2.RuleDescription}: [ERROR]",
@@ -95,11 +92,11 @@ namespace TddXt.NScan.Specification.Domain.SharedKernel
         var output = report.AsString();
 
         //THEN
-        AssertContainsInOrder(output, ErrorHeaderWith(violation1.RuleDescription),
+        output.Should().ContainInOrder(ErrorHeaderWith(violation1.RuleDescription),
           violation1.ViolationDescription,
           violation2.ViolationDescription
         );
-        AssertContainsOnce(output, ErrorHeaderWith(violation1.RuleDescription));
+        output.Should().ContainExactlyOnce(ErrorHeaderWith(violation1.RuleDescription));
       }
 
       [Fact]
@@ -120,10 +117,10 @@ namespace TddXt.NScan.Specification.Domain.SharedKernel
         var output = report.AsString();
 
         //THEN
-        AssertContainsInOrder(output, ErrorHeaderWith(violation1.RuleDescription),
+        output.Should().ContainInOrder(ErrorHeaderWith(violation1.RuleDescription),
           violation1.ViolationDescription
         );
-        AssertContainsOnce(output, violation1.ViolationDescription);
+        output.Should().ContainExactlyOnce(violation1.ViolationDescription);
       }
 
       [Fact]
@@ -146,27 +143,6 @@ namespace TddXt.NScan.Specification.Domain.SharedKernel
       private static string ErrorHeaderWith(string anyDescription1)
       {
         return $"{anyDescription1}: [ERROR]";
-      }
-
-      //TODO move to X fluent assert
-      private void AssertContainsInOrder(string output, params string[] subtexts)
-      {
-        var indices = subtexts.Select(subtext => output.IndexOf(subtext, StringComparison.Ordinal));
-
-        indices.Should().NotContain(-1, output);
-        indices.Should().BeInAscendingOrder(output);
-      }
-
-      //TODO move to X fluent assert
-      private void AssertContainsOnce(string output, string substring)
-      {
-        IndexOfAll(output, substring).Should().HaveCount(1,
-          "\"" + output + "\"" + " should contain exactly 1 occurence of " + "\"" + substring + "\"");
-      }
-
-      public static IEnumerable<int> IndexOfAll(string sourceString, string subString)
-      {
-        return Regex.Matches(sourceString, Regex.Escape(subString)).Select(m => m.Index);
       }
   }
 }
