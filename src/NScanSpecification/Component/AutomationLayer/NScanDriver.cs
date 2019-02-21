@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using FluentAssertions;
 using TddXt.NScan.Domain;
 using TddXt.NScan.Domain.Root;
@@ -16,31 +17,15 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
   public class NScanDriver
   {
     private readonly INScanSupport _consoleSupport = new ConsoleSupport();
-    private readonly List<XmlProject> _xmlProjects = new List<XmlProject>();
+    private readonly List<XmlProjectBuilder> _xmlProjects = new List<XmlProjectBuilder>();
     private Analysis _analysis;
     private readonly List<RuleUnionDto> _rules = new List<RuleUnionDto>();
 
-    public XmlProjectDsl HasProject(string assemblyName)
+    public XmlProjectBuilder HasProject(string assemblyName)
     {
-      var xmlProject = new XmlProject()
-      {
-        AbsolutePath = AbsolutePathFor(assemblyName),
-        PropertyGroups = new List<XmlPropertyGroup>()
-        {
-          new XmlPropertyGroup()
-          {
-            AssemblyName = assemblyName
-          }
-        },
-        ItemGroups = new List<XmlItemGroup>()
-      };
-      _xmlProjects.Add(xmlProject);
-      return new XmlProjectDsl(xmlProject);
-    }
-
-    public static string AbsolutePathFor(string assemblyName)
-    {
-      return @"C:\" + assemblyName + ".cs";
+      var xmlProjectDsl = XmlProjectBuilder.WithAssemblyName(assemblyName);
+      _xmlProjects.Add(xmlProjectDsl);
+      return xmlProjectDsl;
     }
 
     public void Add(IFullRuleConstructed ruleDefinition)
@@ -50,7 +35,7 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
 
     public void PerformAnalysis()
     {
-      _analysis = Analysis.PrepareFor(_xmlProjects, _consoleSupport);
+      _analysis = Analysis.PrepareFor(_xmlProjects.Select(p => p.Build()).ToList(), _consoleSupport);
       _analysis.AddRules(_rules);
       _analysis.Run();
     }

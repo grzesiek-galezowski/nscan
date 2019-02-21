@@ -1,18 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Castle.Components.DictionaryAdapter;
+using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
-using TddXt.NScan.ReadingSolution;
 using TddXt.NScan.ReadingSolution.Ports;
 using TddXt.NScan.Specification.AutomationLayer;
 
 namespace TddXt.NScan.Specification.Component.AutomationLayer
 {
-  public class XmlProjectDsl
+  public class XmlProjectBuilder
   {
     private readonly XmlProject _xmlProject;
 
-    public XmlProjectDsl(XmlProject xmlProject)
+    public XmlProjectBuilder(XmlProject xmlProject)
     {
       _xmlProject = xmlProject;
       _xmlProject.ItemGroups = _xmlProject.ItemGroups ?? new List<XmlItemGroup>();
@@ -43,7 +42,7 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
     {
       return assemblyNames.Select(name => new XmlAssemblyReference()
       {
-        HintPath = AnyRoot.Root.Any.String(),
+        HintPath = Root.Any.String(),
         Include = name
       }).ToList();
     }
@@ -62,12 +61,12 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
     {
       return names.Select(n => new XmlProjectReference()
       {
-        Include = NScanDriver.AbsolutePathFor(n)
+        Include = AbsolutePathFor(n)
       }).ToList();
     }
 
 
-    public XmlProjectDsl With(XmlSourceCodeFileBuilder xmlSourceCodeFileBuilder)
+    public XmlProjectBuilder With(XmlSourceCodeFileBuilder xmlSourceCodeFileBuilder)
     {
       var xmlSourceCodeFile = xmlSourceCodeFileBuilder
         .BuildWith(
@@ -79,10 +78,36 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
       return this;
     }
 
-    public XmlProjectDsl WithRootNamespace(string rootNamespace)
+    public XmlProjectBuilder WithRootNamespace(string rootNamespace)
     {
       _xmlProject.PropertyGroups.First().RootNamespace = rootNamespace;
       return this;
+    }
+
+    public XmlProject Build()
+    {
+      return _xmlProject;
+    }
+
+    private static string AbsolutePathFor(string assemblyName)
+    {
+      return @"C:\" + assemblyName + ".cs";
+    }
+
+    public static XmlProjectBuilder WithAssemblyName(string assemblyName)
+    {
+      return new XmlProjectBuilder(new XmlProject()
+      {
+        AbsolutePath = AbsolutePathFor(assemblyName),
+        PropertyGroups = new List<XmlPropertyGroup>()
+        {
+          new XmlPropertyGroup()
+          {
+            AssemblyName = assemblyName
+          }
+        },
+        ItemGroups = new List<XmlItemGroup>()
+      });
     }
   }
 }

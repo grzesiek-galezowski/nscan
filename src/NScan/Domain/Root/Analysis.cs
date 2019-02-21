@@ -27,9 +27,9 @@ namespace TddXt.NScan.Domain.Root
 
     public static Analysis PrepareFor(IReadOnlyList<XmlProject> xmlProjects, INScanSupport support)
     {
-      var plainReportFragmentsFormat = new PlainReportFragmentsFormat();
-      var csharpWorkspaceModel = new CsharpWorkspaceModel(support, xmlProjects, new RuleViolationFactory(plainReportFragmentsFormat));
-      var projects = csharpWorkspaceModel.CreateProjectsDictionary();
+      var projects = 
+        new CsharpWorkspaceModel(support, new RuleViolationFactory(new PlainReportFragmentsFormat()))
+          .CreateProjectsDictionaryFrom(xmlProjects);
 
       return new Analysis(new DotNetStandardSolution(projects,
           new PathCache(

@@ -81,16 +81,15 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 
     private void RunAnalysis()
     {
-      //RunForDebug();
 
       var repositoryPath = RelevantPaths.RepositoryPath();
       AssertDirectoryExists(repositoryPath);
 
-      var nscanConsoleProjectPath = Path.Combine(
-        repositoryPath, "src", "NScan.Console", "NScan.Console.csproj");
+      var nscanConsoleProjectPath = RelevantPaths.NscanConsoleProjectPath(repositoryPath);
       
       AssertFileExists(nscanConsoleProjectPath);
 
+      //RunForDebug();
       var analysisResultAnalysisResult = _dotNetExe.RunWith($"run --project {nscanConsoleProjectPath} -- -p \"{_fullSolutionPath}\" -r \"{_fullRulesPath}\"").Result;
       _analysisResult.Assign(analysisResultAnalysisResult);
     }

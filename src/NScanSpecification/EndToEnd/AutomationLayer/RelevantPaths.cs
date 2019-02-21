@@ -33,5 +33,11 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
       }
 
     }
+
+    public static string NscanConsoleProjectPath(string repositoryPath)
+    {
+      return Path.Combine(
+        repositoryPath, "src", "NScan.Console", "NScan.Console.csproj");
+    }
   }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using Buildalyzer;
 using Functional.Maybe.Just;
+using TddXt.NScan.Domain.Root;
 using TddXt.NScan.NotifyingSupport.Ports;
 using TddXt.NScan.ReadingCSharpSourceCode;
 using TddXt.NScan.ReadingSolution.Ports;
@@ -22,9 +23,9 @@ namespace TddXt.NScan.ReadingSolution.Adapters
       _support = support;
     }
 
-    private static void NormalizeProjectDependencyPaths(string projectFileAbsolutePath, XmlProject xmlProjectReferences)
+    private static void NormalizeProjectDependencyPaths(string projectFileAbsolutePath, XmlProject xmlProject)
     {
-      foreach (var projectReference in CsharpProjectReferencesExtraction.ProjectReferences(xmlProjectReferences))
+      foreach (var projectReference in new XmlProjectDataAccess(xmlProject).ProjectReferences())
       {
         projectReference.Include =
           Path.GetFullPath(Path.Combine(Path.GetDirectoryName(projectFileAbsolutePath), projectReference.Include));
