@@ -40,12 +40,13 @@ namespace TddXt.NScan.Domain.Root
       var dotNetStandardProject = new DotNetStandardProject(
         assemblyName,
         projectDataAccess.Id(),
-        PackageReferences(projectDataAccess),
-        AssemblyReferences(projectDataAccess), 
+        projectDataAccess.XmlPackageReferences().Select(ToPackageReference).ToList(),
+        projectDataAccess.XmlAssemblyReferences().Select(ToAssemblyReference).ToList(), 
         projectDataAccess.SourceCodeFiles().Select(ToSourceCodeFile).ToList(), 
         new NamespacesDependenciesCache(), 
         new ReferencedProjects(
-          projectDataAccess.ProjectReferences().Select(ToProjectId).ToArray(), _support), 
+          projectDataAccess.ProjectReferences().Select(ToProjectId).ToArray(), 
+          _support), 
         new ReferencingProjects());
       return (projectDataAccess.Id(), dotNetStandardProject);
     }
@@ -60,16 +61,14 @@ namespace TddXt.NScan.Domain.Root
       return new ProjectId(dto.Include);
     }
 
-    private static IReadOnlyList<AssemblyReference> AssemblyReferences(XmlProjectDataAccess xmlProjectDataAccess)
+    private static AssemblyReference ToAssemblyReference(XmlAssemblyReference r)
     {
-      return xmlProjectDataAccess.XmlAssemblyReferences()
-          .Select(r => new AssemblyReference(r.Include, r.HintPath)).ToList();
+      return new AssemblyReference(r.Include, r.HintPath);
     }
 
-    private IReadOnlyList<PackageReference> PackageReferences(XmlProjectDataAccess xmlProjectDataAccess)
+    private static PackageReference ToPackageReference(XmlPackageReference r)
     {
-      return xmlProjectDataAccess.XmlPackageReferences()
-        .Select(r => new PackageReference(r.Include, r.Version)).ToList();
+      return new PackageReference(r.Include, r.Version);
     }
   }
 }
