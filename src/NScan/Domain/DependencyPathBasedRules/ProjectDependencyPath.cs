@@ -74,7 +74,7 @@ namespace TddXt.NScan.Domain.DependencyPathBasedRules
     }
 
 
-    internal static class Predicates
+    private static class Predicates
     {
       internal static Func<IDependencyPathBasedRuleTarget, bool> ProjectMeets(IDescribedDependencyCondition nextAssemblyMatchesCondition,
         IProjectSearchResult depending)

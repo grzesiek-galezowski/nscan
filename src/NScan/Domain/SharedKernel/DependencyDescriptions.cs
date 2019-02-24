@@ -5,7 +5,7 @@ namespace TddXt.NScan.Domain.SharedKernel
 {
   public static class DependencyDescriptions
   {
-    public static string IndependentOf(string dependingAssemblyName, string dependencyAssemblyName)
+    private static string IndependentOf(string dependingAssemblyName, string dependencyAssemblyName)
     {
       return "[" + dependingAssemblyName + "] independentOf [" + dependencyAssemblyName + "]";
     }

@@ -18,6 +18,7 @@ namespace Cake.NScan
 
 
     [CakeMethodAlias]
+    // ReSharper disable once MemberCanBePrivate.Global
     public static void NScanAnalyze(
       this ICakeContext context, 
       string solutionPath, 

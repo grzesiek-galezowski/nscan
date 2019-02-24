@@ -32,7 +32,7 @@ namespace TddXt.NScan.ReadingSolution.Adapters
       }
     }
 
-    public static XmlProject DeserializeProjectFile(string projectFilePath)
+    private static XmlProject DeserializeProjectFile(string projectFilePath)
     {
       var serializer = new XmlSerializer(typeof(XmlProject));
       XmlProject result;

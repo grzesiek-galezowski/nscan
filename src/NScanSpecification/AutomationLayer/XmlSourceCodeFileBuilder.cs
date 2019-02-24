@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using TddXt.NScan.ReadingSolution;
 using TddXt.NScan.ReadingSolution.Ports;
 
 namespace TddXt.NScan.Specification.AutomationLayer
@@ -30,9 +28,9 @@ namespace TddXt.NScan.Specification.AutomationLayer
       DeclaredNamespaces = declaredNamespaces;
     }
 
-    public List<string> DeclaredNamespaces { get; }
-    public string FileName { get; private set; }
-    public List<string> Usings { get; } = new List<string>();
+    private List<string> DeclaredNamespaces { get; }
+    private string FileName { get; set; }
+    private List<string> Usings { get; } = new List<string>();
 
     public XmlSourceCodeFileBuilder Using(string usingDeclaration)
     {
