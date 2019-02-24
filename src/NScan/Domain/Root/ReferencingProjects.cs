@@ -17,6 +17,17 @@ namespace TddXt.NScan.Domain.Root
     private readonly IDictionary<ProjectId, IDependencyPathBasedRuleTarget> _referencingProjects 
       = new Dictionary<ProjectId, IDependencyPathBasedRuleTarget>();
 
+    public void Put(ProjectId projectId, IDependencyPathBasedRuleTarget referencingProject)
+    {
+      AssertThisIsAddingTheSameReferenceNotShadowing(projectId, referencingProject);
+      _referencingProjects[projectId] = referencingProject;
+    }
+
+    public bool AreEmpty()
+    {
+      return !_referencingProjects.Any();
+    }
+
     [SuppressMessage("ReSharper", "ParameterOnlyUsedForPreconditionCheck.Local")]
     private void AssertThisIsAddingTheSameReferenceNotShadowing(
       ProjectId referencingProjectId,
@@ -27,17 +38,6 @@ namespace TddXt.NScan.Domain.Root
       {
         throw new ProjectShadowingException(_referencingProjects[referencingProjectId], referencingProject);
       }
-    }
-
-    public void Put(ProjectId projectId, IDependencyPathBasedRuleTarget referencingProject)
-    {
-      AssertThisIsAddingTheSameReferenceNotShadowing(projectId, referencingProject);
-      _referencingProjects[projectId] = referencingProject;
-    }
-
-    public bool AreEmpty()
-    {
-      return !_referencingProjects.Any();
     }
   }
 }

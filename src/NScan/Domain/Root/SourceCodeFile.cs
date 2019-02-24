@@ -9,8 +9,8 @@ namespace TddXt.NScan.Domain.Root
 {
   public class SourceCodeFile : ISourceCodeFile
   {
-    private readonly XmlSourceCodeFile _xmlSourceCodeFile;
     private readonly IProjectScopedRuleViolationFactory _ruleViolationFactory;
+    private readonly XmlSourceCodeFile _xmlSourceCodeFile;
 
     public SourceCodeFile(XmlSourceCodeFile xmlSourceCodeFile, IProjectScopedRuleViolationFactory ruleViolationFactory)
     {

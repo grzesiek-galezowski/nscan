@@ -14,6 +14,11 @@ namespace TddXt.NScan.Domain.DependencyPathBasedRules
       _projectDependencyPaths = new List<IProjectDependencyPath>();
     }
 
+    public void Add(IProjectDependencyPath projectDependencyPath)
+    {
+      _projectDependencyPaths.Add(projectDependencyPath);
+    }
+
     public void BuildStartingFrom(params IDependencyPathBasedRuleTarget[] rootProjects)
     {
       foreach (var dotNetProject in rootProjects)
@@ -28,11 +33,6 @@ namespace TddXt.NScan.Domain.DependencyPathBasedRules
       {
         rule.Check(report, path);
       }
-    }
-
-    public void Add(IProjectDependencyPath projectDependencyPath)
-    {
-      _projectDependencyPaths.Add(projectDependencyPath);
     }
   }
 }

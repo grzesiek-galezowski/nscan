@@ -13,11 +13,11 @@ namespace TddXt.NScan.Domain.Root
   public class DotNetStandardProject : IDotNetProject
   {
     private readonly string _assemblyName;
-    private readonly IReadOnlyList<PackageReference> _packageReferences;
     private readonly IReadOnlyList<AssemblyReference> _assemblyReferences;
     private readonly IReadOnlyList<ISourceCodeFile> _files;
-    private readonly INamespacesDependenciesCache _namespacesDependenciesCache;
     private readonly ProjectId _id;
+    private readonly INamespacesDependenciesCache _namespacesDependenciesCache;
+    private readonly IReadOnlyList<PackageReference> _packageReferences;
     private readonly IReferencedProjects _referencedProjects;
     private readonly IReferencingProjects _referencingProjects;
 
@@ -64,7 +64,7 @@ namespace TddXt.NScan.Domain.Root
 
     public void ResolveReferencesFrom(ISolutionContext solution)
     {
-      this._referencedProjects.ResolveFrom(this, solution);
+      _referencedProjects.ResolveFrom(this, solution);
     }
 
     public void ResolveAsReferencing(IReferencedProject project)

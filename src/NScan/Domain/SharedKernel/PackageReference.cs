@@ -4,6 +4,16 @@ namespace TddXt.NScan.Domain.SharedKernel
 {
   public sealed class PackageReference : IEquatable<PackageReference>
   {
+    private readonly string _version;
+
+    public PackageReference(string name, string version)
+    {
+      Name = name;
+      _version = version;
+    }
+
+    public string Name { get; }
+
     public bool Equals(PackageReference other)
     {
       if (ReferenceEquals(null, other)) return false;
@@ -35,15 +45,6 @@ namespace TddXt.NScan.Domain.SharedKernel
     public static bool operator !=(PackageReference left, PackageReference right)
     {
       return !Equals(left, right);
-    }
-
-    public string Name { get; }
-    private readonly string _version;
-
-    public PackageReference(string name, string version)
-    {
-      Name = name;
-      _version = version;
     }
   }
 }

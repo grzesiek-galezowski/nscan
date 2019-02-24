@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using TddXt.NScan.Domain.SharedKernel;
 
 namespace TddXt.NScan.Domain.DependencyPathBasedRules
 {

@@ -16,11 +16,11 @@ namespace TddXt.NScan.Domain.Root
 
   public class ReferencedProjects : IReferencedProjects
   {
-    private readonly ProjectId[] _referencedProjectsIds;
-    private readonly INScanSupport _support;
-
     private readonly IDictionary<ProjectId, IReferencedProject> _referencedProjects 
       = new Dictionary<ProjectId, IReferencedProject>();
+
+    private readonly ProjectId[] _referencedProjectsIds;
+    private readonly INScanSupport _support;
 
     public ReferencedProjects(ProjectId[] referencedProjectsIds, INScanSupport support)
     {

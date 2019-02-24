@@ -1,5 +1,3 @@
-using TddXt.NScan.Domain.SharedKernel;
-
 namespace TddXt.NScan.Domain.DependencyPathBasedRules
 {
   public class IsFollowingAssemblyCondition : IDependencyCondition

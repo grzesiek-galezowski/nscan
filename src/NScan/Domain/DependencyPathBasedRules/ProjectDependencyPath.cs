@@ -87,8 +87,5 @@ namespace TddXt.NScan.Domain.DependencyPathBasedRules
         return p => p.HasProjectAssemblyNameMatching(pattern);
       }
     }
-
-
-
   }
 }

@@ -1,5 +1,4 @@
 using GlobExpressions;
-using TddXt.NScan.Domain.SharedKernel;
 
 namespace TddXt.NScan.Domain.DependencyPathBasedRules
 {
@@ -16,6 +15,5 @@ namespace TddXt.NScan.Domain.DependencyPathBasedRules
     {
       return dependency.HasProjectAssemblyNameMatching(_dependencyAssemblyNamePattern);
     }
-
   }
 }

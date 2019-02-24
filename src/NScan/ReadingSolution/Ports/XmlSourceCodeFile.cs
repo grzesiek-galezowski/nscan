@@ -5,7 +5,6 @@ namespace TddXt.NScan.ReadingSolution.Ports
 {
   public class XmlSourceCodeFile
   {
-
     public XmlSourceCodeFile(string fileName,
       List<string> declaredNamespaces,
       string parentProjectRootNamespace,

@@ -8,8 +8,7 @@ using TddXt.NScan.Domain.SharedKernel;
 namespace TddXt.NScan.Domain.Root
 {
   public interface IRuleViolationFactory : INamespaceBasedRuleViolationFactory, IDependencyPathRuleViolationFactory, IProjectScopedRuleViolationFactory
-  {
-  }
+  {}
 
   public class RuleViolationFactory : IRuleViolationFactory
   {

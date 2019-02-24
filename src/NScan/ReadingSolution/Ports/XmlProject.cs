@@ -8,8 +8,10 @@ namespace TddXt.NScan.ReadingSolution.Ports
   {
     [XmlElement(ElementName = "PropertyGroup")]
     public List<XmlPropertyGroup> PropertyGroups { get; set; }
+
     [XmlElement(ElementName = "ItemGroup")]
     public List<XmlItemGroup> ItemGroups { get; set; }
+
     [XmlAttribute(AttributeName = "Sdk")]
     public string Sdk { get; set; }
 

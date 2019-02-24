@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using TddXt.NScan.Domain.SharedKernel;
 
 namespace TddXt.NScan.Domain.DependencyPathBasedRules
 {
@@ -9,8 +8,8 @@ namespace TddXt.NScan.Domain.DependencyPathBasedRules
   public class DependencyPathInProgress : IDependencyPathInProgress
   {
     private readonly IFinalDependencyPathDestination _destination;
-    private readonly IReadOnlyList<IDependencyPathBasedRuleTarget> _referencedProjects;
     private readonly ProjectDependencyPathFactory _pathFactory;
+    private readonly IReadOnlyList<IDependencyPathBasedRuleTarget> _referencedProjects;
 
     public DependencyPathInProgress(
       IFinalDependencyPathDestination destination,

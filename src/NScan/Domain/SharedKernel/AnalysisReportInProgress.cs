@@ -5,9 +5,10 @@ namespace TddXt.NScan.Domain.SharedKernel
 {
   public class AnalysisReportInProgress : IAnalysisReportInProgress
   {
+    private readonly List<string> _ruleNames = new List<string>();
+
     private readonly Dictionary<string, HashSet<string>> _violations
       = new Dictionary<string, HashSet<string>>();
-    private readonly List<string> _ruleNames = new List<string>();
 
     public string AsString()
     {
@@ -19,6 +20,24 @@ namespace TddXt.NScan.Domain.SharedKernel
       }
 
       return resultBuilder.Text();
+    }
+
+
+    public void FinishedChecking(string ruleDescription)
+    {
+      AddRuleIfNotRegisteredYet(ruleDescription);
+    }
+
+
+    public bool HasViolations()
+    {
+      return _violations.Any();
+    }
+
+    public void Add(RuleViolation ruleViolation)
+    {
+      InitializeForCollecting(ruleViolation.RuleDescription);
+      _violations[ruleViolation.RuleDescription].Add(ruleViolation.PrefixPhrase + ruleViolation.ViolationDescription);
     }
 
     private void AppendRuleResult(int index, ResultBuilder resultBuilder)
@@ -42,18 +61,6 @@ namespace TddXt.NScan.Domain.SharedKernel
       }
     }
 
-
-    public void FinishedChecking(string ruleDescription)
-    {
-      AddRuleIfNotRegisteredYet(ruleDescription);
-    }
-
-
-    public bool HasViolations()
-    {
-      return _violations.Any();
-    }
-
     private void InitializeForCollecting(string ruleDescription)
     {
       AddRuleIfNotRegisteredYet(ruleDescription);
@@ -75,12 +82,5 @@ namespace TddXt.NScan.Domain.SharedKernel
         _ruleNames.Add(ruleDescription);
       }
     }
-
-    public void Add(RuleViolation ruleViolation)
-    {
-      InitializeForCollecting(ruleViolation.RuleDescription);
-      _violations[ruleViolation.RuleDescription].Add(ruleViolation.PrefixPhrase + ruleViolation.ViolationDescription);
-    }
-
   }
 }

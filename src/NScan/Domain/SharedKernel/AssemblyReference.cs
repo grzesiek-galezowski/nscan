@@ -4,7 +4,6 @@ namespace TddXt.NScan.Domain.SharedKernel
 {
   public sealed class AssemblyReference : IEquatable<AssemblyReference>
   {
-    public string Name { get; }
     private readonly string _hintPath;
 
     public AssemblyReference(string assemblyReferenceName, string hintPath)
@@ -12,6 +11,8 @@ namespace TddXt.NScan.Domain.SharedKernel
       Name = assemblyReferenceName;
       _hintPath = hintPath;
     }
+
+    public string Name { get; }
 
     public bool Equals(AssemblyReference other)
     {

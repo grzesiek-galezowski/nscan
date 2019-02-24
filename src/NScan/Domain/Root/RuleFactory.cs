@@ -9,11 +9,6 @@ namespace TddXt.NScan.Domain.Root
 {
   public class RuleFactory : IRuleFactory
   {
-    private static IRuleViolationFactory RuleViolationFactory()
-    {
-      return new RuleViolationFactory(new PlainReportFragmentsFormat());
-    }
-
     public const string ProjectDependencyType = "project";
     public const string PackageDependencyType = "package";
     public const string AssemblyDependencyType = "assembly";
@@ -60,6 +55,11 @@ namespace TddXt.NScan.Domain.Root
     public INamespacesBasedRule CreateNamespacesBasedRuleFrom(NoCircularUsingsRuleComplementDto ruleDto)
     {
       return new NoCircularUsingsRule(ruleDto, RuleViolationFactory());
+    }
+
+    private static IRuleViolationFactory RuleViolationFactory()
+    {
+      return new RuleViolationFactory(new PlainReportFragmentsFormat());
     }
 
     private IDependencyRule CreateIndependentOfProjectRule(Pattern dependingNamePattern,

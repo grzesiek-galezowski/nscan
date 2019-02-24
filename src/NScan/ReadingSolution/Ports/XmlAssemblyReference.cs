@@ -7,6 +7,7 @@ namespace TddXt.NScan.ReadingSolution.Ports
   {
     [XmlElement(ElementName = "HintPath")]
     public string HintPath { get; set; }
+
     [XmlAttribute(AttributeName = "Include")]
     public string Include { get; set; }
   }

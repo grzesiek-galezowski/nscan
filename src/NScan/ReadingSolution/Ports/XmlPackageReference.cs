@@ -7,6 +7,7 @@ namespace TddXt.NScan.ReadingSolution.Ports
   {
     [XmlAttribute(AttributeName = "Include")]
     public string Include { get; set; }
+
     [XmlAttribute(AttributeName = "Version")]
     public string Version { get; set; }
   }

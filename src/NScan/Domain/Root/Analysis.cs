@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using System.Linq;
 using TddXt.NScan.Domain.DependencyPathBasedRules;
 using TddXt.NScan.Domain.NamespaceBasedRules;
 using TddXt.NScan.Domain.ProjectScopedRules;
 using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.NotifyingSupport.Ports;
 using TddXt.NScan.ReadingRules.Ports;
+using TddXt.NScan.ReadingSolution.Lib;
 using TddXt.NScan.ReadingSolution.Ports;
 
 namespace TddXt.NScan.Domain.Root
@@ -13,33 +15,13 @@ namespace TddXt.NScan.Domain.Root
   {
     public const int ReturnCodeOk = 0;
     public const int ReturnCodeAnalysisFailed = -1;
-
-    private readonly ISolution _solution;
+    private readonly IAnalysisReportInProgress _analysisReportInProgress;
+    private readonly INamespacesBasedRuleSet _namespacesBasedRuleSet;
     private readonly IPathRuleSet _pathRules;
     private readonly IProjectScopedRuleSet _projectScopedRules;
-    private readonly INamespacesBasedRuleSet _namespacesBasedRuleSet;
-    private readonly IAnalysisReportInProgress _analysisReportInProgress;
     private readonly IRuleFactory _ruleFactory;
 
-    public string Report => _analysisReportInProgress.AsString();
-    public int ReturnCode => _analysisReportInProgress.HasViolations() ? -1 : 0;
-
-
-    public static Analysis PrepareFor(IReadOnlyList<XmlProject> xmlProjects, INScanSupport support)
-    {
-      var projects = 
-        new CsharpWorkspaceModel(support, new RuleViolationFactory(new PlainReportFragmentsFormat()))
-          .CreateProjectsDictionaryFrom(xmlProjects);
-
-      return new Analysis(new DotNetStandardSolution(projects,
-          new PathCache(
-            new DependencyPathFactory())),
-        new PathRuleSet(), 
-        new ProjectScopedRuleSet(), 
-        new NamespacesBasedRuleSet(),
-        new AnalysisReportInProgress(),
-        new RuleFactory());
-    }
+    private readonly ISolution _solution;
 
     public Analysis(ISolution solution,
       IPathRuleSet pathRules,
@@ -54,6 +36,26 @@ namespace TddXt.NScan.Domain.Root
       _namespacesBasedRuleSet = namespacesBasedRuleSet;
       _analysisReportInProgress = analysisReportInProgress;
       _ruleFactory = ruleFactory;
+    }
+
+    public string Report => _analysisReportInProgress.AsString();
+    public int ReturnCode => _analysisReportInProgress.HasViolations() ? -1 : 0;
+
+
+    public static Analysis PrepareFor(IReadOnlyList<XmlProject> xmlProjects, INScanSupport support)
+    {
+      var projects = 
+        new CsharpWorkspaceModel(support, new RuleViolationFactory(new PlainReportFragmentsFormat()))
+          .CreateProjectsDictionaryFrom(xmlProjects.Select(p => new XmlProjectDataAccess(p)));
+
+      return new Analysis(new DotNetStandardSolution(projects,
+          new PathCache(
+            new DependencyPathFactory())),
+        new PathRuleSet(), 
+        new ProjectScopedRuleSet(), 
+        new NamespacesBasedRuleSet(),
+        new AnalysisReportInProgress(),
+        new RuleFactory());
     }
 
     public void Run()

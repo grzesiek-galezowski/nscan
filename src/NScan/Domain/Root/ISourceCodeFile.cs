@@ -4,6 +4,5 @@ using TddXt.NScan.Domain.ProjectScopedRules;
 namespace TddXt.NScan.Domain.Root
 {
   public interface ISourceCodeFile : ISourceCodeFileUsingNamespaces, ISourceCodeFileInNamespace
-  {
-  }
+  {}
 }

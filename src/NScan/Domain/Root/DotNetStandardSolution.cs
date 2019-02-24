@@ -9,8 +9,8 @@ namespace TddXt.NScan.Domain.Root
 {
   public class DotNetStandardSolution : ISolution, ISolutionContext
   {
-    private readonly Dictionary<ProjectId, IDotNetProject> _projectsById;
     private readonly IPathCache _pathCache;
+    private readonly Dictionary<ProjectId, IDotNetProject> _projectsById;
 
     public DotNetStandardSolution(
       Dictionary<ProjectId, IDotNetProject> projectsById,

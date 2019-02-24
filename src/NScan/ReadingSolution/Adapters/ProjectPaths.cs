@@ -5,9 +5,9 @@ using System.Linq;
 using System.Xml.Serialization;
 using Buildalyzer;
 using Functional.Maybe.Just;
-using TddXt.NScan.Domain.Root;
 using TddXt.NScan.NotifyingSupport.Ports;
 using TddXt.NScan.ReadingCSharpSourceCode;
+using TddXt.NScan.ReadingSolution.Lib;
 using TddXt.NScan.ReadingSolution.Ports;
 
 namespace TddXt.NScan.ReadingSolution.Adapters
@@ -23,9 +23,9 @@ namespace TddXt.NScan.ReadingSolution.Adapters
       _support = support;
     }
 
-    private static void NormalizeProjectDependencyPaths(string projectFileAbsolutePath, XmlProject xmlProject)
+    private static void NormalizeProjectDependencyPaths(string projectFileAbsolutePath, XmlProjectDataAccess xmlProjectDataAccess)
     {
-      foreach (var projectReference in new XmlProjectDataAccess(xmlProject).ProjectReferences())
+      foreach (var projectReference in xmlProjectDataAccess.ProjectReferences())
       {
         projectReference.Include =
           Path.GetFullPath(Path.Combine(Path.GetDirectoryName(projectFileAbsolutePath), projectReference.Include));
@@ -44,18 +44,18 @@ namespace TddXt.NScan.ReadingSolution.Adapters
       return result;
     }
 
-    public static XmlProject LoadXmlProject(string projectFilePath)
+    private static XmlProject LoadXmlProject(string projectFilePath)
     {
       var xmlProject = DeserializeProjectFile(projectFilePath);
       xmlProject.AbsolutePath = projectFilePath;
-      NormalizeProjectDependencyPaths(projectFilePath, xmlProject);
+      NormalizeProjectDependencyPaths(projectFilePath, new XmlProjectDataAccess(xmlProject));
       NormalizeProjectAssemblyName(xmlProject);
       NormalizeProjectRootNamespace(xmlProject);
       LoadFilesInto(xmlProject);
       return xmlProject;
     }
 
-      private static void NormalizeProjectRootNamespace(XmlProject xmlProject)
+    private static void NormalizeProjectRootNamespace(XmlProject xmlProject)
       {
           if (xmlProject.PropertyGroups.All(g => g.RootNamespace == null))
           {
@@ -66,7 +66,7 @@ namespace TddXt.NScan.ReadingSolution.Adapters
       }
 
 
-      public List<XmlProject> LoadXmlProjects()
+    public List<XmlProject> LoadXmlProjects()
     {
       var xmlProjects = _projectFilePaths.Select(path =>
       {

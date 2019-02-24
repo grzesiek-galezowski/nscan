@@ -7,8 +7,21 @@ namespace TddXt.NScan.ReadingRules.Ports
 {
   public sealed class Pattern : IEquatable<Pattern>
   {
-    private readonly string _inclusionPattern;
     private readonly Maybe<string> _exclusionPattern;
+    private readonly string _inclusionPattern;
+
+    public Pattern(string inclusionPattern, Maybe<string> exclusionPattern)
+    {
+      _inclusionPattern = inclusionPattern;
+      _exclusionPattern = exclusionPattern;
+    }
+
+    public bool Equals(Pattern other)
+    {
+      if (ReferenceEquals(null, other)) return false;
+      if (ReferenceEquals(this, other)) return true;
+      return string.Equals(_inclusionPattern, other._inclusionPattern) && _exclusionPattern.Equals(other._exclusionPattern);
+    }
 
     public static Pattern WithoutExclusion(string pattern)
     {
@@ -25,12 +38,6 @@ namespace TddXt.NScan.ReadingRules.Ports
         );
     }
 
-    public Pattern(string inclusionPattern, Maybe<string> exclusionPattern)
-    {
-      _inclusionPattern = inclusionPattern;
-      _exclusionPattern = exclusionPattern;
-    }
-
 
     public string Description()
     {
@@ -45,13 +52,6 @@ namespace TddXt.NScan.ReadingRules.Ports
       && _exclusionPattern.Select(
           exclusion => !Glob.IsMatch(assemblyName, exclusion))
           .OrElse(() => true);
-    }
-
-    public bool Equals(Pattern other)
-    {
-      if (ReferenceEquals(null, other)) return false;
-      if (ReferenceEquals(this, other)) return true;
-      return string.Equals(_inclusionPattern, other._inclusionPattern) && _exclusionPattern.Equals(other._exclusionPattern);
     }
 
     public override bool Equals(object obj)
@@ -78,7 +78,5 @@ namespace TddXt.NScan.ReadingRules.Ports
     {
       return !Equals(left, right);
     }
-
-
   }
 }
