@@ -5,8 +5,9 @@ using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Domain.DependencyPathBasedRules;
 using TddXt.NScan.Domain.Root;
 using Xunit;
+using static TddXt.AnyRoot.Root;
 
-namespace TddXt.NScan.Specification.Domain.SharedKernel
+namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
 {
   public class DescribedConditionSpecification
   {
@@ -15,10 +16,10 @@ namespace TddXt.NScan.Specification.Domain.SharedKernel
     {
       //GIVEN
       var innerCondition = Substitute.For<IDependencyCondition>();
-      var innerMatching = AnyRoot.Root.Any.Boolean();
-      var condition = new DescribedCondition(innerCondition, AnyRoot.Root.Any.String());
-      var depending = AnyRoot.Root.Any.Instance<IProjectSearchResult>();
-      var dependency = AnyRoot.Root.Any.Instance<IReferencedProject>();
+      var innerMatching = Any.Boolean();
+      var condition = new DescribedCondition(innerCondition, Any.String());
+      var depending = Any.Instance<IProjectSearchResult>();
+      var dependency = Any.Instance<IReferencedProject>();
 
       innerCondition.Matches(depending, dependency).Returns(innerMatching);
 
@@ -33,8 +34,8 @@ namespace TddXt.NScan.Specification.Domain.SharedKernel
     public void ShouldReturnTheDescriptionItWasCreatedWith()
     {
       //GIVEN
-      var initialDescription = AnyRoot.Root.Any.String();
-      var condition = new DescribedCondition(AnyRoot.Root.Any.Instance<IDependencyCondition>(), initialDescription);
+      var initialDescription = Any.String();
+      var condition = new DescribedCondition(Any.Instance<IDependencyCondition>(), initialDescription);
 
       //WHEN
       var descriptionFromCondition = condition.Description();

@@ -23,7 +23,7 @@ namespace TddXt.NScan.ReadingSolution.Adapters
       _support = support;
     }
 
-    private static void NormalizeProjectDependencyPaths(string projectFileAbsolutePath, XmlProjectDataAccess xmlProjectDataAccess)
+    private static void NormalizeProjectDependencyPaths(string projectFileAbsolutePath, IXmlProjectDataAccess xmlProjectDataAccess)
     {
       foreach (var projectReference in xmlProjectDataAccess.ProjectReferences())
       {

@@ -7,7 +7,17 @@ using TddXt.NScan.ReadingSolution.Ports;
 
 namespace TddXt.NScan.ReadingSolution.Lib
 {
-  public class XmlProjectDataAccess
+  public interface IXmlProjectDataAccess
+  {
+    IEnumerable<XmlPackageReference> XmlPackageReferences();
+    IEnumerable<XmlAssemblyReference> XmlAssemblyReferences();
+    string DetermineAssemblyName();
+    IEnumerable<XmlProjectReference> ProjectReferences();
+    ProjectId Id();
+    IEnumerable<XmlSourceCodeFile> SourceCodeFiles();
+  }
+
+  public class XmlProjectDataAccess : IXmlProjectDataAccess
   {
     private readonly XmlProject _xmlProject;
 
@@ -16,7 +26,7 @@ namespace TddXt.NScan.ReadingSolution.Lib
       _xmlProject = xmlProject;
     }
 
-    public List<XmlPackageReference> XmlPackageReferences()
+    public IEnumerable<XmlPackageReference> XmlPackageReferences()
     {
       var xmlItemGroups = _xmlProject.ItemGroups.Where(
         ig => ig.PackageReferences != null && ig.PackageReferences.Any()).ToList();
@@ -26,7 +36,7 @@ namespace TddXt.NScan.ReadingSolution.Lib
       return references;
     }
 
-    public List<XmlAssemblyReference> XmlAssemblyReferences()
+    public IEnumerable<XmlAssemblyReference> XmlAssemblyReferences()
     {
       var xmlItemGroups = _xmlProject.ItemGroups.Where(
         ig => ig.AssemblyReferences != null && ig.AssemblyReferences.Any()).ToList();
@@ -61,7 +71,7 @@ namespace TddXt.NScan.ReadingSolution.Lib
       return new ProjectId(_xmlProject.AbsolutePath);
     }
 
-    public List<XmlSourceCodeFile> SourceCodeFiles()
+    public IEnumerable<XmlSourceCodeFile> SourceCodeFiles()
     {
       return _xmlProject.SourceCodeFiles;
     }

@@ -1,14 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
-using TddXt.AnyRoot.Strings;
+using NSubstitute;
 using TddXt.NScan.Domain.ProjectScopedRules;
 using TddXt.NScan.Domain.Root;
-using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.NotifyingSupport.Ports;
 using TddXt.NScan.ReadingSolution.Lib;
 using TddXt.NScan.ReadingSolution.Ports;
-using TddXt.NScan.Specification.Component.AutomationLayer;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
@@ -31,23 +29,39 @@ namespace TddXt.NScan.Specification.Domain.Root
     }
 
     [Fact]
-    public void ShouldCreateXXXX()
+    public void ShouldCreateDotNetStandardProjectsFromInput()
     {
       //GIVEN
-      var csharpWorkspaceModel = new CsharpWorkspaceModel(Any.Instance<INScanSupport>(), Any.Instance<IProjectScopedRuleViolationFactory>());
-      var xmlProject1 = XmlProjectBuilder.WithAssemblyName(Any.String()).Build();
-      var expectedProjectId = new ProjectId(xmlProject1.AbsolutePath);
+      var csharpWorkspaceModel = new CsharpWorkspaceModel(
+        Any.Instance<INScanSupport>(), Any.Instance<IProjectScopedRuleViolationFactory>());
+      var xmlProject1 = Substitute.For<IXmlProjectDataAccess>();
+      var xmlProject2 = Substitute.For<IXmlProjectDataAccess>();
+      var xmlProject3 = Substitute.For<IXmlProjectDataAccess>();
+      var expectedProjectId1 = Any.ProjectId();
+      var expectedProjectId2 = Any.ProjectId();
+      var expectedProjectId3 = Any.ProjectId();
+
+      xmlProject1.Id().Returns(expectedProjectId1);
+      xmlProject2.Id().Returns(expectedProjectId2);
+      xmlProject3.Id().Returns(expectedProjectId3);
 
       //WHEN
-      IReadOnlyList<XmlProject> xmlProjects = new List<XmlProject>()
+      IEnumerable<IXmlProjectDataAccess> xmlProjects = new List<IXmlProjectDataAccess>()
       {
-        xmlProject1
+        xmlProject1,
+        xmlProject2,
+        xmlProject3
       };
-      var projectDictionary = csharpWorkspaceModel.CreateProjectsDictionaryFrom(xmlProjects.Select(p => new XmlProjectDataAccess(p)));
+      var projectDictionary = csharpWorkspaceModel.CreateProjectsDictionaryFrom(
+        xmlProjects);
 
       //THEN
-      projectDictionary.Should().ContainKey(expectedProjectId);
-      projectDictionary[expectedProjectId].Should().BeOfType<DotNetStandardProject>();
+      projectDictionary.Should().ContainKey(expectedProjectId1);
+      projectDictionary.Should().ContainKey(expectedProjectId2);
+      projectDictionary.Should().ContainKey(expectedProjectId3);
+      projectDictionary[expectedProjectId1].Should().BeOfType<DotNetStandardProject>();
+      projectDictionary[expectedProjectId2].Should().BeOfType<DotNetStandardProject>();
+      projectDictionary[expectedProjectId3].Should().BeOfType<DotNetStandardProject>();
     }
        
   }

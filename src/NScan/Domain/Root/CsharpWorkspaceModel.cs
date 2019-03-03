@@ -22,7 +22,8 @@ namespace TddXt.NScan.Domain.Root
       _ruleViolationFactory = ruleViolationFactory;
     }
 
-    public Dictionary<ProjectId, IDotNetProject> CreateProjectsDictionaryFrom(IEnumerable<XmlProjectDataAccess> xmlProjectDataAccesses)
+    public Dictionary<ProjectId, IDotNetProject> CreateProjectsDictionaryFrom(
+      IEnumerable<IXmlProjectDataAccess> xmlProjectDataAccesses)
     {
       var projects = new Dictionary<ProjectId, IDotNetProject>();
       foreach (var dataAccess in xmlProjectDataAccesses)
@@ -34,7 +35,7 @@ namespace TddXt.NScan.Domain.Root
       return projects;
     }
 
-    private (ProjectId, DotNetStandardProject) CreateProject(XmlProjectDataAccess projectDataAccess)
+    private (ProjectId, DotNetStandardProject) CreateProject(IXmlProjectDataAccess projectDataAccess)
     {
       var assemblyName = projectDataAccess.DetermineAssemblyName();
       var dotNetStandardProject = new DotNetStandardProject(

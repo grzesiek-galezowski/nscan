@@ -75,5 +75,10 @@ namespace TddXt.NScan.Domain.Root
           $"{_xmlSourceCodeFile.ParentProjectRootNamespace}.{fileLocationRelativeToProjectDir.Replace(Path.DirectorySeparatorChar, '.')}";
       }
     }
+
+    public override string ToString()
+    {
+      return _xmlSourceCodeFile.Name;
+    }
   }
 }

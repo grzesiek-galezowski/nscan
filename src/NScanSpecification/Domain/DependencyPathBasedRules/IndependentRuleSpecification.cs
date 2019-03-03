@@ -8,7 +8,7 @@ using TddXt.NScan.ReadingRules.Ports;
 using TddXt.XNSubstitute.Root;
 using Xunit;
 
-namespace TddXt.NScan.Specification.Domain.SharedKernel
+namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
 {
   public class IndependentRuleSpecification
   {

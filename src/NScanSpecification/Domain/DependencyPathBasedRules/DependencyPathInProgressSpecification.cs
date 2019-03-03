@@ -4,12 +4,10 @@ using FluentAssertions;
 using NSubstitute;
 using TddXt.AnyRoot.Collections;
 using TddXt.NScan.Domain.DependencyPathBasedRules;
-using TddXt.NScan.Domain.SharedKernel;
 using TddXt.XNSubstitute.Root;
 using Xunit;
-using static TddXt.AnyRoot.Root;
 
-namespace TddXt.NScan.Specification.Domain.SharedKernel
+namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
 {
   public class DependencyPathInProgressSpecification
   {
@@ -18,11 +16,11 @@ namespace TddXt.NScan.Specification.Domain.SharedKernel
     {
       //GIVEN
       var destination = Substitute.For<IFinalDependencyPathDestination>();
-      var initialProjects = Any.List<IDependencyPathBasedRuleTarget>();
+      var initialProjects = AnyRoot.Root.Any.List<IDependencyPathBasedRuleTarget>();
       var projectDependencyPathFactory = Substitute.For<ProjectDependencyPathFactory>();
-      var newDependencyPath = Any.Instance<IProjectDependencyPath>();
-      var additionalProject = Any.Instance<IDependencyPathBasedRuleTarget>();
-      var finalProject = Any.Instance<IDependencyPathBasedRuleTarget>();
+      var newDependencyPath = AnyRoot.Root.Any.Instance<IProjectDependencyPath>();
+      var additionalProject = AnyRoot.Root.Any.Instance<IDependencyPathBasedRuleTarget>();
+      var finalProject = AnyRoot.Root.Any.Instance<IDependencyPathBasedRuleTarget>();
 
       var dependencyPathInProgress = new DependencyPathInProgress(
         destination,

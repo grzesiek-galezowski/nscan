@@ -5,8 +5,9 @@ using TddXt.AnyRoot;
 using TddXt.NScan.Domain.DependencyPathBasedRules;
 using TddXt.NScan.Domain.Root;
 using Xunit;
+using static TddXt.AnyRoot.Root;
 
-namespace TddXt.NScan.Specification.Domain.SharedKernel
+namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
 {
   public class HasAssemblyReferenceMatchingConditionSpecification
   {
@@ -14,10 +15,10 @@ namespace TddXt.NScan.Specification.Domain.SharedKernel
     public void ShouldReturnResultOfQueryWhetherProjectHasAssembly()
     {
       //GIVEN
-      var depending = AnyRoot.Root.Any.Instance<IProjectSearchResult>();
+      var depending = Any.Instance<IProjectSearchResult>();
       var dependency = Substitute.For<IReferencedProject>();
-      var pattern = AnyRoot.Root.Any.Instance<Glob>();
-      var dependencyResponse = AnyRoot.Root.Any.Boolean();
+      var pattern = Any.Instance<Glob>();
+      var dependencyResponse = Any.Boolean();
       var condition = new HasAssemblyReferenceMatchingCondition(pattern);
 
       dependency.HasAssemblyReferenceWithNameMatching(pattern).Returns(dependencyResponse);

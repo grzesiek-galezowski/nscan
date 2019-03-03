@@ -46,5 +46,10 @@ namespace TddXt.NScan.Domain.SharedKernel
     {
       return !Equals(left, right);
     }
+
+    public override string ToString()
+    {
+      return $"{Name}, Version {_version}";
+    }
   }
 }

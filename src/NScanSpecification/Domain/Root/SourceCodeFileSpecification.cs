@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using FluentAssertions;
 using NSubstitute;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
@@ -162,6 +163,21 @@ namespace TddXt.NScan.Specification.Domain.Root
       cache.Received(1).AddMapping(namespace3, using2);
       cache.Received(1).AddMapping(namespace3, using3);
     }
+
+    [Fact]
+    public void ShouldReportFileNameWhenConvertedToString()
+    {
+      //GIVEN
+      var xmlSourceCodeFile = new XmlSourceCodeFileBuilder();
+      var file = new SourceCodeFile(xmlSourceCodeFile.Build(), Any.Instance<IRuleViolationFactory>());
+
+      //WHEN
+      var stringRepresentation = file.ToString();
+
+      //THEN
+      stringRepresentation.Should().Be(xmlSourceCodeFile.FileName);
+    }
+
 
   }
 
