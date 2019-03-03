@@ -75,5 +75,20 @@ namespace TddXt.NScan.ReadingSolution.Lib
     {
       return _xmlProject.SourceCodeFiles;
     }
+
+    public string RootNamespace()
+    {
+      return _xmlProject.PropertyGroups.First().RootNamespace;
+    }
+
+    public void AddFile(XmlSourceCodeFile xmlSourceCodeFile)
+    {
+      _xmlProject.SourceCodeFiles.Add(xmlSourceCodeFile);
+    }
+
+    public string GetParentDirectoryName()
+    {
+      return Path.GetDirectoryName(_xmlProject.AbsolutePath);
+    }
   }
 }

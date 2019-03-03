@@ -9,7 +9,7 @@ namespace TddXt.NScan.Specification.Integration
     [Fact]
     public void ShouldGatherClassesWithTheirEnclosingNamespaces()
     {
-      var dictionary = CSharpSyntax.GetClassDeclarationSignatures(@"
+      var dictionary = CSharpFileSyntaxTree.ParseText(@"
 using static Namespace1.Namespace2.Class1.Class2;
 
 class GlobalClass
@@ -28,7 +28,7 @@ namespace Namespace1.Namespace2
     }
   }
 }
-");
+", "").GetClassDeclarationSignatures();
 
       dictionary["Namespace1.Namespace2.Class1"].Namespace.Should().Be("Namespace1.Namespace2");
       dictionary["Namespace1.Namespace2.Class1"].Name.Should().Be("Class1");

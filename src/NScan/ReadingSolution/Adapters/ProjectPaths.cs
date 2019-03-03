@@ -46,12 +46,13 @@ namespace TddXt.NScan.ReadingSolution.Adapters
 
     private static XmlProject LoadXmlProject(string projectFilePath)
     {
+      //TODO use dataaccess in more places
       var xmlProject = DeserializeProjectFile(projectFilePath);
       xmlProject.AbsolutePath = projectFilePath;
       NormalizeProjectDependencyPaths(projectFilePath, new XmlProjectDataAccess(xmlProject));
       NormalizeProjectAssemblyName(xmlProject);
       NormalizeProjectRootNamespace(xmlProject);
-      LoadFilesInto(xmlProject);
+      LoadFilesInto(new XmlProjectDataAccess(xmlProject));
       return xmlProject;
     }
 
@@ -91,26 +92,32 @@ namespace TddXt.NScan.ReadingSolution.Adapters
       return paths;
     }
 
-    private static void LoadFilesInto(XmlProject xmlProject)
+    private static void LoadFilesInto(XmlProjectDataAccess projectAccess)
     {
-      var projectDirectory = Path.GetDirectoryName(xmlProject.AbsolutePath);
+      var projectDirectory = projectAccess.GetParentDirectoryName();
       var sourceCodeFilesInProject = SourceCodeFilesIn(projectDirectory);
 
-      var classDeclarationSignatures
-        = CSharpSyntax.GetClassDeclarationSignaturesFromFiles(sourceCodeFilesInProject);
+      var syntaxTrees = sourceCodeFilesInProject.Select(CSharpFileSyntaxTree.ParseFile).ToArray();
 
-      foreach (var file in sourceCodeFilesInProject)
+      var classDeclarationSignatures
+        = CSharpFileSyntaxTree.GetClassDeclarationSignaturesFromFiles(syntaxTrees);
+
+      foreach (var dotNetProject 
+        in syntaxTrees.Select(t => CreateXmlSourceCodeFile(projectAccess, projectDirectory, t, classDeclarationSignatures)))
       {
-        var fileRelativeToProjectRoot = GetPathRelativeTo(projectDirectory, file);
-        var declaredNamespaces = CSharpSyntax.GetAllUniqueNamespacesFromFile(file).ToList();
-        xmlProject.SourceCodeFiles.Add(new XmlSourceCodeFile(
-          fileRelativeToProjectRoot,
-          declaredNamespaces,
-          xmlProject.PropertyGroups.First().RootNamespace, 
-          xmlProject.PropertyGroups.First().AssemblyName, 
-          CSharpSyntax.GetAllUsingsFromFile(file, classDeclarationSignatures)
-          ));
+        projectAccess.AddFile(dotNetProject);
       }
+    }
+
+    private static XmlSourceCodeFile CreateXmlSourceCodeFile(XmlProjectDataAccess projectAccess, string projectDirectory, CSharpFileSyntaxTree syntaxTree, Dictionary<string, ClassDeclarationInfo> classDeclarationSignatures)
+    {
+      return new XmlSourceCodeFile(
+        GetPathRelativeTo(projectDirectory, syntaxTree.FilePath),
+        syntaxTree.GetAllUniqueNamespaces().ToList(),
+        projectAccess.RootNamespace(), 
+        projectAccess.DetermineAssemblyName(), 
+        syntaxTree.GetAllUsingsFrom(classDeclarationSignatures)
+      );
     }
 
     private static IEnumerable<string> SourceCodeFilesIn(string projectDirectory)

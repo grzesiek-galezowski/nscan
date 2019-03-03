@@ -14,7 +14,7 @@ namespace TddXt.NScan.Specification.Integration
     [Fact]
     public void ShouldGatherNormalUsingsFromAllLevels()
     {
-      CSharpSyntax.GetAllUsingsFrom(@"
+      CSharpFileSyntaxTree.ParseText(@"
 using FluentAssertions;
 using Microsoft.CodeAnalysis.CSharp;
 
@@ -26,7 +26,7 @@ namespace Lolek
     using Trolololo;
   }
 }
-", NoClassDeclarations).Should()
+", "").GetAllUsingsFrom(NoClassDeclarations).Should()
         .Contain("Microsoft.CodeAnalysis.CSharp")
         .And.Contain("Nunit")
         .And.Contain("Trolololo");
@@ -36,16 +36,14 @@ namespace Lolek
     [Fact]
     public void ShouldCorrectlyRecognizeAliases()
     {
-      CSharpSyntax.GetAllUsingsFrom(@"using trolololo = Microsoft.CodeAnalysis.CSharp;", NoClassDeclarations)
+      CSharpFileSyntaxTree.ParseText(@"using trolololo = Microsoft.CodeAnalysis.CSharp;", "").GetAllUsingsFrom(NoClassDeclarations)
         .Should().Contain("Microsoft.CodeAnalysis.CSharp");
     }
 
     [Fact]
     public void ShouldCorrectlyRecognizeLocalStaticUsings()
     {
-      CSharpSyntax.GetAllUsingsFrom(
-          @"using static TddXt.AnyRoot.Root;", 
-          new Dictionary<string, ClassDeclarationInfo>()
+      CSharpFileSyntaxTree.ParseText(@"using static TddXt.AnyRoot.Root;", "").GetAllUsingsFrom(new Dictionary<string, ClassDeclarationInfo>()
           {
             {"TddXt.AnyRoot.Root", new ClassDeclarationInfo("Root", "TddXt.AnyRoot")}
           })
@@ -55,9 +53,7 @@ namespace Lolek
     [Fact]
     public void ShouldIgnoreForeignStaticUsings()
     {
-      CSharpSyntax.GetAllUsingsFrom(
-          @"using static TddXt.AnyRoot.Root;", 
-          NoClassDeclarations)
+      CSharpFileSyntaxTree.ParseText(@"using static TddXt.AnyRoot.Root;", "").GetAllUsingsFrom(NoClassDeclarations)
         .Should().BeEmpty();
     }
   }
