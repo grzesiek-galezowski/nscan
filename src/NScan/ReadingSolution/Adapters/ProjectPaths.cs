@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 using Buildalyzer;
+using Functional.Maybe;
 using Functional.Maybe.Just;
 using TddXt.NScan.NotifyingSupport.Ports;
 using TddXt.NScan.ReadingCSharpSourceCode;
@@ -23,15 +24,6 @@ namespace TddXt.NScan.ReadingSolution.Adapters
       _support = support;
     }
 
-    private static void NormalizeProjectDependencyPaths(string projectFileAbsolutePath, IXmlProjectDataAccess xmlProjectDataAccess)
-    {
-      foreach (var projectReference in xmlProjectDataAccess.ProjectReferences())
-      {
-        projectReference.Include =
-          Path.GetFullPath(Path.Combine(Path.GetDirectoryName(projectFileAbsolutePath), projectReference.Include));
-      }
-    }
-
     private static XmlProject DeserializeProjectFile(string projectFilePath)
     {
       var serializer = new XmlSerializer(typeof(XmlProject));
@@ -46,30 +38,32 @@ namespace TddXt.NScan.ReadingSolution.Adapters
 
     private static XmlProject LoadXmlProject(string projectFilePath)
     {
-      //TODO use dataaccess in more places
-      var xmlProject = DeserializeProjectFile(projectFilePath);
-      xmlProject.AbsolutePath = projectFilePath;
-      NormalizeProjectDependencyPaths(projectFilePath, new XmlProjectDataAccess(xmlProject));
-      NormalizeProjectAssemblyName(xmlProject);
-      NormalizeProjectRootNamespace(xmlProject);
-      LoadFilesInto(new XmlProjectDataAccess(xmlProject));
-      return xmlProject;
+      var xmlProjectData = DeserializeProjectData(projectFilePath);
+      xmlProjectData.SetAbsolutePath(projectFilePath);
+      xmlProjectData.NormalizeProjectDependencyPaths(projectFilePath);
+      xmlProjectData.NormalizeProjectAssemblyName();
+      xmlProjectData.NormalizeProjectRootNamespace();
+      LoadFilesInto(xmlProjectData);
+      return xmlProjectData.ToXmlProject();
     }
 
-    private static void NormalizeProjectRootNamespace(XmlProject xmlProject)
-      {
-          if (xmlProject.PropertyGroups.All(g => g.RootNamespace == null))
-          {
-              xmlProject.PropertyGroups.First().RootNamespace
-                  = Path.GetFileNameWithoutExtension(
-                      Path.GetFileName(xmlProject.AbsolutePath));
-          }
-      }
+    private static XmlProjectDataAccess DeserializeProjectData(string projectFilePath)
+    {
+      return new XmlProjectDataAccess(DeserializeProjectFile(projectFilePath));
+    }
 
 
     public List<XmlProject> LoadXmlProjects()
     {
-      var xmlProjects = _projectFilePaths.Select(path =>
+      var xmlProjects = _projectFilePaths.Select(LoadXmlProjectFromPath())
+        .Where(maybeProject => maybeProject.HasValue)
+        .Select(maybeProject => maybeProject.Value).ToList();
+      return xmlProjects;
+    }
+
+    private Func<string, Maybe<XmlProject>> LoadXmlProjectFromPath()
+    {
+      return path =>
       {
         try
         {
@@ -78,10 +72,9 @@ namespace TddXt.NScan.ReadingSolution.Adapters
         catch (InvalidOperationException e)
         {
           _support.SkippingProjectBecauseOfError(e, path);
-          return Functional.Maybe.Maybe<XmlProject>.Nothing;
+          return Maybe<XmlProject>.Nothing;
         }
-      }).Where(o => o.HasValue).Select(o => o.Value).ToList();
-      return xmlProjects;
+      };
     }
 
     public static ProjectPaths From(string solutionFilePath, INScanSupport consoleSupport)
@@ -95,15 +88,14 @@ namespace TddXt.NScan.ReadingSolution.Adapters
     private static void LoadFilesInto(XmlProjectDataAccess projectAccess)
     {
       var projectDirectory = projectAccess.GetParentDirectoryName();
-      var sourceCodeFilesInProject = SourceCodeFilesIn(projectDirectory);
 
-      var syntaxTrees = sourceCodeFilesInProject.Select(CSharpFileSyntaxTree.ParseFile).ToArray();
+      var syntaxTrees = SourceCodeFilesIn(projectDirectory).Select(CSharpFileSyntaxTree.ParseFile).ToArray();
 
       var classDeclarationSignatures
         = CSharpFileSyntaxTree.GetClassDeclarationSignaturesFromFiles(syntaxTrees);
 
       foreach (var dotNetProject 
-        in syntaxTrees.Select(t => CreateXmlSourceCodeFile(projectAccess, projectDirectory, t, classDeclarationSignatures)))
+        in syntaxTrees.Select(tree => CreateXmlSourceCodeFile(projectAccess, projectDirectory, tree, classDeclarationSignatures)))
       {
         projectAccess.AddFile(dotNetProject);
       }
@@ -135,16 +127,6 @@ namespace TddXt.NScan.ReadingSolution.Adapters
     private static string GetPathRelativeTo(string projectDirectory, string file)
     {
       return file.Replace(projectDirectory + Path.DirectorySeparatorChar, "");
-    }
-
-    private static void NormalizeProjectAssemblyName(XmlProject xmlProject)
-    {
-      if (xmlProject.PropertyGroups.All(g => g.AssemblyName == null))
-      {
-        xmlProject.PropertyGroups.First().AssemblyName
-          = Path.GetFileNameWithoutExtension(
-            Path.GetFileName(xmlProject.AbsolutePath));
-      }
     }
   }
 }

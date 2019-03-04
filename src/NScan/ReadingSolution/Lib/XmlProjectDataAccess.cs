@@ -9,11 +9,12 @@ namespace TddXt.NScan.ReadingSolution.Lib
 {
   public interface IXmlProjectDataAccess
   {
+    void NormalizeProjectDependencyPaths(string projectFileAbsolutePath);
+    string DetermineAssemblyName();
+    ProjectId Id();
     IEnumerable<XmlPackageReference> XmlPackageReferences();
     IEnumerable<XmlAssemblyReference> XmlAssemblyReferences();
-    string DetermineAssemblyName();
     IEnumerable<XmlProjectReference> ProjectReferences();
-    ProjectId Id();
     IEnumerable<XmlSourceCodeFile> SourceCodeFiles();
   }
 
@@ -89,6 +90,45 @@ namespace TddXt.NScan.ReadingSolution.Lib
     public string GetParentDirectoryName()
     {
       return Path.GetDirectoryName(_xmlProject.AbsolutePath);
+    }
+
+    public void NormalizeProjectAssemblyName()
+    {
+      if (_xmlProject.PropertyGroups.All(g => g.AssemblyName == null))
+      {
+        _xmlProject.PropertyGroups.First().AssemblyName
+          = Path.GetFileNameWithoutExtension(
+            Path.GetFileName(_xmlProject.AbsolutePath));
+      }
+    }
+
+    public void NormalizeProjectRootNamespace()
+    {
+      if (_xmlProject.PropertyGroups.All(g => g.RootNamespace == null))
+      {
+        _xmlProject.PropertyGroups.First().RootNamespace
+          = Path.GetFileNameWithoutExtension(
+            Path.GetFileName(_xmlProject.AbsolutePath));
+      }
+    }
+
+    public void NormalizeProjectDependencyPaths(string projectFileAbsolutePath)
+    {
+      foreach (var projectReference in ProjectReferences())
+      {
+        projectReference.Include =
+          Path.GetFullPath(Path.Combine(Path.GetDirectoryName(projectFileAbsolutePath), projectReference.Include));
+      }
+    }
+
+    public void SetAbsolutePath(string projectFilePath)
+    {
+      _xmlProject.AbsolutePath = projectFilePath;
+    }
+
+    public XmlProject ToXmlProject()
+    {
+      return _xmlProject; //bug clone this
     }
   }
 }
