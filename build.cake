@@ -47,6 +47,7 @@ var fluentCommandline   = new[] { "FluentCommandLineParser-netstandard", "1.4.3.
 var cakeCore            = new[] { "Cake.Core"                          , "0.32.1"     };
 var nscanDependency     = new[] { nscanTitle                           , nscanVersion };
 var roslyn              = new[] { "Microsoft.CodeAnalysis.CSharp"      , "2.10.0"};
+var atmaFileSystem      = new[] { "AtmaFileSystem"                     , "1.0.0"};
 
 //////////////////////////////////////////////////////////////////////
 // PREPARATION
@@ -172,6 +173,7 @@ Task("PackNScan")
                 netstandard20.Dependency(functionalMaybe),
                 netstandard20.Dependency(functionalMaybeJust),
                 netstandard20.Dependency(roslyn),
+                netstandard20.Dependency(atmaFileSystem),
             }
         );
     });
@@ -200,6 +202,7 @@ Task("PackNScanConsole")
                 netcoreapp21.Dependency(functionalMaybeJust),
                 netcoreapp21.Dependency(roslyn),
                 netcoreapp21.Dependency(fluentCommandline),
+                netcoreapp21.Dependency(atmaFileSystem),
             }
         );
     });
@@ -228,6 +231,7 @@ Task("PackNScanConsole")
                 netstandard20.Dependency(functionalMaybeJust),
                 netstandard20.Dependency(roslyn),
                 netstandard20.Dependency(cakeCore),
+                netstandard20.Dependency(atmaFileSystem),
             }
         );
     });

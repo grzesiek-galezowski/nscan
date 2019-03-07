@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using AtmaFileSystem;
 
 namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 {
@@ -28,21 +29,24 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 
     public void CreateOnDisk(SolutionDir solutionDir, DotNetExe dotNetExe)
     {
-      _projects.AsParallel().ForAll(projectName => CreateProjectAsync(dotNetExe, projectName, 
-        solutionDir.PathToProject(projectName)));
+      _projects.AsParallel().ForAll(projectName =>
+      {
+        var absoluteDirectoryPath = solutionDir.PathToProject(projectName);
+        CreateProjectAsync(dotNetExe, projectName, absoluteDirectoryPath);
+      });
     }
 
-    private static void CreateProjectAsync(DotNetExe dotNetExe, string projectName, string projectDirPath)
+    private static void CreateProjectAsync(DotNetExe dotNetExe, string projectName, AbsoluteDirectoryPath projectDirPath)
     {
       ProcessAssertions.AssertSuccess(
         dotNetExe.RunWith($"new classlib --name {projectName}")
           .Result);
-      RemoveDefaultFileCreatedbyTemplate(projectDirPath);
+      RemoveDefaultFileCreatedByTemplate(projectDirPath);
     }
 
-    private static void RemoveDefaultFileCreatedbyTemplate(string projectDirPath)
+    private static void RemoveDefaultFileCreatedByTemplate(AbsoluteDirectoryPath projectDirPath)
     {
-      File.Delete(Path.Combine(projectDirPath, "Class1.cs"));
+      File.Delete((projectDirPath + FileName.Value("Class1.cs")).ToString());
     }
 
   }

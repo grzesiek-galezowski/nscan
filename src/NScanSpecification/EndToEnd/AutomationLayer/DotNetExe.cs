@@ -18,8 +18,7 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
       var processInfo = await ProcessEx.RunAsync(
         new ProcessStartInfo("dotnet.exe", arguments)
         {
-            
-          WorkingDirectory = _workingDirectory.FullName(),
+          WorkingDirectory = _workingDirectory.FullName().ToString(),
         }).ConfigureAwait(false);
       return processInfo;
     }

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using AtmaFileSystem;
 using TddXt.NScan.ReadingSolution.Ports;
 
 namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
@@ -7,43 +8,44 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
   {
     private readonly string _solutionName;
     private readonly DirectoryInfo _solutionDir;
+    private readonly AbsoluteDirectoryPath _absoluteSolutionDirectoryPath;
 
     public SolutionDir(DirectoryInfo path, string solutionName)
     {
       _solutionDir = path;
       _solutionName = solutionName;
+      _absoluteSolutionDirectoryPath = AbsoluteDirectoryPath.Value(_solutionDir.FullName);
     }
 
-    public string SolutionFilePath()
+    public AbsoluteFilePath SolutionFilePath()
     {
-      return Path.Combine(_solutionDir.FullName, _solutionName + ".sln");
+      return _absoluteSolutionDirectoryPath + FileName.Value(_solutionName + ".sln");
     }
 
-    public string PathToFile(string rulesFileName)
+    public AbsoluteFilePath PathToFile(FileName rulesFileName)
     {
-      return Path.Combine(_solutionDir.FullName, rulesFileName);
+      return _absoluteSolutionDirectoryPath + rulesFileName;
     }
 
-    public FileInfo PathToFileInProject(string projectName, XmlSourceCodeFile sourceCodeFile)
+    public FileInfo PathToFileInProject(DirectoryName projectDirectoryName, XmlSourceCodeFile sourceCodeFile)
     {
-      var fullFilePath = Path.Combine(Path.Combine(_solutionDir.FullName, projectName), sourceCodeFile.Name);
-      var fileInfo = new FileInfo(fullFilePath);
-      return fileInfo;
+      var fullFilePath = _absoluteSolutionDirectoryPath + projectDirectoryName + RelativeFilePath.Value(sourceCodeFile.Name);
+      return fullFilePath.Info();
     }
 
-    public string FullName()
+    public AbsoluteDirectoryPath FullName()
     {
-      return _solutionDir.FullName;
-    }
-
-    public string PathToProject(string projectName)
-    {
-      return Path.Combine(_solutionDir.FullName, projectName);
+      return _absoluteSolutionDirectoryPath;
     }
 
     public void DeleteWithContent()
     {
       _solutionDir.Delete(true);
+    }
+
+    public AbsoluteDirectoryPath PathToProject(string projectName)
+    {
+      return _absoluteSolutionDirectoryPath + DirectoryName.Value(projectName);
     }
   }
 }

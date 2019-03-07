@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using AtmaFileSystem;
 using FluentAssertions;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Specification.AutomationLayer;
@@ -12,9 +13,9 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
   {
     private readonly string _solutionName = Any.AlphaString();
 
-    private readonly string _fullSolutionPath;
-    private readonly string _fullRulesPath;
-    private const string RulesFileName = "rules.config";
+    private readonly AbsoluteFilePath _fullSolutionPath;
+    private readonly AbsoluteFilePath _fullRulesPath;
+    private static readonly FileName RulesFileName = FileName.Value("rules.config");
     private readonly ProjectFiles _projectFiles;
     private readonly AssemblyReferences _references;
     private readonly DotNetExe _dotNetExe;
@@ -25,7 +26,7 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 
     public NScanE2EDriver()
     {
-      _solutionDir = new SolutionDir(RelevantPaths.CreateRandomPath(), _solutionName);
+      _solutionDir = new SolutionDir(RelevantPaths.CreateRandomDirectory(), _solutionName);
       _fullSolutionPath = _solutionDir.SolutionFilePath();
       _fullRulesPath = _solutionDir.PathToFile(RulesFileName);
       _projectFiles = new ProjectFiles(_solutionDir);
@@ -97,22 +98,22 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
     private void RunForDebug() //todo expand on this ability. This may be interesting if there's a good way to capture console output or when I add logging to a file
     {
       var repositoryPath2 = RelevantPaths.RepositoryPath();
-      var nscanConsoleDllPath = Path.Combine(
-        repositoryPath2, "src", "NScan.Console", "bin", "Debug", "netcoreapp2.1", "NScan.Console.dll");
+      var nscanConsoleDllPath = AbsoluteFilePath.Value(Path.Combine(
+        repositoryPath2.ToString(), "src", "NScan.Console", "bin", "Debug", "netcoreapp2.1", "NScan.Console.dll"));
 
       AssertFileExists(nscanConsoleDllPath);
-      AppDomain.CurrentDomain.ExecuteAssembly(nscanConsoleDllPath,
-        new[] {"-p", _fullSolutionPath, "-r", _fullRulesPath});
+      AppDomain.CurrentDomain.ExecuteAssembly(nscanConsoleDllPath.ToString(),
+        new[] {"-p", _fullSolutionPath.ToString(), "-r", _fullRulesPath.ToString()});
     }
 
-    private void AssertFileExists(string filePath)
+    private void AssertFileExists(AbsoluteFilePath filePath)
     {
-      File.Exists(filePath).Should().BeTrue(filePath + " should exist");
+      File.Exists(filePath.ToString()).Should().BeTrue(filePath + " should exist");
     }
 
-    private static void AssertDirectoryExists(string directoryPath)
+    private static void AssertDirectoryExists(AbsoluteDirectoryPath directoryPath)
     {
-      Directory.Exists(directoryPath).Should().BeTrue(directoryPath + " should exist");
+      Directory.Exists(directoryPath.ToString()).Should().BeTrue(directoryPath + " should exist");
     }
 
     private void CreateSolution()

@@ -1,4 +1,5 @@
 using System;
+using AtmaFileSystem;
 
 namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 {
@@ -9,9 +10,9 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
       return Environment.GetEnvironmentVariable("NCrunch") == "1";
     }
 
-    public static string OriginalSolutionPath()
+    public static AbsoluteDirectoryPath OriginalSolutionPath()
     {
-      return Environment.GetEnvironmentVariable("NCrunch.OriginalSolutionPath");
+      return AbsoluteDirectoryPath.Value(Environment.GetEnvironmentVariable("NCrunch.OriginalSolutionPath"));
     }
   }
 }

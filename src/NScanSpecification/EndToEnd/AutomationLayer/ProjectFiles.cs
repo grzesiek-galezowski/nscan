@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using AtmaFileSystem;
 using TddXt.NScan.ReadingSolution.Ports;
 
 namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
@@ -23,7 +24,7 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
       {
         foreach (var sourceCodeFile in _filesByProject[projectName])
         {
-          var fileInfo = _dir.PathToFileInProject(projectName, sourceCodeFile);
+          var fileInfo = _dir.PathToFileInProject(DirectoryName.Value(projectName), sourceCodeFile);
           if (!fileInfo.Directory.Exists)
           {
             fileInfo.Directory.Create();

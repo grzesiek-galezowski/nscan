@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using AtmaFileSystem;
 using TddXt.NScan.ReadingRules.Ports;
 using TddXt.NScan.Specification.Component.AutomationLayer;
 
@@ -10,14 +11,14 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
   {
     private readonly List<RuleUnionDto> _rules = new List<RuleUnionDto>();
 
-    public void SaveIn(string fullRulesPath)
+    public void SaveIn(AbsoluteFilePath fullRulesPath)
     {
       var lines = _rules.Select(dto => dto.Switch(
         ToRuleString,
         ToRuleString, 
         ToRuleString)
       ).ToList();
-      File.WriteAllLines(fullRulesPath, lines);
+      File.WriteAllLines(fullRulesPath.ToString(), lines);
     }
 
     public void Add(IFullRuleConstructed ruleDefinition)
