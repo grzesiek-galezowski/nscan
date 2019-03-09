@@ -50,7 +50,7 @@ namespace TddXt.NScan.Domain.Root
 
     private static IEnumerable<RuleUnionDto> ReadRules(InputArgumentsDto inputArguments)
     {
-      var rulesString = File.ReadAllText(inputArguments.RulesFilePath);
+      var rulesString = File.ReadAllText(inputArguments.RulesFilePath.ToString());
       var ruleDtos = ParseRule.FromLine().Many().Parse(rulesString);
       return ruleDtos;
     }
@@ -71,7 +71,7 @@ namespace TddXt.NScan.Domain.Root
     private static List<XmlProject> ReadXmlProjects(InputArgumentsDto cliOptions, INScanSupport support)
     {
       var paths = ProjectPaths.From(
-        cliOptions.SolutionPath,
+        cliOptions.SolutionPath.ToString(),
         support);
       var xmlProjects = paths.LoadXmlProjects();
       return xmlProjects;

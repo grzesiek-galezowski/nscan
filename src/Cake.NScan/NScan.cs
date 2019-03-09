@@ -1,4 +1,5 @@
 ﻿using System;
+using AtmaFileSystem;
 using Cake.Core;
 using Cake.Core.Annotations;
 using TddXt.NScan;
@@ -42,10 +43,10 @@ namespace Cake.NScan
         throw new ArgumentNullException(nameof(settings));
       }
       var result = NScanMain.Run(
-        new InputArgumentsDto()
+        new InputArgumentsDto
         {
-          RulesFilePath = rulesFilePath,
-          SolutionPath = solutionPath
+          RulesFilePath = AnyFilePath.Value(rulesFilePath),
+          SolutionPath = AnyFilePath.Value(solutionPath)
         },
         new CakeContextOutput(context.Log),
         new CakeContextSupport(context.Log));

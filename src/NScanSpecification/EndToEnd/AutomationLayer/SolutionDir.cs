@@ -33,7 +33,7 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 
     public FileInfo PathToFileInProject(DirectoryName projectDirectoryName, XmlSourceCodeFile sourceCodeFile)
     {
-      var fullFilePath = _absoluteSolutionDirectoryPath + projectDirectoryName + RelativeFilePath(sourceCodeFile.Name);
+      var fullFilePath = _absoluteSolutionDirectoryPath + projectDirectoryName + sourceCodeFile.PathRelativeToProjectRoot;
       return fullFilePath.Info();
     }
 

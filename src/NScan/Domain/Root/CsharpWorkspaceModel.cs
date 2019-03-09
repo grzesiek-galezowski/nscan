@@ -64,7 +64,7 @@ namespace TddXt.NScan.Domain.Root
 
     private static AssemblyReference ToAssemblyReference(XmlAssemblyReference r)
     {
-      return new AssemblyReference(r.Include, r.HintPath);
+      return new AssemblyReference(r.Include, r.HintPath); //bug what is hint path?
     }
 
     private static PackageReference ToPackageReference(XmlPackageReference r)

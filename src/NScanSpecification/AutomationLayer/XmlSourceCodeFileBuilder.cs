@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AtmaFileSystem;
 using TddXt.NScan.ReadingSolution.Ports;
 
 namespace TddXt.NScan.Specification.AutomationLayer
@@ -40,12 +41,8 @@ namespace TddXt.NScan.Specification.AutomationLayer
 
     public XmlSourceCodeFile BuildWith(string parentProjectAssemblyName, string parentProjectRootNamespace)
     {
-      return new XmlSourceCodeFile(
-        FileName, 
-        DeclaredNamespaces, 
-        parentProjectRootNamespace, 
-        parentProjectAssemblyName, 
-        Usings);
+      string fileName = FileName;
+      return new XmlSourceCodeFile(AtmaFileSystemPaths.RelativeFilePath(fileName), DeclaredNamespaces, parentProjectRootNamespace, parentProjectAssemblyName, Usings);
     }
 
   }

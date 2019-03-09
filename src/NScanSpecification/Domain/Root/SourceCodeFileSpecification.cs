@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AtmaFileSystem;
 using FluentAssertions;
 using NSubstitute;
 using TddXt.AnyRoot;
@@ -22,12 +23,8 @@ namespace TddXt.NScan.Specification.Domain.Root
 
       public XmlSourceCodeFile Build()
       {
-        return new XmlSourceCodeFile(
-          FileName, 
-          DeclaredNamespaces, 
-          ParentProjectRootNamespace, 
-          ParentProjectAssemblyName, 
-          Usings);
+        string fileName = FileName;
+        return new XmlSourceCodeFile(AtmaFileSystemPaths.RelativeFilePath(fileName), DeclaredNamespaces, ParentProjectRootNamespace, ParentProjectAssemblyName, Usings);
       }
 
       public List<string> Usings { get; set; } = Any.List<string>();

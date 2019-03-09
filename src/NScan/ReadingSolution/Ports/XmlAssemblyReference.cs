@@ -1,4 +1,5 @@
 ﻿using System.Xml.Serialization;
+using AtmaFileSystem;
 
 namespace TddXt.NScan.ReadingSolution.Ports
 {

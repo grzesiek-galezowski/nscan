@@ -59,26 +59,26 @@ namespace TddXt.NScan.Domain.Root
     {
       return _xmlSourceCodeFile.ParentProjectAssemblyName + " has root namespace " +
              _xmlSourceCodeFile.ParentProjectRootNamespace + " but the file "
-             + _xmlSourceCodeFile.Name + " " + reason;
+             + _xmlSourceCodeFile.PathRelativeToProjectRoot + " " + reason;
     }
 
     private string CorrectNamespace()
     {
-      if (Path.GetFileName(_xmlSourceCodeFile.Name) == _xmlSourceCodeFile.Name)
+      if (!_xmlSourceCodeFile.PathRelativeToProjectRoot.ParentDirectory().HasValue)
       {
         return _xmlSourceCodeFile.ParentProjectRootNamespace;
       }
       else
       {
-        var fileLocationRelativeToProjectDir = Path.GetDirectoryName(_xmlSourceCodeFile.Name);
+        var fileLocationRelativeToProjectDir = _xmlSourceCodeFile.PathRelativeToProjectRoot.ParentDirectory();
         return
-          $"{_xmlSourceCodeFile.ParentProjectRootNamespace}.{fileLocationRelativeToProjectDir.Replace(Path.DirectorySeparatorChar, '.')}";
+          $"{_xmlSourceCodeFile.ParentProjectRootNamespace}.{fileLocationRelativeToProjectDir.ToString().Replace(Path.DirectorySeparatorChar, '.')}";
       }
     }
 
     public override string ToString()
     {
-      return _xmlSourceCodeFile.Name;
+      return _xmlSourceCodeFile.PathRelativeToProjectRoot.ToString();
     }
   }
 }

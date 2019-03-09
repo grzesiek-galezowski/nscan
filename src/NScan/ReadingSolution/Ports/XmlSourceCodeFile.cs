@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using AtmaFileSystem;
 
 namespace TddXt.NScan.ReadingSolution.Ports
 {
   public class XmlSourceCodeFile
   {
-    public XmlSourceCodeFile(string fileName,
+    public XmlSourceCodeFile(
+      RelativeFilePath filePathRelativeToProjectRoot, 
       List<string> declaredNamespaces,
       string parentProjectRootNamespace,
-      string parentProjectAssemblyName, 
+      string parentProjectAssemblyName,
       IReadOnlyList<string> usings)
     {
       Usings = usings ?? throw new ArgumentException(nameof(usings));
-      Name = fileName ?? throw new ArgumentNullException(nameof(fileName));
+      PathRelativeToProjectRoot = filePathRelativeToProjectRoot;
       DeclaredNamespaces = declaredNamespaces ?? throw new ArgumentException(nameof(declaredNamespaces));
       ParentProjectRootNamespace = parentProjectRootNamespace ?? throw new ArgumentNullException(nameof(parentProjectRootNamespace));
       ParentProjectAssemblyName = parentProjectAssemblyName ?? throw new ArgumentNullException(nameof(parentProjectAssemblyName));
@@ -21,7 +23,7 @@ namespace TddXt.NScan.ReadingSolution.Ports
     public IReadOnlyList<string> Usings { get; }
     public string ParentProjectAssemblyName { get; }
     public string ParentProjectRootNamespace { get; }
-    public string Name { get; } //bug FileName
+    public RelativeFilePath PathRelativeToProjectRoot { get; }
     public IReadOnlyList<string> DeclaredNamespaces { get; }
   }
 }

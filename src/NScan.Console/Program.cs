@@ -1,4 +1,5 @@
 ﻿using System;
+using AtmaFileSystem;
 using Fclp;
 using TddXt.NScan.Domain;
 using TddXt.NScan.Domain.Root;
@@ -35,12 +36,12 @@ namespace TddXt.NScan.Console
 
       p.Setup<string>('p', "solution-path")
         .WithDescription("Path to solution file")
-        .Callback(path => inputArguments.SolutionPath = path)
+        .Callback(path => inputArguments.SolutionPath = AnyFilePath.Value(path))
         .Required();
 
       p.Setup<string>('r', "rules-file-path")
         .WithDescription("Path to rules file")
-        .Callback(path => inputArguments.RulesFilePath = path)
+        .Callback(path => inputArguments.RulesFilePath = AnyFilePath.Value(path))
         .Required();
 
       p.SetupHelp("?", "help")
