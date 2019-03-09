@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AtmaFileSystem;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.ReadingSolution.Ports;
@@ -62,7 +63,7 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
     {
       return names.Select(n => new XmlProjectReference
       {
-        FullIncludePath = AbsoluteFilePath(AbsolutePathFor(n)) //bug
+        FullIncludePath = AbsolutePathTo(n)
       }).ToList();
     }
 
@@ -90,19 +91,19 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
       return _xmlProject;
     }
 
-    private static string AbsolutePathFor(string assemblyName)
+    private static AbsoluteFilePath AbsolutePathTo(string assemblyName)
     {
-      return @"C:\" + assemblyName + ".cs";
+      return AbsoluteFilePath(@"C:\" + assemblyName + ".cs");
     }
 
     public static XmlProjectBuilder WithAssemblyName(string assemblyName)
     {
-      return new XmlProjectBuilder(new XmlProject()
+      return new XmlProjectBuilder(new XmlProject
       {
-        AbsolutePath = AbsolutePathFor(assemblyName),
-        PropertyGroups = new List<XmlPropertyGroup>()
+        AbsolutePath = AbsolutePathTo(assemblyName),
+        PropertyGroups = new List<XmlPropertyGroup>
         {
-          new XmlPropertyGroup()
+          new XmlPropertyGroup
           {
             AssemblyName = assemblyName
           }

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using AtmaFileSystem;
+using static AtmaFileSystem.AtmaFileSystemPaths;
 
 namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 {
@@ -46,7 +47,7 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 
     private static void RemoveDefaultFileCreatedByTemplate(AbsoluteDirectoryPath projectDirPath)
     {
-      File.Delete((projectDirPath + FileName.Value("Class1.cs")).ToString());
+      File.Delete((projectDirPath + FileName("Class1.cs")).ToString());
     }
 
   }

@@ -1,4 +1,5 @@
 ﻿using System;
+using AtmaFileSystem;
 using Cake.Core.Diagnostics;
 using TddXt.NScan.NotifyingSupport.Ports;
 using TddXt.NScan.ReadingRules;
@@ -20,7 +21,8 @@ namespace Cake.NScan
       _contextLog.Write(Verbosity.Minimal, LogLevel.Error, exceptionFromResolution.ToString());
     }
 
-    public void SkippingProjectBecauseOfError(InvalidOperationException invalidOperationException, string projectFilePath)
+    public void SkippingProjectBecauseOfError(InvalidOperationException invalidOperationException,
+      AbsoluteFilePath projectFilePath)
     {
       _contextLog.Write(Verbosity.Minimal, LogLevel.Warning,
         $"Invalid format - skipping {projectFilePath} because of {invalidOperationException}");

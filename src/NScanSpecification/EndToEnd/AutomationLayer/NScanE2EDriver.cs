@@ -5,7 +5,9 @@ using FluentAssertions;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Specification.AutomationLayer;
 using TddXt.NScan.Specification.Component.AutomationLayer;
+using static AtmaFileSystem.AtmaFileSystemPaths;
 using static TddXt.AnyRoot.Root;
+using AbsoluteFilePath = AtmaFileSystem.AbsoluteFilePath;
 
 namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 {
@@ -15,7 +17,7 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 
     private readonly AbsoluteFilePath _fullSolutionPath;
     private readonly AbsoluteFilePath _fullRulesPath;
-    private static readonly FileName RulesFileName = FileName.Value("rules.config");
+    private static readonly FileName RulesFileName = FileName("rules.config");
     private readonly ProjectFiles _projectFiles;
     private readonly AssemblyReferences _references;
     private readonly DotNetExe _dotNetExe;
@@ -98,8 +100,14 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
     private void RunForDebug() //todo expand on this ability. This may be interesting if there's a good way to capture console output or when I add logging to a file
     {
       var repositoryPath2 = RelevantPaths.RepositoryPath();
-      var nscanConsoleDllPath = AbsoluteFilePath.Value(Path.Combine(
-        repositoryPath2.ToString(), "src", "NScan.Console", "bin", "Debug", "netcoreapp2.1", "NScan.Console.dll"));
+      var nscanConsoleDllPath = 
+        repositoryPath2 
+        + DirectoryName("src") 
+        + DirectoryName("NScan.Console") 
+        + DirectoryName("bin") 
+        + DirectoryName("Debug")
+        + DirectoryName("netcoreapp2.1") 
+        + FileName("NScan.Console.dll");
 
       AssertFileExists(nscanConsoleDllPath);
       AppDomain.CurrentDomain.ExecuteAssembly(nscanConsoleDllPath.ToString(),

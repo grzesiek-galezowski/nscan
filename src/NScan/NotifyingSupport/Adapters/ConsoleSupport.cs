@@ -1,4 +1,5 @@
 ﻿using System;
+using AtmaFileSystem;
 using TddXt.NScan.NotifyingSupport.Ports;
 using TddXt.NScan.ReadingRules.Ports;
 
@@ -11,7 +12,8 @@ namespace TddXt.NScan.NotifyingSupport.Adapters
       Console.WriteLine(exceptionFromResolution);
     }
 
-    public void SkippingProjectBecauseOfError(InvalidOperationException invalidOperationException, string projectFilePath)
+    public void SkippingProjectBecauseOfError(InvalidOperationException invalidOperationException,
+      AbsoluteFilePath projectFilePath)
     {
       Console.WriteLine("Invalid format - skipping " + projectFilePath + " because of " + invalidOperationException);
     }

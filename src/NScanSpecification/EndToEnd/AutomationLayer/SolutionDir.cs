@@ -1,6 +1,10 @@
 ﻿using System.IO;
 using AtmaFileSystem;
 using TddXt.NScan.ReadingSolution.Ports;
+using static AtmaFileSystem.AtmaFileSystemPaths;
+using AbsoluteDirectoryPath = AtmaFileSystem.AbsoluteDirectoryPath;
+using DirectoryName = AtmaFileSystem.DirectoryName;
+using FileName = AtmaFileSystem.FileName;
 
 namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 {
@@ -14,12 +18,12 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
     {
       _solutionDir = path;
       _solutionName = solutionName;
-      _absoluteSolutionDirectoryPath = AbsoluteDirectoryPath.Value(_solutionDir.FullName);
+      _absoluteSolutionDirectoryPath = AbsoluteDirectoryPath(_solutionDir.FullName);
     }
 
     public AbsoluteFilePath SolutionFilePath()
     {
-      return _absoluteSolutionDirectoryPath + FileName.Value(_solutionName + ".sln");
+      return _absoluteSolutionDirectoryPath + FileName(_solutionName + ".sln");
     }
 
     public AbsoluteFilePath PathToFile(FileName rulesFileName)
@@ -29,7 +33,7 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 
     public FileInfo PathToFileInProject(DirectoryName projectDirectoryName, XmlSourceCodeFile sourceCodeFile)
     {
-      var fullFilePath = _absoluteSolutionDirectoryPath + projectDirectoryName + RelativeFilePath.Value(sourceCodeFile.Name);
+      var fullFilePath = _absoluteSolutionDirectoryPath + projectDirectoryName + RelativeFilePath(sourceCodeFile.Name);
       return fullFilePath.Info();
     }
 
@@ -45,7 +49,7 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 
     public AbsoluteDirectoryPath PathToProject(string projectName)
     {
-      return _absoluteSolutionDirectoryPath + DirectoryName.Value(projectName);
+      return _absoluteSolutionDirectoryPath + DirectoryName(projectName);
     }
   }
 }

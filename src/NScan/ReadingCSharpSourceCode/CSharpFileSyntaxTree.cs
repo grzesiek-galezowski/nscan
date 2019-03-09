@@ -2,8 +2,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using AtmaFileSystem;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using static AtmaFileSystem.AtmaFileSystemPaths;
 
 namespace TddXt.NScan.ReadingCSharpSourceCode
 {
@@ -21,7 +23,7 @@ namespace TddXt.NScan.ReadingCSharpSourceCode
       _syntaxTree = syntaxTree;
     }
 
-    public string FilePath => _syntaxTree.FilePath;
+    public AbsoluteFilePath FilePath => AbsoluteFilePath(_syntaxTree.FilePath);
 
     public IEnumerable<string> GetAllUniqueNamespaces()
     {
@@ -51,9 +53,9 @@ namespace TddXt.NScan.ReadingCSharpSourceCode
         .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
     }
 
-    public static CSharpFileSyntaxTree ParseFile(string path)
+    public static CSharpFileSyntaxTree ParseFile(AbsoluteFilePath path)
     {
-      return CSharpFileSyntaxTree.ParseText(File.ReadAllText(path), path);
+      return CSharpFileSyntaxTree.ParseText(File.ReadAllText(path.ToString()), path.ToString());
     }
   }
 }

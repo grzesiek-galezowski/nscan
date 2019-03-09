@@ -1,4 +1,5 @@
 ﻿using System;
+using AtmaFileSystem;
 using TddXt.NScan.ReadingRules.Ports;
 
 namespace TddXt.NScan.NotifyingSupport.Ports
@@ -7,8 +8,8 @@ namespace TddXt.NScan.NotifyingSupport.Ports
   {
     void Report(Exception exceptionFromResolution);
 
-    void SkippingProjectBecauseOfError(
-      InvalidOperationException invalidOperationException, string projectFilePath);
+    void SkippingProjectBecauseOfError(InvalidOperationException invalidOperationException,
+      AbsoluteFilePath projectFilePath);
 
     void Log(IndependentRuleComplementDto independentRuleDto);
     void Log(CorrectNamespacesRuleComplementDto correctNamespacesRuleDto);

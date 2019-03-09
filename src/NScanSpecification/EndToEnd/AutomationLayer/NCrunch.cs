@@ -1,5 +1,6 @@
 using System;
 using AtmaFileSystem;
+using static AtmaFileSystem.AtmaFileSystemPaths;
 
 namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 {
@@ -12,7 +13,7 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 
     public static AbsoluteDirectoryPath OriginalSolutionPath()
     {
-      return AbsoluteDirectoryPath.Value(Environment.GetEnvironmentVariable("NCrunch.OriginalSolutionPath"));
+      return AbsoluteDirectoryPath(Environment.GetEnvironmentVariable("NCrunch.OriginalSolutionPath"));
     }
   }
 }

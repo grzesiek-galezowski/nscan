@@ -2,6 +2,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using AtmaFileSystem;
+using static AtmaFileSystem.AtmaFileSystemPaths;
+using AbsoluteDirectoryPath = AtmaFileSystem.AbsoluteDirectoryPath;
 
 namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 {
@@ -19,7 +21,7 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
       if (NCrunch.RunsThisTest())
       {
         var originalSolutionPath = NCrunch.OriginalSolutionPath();
-        return originalSolutionPath.SplitToIncluding("nscan"); //bug
+        return originalSolutionPath.FragmentEndingOnLast(DirectoryName("nscan")).Value;
       }
       else
       {
@@ -30,20 +32,15 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
           executingAssemblyPath = executingAssemblyPath.Parent;
         }
 
-        return AbsoluteDirectoryPath.Value(executingAssemblyPath.FullName);
+        return AbsoluteDirectoryPath(executingAssemblyPath.FullName);
       }
 
-    }
-
-    private static AbsoluteDirectoryPath SplitToIncluding(this AbsoluteDirectoryPath originalSolutionPath, string dirName)
-    {
-      return AbsoluteDirectoryPath.Value(Path.Combine(originalSolutionPath.ToString().Split(dirName).First(), dirName));
     }
 
     public static AbsoluteFilePath NscanConsoleProjectPath(AbsoluteDirectoryPath repositoryPath)
     {
       return 
-        repositoryPath + DirectoryName.Value("src") + DirectoryName.Value("NScan.Console") + FileName.Value("NScan.Console.csproj");
+        repositoryPath + DirectoryName("src") + DirectoryName("NScan.Console") + FileName("NScan.Console.csproj");
     }
   }
 }

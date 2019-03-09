@@ -17,7 +17,7 @@ namespace TddXt.NScan.ReadingSolution.Ports
     public string Sdk { get; set; }
 
     [XmlIgnore]
-    public string AbsolutePath { get; set; }
+    public AbsoluteFilePath AbsolutePath { get; set; }
 
     [XmlIgnore]
     public List<XmlSourceCodeFile> SourceCodeFiles { get; }= new List<XmlSourceCodeFile>();
