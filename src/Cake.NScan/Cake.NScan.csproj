@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AtmaFileSystem" Version="1.0.0" />
+    <PackageReference Include="AtmaFileSystem" Version="2.0.0" />
     <PackageReference Include="Buildalyzer" Version="2.2.0" />
     <PackageReference Include="Cake.Core" Version="0.32.1" />
     <PackageReference Include="Functional.Maybe" Version="2.0.10" />

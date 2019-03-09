@@ -59,7 +59,7 @@ namespace TddXt.NScan.Domain.Root
 
     private static ProjectId ToProjectId(XmlProjectReference dto)
     {
-      return new ProjectId(dto.Include);
+      return new ProjectId(dto.FullIncludePath.ToString());
     }
 
     private static AssemblyReference ToAssemblyReference(XmlAssemblyReference r)

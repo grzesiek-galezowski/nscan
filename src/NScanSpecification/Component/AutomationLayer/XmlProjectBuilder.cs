@@ -4,6 +4,7 @@ using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.ReadingSolution.Ports;
 using TddXt.NScan.Specification.AutomationLayer;
+using static AtmaFileSystem.AtmaFileSystemPaths;
 
 namespace TddXt.NScan.Specification.Component.AutomationLayer
 {
@@ -59,9 +60,9 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
 
     private static List<XmlProjectReference> ProjectReferencesFrom(string[] names)
     {
-      return names.Select(n => new XmlProjectReference()
+      return names.Select(n => new XmlProjectReference
       {
-        Include = AbsolutePathFor(n)
+        FullIncludePath = AbsoluteFilePath(AbsolutePathFor(n)) //bug
       }).ToList();
     }
 

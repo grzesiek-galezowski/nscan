@@ -47,7 +47,7 @@ var fluentCommandline   = new[] { "FluentCommandLineParser-netstandard", "1.4.3.
 var cakeCore            = new[] { "Cake.Core"                          , "0.32.1"     };
 var nscanDependency     = new[] { nscanTitle                           , nscanVersion };
 var roslyn              = new[] { "Microsoft.CodeAnalysis.CSharp"      , "2.10.0"};
-var atmaFileSystem      = new[] { "AtmaFileSystem"                     , "1.0.0"};
+var atmaFileSystem      = new[] { "AtmaFileSystem"                     , "2.0.0"};
 
 //////////////////////////////////////////////////////////////////////
 // PREPARATION

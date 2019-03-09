@@ -1,4 +1,5 @@
 ﻿using System.Xml.Serialization;
+using AtmaFileSystem;
 
 namespace TddXt.NScan.ReadingSolution.Ports
 {
@@ -7,5 +8,8 @@ namespace TddXt.NScan.ReadingSolution.Ports
   {
     [XmlAttribute(AttributeName = "Include")]
     public string Include { get; set; }
+
+    [XmlIgnore]
+    public AbsoluteFilePath FullIncludePath { get; set; }
   }
 }
