@@ -12,6 +12,6 @@ NScan is provided in a form of:
 
 Check out the [documentation pages](https://github.com/grzesiek-galezowski/nscan/wiki)
 
-[![](https://codescene.io/projects/3620/status.svg) Get more details at **codescene.io**.](https://codescene.io/projects/3620/jobs/latest-successful/results)
+[![](https://codescene.io/projects/4322/status.svg) Get more details at **codescene.io**.](https://codescene.io/projects/4322/jobs/latest-successful/results)
 
 [![Build Status](https://dev.azure.com/grzesiekgalezowski/grzesiekgalezowski/_apis/build/status/grzesiek-galezowski.nscan%20(1)?branchName=master)](https://dev.azure.com/grzesiekgalezowski/grzesiekgalezowski/_build/latest?definitionId=2?branchName=master)
