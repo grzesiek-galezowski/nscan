@@ -19,7 +19,9 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
-task: VSBuild@1
+steps:
+
+- task: VSBuild@1
   inputs:
     solution: './Examples/**/*.sln' 
 
