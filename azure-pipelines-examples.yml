@@ -9,9 +9,7 @@ trigger:
       - master
   paths:
     include:
-    - ./
-    exclude:
-    - ./Examples
+    - ./Examples/*
 
 pool:
   vmImage: 'VS2017-Win2016'
@@ -21,14 +19,8 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
-steps:
-- script: |
-    powershell ./build.ps1
-
-- task: PublishTestResults@2
-  condition: succeededOrFailed()
+task: VSBuild@1
   inputs:
-    testResultsFormat: VSTest
-    testResultsFiles: '**/*.trx'
+    solution: './Examples/**/*.sln' 
 
 - task: PublishBuildArtifacts@1
