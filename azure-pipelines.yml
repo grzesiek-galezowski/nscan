@@ -9,9 +9,9 @@ trigger:
       - master
   paths:
     include:
-    - ./src/*
-#    exclude:
-#    - WebsiteTwoDirectory/*
+    - ./
+    exclude:
+    - ./Examples
 
 pool:
   vmImage: 'VS2017-Win2016'
