@@ -6,6 +6,7 @@ using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.NotifyingSupport.Ports;
 using TddXt.NScan.ReadingSolution.Lib;
 using TddXt.NScan.ReadingSolution.Ports;
+using System;
 
 namespace TddXt.NScan.Domain.Root
 {
