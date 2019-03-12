@@ -9,9 +9,9 @@ trigger:
       - master
   paths:
     include:
-    - ./
+    - ./**/*
     exclude:
-    - ./Examples
+    - ./Examples/*
 
 pool:
   vmImage: 'VS2017-Win2016'
