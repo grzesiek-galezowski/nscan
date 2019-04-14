@@ -2,6 +2,9 @@
 using TddXt.NScan.Specification.Component.AutomationLayer;
 using TddXt.NScan.Specification.EndToEnd.AutomationLayer;
 using Xunit;
+using static TddXt.NScan.Specification.AutomationLayer.XmlSourceCodeFileBuilder;
+using static TddXt.NScan.Specification.EndToEnd.AutomationLayer.XmlClassBuilder;
+using static TddXt.NScan.Specification.EndToEnd.AutomationLayer.XmlMethodBuilder;
 
 namespace TddXt.NScan.Specification.EndToEnd
 {
@@ -13,10 +16,14 @@ namespace TddXt.NScan.Specification.EndToEnd
       //GIVEN
       using (var context = new NScanE2EDriver())
       {
+        //bug none of this is implemented yet
         context.HasProject("MyProject")
-          .WithRootNamespace("MyProject")
-          .With(XmlSourceCodeFileBuilder.FileWithNamespace("lol1.cs", "MyProject").Using("MyProject.Util"))
-          .With(XmlSourceCodeFileBuilder.FileWithNamespace("lol2.cs", "MyProject.Util").Using("MyProject"));
+          .With(File("lol.cs").With(
+            Class("Class1").With(
+              Method("A").DecoratedWithAttribute("x"))));
+
+        //bug
+
         context.Add(DependencyRuleBuilder.RuleRequiring().Project("*MyProject*").HasNoCircularUsings());
 
         //WHEN

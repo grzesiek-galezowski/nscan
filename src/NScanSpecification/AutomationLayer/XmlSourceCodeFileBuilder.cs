@@ -2,6 +2,7 @@
 using System.Linq;
 using AtmaFileSystem;
 using TddXt.NScan.ReadingSolution.Ports;
+using TddXt.NScan.Specification.EndToEnd.AutomationLayer;
 
 namespace TddXt.NScan.Specification.AutomationLayer
 {
@@ -42,8 +43,23 @@ namespace TddXt.NScan.Specification.AutomationLayer
     public XmlSourceCodeFile BuildWith(string parentProjectAssemblyName, string parentProjectRootNamespace)
     {
       string fileName = FileName;
-      return new XmlSourceCodeFile(AtmaFileSystemPaths.RelativeFilePath(fileName), DeclaredNamespaces, parentProjectRootNamespace, parentProjectAssemblyName, Usings);
+      return new XmlSourceCodeFile(
+        AtmaFileSystemPaths.RelativeFilePath(fileName), 
+        DeclaredNamespaces, 
+        parentProjectRootNamespace, 
+        parentProjectAssemblyName, 
+        Usings);
     }
 
+    public static XmlSourceCodeFileBuilder File(string fileName)
+    {
+      return EmptyFile(fileName);
+    }
+
+
+    public XmlSourceCodeFileBuilder With(XmlClassBuilder xmlClassBuilder)
+    {
+      return this;
+    }
   }
 }
