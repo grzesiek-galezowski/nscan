@@ -1,4 +1,6 @@
-﻿namespace TddXt.NScan.ReadingCSharpSourceCode
+﻿using System.Collections.Generic;
+
+namespace TddXt.NScan.ReadingCSharpSourceCode
 {
   public class ClassDeclarationInfo
   {
@@ -11,6 +13,7 @@
     public string FullName => NamespacePrefix() + Name;
     public string Namespace { get; }
     public string Name { get; }
+    public List<MethodDeclarationInfo> Methods { get; } = new List<MethodDeclarationInfo>();
 
     private string NamespacePrefix()
     {

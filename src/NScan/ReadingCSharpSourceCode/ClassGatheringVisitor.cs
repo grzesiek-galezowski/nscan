@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Functional.Maybe;
 using Functional.Maybe.Just;
@@ -57,6 +58,21 @@ namespace TddXt.NScan.ReadingCSharpSourceCode
       {
         child.Accept(this);
       }
+    }
+
+    public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
+    {
+      var attributes = new List<string>();
+      
+      foreach (var attributeListSyntax in node.AttributeLists)
+      {
+        foreach (var attributeSyntax in attributeListSyntax.Attributes)
+        {
+          attributes.Add(attributeSyntax.Name.ToFullString());
+        }
+      }
+
+      _classes.Last().Methods.Add(new MethodDeclarationInfo(node.Identifier.Value.ToString(), attributes));
     }
   }
 }

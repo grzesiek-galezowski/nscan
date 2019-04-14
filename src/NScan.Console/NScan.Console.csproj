@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -6,7 +6,12 @@
     <AssemblyName>NScan.Console</AssemblyName>
     <RootNamespace>TddXt.NScan.Console</RootNamespace>
   </PropertyGroup>
-
+  
+  <PropertyGroup>
+    <LangVersion>8.0</LangVersion>
+    <NullableContextOptions>enable</NullableContextOptions>
+  </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="AtmaFileSystem" Version="2.1.1" />
     <PackageReference Include="Buildalyzer" Version="2.2.0" />
