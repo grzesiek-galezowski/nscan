@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TddXt.NScan.ReadingRules.Ports
+namespace TddXt.NScan.ReadingSolution.Lib
 {
   public abstract class Union3<T1, T2, T3>
   {

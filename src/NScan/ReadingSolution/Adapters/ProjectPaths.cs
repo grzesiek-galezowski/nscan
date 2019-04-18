@@ -105,10 +105,19 @@ namespace TddXt.NScan.ReadingSolution.Adapters
       }
     }
 
-    private static XmlSourceCodeFile CreateXmlSourceCodeFile(XmlProjectDataAccess projectAccess, AbsoluteDirectoryPath projectDirectory, CSharpFileSyntaxTree syntaxTree, Dictionary<string, ClassDeclarationInfo> classDeclarationSignatures)
+    private static XmlSourceCodeFile CreateXmlSourceCodeFile(
+      XmlProjectDataAccess projectAccess, 
+      AbsoluteDirectoryPath projectDirectory, 
+      CSharpFileSyntaxTree syntaxTree, 
+      Dictionary<string, ClassDeclarationInfo> classDeclarationSignatures)
     {
-      string fileName = GetPathRelativeTo(projectDirectory, syntaxTree.FilePath);
-      return new XmlSourceCodeFile(AtmaFileSystemPaths.RelativeFilePath(fileName), syntaxTree.GetAllUniqueNamespaces().ToList(), projectAccess.RootNamespace(), projectAccess.DetermineAssemblyName(), syntaxTree.GetAllUsingsFrom(classDeclarationSignatures));
+      return new XmlSourceCodeFile(
+        RelativeFilePath(GetPathRelativeTo(projectDirectory, syntaxTree.FilePath)), 
+        syntaxTree.GetAllUniqueNamespaces().ToList(), 
+        projectAccess.RootNamespace(), 
+        projectAccess.DetermineAssemblyName(), 
+        syntaxTree.GetAllUsingsFrom(classDeclarationSignatures),
+        classDeclarationSignatures.Values.ToList());
     }
 
     private static IEnumerable<AbsoluteFilePath> SourceCodeFilesIn(AbsoluteDirectoryPath projectDirectory)

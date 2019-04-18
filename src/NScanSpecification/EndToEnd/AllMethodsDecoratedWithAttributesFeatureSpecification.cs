@@ -3,8 +3,8 @@ using TddXt.NScan.Specification.Component.AutomationLayer;
 using TddXt.NScan.Specification.EndToEnd.AutomationLayer;
 using Xunit;
 using static TddXt.NScan.Specification.AutomationLayer.XmlSourceCodeFileBuilder;
-using static TddXt.NScan.Specification.EndToEnd.AutomationLayer.XmlClassBuilder;
-using static TddXt.NScan.Specification.EndToEnd.AutomationLayer.XmlMethodBuilder;
+using static TddXt.NScan.Specification.EndToEnd.AutomationLayer.ClassDeclarationBuilder;
+using static TddXt.NScan.Specification.EndToEnd.AutomationLayer.MethodDeclarationBuilder;
 
 namespace TddXt.NScan.Specification.EndToEnd
 {

@@ -9,6 +9,7 @@ using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Domain.NamespaceBasedRules;
 using TddXt.NScan.Domain.Root;
 using TddXt.NScan.Domain.SharedKernel;
+using TddXt.NScan.ReadingCSharpSourceCode;
 using TddXt.NScan.ReadingSolution.Ports;
 using TddXt.XNSubstitute.Root;
 using Xunit;
@@ -24,9 +25,16 @@ namespace TddXt.NScan.Specification.Domain.Root
       public XmlSourceCodeFile Build()
       {
         string fileName = FileName;
-        return new XmlSourceCodeFile(AtmaFileSystemPaths.RelativeFilePath(fileName), DeclaredNamespaces, ParentProjectRootNamespace, ParentProjectAssemblyName, Usings);
+        return new XmlSourceCodeFile(
+          AtmaFileSystemPaths.RelativeFilePath(fileName), 
+          DeclaredNamespaces, 
+          ParentProjectRootNamespace, 
+          ParentProjectAssemblyName, 
+          Usings,
+          Classes);
       }
 
+      public IReadOnlyList<ClassDeclarationInfo> Classes { get; set; } = Any.ReadOnlyList<ClassDeclarationInfo>();
       public List<string> Usings { get; set; } = Any.List<string>();
       public string ParentProjectAssemblyName { get; set; } = Any.Instance<string>();
       public string ParentProjectRootNamespace { get; set; } = Any.Instance<string>();

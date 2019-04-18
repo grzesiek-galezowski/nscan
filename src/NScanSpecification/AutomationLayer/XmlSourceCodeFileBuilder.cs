@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AtmaFileSystem;
+using TddXt.AnyRoot.Strings;
 using TddXt.NScan.ReadingSolution.Ports;
 using TddXt.NScan.Specification.EndToEnd.AutomationLayer;
+using static TddXt.AnyRoot.Root;
 
 namespace TddXt.NScan.Specification.AutomationLayer
 {
   public class XmlSourceCodeFileBuilder
   {
-    private readonly List<XmlClassBuilder> _classes = new List<XmlClassBuilder>();
+    private readonly List<ClassDeclarationBuilder> _classes = new List<ClassDeclarationBuilder>();
     private List<string> DeclaredNamespaces { get; }
     private string FileName { get; set; }
     private List<string> Usings { get; } = new List<string>();
@@ -49,18 +51,19 @@ namespace TddXt.NScan.Specification.AutomationLayer
         DeclaredNamespaces, 
         parentProjectRootNamespace, 
         parentProjectAssemblyName, 
-        Usings);
+        Usings,
+        _classes.Select(c => c.Build()).ToList());
     }
 
     public static XmlSourceCodeFileBuilder File(string fileName)
     {
-      return EmptyFile(fileName);
+      return FileWithNamespace(fileName, Any.AlphaString());
     }
 
 
-    public XmlSourceCodeFileBuilder With(XmlClassBuilder xmlClassBuilder)
+    public XmlSourceCodeFileBuilder With(ClassDeclarationBuilder classDeclarationBuilder)
     {
-      _classes.Add(xmlClassBuilder);
+      _classes.Add(classDeclarationBuilder);
       return this;
     }
   }

@@ -30,7 +30,8 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
             fileInfo.Directory.Create();
           }
 
-          File.WriteAllText(fileInfo.FullName, SourceCodeFileText.GenerateFrom(sourceCodeFile));
+          var generateFrom = SourceCodeFileText.GenerateFrom(sourceCodeFile);
+          File.WriteAllText(fileInfo.FullName, generateFrom);
         }
 
       }

@@ -1,4 +1,6 @@
-﻿namespace TddXt.NScan.ReadingRules.Ports
+﻿using TddXt.NScan.ReadingSolution.Lib;
+
+namespace TddXt.NScan.ReadingRules.Ports
 {
   public class RuleUnionDto : Union3<
     IndependentRuleComplementDto, 

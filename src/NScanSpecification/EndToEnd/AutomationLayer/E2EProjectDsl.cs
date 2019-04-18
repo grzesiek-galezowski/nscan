@@ -6,7 +6,7 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
   {
     private readonly string _projectName;
     private readonly ProjectFiles _projectFiles;
-    private string _rootNamespace;
+    private string _rootNamespace = "WhateverNamespace";
     private readonly AssemblyReferences _assemblyReferences;
 
 
