@@ -33,11 +33,11 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
       _projects.AsParallel().ForAll(projectName =>
       {
         var absoluteDirectoryPath = solutionDir.PathToProject(projectName);
-        CreateProjectAsync(dotNetExe, projectName, absoluteDirectoryPath);
+        CreateProject(dotNetExe, projectName, absoluteDirectoryPath);
       });
     }
 
-    private static void CreateProjectAsync(DotNetExe dotNetExe, string projectName, AbsoluteDirectoryPath projectDirPath)
+    private static void CreateProject(DotNetExe dotNetExe, string projectName, AbsoluteDirectoryPath projectDirPath)
     {
       ProcessAssertions.AssertSuccess(
         dotNetExe.RunWith($"new classlib --name {projectName}")

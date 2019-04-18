@@ -30,15 +30,10 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
             fileInfo.Directory.Create();
           }
 
-          File.WriteAllText(fileInfo.FullName, StringBodyOf(sourceCodeFile));
+          File.WriteAllText(fileInfo.FullName, SourceCodeFileText.GenerateFrom(sourceCodeFile));
         }
 
       }
-    }
-
-    private static string StringBodyOf(XmlSourceCodeFile sourceCodeFile)
-    {
-      return string.Join(Environment.NewLine, sourceCodeFile.Usings.Select(n => $"using {n};")) + $"namespace {sourceCodeFile.DeclaredNamespaces.Single()}" + " {}";
     }
 
     public void InitializeForProject(string projectName)

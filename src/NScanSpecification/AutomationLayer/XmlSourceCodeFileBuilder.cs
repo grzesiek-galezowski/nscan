@@ -8,6 +8,10 @@ namespace TddXt.NScan.Specification.AutomationLayer
 {
   public class XmlSourceCodeFileBuilder
   {
+    private readonly List<XmlClassBuilder> _classes = new List<XmlClassBuilder>();
+    private List<string> DeclaredNamespaces { get; }
+    private string FileName { get; set; }
+    private List<string> Usings { get; } = new List<string>();
 
     public static XmlSourceCodeFileBuilder FileWithNamespace(string fileName, string fileNamespace)
     {
@@ -30,9 +34,6 @@ namespace TddXt.NScan.Specification.AutomationLayer
       DeclaredNamespaces = declaredNamespaces;
     }
 
-    private List<string> DeclaredNamespaces { get; }
-    private string FileName { get; set; }
-    private List<string> Usings { get; } = new List<string>();
 
     public XmlSourceCodeFileBuilder Using(string usingDeclaration)
     {
@@ -59,6 +60,7 @@ namespace TddXt.NScan.Specification.AutomationLayer
 
     public XmlSourceCodeFileBuilder With(XmlClassBuilder xmlClassBuilder)
     {
+      _classes.Add(xmlClassBuilder);
       return this;
     }
   }
