@@ -25,7 +25,7 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
         .Parse($"{depending} {RuleNames.IndependentOf} {dependencyType}:{dependency}{Environment.NewLine}");
 
       //THEN
-      ruleUnionDto.Switch(independentRule =>
+      ruleUnionDto.Match(independentRule =>
       {
         independentRule.DependingPattern.Should().Be(Pattern.WithoutExclusion(depending));
         independentRule.DependencyType.Should().Be(dependencyType);
@@ -49,7 +49,7 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
         .Parse($"{depending} except {dependingException} {RuleNames.IndependentOf} {dependencyType}:{dependency}{Environment.NewLine}");
 
       //THEN
-      ruleUnionDto.Switch(independentRule =>
+      ruleUnionDto.Match(independentRule =>
       {
         independentRule.DependingPattern.Should().Be(Pattern.WithExclusion(depending, dependingException));
         independentRule.DependencyType.Should().Be(dependencyType);
@@ -72,7 +72,7 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
         .Parse($"{depending}  {RuleNames.IndependentOf}  {dependencyType}:{dependency}{Environment.NewLine}");
 
       //THEN
-      ruleUnionDto.Switch(independentRule =>
+      ruleUnionDto.Match(independentRule =>
       {
         independentRule.DependingPattern.Should().Be(Pattern.WithoutExclusion(depending));
         independentRule.DependencyType.Should().Be(dependencyType);
@@ -95,7 +95,7 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
 
       //THEN
 
-      ruleUnionDto.Switch(
+      ruleUnionDto.Match(
         FailWhen<IndependentRuleComplementDto>(),
         dto =>
         {
@@ -116,7 +116,7 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
       var ruleUnionDto = ParseRule.FromLine().Parse($"{depending} {RuleNames.HasNoCircularUsings}");
 
       //THEN
-      ruleUnionDto.Switch(
+      ruleUnionDto.Match(
         FailWhen<IndependentRuleComplementDto>(),
         FailWhen<CorrectNamespacesRuleComplementDto>(),
         dto =>
@@ -142,7 +142,7 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
       //THEN
       ruleUnionDtos.Count.Should().Be(2);
       var ruleUnionDto = ruleUnionDtos.First();
-      ruleUnionDto.Switch(
+      ruleUnionDto.Match(
         FailWhen<IndependentRuleComplementDto>(),
         FailWhen<CorrectNamespacesRuleComplementDto>(),
         dto =>

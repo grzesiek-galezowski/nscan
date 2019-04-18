@@ -13,7 +13,7 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 
     public void SaveIn(AbsoluteFilePath fullRulesPath)
     {
-      var lines = _rules.Select(dto => dto.Switch(
+      var lines = _rules.Select(dto => dto.Match(
         ToRuleString,
         ToRuleString, 
         ToRuleString)

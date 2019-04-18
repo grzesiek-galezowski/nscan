@@ -72,7 +72,7 @@ namespace TddXt.NScan.Domain.Root
     {
       foreach (var ruleDto in rules)
       {
-        ruleDto.Switch(
+        ruleDto.Match(
           independentRule =>
           {
             var rule = _ruleFactory.CreateDependencyRuleFrom(independentRule);

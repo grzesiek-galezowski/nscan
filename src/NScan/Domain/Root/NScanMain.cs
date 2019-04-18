@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Sprache;
 using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.NotifyingSupport.Ports;
@@ -61,7 +62,7 @@ namespace TddXt.NScan.Domain.Root
     {
       foreach (var ruleUnion in enumerable)
       {
-        ruleUnion.Switch( 
+        ruleUnion.Match( 
           support.Log, 
           support.Log, 
           support.Log);
