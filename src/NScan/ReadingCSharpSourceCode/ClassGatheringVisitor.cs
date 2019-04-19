@@ -43,7 +43,7 @@ namespace TddXt.NScan.ReadingCSharpSourceCode
       }
 
       _classes.Add(
-        new ClassDeclarationInfo(className, currentNamespace.OrElse(() => string.Empty)));
+        new ClassDeclarationInfo(className, currentNamespace.OrElse(() => string.Empty) ));
       VisitChildrenOf(node);
     }
 

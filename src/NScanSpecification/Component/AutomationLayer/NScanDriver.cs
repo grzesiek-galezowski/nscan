@@ -1,15 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
-using TddXt.NScan.Domain;
 using TddXt.NScan.Domain.Root;
-using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.NotifyingSupport.Adapters;
 using TddXt.NScan.NotifyingSupport.Ports;
-using TddXt.NScan.ReadingRules;
 using TddXt.NScan.ReadingRules.Ports;
-using TddXt.NScan.ReadingSolution;
-using TddXt.NScan.ReadingSolution.Ports;
 using TddXt.NScan.Specification.AutomationLayer;
 
 namespace TddXt.NScan.Specification.Component.AutomationLayer
@@ -18,7 +13,7 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
   {
     private readonly INScanSupport _consoleSupport = new ConsoleSupport();
     private readonly List<XmlProjectBuilder> _xmlProjects = new List<XmlProjectBuilder>();
-    private Analysis _analysis;
+    private Analysis? _analysis;
     private readonly List<RuleUnionDto> _rules = new List<RuleUnionDto>();
 
     public XmlProjectBuilder HasProject(string assemblyName)
@@ -42,22 +37,22 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
 
     public void ShouldIndicateSuccess()
     {
-      _analysis.ReturnCode.Should().Be(0);
+      _analysis!.ReturnCode.Should().Be(0);
     }
 
     public void ShouldIndicateFailure()
     {
-      _analysis.ReturnCode.Should().Be(-1);
+      _analysis!.ReturnCode.Should().Be(-1);
     }
 
     public void ReportShouldNotContainText(string text)
     {
-      _analysis.Report.Should().NotContain(text);
+      _analysis!.Report.Should().NotContain(text);
     }
 
     public void ReportShouldContain(ReportedMessage message)
     {
-      _analysis.Report.Should().Contain(message.ToString());
+      _analysis!.Report.Should().Contain(message.ToString());
     }
   }
 }

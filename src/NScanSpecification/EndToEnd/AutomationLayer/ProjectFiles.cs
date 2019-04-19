@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using FluentAssertions;
 using TddXt.NScan.ReadingSolution.Ports;
 using static AtmaFileSystem.AtmaFileSystemPaths;
 
@@ -33,7 +34,6 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
           var generateFrom = SourceCodeFileText.GenerateFrom(sourceCodeFile);
           File.WriteAllText(fileInfo.FullName, generateFrom);
         }
-
       }
     }
 

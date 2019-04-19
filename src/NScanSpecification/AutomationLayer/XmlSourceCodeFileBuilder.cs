@@ -36,7 +36,6 @@ namespace TddXt.NScan.Specification.AutomationLayer
       DeclaredNamespaces = declaredNamespaces;
     }
 
-
     public XmlSourceCodeFileBuilder Using(string usingDeclaration)
     {
       Usings.Add(usingDeclaration);
@@ -45,9 +44,8 @@ namespace TddXt.NScan.Specification.AutomationLayer
 
     public XmlSourceCodeFile BuildWith(string parentProjectAssemblyName, string parentProjectRootNamespace)
     {
-      string fileName = FileName;
       return new XmlSourceCodeFile(
-        AtmaFileSystemPaths.RelativeFilePath(fileName), 
+        AtmaFileSystemPaths.RelativeFilePath(FileName), 
         DeclaredNamespaces, 
         parentProjectRootNamespace, 
         parentProjectAssemblyName, 

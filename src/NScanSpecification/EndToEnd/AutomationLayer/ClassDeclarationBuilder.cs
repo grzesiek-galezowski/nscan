@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using TddXt.NScan.ReadingCSharpSourceCode;
 
 namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
@@ -26,7 +27,9 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 
     public ClassDeclarationInfo Build()
     {
-      return new ClassDeclarationInfo(_name, "" /* bug */);
+      var classDeclarationInfo = new ClassDeclarationInfo(_name, "" /* bug */);
+      classDeclarationInfo.Methods.AddRange(_methods.Select(m => m.Build()));
+      return classDeclarationInfo;
     }
   }
 }

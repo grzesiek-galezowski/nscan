@@ -8,17 +8,19 @@ using TddXt.NScan.Domain.Root;
 using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.ReadingRules.Ports;
 using Xunit;
+using static TddXt.AnyRoot.Root;
 
 namespace TddXt.NScan.Specification.Domain.Root
 {
   public class AnalysisBuilder
   {
-    public ISolution Solution { private get; set; } = AnyRoot.Root.Any.Instance<ISolution>();
-    public IPathRuleSet PathRuleSet { private get; set; } = AnyRoot.Root.Any.Instance<IPathRuleSet>();
-    public IAnalysisReportInProgress ReportInProgress { private get; set; } = AnyRoot.Root.Any.Instance<IAnalysisReportInProgress>();
-    public IRuleFactory Factory { private get; set; } = AnyRoot.Root.Any.Instance<IRuleFactory>();
-    public IProjectScopedRuleSet ProjectScopedRuleSet { get; set; } = AnyRoot.Root.Any.Instance<IProjectScopedRuleSet>();
-    public INamespacesBasedRuleSet ProjectNamespacesRuleSet { private get; set; }
+    public ISolution Solution { private get; set; } = Any.Instance<ISolution>();
+    public IPathRuleSet PathRuleSet { private get; set; } = Any.Instance<IPathRuleSet>();
+    public IAnalysisReportInProgress ReportInProgress { private get; set; } = Any.Instance<IAnalysisReportInProgress>();
+    public IRuleFactory Factory { private get; set; } = Any.Instance<IRuleFactory>();
+    public IProjectScopedRuleSet ProjectScopedRuleSet { get; set; } = Any.Instance<IProjectScopedRuleSet>();
+    public INamespacesBasedRuleSet ProjectNamespacesRuleSet { private get; set; } =
+      Any.Instance<INamespacesBasedRuleSet>();
 
     public Analysis Build()
     {
@@ -33,10 +35,10 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       //GIVEN
       var solution = Substitute.For<ISolution>();
-      var pathRuleSet = AnyRoot.Root.Any.Instance<IPathRuleSet>();
-      var analysisReport = AnyRoot.Root.Any.Instance<IAnalysisReportInProgress>();
-      var projectScopedRuleSet = AnyRoot.Root.Any.Instance<IProjectScopedRuleSet>();
-      var namespacesBasedRuleSet = AnyRoot.Root.Any.Instance<INamespacesBasedRuleSet>();
+      var pathRuleSet = Any.Instance<IPathRuleSet>();
+      var analysisReport = Any.Instance<IAnalysisReportInProgress>();
+      var projectScopedRuleSet = Any.Instance<IProjectScopedRuleSet>();
+      var namespacesBasedRuleSet = Any.Instance<INamespacesBasedRuleSet>();
       var analysis = new AnalysisBuilder()
       {
         ReportInProgress = analysisReport,
@@ -66,12 +68,12 @@ namespace TddXt.NScan.Specification.Domain.Root
       //GIVEN
       var pathRuleSet = Substitute.For<IPathRuleSet>();
       var ruleFactory = Substitute.For<IRuleFactory>();
-      var rule1 = AnyRoot.Root.Any.Instance<IDependencyRule>();
-      var rule2 = AnyRoot.Root.Any.Instance<IDependencyRule>();
-      var rule3 = AnyRoot.Root.Any.Instance<IDependencyRule>();
-      var ruleDto1 = AnyRoot.Root.Any.Instance<IndependentRuleComplementDto>();
-      var ruleDto2 = AnyRoot.Root.Any.Instance<IndependentRuleComplementDto>();
-      var ruleDto3 = AnyRoot.Root.Any.Instance<IndependentRuleComplementDto>();
+      var rule1 = Any.Instance<IDependencyRule>();
+      var rule2 = Any.Instance<IDependencyRule>();
+      var rule3 = Any.Instance<IDependencyRule>();
+      var ruleDto1 = Any.Instance<IndependentRuleComplementDto>();
+      var ruleDto2 = Any.Instance<IndependentRuleComplementDto>();
+      var ruleDto3 = Any.Instance<IndependentRuleComplementDto>();
       var analysis = new AnalysisBuilder()
       {
         PathRuleSet = pathRuleSet,
@@ -103,12 +105,12 @@ namespace TddXt.NScan.Specification.Domain.Root
       //GIVEN
       var namespaceBasedRuleSet = Substitute.For<INamespacesBasedRuleSet>();
       var ruleFactory = Substitute.For<IRuleFactory>();
-      var rule1 = AnyRoot.Root.Any.Instance<INamespacesBasedRule>();
-      var rule2 = AnyRoot.Root.Any.Instance<INamespacesBasedRule>();
-      var rule3 = AnyRoot.Root.Any.Instance<INamespacesBasedRule>();
-      var ruleDto1 = AnyRoot.Root.Any.Instance<NoCircularUsingsRuleComplementDto>();
-      var ruleDto2 = AnyRoot.Root.Any.Instance<NoCircularUsingsRuleComplementDto>();
-      var ruleDto3 = AnyRoot.Root.Any.Instance<NoCircularUsingsRuleComplementDto>();
+      var rule1 = Any.Instance<INamespacesBasedRule>();
+      var rule2 = Any.Instance<INamespacesBasedRule>();
+      var rule3 = Any.Instance<INamespacesBasedRule>();
+      var ruleDto1 = Any.Instance<NoCircularUsingsRuleComplementDto>();
+      var ruleDto2 = Any.Instance<NoCircularUsingsRuleComplementDto>();
+      var ruleDto3 = Any.Instance<NoCircularUsingsRuleComplementDto>();
       var analysis = new AnalysisBuilder()
       {
         ProjectNamespacesRuleSet = namespaceBasedRuleSet,
@@ -141,12 +143,12 @@ namespace TddXt.NScan.Specification.Domain.Root
       //GIVEN
       var projectScopedRuleSet = Substitute.For<IProjectScopedRuleSet>();
       var ruleFactory = Substitute.For<IRuleFactory>();
-      var rule1 = AnyRoot.Root.Any.Instance<IProjectScopedRule>();
-      var rule2 = AnyRoot.Root.Any.Instance<IProjectScopedRule>();
-      var rule3 = AnyRoot.Root.Any.Instance<IProjectScopedRule>();
-      var ruleDto1 = AnyRoot.Root.Any.Instance<CorrectNamespacesRuleComplementDto>();
-      var ruleDto2 = AnyRoot.Root.Any.Instance<CorrectNamespacesRuleComplementDto>();
-      var ruleDto3 = AnyRoot.Root.Any.Instance<CorrectNamespacesRuleComplementDto>();
+      var rule1 = Any.Instance<IProjectScopedRule>();
+      var rule2 = Any.Instance<IProjectScopedRule>();
+      var rule3 = Any.Instance<IProjectScopedRule>();
+      var ruleDto1 = Any.Instance<CorrectNamespacesRuleComplementDto>();
+      var ruleDto2 = Any.Instance<CorrectNamespacesRuleComplementDto>();
+      var ruleDto3 = Any.Instance<CorrectNamespacesRuleComplementDto>();
       var analysis = new AnalysisBuilder()
       {
         ProjectScopedRuleSet = projectScopedRuleSet,
@@ -183,7 +185,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       {
         ReportInProgress = analysisInProgressReport
       }.Build();
-      var reportStringGeneratedFromInProgressReport = AnyRoot.Root.Any.String();
+      var reportStringGeneratedFromInProgressReport = Any.String();
 
       analysisInProgressReport.AsString().Returns(reportStringGeneratedFromInProgressReport);
 
