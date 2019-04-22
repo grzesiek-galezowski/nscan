@@ -23,7 +23,7 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContain(ReportedMessage.HasCorrectNamespaces("*MyProject*").Ok());
+      context.ReportShouldContain(HasCorrectNamespacesMessage.HasCorrectNamespaces("*MyProject*").Ok());
     }
 
     [Fact]
@@ -41,7 +41,7 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContain(ReportedMessage.HasCorrectNamespaces($"*MyProject*").Ok());
+      context.ReportShouldContain(HasCorrectNamespacesMessage.HasCorrectNamespaces($"*MyProject*").Ok());
     }
 
 
@@ -62,7 +62,7 @@ namespace TddXt.NScan.Specification.Component
 
       //THEN
       context.ReportShouldContain(
-        ReportedMessage.HasCorrectNamespaces("*MyProject*").Error()
+        HasCorrectNamespacesMessage.HasCorrectNamespaces("*MyProject*").Error()
           .ExpectedNamespace("MyProject", "MyProject")
           .ButFoundIncorrectNamespaceFor("lol1.cs", "WrongNamespace")
           .ExpectedNamespace("MyProject", "MyProject")
@@ -92,7 +92,7 @@ namespace TddXt.NScan.Specification.Component
 
       //THEN
       context.ReportShouldContain(
-        ReportedMessage.HasCorrectNamespaces("*MyProject*").Error()
+        HasCorrectNamespacesMessage.HasCorrectNamespaces("*MyProject*").Error()
           .ExpectedNamespace("MyProject1", "MyProject1")
           .ButFoundIncorrectNamespaceFor("lol1.cs", "WrongNamespace")
           .ExpectedNamespace("MyProject1", "MyProject1")
@@ -120,7 +120,7 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContain(ReportedMessage
+      context.ReportShouldContain(HasCorrectNamespacesMessage
         .HasCorrectNamespaces("*MyProject*").Error()
         .ExpectedNamespace("MyProject", "MyProject")
         .ButFoundIncorrectNamespaceFor("Domain\\lol5.cs", "MyProject"));
@@ -141,7 +141,7 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContain(ReportedMessage
+      context.ReportShouldContain(HasCorrectNamespacesMessage
         .HasCorrectNamespaces("*MyProject*").Error()
         .ExpectedNamespace("MyProject", "MyProject")
         .ButNoNamespaceDeclaredIn("lol.cs"));
@@ -161,7 +161,7 @@ namespace TddXt.NScan.Specification.Component
       context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContain(ReportedMessage
+      context.ReportShouldContain(HasCorrectNamespacesMessage
         .HasCorrectNamespaces("*MyProject*").Error()
         .ExpectedNamespace("MyProject", "MyProject")
         .ButHasMultipleNamespaces("lol.cs", "MyProject", "MyProject2"));

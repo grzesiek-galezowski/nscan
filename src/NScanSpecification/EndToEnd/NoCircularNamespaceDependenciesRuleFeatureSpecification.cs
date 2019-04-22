@@ -23,7 +23,7 @@ namespace TddXt.NScan.Specification.EndToEnd
         context.PerformAnalysis();
 
         //THEN
-        context.ReportShouldContain(ReportedMessage.HasNoCircularUsings("*MyProject*").Ok());
+        context.ReportShouldContain(HasNoCircularUsingsMessage.HasNoCircularUsings("*MyProject*").Ok());
       }
     }
 
@@ -43,7 +43,7 @@ namespace TddXt.NScan.Specification.EndToEnd
         context.PerformAnalysis();
 
         //THEN
-        context.ReportShouldContain(ReportedMessage.HasNoCircularUsings("*MyProject*").Error()
+        context.ReportShouldContain(HasNoCircularUsingsMessage.HasNoCircularUsings("*MyProject*").Error()
           .CycleFound("MyProject", "MyProject", "MyProject.Util", "MyProject"));
       }
     }

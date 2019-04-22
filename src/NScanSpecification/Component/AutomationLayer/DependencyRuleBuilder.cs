@@ -1,6 +1,9 @@
-﻿using Functional.Maybe;
+﻿using System;
+using System.Threading;
+using Functional.Maybe;
 using Functional.Maybe.Just;
 using GlobExpressions;
+using TddXt.NScan.Domain.ProjectScopedRules;
 using TddXt.NScan.ReadingRules.Ports;
 
 namespace TddXt.NScan.Specification.Component.AutomationLayer
@@ -17,6 +20,7 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
     IFullDependingPartStated Except(string exclusionPattern);
     IFullRuleConstructed HasCorrectNamespaces();
     IFullRuleConstructed HasNoCircularUsings();
+    IFullRuleConstructed ToHaveAnnotatedMethods(string classInclusionPattern, string methodInclusionPattern);
   }
 
   public interface IRuleDefinitionStart
@@ -36,6 +40,8 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
     private Maybe<string> _exclusionPattern = Maybe<string>.Nothing;
     private string _dependencyName;
     private string _dependencyType;
+    private string? _classInclusionPattern;
+    private string? _methodInclusionPattern;
 
     public IProjectNameStated Project(string dependingAssemblyName)
     {
@@ -87,6 +93,14 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
       return this;
     }
 
+    public IFullRuleConstructed ToHaveAnnotatedMethods(string classInclusionPattern, string methodInclusionPattern)
+    {
+      _ruleName = RuleNames.HasAnnotationsOn;
+      _classInclusionPattern = classInclusionPattern;
+      _methodInclusionPattern = methodInclusionPattern;
+      return this;
+    }
+
     public RuleUnionDto Build()
     {
       var dependingPattern = _exclusionPattern
@@ -108,6 +122,12 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
         () => RuleUnionDto.With(new NoCircularUsingsRuleComplementDto
         {
           ProjectAssemblyNamePattern = dependingPattern
+        }), 
+        () => RuleUnionDto.With(new IsAnnotatedRuleComplementDto
+        {
+          ProjectAssemblyNamePattern = dependingPattern,
+          ClassNameInclusionPattern = Pattern.WithoutExclusion(_classInclusionPattern ?? throw new ArgumentNullException(nameof(_classInclusionPattern))),
+          MethodNameInclusionPattern = Pattern.WithoutExclusion(_methodInclusionPattern ?? throw new ArgumentNullException(nameof(_methodInclusionPattern)))
         }));
     }
 
@@ -117,5 +137,4 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
       return new DependencyRuleBuilder();
     }
   }
-
 }

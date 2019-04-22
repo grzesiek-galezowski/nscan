@@ -27,7 +27,7 @@ namespace TddXt.NScan.Specification.Component
 
       //THEN
       context.ReportShouldContain(
-        ReportedMessage.ProjectIndependentOfProject("A", "B").Ok());
+        ProjectIndependentOfMessage.ProjectIndependentOfProject("A", "B").Ok());
       context.ShouldIndicateSuccess();
     }
 
@@ -49,7 +49,7 @@ namespace TddXt.NScan.Specification.Component
 
       //THEN
       context.ReportShouldContain(
-        ReportedMessage.ProjectIndependentOfProject("A", "B").Error()
+        ProjectIndependentOfMessage.ProjectIndependentOfProject("A", "B").Error()
           .ViolationPath("A", "B"));
       context.ShouldIndicateFailure();
     }
@@ -71,7 +71,7 @@ namespace TddXt.NScan.Specification.Component
 
       //THEN
       context.ReportShouldContain(
-        ReportedMessage.ProjectIndependentOfProject("A", "C").Error()
+        ProjectIndependentOfMessage.ProjectIndependentOfProject("A", "C").Error()
           .ViolationPath("A", "B", "C"));
       context.ShouldIndicateFailure();
     }
@@ -94,11 +94,11 @@ namespace TddXt.NScan.Specification.Component
 
       //THEN
       context.ReportShouldContain(
-        ReportedMessage.ProjectIndependentOfProject("A", "D").Error()
+        ProjectIndependentOfMessage.ProjectIndependentOfProject("A", "D").Error()
           .ViolationPath("A", "B", "D")
           .ViolationPath("A", "C", "D"));
       context.ReportShouldContain(
-        ReportedMessage.ProjectIndependentOfProject("A", "B").Error()
+        ProjectIndependentOfMessage.ProjectIndependentOfProject("A", "B").Error()
           .ViolationPath("A", "B"));
       context.ShouldIndicateFailure();
     }
@@ -118,7 +118,7 @@ namespace TddXt.NScan.Specification.Component
 
       //THEN
       context.ReportShouldContain(
-        ReportedMessage.ProjectIndependentOfProject("*.Domain", "*.Ports").Error()
+        ProjectIndependentOfMessage.ProjectIndependentOfProject("*.Domain", "*.Ports").Error()
           .ViolationPath("Posts.Domain", "Posts.Ports"));
       context.ShouldIndicateFailure();
     }

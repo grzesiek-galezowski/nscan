@@ -1,11 +1,13 @@
-﻿using TddXt.NScan.ReadingSolution.Lib;
+﻿using System;
+using TddXt.NScan.ReadingSolution.Lib;
 
 namespace TddXt.NScan.ReadingRules.Ports
 {
-  public class RuleUnionDto : Union3<
+  public class RuleUnionDto : Union4<
     IndependentRuleComplementDto, 
     CorrectNamespacesRuleComplementDto,
-    NoCircularUsingsRuleComplementDto>
+    NoCircularUsingsRuleComplementDto,
+    IsAnnotatedRuleComplementDto>
   {
     public static RuleUnionDto With(CorrectNamespacesRuleComplementDto dto)
     {
@@ -22,13 +24,20 @@ namespace TddXt.NScan.ReadingRules.Ports
       return new RuleUnionDto(dto);
     }
 
+    public static RuleUnionDto With(IsAnnotatedRuleComplementDto dto)
+    {
+      return new RuleUnionDto(dto);
+    }
+
     public string RuleName => Match(
       dto => dto.RuleName,
       dto => dto.RuleName,
-      dto => dto.RuleName);
+      dto => dto.RuleName, 
+      arg => default); //bug
 
     private RuleUnionDto(IndependentRuleComplementDto o) : base(o) {}
     private RuleUnionDto(CorrectNamespacesRuleComplementDto o) : base(o) {}
     private RuleUnionDto(NoCircularUsingsRuleComplementDto o) : base(o) {}
+    private RuleUnionDto(IsAnnotatedRuleComplementDto dto) : base(dto) {}
   }
 }

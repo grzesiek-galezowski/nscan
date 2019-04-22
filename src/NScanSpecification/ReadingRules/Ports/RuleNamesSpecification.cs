@@ -12,6 +12,7 @@ namespace TddXt.NScan.Specification.ReadingRules.Ports
       RuleNames.IndependentOf.Should().Be("independentOf");
       RuleNames.HasCorrectNamespaces.Should().Be("hasCorrectNamespaces");
       RuleNames.HasNoCircularUsings.Should().Be("hasNoCircularUsings");
+      RuleNames.HasAnnotationsOn.Should().Be("hasAnnotationsOn");
     }
   }
 

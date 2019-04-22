@@ -27,7 +27,7 @@ namespace TddXt.NScan.Specification.Component
 
       //THEN
       context.ReportShouldContain(
-        ReportedMessage.ProjectIndependentOfPackage(projectName, packageName).Ok());
+        ProjectIndependentOfMessage.ProjectIndependentOfPackage(projectName, packageName).Ok());
       context.ShouldIndicateSuccess();
     }
 
@@ -47,7 +47,7 @@ namespace TddXt.NScan.Specification.Component
 
       //THEN
       context.ReportShouldContain(
-        ReportedMessage.ProjectIndependentOfPackage(projectName, packageName).Error()
+        ProjectIndependentOfMessage.ProjectIndependentOfPackage(projectName, packageName).Error()
         .ViolationPath(projectName));
       context.ShouldIndicateFailure();
     }
@@ -70,7 +70,7 @@ namespace TddXt.NScan.Specification.Component
 
       //THEN
       context.ReportShouldContain(
-        ReportedMessage.ProjectIndependentOfPackage(projectName, packageName).Error()
+        ProjectIndependentOfMessage.ProjectIndependentOfPackage(projectName, packageName).Error()
           .ViolationPath(projectName, projectName2));
       context.ShouldIndicateFailure();
     }

@@ -28,7 +28,7 @@ namespace TddXt.NScan.Specification.EndToEnd
 
         //THEN
         context.ReportShouldContain(
-          ReportedMessage.ProjectIndependentOfProject(projectName, assemblyName).Ok());
+          ProjectIndependentOfMessage.ProjectIndependentOfProject(projectName, assemblyName).Ok());
         context.ShouldIndicateSuccess();
       }
     }
@@ -51,7 +51,7 @@ namespace TddXt.NScan.Specification.EndToEnd
 
         //THEN
         context.ReportShouldContain(
-          ReportedMessage.ProjectIndependentOfProject(projectName, dependencyProjectName).Error()
+          ProjectIndependentOfMessage.ProjectIndependentOfProject(projectName, dependencyProjectName).Error()
             .ViolationPath(projectName));
         context.ShouldIndicateFailure();
       }

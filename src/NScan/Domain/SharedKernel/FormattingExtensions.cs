@@ -12,5 +12,10 @@ namespace TddXt.NScan.Domain.SharedKernel
 
       return str;
     }
+
+    public static string Indentations(this int i)
+    {
+      return ((i + 1) * 2).Spaces();
+    }
   }
 }

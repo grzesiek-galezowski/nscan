@@ -25,7 +25,7 @@ namespace TddXt.NScan.Specification.Component
 
       //THEN
       context.ReportShouldContain(
-        ReportedMessage.ProjectIndependentOfProject(
+        ProjectIndependentOfMessage.ProjectIndependentOfProject(
           "* except *Specification*", "*CompositionRoot*"
           ).Ok());
       context.ShouldIndicateSuccess();
@@ -51,7 +51,7 @@ namespace TddXt.NScan.Specification.Component
 
       //THEN
       context.ReportShouldContain(
-        ReportedMessage.ProjectIndependentOfProject(
+        ProjectIndependentOfMessage.ProjectIndependentOfProject(
           "* except *Tests*", "*CompositionRoot*").Error()
           .ViolationPath("CompositionRootSpecification", "CompositionRoot"));
       context.ReportShouldNotContainText("CompositionRootTests");

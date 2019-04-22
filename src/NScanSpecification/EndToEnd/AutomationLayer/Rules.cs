@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using AtmaFileSystem;
@@ -15,6 +16,7 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
     {
       var lines = _rules.Select(dto => dto.Match(
         ToRuleString,
+        ToRuleString, 
         ToRuleString, 
         ToRuleString)
       ).ToList();
@@ -40,5 +42,11 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
     {
       return $"{dto.DependingPattern.Description()} {dto.RuleName} {dto.DependencyType}:{dto.DependencyPattern.Pattern}";
     }
+
+    private string ToRuleString(IsAnnotatedRuleComplementDto dto)
+    {
+      return $"{dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName} {dto.ClassNameInclusionPattern.Description()}:{dto.MethodNameInclusionPattern.Description()}";
+    }
+
   }
 }
