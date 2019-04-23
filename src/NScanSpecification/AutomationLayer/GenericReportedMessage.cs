@@ -1,6 +1,4 @@
-﻿using TddXt.NScan.ReadingRules.Ports;
-
-namespace TddXt.NScan.Specification.AutomationLayer
+﻿namespace TddXt.NScan.Specification.AutomationLayer
 {
   public abstract class ReportedMessage
   {
