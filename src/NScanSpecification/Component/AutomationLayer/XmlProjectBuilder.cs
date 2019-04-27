@@ -13,10 +13,20 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
   {
     private readonly XmlProject _xmlProject;
 
-    public XmlProjectBuilder(XmlProject xmlProject)
+    private XmlProjectBuilder(string assemblyName)
     {
-      _xmlProject = xmlProject;
-      _xmlProject.ItemGroups = _xmlProject.ItemGroups ?? new List<XmlItemGroup>();
+      _xmlProject = new XmlProject
+      {
+        AbsolutePath = AbsolutePathTo(assemblyName),
+        PropertyGroups = new List<XmlPropertyGroup>
+        {
+          new XmlPropertyGroup
+          {
+            AssemblyName = assemblyName
+          }
+        },
+        ItemGroups = new List<XmlItemGroup>()
+      };
     }
 
     public void WithReferences(params string[] names)
@@ -35,6 +45,7 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
 
     public void WithAssemblyReferences(params string[] assemblyNames)
     {
+      //bug add validations to be able to remove this exclamation
       _xmlProject.ItemGroups.Add(
         new XmlItemGroup() { AssemblyReferences = AssemblyReferencesFrom(assemblyNames) }
       );
@@ -98,18 +109,7 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
 
     public static XmlProjectBuilder WithAssemblyName(string assemblyName)
     {
-      return new XmlProjectBuilder(new XmlProject
-      {
-        AbsolutePath = AbsolutePathTo(assemblyName),
-        PropertyGroups = new List<XmlPropertyGroup>
-        {
-          new XmlPropertyGroup
-          {
-            AssemblyName = assemblyName
-          }
-        },
-        ItemGroups = new List<XmlItemGroup>()
-      });
+      return new XmlProjectBuilder(assemblyName);
     }
   }
 }

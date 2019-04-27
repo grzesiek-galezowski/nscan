@@ -12,6 +12,7 @@
   <PropertyGroup>
     <LangVersion>8.0</LangVersion>
     <NullableContextOptions>enable</NullableContextOptions>
+    <WarningsAsErrors>CS8600;CS8602;CS8603</WarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Integration\RoslynNamespaceDetectionPlayground.cs~RF12e8799f.TMP" />

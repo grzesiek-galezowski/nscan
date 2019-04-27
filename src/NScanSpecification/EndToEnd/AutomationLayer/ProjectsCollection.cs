@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using AtmaFileSystem;
+using AutoFixture;
+using Fclp.Internals.Extensions;
 using static AtmaFileSystem.AtmaFileSystemPaths;
 
 namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
@@ -30,7 +33,7 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 
     public void CreateOnDisk(SolutionDir solutionDir, DotNetExe dotNetExe)
     {
-      _projects.AsParallel().ForAll(projectName =>
+      _projects.AsParallel().ForEach(projectName =>
       {
         var absoluteDirectoryPath = solutionDir.PathToProject(projectName);
         CreateProject(dotNetExe, projectName, absoluteDirectoryPath);

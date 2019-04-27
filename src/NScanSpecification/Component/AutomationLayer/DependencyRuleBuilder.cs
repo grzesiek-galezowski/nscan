@@ -95,7 +95,7 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
 
     public IFullRuleConstructed ToHaveAnnotatedMethods(string classInclusionPattern, string methodInclusionPattern)
     {
-      _ruleName = RuleNames.HasAnnotationsOn;
+      _ruleName = RuleNames.HasAttributesOn;
       _classInclusionPattern = classInclusionPattern;
       _methodInclusionPattern = methodInclusionPattern;
       return this;

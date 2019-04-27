@@ -33,7 +33,7 @@ namespace TddXt.NScan.ReadingRules.Ports
       dto => dto.RuleName,
       dto => dto.RuleName,
       dto => dto.RuleName, 
-      arg => default); //bug
+      arg => default!); //bug
 
     private RuleUnionDto(IndependentRuleComplementDto o) : base(o) {}
     private RuleUnionDto(CorrectNamespacesRuleComplementDto o) : base(o) {}

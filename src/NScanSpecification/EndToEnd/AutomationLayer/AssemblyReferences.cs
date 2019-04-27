@@ -33,7 +33,7 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 
     public void AddToProjects()
     {
-      ReferencesByProjectName.AsParallel().ForAll(AddReferenceAsync);
+      ReferencesByProjectName.ForEach(AddReferenceAsync);
     }
   }
 }

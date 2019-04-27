@@ -7,13 +7,13 @@ namespace TddXt.NScan.ReadingRules.Ports
     public const string IndependentOf = "independentOf";
     public const string HasCorrectNamespaces = "hasCorrectNamespaces";
     public const string HasNoCircularUsings = "hasNoCircularUsings";
-    public const string HasAnnotationsOn = "hasAnnotationsOn";
+    public const string HasAttributesOn = "hasAttributesOn";
 
     public static T Switch<T>(string ruleName,
       Func<T> independentOfValueFactory,
       Func<T> correctNamespacesValueFactory, 
       Func<T> noCircularUsingsValueFactory, 
-      Func<T> isAnnotatedValueFactory)
+      Func<T> isDecoratedWithAttributeValueFactory)
     {
       if (ruleName == IndependentOf)
       {
@@ -27,9 +27,9 @@ namespace TddXt.NScan.ReadingRules.Ports
       {
         return noCircularUsingsValueFactory();
       }
-      else if(ruleName == HasAnnotationsOn)
+      else if(ruleName == HasAttributesOn)
       {
-        return isAnnotatedValueFactory();
+        return isDecoratedWithAttributeValueFactory();
       }
       else
       {

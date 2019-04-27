@@ -12,7 +12,7 @@ namespace TddXt.NScan.Specification.EndToEnd
   public class AllMethodsDecoratedWithAttributesFeatureSpecification
   {
     [Fact]
-    public void ShouldTODO() //bug
+    public void ShouldRaiseErrorWhenMethodsMatchingPatternAreNotDecoratedWithAttributes()
     {
       //GIVEN
       using var context = new NScanE2EDriver();
@@ -20,8 +20,8 @@ namespace TddXt.NScan.Specification.EndToEnd
       context.HasProject("MyProject")
         .With(File("lol.cs").With(
           Class("Class1").With(
-            Method("A"),
-            Method("B"))));
+            Method("ShouldA"),
+            Method("ShouldB"))));
 
       context.Add(RuleRequiring().Project("*MyProject*").ToHaveAnnotatedMethods("*Specification", "Should*"));
 
@@ -30,10 +30,10 @@ namespace TddXt.NScan.Specification.EndToEnd
 
       //THEN
       context.ReportShouldContain(
-        HasAnnotationsOnMessage.HasMethodsNotDecoratedWithAttribute("MyProject", "*Specification", "Should*")
+        HasAttributesOnMessage.HasMethodsNotDecoratedWithAttribute("MyProject", "*Specification", "Should*")
           .Error()
-          .NonCompliantMethodFound("Class1", "A")
-          .NonCompliantMethodFound("Class1", "B"));
+          .NonCompliantMethodFound("Class1", "ShouldA")
+          .NonCompliantMethodFound("Class1", "ShouldB"));
     }
   }
 }

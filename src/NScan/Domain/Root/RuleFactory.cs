@@ -16,25 +16,24 @@ namespace TddXt.NScan.Domain.Root
 
     public IDependencyRule CreateDependencyRuleFrom(IndependentRuleComplementDto independentRuleComplementDto)
     {
-      IDependencyRule rule = null;
       var dependingAssemblyNamePattern = independentRuleComplementDto.DependingPattern;
       if (independentRuleComplementDto.DependencyType == ProjectDependencyType)
       {
-        rule = CreateIndependentOfProjectRule(
+        return CreateIndependentOfProjectRule(
           dependingAssemblyNamePattern, 
           independentRuleComplementDto.DependencyPattern, 
           independentRuleComplementDto.DependencyType);
       }
       else if (independentRuleComplementDto.DependencyType == PackageDependencyType)
       {
-        rule = CreateIndependentOfPackageRule(
+        return CreateIndependentOfPackageRule(
           dependingAssemblyNamePattern, 
           independentRuleComplementDto.DependencyPattern, 
           independentRuleComplementDto.DependencyType);
       }
       else if (independentRuleComplementDto.DependencyType == AssemblyDependencyType)
       {
-        rule = CreateIndependentOfAssemblyRule(
+        return CreateIndependentOfAssemblyRule(
           dependingAssemblyNamePattern, 
           independentRuleComplementDto.DependencyPattern, 
           independentRuleComplementDto.DependencyType);
@@ -43,8 +42,6 @@ namespace TddXt.NScan.Domain.Root
       {
         throw new InvalidRuleException(independentRuleComplementDto.DependencyType);
       }
-
-      return rule;
     }
 
     public IProjectScopedRule CreateProjectScopedRuleFrom(CorrectNamespacesRuleComplementDto ruleDto)

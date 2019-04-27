@@ -37,7 +37,9 @@ namespace TddXt.NScan.ReadingSolution.Lib
         ig => ig.PackageReferences != null && ig.PackageReferences.Any()).ToList();
 
       var references = xmlItemGroups
-        .FirstMaybe().Select(pr => pr.PackageReferences.ToList()).OrElse(() => new List<XmlPackageReference>());
+        .FirstMaybe()
+        .Select(pr => pr.PackageReferences.ToList())
+        .OrElse(() => new List<XmlPackageReference>());
       return references;
     }
 
@@ -46,12 +48,11 @@ namespace TddXt.NScan.ReadingSolution.Lib
       var xmlItemGroups = _xmlProject.ItemGroups.Where(
         ig => ig.AssemblyReferences != null && ig.AssemblyReferences.Any()).ToList();
 
-
-      var xmlAssemblyReferences = xmlItemGroups
+      var references = xmlItemGroups
         .FirstMaybe()
-        .Select(ig => ig.AssemblyReferences)
+        .Select(ig => ig.AssemblyReferences.ToList())
         .OrElse(() => new List<XmlAssemblyReference>());
-      return xmlAssemblyReferences;
+      return references;
     }
 
     public string DetermineAssemblyName()
@@ -65,7 +66,7 @@ namespace TddXt.NScan.ReadingSolution.Lib
         .Where(ig => ig.ProjectReferences != null && ig.ProjectReferences.Any()).ToList();
       if (xmlItemGroups.Any())
       {
-        return xmlItemGroups.First().ProjectReferences;
+        return xmlItemGroups.First().ProjectReferences.ToList();
       }
 
       return new List<XmlProjectReference>();
@@ -78,12 +79,12 @@ namespace TddXt.NScan.ReadingSolution.Lib
 
     public IEnumerable<XmlSourceCodeFile> SourceCodeFiles()
     {
-      return _xmlProject.SourceCodeFiles;
+      return _xmlProject.SourceCodeFiles!;
     }
 
     public string RootNamespace()
     {
-      return _xmlProject.PropertyGroups.First().RootNamespace;
+      return _xmlProject.PropertyGroups.First().RootNamespace!;
     }
 
     public void AddFile(XmlSourceCodeFile xmlSourceCodeFile)
