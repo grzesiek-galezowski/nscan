@@ -2,7 +2,12 @@
 {
   public class CorrectNamespacesRuleComplementDto
   {
+    public CorrectNamespacesRuleComplementDto(Pattern projectAssemblyNamePattern)
+    {
+      ProjectAssemblyNamePattern = projectAssemblyNamePattern;
+    }
+
     public string RuleName { get; } = RuleNames.HasCorrectNamespaces;
-    public Pattern ProjectAssemblyNamePattern { get; set; }
+    public Pattern ProjectAssemblyNamePattern { get; }
   }
 }

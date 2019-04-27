@@ -2,7 +2,12 @@
 {
   public class NoCircularUsingsRuleComplementDto
   {
+    public NoCircularUsingsRuleComplementDto(Pattern projectAssemblyNamePattern)
+    {
+      ProjectAssemblyNamePattern = projectAssemblyNamePattern;
+    }
+
     public string RuleName { get; } = RuleNames.HasNoCircularUsings;
-    public Pattern ProjectAssemblyNamePattern { get; set; }
+    public Pattern ProjectAssemblyNamePattern { get; }
   }
 }

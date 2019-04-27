@@ -2,9 +2,19 @@
 {
   public class IsAnnotatedRuleComplementDto
   {
+    public IsAnnotatedRuleComplementDto(
+      Pattern projectAssemblyNamePattern, 
+      Pattern classNameInclusionPattern, 
+      Pattern methodNameInclusionPattern)
+    {
+      ProjectAssemblyNamePattern = projectAssemblyNamePattern;
+      ClassNameInclusionPattern = classNameInclusionPattern;
+      MethodNameInclusionPattern = methodNameInclusionPattern;
+    }
+
     public string RuleName => RuleNames.HasAttributesOn;
-    public Pattern ProjectAssemblyNamePattern { get; set; }
-    public Pattern ClassNameInclusionPattern { get; set; }
-    public Pattern MethodNameInclusionPattern { get; set; }
+    public Pattern ProjectAssemblyNamePattern { get; }
+    public Pattern ClassNameInclusionPattern { get; }
+    public Pattern MethodNameInclusionPattern { get; }
   }
 }

@@ -2,6 +2,7 @@
 
 namespace TddXt.NScan.ReadingSolution.Ports
 {
+#nullable disable
   [XmlRoot(ElementName = "PackageReference")]
   public class XmlPackageReference
   {

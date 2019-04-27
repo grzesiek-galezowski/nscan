@@ -7,6 +7,7 @@ using TddXt.NScan.Domain.Root;
 using TddXt.NScan.ReadingRules.Ports;
 using TddXt.XFluentAssert.Root;
 using Xunit;
+using static TddXt.AnyRoot.Root;
 
 namespace TddXt.NScan.Specification.Domain.Root
 {
@@ -17,16 +18,15 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       //GIVEN
       var ruleFactory = new RuleFactory();
-      var dependingId = AnyRoot.Root.Any.Instance<Pattern>();
-      var dependencyId = AnyRoot.Root.Any.Instance<Glob>();
+      var dependingId = Any.Instance<Pattern>();
+      var dependencyId = Any.Instance<Glob>();
       
       //WHEN
-      var independentRuleComplementDto = new IndependentRuleComplementDto()
-      {
-        DependencyType = RuleFactory.ProjectDependencyType,
-        DependencyPattern = dependencyId,
-        DependingPattern = dependingId
-      };
+      var independentRuleComplementDto =
+        new IndependentRuleComplementDto(
+          RuleFactory.ProjectDependencyType, 
+          dependingId, 
+          dependencyId);
       var rule = ruleFactory.CreateDependencyRuleFrom(independentRuleComplementDto);
 
       //THEN
@@ -42,16 +42,14 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       //GIVEN
       var ruleFactory = new RuleFactory();
-      var dependingNamePattern = AnyRoot.Root.Any.Instance<Pattern>();
-      var packageNamePattern = AnyRoot.Root.Any.Instance<Glob>();
+      var dependingNamePattern = Any.Instance<Pattern>();
+      var packageNamePattern = Any.Instance<Glob>();
 
       //WHEN
-      var independentRuleComplementDto = new IndependentRuleComplementDto()
-      {
-        DependencyType = RuleFactory.PackageDependencyType,
-        DependencyPattern = packageNamePattern,
-        DependingPattern = dependingNamePattern
-      };
+      var independentRuleComplementDto = new IndependentRuleComplementDto(
+        RuleFactory.PackageDependencyType,
+        dependingNamePattern, 
+        packageNamePattern);
       var rule = ruleFactory.CreateDependencyRuleFrom(independentRuleComplementDto);
 
       //THEN
@@ -66,16 +64,14 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       //GIVEN
       var ruleFactory = new RuleFactory();
-      var dependingNamePattern = AnyRoot.Root.Any.Instance<Pattern>();
-      var assemblyNamePattern = AnyRoot.Root.Any.Instance<Glob>();
+      var dependingNamePattern = Any.Instance<Pattern>();
+      var assemblyNamePattern = Any.Instance<Glob>();
       
       //WHEN
-      var independentRuleComplementDto = new IndependentRuleComplementDto()
-      {
-        DependencyType = RuleFactory.AssemblyDependencyType,
-        DependencyPattern = assemblyNamePattern,
-        DependingPattern = dependingNamePattern
-      };
+      var independentRuleComplementDto = new IndependentRuleComplementDto(
+        RuleFactory.AssemblyDependencyType, 
+        dependingNamePattern, 
+        assemblyNamePattern);
       var rule = ruleFactory.CreateDependencyRuleFrom(independentRuleComplementDto);
 
       //THEN
@@ -90,7 +86,7 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       //GIVEN
       var ruleFactory = new RuleFactory();
-      var ruleDto = AnyRoot.Root.Any.Instance<CorrectNamespacesRuleComplementDto>();
+      var ruleDto = Any.Instance<CorrectNamespacesRuleComplementDto>();
 
 
       //WHEN
@@ -107,7 +103,7 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       //GIVEN
       var ruleFactory = new RuleFactory();
-      var ruleDto = AnyRoot.Root.Any.Instance<NoCircularUsingsRuleComplementDto>();
+      var ruleDto = Any.Instance<NoCircularUsingsRuleComplementDto>();
 
       //WHEN
       var projectScopedRule = ruleFactory.CreateNamespacesBasedRuleFrom(ruleDto);

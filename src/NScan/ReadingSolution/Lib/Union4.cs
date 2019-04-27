@@ -5,7 +5,7 @@ namespace TddXt.NScan.ReadingSolution.Lib
 {
   public abstract class Union4<T1, T2, T3, T4>
   {
-    private readonly object _value = null;
+    private readonly object? _value = null;
 
     protected Union4(T1 o)
     {

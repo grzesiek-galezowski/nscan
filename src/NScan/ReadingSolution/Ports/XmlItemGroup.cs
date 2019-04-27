@@ -3,6 +3,7 @@ using System.Xml.Serialization;
 
 namespace TddXt.NScan.ReadingSolution.Ports
 {
+#nullable disable
   [XmlRoot(ElementName = "ItemGroup")]
   public class XmlItemGroup
   {

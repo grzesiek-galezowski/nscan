@@ -2,6 +2,8 @@
 
 namespace TddXt.NScan.ReadingSolution.Ports
 {
+
+  #nullable disable
   [XmlRoot(ElementName = "PropertyGroup")]
   public class XmlPropertyGroup
   {
@@ -29,4 +31,5 @@ namespace TddXt.NScan.ReadingSolution.Ports
     [XmlAttribute(AttributeName = "Condition")]
     public string Condition { get; set; }
   }
+
 }

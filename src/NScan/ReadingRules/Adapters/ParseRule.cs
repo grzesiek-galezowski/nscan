@@ -33,20 +33,14 @@ namespace TddXt.NScan.ReadingRules.Adapters
     private static Parser<RuleUnionDto> HasNoCircularUsingsRuleComplement(Pattern dependingPattern)
     {
       return Parse.String(RuleNames.HasNoCircularUsings).Then(_ => OptionalSpacesUntilEol).Return(
-        RuleUnionDto.With(new NoCircularUsingsRuleComplementDto
-        {
-          ProjectAssemblyNamePattern = dependingPattern,
-        }));
+        RuleUnionDto.With(new NoCircularUsingsRuleComplementDto(dependingPattern)));
     }
 
     private static Parser<RuleUnionDto>
       HasCorrectNamespacesRuleComplement(Pattern dependingPattern)
     {
       return Parse.String(RuleNames.HasCorrectNamespaces).Then(_ => OptionalSpacesUntilEol).Return(
-        RuleUnionDto.With(new CorrectNamespacesRuleComplementDto()
-        {
-          ProjectAssemblyNamePattern = dependingPattern,
-        }));
+        RuleUnionDto.With(new CorrectNamespacesRuleComplementDto(dependingPattern)));
     }
 
     private static Parser<RuleUnionDto>
@@ -56,12 +50,9 @@ namespace TddXt.NScan.ReadingRules.Adapters
       return IndependentOfKeyword
         .Then(_ => from dependencyType in Parse.AnyChar.Until(Parse.Char(':')).Text().Token()
           from dependency in TextUntilEol
-          select RuleUnionDto.With(new IndependentRuleComplementDto
-            {
-              DependingPattern = dependingPattern,
-              DependencyPattern = new Glob(dependency),
-              DependencyType = dependencyType,
-            }));
+          select RuleUnionDto.With(
+            new IndependentRuleComplementDto(dependencyType, 
+              dependingPattern, new Glob(dependency))));
     }
 
     private static Pattern DependingPattern(string depending, IOption<string> optionalException)

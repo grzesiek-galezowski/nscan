@@ -4,6 +4,7 @@ using AtmaFileSystem;
 
 namespace TddXt.NScan.ReadingSolution.Ports
 {
+#nullable disable
   [XmlRoot(ElementName = "Project")]
   public class XmlProject
   {

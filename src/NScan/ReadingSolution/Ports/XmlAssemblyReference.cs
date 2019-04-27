@@ -3,6 +3,7 @@ using AtmaFileSystem;
 
 namespace TddXt.NScan.ReadingSolution.Ports
 {
+#nullable disable
   [XmlRoot(ElementName = "Reference")]
   public class XmlAssemblyReference
   {
