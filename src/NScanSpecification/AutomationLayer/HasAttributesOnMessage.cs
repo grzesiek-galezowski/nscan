@@ -1,5 +1,5 @@
-﻿using System;
-using TddXt.NScan.ReadingRules.Ports;
+﻿using TddXt.NScan.ReadingRules.Ports;
+using static System.Environment;
 
 namespace TddXt.NScan.Specification.AutomationLayer
 {
@@ -11,7 +11,8 @@ namespace TddXt.NScan.Specification.AutomationLayer
 
     public HasAttributesOnMessage NonCompliantMethodFound(string className, string methodName)
     {
-      return NewInstance($"Method {methodName} in class {className} does not have any attribute");
+      return NewInstance(
+        $"{this}{NewLine}Method {methodName} in class {className} does not have any attribute");
     }
 
     protected override HasAttributesOnMessage NewInstance(string str)

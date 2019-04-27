@@ -23,7 +23,7 @@ namespace TddXt.NScan.Specification.EndToEnd
             Method("ShouldA"),
             Method("ShouldB"))));
 
-      context.Add(RuleRequiring().Project("*MyProject*").ToHaveAnnotatedMethods("*Specification", "Should*"));
+      context.Add(RuleRequiring().Project("*MyProject*").ToHaveDecoratedMethods("*Specification", "Should*"));
 
       //WHEN
       context.PerformAnalysis();

@@ -20,7 +20,7 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
     IFullDependingPartStated Except(string exclusionPattern);
     IFullRuleConstructed HasCorrectNamespaces();
     IFullRuleConstructed HasNoCircularUsings();
-    IFullRuleConstructed ToHaveAnnotatedMethods(string classInclusionPattern, string methodInclusionPattern);
+    IFullRuleConstructed ToHaveDecoratedMethods(string classInclusionPattern, string methodInclusionPattern);
   }
 
   public interface IRuleDefinitionStart
@@ -93,7 +93,7 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
       return this;
     }
 
-    public IFullRuleConstructed ToHaveAnnotatedMethods(string classInclusionPattern, string methodInclusionPattern)
+    public IFullRuleConstructed ToHaveDecoratedMethods(string classInclusionPattern, string methodInclusionPattern)
     {
       _ruleName = RuleNames.HasAttributesOn;
       _classInclusionPattern = classInclusionPattern;
