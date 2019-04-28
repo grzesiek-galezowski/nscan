@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Threading;
 using Functional.Maybe;
 using Functional.Maybe.Just;
 using GlobExpressions;
-using TddXt.NScan.Domain.ProjectScopedRules;
 using TddXt.NScan.ReadingRules.Ports;
 
 namespace TddXt.NScan.Specification.Component.AutomationLayer
@@ -33,7 +31,7 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
     RuleUnionDto Build();
   }
 
-  public class DependencyRuleBuilder : IRuleDefinitionStart, IFullRuleConstructed, IProjectNameStated
+  public class DependencyRuleBuilder : IRuleDefinitionStart, IFullRuleConstructed, IProjectNameStated 
   {
     private string? _dependingPattern;
     private string? _ruleName;

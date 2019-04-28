@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Data;
 using GlobExpressions;
 using Sprache;
 using TddXt.NScan.ReadingRules.Ports;
@@ -27,7 +28,9 @@ namespace TddXt.NScan.ReadingRules.Adapters
     {
       return IndependentOfRuleComplement(dependingPattern)
         .Or(HasCorrectNamespacesRuleComplement(dependingPattern))
-        .Or(HasNoCircularUsingsRuleComplement(dependingPattern));
+        .Or(HasNoCircularUsingsRuleComplement(dependingPattern))
+        .Or(HasAttributesOn(dependingPattern))
+        ;
     }
 
     private static Parser<RuleUnionDto> HasNoCircularUsingsRuleComplement(Pattern dependingPattern)
@@ -48,12 +51,32 @@ namespace TddXt.NScan.ReadingRules.Adapters
     {
 
       return IndependentOfKeyword
-        .Then(_ => from dependencyType in Parse.AnyChar.Until(Parse.Char(':')).Text().Token()
+        .Then(_ => 
+          from dependencyType in TextUntil(':')
           from dependency in TextUntilEol
           select RuleUnionDto.With(
             new IndependentRuleComplementDto(dependencyType, 
               dependingPattern, new Glob(dependency))));
     }
+
+    private static Parser<string> TextUntil(char c)
+    {
+      return Parse.AnyChar.Until(Parse.Char(c)).Text().Token();
+    }
+
+    private static Parser<RuleUnionDto> HasAttributesOn(Pattern dependingPattern)
+    {
+      return Parse.String(RuleNames.HasAttributesOn)
+        .Then(_ =>
+          from classPattern in TextUntil(':')
+          from methodPattern in TextUntilEol
+          select RuleUnionDto.With(
+            new IsAnnotatedRuleComplementDto(
+              dependingPattern, 
+              Pattern.WithoutExclusion(classPattern),
+              Pattern.WithoutExclusion(methodPattern))));
+    }
+
 
     private static Pattern DependingPattern(string depending, IOption<string> optionalException)
     {

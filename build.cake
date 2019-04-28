@@ -232,7 +232,8 @@ Task("PackNScanConsole")
                 netstandard20.Dependency(roslyn),
                 netstandard20.Dependency(cakeCore),
                 netstandard20.Dependency(atmaFileSystem),
-            }
+            },
+		  iconUrl: "https://cdn.jsdelivr.net/gh/cake-contrib/graphics/png/cake-contrib-medium.png"
         );
     });
 
@@ -242,7 +243,8 @@ Task("PackNScanConsole")
      string releaseNotes, 
      string version,
      NuSpecContent[] files,
-     NuSpecDependency[] dependencies)
+     NuSpecDependency[] dependencies,
+	 string iconUrl = "https://github.com/grzesiek-galezowski/nscan/raw/master/NScan.png")
     {
         NuGetPack("./NScan.nuspec", new NuGetPackSettings()
         {
@@ -253,9 +255,9 @@ Task("PackNScanConsole")
             Summary = summary,
             Description = summary,
             Language = "en-US",
-            ReleaseNotes = new[] {releaseNotes},
+            ReleaseNotes = new[] { releaseNotes },
             ProjectUrl = new Uri("https://github.com/grzesiek-galezowski/nscan"),
-            IconUrl = new Uri("https://github.com/grzesiek-galezowski/nscan/raw/master/NScan.png"),
+            IconUrl = new Uri(iconUrl),
             LicenseUrl = new Uri("https://github.com/grzesiek-galezowski/nscan/blob/master/LICENSE"),
             OutputDirectory = "./nuget",
             Version = version,

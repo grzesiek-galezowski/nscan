@@ -19,8 +19,8 @@
     <PackageReference Include="FluentCommandLineParser-netstandard" Version="1.4.3.13" />
     <PackageReference Include="Functional.Maybe" Version="2.0.10" />
     <PackageReference Include="Functional.Maybe.Just" Version="1.0.0" />
-    <PackageReference Include="Glob" Version="1.1.1" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="2.10.0" />
+    <PackageReference Include="Glob" Version="1.1.3" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.0.0" />
     <PackageReference Include="Sprache" Version="2.2.0" />
   </ItemGroup>
 

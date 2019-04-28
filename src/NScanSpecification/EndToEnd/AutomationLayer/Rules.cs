@@ -14,12 +14,7 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 
     public void SaveIn(AbsoluteFilePath fullRulesPath)
     {
-      var lines = _rules.Select(dto => dto.Match(
-        ToRuleString,
-        ToRuleString, 
-        ToRuleString, 
-        ToRuleString)
-      ).ToList();
+      var lines = _rules.Select(RuleStrings.String).ToList();
       File.WriteAllLines(fullRulesPath.ToString(), lines);
     }
 
@@ -27,26 +22,5 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
     {
       _rules.Add(ruleDefinition.Build());
     }
-
-    private static string ToRuleString(NoCircularUsingsRuleComplementDto dto)
-    {
-      return $"{dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName}";
-    }
-
-    private static string ToRuleString(CorrectNamespacesRuleComplementDto dto)
-    {
-      return $"{dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName}";
-    }
-
-    private static string ToRuleString(IndependentRuleComplementDto dto)
-    {
-      return $"{dto.DependingPattern.Description()} {dto.RuleName} {dto.DependencyType}:{dto.DependencyPattern.Pattern}";
-    }
-
-    private string ToRuleString(IsAnnotatedRuleComplementDto dto)
-    {
-      return $"{dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName} {dto.ClassNameInclusionPattern.Description()}:{dto.MethodNameInclusionPattern.Description()}";
-    }
-
   }
 }

@@ -43,7 +43,7 @@ namespace TddXt.NScan.ReadingSolution.Lib
       _value = o;
     }
 
-    public void Match(
+    public void Match( //bug remove
       Action<T1> action1,
       Action<T2> action2,
       Action<T3> action3)
@@ -61,6 +61,31 @@ namespace TddXt.NScan.ReadingSolution.Lib
           break;
         case T4 o:
           new Action<T4>(o1 => { })(o);
+          break;
+        default:
+          throw new InvalidOperationException($"Unknown rule name {_value}");
+      }
+    }
+
+    public void Match(
+      Action<T1> action1,
+      Action<T2> action2,
+      Action<T3> action3, 
+      Action<T4> action4)
+    {
+      switch (_value)
+      {
+        case T1 o:
+          action1(o);
+          break;
+        case T2 o:
+          action2(o);
+          break;
+        case T3 o:
+          action3(o);
+          break;
+        case T4 o:
+          action4(o);
           break;
         default:
           throw new InvalidOperationException($"Unknown rule name {_value}");
