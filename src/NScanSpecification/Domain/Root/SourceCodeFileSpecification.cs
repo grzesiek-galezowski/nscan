@@ -228,8 +228,8 @@ namespace TddXt.NScan.Specification.Domain.Root
       var class1 = Substitute.For<ICSharpClass>();
       var class2 = Substitute.For<ICSharpClass>();
       var class3 = Substitute.For<ICSharpClass>();
-      var classNameInclusionPattern = Any.Instance<Pattern>();
-      var methodNameInclusionPattern = Any.Instance<Pattern>();
+      var classNameInclusionPattern = Any.Pattern();
+      var methodNameInclusionPattern = Any.Pattern();
       var ruleDescription = Any.String();
       var sourceCodeFile = new SourceCodeFileBuilder
       {

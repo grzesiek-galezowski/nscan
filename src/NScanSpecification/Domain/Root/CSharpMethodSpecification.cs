@@ -75,7 +75,5 @@ namespace TddXt.NScan.Specification.Domain.Root
       //THEN
       report.DidNotReceive().Add(Arg.Any<RuleViolation>());
     }
-
-    //bug test for non-empty attribute list
   }
 }

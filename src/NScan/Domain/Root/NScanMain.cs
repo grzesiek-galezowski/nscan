@@ -65,6 +65,7 @@ namespace TddXt.NScan.Domain.Root
         ruleUnion.Match( 
           support.Log, 
           support.Log, 
+          support.Log,
           support.Log);
       }
     }

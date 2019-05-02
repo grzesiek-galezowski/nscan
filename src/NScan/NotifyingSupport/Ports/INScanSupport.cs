@@ -11,8 +11,9 @@ namespace TddXt.NScan.NotifyingSupport.Ports
     void SkippingProjectBecauseOfError(InvalidOperationException invalidOperationException,
       AbsoluteFilePath projectFilePath);
 
-    void Log(IndependentRuleComplementDto independentRuleDto);
-    void Log(CorrectNamespacesRuleComplementDto correctNamespacesRuleDto);
-    void Log(NoCircularUsingsRuleComplementDto noCircularUsingsRuleDto);
+    void Log(IndependentRuleComplementDto dto);
+    void Log(CorrectNamespacesRuleComplementDto dto);
+    void Log(NoCircularUsingsRuleComplementDto dto);
+    void Log(HasAttributesOnRuleComplementDto dto);
   }
 }

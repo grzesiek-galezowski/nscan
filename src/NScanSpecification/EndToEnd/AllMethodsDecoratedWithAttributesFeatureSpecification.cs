@@ -1,6 +1,8 @@
-﻿using TddXt.NScan.Specification.AutomationLayer;
+﻿using TddXt.AnyExtensibility;
+using TddXt.NScan.Specification.AutomationLayer;
 using TddXt.NScan.Specification.EndToEnd.AutomationLayer;
 using Xunit;
+using static TddXt.AnyRoot.Root;
 using static TddXt.NScan.Specification.AutomationLayer.ReportedMessage;
 using static TddXt.NScan.Specification.AutomationLayer.XmlSourceCodeFileBuilder;
 using static TddXt.NScan.Specification.Component.AutomationLayer.DependencyRuleBuilder;
@@ -25,7 +27,7 @@ namespace TddXt.NScan.Specification.EndToEnd
 
       using var context = new NScanE2EDriver();
       context.HasProject(projectName)
-        .With(File("lol.cs").With(
+        .With(File(Any.CSharpFileName()).With(
           Class(className).With(
             Method(matchingMethod1Name),
             Method(matchingMethod2Name))));

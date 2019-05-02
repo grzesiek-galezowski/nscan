@@ -18,19 +18,24 @@ namespace TddXt.NScan.NotifyingSupport.Adapters
       Console.WriteLine("Invalid format - skipping " + projectFilePath + " because of " + invalidOperationException);
     }
 
-    public void Log(IndependentRuleComplementDto independentRuleDto)
+    public void Log(IndependentRuleComplementDto dto)
     {
-      Console.WriteLine($"Discovered rule: {independentRuleDto.DependingPattern.Description()} {independentRuleDto.RuleName} {independentRuleDto.DependencyType}:{independentRuleDto.DependencyPattern.Pattern}" + "");
+      Console.WriteLine($"Discovered rule: {dto.DependingPattern.Description()} {dto.RuleName} {dto.DependencyType}:{dto.DependencyPattern.Pattern}" + "");
     }
 
-    public void Log(CorrectNamespacesRuleComplementDto correctNamespacesRuleDto)
+    public void Log(CorrectNamespacesRuleComplementDto dto)
     {
-      Console.WriteLine($"Discovered rule: {correctNamespacesRuleDto.ProjectAssemblyNamePattern.Description()} {correctNamespacesRuleDto.RuleName}");
+      Console.WriteLine($"Discovered rule: {dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName}");
     }
 
-    public void Log(NoCircularUsingsRuleComplementDto noCircularUsingsRuleDto)
+    public void Log(NoCircularUsingsRuleComplementDto dto)
     {
-      Console.WriteLine($"Discovered rule: {noCircularUsingsRuleDto.ProjectAssemblyNamePattern.Description()} {noCircularUsingsRuleDto.RuleName}");
+      Console.WriteLine($"Discovered rule: {dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName}");
+    }
+
+    public void Log(HasAttributesOnRuleComplementDto dto)
+    {
+      throw new NotImplementedException();
     }
   }
 }

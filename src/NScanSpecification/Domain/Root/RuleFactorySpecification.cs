@@ -19,8 +19,8 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       //GIVEN
       var ruleFactory = new RuleFactory();
-      var dependingId = Any.Instance<Pattern>();
-      var dependencyId = Any.Instance<Glob>();
+      var dependingId = Any.Pattern();
+      var dependencyId = Any.Instance<Glob>(); //bug?
       
       //WHEN
       var independentRuleComplementDto =
@@ -43,7 +43,7 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       //GIVEN
       var ruleFactory = new RuleFactory();
-      var dependingNamePattern = Any.Instance<Pattern>();
+      var dependingNamePattern = Any.Pattern();
       var packageNamePattern = Any.Instance<Glob>();
 
       //WHEN
@@ -65,7 +65,7 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       //GIVEN
       var ruleFactory = new RuleFactory();
-      var dependingNamePattern = Any.Instance<Pattern>();
+      var dependingNamePattern = Any.Pattern();
       var assemblyNamePattern = Any.Instance<Glob>();
       
       //WHEN

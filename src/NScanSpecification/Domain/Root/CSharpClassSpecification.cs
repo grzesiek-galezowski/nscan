@@ -35,7 +35,7 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       //GIVEN
       var report = Any.Instance<IAnalysisReportInProgress>();
-      var methodNameInclusionPattern = Any.Instance<Pattern>();
+      var methodNameInclusionPattern = Any.Pattern();
       var ruleDescription = Any.String();
       var method1 = Substitute.For<ICSharpMethod>();
       var method2 = Substitute.For<ICSharpMethod>();

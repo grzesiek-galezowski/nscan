@@ -1,5 +1,4 @@
 ﻿using System;
-using TddXt.NScan.ReadingRules.Ports;
 
 namespace TddXt.NScan.ReadingSolution.Lib
 {
@@ -41,30 +40,6 @@ namespace TddXt.NScan.ReadingSolution.Lib
         throw new ArgumentNullException(nameof(o));
       }
       _value = o;
-    }
-
-    public void Match( //bug remove
-      Action<T1> action1,
-      Action<T2> action2,
-      Action<T3> action3)
-    {
-      switch (_value)
-      {
-        case T1 o:
-          action1(o);
-          break;
-        case T2 o:
-          action2(o);
-          break;
-        case T3 o:
-          action3(o);
-          break;
-        case T4 o:
-          new Action<T4>(o1 => { })(o);
-          break;
-        default:
-          throw new InvalidOperationException($"Unknown rule name {_value}");
-      }
     }
 
     public void Match(

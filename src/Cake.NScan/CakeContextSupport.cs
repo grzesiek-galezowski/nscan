@@ -28,19 +28,25 @@ namespace Cake.NScan
         $"Invalid format - skipping {projectFilePath} because of {invalidOperationException}");
     }
 
-    public void Log(IndependentRuleComplementDto independentRuleDto)
+    public void Log(IndependentRuleComplementDto dto)
     {
-      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {independentRuleDto.DependingPattern.Description()} {independentRuleDto.RuleName} {independentRuleDto.DependencyType}:{independentRuleDto.DependencyPattern.Pattern}" + "");
+      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {dto.DependingPattern.Description()} {dto.RuleName} {dto.DependencyType}:{dto.DependencyPattern.Pattern}" + "");
     }
 
-    public void Log(CorrectNamespacesRuleComplementDto correctNamespacesRuleDto)
+    public void Log(CorrectNamespacesRuleComplementDto dto)
     {
-      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {correctNamespacesRuleDto.ProjectAssemblyNamePattern.Description()} {correctNamespacesRuleDto.RuleName}");
+      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName}");
     }
 
-    public void Log(NoCircularUsingsRuleComplementDto noCircularUsingsRuleDto)
+    public void Log(NoCircularUsingsRuleComplementDto dto)
     {
-      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {noCircularUsingsRuleDto.ProjectAssemblyNamePattern.Description()} {noCircularUsingsRuleDto.RuleName}");
+      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName}");
+    }
+
+    public void Log(HasAttributesOnRuleComplementDto dto)
+    {
+      //bug there's duplication in the output of these rules
+      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName} {dto.ClassNameInclusionPattern}:{dto.MethodNameInclusionPattern}");
     }
   }
 }

@@ -7,6 +7,7 @@ using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.ReadingRules.Ports;
 using TddXt.XNSubstitute.Root;
 using Xunit;
+using static TddXt.AnyRoot.Root;
 
 namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
 {
@@ -17,8 +18,8 @@ namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
     {
       //GIVEN
       var dependencyCondition = Substitute.For<IDescribedDependencyCondition>();
-      var dependingAssemblyNamePattern = AnyRoot.Root.Any.Instance<Pattern>();
-      var rule = new IndependentRule(dependencyCondition, dependingAssemblyNamePattern, AnyRoot.Root.Any.Instance<IRuleViolationFactory>());
+      var dependingAssemblyNamePattern = Any.Pattern();
+      var rule = new IndependentRule(dependencyCondition, dependingAssemblyNamePattern, Any.Instance<IRuleViolationFactory>());
       var report = Substitute.For<IAnalysisReportInProgress>();
       var projectDependencyPath = Substitute.For<IProjectDependencyPath>();
 
@@ -37,16 +38,16 @@ namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
     {
       //GIVEN
       var dependencyCondition = Substitute.For<IDescribedDependencyCondition>();
-      var conditionDescription = AnyRoot.Root.Any.String();
-      var dependingAssemblyNamePattern = AnyRoot.Root.Any.Instance<Pattern>();
+      var conditionDescription = Any.String();
+      var dependingAssemblyNamePattern = Any.Pattern();
       var ruleViolationFactory = Substitute.For<IRuleViolationFactory>();
       var rule = new IndependentRule(dependencyCondition, dependingAssemblyNamePattern, ruleViolationFactory);
       var report = Substitute.For<IAnalysisReportInProgress>();
       var projectDependencyPath = Substitute.For<IProjectDependencyPath>();
       var dependingAssembly = Substitute.For<IProjectSearchResult>();
       var dependencyAssembly = Substitute.For<IProjectSearchResult>();
-      var violatingPathSegment = AnyRoot.Root.Any.ReadOnlyList<IReferencedProject>();
-      var violation = AnyRoot.Root.Any.Instance<RuleViolation>();
+      var violatingPathSegment = Any.ReadOnlyList<IReferencedProject>();
+      var violation = Any.Instance<RuleViolation>();
 
       dependencyCondition.Description().Returns(conditionDescription);
 
@@ -77,9 +78,9 @@ namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
     {
       //GIVEN
       var dependencyCondition = Substitute.For<IDescribedDependencyCondition>();
-      var conditionDescription = AnyRoot.Root.Any.String();
-      var dependingAssemblyNamePattern = AnyRoot.Root.Any.Instance<Pattern>();
-      var rule = new IndependentRule(dependencyCondition, dependingAssemblyNamePattern, AnyRoot.Root.Any.Instance<IRuleViolationFactory>());
+      var conditionDescription = Any.String();
+      var dependingAssemblyNamePattern = Any.Pattern();
+      var rule = new IndependentRule(dependencyCondition, dependingAssemblyNamePattern, Any.Instance<IRuleViolationFactory>());
       var report = Substitute.For<IAnalysisReportInProgress>();
       var projectDependencyPath = Substitute.For<IProjectDependencyPath>();
       var dependingAssembly = Substitute.For<IProjectSearchResult>();

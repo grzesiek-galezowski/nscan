@@ -45,7 +45,6 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
 
     public void WithAssemblyReferences(params string[] assemblyNames)
     {
-      //bug add validations to be able to remove this exclamation
       _xmlProject.ItemGroups.Add(
         new XmlItemGroup() { AssemblyReferences = AssemblyReferencesFrom(assemblyNames) }
       );

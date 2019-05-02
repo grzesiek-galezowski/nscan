@@ -17,7 +17,7 @@ namespace TddXt.NScan.Specification.Domain.ProjectScopedRules
     public void ShouldMakeProjectAnalyzeFilesWithItselfWhenProjectMatchesAPattern()
     {
       //GIVEN
-      var projectAssemblyNamePattern = Any.Instance<Pattern>();
+      var projectAssemblyNamePattern = Any.Pattern();
       var rule = new ProjectSourceCodeFilesRelatedRule(projectAssemblyNamePattern, Any.String(), Any.Instance<ISourceCodeFileContentCheck>());
       var report = Any.Instance<IAnalysisReportInProgress>();
       var project = Substitute.For<IProjectScopedRuleTarget>();
@@ -36,7 +36,7 @@ namespace TddXt.NScan.Specification.Domain.ProjectScopedRules
     {
       //GIVEN
       var dto = Any.Instance<CorrectNamespacesRuleComplementDto>();
-      var projectAssemblyNamePattern = Any.Instance<Pattern>();
+      var projectAssemblyNamePattern = Any.Pattern();
       var rule = new ProjectSourceCodeFilesRelatedRule(projectAssemblyNamePattern, Any.String(), new CorrectNamespacesInFileCheck());
       var report = Any.Instance<IAnalysisReportInProgress>();
       var project = Substitute.For<IProjectScopedRuleTarget>();
@@ -54,7 +54,7 @@ namespace TddXt.NScan.Specification.Domain.ProjectScopedRules
     public void ShouldAnalyzeNamespaceCorrectnessOnEachAnalyzedFiles()
     {
       //GIVEN
-      var projectAssemblyNamePattern = Any.Instance<Pattern>();
+      var projectAssemblyNamePattern = Any.Pattern();
       var fileContentCheck = Substitute.For<ISourceCodeFileContentCheck>();
       var ruleDescription = Any.String();
       var rule = new ProjectSourceCodeFilesRelatedRule(projectAssemblyNamePattern, ruleDescription, fileContentCheck);
@@ -85,7 +85,7 @@ namespace TddXt.NScan.Specification.Domain.ProjectScopedRules
     {
       //GIVEN
       var ruleDescription = Any.String();
-      var rule = new ProjectSourceCodeFilesRelatedRule(Any.Instance<Pattern>(), ruleDescription, Any.Instance<ISourceCodeFileContentCheck>());
+      var rule = new ProjectSourceCodeFilesRelatedRule(Any.Pattern(), ruleDescription, Any.Instance<ISourceCodeFileContentCheck>());
 
       //WHEN
       var ruleAsString = rule.ToString();
