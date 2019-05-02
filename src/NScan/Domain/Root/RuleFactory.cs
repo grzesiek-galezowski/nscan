@@ -46,13 +46,31 @@ namespace TddXt.NScan.Domain.Root
 
     public IProjectScopedRule CreateProjectScopedRuleFrom(CorrectNamespacesRuleComplementDto ruleDto)
     {
-      return new CorrectNamespacesRule(ruleDto);
+      return new ProjectSourceCodeFilesRelatedRule(
+        ruleDto.ProjectAssemblyNamePattern, 
+        CorrectNamespacesRuleDescription(ruleDto), 
+        new CorrectNamespacesInFileCheck());
+    }
+
+    public IProjectScopedRule CreateProjectScopedRuleFrom(HasAttributesOnRuleComplementDto ruleDto)
+    {
+      return new ProjectSourceCodeFilesRelatedRule(
+        ruleDto.ProjectAssemblyNamePattern,
+        $"{ruleDto.ProjectAssemblyNamePattern.Description()} {ruleDto.RuleName} " +
+        $"{ruleDto.ClassNameInclusionPattern.Description()}:{ruleDto.MethodNameInclusionPattern.Description()}",
+        new MethodsOfMatchingClassesAreDecoratedWithAttributeCheck(ruleDto));
+    }
+
+    private static string CorrectNamespacesRuleDescription(CorrectNamespacesRuleComplementDto ruleDto)
+    {
+      return ruleDto.ProjectAssemblyNamePattern.Description() + " " + ruleDto.RuleName;
     }
 
     public INamespacesBasedRule CreateNamespacesBasedRuleFrom(NoCircularUsingsRuleComplementDto ruleDto)
     {
       return new NoCircularUsingsRule(ruleDto, RuleViolationFactory());
     }
+
 
     private static IRuleViolationFactory RuleViolationFactory()
     {

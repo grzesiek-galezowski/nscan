@@ -5,6 +5,7 @@ using TddXt.NScan.Domain.NamespaceBasedRules;
 using TddXt.NScan.Domain.ProjectScopedRules;
 using TddXt.NScan.Domain.Root;
 using TddXt.NScan.ReadingRules.Ports;
+using TddXt.NScan.Specification.Domain.ProjectScopedRules;
 using TddXt.XFluentAssert.Root;
 using Xunit;
 using static TddXt.AnyRoot.Root;
@@ -88,14 +89,12 @@ namespace TddXt.NScan.Specification.Domain.Root
       var ruleFactory = new RuleFactory();
       var ruleDto = Any.Instance<CorrectNamespacesRuleComplementDto>();
 
-
       //WHEN
       var projectScopedRule = ruleFactory.CreateProjectScopedRuleFrom(ruleDto);
 
       //THEN
-      projectScopedRule.Should().BeOfType<CorrectNamespacesRule>();
-      projectScopedRule.Should().DependOn(ruleDto);
-
+      projectScopedRule.Should().BeOfType<ProjectSourceCodeFilesRelatedRule>();
+      projectScopedRule.Should().DependOn(ruleDto.ProjectAssemblyNamePattern);
     }
 
     [Fact]
@@ -111,7 +110,23 @@ namespace TddXt.NScan.Specification.Domain.Root
       //THEN
       projectScopedRule.Should().BeOfType<NoCircularUsingsRule>();
       projectScopedRule.Should().DependOn(ruleDto);
+    }
 
+    [Fact]
+    public void ShouldCreateHasAttributesOnRuleFromDto()
+    {
+      //GIVEN
+      var ruleFactory = new RuleFactory();
+      var ruleDto = Any.Instance<HasAttributesOnRuleComplementDto>();
+
+      //WHEN
+      var projectScopedRule = ruleFactory.CreateProjectScopedRuleFrom(ruleDto);
+
+      //THEN
+      projectScopedRule.Should().BeOfType<ProjectSourceCodeFilesRelatedRule>();
+      projectScopedRule.Should().DependOn<MethodsOfMatchingClassesAreDecoratedWithAttributeCheck>();
+      projectScopedRule.Should().DependOn(ruleDto.ClassNameInclusionPattern);
+      projectScopedRule.Should().DependOn(ruleDto.MethodNameInclusionPattern);
     }
   }
 }

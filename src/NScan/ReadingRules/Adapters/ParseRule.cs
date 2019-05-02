@@ -71,7 +71,7 @@ namespace TddXt.NScan.ReadingRules.Adapters
           from classPattern in TextUntil(':')
           from methodPattern in TextUntilEol
           select RuleUnionDto.With(
-            new IsAnnotatedRuleComplementDto(
+            new HasAttributesOnRuleComplementDto(
               dependingPattern, 
               Pattern.WithoutExclusion(classPattern),
               Pattern.WithoutExclusion(methodPattern))));

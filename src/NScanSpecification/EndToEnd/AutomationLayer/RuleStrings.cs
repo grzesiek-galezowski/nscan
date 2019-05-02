@@ -19,7 +19,7 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
       return $"{dto.DependingPattern.Description()} {dto.RuleName} {dto.DependencyType}:{dto.DependencyPattern.Pattern}";
     }
 
-    public static string String(this IsAnnotatedRuleComplementDto dto)
+    public static string String(this HasAttributesOnRuleComplementDto dto)
     {
       return $"{dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName} {dto.ClassNameInclusionPattern.Description()}:{dto.MethodNameInclusionPattern.Description()}";
     }

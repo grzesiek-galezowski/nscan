@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AtmaFileSystem;
 using FluentAssertions;
@@ -7,12 +8,16 @@ using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Domain.NamespaceBasedRules;
+using TddXt.NScan.Domain.ProjectScopedRules;
 using TddXt.NScan.Domain.Root;
 using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.ReadingCSharpSourceCode;
+using TddXt.NScan.ReadingRules.Ports;
 using TddXt.NScan.ReadingSolution.Ports;
+using TddXt.NScan.Specification.EndToEnd.AutomationLayer;
 using TddXt.XNSubstitute.Root;
 using Xunit;
+using static AtmaFileSystem.AtmaFileSystemPaths;
 using static TddXt.AnyRoot.Root;
 
 namespace TddXt.NScan.Specification.Domain.Root
@@ -24,9 +29,8 @@ namespace TddXt.NScan.Specification.Domain.Root
 
       public XmlSourceCodeFile Build()
       {
-        string fileName = FileName;
         return new XmlSourceCodeFile(
-          AtmaFileSystemPaths.RelativeFilePath(fileName), 
+          RelativeFilePath(FileName), 
           DeclaredNamespaces, 
           ParentProjectRootNamespace, 
           ParentProjectAssemblyName, 
@@ -46,21 +50,30 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldReportIncorrectNamespaceWhenIsInRootFolderAndItsOnlyNamespaceDoesNotMatchRootNamespace()
     {
       //GIVEN
-      var xmlSourceCodeFile = new XmlSourceCodeFileBuilder();
-      xmlSourceCodeFile.DeclaredNamespaces = Any.OtherThan(xmlSourceCodeFile.ParentProjectRootNamespace).AsList();
       var ruleViolationFactory = Substitute.For<IRuleViolationFactory>();
-      var file = new SourceCodeFile(xmlSourceCodeFile.Build(), ruleViolationFactory);
+      var parentProjectAssemblyName = Any.String();
+      var parentProjectRootNamespace = Any.String();
+      var pathRelativeToProjectRoot = Any.Instance<RelativeFilePath>();
+      var fileBuilder = new SourceCodeFileBuilder()
+      {
+        RuleViolationFactory = ruleViolationFactory,
+        ParentProjectAssemblyName = parentProjectAssemblyName,
+        PathRelativeToProjectRoot = pathRelativeToProjectRoot,
+        ParentProjectRootNamespace = parentProjectRootNamespace
+      };
+      fileBuilder.DeclaredNamespaces = Any.OtherThan(fileBuilder.ParentProjectRootNamespace).AsList();
+      var file = fileBuilder.Build();  
+
       var report = Substitute.For<IAnalysisReportInProgress>();
       var ruleDescription = Any.String();
       var violation = Any.Instance<RuleViolation>();
 
       ruleViolationFactory.ProjectScopedRuleViolation(
         ruleDescription, 
-        xmlSourceCodeFile.ParentProjectAssemblyName + " has root namespace " +
-        xmlSourceCodeFile.ParentProjectRootNamespace + " but the file " +
-        xmlSourceCodeFile.FileName + " has incorrect namespace " +
-        xmlSourceCodeFile.DeclaredNamespaces.Single()).Returns(violation);
-
+        parentProjectAssemblyName + " has root namespace " +
+        parentProjectRootNamespace + " but the file " +
+        pathRelativeToProjectRoot + " has incorrect namespace " +
+        fileBuilder.DeclaredNamespaces.Single()).Returns(violation);
 
       //WHEN
       file.EvaluateNamespacesCorrectness(report, ruleDescription);
@@ -73,18 +86,27 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldReportErrorWhenFileDeclaresNoNamespaces()
     {
       //GIVEN
-      var xmlSourceCodeFile = new XmlSourceCodeFileBuilder();
-      xmlSourceCodeFile.DeclaredNamespaces = new List<string>();
       var ruleViolationFactory = Substitute.For<IRuleViolationFactory>();
-      var file = new SourceCodeFile(xmlSourceCodeFile.Build(), ruleViolationFactory);
+      var parentProjectAssemblyName = Any.String();
+      var parentProjectRootNamespace = Any.String();
+      var pathRelativeToProjectRoot = Any.Instance<RelativeFilePath>();
+      var fileBuilder = new SourceCodeFileBuilder()
+      {
+        RuleViolationFactory = ruleViolationFactory,
+        DeclaredNamespaces = new List<string>(),
+        ParentProjectAssemblyName = parentProjectAssemblyName,
+        ParentProjectRootNamespace = parentProjectRootNamespace,
+        PathRelativeToProjectRoot = pathRelativeToProjectRoot
+      };
+      var file = fileBuilder.Build();
       var report = Substitute.For<IAnalysisReportInProgress>();
       var ruleDescription = Any.String();
       var violation = Any.Instance<RuleViolation>();
 
       ruleViolationFactory.ProjectScopedRuleViolation(ruleDescription,
-        xmlSourceCodeFile.ParentProjectAssemblyName + " has root namespace " +
-        xmlSourceCodeFile.ParentProjectRootNamespace + " but the file " +
-        xmlSourceCodeFile.FileName + " has no namespace declared").Returns(violation);
+        parentProjectAssemblyName + " has root namespace " +
+        parentProjectRootNamespace + " but the file " +
+        pathRelativeToProjectRoot + " has no namespace declared").Returns(violation);
 
       //WHEN
       file.EvaluateNamespacesCorrectness(report, ruleDescription);
@@ -97,20 +119,29 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldReportErrorWhenFileDeclaresMoreThanOneNamespace()
     {
       //GIVEN
-      var xmlSourceCodeFile = new XmlSourceCodeFileBuilder();
       var namespace1 = Any.String();
       var namespace2 = Any.String();
-      xmlSourceCodeFile.DeclaredNamespaces = new List<string> {namespace1, namespace2};
       var ruleViolationFactory = Substitute.For<IRuleViolationFactory>();
-      var file = new SourceCodeFile(xmlSourceCodeFile.Build(), ruleViolationFactory);
+      var parentProjectAssemblyName = Any.String();
       var report = Substitute.For<IAnalysisReportInProgress>();
       var ruleDescription = Any.String();
       var violation = Any.Instance<RuleViolation>();
+      var projectRootNamespace = Any.String();
+      var fileName = Any.Instance<RelativeFilePath>();
+
+      var file = new SourceCodeFileBuilder()
+      {
+        DeclaredNamespaces = new List<string> { namespace1, namespace2 },
+        RuleViolationFactory = ruleViolationFactory,
+        ParentProjectAssemblyName = parentProjectAssemblyName,
+        ParentProjectRootNamespace = projectRootNamespace,
+        PathRelativeToProjectRoot = fileName
+      }.Build();
 
       ruleViolationFactory.ProjectScopedRuleViolation(ruleDescription,
-        $"{xmlSourceCodeFile.ParentProjectAssemblyName} " +
-        $"has root namespace {xmlSourceCodeFile.ParentProjectRootNamespace} " +
-        $"but the file {xmlSourceCodeFile.FileName} " +
+        $"{parentProjectAssemblyName} " +
+        $"has root namespace {projectRootNamespace} " +
+        $"but the file {fileName} " +
         $"declares multiple namespaces: {namespace1}, {namespace2}").Returns(violation);
 
       //WHEN
@@ -126,7 +157,9 @@ namespace TddXt.NScan.Specification.Domain.Root
       //GIVEN
       var xmlSourceCodeFile = new XmlSourceCodeFileBuilder();
       xmlSourceCodeFile.DeclaredNamespaces = xmlSourceCodeFile.ParentProjectRootNamespace.AsList();
-      var file = new SourceCodeFile(xmlSourceCodeFile.Build(), Any.Instance<IRuleViolationFactory>());
+      var fileBuilder = new SourceCodeFileBuilder();
+      fileBuilder.DeclaredNamespaces = fileBuilder.ParentProjectRootNamespace.AsList();
+      var file = fileBuilder.Build();
       var report = Substitute.For<IAnalysisReportInProgress>();
 
       //WHEN
@@ -147,12 +180,12 @@ namespace TddXt.NScan.Specification.Domain.Root
       var using2 = Any.String();
       var using3 = Any.String();
       var cache = Substitute.For<INamespacesDependenciesCache>();
-      var xmlSourceCodeFile = new XmlSourceCodeFileBuilder
+
+      var file = new SourceCodeFileBuilder
       {
-        DeclaredNamespaces = new List<string>() {namespace1, namespace2, namespace3},
-        Usings = new List<string>() { using1, using2, using3}
-      };
-      var file = new SourceCodeFile(xmlSourceCodeFile.Build(), Any.Instance<IRuleViolationFactory>());
+        DeclaredNamespaces = new List<string> { namespace1, namespace2, namespace3 },
+        Usings = new List<string> { using1, using2, using3 }
+      }.Build();
 
       //WHEN
       file.AddNamespaceMappingTo(cache);
@@ -173,17 +206,74 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldReportFileNameWhenConvertedToString()
     {
       //GIVEN
-      var xmlSourceCodeFile = new XmlSourceCodeFileBuilder();
-      var file = new SourceCodeFile(xmlSourceCodeFile.Build(), Any.Instance<IRuleViolationFactory>());
+      var pathRelativeToProjectRoot = Any.Instance<RelativeFilePath>();
+      var file = new SourceCodeFileBuilder
+      {
+        PathRelativeToProjectRoot = pathRelativeToProjectRoot
+      }.Build();
 
       //WHEN
       var stringRepresentation = file.ToString();
 
       //THEN
-      stringRepresentation.Should().Be(xmlSourceCodeFile.FileName);
+      stringRepresentation.Should().Be(pathRelativeToProjectRoot.ToString());
     }
 
 
+    [Fact]
+    public void ShouldNotReportAnythingWhenThereAreNoClasses() //bug
+    {
+      //GIVEN
+      var report = Substitute.For<IAnalysisReportInProgress>();
+      var class1 = Substitute.For<ICSharpClass>();
+      var class2 = Substitute.For<ICSharpClass>();
+      var class3 = Substitute.For<ICSharpClass>();
+      var classNameInclusionPattern = Any.Instance<Pattern>();
+      var methodNameInclusionPattern = Any.Instance<Pattern>();
+      var ruleDescription = Any.String();
+      var sourceCodeFile = new SourceCodeFileBuilder
+      {
+        Classes = new [] {class1, class2, class3}
+      }.Build();
+
+      class1.NameMatches(classNameInclusionPattern).Returns(true);
+      class2.NameMatches(classNameInclusionPattern).Returns(false);
+      class3.NameMatches(classNameInclusionPattern).Returns(true);
+
+      //WHEN
+      sourceCodeFile.EvaluateMethodsHavingCorrectAttributes(report, classNameInclusionPattern, methodNameInclusionPattern, ruleDescription);
+
+      //THEN
+      class1.Received(1).EvaluateDecorationWithAttributes(report, methodNameInclusionPattern, ruleDescription);
+      class2.DidNotReceive()
+        .EvaluateDecorationWithAttributes(Arg.Any<IAnalysisReportInProgress>(), Arg.Any<Pattern>(), Arg.Any<string>());
+      class3.Received(1).EvaluateDecorationWithAttributes(report, methodNameInclusionPattern, ruleDescription);
+    }
+
+  }
+
+  public class SourceCodeFileBuilder
+  {
+    public SourceCodeFile Build()
+    {
+      return new SourceCodeFile(RuleViolationFactory, DeclaredNamespaces,
+        ParentProjectAssemblyName, ParentProjectRootNamespace, PathRelativeToProjectRoot,
+        Usings,
+        Classes);
+    }
+
+    public IReadOnlyList<string> Usings { get; set; } = Any.Instance<IReadOnlyList<string>>();
+
+    public RelativeFilePath PathRelativeToProjectRoot { get; set; } = Any.Instance<RelativeFilePath>();
+
+    public string ParentProjectRootNamespace { get; set; } = Any.Instance<string>();
+
+    public string ParentProjectAssemblyName { get; set; } = Any.Instance<string>();
+
+    public IReadOnlyList<string> DeclaredNamespaces { get; set; } = Any.Instance<IReadOnlyList<string>>();
+
+    public IProjectScopedRuleViolationFactory RuleViolationFactory { get; set; } = Any.Instance<IProjectScopedRuleViolationFactory>();
+    public ICSharpClass[] Classes { get; set; } = Any.Array<ICSharpClass>();
   }
 
   public static class ToCollectionExtensions

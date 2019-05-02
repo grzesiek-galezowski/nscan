@@ -45,12 +45,12 @@ namespace TddXt.NScan.ReadingRules.Ports
         .OrElse(() => _inclusionPattern);
     }
 
-    public bool IsMatch(string assemblyName)
+    public bool IsMatch(string expected)
     {
       return
-        Glob.IsMatch(assemblyName, _inclusionPattern)
+        Glob.IsMatch(expected, _inclusionPattern)
       && _exclusionPattern.Select(
-          exclusion => !Glob.IsMatch(assemblyName, exclusion))
+          exclusion => !Glob.IsMatch(expected, exclusion))
           .OrElse(() => true);
     }
 

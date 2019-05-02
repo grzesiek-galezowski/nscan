@@ -113,7 +113,7 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
           new Glob(_dependencyName))),
         () => RuleUnionDto.With(new CorrectNamespacesRuleComplementDto(dependingPattern)),
         () => RuleUnionDto.With(new NoCircularUsingsRuleComplementDto(dependingPattern)),
-        () => RuleUnionDto.With(new IsAnnotatedRuleComplementDto(
+        () => RuleUnionDto.With(new HasAttributesOnRuleComplementDto(
             dependingPattern,
             Pattern.WithoutExclusion(_classInclusionPattern ??
                                      throw new ArgumentNullException(nameof(_classInclusionPattern))),

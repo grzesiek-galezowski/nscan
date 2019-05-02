@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using AtmaFileSystem;
-using AutoFixture;
 using Fclp.Internals.Extensions;
 using static AtmaFileSystem.AtmaFileSystemPaths;
 

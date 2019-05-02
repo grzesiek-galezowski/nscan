@@ -34,7 +34,7 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
         },
         FailWhen<CorrectNamespacesRuleComplementDto>(),
         FailWhen<NoCircularUsingsRuleComplementDto>(),
-        FailWhen<IsAnnotatedRuleComplementDto>());
+        FailWhen<HasAttributesOnRuleComplementDto>());
       ruleUnionDto.RuleName.Should().Be(RuleNames.IndependentOf);
     }
 
@@ -62,7 +62,7 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
         },
         FailWhen<CorrectNamespacesRuleComplementDto>(),
         FailWhen<NoCircularUsingsRuleComplementDto>(),
-        FailWhen<IsAnnotatedRuleComplementDto>()
+        FailWhen<HasAttributesOnRuleComplementDto>()
       );
       ruleUnionDto.RuleName.Should().Be(RuleNames.IndependentOf);
     }
@@ -89,7 +89,7 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
         },
         FailWhen<CorrectNamespacesRuleComplementDto>(),
         FailWhen<NoCircularUsingsRuleComplementDto>(),
-        FailWhen<IsAnnotatedRuleComplementDto>()
+        FailWhen<HasAttributesOnRuleComplementDto>()
       );
       ruleUnionDto.RuleName.Should().Be(RuleNames.IndependentOf);
     }
@@ -113,7 +113,7 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
           dto.ProjectAssemblyNamePattern.Should().Be(Pattern.WithoutExclusion(depending));
         },
         FailWhen<NoCircularUsingsRuleComplementDto>(),
-        FailWhen<IsAnnotatedRuleComplementDto>()
+        FailWhen<HasAttributesOnRuleComplementDto>()
       );
       ruleUnionDto.RuleName.Should().Be(RuleNames.HasCorrectNamespaces);
     }
@@ -136,7 +136,7 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
           dto.RuleName.Should().Be(RuleNames.HasNoCircularUsings);
           dto.ProjectAssemblyNamePattern.Should().Be(Pattern.WithoutExclusion(depending));
         },
-        FailWhen<IsAnnotatedRuleComplementDto>()
+        FailWhen<HasAttributesOnRuleComplementDto>()
       );
       ruleUnionDto.RuleName.Should().Be(RuleNames.HasNoCircularUsings);
     }
@@ -164,7 +164,7 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
           dto.RuleName.Should().Be(RuleNames.HasNoCircularUsings);
           dto.ProjectAssemblyNamePattern.Should().Be(Pattern.WithoutExclusion(depending));
         },
-        FailWhen<IsAnnotatedRuleComplementDto>()
+        FailWhen<HasAttributesOnRuleComplementDto>()
       );
       ruleUnionDto.RuleName.Should().Be(RuleNames.HasNoCircularUsings);
     }

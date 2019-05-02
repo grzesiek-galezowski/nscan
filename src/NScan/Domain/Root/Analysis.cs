@@ -73,22 +73,35 @@ namespace TddXt.NScan.Domain.Root
       foreach (var ruleDto in rules)
       {
         ruleDto.Match(
-          independentRule =>
-          {
-            var rule = _ruleFactory.CreateDependencyRuleFrom(independentRule);
-            _pathRules.Add(rule);
-          },
-          correctNamespacesDto =>
-          {
-            var rule = _ruleFactory.CreateProjectScopedRuleFrom(correctNamespacesDto);
-            _projectScopedRules.Add(rule);
-          }, 
-          noCricularUsingsDto =>
-          {
-            var rule = _ruleFactory.CreateNamespacesBasedRuleFrom(noCricularUsingsDto);
-            _namespacesBasedRuleSet.Add(rule);
-          });
+          CreateRule,
+          CreateRule, 
+          CreateRule,
+          CreateRule);
       }
+    }
+
+    private void CreateRule(HasAttributesOnRuleComplementDto dto)
+    {
+      var rule = _ruleFactory.CreateProjectScopedRuleFrom(dto);
+      _projectScopedRules.Add(rule);
+    }
+
+    private void CreateRule(NoCircularUsingsRuleComplementDto dto)
+    {
+      var rule = _ruleFactory.CreateNamespacesBasedRuleFrom(dto);
+      _namespacesBasedRuleSet.Add(rule);
+    }
+
+    private void CreateRule(CorrectNamespacesRuleComplementDto dto)
+    {
+      var rule = _ruleFactory.CreateProjectScopedRuleFrom(dto);
+      _projectScopedRules.Add(rule);
+    }
+
+    private void CreateRule(IndependentRuleComplementDto dto)
+    {
+      var rule = _ruleFactory.CreateDependencyRuleFrom(dto);
+      _pathRules.Add(rule);
     }
   }
 }

@@ -15,25 +15,32 @@ namespace TddXt.NScan.Specification.EndToEnd
     public void ShouldRaiseErrorWhenMethodsMatchingPatternAreNotDecoratedWithAttributes()
     {
       //GIVEN
-      using var context = new NScanE2EDriver();
-      //bug none of this is implemented yet
-      context.HasProject("MyProject")
-        .With(File("lol.cs").With(
-          Class("Class1").With(
-            Method("ShouldA"),
-            Method("ShouldB"))));
+      const string projectName = "MyProject";
+      const string classInclusionPattern = "*Specification";
+      const string methodInclusionPattern = "Should*";
+      var projectAssemblyNameInclusionPattern = $"*{projectName}*";
+      const string matchingMethod1Name = "ShouldA";
+      const string matchingMethod2Name = "ShouldB";
+      const string className = "MySpecification";
 
-      context.Add(RuleRequiring().Project("*MyProject*").ToHaveDecoratedMethods("*Specification", "Should*"));
+      using var context = new NScanE2EDriver();
+      context.HasProject(projectName)
+        .With(File("lol.cs").With(
+          Class(className).With(
+            Method(matchingMethod1Name),
+            Method(matchingMethod2Name))));
+
+      context.Add(RuleRequiring().Project(projectAssemblyNameInclusionPattern).ToHaveDecoratedMethods(classInclusionPattern, methodInclusionPattern));
 
       //WHEN
       context.PerformAnalysis();
 
       //THEN
       context.ReportShouldContain(
-        HasAttributesOnMessage.HasMethodsNotDecoratedWithAttribute("MyProject", "*Specification", "Should*")
+        HasAttributesOnMessage.HasMethodsNotDecoratedWithAttribute(projectAssemblyNameInclusionPattern, classInclusionPattern, methodInclusionPattern)
           .Error()
-          .NonCompliantMethodFound("Class1", "ShouldA")
-          .NonCompliantMethodFound("Class1", "ShouldB"));
+          .NonCompliantMethodFound(className, matchingMethod1Name)
+          .NonCompliantMethodFound(className, matchingMethod2Name));
     }
   }
 }

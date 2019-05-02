@@ -148,7 +148,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       var rule3 = Any.Instance<IProjectScopedRule>();
       var ruleDto1 = Any.Instance<CorrectNamespacesRuleComplementDto>();
       var ruleDto2 = Any.Instance<CorrectNamespacesRuleComplementDto>();
-      var ruleDto3 = Any.Instance<CorrectNamespacesRuleComplementDto>();
+      var ruleDto3 = Any.Instance<HasAttributesOnRuleComplementDto>();
       var analysis = new AnalysisBuilder()
       {
         ProjectScopedRuleSet = projectScopedRuleSet,
@@ -174,8 +174,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       projectScopedRuleSet.Received(1).Add(rule2);
       projectScopedRuleSet.Received(1).Add(rule3);
     }
-
-
+    
     [Fact]
     public void ShouldReturnStringGeneratedFromAnalysisInProgressReportWhenAskedForAnalysisReport()
     {

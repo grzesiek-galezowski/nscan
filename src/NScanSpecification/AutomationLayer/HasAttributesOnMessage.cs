@@ -25,7 +25,8 @@ namespace TddXt.NScan.Specification.AutomationLayer
       string classNamePattern,
       string methodNamesPattern)
     {
-      return new HasAttributesOnMessage(projectName + " " + RuleNames.HasAttributesOn + " " + classNamePattern + ":" + methodNamesPattern);
+      return new HasAttributesOnMessage(
+        $"{projectName} {RuleNames.HasAttributesOn} {classNamePattern}:{methodNamesPattern}: ");
     }
   }
 }

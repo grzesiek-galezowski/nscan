@@ -1,8 +1,8 @@
 ﻿namespace TddXt.NScan.ReadingRules.Ports
 {
-  public class IsAnnotatedRuleComplementDto
+  public class HasAttributesOnRuleComplementDto
   {
-    public IsAnnotatedRuleComplementDto(
+    public HasAttributesOnRuleComplementDto(
       Pattern projectAssemblyNamePattern, 
       Pattern classNameInclusionPattern, 
       Pattern methodNameInclusionPattern)

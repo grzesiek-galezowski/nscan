@@ -1,12 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TddXt.NScan.Domain.NamespaceBasedRules;
 using TddXt.NScan.Domain.ProjectScopedRules;
 using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.NotifyingSupport.Ports;
+using TddXt.NScan.ReadingCSharpSourceCode;
 using TddXt.NScan.ReadingSolution.Lib;
 using TddXt.NScan.ReadingSolution.Ports;
-using System;
 
 namespace TddXt.NScan.Domain.Root
 {
@@ -55,7 +56,27 @@ namespace TddXt.NScan.Domain.Root
 
     private SourceCodeFile ToSourceCodeFile(XmlSourceCodeFile scf)
     {
-      return new SourceCodeFile(scf, _ruleViolationFactory);
+      return new SourceCodeFile(
+        _ruleViolationFactory, 
+        scf.DeclaredNamespaces, 
+        scf.ParentProjectAssemblyName, 
+        scf.ParentProjectRootNamespace, 
+        scf.PathRelativeToProjectRoot, 
+        scf.Usings,
+        ToClasses(scf.Classes, methodDeclarationInfos => ToMethods(methodDeclarationInfos, _ruleViolationFactory)));
+    }
+
+    private static ICSharpClass[] ToClasses(
+      IEnumerable<ClassDeclarationInfo> classDeclarationInfos, 
+      Func<List<MethodDeclarationInfo>, ICSharpMethod[]> methodFactory)
+    { 
+      return classDeclarationInfos.Select(c => new CSharpClass(c, methodFactory(c.Methods))).ToArray<ICSharpClass>();
+    }
+
+    private static ICSharpMethod[] ToMethods(List<MethodDeclarationInfo> methodDeclarationInfos,
+      IProjectScopedRuleViolationFactory violationFactory)
+    {
+      return methodDeclarationInfos.Select(m => new CSharpMethod(m, violationFactory)).ToArray<ICSharpMethod>();
     }
 
     private static ProjectId ToProjectId(XmlProjectReference dto)
@@ -65,7 +86,7 @@ namespace TddXt.NScan.Domain.Root
 
     private static AssemblyReference ToAssemblyReference(XmlAssemblyReference r)
     {
-      return new AssemblyReference(r.Include, r.HintPath); //bug what is hint path?
+      return new AssemblyReference(r.Include, r.HintPath);
     }
 
     private static PackageReference ToPackageReference(XmlPackageReference r)

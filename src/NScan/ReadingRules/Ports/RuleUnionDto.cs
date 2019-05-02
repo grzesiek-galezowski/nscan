@@ -7,7 +7,7 @@ namespace TddXt.NScan.ReadingRules.Ports
     IndependentRuleComplementDto, 
     CorrectNamespacesRuleComplementDto,
     NoCircularUsingsRuleComplementDto,
-    IsAnnotatedRuleComplementDto>
+    HasAttributesOnRuleComplementDto>
   {
     public static RuleUnionDto With(CorrectNamespacesRuleComplementDto dto)
     {
@@ -24,7 +24,7 @@ namespace TddXt.NScan.ReadingRules.Ports
       return new RuleUnionDto(dto);
     }
 
-    public static RuleUnionDto With(IsAnnotatedRuleComplementDto dto)
+    public static RuleUnionDto With(HasAttributesOnRuleComplementDto dto)
     {
       return new RuleUnionDto(dto);
     }
@@ -38,6 +38,6 @@ namespace TddXt.NScan.ReadingRules.Ports
     private RuleUnionDto(IndependentRuleComplementDto o) : base(o) {}
     private RuleUnionDto(CorrectNamespacesRuleComplementDto o) : base(o) {}
     private RuleUnionDto(NoCircularUsingsRuleComplementDto o) : base(o) {}
-    private RuleUnionDto(IsAnnotatedRuleComplementDto dto) : base(dto) {}
+    private RuleUnionDto(HasAttributesOnRuleComplementDto dto) : base(dto) {}
   }
 }
