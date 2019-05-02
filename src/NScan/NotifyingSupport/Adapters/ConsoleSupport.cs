@@ -35,7 +35,7 @@ namespace TddXt.NScan.NotifyingSupport.Adapters
 
     public void Log(HasAttributesOnRuleComplementDto dto)
     {
-      throw new NotImplementedException();
+      Console.WriteLine($"Discovered rule: {dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName} {dto.ClassNameInclusionPattern}:{dto.MethodNameInclusionPattern}");
     }
   }
 }
