@@ -12,6 +12,22 @@
     <NullableContextOptions>enable</NullableContextOptions>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <Version>0.9.0</Version>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageId>Cake.NScan</PackageId>
+    <Authors>Grzegorz Galezowski</Authors>
+    <Product>NScan</Product>
+    <Description>A tool for enforcing project dependency conventions - library</Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://grzesiek-galezowski.github.io/nscan/</PackageProjectUrl>
+    <PackageIconUrl>https://cdn.jsdelivr.net/gh/cake-contrib/graphics/png/cake-contrib-medium.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/grzesiek-galezowski/nscan</RepositoryUrl>
+    <RepositoryType>github</RepositoryType>
+    <PackageTags>static analysis, quality gate, dependency management</PackageTags>
+    <PackageReleaseNotes>Added ability to check for attributes on methods</PackageReleaseNotes>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="AtmaFileSystem" Version="2.1.1" />
     <PackageReference Include="Buildalyzer" Version="2.2.0" />
@@ -21,6 +37,13 @@
     <PackageReference Include="Glob" Version="1.1.1" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="2.10.0" />
     <PackageReference Include="Sprache" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
