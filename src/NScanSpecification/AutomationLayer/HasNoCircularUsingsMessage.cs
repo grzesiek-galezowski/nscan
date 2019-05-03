@@ -1,5 +1,6 @@
 ﻿using System;
 using TddXt.NScan.Domain.SharedKernel;
+using TddXt.NScan.Lib;
 
 namespace TddXt.NScan.Specification.AutomationLayer
 {

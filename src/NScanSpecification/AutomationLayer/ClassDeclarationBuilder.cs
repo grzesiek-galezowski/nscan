@@ -2,7 +2,7 @@
 using System.Linq;
 using TddXt.NScan.ReadingCSharpSourceCode;
 
-namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
+namespace TddXt.NScan.Specification.AutomationLayer
 {
   public class ClassDeclarationBuilder
   {

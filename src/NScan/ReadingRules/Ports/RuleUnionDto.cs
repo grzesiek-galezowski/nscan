@@ -1,5 +1,4 @@
-﻿using System;
-using TddXt.NScan.ReadingSolution.Lib;
+﻿using TddXt.NScan.Lib;
 
 namespace TddXt.NScan.ReadingRules.Ports
 {

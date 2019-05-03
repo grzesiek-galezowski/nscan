@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TddXt.NScan.ReadingSolution.Lib
+namespace TddXt.NScan.Lib
 {
   public abstract class Union4<T1, T2, T3, T4>
   {

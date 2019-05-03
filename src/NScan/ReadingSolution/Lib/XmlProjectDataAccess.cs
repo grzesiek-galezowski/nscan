@@ -1,13 +1,10 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using AtmaFileSystem;
 using Functional.Maybe;
 using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.ReadingSolution.Ports;
 using static AtmaFileSystem.AtmaFileSystemPaths;
-using RelativeFilePath = AtmaFileSystem.RelativeFilePath;
 
 namespace TddXt.NScan.ReadingSolution.Lib
 {

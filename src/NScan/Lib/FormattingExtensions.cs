@@ -1,4 +1,4 @@
-namespace TddXt.NScan.Domain.SharedKernel
+namespace TddXt.NScan.Lib
 {
   public static class FormattingExtensions
   {

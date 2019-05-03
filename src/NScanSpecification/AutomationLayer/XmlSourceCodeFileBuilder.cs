@@ -3,7 +3,6 @@ using System.Linq;
 using AtmaFileSystem;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.ReadingSolution.Ports;
-using TddXt.NScan.Specification.EndToEnd.AutomationLayer;
 using static TddXt.AnyRoot.Root;
 
 namespace TddXt.NScan.Specification.AutomationLayer

@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TddXt.AnyRoot.Strings;
-using TddXt.NScan.Specification.AutomationLayer;
+﻿using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Specification.Component.AutomationLayer;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 using static TddXt.NScan.Specification.AutomationLayer.HasAttributesOnMessage;
 using static TddXt.NScan.Specification.AutomationLayer.XmlSourceCodeFileBuilder;
 using static TddXt.NScan.Specification.Component.AutomationLayer.DependencyRuleBuilder;
-using static TddXt.NScan.Specification.EndToEnd.AutomationLayer.ClassDeclarationBuilder;
-using static TddXt.NScan.Specification.EndToEnd.AutomationLayer.MethodDeclarationBuilder;
+using static TddXt.NScan.Specification.AutomationLayer.ClassDeclarationBuilder;
+using static TddXt.NScan.Specification.AutomationLayer.MethodDeclarationBuilder;
 
 namespace TddXt.NScan.Specification.Component
 {

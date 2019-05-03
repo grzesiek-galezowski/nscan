@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TddXt.NScan.ReadingCSharpSourceCode;
 
-namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
+namespace TddXt.NScan.Specification.AutomationLayer
 {
   public class MethodDeclarationBuilder
   {

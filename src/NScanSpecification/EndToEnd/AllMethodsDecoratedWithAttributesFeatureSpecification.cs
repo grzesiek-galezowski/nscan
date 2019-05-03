@@ -6,8 +6,8 @@ using static TddXt.AnyRoot.Root;
 using static TddXt.NScan.Specification.AutomationLayer.ReportedMessage;
 using static TddXt.NScan.Specification.AutomationLayer.XmlSourceCodeFileBuilder;
 using static TddXt.NScan.Specification.Component.AutomationLayer.DependencyRuleBuilder;
-using static TddXt.NScan.Specification.EndToEnd.AutomationLayer.ClassDeclarationBuilder;
-using static TddXt.NScan.Specification.EndToEnd.AutomationLayer.MethodDeclarationBuilder;
+using static TddXt.NScan.Specification.AutomationLayer.ClassDeclarationBuilder;
+using static TddXt.NScan.Specification.AutomationLayer.MethodDeclarationBuilder;
 
 namespace TddXt.NScan.Specification.EndToEnd
 {
