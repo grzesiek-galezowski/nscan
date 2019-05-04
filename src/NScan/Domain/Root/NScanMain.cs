@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Sprache;
 using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.NotifyingSupport.Ports;
@@ -30,6 +32,8 @@ namespace TddXt.NScan.Domain.Root
       try
       {
         //SpinWait.SpinUntil(() => Debugger.IsAttached);
+
+        output.WriteVersion(Versioning.VersionOf(Assembly.GetExecutingAssembly()));
 
         var ruleDtos = ReadRules(inputArguments);
         LogRules(ruleDtos, support);

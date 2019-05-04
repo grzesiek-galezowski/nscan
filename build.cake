@@ -33,7 +33,8 @@ var defaultNugetPackSettings = new DotNetCorePackSettings
 {
 	IncludeSymbols = true,
 	Configuration = "Release",
-	OutputDirectory = "./nuget"
+	OutputDirectory = "./nuget",
+	ArgumentCustomization = args=>args.Append("--include-symbols -p:SymbolPackageFormat=snupkg")
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -116,12 +117,31 @@ Task("PackNScanConsole")
 		DotNetCorePack(srcNetStandardDir + File("NScan.Console"), defaultNugetPackSettings);
     });
 
-    Task("PackCakeNScan")
-    .IsDependentOn("BuildCakeNScan")
+Task("PackCakeNScan")
+	.IsDependentOn("BuildCakeNScan")
     .Does(() => 
     {
 		DotNetCorePack(srcNetStandardDir + File("Cake.NScan"), defaultNugetPackSettings);
     });
+
+Task("Push")
+    .IsDependentOn("Clean")
+    .IsDependentOn("PackNScan")
+    .IsDependentOn("PackNScanConsole")
+    .IsDependentOn("PackCakeNScan")
+	.Does(() =>
+	{
+	    var projectFiles = GetFiles("./nuget/*.nupkg");
+		foreach(var file in projectFiles)
+		{
+			DotNetCoreNuGetPush(file.FullPath, new DotNetCoreNuGetPushSettings
+			{
+				Source = "https://api.nuget.org/v3/index.json",
+			});
+
+		}
+
+	});
 
 //////////////////////////////////////////////////////////////////////
 // TASK TARGETS

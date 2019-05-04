@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>0.9.0</Version>
+    <Version>0.10.2</Version>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageId>NScan.Console</PackageId>
     <Authors>Grzegorz Galezowski</Authors>
@@ -26,7 +26,7 @@
     <RepositoryUrl>https://github.com/grzesiek-galezowski/nscan</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
     <PackageTags>static analysis, quality gate, dependency management</PackageTags>
-    <PackageReleaseNotes>Added ability to check for attributes on methods</PackageReleaseNotes>
+    <PackageReleaseNotes>Added printing version number on run</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
