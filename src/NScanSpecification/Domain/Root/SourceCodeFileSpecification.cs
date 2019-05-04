@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using AtmaFileSystem;
 using FluentAssertions;
@@ -11,41 +10,15 @@ using TddXt.NScan.Domain.NamespaceBasedRules;
 using TddXt.NScan.Domain.ProjectScopedRules;
 using TddXt.NScan.Domain.Root;
 using TddXt.NScan.Domain.SharedKernel;
-using TddXt.NScan.ReadingCSharpSourceCode;
 using TddXt.NScan.ReadingRules.Ports;
-using TddXt.NScan.ReadingSolution.Ports;
-using TddXt.NScan.Specification.EndToEnd.AutomationLayer;
 using TddXt.XNSubstitute.Root;
 using Xunit;
-using static AtmaFileSystem.AtmaFileSystemPaths;
 using static TddXt.AnyRoot.Root;
 
 namespace TddXt.NScan.Specification.Domain.Root
 {
   public class SourceCodeFileSpecification
   {
-    public class XmlSourceCodeFileBuilder
-    {
-
-      public XmlSourceCodeFile Build()
-      {
-        return new XmlSourceCodeFile(
-          RelativeFilePath(FileName), 
-          DeclaredNamespaces, 
-          ParentProjectRootNamespace, 
-          ParentProjectAssemblyName, 
-          Usings,
-          Classes);
-      }
-
-      public IReadOnlyList<ClassDeclarationInfo> Classes { get; set; } = Any.ReadOnlyList<ClassDeclarationInfo>();
-      public List<string> Usings { get; set; } = Any.List<string>();
-      public string ParentProjectAssemblyName { get; set; } = Any.Instance<string>();
-      public string ParentProjectRootNamespace { get; set; } = Any.Instance<string>();
-      public List<string> DeclaredNamespaces { get; set; } = Any.String().AsList();
-      public string FileName { get; set; } = Any.Instance<string>();
-    }
-
     [Fact]
     public void ShouldReportIncorrectNamespaceWhenIsInRootFolderAndItsOnlyNamespaceDoesNotMatchRootNamespace()
     {
@@ -155,8 +128,6 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldReportOkWhenIsInRootFolderAndItsOnlyNamespaceMatchesRootNamespace()
     {
       //GIVEN
-      var xmlSourceCodeFile = new XmlSourceCodeFileBuilder();
-      xmlSourceCodeFile.DeclaredNamespaces = xmlSourceCodeFile.ParentProjectRootNamespace.AsList();
       var fileBuilder = new SourceCodeFileBuilder();
       fileBuilder.DeclaredNamespaces = fileBuilder.ParentProjectRootNamespace.AsList();
       var file = fileBuilder.Build();
