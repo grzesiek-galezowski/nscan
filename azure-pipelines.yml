@@ -24,7 +24,7 @@ steps:
 - task: DotNetCoreInstaller@0
   inputs:
     #packageType: 'sdk' # Options: runtime, sdk
-    version: '2.2.101' 
+    version: '2.2.202' 
 
 - script: |
     powershell ./build.ps1
