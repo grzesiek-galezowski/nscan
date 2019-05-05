@@ -21,12 +21,6 @@ variables:
 
 steps:
 
-- task: DotNetCoreInstaller@0
-  inputs:
-    packageType: 'sdk'
-    version: '2.2' 
-  displayName: Install .NET Core 2.2
-
 - script: |
     powershell ./build.ps1
 
