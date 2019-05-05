@@ -1,5 +1,6 @@
 ﻿using System;
 using AtmaFileSystem;
+using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.NotifyingSupport.Ports;
 using TddXt.NScan.ReadingRules.Ports;
 
@@ -7,6 +8,8 @@ namespace TddXt.NScan.NotifyingSupport.Adapters
 {
   public class ConsoleSupport : INScanSupport
   {
+    private const string DiscoveredRule = "Discovered rule: ";
+
     public void Report(Exception exceptionFromResolution)
     {
       Console.WriteLine(exceptionFromResolution);
@@ -20,22 +23,22 @@ namespace TddXt.NScan.NotifyingSupport.Adapters
 
     public void Log(IndependentRuleComplementDto dto)
     {
-      Console.WriteLine($"Discovered rule: {dto.DependingPattern.Description()} {dto.RuleName} {dto.DependencyType}:{dto.DependencyPattern.Pattern}" + "");
+      Console.WriteLine($"{DiscoveredRule}{RuleFormats.Format(dto)}");
     }
 
     public void Log(CorrectNamespacesRuleComplementDto dto)
     {
-      Console.WriteLine($"Discovered rule: {dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName}");
+      Console.WriteLine($"{DiscoveredRule}{RuleFormats.Format(dto)}");
     }
 
     public void Log(NoCircularUsingsRuleComplementDto dto)
     {
-      Console.WriteLine($"Discovered rule: {dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName}");
+      Console.WriteLine($"{DiscoveredRule}{RuleFormats.Format(dto)}");
     }
 
     public void Log(HasAttributesOnRuleComplementDto dto)
     {
-      Console.WriteLine($"Discovered rule: {dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName} {dto.ClassNameInclusionPattern}:{dto.MethodNameInclusionPattern}");
+      Console.WriteLine($"{DiscoveredRule}{RuleFormats.Format(dto)}");
     }
   }
 }

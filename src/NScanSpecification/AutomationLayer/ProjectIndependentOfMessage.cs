@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Linq;
+using TddXt.NScan.Domain.SharedKernel;
+using TddXt.NScan.NotifyingSupport.Adapters;
+using TddXt.NScan.ReadingRules.Ports;
 
 namespace TddXt.NScan.Specification.AutomationLayer
 {
@@ -24,18 +27,21 @@ namespace TddXt.NScan.Specification.AutomationLayer
 
     public static ProjectIndependentOfMessage ProjectIndependentOfAssembly(string projectName, string packageName)
     {
+      //bug some rules have square brackets, some not. Adjust it!
       return new ProjectIndependentOfMessage(
-        $"[{projectName}] independentOf [assembly:{packageName}]: ");
+        RuleFormats.FormatIndependentRule($"{projectName}", RuleNames.IndependentOf, "assembly", $"{packageName}" + ": "));
     }
 
     public static ProjectIndependentOfMessage ProjectIndependentOfPackage(string projectName, string packageName)
     {
-      return new ProjectIndependentOfMessage($"[{projectName}] independentOf [package:{packageName}]: ");
+      return new ProjectIndependentOfMessage(
+        RuleFormats.FormatIndependentRule($"{projectName}", RuleNames.IndependentOf, "package", $"{packageName}" + ": "));
     }
 
     public static ProjectIndependentOfMessage ProjectIndependentOfProject(string assemblyNamePattern, string projectAssemblyNamePattern)
     {
-      return new ProjectIndependentOfMessage($"[{assemblyNamePattern}] independentOf [project:{projectAssemblyNamePattern}]: ");
+      return new ProjectIndependentOfMessage(
+        RuleFormats.FormatIndependentRule($"{assemblyNamePattern}", RuleNames.IndependentOf, "project", $"{projectAssemblyNamePattern}" + ": "));
     }
   }
 }

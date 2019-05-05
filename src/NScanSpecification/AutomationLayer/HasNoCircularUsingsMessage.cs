@@ -1,6 +1,8 @@
 ﻿using System;
 using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.Lib;
+using TddXt.NScan.NotifyingSupport.Adapters;
+using TddXt.NScan.ReadingRules.Ports;
 
 namespace TddXt.NScan.Specification.AutomationLayer
 {
@@ -35,7 +37,7 @@ namespace TddXt.NScan.Specification.AutomationLayer
 
     public static HasNoCircularUsingsMessage HasNoCircularUsings(string projectGlob)
     {
-      return new HasNoCircularUsingsMessage($"{projectGlob} hasNoCircularUsings: ");
+      return new HasNoCircularUsingsMessage(RuleFormats.FormatNoCircularUsingsRule(projectGlob, RuleNames.HasNoCircularUsings) + ": ");
     }
   }
 }

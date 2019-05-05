@@ -1,4 +1,7 @@
 ﻿using System;
+using TddXt.NScan.Domain.SharedKernel;
+using TddXt.NScan.NotifyingSupport.Adapters;
+using TddXt.NScan.ReadingRules.Ports;
 
 namespace TddXt.NScan.Specification.AutomationLayer
 {
@@ -21,7 +24,7 @@ namespace TddXt.NScan.Specification.AutomationLayer
 
     public HasCorrectNamespacesMessage ButHasMultipleNamespaces(string fileName, params string[] namespaces)
     {
-      return NewInstance(ToString() + $" but the file {fileName} declares multiple namespaces: {String.Join(", ", namespaces)}");
+      return NewInstance(ToString() + $" but the file {fileName} declares multiple namespaces: {string.Join(", ", namespaces)}");
     }
 
 
@@ -37,7 +40,7 @@ namespace TddXt.NScan.Specification.AutomationLayer
 
     public static HasCorrectNamespacesMessage HasCorrectNamespaces(string projectGlob)
     {
-      return new HasCorrectNamespacesMessage($"{projectGlob} hasCorrectNamespaces: ");
+      return new HasCorrectNamespacesMessage(RuleFormats.FormatCorrectNamespacesRule(projectGlob, RuleNames.HasCorrectNamespaces) + ": ");
     }
   }
 }

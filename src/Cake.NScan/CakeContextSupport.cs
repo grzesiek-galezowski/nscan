@@ -1,6 +1,8 @@
 ﻿using System;
 using AtmaFileSystem;
 using Cake.Core.Diagnostics;
+using TddXt.NScan.Domain.SharedKernel;
+using TddXt.NScan.NotifyingSupport.Adapters;
 using TddXt.NScan.NotifyingSupport.Ports;
 using TddXt.NScan.ReadingRules;
 using TddXt.NScan.ReadingRules.Ports;
@@ -30,23 +32,23 @@ namespace Cake.NScan
 
     public void Log(IndependentRuleComplementDto dto)
     {
-      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {dto.DependingPattern.Description()} {dto.RuleName} {dto.DependencyType}:{dto.DependencyPattern.Pattern}" + "");
+      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {RuleFormats.Format(dto)}");
     }
 
     public void Log(CorrectNamespacesRuleComplementDto dto)
     {
-      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName}");
+      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {RuleFormats.Format(dto)}");
     }
 
     public void Log(NoCircularUsingsRuleComplementDto dto)
     {
-      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName}");
+      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {RuleFormats.Format(dto)}");
     }
 
     public void Log(HasAttributesOnRuleComplementDto dto)
     {
       //bug there's duplication in the output of these rules
-      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName} {dto.ClassNameInclusionPattern}:{dto.MethodNameInclusionPattern}");
+      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {RuleFormats.Format(dto)}");
     }
   }
 }
