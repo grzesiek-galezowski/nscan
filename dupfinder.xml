@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DuplicatesReport ToolsVersion="191.0.20190501.124843">
+  <Statistics>
+    <CodebaseCost>39361</CodebaseCost>
+    <TotalDuplicatesCost>107</TotalDuplicatesCost>
+    <TotalFragmentsCost>214</TotalFragmentsCost>
+  </Statistics>
+  <Duplicates>
+    <Duplicate Cost="107">
+      <Fragment>
+        <FileName>src\NScan\Domain\SharedKernel\AssemblyReference.cs</FileName>
+        <OffsetRange Start="683" End="941"></OffsetRange>
+        <LineRange Start="24" End="30"></LineRange>
+        <Text>public override bool Equals(object obj)
+    {
+      if (ReferenceEquals(null, obj)) return false;
+      if (ReferenceEquals(this, obj)) return true;
+      if (obj.GetType() != GetType()) return false;
+      return Equals((AssemblyReference) obj);
+    }</Text>
+      </Fragment>
+      <Fragment>
+        <FileName>src\NScan\Domain\SharedKernel\PackageReference.cs</FileName>
+        <OffsetRange Start="603" End="860"></OffsetRange>
+        <LineRange Start="24" End="30"></LineRange>
+        <Text>public override bool Equals(object obj)
+    {
+      if (ReferenceEquals(null, obj)) return false;
+      if (ReferenceEquals(this, obj)) return true;
+      if (obj.GetType() != GetType()) return false;
+      return Equals((PackageReference) obj);
+    }</Text>
+      </Fragment>
+    </Duplicate>
+  </Duplicates>
+</DuplicatesReport>

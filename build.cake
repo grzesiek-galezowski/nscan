@@ -1,4 +1,5 @@
 #addin nuget:?package=Cake.NScan&loaddependencies=true
+#tool "nuget:?package=JetBrains.ReSharper.CommandLineTools"
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -52,6 +53,20 @@ Task("Clean")
 Task("RunPreviousNScan").Does(() =>
 {
   NScanAnalyze(slnNetStandard, @".\nscan.config");
+});
+
+Task("DupFinder")
+    .Description("Find duplicates in the code")
+    .Does(() =>
+{
+    var settings = new DupFinderSettings() {
+        ShowStats = true,
+        ShowText = true,
+        OutputFile = $"dupfinder.xml",
+        ThrowExceptionOnFindingDuplicates = true,
+		ExcludePattern = new string[] { "**/*Specification/**/*Specification.cs" }
+    };
+    DupFinder(slnNetStandard, settings);
 });
 
 Task("BuildNScan")

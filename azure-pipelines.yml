@@ -20,6 +20,13 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+
+- task: DotNetCoreInstaller@0
+  inputs:
+    packageType: 'sdk'
+    version: '3.0.100-preview3-010431' 
+  displayName: Install .NET Core 3
+
 - script: |
     powershell ./build.ps1
 
