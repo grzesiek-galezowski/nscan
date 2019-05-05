@@ -8,7 +8,6 @@ using Buildalyzer;
 using Functional.Maybe;
 using Functional.Maybe.Just;
 using TddXt.NScan.NotifyingSupport.Ports;
-using TddXt.NScan.ReadingCSharpSourceCode;
 using TddXt.NScan.ReadingSolution.Lib;
 using TddXt.NScan.ReadingSolution.Ports;
 using static AtmaFileSystem.AtmaFileSystemPaths;
@@ -24,6 +23,24 @@ namespace TddXt.NScan.ReadingSolution.Adapters
     {
       _projectFilePaths = projectFilePaths;
       _support = support;
+    }
+
+    public List<XmlProject> LoadXmlProjects()
+    {
+      var xmlProjects = _projectFilePaths.Select(LoadXmlProjectFromPath())
+        .Where(maybeProject => maybeProject.HasValue)
+        .Select(maybeProject => maybeProject.Value).ToList();
+      return xmlProjects;
+    }
+
+    public static ProjectPaths From(string solutionFilePath, INScanSupport consoleSupport)
+    {
+      var analyzerManager = new AnalyzerManager(solutionFilePath);
+      var projectFilePaths = analyzerManager.Projects
+        .Select(p => p.Value.ProjectFile.Path)
+        .Select(AbsoluteFilePath).ToList();
+      var paths = new ProjectPaths(projectFilePaths, consoleSupport);
+      return paths;
     }
 
     private static XmlProject DeserializeProjectFile(AbsoluteFilePath projectFilePath)
@@ -45,22 +62,13 @@ namespace TddXt.NScan.ReadingSolution.Adapters
       xmlProjectData.NormalizeProjectDependencyPaths(projectFilePath);
       xmlProjectData.NormalizeProjectAssemblyName();
       xmlProjectData.NormalizeProjectRootNamespace();
-      LoadFilesInto(xmlProjectData);
+      SourceCodeFilePaths.LoadFilesInto(xmlProjectData);
       return xmlProjectData.ToXmlProject();
     }
 
     private static XmlProjectDataAccess DeserializeProjectData(AbsoluteFilePath projectFilePath)
     {
       return new XmlProjectDataAccess(DeserializeProjectFile(projectFilePath));
-    }
-
-
-    public List<XmlProject> LoadXmlProjects()
-    {
-      var xmlProjects = _projectFilePaths.Select(LoadXmlProjectFromPath())
-        .Where(maybeProject => maybeProject.HasValue)
-        .Select(maybeProject => maybeProject.Value).ToList();
-      return xmlProjects;
     }
 
     private Func<AbsoluteFilePath, Maybe<XmlProject>> LoadXmlProjectFromPath()
@@ -77,65 +85,6 @@ namespace TddXt.NScan.ReadingSolution.Adapters
           return Maybe<XmlProject>.Nothing;
         }
       };
-    }
-
-    public static ProjectPaths From(string solutionFilePath, INScanSupport consoleSupport)
-    {
-      var analyzerManager = new AnalyzerManager(solutionFilePath);
-      var projectFilePaths = analyzerManager.Projects
-        .Select(p => p.Value.ProjectFile.Path)
-        .Select(AbsoluteFilePath).ToList();
-      var paths = new ProjectPaths(projectFilePaths, consoleSupport);
-      return paths;
-    }
-
-    private static void LoadFilesInto(XmlProjectDataAccess projectAccess)
-    {
-      var projectDirectory = projectAccess.GetParentDirectoryName();
-
-      var syntaxTrees = SourceCodeFilesIn(projectDirectory).Select(CSharpFileSyntaxTree.ParseFile).ToArray();
-
-      var classDeclarationSignatures
-        = CSharpFileSyntaxTree.GetClassDeclarationSignaturesFromFiles(syntaxTrees);
-
-      foreach (var dotNetProject 
-        in syntaxTrees.Select(tree => CreateXmlSourceCodeFile(projectAccess, projectDirectory, tree, classDeclarationSignatures)))
-      {
-        projectAccess.AddFile(dotNetProject);
-      }
-    }
-
-    private static XmlSourceCodeFile CreateXmlSourceCodeFile(
-      XmlProjectDataAccess projectAccess, 
-      AbsoluteDirectoryPath projectDirectory, 
-      CSharpFileSyntaxTree syntaxTree, 
-      Dictionary<string, ClassDeclarationInfo> classDeclarationSignatures)
-    {
-      return new XmlSourceCodeFile(
-        RelativeFilePath(GetPathRelativeTo(projectDirectory, syntaxTree.FilePath)), 
-        syntaxTree.GetAllUniqueNamespaces().ToList(), 
-        projectAccess.RootNamespace(), 
-        projectAccess.DetermineAssemblyName(), 
-        syntaxTree.GetAllUsingsFrom(classDeclarationSignatures),
-        classDeclarationSignatures.Values.ToList());
-    }
-
-    private static IEnumerable<AbsoluteFilePath> SourceCodeFilesIn(AbsoluteDirectoryPath projectDirectory)
-    {
-      return Directory.EnumerateFiles(
-          projectDirectory.ToString(), "*.cs", SearchOption.AllDirectories)
-        .Select(f => AbsoluteFilePath(f))
-        .Where(IsNotInDirectory(projectDirectory, "obj"));
-    }
-
-    private static Func<AbsoluteFilePath, bool> IsNotInDirectory(AbsoluteDirectoryPath projectDirectory, string dirName)
-    {
-      return f => !GetPathRelativeTo(projectDirectory, f).StartsWith(dirName + Path.DirectorySeparatorChar);
-    }
-
-    private static string GetPathRelativeTo(AbsoluteDirectoryPath projectDirectory, AbsoluteFilePath file)
-    {
-      return file.ToString() /* bug */.Replace(projectDirectory.ToString() /* bug */ + Path.DirectorySeparatorChar, "");
     }
   }
 }
