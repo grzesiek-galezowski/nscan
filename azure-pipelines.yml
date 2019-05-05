@@ -22,8 +22,9 @@ variables:
 steps:
 
 - task: DotNetCoreInstaller@0
-    inputs:
-      version: '2.2.101'
+  inputs:
+    #packageType: 'sdk' # Options: runtime, sdk
+    version: '2.2.101' 
 
 - script: |
     powershell ./build.ps1
