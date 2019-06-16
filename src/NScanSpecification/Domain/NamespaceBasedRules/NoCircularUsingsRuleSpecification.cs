@@ -9,6 +9,7 @@ using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.ReadingRules.Ports;
 using TddXt.XNSubstitute.Root;
 using Xunit;
+using static TddXt.AnyRoot.Root;
 
 namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
 {
@@ -18,8 +19,8 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
     public void ShouldReturnDescriptionBasedOnDto()
     {
       //GIVEN
-      var dto = AnyRoot.Root.Any.Instance<NoCircularUsingsRuleComplementDto>();
-      var rule = new NoCircularUsingsRule(dto, AnyRoot.Root.Any.Instance<IRuleViolationFactory>());
+      var dto = Any.Instance<NoCircularUsingsRuleComplementDto>();
+      var rule = new NoCircularUsingsRule(dto, Any.Instance<IRuleViolationFactory>());
 
       //WHEN
       var description = rule.Description();
@@ -33,12 +34,12 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
     {
       //GIVEN
       var ruleViolationFactory = Substitute.For<IRuleViolationFactory>();
-      var rule = new NoCircularUsingsRule(AnyRoot.Root.Any.Instance<NoCircularUsingsRuleComplementDto>(), ruleViolationFactory);
+      var rule = new NoCircularUsingsRule(Any.Instance<NoCircularUsingsRuleComplementDto>(), ruleViolationFactory);
       var cache = Substitute.For<INamespacesDependenciesCache>();
       var report = Substitute.For<IAnalysisReportInProgress>();
-      var cycles = AnyRoot.Root.Any.ReadOnlyList<IReadOnlyList<string>>();
-      var violation = AnyRoot.Root.Any.Instance<RuleViolation>();
-      var projectAssemblyName = AnyRoot.Root.Any.String();
+      var cycles = Any.ReadOnlyList<IReadOnlyList<string>>();
+      var violation = Any.Instance<RuleViolation>();
+      var projectAssemblyName = Any.String();
 
       cache.RetrieveCycles().Returns(cycles);
       ruleViolationFactory.NoCyclesRuleViolation(rule.Description(), projectAssemblyName, cycles).Returns(violation);
@@ -54,14 +55,14 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
     public void ShouldNotReportErrorWhenNamespacesCacheContainsNoCycles()
     {
       //GIVEN
-      var rule = new NoCircularUsingsRule(AnyRoot.Root.Any.Instance<NoCircularUsingsRuleComplementDto>(), AnyRoot.Root.Any.Instance<INamespaceBasedRuleViolationFactory>());
+      var rule = new NoCircularUsingsRule(Any.Instance<NoCircularUsingsRuleComplementDto>(), Any.Instance<INamespaceBasedRuleViolationFactory>());
       var cache = Substitute.For<INamespacesDependenciesCache>();
       var report = Substitute.For<IAnalysisReportInProgress>();
 
       cache.RetrieveCycles().Returns(EmptyList());
 
       //WHEN
-      rule.Evaluate(AnyRoot.Root.Any.String(), cache, report);
+      rule.Evaluate(Any.String(), cache, report);
 
       //THEN
       report.ReceivedNothing();
