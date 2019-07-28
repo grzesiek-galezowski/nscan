@@ -25,17 +25,13 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
         .Parse($"{depending} {RuleNames.IndependentOf} {dependencyType}:{dependency}{Environment.NewLine}");
 
       //THEN
-      ruleUnionDto.Match(independentRule =>
-        {
-          independentRule.DependingPattern.Should().Be(Pattern.WithoutExclusion(depending));
-          independentRule.DependencyType.Should().Be(dependencyType);
-          independentRule.DependencyPattern.Pattern.Should().Be(dependency);
-          independentRule.RuleName.Should().Be(RuleNames.IndependentOf);
-        },
-        FailWhen<CorrectNamespacesRuleComplementDto>(),
-        FailWhen<NoCircularUsingsRuleComplementDto>(),
-        FailWhen<HasAttributesOnRuleComplementDto>(),
-        FailWhen<HasTargetFrameworkRuleComplementDto>());
+      ruleUnionDto.Accept(new IndependentRuleComplementDtoAssertion(independentRule =>
+      {
+        independentRule.DependingPattern.Should().Be(Pattern.WithoutExclusion(depending));
+        independentRule.DependencyType.Should().Be(dependencyType);
+        independentRule.DependencyPattern.Pattern.Should().Be(dependency);
+        independentRule.RuleName.Should().Be(RuleNames.IndependentOf);
+      }));
       ruleUnionDto.RuleName.Should().Be(RuleNames.IndependentOf);
     }
 
@@ -54,18 +50,13 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
           $"{depending} except {dependingException} {RuleNames.IndependentOf} {dependencyType}:{dependency}{Environment.NewLine}");
 
       //THEN
-      ruleUnionDto.Match(independentRule =>
+      ruleUnionDto.Accept(new IndependentRuleComplementDtoAssertion(independentRule =>
         {
           independentRule.DependingPattern.Should().Be(Pattern.WithExclusion(depending, dependingException));
           independentRule.DependencyType.Should().Be(dependencyType);
           independentRule.DependencyPattern.Pattern.Should().Be(dependency);
           independentRule.RuleName.Should().Be(RuleNames.IndependentOf);
-        },
-        FailWhen<CorrectNamespacesRuleComplementDto>(),
-        FailWhen<NoCircularUsingsRuleComplementDto>(),
-        FailWhen<HasAttributesOnRuleComplementDto>(),
-        FailWhen<HasTargetFrameworkRuleComplementDto>()
-      );
+        }));
       ruleUnionDto.RuleName.Should().Be(RuleNames.IndependentOf);
     }
 
@@ -82,18 +73,13 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
         .Parse($"{depending}  {RuleNames.IndependentOf}  {dependencyType}:{dependency}{Environment.NewLine}");
 
       //THEN
-      ruleUnionDto.Match(independentRule =>
-        {
-          independentRule.DependingPattern.Should().Be(Pattern.WithoutExclusion(depending));
-          independentRule.DependencyType.Should().Be(dependencyType);
-          independentRule.DependencyPattern.Pattern.Should().Be(dependency);
-          independentRule.RuleName.Should().Be(RuleNames.IndependentOf);
-        },
-        FailWhen<CorrectNamespacesRuleComplementDto>(),
-        FailWhen<NoCircularUsingsRuleComplementDto>(),
-        FailWhen<HasAttributesOnRuleComplementDto>(),
-        FailWhen<HasTargetFrameworkRuleComplementDto>()
-      );
+      ruleUnionDto.Accept(new IndependentRuleComplementDtoAssertion(independentRule =>
+      {
+        independentRule.DependingPattern.Should().Be(Pattern.WithoutExclusion(depending));
+        independentRule.DependencyType.Should().Be(dependencyType);
+        independentRule.DependencyPattern.Pattern.Should().Be(dependency);
+        independentRule.RuleName.Should().Be(RuleNames.IndependentOf);
+      }));
       ruleUnionDto.RuleName.Should().Be(RuleNames.IndependentOf);
     }
 
@@ -108,17 +94,11 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
 
       //THEN
 
-      ruleUnionDto.Match(
-        FailWhen<IndependentRuleComplementDto>(),
-        dto =>
-        {
-          dto.RuleName.Should().Be(RuleNames.HasCorrectNamespaces);
-          dto.ProjectAssemblyNamePattern.Should().Be(Pattern.WithoutExclusion(depending));
-        },
-        FailWhen<NoCircularUsingsRuleComplementDto>(),
-        FailWhen<HasAttributesOnRuleComplementDto>(),
-        FailWhen<HasTargetFrameworkRuleComplementDto>()
-      );
+      ruleUnionDto.Accept(new CorrectNamespacesRuleComplementDtoAssertion(dto =>
+      {
+        dto.RuleName.Should().Be(RuleNames.HasCorrectNamespaces);
+        dto.ProjectAssemblyNamePattern.Should().Be(Pattern.WithoutExclusion(depending));
+      }));
       ruleUnionDto.RuleName.Should().Be(RuleNames.HasCorrectNamespaces);
     }
 
@@ -132,17 +112,11 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
       var ruleUnionDto = ParseRule.FromLine().Parse($"{depending} {RuleNames.HasNoCircularUsings}");
 
       //THEN
-      ruleUnionDto.Match(
-        FailWhen<IndependentRuleComplementDto>(),
-        FailWhen<CorrectNamespacesRuleComplementDto>(),
-        dto =>
-        {
-          dto.RuleName.Should().Be(RuleNames.HasNoCircularUsings);
-          dto.ProjectAssemblyNamePattern.Should().Be(Pattern.WithoutExclusion(depending));
-        },
-        FailWhen<HasAttributesOnRuleComplementDto>(),
-        FailWhen<HasTargetFrameworkRuleComplementDto>()
-      );
+      ruleUnionDto.Accept(new NoCircularUsingsRuleComplementDtoAssertion(dto =>
+      {
+        dto.RuleName.Should().Be(RuleNames.HasNoCircularUsings);
+        dto.ProjectAssemblyNamePattern.Should().Be(Pattern.WithoutExclusion(depending));
+      }));
       ruleUnionDto.RuleName.Should().Be(RuleNames.HasNoCircularUsings);
     }
 
@@ -161,17 +135,11 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
       //THEN
       ruleUnionDtos.Count.Should().Be(2);
       var ruleUnionDto = ruleUnionDtos.First();
-      ruleUnionDto.Match(
-        FailWhen<IndependentRuleComplementDto>(),
-        FailWhen<CorrectNamespacesRuleComplementDto>(),
-        dto =>
-        {
-          dto.RuleName.Should().Be(RuleNames.HasNoCircularUsings);
-          dto.ProjectAssemblyNamePattern.Should().Be(Pattern.WithoutExclusion(depending));
-        },
-        FailWhen<HasAttributesOnRuleComplementDto>(),
-        FailWhen<HasTargetFrameworkRuleComplementDto>()
-      );
+      ruleUnionDto.Accept(new NoCircularUsingsRuleComplementDtoAssertion(dto =>
+      {
+        dto.RuleName.Should().Be(RuleNames.HasNoCircularUsings);
+        dto.ProjectAssemblyNamePattern.Should().Be(Pattern.WithoutExclusion(depending));
+      }));
       ruleUnionDto.RuleName.Should().Be(RuleNames.HasNoCircularUsings);
     }
 
@@ -192,18 +160,13 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
       //THEN
       ruleUnionDtos.Count.Should().Be(2);
       var rule1Dto = ruleUnionDtos.First();
-      rule1Dto.Match(
-        FailWhen<IndependentRuleComplementDto>(),
-        FailWhen<CorrectNamespacesRuleComplementDto>(),
-        FailWhen<NoCircularUsingsRuleComplementDto>(),
-        dto =>
-        {
-          dto.RuleName.Should().Be(RuleNames.HasAttributesOn);
-          dto.ClassNameInclusionPattern.Description().Should().Be(classPattern);
-          dto.MethodNameInclusionPattern.Description().Should().Be(methodPattern);
-          dto.ProjectAssemblyNamePattern.Description().Should().Be(depending);
-        }
-      );
+      rule1Dto.Accept(new HasAttributesOnRuleComplementAssertion(dto =>
+      {
+        dto.RuleName.Should().Be(RuleNames.HasAttributesOn);
+        dto.ClassNameInclusionPattern.Description().Should().Be(classPattern);
+        dto.MethodNameInclusionPattern.Description().Should().Be(methodPattern);
+        dto.ProjectAssemblyNamePattern.Description().Should().Be(depending);
+      }));
       rule1Dto.RuleName.Should().Be(RuleNames.HasAttributesOn);
     }
 
@@ -223,26 +186,22 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
       //THEN
       ruleUnionDtos.Count.Should().Be(2);
       var rule1Dto = ruleUnionDtos.First();
-      rule1Dto.Match(
-        FailWhen<IndependentRuleComplementDto>(),
-        FailWhen<CorrectNamespacesRuleComplementDto>(),
-        FailWhen<NoCircularUsingsRuleComplementDto>(),
-        FailWhen<HasAttributesOnRuleComplementDto>(),
-        dto =>
-        {
-          dto.RuleName.Should().Be(RuleNames.HasTargetFramework);
-          dto.ProjectAssemblyNamePattern.Description().Should().Be(depending);
-          dto.TargetFramework.Should().Be(frameworkName);
-        }
-      );
+      rule1Dto.Accept(new HasTargetFrameworkAssertion(dto =>
+      {
+        dto.RuleName.Should().Be(RuleNames.HasTargetFramework);
+        dto.ProjectAssemblyNamePattern.Description().Should().Be(depending);
+        dto.TargetFramework.Should().Be(frameworkName);
+      }));
       rule1Dto.RuleName.Should().Be(RuleNames.HasTargetFramework);
     }
+  }
 
-    private static Action<T> FailWhen<T>()
+  public class FailWhenLambda //bug rename
+  {
+    public static Action<T> FailWhen<T>()
     {
       return dto => { Assert.False(true); };
     }
-
   }
 
 }
