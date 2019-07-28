@@ -10,7 +10,7 @@ namespace TddXt.NScan.Domain.Root
   public interface IRuleViolationFactory : INamespaceBasedRuleViolationFactory, IDependencyPathRuleViolationFactory, IProjectScopedRuleViolationFactory
   {}
 
-  public class RuleViolationFactory : IRuleViolationFactory
+  public class RuleViolationFactory : IRuleViolationFactory //bug split entirely into three types
   {
     private readonly IReportFragmentsFormat _reportFragmentsFormat;
 

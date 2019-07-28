@@ -30,6 +30,7 @@ namespace TddXt.NScan.ReadingRules.Adapters
         .Or(HasCorrectNamespacesRuleComplement(dependingPattern))
         .Or(HasNoCircularUsingsRuleComplement(dependingPattern))
         .Or(HasAttributesOn(dependingPattern))
+        .Or(HasTargetFramework(dependingPattern))
         ;
     }
 
@@ -75,6 +76,16 @@ namespace TddXt.NScan.ReadingRules.Adapters
               dependingPattern, 
               Pattern.WithoutExclusion(classPattern),
               Pattern.WithoutExclusion(methodPattern))));
+    }
+
+    private static Parser<RuleUnionDto> HasTargetFramework(Pattern dependingPattern)
+    {
+      return Parse.String(RuleNames.HasTargetFramework)
+        .Then(_ =>
+          from targetFramework in TextUntilEol
+          select RuleUnionDto.With(
+            new HasTargetFrameworkRuleComplementDto(
+              dependingPattern, targetFramework)));
     }
 
 

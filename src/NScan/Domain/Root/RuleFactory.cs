@@ -63,7 +63,7 @@ namespace TddXt.NScan.Domain.Root
 
     public IProjectScopedRule CreateProjectScopedRuleFrom(HasTargetFrameworkRuleComplementDto ruleDto)
     {
-      throw new System.NotImplementedException();
+      return new HasTargetFrameworkRule(ruleDto.ProjectAssemblyNamePattern, ruleDto.TargetFramework);
     }
 
     private static string CorrectNamespacesRuleDescription(CorrectNamespacesRuleComplementDto ruleDto)

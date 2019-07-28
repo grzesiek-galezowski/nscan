@@ -129,6 +129,20 @@ namespace TddXt.NScan.Specification.Domain.Root
       projectScopedRule.Should().DependOn(ruleDto.MethodNameInclusionPattern);
     }
 
-    //bug continue from here!
+    [Fact]
+    public void ShouldCreateHasTargetFrameworkRuleFromDto()
+    {
+      //GIVEN
+      var ruleFactory = new RuleFactory();
+      var ruleDto = Any.Instance<HasTargetFrameworkRuleComplementDto>();
+
+      //WHEN
+      var projectScopedRule = ruleFactory.CreateProjectScopedRuleFrom(ruleDto);
+
+      //THEN
+      projectScopedRule.Should().BeOfType<HasTargetFrameworkRule>();
+      projectScopedRule.Should().DependOn(ruleDto.ProjectAssemblyNamePattern);
+      projectScopedRule.Should().DependOn(ruleDto.TargetFramework);
+    }
   }
 }

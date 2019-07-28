@@ -34,7 +34,8 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
         },
         FailWhen<CorrectNamespacesRuleComplementDto>(),
         FailWhen<NoCircularUsingsRuleComplementDto>(),
-        FailWhen<HasAttributesOnRuleComplementDto>());
+        FailWhen<HasAttributesOnRuleComplementDto>(),
+        FailWhen<HasTargetFrameworkRuleComplementDto>());
       ruleUnionDto.RuleName.Should().Be(RuleNames.IndependentOf);
     }
 
@@ -62,7 +63,8 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
         },
         FailWhen<CorrectNamespacesRuleComplementDto>(),
         FailWhen<NoCircularUsingsRuleComplementDto>(),
-        FailWhen<HasAttributesOnRuleComplementDto>()
+        FailWhen<HasAttributesOnRuleComplementDto>(),
+        FailWhen<HasTargetFrameworkRuleComplementDto>()
       );
       ruleUnionDto.RuleName.Should().Be(RuleNames.IndependentOf);
     }
@@ -89,7 +91,8 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
         },
         FailWhen<CorrectNamespacesRuleComplementDto>(),
         FailWhen<NoCircularUsingsRuleComplementDto>(),
-        FailWhen<HasAttributesOnRuleComplementDto>()
+        FailWhen<HasAttributesOnRuleComplementDto>(),
+        FailWhen<HasTargetFrameworkRuleComplementDto>()
       );
       ruleUnionDto.RuleName.Should().Be(RuleNames.IndependentOf);
     }
@@ -113,7 +116,8 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
           dto.ProjectAssemblyNamePattern.Should().Be(Pattern.WithoutExclusion(depending));
         },
         FailWhen<NoCircularUsingsRuleComplementDto>(),
-        FailWhen<HasAttributesOnRuleComplementDto>()
+        FailWhen<HasAttributesOnRuleComplementDto>(),
+        FailWhen<HasTargetFrameworkRuleComplementDto>()
       );
       ruleUnionDto.RuleName.Should().Be(RuleNames.HasCorrectNamespaces);
     }
@@ -136,7 +140,8 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
           dto.RuleName.Should().Be(RuleNames.HasNoCircularUsings);
           dto.ProjectAssemblyNamePattern.Should().Be(Pattern.WithoutExclusion(depending));
         },
-        FailWhen<HasAttributesOnRuleComplementDto>()
+        FailWhen<HasAttributesOnRuleComplementDto>(),
+        FailWhen<HasTargetFrameworkRuleComplementDto>()
       );
       ruleUnionDto.RuleName.Should().Be(RuleNames.HasNoCircularUsings);
     }
@@ -164,7 +169,8 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
           dto.RuleName.Should().Be(RuleNames.HasNoCircularUsings);
           dto.ProjectAssemblyNamePattern.Should().Be(Pattern.WithoutExclusion(depending));
         },
-        FailWhen<HasAttributesOnRuleComplementDto>()
+        FailWhen<HasAttributesOnRuleComplementDto>(),
+        FailWhen<HasTargetFrameworkRuleComplementDto>()
       );
       ruleUnionDto.RuleName.Should().Be(RuleNames.HasNoCircularUsings);
     }
@@ -199,6 +205,37 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
         }
       );
       rule1Dto.RuleName.Should().Be(RuleNames.HasAttributesOn);
+    }
+
+    [Fact]
+    public void ShouldParseHasTargetFrameworkDefinitionMultipleTimes()
+    {
+      //GIVEN
+      var depending = Any.String();
+      var frameworkName = Any.String();
+
+      //WHEN
+      var ruleUnionDtos = ParseRule.FromLine().Many().Parse(
+        $"{depending} {RuleNames.HasTargetFramework} {frameworkName}{Environment.NewLine}" +
+        $"{depending} {RuleNames.HasTargetFramework} {frameworkName}{Environment.NewLine}"
+      ).ToList();
+
+      //THEN
+      ruleUnionDtos.Count.Should().Be(2);
+      var rule1Dto = ruleUnionDtos.First();
+      rule1Dto.Match(
+        FailWhen<IndependentRuleComplementDto>(),
+        FailWhen<CorrectNamespacesRuleComplementDto>(),
+        FailWhen<NoCircularUsingsRuleComplementDto>(),
+        FailWhen<HasAttributesOnRuleComplementDto>(),
+        dto =>
+        {
+          dto.RuleName.Should().Be(RuleNames.HasTargetFramework);
+          dto.ProjectAssemblyNamePattern.Description().Should().Be(depending);
+          dto.TargetFramework.Should().Be(frameworkName);
+        }
+      );
+      rule1Dto.RuleName.Should().Be(RuleNames.HasTargetFramework);
     }
 
     private static Action<T> FailWhen<T>()

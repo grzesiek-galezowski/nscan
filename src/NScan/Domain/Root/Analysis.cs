@@ -4,6 +4,7 @@ using TddXt.NScan.Domain.DependencyPathBasedRules;
 using TddXt.NScan.Domain.NamespaceBasedRules;
 using TddXt.NScan.Domain.ProjectScopedRules;
 using TddXt.NScan.Domain.SharedKernel;
+using TddXt.NScan.Lib;
 using TddXt.NScan.NotifyingSupport.Ports;
 using TddXt.NScan.ReadingRules.Ports;
 using TddXt.NScan.ReadingSolution.Lib;
@@ -11,6 +12,67 @@ using TddXt.NScan.ReadingSolution.Ports;
 
 namespace TddXt.NScan.Domain.Root
 {
+
+  public interface IRuleDtoVisitor : IUnion5Visitor<
+    IndependentRuleComplementDto,
+    CorrectNamespacesRuleComplementDto,
+    NoCircularUsingsRuleComplementDto,
+    HasAttributesOnRuleComplementDto,
+    HasTargetFrameworkRuleComplementDto
+  >
+  {
+  }
+
+  public class CreateRuleMappingVisitor : IRuleDtoVisitor
+  {
+    private readonly IRuleFactory _ruleFactory;
+    private readonly INamespacesBasedRuleSet _namespacesBasedRuleSet;
+    private readonly IProjectScopedRuleSet _projectScopedRules;
+    private readonly IPathRuleSet _pathRules;
+
+    public CreateRuleMappingVisitor(
+      IRuleFactory ruleFactory, 
+      INamespacesBasedRuleSet namespacesBasedRuleSet, 
+      IProjectScopedRuleSet projectScopedRules, 
+      IPathRuleSet pathRules)
+    {
+      _ruleFactory = ruleFactory;
+      _namespacesBasedRuleSet = namespacesBasedRuleSet;
+      _projectScopedRules = projectScopedRules;
+      _pathRules = pathRules;
+    }
+
+    public void Visit(HasTargetFrameworkRuleComplementDto arg)
+    {
+      var rule = _ruleFactory.CreateProjectScopedRuleFrom(arg);
+      _projectScopedRules.Add(rule);
+    }
+
+    public void Visit(HasAttributesOnRuleComplementDto dto)
+    {
+      var rule = _ruleFactory.CreateProjectScopedRuleFrom(dto);
+      _projectScopedRules.Add(rule);
+    }
+
+    public void Visit(NoCircularUsingsRuleComplementDto dto)
+    {
+      var rule = _ruleFactory.CreateNamespacesBasedRuleFrom(dto);
+      _namespacesBasedRuleSet.Add(rule);
+    }
+
+    public void Visit(CorrectNamespacesRuleComplementDto dto)
+    {
+      var rule = _ruleFactory.CreateProjectScopedRuleFrom(dto);
+      _projectScopedRules.Add(rule);
+    }
+
+    public void Visit(IndependentRuleComplementDto dto)
+    {
+      var rule = _ruleFactory.CreateDependencyRuleFrom(dto);
+      _pathRules.Add(rule);
+    }
+  }
+
   public class Analysis
   {
     public const int ReturnCodeOk = 0;
@@ -19,9 +81,9 @@ namespace TddXt.NScan.Domain.Root
     private readonly INamespacesBasedRuleSet _namespacesBasedRuleSet;
     private readonly IPathRuleSet _pathRules;
     private readonly IProjectScopedRuleSet _projectScopedRules;
-    private readonly IRuleFactory _ruleFactory;
 
     private readonly ISolution _solution;
+    private readonly IRuleDtoVisitor _createRuleMappingVisitor;
 
     public Analysis(ISolution solution,
       IPathRuleSet pathRules,
@@ -35,7 +97,7 @@ namespace TddXt.NScan.Domain.Root
       _projectScopedRules = projectScopedRules;
       _namespacesBasedRuleSet = namespacesBasedRuleSet;
       _analysisReportInProgress = analysisReportInProgress;
-      _ruleFactory = ruleFactory;
+      _createRuleMappingVisitor = new CreateRuleMappingVisitor(ruleFactory, namespacesBasedRuleSet, projectScopedRules, pathRules);
     }
 
     public string Report => _analysisReportInProgress.AsString();
@@ -70,45 +132,10 @@ namespace TddXt.NScan.Domain.Root
 
     public void AddRules(IEnumerable<RuleUnionDto> rules)
     {
-      foreach (var ruleDto in rules)
+      foreach (var ruleUnionDto in rules)
       {
-        ruleDto.Match(
-          CreateRule,
-          CreateRule, 
-          CreateRule,
-          CreateRule,
-          CreateRule);
+        ruleUnionDto.Accept(_createRuleMappingVisitor);
       }
-    }
-
-    private void CreateRule(HasTargetFrameworkRuleComplementDto arg)
-    {
-      var rule = _ruleFactory.CreateProjectScopedRuleFrom(arg);
-      _projectScopedRules.Add(rule);
-    }
-
-    private void CreateRule(HasAttributesOnRuleComplementDto dto)
-    {
-      var rule = _ruleFactory.CreateProjectScopedRuleFrom(dto);
-      _projectScopedRules.Add(rule);
-    }
-
-    private void CreateRule(NoCircularUsingsRuleComplementDto dto)
-    {
-      var rule = _ruleFactory.CreateNamespacesBasedRuleFrom(dto);
-      _namespacesBasedRuleSet.Add(rule);
-    }
-
-    private void CreateRule(CorrectNamespacesRuleComplementDto dto)
-    {
-      var rule = _ruleFactory.CreateProjectScopedRuleFrom(dto);
-      _projectScopedRules.Add(rule);
-    }
-
-    private void CreateRule(IndependentRuleComplementDto dto)
-    {
-      var rule = _ruleFactory.CreateDependencyRuleFrom(dto);
-      _pathRules.Add(rule);
     }
   }
 }

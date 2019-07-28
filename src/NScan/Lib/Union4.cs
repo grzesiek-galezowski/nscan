@@ -1,4 +1,5 @@
 ﻿using System;
+using TddXt.NScan.ReadingRules.Ports;
 
 namespace TddXt.NScan.Lib
 {
@@ -75,7 +76,7 @@ namespace TddXt.NScan.Lib
           throw new InvalidOperationException($"Unknown rule name {_value}");
       }
     }
-    
+
     public void Match(
       Action<T1> action1,
       Action<T2> action2,
@@ -129,5 +130,24 @@ namespace TddXt.NScan.Lib
       }
 
     }
+
+    public void Accept(IUnion5Visitor<T1, T2, T3, T4, T5> visitor)
+    {
+      Match(
+        visitor.Visit, 
+        visitor.Visit, 
+        visitor.Visit, 
+        visitor.Visit, 
+        visitor.Visit);
+    }
+  }
+
+  public interface IUnion5Visitor<in T1, in T2, in T3, in T4, in T5>
+  {
+    void Visit(T1 arg);
+    void Visit(T2 dto);
+    void Visit(T3 dto);
+    void Visit(T4 dto);
+    void Visit(T5 dto);
   }
 }

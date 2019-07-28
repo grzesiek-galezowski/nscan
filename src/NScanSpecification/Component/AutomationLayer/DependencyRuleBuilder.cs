@@ -41,6 +41,7 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
     private string? _dependencyType;
     private string? _classInclusionPattern;
     private string? _methodInclusionPattern;
+    private string? _targetFramework;
 
     public IProjectNameStated Project(string dependingAssemblyName)
     {
@@ -103,6 +104,7 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
     public IFullRuleConstructed HasTargetFramework(string targetFramework)
     {
       _ruleName = RuleNames.HasTargetFramework;
+      _targetFramework = targetFramework;
       return this;
     }
 
@@ -118,7 +120,8 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
         CorrectNamespaces(dependingPattern),
         NoCircularUsings(dependingPattern),
         HasAttributesOnMethods(dependingPattern),
-        () => RuleUnionDto.With(new HasTargetFrameworkRuleComplementDto(dependingPattern)));
+        () => RuleUnionDto.With(new HasTargetFrameworkRuleComplementDto(dependingPattern, 
+          _targetFramework ?? throw new ArgumentNullException(nameof(_targetFramework)))));
     }
 
     private Func<RuleUnionDto> HasAttributesOnMethods(Pattern dependingPattern)
