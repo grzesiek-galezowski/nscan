@@ -13,6 +13,7 @@ namespace TddXt.NScan.Specification.ReadingRules.Ports
       RuleNames.HasCorrectNamespaces.Should().Be("hasCorrectNamespaces");
       RuleNames.HasNoCircularUsings.Should().Be("hasNoCircularUsings");
       RuleNames.HasAttributesOn.Should().Be("hasAttributesOn");
+      RuleNames.HasTargetFramework.Should().Be("hasTargetFramework");
     }
   }
 

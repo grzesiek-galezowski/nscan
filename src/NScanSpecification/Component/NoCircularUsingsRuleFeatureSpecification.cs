@@ -17,7 +17,7 @@ namespace TddXt.NScan.Specification.Component
       context.HasProject("MyProject")
         .WithRootNamespace("MyProject")
         .With(FileWithNamespace("lol1.cs", "MyProject"));
-      context.Add(RuleRequiring().Project("*MyProject*").HasNoCircularUsings());
+      context.Add(RuleDemandingThat().Project("*MyProject*").HasNoCircularUsings());
 
       //WHEN
       context.PerformAnalysis();
@@ -36,7 +36,7 @@ namespace TddXt.NScan.Specification.Component
       context.HasProject("MyProject")
         .WithRootNamespace("MyProject")
         .With(FileWithNamespace("lol1.cs", "MyProject").Using("MyProject"));
-      context.Add(RuleRequiring().Project("*MyProject*").HasNoCircularUsings());
+      context.Add(RuleDemandingThat().Project("*MyProject*").HasNoCircularUsings());
 
       //WHEN
       context.PerformAnalysis();
@@ -55,7 +55,7 @@ namespace TddXt.NScan.Specification.Component
         .WithRootNamespace("MyProject")
         .With(FileWithNamespace("lol1.cs", "MyProject").Using("MyProject.Util"))
         .With(FileWithNamespace("lol2.cs", "MyProject.Util").Using("MyProject"));
-      context.Add(RuleRequiring().Project("*MyProject*").HasNoCircularUsings());
+      context.Add(RuleDemandingThat().Project("*MyProject*").HasNoCircularUsings());
 
       //WHEN
       context.PerformAnalysis();

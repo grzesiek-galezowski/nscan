@@ -1,6 +1,4 @@
-﻿using TddXt.NScan.Domain.SharedKernel;
-using TddXt.NScan.NotifyingSupport.Adapters;
-using TddXt.NScan.ReadingRules.Ports;
+﻿using TddXt.NScan.Specification.EndToEnd.AutomationLayer;
 using static System.Environment;
 
 namespace TddXt.NScan.Specification.AutomationLayer
@@ -28,7 +26,7 @@ namespace TddXt.NScan.Specification.AutomationLayer
       string methodNamesPattern)
     {
       return new HasAttributesOnMessage(
-        RuleFormats.FormatHasAttributesOnRule(projectName, RuleNames.HasAttributesOn, classNamePattern,methodNamesPattern) + ": ");
+        TestRuleFormats.FormatHasAttributesOnRule(projectName, classNamePattern,methodNamesPattern));
     }
   }
 }

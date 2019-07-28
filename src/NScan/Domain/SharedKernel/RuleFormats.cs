@@ -13,7 +13,7 @@ namespace TddXt.NScan.Domain.SharedKernel
         dto.MethodNameInclusionPattern.Description());
     }
 
-    public static string FormatHasAttributesOnRule(
+    private static string FormatHasAttributesOnRule(
       string projectAssemblyName, 
       string ruleName, 
       string classNameInclusionPattern, 
@@ -27,7 +27,7 @@ namespace TddXt.NScan.Domain.SharedKernel
       return FormatNoCircularUsingsRule(dto.ProjectAssemblyNamePattern.Description(), dto.RuleName);
     }
 
-    public static string FormatNoCircularUsingsRule(string projectAssemblyNamePattern, string ruleName)
+    private static string FormatNoCircularUsingsRule(string projectAssemblyNamePattern, string ruleName)
     {
       return $"{projectAssemblyNamePattern} {ruleName}";
     }
@@ -37,7 +37,7 @@ namespace TddXt.NScan.Domain.SharedKernel
       return FormatCorrectNamespacesRule(dto.ProjectAssemblyNamePattern.Description(), dto.RuleName);
     }
 
-    public static string FormatCorrectNamespacesRule(string projectAssemblyNamePattern, string ruleName)
+    private static string FormatCorrectNamespacesRule(string projectAssemblyNamePattern, string ruleName)
     {
       return $"{projectAssemblyNamePattern} {ruleName}";
     }

@@ -32,7 +32,7 @@ namespace TddXt.NScan.Specification.EndToEnd
             Method(matchingMethod1Name),
             Method(matchingMethod2Name))));
 
-      context.Add(RuleRequiring().Project(projectAssemblyNameInclusionPattern).ToHaveDecoratedMethods(classInclusionPattern, methodInclusionPattern));
+      context.Add(RuleDemandingThat().Project(projectAssemblyNameInclusionPattern).ToHaveDecoratedMethods(classInclusionPattern, methodInclusionPattern));
 
       //WHEN
       context.PerformAnalysis();

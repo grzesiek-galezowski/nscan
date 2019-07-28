@@ -76,8 +76,15 @@ namespace TddXt.NScan.Domain.Root
           CreateRule,
           CreateRule, 
           CreateRule,
+          CreateRule,
           CreateRule);
       }
+    }
+
+    private void CreateRule(HasTargetFrameworkRuleComplementDto arg)
+    {
+      var rule = _ruleFactory.CreateProjectScopedRuleFrom(arg);
+      _projectScopedRules.Add(rule);
     }
 
     private void CreateRule(HasAttributesOnRuleComplementDto dto)

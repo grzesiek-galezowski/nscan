@@ -1,7 +1,5 @@
 ﻿using System;
-using TddXt.NScan.Domain.SharedKernel;
-using TddXt.NScan.NotifyingSupport.Adapters;
-using TddXt.NScan.ReadingRules.Ports;
+using TddXt.NScan.Specification.EndToEnd.AutomationLayer;
 
 namespace TddXt.NScan.Specification.AutomationLayer
 {
@@ -40,7 +38,7 @@ namespace TddXt.NScan.Specification.AutomationLayer
 
     public static HasCorrectNamespacesMessage HasCorrectNamespaces(string projectGlob)
     {
-      return new HasCorrectNamespacesMessage(RuleFormats.FormatCorrectNamespacesRule(projectGlob, RuleNames.HasCorrectNamespaces) + ": ");
+      return new HasCorrectNamespacesMessage(TestRuleFormats.FormatCorrectNamespacesRule(projectGlob));
     }
   }
 }

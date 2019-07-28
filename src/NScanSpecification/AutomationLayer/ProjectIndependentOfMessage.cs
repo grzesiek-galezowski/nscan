@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
-using TddXt.NScan.Domain.SharedKernel;
-using TddXt.NScan.NotifyingSupport.Adapters;
-using TddXt.NScan.ReadingRules.Ports;
+using TddXt.NScan.Specification.EndToEnd.AutomationLayer;
 
 namespace TddXt.NScan.Specification.AutomationLayer
 {
@@ -16,7 +14,7 @@ namespace TddXt.NScan.Specification.AutomationLayer
     {
       return NewInstance(this
                          + Environment.NewLine +
-                         "Violating path: " + String.Join("->",
+                         "Violating path: " + string.Join("->",
                            path.Select(c => $"[{c}]")));
     }
 
@@ -29,19 +27,19 @@ namespace TddXt.NScan.Specification.AutomationLayer
     {
       //bug some rules have square brackets, some not. Adjust it!
       return new ProjectIndependentOfMessage(
-        RuleFormats.FormatIndependentRule($"{projectName}", RuleNames.IndependentOf, "assembly", $"{packageName}" + ": "));
+        TestRuleFormats.FormatIndependentRule($"{projectName}", "assembly", $"{packageName}"));
     }
 
     public static ProjectIndependentOfMessage ProjectIndependentOfPackage(string projectName, string packageName)
     {
       return new ProjectIndependentOfMessage(
-        RuleFormats.FormatIndependentRule($"{projectName}", RuleNames.IndependentOf, "package", $"{packageName}" + ": "));
+        TestRuleFormats.FormatIndependentRule($"{projectName}", "package", $"{packageName}"));
     }
 
     public static ProjectIndependentOfMessage ProjectIndependentOfProject(string assemblyNamePattern, string projectAssemblyNamePattern)
     {
       return new ProjectIndependentOfMessage(
-        RuleFormats.FormatIndependentRule($"{assemblyNamePattern}", RuleNames.IndependentOf, "project", $"{projectAssemblyNamePattern}" + ": "));
+        TestRuleFormats.FormatIndependentRule($"{assemblyNamePattern}", "project", $"{projectAssemblyNamePattern}"));
     }
   }
 }

@@ -128,5 +128,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       projectScopedRule.Should().DependOn(ruleDto.ClassNameInclusionPattern);
       projectScopedRule.Should().DependOn(ruleDto.MethodNameInclusionPattern);
     }
+
+    //bug continue from here!
   }
 }

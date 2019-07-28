@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using TddXt.AnyRoot.Strings;
-using TddXt.NScan.Specification.AutomationLayer;
 using TddXt.NScan.Specification.Component.AutomationLayer;
 using Xunit;
 using static TddXt.AnyRoot.Root;
+using static TddXt.NScan.Specification.AutomationLayer.ProjectIndependentOfMessage;
 using static TddXt.NScan.Specification.Component.AutomationLayer.DependencyRuleBuilder;
 
 namespace TddXt.NScan.Specification.Component
@@ -20,14 +20,14 @@ namespace TddXt.NScan.Specification.Component
       var context = new NScanDriver();
       context.HasProject(projectName);
 
-      context.Add(RuleRequiring().Project(projectName).IndependentOfAssembly(assemblyName));
+      context.Add(RuleDemandingThat().Project(projectName).IndependentOfAssembly(assemblyName));
 
       //WHEN
       context.PerformAnalysis();
 
       //THEN
       context.ReportShouldContain(
-        ProjectIndependentOfMessage.ProjectIndependentOfAssembly(projectName, assemblyName).Ok());
+        ProjectIndependentOfAssembly(projectName, assemblyName).Ok());
       context.ShouldIndicateSuccess();
     }
 
@@ -40,14 +40,14 @@ namespace TddXt.NScan.Specification.Component
       var context = new NScanDriver();
       context.HasProject(projectName).WithAssemblyReferences(assemblyName);
 
-      context.Add(RuleRequiring().Project(projectName).IndependentOfAssembly(assemblyName));
+      context.Add(RuleDemandingThat().Project(projectName).IndependentOfAssembly(assemblyName));
 
       //WHEN
       context.PerformAnalysis();
 
       //THEN
       context.ReportShouldContain(
-        ProjectIndependentOfMessage.ProjectIndependentOfAssembly(projectName, assemblyName).Error()
+        ProjectIndependentOfAssembly(projectName, assemblyName).Error()
           .ViolationPath(projectName));
       context.ShouldIndicateFailure();
     }
@@ -63,14 +63,14 @@ namespace TddXt.NScan.Specification.Component
       context.HasProject(projectName).WithReferences(projectName2);
       context.HasProject(projectName2).WithAssemblyReferences(assemblyName);
 
-      context.Add(RuleRequiring().Project(projectName).IndependentOfAssembly(assemblyName));
+      context.Add(RuleDemandingThat().Project(projectName).IndependentOfAssembly(assemblyName));
 
       //WHEN
       context.PerformAnalysis();
 
       //THEN
       context.ReportShouldContain(
-        ProjectIndependentOfMessage.ProjectIndependentOfAssembly(projectName, assemblyName).Error()
+        ProjectIndependentOfAssembly(projectName, assemblyName).Error()
           .ViolationPath(projectName, projectName2));
       context.ShouldIndicateFailure();
     }

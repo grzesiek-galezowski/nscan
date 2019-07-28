@@ -19,6 +19,7 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
     IFullRuleConstructed HasCorrectNamespaces();
     IFullRuleConstructed HasNoCircularUsings();
     IFullRuleConstructed ToHaveDecoratedMethods(string classInclusionPattern, string methodInclusionPattern);
+    IFullRuleConstructed HasTargetFramework(string targetFramework);
   }
 
   public interface IRuleDefinitionStart
@@ -99,6 +100,12 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
       return this;
     }
 
+    public IFullRuleConstructed HasTargetFramework(string targetFramework)
+    {
+      _ruleName = RuleNames.HasTargetFramework;
+      return this;
+    }
+
     public RuleUnionDto Build()
     {
       var dependingPattern = _exclusionPattern
@@ -107,24 +114,44 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
 
       return RuleNames.Switch(
         _ruleName!.OrThrow(),
-        () => RuleUnionDto.With(new IndependentRuleComplementDto(
-          _dependencyType!.OrThrow(), 
-          dependingPattern,
-          new Glob(_dependencyName))),
-        () => RuleUnionDto.With(new CorrectNamespacesRuleComplementDto(dependingPattern)),
-        () => RuleUnionDto.With(new NoCircularUsingsRuleComplementDto(dependingPattern)),
-        () => RuleUnionDto.With(new HasAttributesOnRuleComplementDto(
-            dependingPattern,
-            Pattern.WithoutExclusion(_classInclusionPattern ??
-                                     throw new ArgumentNullException(nameof(_classInclusionPattern))),
-            Pattern.WithoutExclusion(_methodInclusionPattern ??
-                                     throw new ArgumentNullException(nameof(_methodInclusionPattern)))
-          )
-        ));
+        IndependentOf(dependingPattern),
+        CorrectNamespaces(dependingPattern),
+        NoCircularUsings(dependingPattern),
+        HasAttributesOnMethods(dependingPattern),
+        () => RuleUnionDto.With(new HasTargetFrameworkRuleComplementDto(dependingPattern)));
+    }
+
+    private Func<RuleUnionDto> HasAttributesOnMethods(Pattern dependingPattern)
+    {
+      return () => RuleUnionDto.With(new HasAttributesOnRuleComplementDto(
+        dependingPattern,
+        Pattern.WithoutExclusion(_classInclusionPattern ??
+                                 throw new ArgumentNullException(nameof(_classInclusionPattern))),
+        Pattern.WithoutExclusion(_methodInclusionPattern ??
+                                 throw new ArgumentNullException(nameof(_methodInclusionPattern)))
+      ));
+    }
+
+    private static Func<RuleUnionDto> NoCircularUsings(Pattern dependingPattern)
+    {
+      return () => RuleUnionDto.With(new NoCircularUsingsRuleComplementDto(dependingPattern));
+    }
+
+    private static Func<RuleUnionDto> CorrectNamespaces(Pattern dependingPattern)
+    {
+      return () => RuleUnionDto.With(new CorrectNamespacesRuleComplementDto(dependingPattern));
+    }
+
+    private Func<RuleUnionDto> IndependentOf(Pattern dependingPattern)
+    {
+      return () => RuleUnionDto.With(new IndependentRuleComplementDto(
+        _dependencyType!.OrThrow(), 
+        dependingPattern,
+        new Glob(_dependencyName)));
     }
 
 
-    public static IRuleDefinitionStart RuleRequiring()
+    public static IRuleDefinitionStart RuleDemandingThat()
     {
       return new DependencyRuleBuilder();
     }

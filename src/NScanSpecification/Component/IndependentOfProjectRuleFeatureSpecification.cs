@@ -19,7 +19,7 @@ namespace TddXt.NScan.Specification.Component
       context.HasProject("A");
       context.HasProject("B");
 
-      context.Add(RuleRequiring().Project("A")
+      context.Add(RuleDemandingThat().Project("A")
         .IndependentOfProject("B"));
 
       //WHEN
@@ -41,7 +41,7 @@ namespace TddXt.NScan.Specification.Component
       context.HasProject("C");
       context.HasProject("D");
 
-      context.Add(RuleRequiring().Project("A")
+      context.Add(RuleDemandingThat().Project("A")
         .IndependentOfProject("B"));
 
       //WHEN
@@ -64,7 +64,7 @@ namespace TddXt.NScan.Specification.Component
       context.HasProject("C");
       context.HasProject("D");
 
-      context.Add(RuleRequiring().Project("A").IndependentOfProject("C"));
+      context.Add(RuleDemandingThat().Project("A").IndependentOfProject("C"));
 
       //WHEN
       context.PerformAnalysis();
@@ -86,8 +86,8 @@ namespace TddXt.NScan.Specification.Component
       context.HasProject("C").WithReferences("D");
       context.HasProject("D");
 
-      context.Add(RuleRequiring().Project("A").IndependentOfProject("D"));
-      context.Add(RuleRequiring().Project("A").IndependentOfProject("B"));
+      context.Add(RuleDemandingThat().Project("A").IndependentOfProject("D"));
+      context.Add(RuleDemandingThat().Project("A").IndependentOfProject("B"));
 
       //WHEN
       context.PerformAnalysis();
@@ -111,7 +111,7 @@ namespace TddXt.NScan.Specification.Component
       context.HasProject("Posts.Domain").WithReferences("Posts.Ports");
       context.HasProject("Posts.Ports");
 
-      context.Add(RuleRequiring().Project("*.Domain").IndependentOfProject("*.Ports"));
+      context.Add(RuleDemandingThat().Project("*.Domain").IndependentOfProject("*.Ports"));
 
       //WHEN
       context.PerformAnalysis();

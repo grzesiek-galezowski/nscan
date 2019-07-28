@@ -17,7 +17,7 @@ namespace TddXt.NScan.Specification.Component
         .WithRootNamespace("MyProject")
         .With(FileWithNamespace("lol1.cs", "MyProject"))
         .With(FileWithNamespace("lol2.cs", "MyProject"));
-      context.Add(RuleRequiring().Project("*MyProject*").HasCorrectNamespaces());
+      context.Add(RuleDemandingThat().Project("*MyProject*").HasCorrectNamespaces());
 
       //WHEN
       context.PerformAnalysis();
@@ -35,7 +35,7 @@ namespace TddXt.NScan.Specification.Component
         .WithRootNamespace("MyProject2");
       context.HasProject("MyProject2")
         .WithRootNamespace("MyProject2");
-      context.Add(RuleRequiring().Project("*MyProject*").HasCorrectNamespaces());
+      context.Add(RuleDemandingThat().Project("*MyProject*").HasCorrectNamespaces());
 
       //WHEN
       context.PerformAnalysis();
@@ -55,7 +55,7 @@ namespace TddXt.NScan.Specification.Component
         .With(FileWithNamespace("lol1.cs", "WrongNamespace"))
         .With(FileWithNamespace("lol2.cs", "WrongNamespace"))
         .With(FileWithNamespace("lol3.cs", "MyProject"));
-      context.Add(RuleRequiring().Project("*MyProject*").HasCorrectNamespaces());
+      context.Add(RuleDemandingThat().Project("*MyProject*").HasCorrectNamespaces());
 
       //WHEN
       context.PerformAnalysis();
@@ -85,7 +85,7 @@ namespace TddXt.NScan.Specification.Component
         .With(FileWithNamespace("lol1.cs", "WrongNamespace"))
         .With(FileWithNamespace("lol2.cs", "WrongNamespace"))
         .With(FileWithNamespace("lol3.cs", "MyProject2"));
-      context.Add(RuleRequiring().Project("*MyProject*").HasCorrectNamespaces());
+      context.Add(RuleDemandingThat().Project("*MyProject*").HasCorrectNamespaces());
 
       //WHEN
       context.PerformAnalysis();
@@ -114,7 +114,7 @@ namespace TddXt.NScan.Specification.Component
         .WithRootNamespace("MyProject")
         .With(FileWithNamespace("Domain\\lol4.cs", "MyProject.Domain"))
         .With(FileWithNamespace("Domain\\lol5.cs", "MyProject"));
-      context.Add(RuleRequiring().Project("*MyProject*").HasCorrectNamespaces());
+      context.Add(RuleDemandingThat().Project("*MyProject*").HasCorrectNamespaces());
 
       //WHEN
       context.PerformAnalysis();
@@ -135,7 +135,7 @@ namespace TddXt.NScan.Specification.Component
       context.HasProject("MyProject")
         .WithRootNamespace("MyProject")
         .With(EmptyFile("lol.cs"));
-      context.Add(RuleRequiring().Project("*MyProject*").HasCorrectNamespaces());
+      context.Add(RuleDemandingThat().Project("*MyProject*").HasCorrectNamespaces());
 
       //WHEN
       context.PerformAnalysis();
@@ -155,7 +155,7 @@ namespace TddXt.NScan.Specification.Component
       context.HasProject("MyProject")
         .WithRootNamespace("MyProject")
         .With(FileWithNamespaces("lol.cs", "MyProject", "MyProject2"));
-      context.Add(RuleRequiring().Project("*MyProject*").HasCorrectNamespaces());
+      context.Add(RuleDemandingThat().Project("*MyProject*").HasCorrectNamespaces());
 
       //WHEN
       context.PerformAnalysis();

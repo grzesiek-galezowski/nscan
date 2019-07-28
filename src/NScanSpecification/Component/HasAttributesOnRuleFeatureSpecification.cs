@@ -22,7 +22,7 @@ namespace TddXt.NScan.Specification.Component
       context.HasProject("MyProject")
         .WithRootNamespace("MyProject");
 
-      context.Add(RuleRequiring().Project("*MyProject*").ToHaveDecoratedMethods("*Specification", "Should*"));
+      context.Add(RuleDemandingThat().Project("*MyProject*").ToHaveDecoratedMethods("*Specification", "Should*"));
 
       //WHEN
       context.PerformAnalysis();
@@ -42,7 +42,7 @@ namespace TddXt.NScan.Specification.Component
         .WithRootNamespace("MyProject")
         .With(File("lol.cs"));
 
-      context.Add(RuleRequiring().Project("*MyProject*").ToHaveDecoratedMethods("*Specification", "Should*"));
+      context.Add(RuleDemandingThat().Project("*MyProject*").ToHaveDecoratedMethods("*Specification", "Should*"));
 
       //WHEN
       context.PerformAnalysis();
@@ -63,7 +63,7 @@ namespace TddXt.NScan.Specification.Component
         .With(File("lol.cs").With(
           Class("MySpecification")));
 
-      context.Add(RuleRequiring().Project("*MyProject*").ToHaveDecoratedMethods("*Specification", "Should*"));
+      context.Add(RuleDemandingThat().Project("*MyProject*").ToHaveDecoratedMethods("*Specification", "Should*"));
 
       //WHEN
       context.PerformAnalysis();
@@ -89,7 +89,7 @@ namespace TddXt.NScan.Specification.Component
             .DecoratedWithAttribute(Any.String())
           )));
 
-      context.Add(RuleRequiring().Project("*MyProject*").ToHaveDecoratedMethods("*Specification", "Should*"));
+      context.Add(RuleDemandingThat().Project("*MyProject*").ToHaveDecoratedMethods("*Specification", "Should*"));
 
       //WHEN
       context.PerformAnalysis();
@@ -116,7 +116,7 @@ namespace TddXt.NScan.Specification.Component
             Method(methodName1),
             Method(methodName2))));
 
-      context.Add(RuleRequiring().Project("*MyProject*").ToHaveDecoratedMethods("*Specification", "Should*"));
+      context.Add(RuleDemandingThat().Project("*MyProject*").ToHaveDecoratedMethods("*Specification", "Should*"));
 
       //WHEN
       context.PerformAnalysis();

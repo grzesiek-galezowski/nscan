@@ -24,9 +24,14 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
       return $"{dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName} {dto.ClassNameInclusionPattern.Description()}:{dto.MethodNameInclusionPattern.Description()}";
     }
 
+    public static string String(this HasTargetFrameworkRuleComplementDto dto)
+    {
+      return $"{dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName}";
+    }
+
     public static string String(this RuleUnionDto dto)
     {
-      return dto.Match(String, String, String, String);
+      return dto.Match(String, String, String, String, String);
     }
   }
 }

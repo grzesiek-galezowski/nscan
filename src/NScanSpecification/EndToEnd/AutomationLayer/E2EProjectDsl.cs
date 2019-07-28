@@ -8,6 +8,7 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
     private readonly ProjectFiles _projectFiles;
     private string _rootNamespace = "WhateverNamespace";
     private readonly AssemblyReferences _assemblyReferences;
+    private string _targetFramework = "netstandard2.0";
 
 
     public E2EProjectDsl(string projectName, ProjectFiles projectFiles, AssemblyReferences assemblyReferences)
@@ -34,6 +35,12 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
     {
       _projectFiles.InitializeForProject(_projectName);
       _projectFiles.Add(_projectName, sourceCodeFileBuilder.BuildWith(_projectName, _rootNamespace));
+      return this;
+    }
+
+    public E2EProjectDsl WithTargetFramework(string frameworkName)
+    {
+      _targetFramework = frameworkName; //bug
       return this;
     }
   }

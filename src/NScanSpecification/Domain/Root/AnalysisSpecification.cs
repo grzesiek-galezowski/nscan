@@ -136,7 +136,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       namespaceBasedRuleSet.Received(1).Add(rule2);
       namespaceBasedRuleSet.Received(1).Add(rule3);
     }
-
+    
     [Fact]
     public void ShouldAddAllProjectScopedRulesFromDtosToRuleSet()
     {
@@ -147,7 +147,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       var rule2 = Any.Instance<IProjectScopedRule>();
       var rule3 = Any.Instance<IProjectScopedRule>();
       var ruleDto1 = Any.Instance<CorrectNamespacesRuleComplementDto>();
-      var ruleDto2 = Any.Instance<CorrectNamespacesRuleComplementDto>();
+      var ruleDto2 = Any.Instance<HasTargetFrameworkRuleComplementDto>();
       var ruleDto3 = Any.Instance<HasAttributesOnRuleComplementDto>();
       var analysis = new AnalysisBuilder()
       {

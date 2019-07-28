@@ -1,6 +1,6 @@
-﻿using TddXt.NScan.Specification.AutomationLayer;
-using TddXt.NScan.Specification.EndToEnd.AutomationLayer;
+﻿using TddXt.NScan.Specification.EndToEnd.AutomationLayer;
 using Xunit;
+using static TddXt.NScan.Specification.AutomationLayer.HasNoCircularUsingsMessage;
 using static TddXt.NScan.Specification.Component.AutomationLayer.DependencyRuleBuilder;
 using static TddXt.NScan.Specification.AutomationLayer.XmlSourceCodeFileBuilder;
 
@@ -17,13 +17,13 @@ namespace TddXt.NScan.Specification.EndToEnd
         context.HasProject("MyProject")
           .WithRootNamespace("MyProject")
           .With(FileWithNamespace("lol1.cs", "MyProject"));
-        context.Add(RuleRequiring().Project("*MyProject*").HasNoCircularUsings());
+        context.Add(RuleDemandingThat().Project("*MyProject*").HasNoCircularUsings());
 
         //WHEN
         context.PerformAnalysis();
 
         //THEN
-        context.ReportShouldContain(HasNoCircularUsingsMessage.HasNoCircularUsings("*MyProject*").Ok());
+        context.ReportShouldContain(HasNoCircularUsings("*MyProject*").Ok());
       }
     }
 
@@ -37,13 +37,13 @@ namespace TddXt.NScan.Specification.EndToEnd
           .WithRootNamespace("MyProject")
           .With(FileWithNamespace("lol1.cs", "MyProject").Using("MyProject.Util"))
           .With(FileWithNamespace("lol2.cs", "MyProject.Util").Using("MyProject"));
-        context.Add(RuleRequiring().Project("*MyProject*").HasNoCircularUsings());
+        context.Add(RuleDemandingThat().Project("*MyProject*").HasNoCircularUsings());
 
         //WHEN
         context.PerformAnalysis();
 
         //THEN
-        context.ReportShouldContain(HasNoCircularUsingsMessage.HasNoCircularUsings("*MyProject*").Error()
+        context.ReportShouldContain(HasNoCircularUsings("*MyProject*").Error()
           .CycleFound("MyProject", "MyProject", "MyProject.Util", "MyProject"));
       }
     }

@@ -61,6 +61,11 @@ namespace TddXt.NScan.Domain.Root
         new MethodsOfMatchingClassesAreDecoratedWithAttributeCheck(ruleDto));
     }
 
+    public IProjectScopedRule CreateProjectScopedRuleFrom(HasTargetFrameworkRuleComplementDto ruleDto)
+    {
+      throw new System.NotImplementedException();
+    }
+
     private static string CorrectNamespacesRuleDescription(CorrectNamespacesRuleComplementDto ruleDto)
     {
       return ruleDto.ProjectAssemblyNamePattern.Description() + " " + ruleDto.RuleName;

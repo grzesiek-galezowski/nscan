@@ -8,12 +8,14 @@ namespace TddXt.NScan.ReadingRules.Ports
     public const string HasCorrectNamespaces = "hasCorrectNamespaces";
     public const string HasNoCircularUsings = "hasNoCircularUsings";
     public const string HasAttributesOn = "hasAttributesOn";
+    public const string HasTargetFramework = "hasTargetFramework"; //bug UT
 
     public static T Switch<T>(string ruleName,
       Func<T> independentOfValueFactory,
       Func<T> correctNamespacesValueFactory, 
       Func<T> noCircularUsingsValueFactory, 
-      Func<T> isDecoratedWithAttributeValueFactory)
+      Func<T> isDecoratedWithAttributeValueFactory,
+      Func<T> hasTargetFrameworkValueFactory)
     {
       if (ruleName == IndependentOf)
       {
@@ -30,6 +32,10 @@ namespace TddXt.NScan.ReadingRules.Ports
       else if(ruleName == HasAttributesOn)
       {
         return isDecoratedWithAttributeValueFactory();
+      }
+      else if(ruleName == HasTargetFramework)
+      {
+        return hasTargetFrameworkValueFactory();
       }
       else
       {

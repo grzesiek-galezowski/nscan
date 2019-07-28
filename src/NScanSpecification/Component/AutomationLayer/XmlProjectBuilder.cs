@@ -96,6 +96,12 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
       return this;
     }
 
+    public XmlProjectBuilder WithTargetFramework(string targetFramework)
+    {
+      _xmlProject.PropertyGroups.First().TargetFramework = targetFramework;
+      return this;
+    }
+
     public XmlProject Build()
     {
       return _xmlProject;
@@ -110,5 +116,6 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
     {
       return new XmlProjectBuilder(assemblyName);
     }
+
   }
 }

@@ -15,7 +15,7 @@ namespace TddXt.NScan.Specification.Component
       context.HasProject("CompositionRoot");
       context.HasProject("CompositionRootSpecification").WithReferences("CompositionRoot");
 
-      context.Add(DependencyRuleBuilder.RuleRequiring()
+      context.Add(DependencyRuleBuilder.RuleDemandingThat()
         .Project("*")
         .Except("*Specification*")
         .IndependentOfProject("*CompositionRoot*"));
@@ -41,7 +41,7 @@ namespace TddXt.NScan.Specification.Component
       context.HasProject("CompositionRootSpecification").WithReferences("CompositionRoot");
       context.HasProject("CompositionRootTests").WithReferences("CompositionRoot");
 
-      context.Add(DependencyRuleBuilder.RuleRequiring()
+      context.Add(DependencyRuleBuilder.RuleDemandingThat()
         .Project("*")
         .Except("*Tests*")
         .IndependentOfProject("*CompositionRoot*"));
