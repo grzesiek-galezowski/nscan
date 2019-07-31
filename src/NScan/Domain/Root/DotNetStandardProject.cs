@@ -17,23 +17,25 @@ namespace TddXt.NScan.Domain.Root
     private readonly IReadOnlyList<AssemblyReference> _assemblyReferences;
     private readonly IReadOnlyList<ISourceCodeFile> _files;
     private readonly ProjectId _id;
+    private readonly string _targetFramework;
     private readonly INamespacesDependenciesCache _namespacesDependenciesCache;
     private readonly IReadOnlyList<PackageReference> _packageReferences;
     private readonly IReferencedProjects _referencedProjects;
     private readonly IReferencingProjects _referencingProjects;
 
-    public DotNetStandardProject(
-      string assemblyName,
+    public DotNetStandardProject(string assemblyName,
       ProjectId id,
+      string targetFramework,
       IReadOnlyList<PackageReference> packageReferences,
       IReadOnlyList<AssemblyReference> assemblyReferences,
       IReadOnlyList<ISourceCodeFile> files,
-      INamespacesDependenciesCache namespacesDependenciesCache, 
-      IReferencedProjects referencedProjects, 
+      INamespacesDependenciesCache namespacesDependenciesCache,
+      IReferencedProjects referencedProjects,
       IReferencingProjects referencingProjects)
     {
       _assemblyName = assemblyName;
       _id = id;
+      _targetFramework = targetFramework;
       _packageReferences = packageReferences;
       _assemblyReferences = assemblyReferences;
       _files = files;
@@ -81,11 +83,10 @@ namespace TddXt.NScan.Domain.Root
     public bool HasProjectAssemblyNameMatching(Pattern pattern) => 
       pattern.IsMatch(_assemblyName);
 
-    public void ValidateTargetFrameworkWith(ITargetFrameworkCheck targetFramework,
+    public void ValidateTargetFrameworkWith(ITargetFrameworkCheck targetFrameworkCheck,
       IAnalysisReportInProgress analysisReportInProgress)
     {
-      //TODO pass rule as another interface
-      throw new NotImplementedException();
+      targetFrameworkCheck.ApplyTo(_targetFramework, analysisReportInProgress);
     }
 
     public void RefreshNamespacesCache()

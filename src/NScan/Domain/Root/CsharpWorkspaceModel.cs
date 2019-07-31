@@ -42,8 +42,7 @@ namespace TddXt.NScan.Domain.Root
       var assemblyName = projectDataAccess.DetermineAssemblyName();
       var dotNetStandardProject = new DotNetStandardProject(
         assemblyName,
-        projectDataAccess.Id(),
-        projectDataAccess.XmlPackageReferences().Select(ToPackageReference).ToList(),
+        projectDataAccess.Id(), projectDataAccess.TargetFramework(), projectDataAccess.XmlPackageReferences().Select(ToPackageReference).ToList(),
         projectDataAccess.XmlAssemblyReferences().Select(ToAssemblyReference).ToList(), 
         projectDataAccess.SourceCodeFiles().Select(ToSourceCodeFile).ToList(), 
         new NamespacesDependenciesCache(), 

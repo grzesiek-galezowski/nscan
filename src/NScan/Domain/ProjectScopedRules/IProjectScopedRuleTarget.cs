@@ -7,7 +7,7 @@ namespace TddXt.NScan.Domain.ProjectScopedRules
   {
     void AnalyzeFiles(IProjectFilesetScopedRule rule, IAnalysisReportInProgress report);
     bool HasProjectAssemblyNameMatching(Pattern pattern);
-    void ValidateTargetFrameworkWith(ITargetFrameworkCheck targetFramework,
+    void ValidateTargetFrameworkWith(ITargetFrameworkCheck targetFrameworkCheck,
       IAnalysisReportInProgress analysisReportInProgress);
   }
 }

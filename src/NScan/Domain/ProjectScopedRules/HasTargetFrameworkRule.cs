@@ -5,6 +5,7 @@ namespace TddXt.NScan.Domain.ProjectScopedRules
 {
   public interface ITargetFrameworkCheck
   {
+    void ApplyTo(string targetFramework, IAnalysisReportInProgress report);
   }
 
 
@@ -25,6 +26,11 @@ namespace TddXt.NScan.Domain.ProjectScopedRules
       {
         project.ValidateTargetFrameworkWith((ITargetFrameworkCheck) this, report);
       }
+    }
+
+    public void ApplyTo(string targetFramework, IAnalysisReportInProgress report)
+    {
+      throw new System.NotImplementedException();
     }
   }
 }

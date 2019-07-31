@@ -17,6 +17,7 @@ namespace TddXt.NScan.ReadingSolution.Lib
     IEnumerable<XmlAssemblyReference> XmlAssemblyReferences();
     IEnumerable<XmlProjectReference> ProjectReferences();
     IEnumerable<XmlSourceCodeFile> SourceCodeFiles();
+    string TargetFramework();
   }
 
   public class XmlProjectDataAccess : IXmlProjectDataAccess
@@ -77,6 +78,11 @@ namespace TddXt.NScan.ReadingSolution.Lib
     public IEnumerable<XmlSourceCodeFile> SourceCodeFiles()
     {
       return _xmlProject.SourceCodeFiles!;
+    }
+
+    public string TargetFramework()
+    {
+      return _xmlProject.PropertyGroups.First(pg => pg.TargetFramework != null).TargetFramework;
     }
 
     public string RootNamespace()

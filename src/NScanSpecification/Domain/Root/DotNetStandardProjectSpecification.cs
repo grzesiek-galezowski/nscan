@@ -359,6 +359,26 @@ namespace TddXt.NScan.Specification.Domain.Root
       result.Should().Be(expectedResult);
     }
 
+    [Fact]
+    public void ShouldApplyTargetFrameworkCheckToItsTargetFramework()
+    {
+      //GIVEN
+      var targetFramework = Any.String();
+      var targetFrameworkCheck = Substitute.For<ITargetFrameworkCheck>();
+      var project = new DotNetStandardProjectBuilder
+      {
+        TargetFramework = targetFramework
+      }.Build();
+      var report = Any.Instance<IAnalysisReportInProgress>();
+
+      //WHEN
+      project.ValidateTargetFrameworkWith(targetFrameworkCheck, report);
+
+      //THEN
+      targetFrameworkCheck.Received(1).ApplyTo(targetFramework, report);
+    }
+
+
     private class DotNetStandardProjectBuilder
     {
       public DotNetStandardProject Build()
@@ -366,6 +386,7 @@ namespace TddXt.NScan.Specification.Domain.Root
         return new DotNetStandardProject(
           AssemblyName,
           ProjectId,
+          TargetFramework,
           PackageReferences,
           AssemblyReferences,
           Files,
@@ -385,6 +406,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       public IReadOnlyList<ISourceCodeFile> Files { private get; set; } = Any.ReadOnlyList<ISourceCodeFile>();
       public INamespacesDependenciesCache NamespacesDependenciesCache { private get; set; } = Any.Instance<INamespacesDependenciesCache>();
       public IReferencingProjects ReferencingProjects { private get; set; } = Any.Instance<IReferencingProjects>();
+      public string TargetFramework { get; set; } = Any.String();
     }
   }
 

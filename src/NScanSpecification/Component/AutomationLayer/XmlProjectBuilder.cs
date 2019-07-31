@@ -22,7 +22,8 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
         {
           new XmlPropertyGroup
           {
-            AssemblyName = assemblyName
+            AssemblyName = assemblyName,
+            TargetFramework = "netcore21"
           }
         },
         ItemGroups = new List<XmlItemGroup>()
