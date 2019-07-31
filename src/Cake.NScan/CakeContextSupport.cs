@@ -2,9 +2,7 @@
 using AtmaFileSystem;
 using Cake.Core.Diagnostics;
 using TddXt.NScan.Domain.SharedKernel;
-using TddXt.NScan.NotifyingSupport.Adapters;
 using TddXt.NScan.NotifyingSupport.Ports;
-using TddXt.NScan.ReadingRules;
 using TddXt.NScan.ReadingRules.Ports;
 
 namespace Cake.NScan
@@ -48,6 +46,11 @@ namespace Cake.NScan
     public void Log(HasAttributesOnRuleComplementDto dto)
     {
       //bug there's duplication in the output of these rules
+      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {RuleFormats.Format(dto)}");
+    }
+
+    public void Log(HasTargetFrameworkRuleComplementDto dto)
+    {
       _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {RuleFormats.Format(dto)}");
     }
   }

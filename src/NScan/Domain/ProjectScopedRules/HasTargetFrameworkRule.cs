@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
-using TddXt.NScan.Domain.SharedKernel;
+﻿using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.ReadingRules.Ports;
 
 namespace TddXt.NScan.Domain.ProjectScopedRules
 {
-  public class HasTargetFrameworkRule : IProjectScopedRule
+  public interface ITargetFrameworkCheck
+  {
+  }
+
+
+  public class HasTargetFrameworkRule : IProjectScopedRule, ITargetFrameworkCheck
   {
     private readonly Pattern _projectAssemblyNamePattern;
     private readonly string _targetFramework;
@@ -17,12 +21,10 @@ namespace TddXt.NScan.Domain.ProjectScopedRules
 
     public void Check(IProjectScopedRuleTarget project, IAnalysisReportInProgress report)
     {
-      throw new System.NotImplementedException();
-    }
-
-    public void Check(IReadOnlyList<ISourceCodeFileInNamespace> sourceCodeFiles, IAnalysisReportInProgress report)
-    {
-      throw new System.NotImplementedException();
+      if (project.HasProjectAssemblyNameMatching(_projectAssemblyNamePattern))
+      {
+        project.ValidateTargetFrameworkWith((ITargetFrameworkCheck) this, report);
+      }
     }
   }
 }

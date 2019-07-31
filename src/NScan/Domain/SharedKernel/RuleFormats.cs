@@ -6,40 +6,20 @@ namespace TddXt.NScan.Domain.SharedKernel
   {
     public static string Format(HasAttributesOnRuleComplementDto dto)
     {
-      return FormatHasAttributesOnRule(
-        dto.ProjectAssemblyNamePattern.Description(), 
-        dto.RuleName, 
-        dto.ClassNameInclusionPattern.Description(), 
-        dto.MethodNameInclusionPattern.Description());
-    }
-
-    private static string FormatHasAttributesOnRule(
-      string projectAssemblyName, 
-      string ruleName, 
-      string classNameInclusionPattern, 
-      string methodNameInclusionPattern)
-    {
-      return $"{projectAssemblyName} {ruleName} {classNameInclusionPattern}:{methodNameInclusionPattern}";
+      var projectAssemblyName = dto.ProjectAssemblyNamePattern.Description();
+      var classNameInclusionPattern = dto.ClassNameInclusionPattern.Description();
+      var methodNameInclusionPattern = dto.MethodNameInclusionPattern.Description();
+      return $"{projectAssemblyName} {dto.RuleName} {classNameInclusionPattern}:{methodNameInclusionPattern}";
     }
 
     public static string Format(NoCircularUsingsRuleComplementDto dto)
     {
-      return FormatNoCircularUsingsRule(dto.ProjectAssemblyNamePattern.Description(), dto.RuleName);
-    }
-
-    private static string FormatNoCircularUsingsRule(string projectAssemblyNamePattern, string ruleName)
-    {
-      return $"{projectAssemblyNamePattern} {ruleName}";
+      return $"{dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName}";
     }
 
     public static string Format(CorrectNamespacesRuleComplementDto dto)
     {
-      return FormatCorrectNamespacesRule(dto.ProjectAssemblyNamePattern.Description(), dto.RuleName);
-    }
-
-    private static string FormatCorrectNamespacesRule(string projectAssemblyNamePattern, string ruleName)
-    {
-      return $"{projectAssemblyNamePattern} {ruleName}";
+      return $"{dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName}";
     }
 
     public static string Format(IndependentRuleComplementDto dto)
@@ -50,6 +30,11 @@ namespace TddXt.NScan.Domain.SharedKernel
     public static string FormatIndependentRule(string projectAssemblyNamePattern, string ruleName, string dependencyType, string dependencyPattern)
     {
       return $"{projectAssemblyNamePattern} {ruleName} {dependencyType}:{dependencyPattern}";
+    }
+
+    public static string Format(HasTargetFrameworkRuleComplementDto dto)
+    {
+      return $"{dto.ProjectAssemblyNamePattern.Description()} {RuleNames.HasTargetFramework} {dto.TargetFramework}";
     }
   }
 }

@@ -4,7 +4,7 @@ using TddXt.NScan.ReadingRules.Ports;
 
 namespace TddXt.NScan.Domain.ProjectScopedRules
 {
-  public class ProjectSourceCodeFilesRelatedRule : IProjectScopedRule
+  public class ProjectSourceCodeFilesRelatedRule : IProjectScopedRule, IProjectFilesetScopedRule
   {
     private readonly string _ruleDescription;
     private readonly ISourceCodeFileContentCheck _fileContentCheck;
@@ -22,7 +22,7 @@ namespace TddXt.NScan.Domain.ProjectScopedRules
 
     public void Check(IProjectScopedRuleTarget project, IAnalysisReportInProgress report)
     {
-      if (project.HasProjectAssemblyNameMatching(_projectAssemblyNamePattern))
+      if (project.HasProjectAssemblyNameMatching(_projectAssemblyNamePattern)) //bug move this check to decorator. Some rules reuse it.
       {
         project.AnalyzeFiles(this, report);
       }

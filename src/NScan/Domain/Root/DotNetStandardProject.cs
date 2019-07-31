@@ -81,6 +81,13 @@ namespace TddXt.NScan.Domain.Root
     public bool HasProjectAssemblyNameMatching(Pattern pattern) => 
       pattern.IsMatch(_assemblyName);
 
+    public void ValidateTargetFrameworkWith(ITargetFrameworkCheck targetFramework,
+      IAnalysisReportInProgress analysisReportInProgress)
+    {
+      //TODO pass rule as another interface
+      throw new NotImplementedException();
+    }
+
     public void RefreshNamespacesCache()
     {
       foreach (var sourceCodeFile in _files)
@@ -111,7 +118,7 @@ namespace TddXt.NScan.Domain.Root
       return _assemblyName;
     }
 
-    public void AnalyzeFiles(IProjectScopedRule rule, IAnalysisReportInProgress report)
+    public void AnalyzeFiles(IProjectFilesetScopedRule rule, IAnalysisReportInProgress report)
     {
       rule.Check(_files, report);
     }

@@ -330,7 +330,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       {
         Files = files
       }.Build();
-      var rule = Substitute.For<IProjectScopedRule>();
+      var rule = Substitute.For<IProjectFilesetScopedRule>();
       var report = Any.Instance<IAnalysisReportInProgress>();
       
       //WHEN

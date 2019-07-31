@@ -40,5 +40,10 @@ namespace TddXt.NScan.NotifyingSupport.Adapters
     {
       Console.WriteLine($"{DiscoveredRule}{RuleFormats.Format(dto)}");
     }
+
+    public void Log(HasTargetFrameworkRuleComplementDto dto)
+    {
+      Console.WriteLine($"{DiscoveredRule}{RuleFormats.Format(dto)}");
+    }
   }
 }

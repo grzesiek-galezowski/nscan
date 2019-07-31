@@ -5,7 +5,7 @@ using static TddXt.NScan.Specification.Component.AutomationLayer.DependencyRuleB
 
 namespace TddXt.NScan.Specification.Component
 {
-  public class HasTargetFrameworkRuleSpecification
+  public class HasTargetFrameworkRuleFeatureSpecification
   {
 
     public class ProjectsHaveTargetFrameworkSpecification

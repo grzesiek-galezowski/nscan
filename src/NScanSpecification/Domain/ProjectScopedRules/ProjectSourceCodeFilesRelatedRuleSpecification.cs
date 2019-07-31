@@ -35,7 +35,6 @@ namespace TddXt.NScan.Specification.Domain.ProjectScopedRules
     public void ShouldNotMakeAnalyzeFilesWithItselfWhenProjectDoesNotMatchAPattern()
     {
       //GIVEN
-      var dto = Any.Instance<CorrectNamespacesRuleComplementDto>();
       var projectAssemblyNamePattern = Any.Pattern();
       var rule = new ProjectSourceCodeFilesRelatedRule(projectAssemblyNamePattern, Any.String(), new CorrectNamespacesInFileCheck());
       var report = Any.Instance<IAnalysisReportInProgress>();
@@ -47,7 +46,7 @@ namespace TddXt.NScan.Specification.Domain.ProjectScopedRules
       rule.Check(project, report);
 
       //THEN
-      project.DidNotReceive().AnalyzeFiles(Arg.Any<IProjectScopedRule>(), Arg.Any<IAnalysisReportInProgress>());
+      project.DidNotReceive().AnalyzeFiles(Arg.Any<IProjectFilesetScopedRule>(), Arg.Any<IAnalysisReportInProgress>());
     }
 
     [Fact]

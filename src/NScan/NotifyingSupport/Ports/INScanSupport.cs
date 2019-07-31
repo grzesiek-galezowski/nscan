@@ -15,5 +15,6 @@ namespace TddXt.NScan.NotifyingSupport.Ports
     void Log(CorrectNamespacesRuleComplementDto dto);
     void Log(NoCircularUsingsRuleComplementDto dto);
     void Log(HasAttributesOnRuleComplementDto dto);
+    void Log(HasTargetFrameworkRuleComplementDto dto);
   }
 }
