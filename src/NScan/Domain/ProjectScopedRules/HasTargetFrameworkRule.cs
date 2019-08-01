@@ -13,11 +13,16 @@ namespace TddXt.NScan.Domain.ProjectScopedRules
   {
     private readonly Pattern _projectAssemblyNamePattern;
     private readonly string _targetFramework;
+    private readonly IProjectScopedRuleViolationFactory _violationFactory;
+    private readonly string _ruleDescription;
 
-    public HasTargetFrameworkRule(Pattern projectAssemblyNamePattern, string targetFramework)
+    public HasTargetFrameworkRule(Pattern projectAssemblyNamePattern, string targetFramework,
+      IProjectScopedRuleViolationFactory violationFactory, string ruleDescription)
     {
       _projectAssemblyNamePattern = projectAssemblyNamePattern;
       _targetFramework = targetFramework;
+      _violationFactory = violationFactory;
+      _ruleDescription = ruleDescription;
     }
 
     public void Check(IProjectScopedRuleTarget project, IAnalysisReportInProgress report)
@@ -30,7 +35,13 @@ namespace TddXt.NScan.Domain.ProjectScopedRules
 
     public void ApplyTo(string targetFramework, IAnalysisReportInProgress report)
     {
-      throw new System.NotImplementedException();
+      //var projectScopedRuleViolation = _violationFactory.ProjectScopedRuleViolation(_ruleDescription, "LALALALA");
+      //report.Add(projectScopedRuleViolation);
+    }
+
+    public override string ToString()
+    {
+      return $"{_ruleDescription} {_targetFramework}";
     }
   }
 }

@@ -48,7 +48,7 @@ namespace TddXt.NScan.Domain.Root
     {
       return new ProjectSourceCodeFilesRelatedRule(
         ruleDto.ProjectAssemblyNamePattern, 
-        CorrectNamespacesRuleDescription(ruleDto), 
+        RuleDescription(ruleDto), 
         new CorrectNamespacesInFileCheck());
     }
 
@@ -63,10 +63,15 @@ namespace TddXt.NScan.Domain.Root
 
     public IProjectScopedRule CreateProjectScopedRuleFrom(HasTargetFrameworkRuleComplementDto ruleDto)
     {
-      return new HasTargetFrameworkRule(ruleDto.ProjectAssemblyNamePattern, ruleDto.TargetFramework);
+      return new HasTargetFrameworkRule(ruleDto.ProjectAssemblyNamePattern, ruleDto.TargetFramework, RuleViolationFactory(), RuleDescription(ruleDto));
     }
 
-    private static string CorrectNamespacesRuleDescription(CorrectNamespacesRuleComplementDto ruleDto)
+    private string RuleDescription(HasTargetFrameworkRuleComplementDto ruleDto)
+    {
+      return ruleDto.ProjectAssemblyNamePattern.Description() + " " + ruleDto.RuleName;
+    }
+
+    private static string RuleDescription(CorrectNamespacesRuleComplementDto ruleDto)
     {
       return ruleDto.ProjectAssemblyNamePattern.Description() + " " + ruleDto.RuleName;
     }

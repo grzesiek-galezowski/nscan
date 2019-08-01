@@ -121,7 +121,7 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
         NoCircularUsings(dependingPattern),
         HasAttributesOnMethods(dependingPattern),
         () => RuleUnionDto.With(new HasTargetFrameworkRuleComplementDto(dependingPattern, 
-          _targetFramework ?? throw new ArgumentNullException(nameof(_targetFramework)))));
+          _targetFramework!.OrThrow())));
     }
 
     private Func<RuleUnionDto> HasAttributesOnMethods(Pattern dependingPattern)
