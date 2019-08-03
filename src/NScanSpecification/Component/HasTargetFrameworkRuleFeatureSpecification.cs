@@ -26,8 +26,11 @@ namespace TddXt.NScan.Specification.Component
 
         //THEN
         context.ReportShouldContain(HasFramework("*MyProject*", "netcoreapp2.1").Ok());
-
       }
+
+      //TODO test on negative
+      //TODO test on multiple negative
+      //TODO test on filtering by pattern
     }
   }
 }
