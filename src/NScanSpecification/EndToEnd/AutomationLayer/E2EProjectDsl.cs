@@ -8,14 +8,17 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
     private readonly ProjectFiles _projectFiles;
     private string _rootNamespace = "WhateverNamespace";
     private readonly AssemblyReferences _assemblyReferences;
-    private string _targetFramework = "netstandard2.0";
+    private readonly ProjectDefinition _projectDefinition;
 
-
-    public E2EProjectDsl(string projectName, ProjectFiles projectFiles, AssemblyReferences assemblyReferences)
+    public E2EProjectDsl(string projectName,
+      ProjectFiles projectFiles,
+      AssemblyReferences assemblyReferences, 
+      ProjectDefinition projectDefinition)
     {
       _projectName = projectName;
       _projectFiles = projectFiles;
       _assemblyReferences = assemblyReferences;
+      _projectDefinition = projectDefinition;
     }
 
     public E2EProjectDsl WithAssemblyReferences(params string[] assemblyNames)
@@ -38,9 +41,9 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
       return this;
     }
 
-    public E2EProjectDsl WithTargetFramework(string frameworkName)
+    public E2EProjectDsl WithTargetFramework(string targetFramework)
     {
-      _targetFramework = frameworkName; //bug
+      _projectDefinition.TargetFramework = targetFramework;
       return this;
     }
   }

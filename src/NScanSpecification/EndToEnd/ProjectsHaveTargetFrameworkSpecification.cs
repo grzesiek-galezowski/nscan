@@ -14,15 +14,15 @@ namespace TddXt.NScan.Specification.EndToEnd
       using (var context = new NScanE2EDriver())
       {
         context.HasProject("MyProject")
-          .WithTargetFramework("netcoreapp2.1");
+          .WithTargetFramework("netcoreapp2.2");
           
-        context.Add(RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netcoreapp2.1"));
+        context.Add(RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netcoreapp2.2"));
 
         //WHEN
         context.PerformAnalysis();
 
         //THEN
-        context.ReportShouldContain(HasFramework("*MyProject*", "netcoreapp2.1").Ok());
+        context.ReportShouldContain(HasFramework("*MyProject*", "netcoreapp2.2").Ok());
       }
     }
   }

@@ -26,7 +26,7 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 
     public static string String(this HasTargetFrameworkRuleComplementDto dto)
     {
-      return $"{dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName}";
+      return $"{dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName} {dto.TargetFramework}";
     }
 
     public static string String(this RuleUnionDto dto)

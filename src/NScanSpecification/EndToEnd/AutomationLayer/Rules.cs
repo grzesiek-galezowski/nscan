@@ -20,7 +20,8 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 
     public void Add(IFullRuleConstructed ruleDefinition)
     {
-      _rules.Add(ruleDefinition.Build());
+      var ruleUnionDto = ruleDefinition.Build();
+      _rules.Add(ruleUnionDto);
     }
   }
 }

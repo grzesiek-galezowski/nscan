@@ -41,8 +41,9 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 
     public E2EProjectDsl HasProject(string projectName)
     {
-      _projectsCollection.Add(projectName);
-      return new E2EProjectDsl(projectName, _projectFiles, _references);
+      var projectDefinition = new ProjectDefinition(projectName);
+      _projectsCollection.Add(projectDefinition);
+      return new E2EProjectDsl(projectName, _projectFiles, _references, projectDefinition);
     }
 
     public void Add(IFullRuleConstructed ruleDefinition)
