@@ -7,7 +7,6 @@ namespace TddXt.NScan.Specification.Component
 {
   public class HasTargetFrameworkRuleFeatureSpecification
   {
-
     public class ProjectsHaveTargetFrameworkSpecification
     {
       [Fact]
@@ -67,10 +66,10 @@ namespace TddXt.NScan.Specification.Component
       [Fact]
       public void ShouldNotReportErrorForProjectsThatDoNotMatchTheNamePattern()
       {
-        var notMatchingProjectAssemblyName = "Trolololo";
+        var projectAssemblyNameThatDoesNotMatchRuleFilter = "Trolololo";
         var context = new NScanDriver();
         //GIVEN
-        context.HasProject(notMatchingProjectAssemblyName).WithTargetFramework("netcoreapp2.2");
+        context.HasProject(projectAssemblyNameThatDoesNotMatchRuleFilter).WithTargetFramework("netcoreapp2.2");
 
         context.Add(RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netstandard2.0"));
 
@@ -78,7 +77,7 @@ namespace TddXt.NScan.Specification.Component
         context.PerformAnalysis();
 
         //THEN
-        context.ReportShouldNotContainText(notMatchingProjectAssemblyName);
+        context.ReportShouldNotContainText(projectAssemblyNameThatDoesNotMatchRuleFilter);
       }
     }
   }

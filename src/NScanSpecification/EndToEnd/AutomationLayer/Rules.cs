@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using AtmaFileSystem;
@@ -14,7 +13,7 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 
     public void SaveIn(AbsoluteFilePath fullRulesPath)
     {
-      var lines = _rules.Select(RuleStrings.String).ToList();
+      var lines = _rules.Select(Name).ToList();
       File.WriteAllLines(fullRulesPath.ToString(), lines);
     }
 
@@ -22,6 +21,11 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
     {
       var ruleUnionDto = ruleDefinition.Build();
       _rules.Add(ruleUnionDto);
+    }
+
+    private static string Name(RuleUnionDto dto)
+    {
+      return dto.Accept(new RuleToStringVisitor());
     }
   }
 }
