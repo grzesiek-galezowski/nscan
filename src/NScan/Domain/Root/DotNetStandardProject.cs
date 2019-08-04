@@ -83,10 +83,11 @@ namespace TddXt.NScan.Domain.Root
     public bool HasProjectAssemblyNameMatching(Pattern pattern) => 
       pattern.IsMatch(_assemblyName);
 
-    public void ValidateTargetFrameworkWith(ITargetFrameworkCheck targetFrameworkCheck,
+    public void ValidateTargetFrameworkWith(
+      ITargetFrameworkCheck targetFrameworkCheck,
       IAnalysisReportInProgress analysisReportInProgress)
     {
-      targetFrameworkCheck.ApplyTo(_targetFramework, analysisReportInProgress);
+      targetFrameworkCheck.ApplyTo(_assemblyName, _targetFramework, analysisReportInProgress);
     }
 
     public void RefreshNamespacesCache()

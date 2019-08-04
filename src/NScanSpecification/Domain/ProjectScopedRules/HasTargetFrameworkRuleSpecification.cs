@@ -70,28 +70,30 @@ namespace TddXt.NScan.Specification.Domain.ProjectScopedRules
     }
 
 
-        /* bug too early
         [Fact]
         public void ShouldReportNothingWhenProjectMatchesAssemblyNameAndTargetFramework()
         {
           //GIVEN
           var projectAssemblyNamePattern = Any.Pattern();
           var targetFramework = Any.String();
+          var expectedTargetFramework = Any.String();
           var violationFactory = Substitute.For<IProjectScopedRuleViolationFactory>();
           var analysisReportInProgress = Substitute.For<IAnalysisReportInProgress>();
           var ruleDescription = Any.String();
+          var assemblyName = Any.String();
           var violation = Any.Instance<RuleViolation>();
           var rule = new HasTargetFrameworkRule(
-            projectAssemblyNamePattern, targetFramework, violationFactory, ruleDescription);
+            projectAssemblyNamePattern, expectedTargetFramework, violationFactory, ruleDescription);
 
-          violationFactory.ProjectScopedRuleViolation(ruleDescription, "LALALALA").Returns(violation);
+          violationFactory.ProjectScopedRuleViolation(
+            ruleDescription + " " + expectedTargetFramework, $"Project {assemblyName} has target framework {targetFramework}").Returns(violation);
 
           //WHEN
-          rule.ApplyTo(targetFramework, analysisReportInProgress);
+          rule.ApplyTo(assemblyName, targetFramework, analysisReportInProgress);
 
           //THEN
           analysisReportInProgress.Received(1).Add(violation);
-        }*/
+        }
 
     }
 

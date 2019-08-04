@@ -365,9 +365,11 @@ namespace TddXt.NScan.Specification.Domain.Root
       //GIVEN
       var targetFramework = Any.String();
       var targetFrameworkCheck = Substitute.For<ITargetFrameworkCheck>();
+      var assemblyName = Any.String();
       var project = new DotNetStandardProjectBuilder
       {
-        TargetFramework = targetFramework
+        TargetFramework = targetFramework,
+        AssemblyName = assemblyName
       }.Build();
       var report = Any.Instance<IAnalysisReportInProgress>();
 
@@ -375,7 +377,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       project.ValidateTargetFrameworkWith(targetFrameworkCheck, report);
 
       //THEN
-      targetFrameworkCheck.Received(1).ApplyTo(targetFramework, report);
+      targetFrameworkCheck.Received(1).ApplyTo(assemblyName, targetFramework, report);
     }
 
 

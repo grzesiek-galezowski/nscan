@@ -28,9 +28,28 @@ namespace TddXt.NScan.Specification.Component
         context.ReportShouldContain(HasFramework("*MyProject*", "netcoreapp2.1").Ok());
       }
 
+      [Fact]
+      public void ShouldReportErrorForProjectsThatDoNotHaveSpecifiedFramework()
+      {
+        var context = new NScanDriver();
+        //GIVEN
+        context.HasProject("MyProject").WithTargetFramework("netcoreapp2.2");
+
+        context.Add(RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netstandard2.0"));
+
+        //WHEN
+        context.PerformAnalysis();
+
+        //THEN
+        context.ReportShouldContain(HasFramework("*MyProject*", "netstandard2.0").Error()
+          .ProjectHasAnotherTargetFramework("MyProject", "netcoreapp2.2"));
+      }
+    }
+
+
       //TODO test on negative
       //TODO test on multiple negative
       //TODO test on filtering by pattern
-    }
+    
   }
 }
