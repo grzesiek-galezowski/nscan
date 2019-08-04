@@ -29,7 +29,7 @@ namespace TddXt.NScan.Specification.Component
       }
 
       [Fact]
-      public void ShouldReportErrorForProjectsThatDoNotHaveSpecifiedFramework()
+      public void ShouldReportErrorForProjectThatDoesNotHaveSpecifiedFramework()
       {
         var context = new NScanDriver();
         //GIVEN
@@ -44,12 +44,42 @@ namespace TddXt.NScan.Specification.Component
         context.ReportShouldContain(HasFramework("*MyProject*", "netstandard2.0").Error()
           .ProjectHasAnotherTargetFramework("MyProject", "netcoreapp2.2"));
       }
+
+      [Fact]
+      public void ShouldReportErrorForMultipleProjectsThatDoNotHaveSpecifiedFramework()
+      {
+        var context = new NScanDriver();
+        //GIVEN
+        context.HasProject("MyProject1").WithTargetFramework("netcoreapp2.2");
+        context.HasProject("MyProject2").WithTargetFramework("netcoreapp2.2");
+
+        context.Add(RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netstandard2.0"));
+
+        //WHEN
+        context.PerformAnalysis();
+
+        //THEN
+        context.ReportShouldContain(HasFramework("*MyProject*", "netstandard2.0").Error()
+          .ProjectHasAnotherTargetFramework("MyProject1", "netcoreapp2.2")
+          .ProjectHasAnotherTargetFramework("MyProject2", "netcoreapp2.2"));
+      }
+
+      [Fact]
+      public void ShouldNotReportErrorForProjectsThatDoNotMatchTheNamePattern()
+      {
+        var notMatchingProjectAssemblyName = "Trolololo";
+        var context = new NScanDriver();
+        //GIVEN
+        context.HasProject(notMatchingProjectAssemblyName).WithTargetFramework("netcoreapp2.2");
+
+        context.Add(RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netstandard2.0"));
+
+        //WHEN
+        context.PerformAnalysis();
+
+        //THEN
+        context.ReportShouldNotContainText(notMatchingProjectAssemblyName);
+      }
     }
-
-
-      //TODO test on negative
-      //TODO test on multiple negative
-      //TODO test on filtering by pattern
-    
   }
 }
