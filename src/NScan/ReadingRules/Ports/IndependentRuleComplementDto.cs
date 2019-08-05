@@ -11,7 +11,7 @@ namespace TddXt.NScan.ReadingRules.Ports
       DependingPattern = dependingPattern;
     }
 
-    public Glob DependencyPattern { get; } //bug Pattern instead of Glob?
+    public Glob DependencyPattern { get; } //Glob instead of Pattern because this does not support exclusions
     public string DependencyType { get; }
     public string RuleName { get; } = RuleNames.IndependentOf;
     public Pattern DependingPattern { get; }

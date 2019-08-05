@@ -8,7 +8,7 @@ namespace TddXt.NScan.ReadingRules.Ports
     public const string HasCorrectNamespaces = "hasCorrectNamespaces";
     public const string HasNoCircularUsings = "hasNoCircularUsings";
     public const string HasAttributesOn = "hasAttributesOn";
-    public const string HasTargetFramework = "hasTargetFramework"; //bug UT
+    public const string HasTargetFramework = "hasTargetFramework";
 
     public static T Switch<T>(string ruleName,
       Func<T> independentOfValueFactory,

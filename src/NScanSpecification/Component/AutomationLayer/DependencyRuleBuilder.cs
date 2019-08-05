@@ -36,7 +36,7 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
   {
     private string? _dependingPattern;
     private string? _ruleName;
-    private Maybe<string> _exclusionPattern = Maybe<string>.Nothing;
+    private string? _exclusionPattern;
     private string? _dependencyName;
     private string? _dependencyType;
     private string? _classInclusionPattern;
@@ -77,7 +77,7 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
 
     public IFullDependingPartStated Except(string exclusionPattern)
     {
-      _exclusionPattern = exclusionPattern.Just();
+      _exclusionPattern = exclusionPattern;
       return this;
     }
 
@@ -111,27 +111,25 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
     public RuleUnionDto Build()
     {
       var dependingPattern = _exclusionPattern
-        .Select(p => Pattern.WithExclusion(_dependingPattern!.OrThrow(), p))
-        .OrElse(() => Pattern.WithoutExclusion(_dependingPattern!.OrThrow()));
+        .Select(p => Pattern.WithExclusion(_dependingPattern.OrThrow(), p))
+        .OrElse(() => Pattern.WithoutExclusion(_dependingPattern.OrThrow()));
 
       return RuleNames.Switch(
-        _ruleName!.OrThrow(),
+        _ruleName.OrThrow(),
         IndependentOf(dependingPattern),
         CorrectNamespaces(dependingPattern),
         NoCircularUsings(dependingPattern),
         HasAttributesOnMethods(dependingPattern),
         () => RuleUnionDto.With(new HasTargetFrameworkRuleComplementDto(dependingPattern, 
-          _targetFramework!.OrThrow())));
+          _targetFramework.OrThrow())));
     }
 
     private Func<RuleUnionDto> HasAttributesOnMethods(Pattern dependingPattern)
     {
       return () => RuleUnionDto.With(new HasAttributesOnRuleComplementDto(
         dependingPattern,
-        Pattern.WithoutExclusion(_classInclusionPattern ??
-                                 throw new ArgumentNullException(nameof(_classInclusionPattern))),
-        Pattern.WithoutExclusion(_methodInclusionPattern ??
-                                 throw new ArgumentNullException(nameof(_methodInclusionPattern)))
+        Pattern.WithoutExclusion(_classInclusionPattern.OrThrow(nameof(_classInclusionPattern))),
+        Pattern.WithoutExclusion(_methodInclusionPattern.OrThrow(nameof(_methodInclusionPattern)))
       ));
     }
 
@@ -148,7 +146,7 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
     private Func<RuleUnionDto> IndependentOf(Pattern dependingPattern)
     {
       return () => RuleUnionDto.With(new IndependentRuleComplementDto(
-        _dependencyType!.OrThrow(), 
+        _dependencyType.OrThrow(), 
         dependingPattern,
         new Glob(_dependencyName)));
     }
@@ -162,9 +160,26 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
 
   public static class X
   {
-    public static T OrThrow<T>(this T instance) where T : class
+    public static T OrThrow<T>(this T? instance) where T : class
     {
-      return instance ?? throw new ArgumentNullException(nameof(instance));
+      return instance.OrThrow(nameof(instance));
+    }
+
+    public static T OrThrow<T>(this T? instance, string instanceName) where T : class
+    {
+      return instance ?? throw new ArgumentNullException(instanceName);
+    }
+
+    public static TResult? Select<T, TResult>(this T? a, Func<T, TResult> fn) 
+      where T: class 
+      where TResult : class
+    {
+      return a == null ? null : fn(a);
+    }
+
+    public static T OrElse<T>(this T? a, Func<T> @default) where T : class
+    {
+      return a ?? @default();
     }
   }
 }

@@ -2,6 +2,7 @@
 using System.Linq;
 using FluentAssertions;
 using RunProcessAsTask;
+using TddXt.NScan.Specification.Component.AutomationLayer;
 
 namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 {
@@ -11,12 +12,13 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 
     private string ConsoleStandardOutput()
     {
-      return string.Join(Environment.NewLine, _analysisResult!.StandardOutput);
+      return string.Join(Environment.NewLine, _analysisResult.OrThrow().StandardOutput);
     }
 
     private string ConsoleStandardOutputAndErrorString()
     {
-      return string.Join(Environment.NewLine, _analysisResult!.StandardOutput.Concat(_analysisResult.StandardError));
+      var analysisResult = _analysisResult.OrThrow();
+      return string.Join(Environment.NewLine, analysisResult.StandardOutput.Concat(analysisResult.StandardError));
     }
 
     public void ReportShouldNotContainText(string text)
@@ -27,7 +29,7 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 
     public void ShouldIndicateSuccess()
     {
-      _analysisResult!.ExitCode.Should().Be(0);
+      _analysisResult.OrThrow().ExitCode.Should().Be(0);
     }
 
     public void ShouldIndicateFailure()

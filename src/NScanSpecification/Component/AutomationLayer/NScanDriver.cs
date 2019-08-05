@@ -37,22 +37,22 @@ namespace TddXt.NScan.Specification.Component.AutomationLayer
 
     public void ShouldIndicateSuccess()
     {
-      _analysis!.ReturnCode.Should().Be(0);
+      _analysis.OrThrow().ReturnCode.Should().Be(0);
     }
 
     public void ShouldIndicateFailure()
     {
-      _analysis!.ReturnCode.Should().Be(-1);
+      _analysis.OrThrow().ReturnCode.Should().Be(-1);
     }
 
     public void ReportShouldNotContainText(string text)
     {
-      _analysis!.Report.Should().NotContain(text);
+      _analysis.OrThrow().Report.Should().NotContain(text);
     }
 
     public void ReportShouldContain(ReportedMessage message)
     {
-      _analysis!.Report.Should().Contain(message.ToString());
+      _analysis.OrThrow().Report.Should().Contain(message.ToString());
     }
   }
 }
