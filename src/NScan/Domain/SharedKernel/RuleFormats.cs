@@ -1,3 +1,4 @@
+using GlobExpressions;
 using TddXt.NScan.ReadingRules.Ports;
 
 namespace TddXt.NScan.Domain.SharedKernel
@@ -27,14 +28,24 @@ namespace TddXt.NScan.Domain.SharedKernel
       return FormatIndependentRule(dto.DependingPattern.Description(), dto.RuleName, dto.DependencyType, dto.DependencyPattern.Pattern);
     }
 
-    public static string FormatIndependentRule(string projectAssemblyNamePattern, string ruleName, string dependencyType, string dependencyPattern)
-    {
-      return $"{projectAssemblyNamePattern} {ruleName} {dependencyType}:{dependencyPattern}";
-    }
 
     public static string Format(HasTargetFrameworkRuleComplementDto dto)
     {
       return $"{dto.ProjectAssemblyNamePattern.Description()} {RuleNames.HasTargetFramework} {dto.TargetFramework}";
+    }
+
+    public static string FormatIndependentRule(
+      Pattern dependingNamePattern,
+      string dependencyType, 
+      Glob dependencyNamePattern)
+    {
+      return RuleFormats.FormatIndependentRule(dependingNamePattern.Description(), RuleNames.IndependentOf, dependencyType,
+        dependencyNamePattern.Pattern);
+    }
+
+    private static string FormatIndependentRule(string projectAssemblyNamePattern, string ruleName, string dependencyType, string dependencyPattern)
+    {
+      return $"{projectAssemblyNamePattern} {ruleName} {dependencyType}:{dependencyPattern}";
     }
   }
 }

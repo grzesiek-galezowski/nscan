@@ -94,7 +94,7 @@ namespace TddXt.NScan.Domain.Root
       return new IndependentRule(
         new JoinedDescribedCondition(new IsFollowingAssemblyCondition(),
           new HasAssemblyNameMatchingPatternCondition(
-            dependencyNamePattern), DependencyDescriptions.Description(dependingNamePattern, 
+            dependencyNamePattern), RuleFormats.FormatIndependentRule(dependingNamePattern, 
             dependencyType, dependencyNamePattern)), 
         dependingNamePattern,
         RuleViolationFactory());
@@ -107,7 +107,8 @@ namespace TddXt.NScan.Domain.Root
     {
       return new IndependentRule(
         new DescribedCondition(
-          new HasPackageReferenceMatchingCondition(packageNamePattern), DependencyDescriptions.Description(dependingAssemblyNamePattern, dependencyType, packageNamePattern)), 
+          new HasPackageReferenceMatchingCondition(packageNamePattern), 
+          RuleFormats.FormatIndependentRule(dependingAssemblyNamePattern, dependencyType, packageNamePattern)), 
         dependingAssemblyNamePattern, RuleViolationFactory());
     }
 
@@ -116,7 +117,7 @@ namespace TddXt.NScan.Domain.Root
       Glob assemblyNamePattern,
       string dependencyType)
     {
-      return new IndependentRule(new DescribedCondition(new HasAssemblyReferenceMatchingCondition(assemblyNamePattern), DependencyDescriptions.Description(dependingAssemblyNamePattern, dependencyType, assemblyNamePattern)), 
+      return new IndependentRule(new DescribedCondition(new HasAssemblyReferenceMatchingCondition(assemblyNamePattern), RuleFormats.FormatIndependentRule(dependingAssemblyNamePattern, dependencyType, assemblyNamePattern)), 
         dependingAssemblyNamePattern, RuleViolationFactory());
     }
   }
