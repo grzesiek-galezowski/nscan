@@ -30,28 +30,39 @@ namespace Cake.NScan
 
     public void Log(IndependentRuleComplementDto dto)
     {
-      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {RuleFormats.Format(dto)}");
+      Log(RuleFormats.Format(dto));
     }
 
     public void Log(CorrectNamespacesRuleComplementDto dto)
     {
-      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {RuleFormats.Format(dto)}");
+      Log(RuleFormats.Format(dto));
     }
 
     public void Log(NoCircularUsingsRuleComplementDto dto)
     {
-      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {RuleFormats.Format(dto)}");
+      Log(RuleFormats.Format(dto));
     }
 
     public void Log(HasAttributesOnRuleComplementDto dto)
     {
-      //bug there's duplication in the output of these rules
-      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {RuleFormats.Format(dto)}");
+      Log(RuleFormats.Format(dto));
     }
 
     public void Log(HasTargetFrameworkRuleComplementDto dto)
     {
-      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, $"Discovered rule: {RuleFormats.Format(dto)}");
+      Log(RuleFormats.Format(dto));
+    }
+
+    private void Log(string ruleDescription)
+    {
+      _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, Discovered(ruleDescription));
+    }
+
+    private static string Discovered(string ruleDescription)
+    {
+      return $"Discovered rule: {ruleDescription}";
     }
   }
+
+
 }
