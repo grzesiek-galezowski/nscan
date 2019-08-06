@@ -20,7 +20,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       //GIVEN
       var ruleFactory = new RuleFactory();
       var dependingId = Any.Pattern();
-      var dependencyId = Any.Instance<Glob>(); //bug?
+      var dependencyId = Any.Instance<Glob>();
       
       //WHEN
       var independentRuleComplementDto =

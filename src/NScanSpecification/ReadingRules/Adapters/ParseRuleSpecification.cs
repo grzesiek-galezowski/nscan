@@ -195,13 +195,4 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
       rule1Dto.RuleName.Should().Be(RuleNames.HasTargetFramework);
     }
   }
-
-  public class FailWhenLambda //bug rename
-  {
-    public static Action<T> FailWhen<T>()
-    {
-      return dto => { Assert.False(true); };
-    }
-  }
-
 }

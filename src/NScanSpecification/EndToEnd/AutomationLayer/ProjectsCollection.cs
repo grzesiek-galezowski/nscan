@@ -31,7 +31,7 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 
     public void CreateOnDisk(SolutionDir solutionDir, DotNetExe dotNetExe)
     {
-      _projects.AsParallel().ForEach(projectDefinition =>
+      _projects.ForEach(projectDefinition =>
       {
         var absoluteDirectoryPath = solutionDir.PathToProject(projectDefinition.ProjectName);
         CreateProject(dotNetExe, projectDefinition.ProjectName, absoluteDirectoryPath, projectDefinition.TargetFramework);

@@ -7,27 +7,27 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
   {
     public virtual void Visit(HasAttributesOnRuleComplementDto dto)
     {
-      FailWhenLambda.FailWhen<HasAttributesOnRuleComplementDto>()(dto);
+      AssertionLambdas.FailWhen<HasAttributesOnRuleComplementDto>()(dto);
     }
 
     public virtual void Visit(NoCircularUsingsRuleComplementDto dto)
     {
-      FailWhenLambda.FailWhen<NoCircularUsingsRuleComplementDto>()(dto);
+      AssertionLambdas.FailWhen<NoCircularUsingsRuleComplementDto>()(dto);
     }
 
     public virtual void Visit(CorrectNamespacesRuleComplementDto dto)
     {
-      FailWhenLambda.FailWhen<CorrectNamespacesRuleComplementDto>()(dto);
+      AssertionLambdas.FailWhen<CorrectNamespacesRuleComplementDto>()(dto);
     }
 
     public virtual void Visit(IndependentRuleComplementDto dto)
     {
-      FailWhenLambda.FailWhen<IndependentRuleComplementDto>()(dto);
+      AssertionLambdas.FailWhen<IndependentRuleComplementDto>()(dto);
     }
 
     public virtual void Visit(HasTargetFrameworkRuleComplementDto dto)
     {
-      FailWhenLambda.FailWhen<HasTargetFrameworkRuleComplementDto>()(dto);
+      AssertionLambdas.FailWhen<HasTargetFrameworkRuleComplementDto>()(dto);
     }
   }
 }

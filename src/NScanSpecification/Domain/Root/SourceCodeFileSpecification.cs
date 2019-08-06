@@ -192,7 +192,7 @@ namespace TddXt.NScan.Specification.Domain.Root
 
 
     [Fact]
-    public void ShouldNotReportAnythingWhenThereAreNoClasses() //bug
+    public void ShouldNotReportAnythingWhenThereAreNoClasses()
     {
       //GIVEN
       var report = Substitute.For<IAnalysisReportInProgress>();

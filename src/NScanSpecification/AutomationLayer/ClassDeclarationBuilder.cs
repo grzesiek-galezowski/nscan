@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using TddXt.NScan.ReadingCSharpSourceCode;
 
@@ -7,22 +8,29 @@ namespace TddXt.NScan.Specification.AutomationLayer
   public class ClassDeclarationBuilder
   {
     private readonly string _name;
-    private readonly List<MethodDeclarationBuilder> _methods = new List<MethodDeclarationBuilder>();
+    private readonly string _namespaceName;
+    private readonly ImmutableList<MethodDeclarationBuilder> _methods;
 
-    private ClassDeclarationBuilder(string name)
+    private ClassDeclarationBuilder(string name, IEnumerable<MethodDeclarationBuilder> methods, string namespaceName)
     {
       _name = name;
+      _namespaceName = namespaceName;
+      _methods = ImmutableList.Create(methods.ToArray());
     }
 
     public static ClassDeclarationBuilder Class(string name)
     {
-      return new ClassDeclarationBuilder(name);
+      return new ClassDeclarationBuilder(name, new List<MethodDeclarationBuilder>(), string.Empty);
     }
 
     public ClassDeclarationBuilder With(params MethodDeclarationBuilder[] methodDeclarationBuilders)
     {
-      _methods.AddRange(methodDeclarationBuilders);
-      return this;
+      return new ClassDeclarationBuilder(_name, _methods.Concat(methodDeclarationBuilders), _namespaceName);
+    }
+    
+    public ClassDeclarationBuilder WithNamespace(string namespaceName)
+    {
+      return new ClassDeclarationBuilder(_name, _methods, namespaceName);
     }
 
     public ClassDeclarationInfo Build()

@@ -49,7 +49,7 @@ namespace TddXt.NScan.Specification.AutomationLayer
         parentProjectRootNamespace, 
         parentProjectAssemblyName, 
         Usings,
-        _classes.Select(c => c.Build()).ToList());
+        _classes.Select(c => c.WithNamespace(DeclaredNamespaces.First()).Build()).ToList());
     }
 
     public static XmlSourceCodeFileBuilder File(string fileName)
