@@ -93,7 +93,8 @@ namespace TddXt.NScan.Specification.Domain.Root
       var projectScopedRule = ruleFactory.CreateProjectScopedRuleFrom(ruleDto);
 
       //THEN
-      projectScopedRule.Should().BeOfType<ProjectSourceCodeFilesRelatedRule>();
+      projectScopedRule.Should().BeOfType<ProjectScopedRuleApplicableToMatchingProject>();
+      projectScopedRule.Should().DependOn<ProjectSourceCodeFilesRelatedRule>();
       projectScopedRule.Should().DependOn(ruleDto.ProjectAssemblyNamePattern);
     }
 
@@ -123,7 +124,8 @@ namespace TddXt.NScan.Specification.Domain.Root
       var projectScopedRule = ruleFactory.CreateProjectScopedRuleFrom(ruleDto);
 
       //THEN
-      projectScopedRule.Should().BeOfType<ProjectSourceCodeFilesRelatedRule>();
+      projectScopedRule.Should().BeOfType<ProjectScopedRuleApplicableToMatchingProject>();
+      projectScopedRule.Should().DependOn<ProjectSourceCodeFilesRelatedRule>();
       projectScopedRule.Should().DependOn<MethodsOfMatchingClassesAreDecoratedWithAttributeCheck>();
       projectScopedRule.Should().DependOn(ruleDto.ClassNameInclusionPattern);
       projectScopedRule.Should().DependOn(ruleDto.MethodNameInclusionPattern);
@@ -140,7 +142,8 @@ namespace TddXt.NScan.Specification.Domain.Root
       var projectScopedRule = ruleFactory.CreateProjectScopedRuleFrom(ruleDto);
 
       //THEN
-      projectScopedRule.Should().BeOfType<HasTargetFrameworkRule>();
+      projectScopedRule.Should().BeOfType<ProjectScopedRuleApplicableToMatchingProject>();
+      projectScopedRule.Should().DependOn<HasTargetFrameworkRule>();
       projectScopedRule.Should().DependOn(ruleDto.ProjectAssemblyNamePattern);
       projectScopedRule.Should().DependOn(ruleDto.TargetFramework);
     }

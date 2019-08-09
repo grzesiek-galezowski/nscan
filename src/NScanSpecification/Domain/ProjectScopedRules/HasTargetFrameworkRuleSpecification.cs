@@ -13,35 +13,15 @@ namespace TddXt.NScan.Specification.Domain.ProjectScopedRules
 {
   public class HasTargetFrameworkRuleSpecification
   {
+
     [Fact]
-    public void ShouldDoNothingWhenProjectDoesNotMatchAssemblyName()
+    public void ShouldValidateProjectForTargetFrameworkWhenChecked()
     {
       //GIVEN
-      var projectAssemblyNamePattern = Any.Pattern();
-      var rule = new HasTargetFrameworkRule(projectAssemblyNamePattern, Any.String(), Any.Instance<IProjectScopedRuleViolationFactory>(), Any.String());
-      var project = Substitute.For<IProjectScopedRuleTarget>();
-      var analysisReportInProgress = Substitute.For<IAnalysisReportInProgress>();
-
-      project.HasProjectAssemblyNameMatching(projectAssemblyNamePattern).Returns(false);
-
-      //WHEN
-      rule.Check(project, analysisReportInProgress);
-
-      //THEN
-      analysisReportInProgress.ReceivedNothing(); //bug add method to XNSubstitute - ReceivedNoCommands() to check for void or Task
-    }
-    
-    [Fact]
-    public void ShouldValidateProjectForTargetFrameworkWhenProjectMatchesAssemblyNameAndTargetFramework()
-    {
-      //GIVEN
-      var projectAssemblyNamePattern = Any.Pattern();
       var targetFramework = Any.String();
-      var rule = new HasTargetFrameworkRule(projectAssemblyNamePattern, targetFramework, Any.Instance<IProjectScopedRuleViolationFactory>(), Any.String());
+      var rule = new HasTargetFrameworkRule(targetFramework, Any.Instance<IProjectScopedRuleViolationFactory>(), Any.String());
       var project = Substitute.For<IProjectScopedRuleTarget>();
       var analysisReportInProgress = Substitute.For<IAnalysisReportInProgress>();
-
-      project.HasProjectAssemblyNameMatching(projectAssemblyNamePattern).Returns(true);
 
       //WHEN
       rule.Check(project, analysisReportInProgress);
@@ -56,9 +36,7 @@ namespace TddXt.NScan.Specification.Domain.ProjectScopedRules
         //GIVEN
         var ruleDescription = Any.String();
         var targetFramework = Any.String();
-        var rule = new HasTargetFrameworkRule(
-          Any.Pattern(), 
-          targetFramework, 
+        var rule = new HasTargetFrameworkRule(targetFramework, 
           Any.Instance<IProjectScopedRuleViolationFactory>(), 
           ruleDescription);
 
@@ -74,7 +52,6 @@ namespace TddXt.NScan.Specification.Domain.ProjectScopedRules
         public void ShouldReportNothingWhenProjectMatchesAssemblyNameAndTargetFramework()
         {
           //GIVEN
-          var projectAssemblyNamePattern = Any.Pattern();
           var targetFramework = Any.String();
           var expectedTargetFramework = Any.String();
           var violationFactory = Substitute.For<IProjectScopedRuleViolationFactory>();
@@ -82,8 +59,7 @@ namespace TddXt.NScan.Specification.Domain.ProjectScopedRules
           var ruleDescription = Any.String();
           var assemblyName = Any.String();
           var violation = Any.Instance<RuleViolation>();
-          var rule = new HasTargetFrameworkRule(
-            projectAssemblyNamePattern, expectedTargetFramework, violationFactory, ruleDescription);
+          var rule = new HasTargetFrameworkRule(expectedTargetFramework, violationFactory, ruleDescription);
 
           violationFactory.ProjectScopedRuleViolation(
             ruleDescription + " " + expectedTargetFramework, $"Project {assemblyName} has target framework {targetFramework}").Returns(violation);

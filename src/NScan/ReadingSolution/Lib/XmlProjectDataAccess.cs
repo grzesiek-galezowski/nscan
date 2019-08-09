@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AtmaFileSystem;
+using Force.DeepCloner;
 using Functional.Maybe;
 using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.ReadingSolution.Ports;
@@ -10,7 +11,6 @@ namespace TddXt.NScan.ReadingSolution.Lib
 {
   public interface IXmlProjectDataAccess
   {
-    void NormalizeProjectDependencyPaths(AbsoluteFilePath projectFileAbsolutePath);
     string DetermineAssemblyName();
     ProjectId Id();
     IEnumerable<XmlPackageReference> XmlPackageReferences();
@@ -134,7 +134,7 @@ namespace TddXt.NScan.ReadingSolution.Lib
 
     public XmlProject ToXmlProject()
     {
-      return _xmlProject; //bug clone this
+      return _xmlProject.DeepClone();
     }
   }
 }

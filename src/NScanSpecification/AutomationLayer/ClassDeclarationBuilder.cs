@@ -35,7 +35,7 @@ namespace TddXt.NScan.Specification.AutomationLayer
 
     public ClassDeclarationInfo Build()
     {
-      var classDeclarationInfo = new ClassDeclarationInfo(_name, "" /* bug */);
+      var classDeclarationInfo = new ClassDeclarationInfo(_name, _namespaceName);
       classDeclarationInfo.Methods.AddRange(_methods.Select(m => m.Build()));
       return classDeclarationInfo;
     }

@@ -46,24 +46,28 @@ namespace TddXt.NScan.Domain.Root
 
     public IProjectScopedRule CreateProjectScopedRuleFrom(CorrectNamespacesRuleComplementDto ruleDto)
     {
-      return new ProjectSourceCodeFilesRelatedRule(
-        ruleDto.ProjectAssemblyNamePattern, 
-        RuleDescription(ruleDto), 
-        new CorrectNamespacesInFileCheck());
+      return new ProjectScopedRuleApplicableToMatchingProject(ruleDto.ProjectAssemblyNamePattern, 
+        new ProjectSourceCodeFilesRelatedRule(RuleDescription(ruleDto), 
+        new CorrectNamespacesInFileCheck()));
     }
 
     public IProjectScopedRule CreateProjectScopedRuleFrom(HasAttributesOnRuleComplementDto ruleDto)
     {
-      return new ProjectSourceCodeFilesRelatedRule(
+      return new ProjectScopedRuleApplicableToMatchingProject(
         ruleDto.ProjectAssemblyNamePattern,
-        $"{ruleDto.ProjectAssemblyNamePattern.Description()} {ruleDto.RuleName} " +
-        $"{ruleDto.ClassNameInclusionPattern.Description()}:{ruleDto.MethodNameInclusionPattern.Description()}",
-        new MethodsOfMatchingClassesAreDecoratedWithAttributeCheck(ruleDto));
+        new ProjectSourceCodeFilesRelatedRule($"{ruleDto.ProjectAssemblyNamePattern.Description()} {ruleDto.RuleName} " +
+          $"{ruleDto.ClassNameInclusionPattern.Description()}:{ruleDto.MethodNameInclusionPattern.Description()}",
+          new MethodsOfMatchingClassesAreDecoratedWithAttributeCheck(ruleDto)));
     }
 
     public IProjectScopedRule CreateProjectScopedRuleFrom(HasTargetFrameworkRuleComplementDto ruleDto)
     {
-      return new HasTargetFrameworkRule(ruleDto.ProjectAssemblyNamePattern, ruleDto.TargetFramework, RuleViolationFactory(), RuleDescription(ruleDto));
+      return 
+        new ProjectScopedRuleApplicableToMatchingProject(
+          ruleDto.ProjectAssemblyNamePattern,
+          new HasTargetFrameworkRule(ruleDto.TargetFramework, 
+            RuleViolationFactory(), 
+            RuleDescription(ruleDto)));
     }
 
     private string RuleDescription(HasTargetFrameworkRuleComplementDto ruleDto)

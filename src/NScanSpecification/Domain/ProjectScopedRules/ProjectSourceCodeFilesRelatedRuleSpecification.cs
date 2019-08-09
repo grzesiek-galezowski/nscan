@@ -14,15 +14,12 @@ namespace TddXt.NScan.Specification.Domain.ProjectScopedRules
   public class ProjectSourceCodeFilesRelatedRuleSpecification
   {
     [Fact]
-    public void ShouldMakeProjectAnalyzeFilesWithItselfWhenProjectMatchesAPattern()
+    public void ShouldMakeProjectAnalyzeFilesWithItselfWhenChecked()
     {
       //GIVEN
-      var projectAssemblyNamePattern = Any.Pattern();
-      var rule = new ProjectSourceCodeFilesRelatedRule(projectAssemblyNamePattern, Any.String(), Any.Instance<ISourceCodeFileContentCheck>());
+      var rule = new ProjectSourceCodeFilesRelatedRule(Any.String(), Any.Instance<ISourceCodeFileContentCheck>());
       var report = Any.Instance<IAnalysisReportInProgress>();
       var project = Substitute.For<IProjectScopedRuleTarget>();
-
-      project.HasProjectAssemblyNameMatching(projectAssemblyNamePattern).Returns(true);
 
       //WHEN
       rule.Check(project, report);
@@ -32,31 +29,13 @@ namespace TddXt.NScan.Specification.Domain.ProjectScopedRules
     }
 
     [Fact]
-    public void ShouldNotMakeAnalyzeFilesWithItselfWhenProjectDoesNotMatchAPattern()
-    {
-      //GIVEN
-      var projectAssemblyNamePattern = Any.Pattern();
-      var rule = new ProjectSourceCodeFilesRelatedRule(projectAssemblyNamePattern, Any.String(), new CorrectNamespacesInFileCheck());
-      var report = Any.Instance<IAnalysisReportInProgress>();
-      var project = Substitute.For<IProjectScopedRuleTarget>();
-
-      project.HasProjectAssemblyNameMatching(projectAssemblyNamePattern).Returns(false);
-
-      //WHEN
-      rule.Check(project, report);
-
-      //THEN
-      project.DidNotReceive().AnalyzeFiles(Arg.Any<IProjectFilesetScopedRule>(), Arg.Any<IAnalysisReportInProgress>());
-    }
-
-    [Fact]
     public void ShouldAnalyzeNamespaceCorrectnessOnEachAnalyzedFiles()
     {
       //GIVEN
       var projectAssemblyNamePattern = Any.Pattern();
       var fileContentCheck = Substitute.For<ISourceCodeFileContentCheck>();
       var ruleDescription = Any.String();
-      var rule = new ProjectSourceCodeFilesRelatedRule(projectAssemblyNamePattern, ruleDescription, fileContentCheck);
+      var rule = new ProjectSourceCodeFilesRelatedRule(ruleDescription, fileContentCheck);
       var file1 = Substitute.For<ISourceCodeFile>();
       var file2 = Substitute.For<ISourceCodeFile>();
       var file3 = Substitute.For<ISourceCodeFile>();
@@ -84,7 +63,7 @@ namespace TddXt.NScan.Specification.Domain.ProjectScopedRules
     {
       //GIVEN
       var ruleDescription = Any.String();
-      var rule = new ProjectSourceCodeFilesRelatedRule(Any.Pattern(), ruleDescription, Any.Instance<ISourceCodeFileContentCheck>());
+      var rule = new ProjectSourceCodeFilesRelatedRule(ruleDescription, Any.Instance<ISourceCodeFileContentCheck>());
 
       //WHEN
       var ruleAsString = rule.ToString();

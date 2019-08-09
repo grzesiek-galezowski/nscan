@@ -1,5 +1,4 @@
 ﻿using TddXt.NScan.Domain.SharedKernel;
-using TddXt.NScan.ReadingRules.Ports;
 
 namespace TddXt.NScan.Domain.ProjectScopedRules
 {
@@ -11,15 +10,15 @@ namespace TddXt.NScan.Domain.ProjectScopedRules
 
   public class HasTargetFrameworkRule : IProjectScopedRule, ITargetFrameworkCheck
   {
-    private readonly Pattern _projectAssemblyNamePattern;
     private readonly string _expectedTargetFramework;
     private readonly IProjectScopedRuleViolationFactory _violationFactory;
     private readonly string _ruleDescription;
 
-    public HasTargetFrameworkRule(Pattern projectAssemblyNamePattern, string expectedTargetFramework,
-      IProjectScopedRuleViolationFactory violationFactory, string ruleDescription)
+    public HasTargetFrameworkRule(
+      string expectedTargetFramework,
+      IProjectScopedRuleViolationFactory violationFactory, 
+      string ruleDescription)
     {
-      _projectAssemblyNamePattern = projectAssemblyNamePattern;
       _expectedTargetFramework = expectedTargetFramework;
       _violationFactory = violationFactory;
       _ruleDescription = ruleDescription;
@@ -27,10 +26,7 @@ namespace TddXt.NScan.Domain.ProjectScopedRules
 
     public void Check(IProjectScopedRuleTarget project, IAnalysisReportInProgress report)
     {
-      if (project.HasProjectAssemblyNameMatching(_projectAssemblyNamePattern))
-      {
-        project.ValidateTargetFrameworkWith((ITargetFrameworkCheck) this, report);
-      }
+      project.ValidateTargetFrameworkWith((ITargetFrameworkCheck) this, report);
     }
 
     public void ApplyTo(string assemblyName, string targetFramework, IAnalysisReportInProgress report)

@@ -31,6 +31,7 @@
   <ItemGroup>
     <PackageReference Include="AtmaFileSystem" Version="2.1.1" />
     <PackageReference Include="Buildalyzer" Version="2.2.0" />
+    <PackageReference Include="DeepCloner" Version="0.10.2" />
     <PackageReference Include="Functional.Maybe" Version="2.0.10" />
     <PackageReference Include="Functional.Maybe.Just" Version="1.0.0" />
     <PackageReference Include="Glob" Version="1.1.1" />
