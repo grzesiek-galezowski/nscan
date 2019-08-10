@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using AnyClone;
 using AtmaFileSystem;
-using Force.DeepCloner;
 using Functional.Maybe;
 using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.ReadingSolution.Ports;
@@ -134,7 +134,7 @@ namespace TddXt.NScan.ReadingSolution.Lib
 
     public XmlProject ToXmlProject()
     {
-      return _xmlProject.DeepClone();
+      return _xmlProject.Clone();
     }
   }
 }
