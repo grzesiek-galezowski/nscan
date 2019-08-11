@@ -2,18 +2,12 @@
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.ReadingRules.Ports;
-using TddXt.XFluentAssert.Root;
 using Xunit;
 
 namespace TddXt.NScan.Specification.ReadingRules.Ports
 {
   public class PatternSpecification
   {
-    [Fact]
-    public void ShouldBehaveLikeValueObject()
-    {
-      typeof(Pattern).Should().HaveValueSemantics();
-    }
 
     [Fact]
     public void ShouldMatchStringsWithoutExclusion()

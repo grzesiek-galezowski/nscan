@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
+using Value;
 
 namespace TddXt.NScan.Domain.SharedKernel
 {
-  public sealed class PackageReference : IEquatable<PackageReference>
+  public sealed class PackageReference : ValueType<PackageReference>
   {
+    public string Name { get; }
     private readonly string _version;
 
     public PackageReference(string name, string version)
@@ -12,39 +15,10 @@ namespace TddXt.NScan.Domain.SharedKernel
       _version = version;
     }
 
-    public string Name { get; }
-
-    public bool Equals(PackageReference other)
+    protected override IEnumerable<object> GetAllAttributesToBeUsedForEquality()
     {
-      if (ReferenceEquals(null, other)) return false;
-      if (ReferenceEquals(this, other)) return true;
-      return string.Equals(Name, other.Name) && string.Equals(_version, other._version);
-    }
-
-    public override bool Equals(object obj)
-    {
-      if (ReferenceEquals(null, obj)) return false;
-      if (ReferenceEquals(this, obj)) return true;
-      if (obj.GetType() != GetType()) return false;
-      return Equals((PackageReference) obj);
-    }
-
-    public override int GetHashCode()
-    {
-      unchecked
-      {
-        return (Name.GetHashCode() * 397) ^ _version.GetHashCode();
-      }
-    }
-
-    public static bool operator ==(PackageReference left, PackageReference right)
-    {
-      return Equals(left, right);
-    }
-
-    public static bool operator !=(PackageReference left, PackageReference right)
-    {
-      return !Equals(left, right);
+      yield return Name;
+      yield return _version;
     }
 
     public override string ToString()

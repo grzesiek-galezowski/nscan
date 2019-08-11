@@ -1,6 +1,6 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using TddXt.NScan.Specification.EndToEnd.AutomationLayer;
+using static System.Environment;
 
 namespace TddXt.NScan.Specification.AutomationLayer
 {
@@ -12,10 +12,13 @@ namespace TddXt.NScan.Specification.AutomationLayer
 
     public ProjectIndependentOfMessage ViolationPath(params string[] path)
     {
-      return NewInstance(this
-                         + Environment.NewLine +
-                         "Violating path: " + string.Join("->",
-                           path.Select(c => $"[{c}]")));
+      return NewInstance(this + NewLine + "Violating path: " + StringFrom(path));
+    }
+
+    private static string StringFrom(string[] path)
+    {
+      return string.Join("->",
+        path.Select(c => $"[{c}]"));
     }
 
     protected override ProjectIndependentOfMessage NewInstance(string str)
@@ -25,7 +28,6 @@ namespace TddXt.NScan.Specification.AutomationLayer
 
     public static ProjectIndependentOfMessage ProjectIndependentOfAssembly(string projectName, string packageName)
     {
-      //bug some rules have square brackets, some not. Adjust it!
       return new ProjectIndependentOfMessage(
         TestRuleFormats.FormatIndependentRule($"{projectName}", "assembly", $"{packageName}"));
     }

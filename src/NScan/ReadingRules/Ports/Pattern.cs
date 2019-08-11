@@ -1,11 +1,13 @@
 using System;
+using System.Collections.Generic;
 using Functional.Maybe;
 using Functional.Maybe.Just;
 using GlobExpressions;
+using Value;
 
 namespace TddXt.NScan.ReadingRules.Ports
 {
-  public sealed class Pattern : IEquatable<Pattern>
+  public sealed class Pattern : ValueType<Pattern>
   {
     private readonly Maybe<string> _exclusionPattern;
     private readonly string _inclusionPattern;
@@ -14,13 +16,6 @@ namespace TddXt.NScan.ReadingRules.Ports
     {
       _inclusionPattern = inclusionPattern;
       _exclusionPattern = exclusionPattern;
-    }
-
-    public bool Equals(Pattern other)
-    {
-      if (ReferenceEquals(null, other)) return false;
-      if (ReferenceEquals(this, other)) return true;
-      return string.Equals(_inclusionPattern, other._inclusionPattern) && _exclusionPattern.Equals(other._exclusionPattern);
     }
 
     public static Pattern WithoutExclusion(string pattern)
@@ -38,7 +33,6 @@ namespace TddXt.NScan.ReadingRules.Ports
         );
     }
 
-
     public string Description()
     {
       return _exclusionPattern.Select(exclusionPattern => _inclusionPattern + " except " + exclusionPattern)
@@ -54,29 +48,10 @@ namespace TddXt.NScan.ReadingRules.Ports
           .OrElse(() => true);
     }
 
-    public override bool Equals(object obj)
+    protected override IEnumerable<object> GetAllAttributesToBeUsedForEquality()
     {
-      if (ReferenceEquals(null, obj)) return false;
-      if (ReferenceEquals(this, obj)) return true;
-      return obj is Pattern other && Equals(other);
-    }
-
-    public override int GetHashCode()
-    {
-      unchecked
-      {
-        return (_inclusionPattern.GetHashCode() * 397) ^ _exclusionPattern.GetHashCode();
-      }
-    }
-
-    public static bool operator ==(Pattern left, Pattern right)
-    {
-      return Equals(left, right);
-    }
-
-    public static bool operator !=(Pattern left, Pattern right)
-    {
-      return !Equals(left, right);
+      yield return _exclusionPattern;
+      yield return _inclusionPattern;
     }
   }
 }

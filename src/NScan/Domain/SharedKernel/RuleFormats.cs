@@ -3,7 +3,7 @@ using TddXt.NScan.ReadingRules.Ports;
 
 namespace TddXt.NScan.Domain.SharedKernel
 {
-  public static class RuleFormats //bug add special UTs for this extracted code
+  public static class RuleFormats
   {
     public static string Format(HasAttributesOnRuleComplementDto dto)
     {
@@ -39,7 +39,7 @@ namespace TddXt.NScan.Domain.SharedKernel
       string dependencyType, 
       Glob dependencyNamePattern)
     {
-      return RuleFormats.FormatIndependentRule(dependingNamePattern.Description(), RuleNames.IndependentOf, dependencyType,
+      return FormatIndependentRule(dependingNamePattern.Description(), RuleNames.IndependentOf, dependencyType,
         dependencyNamePattern.Pattern);
     }
 
