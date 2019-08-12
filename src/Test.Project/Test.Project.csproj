@@ -5,10 +5,4 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Reference Include="Cake.Core">
-      <HintPath>..\..\tools\Addins\Cake.Core.0.30.0\lib\netstandard2.0\Cake.Core.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>
