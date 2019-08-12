@@ -8,7 +8,6 @@ namespace TddXt.NScan.Specification.ReadingRules.Ports
 {
   public class PatternSpecification
   {
-
     [Fact]
     public void ShouldMatchStringsWithoutExclusion()
     {
