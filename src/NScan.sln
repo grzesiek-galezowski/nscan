@@ -21,11 +21,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cake.NScan", "Cake.NScan\Ca
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.Project", "Test.Project\Test.Project.csproj", "{25C5697E-F9E5-4D30-BDC1-F3011AB5826D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScanSpecification.Component", "NScanSpecification.Component\NScanSpecification.Component.csproj", "{E3C00F7C-6625-463E-8812-9334AA91785D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScanSpecification.Component", "NScanSpecification.Component\NScanSpecification.Component.csproj", "{E3C00F7C-6625-463E-8812-9334AA91785D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScanSpecification.Lib", "NScanSpecification.Lib\NScanSpecification.Lib.csproj", "{38E5223C-B760-48B7-A40D-4E0DF941EE0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScanSpecification.Lib", "NScanSpecification.Lib\NScanSpecification.Lib.csproj", "{38E5223C-B760-48B7-A40D-4E0DF941EE0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScanSpecification.E2E", "NScanSpecification.E2E\NScanSpecification.E2E.csproj", "{371B32D7-237B-42DF-B4A9-B8DE9BB3B977}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScanSpecification.E2E", "NScanSpecification.E2E\NScanSpecification.E2E.csproj", "{371B32D7-237B-42DF-B4A9-B8DE9BB3B977}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrontEnd", "FrontEnd", "{D1CB90A1-5419-4CA0-A515-FCEDCEE125EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
