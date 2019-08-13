@@ -60,7 +60,7 @@ namespace NScanSpecification.Component
 
       context.HasProject("MyProject")
         .WithRootNamespace("MyProject")
-        .With(File("lol.cs").With(
+        .With(File("lol.cs").Containing(
           Class("MySpecification")));
 
       context.Add(RuleDemandingThat().Project("*MyProject*").ToHaveDecoratedMethods("*Specification", "Should*"));
@@ -81,7 +81,7 @@ namespace NScanSpecification.Component
 
       context.HasProject("MyProject")
         .WithRootNamespace("MyProject")
-        .With(File("lol.cs").With(
+        .With(File("lol.cs").Containing(
         Class("MySpecification").With(
           Method("ShouldA")
             .DecoratedWithAttribute(Any.String()),
@@ -111,7 +111,7 @@ namespace NScanSpecification.Component
       
       context.HasProject("MyProject")
         .WithRootNamespace("MyProject")
-        .With(File("lol.cs").With(
+        .With(File("lol.cs").Containing(
           Class(className).With(
             Method(methodName1),
             Method(methodName2))));

@@ -58,7 +58,7 @@ namespace NScanSpecification.Lib.AutomationLayer
     }
 
 
-    public XmlSourceCodeFileBuilder With(ClassDeclarationBuilder classDeclarationBuilder)
+    public XmlSourceCodeFileBuilder Containing(ClassDeclarationBuilder classDeclarationBuilder)
     {
       _classes.Add(classDeclarationBuilder);
       return this;
