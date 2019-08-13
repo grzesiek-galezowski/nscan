@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
+using NScan.Lib;
+using NScan.SharedKernel.SharedKernel;
 using Sprache;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.ReadingRules.Adapters;
-using TddXt.NScan.ReadingRules.Ports;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 

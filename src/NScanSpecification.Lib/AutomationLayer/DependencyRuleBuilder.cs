@@ -1,6 +1,8 @@
 ﻿using System;
 using GlobExpressions;
-using TddXt.NScan.ReadingRules.Ports;
+using NScan.Lib;
+using NScan.SharedKernel.Ports;
+using NScan.SharedKernel.SharedKernel;
 
 namespace NScanSpecification.Lib.AutomationLayer
 {

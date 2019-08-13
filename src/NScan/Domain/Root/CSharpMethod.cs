@@ -1,8 +1,8 @@
 using System.Linq;
+using NScan.Lib;
+using NScan.SharedKernel.SharedKernel;
 using TddXt.NScan.Domain.ProjectScopedRules;
-using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.ReadingCSharpSourceCode;
-using TddXt.NScan.ReadingRules.Ports;
 
 namespace TddXt.NScan.Domain.Root
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TddXt.NScan.Domain.SharedKernel
+namespace NScan.SharedKernel.SharedKernel
 {
   public class ReferencedProjectNotFoundInSolutionException : Exception
   {

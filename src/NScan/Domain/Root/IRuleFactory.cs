@@ -1,7 +1,7 @@
+using NScan.SharedKernel.Ports;
 using TddXt.NScan.Domain.DependencyPathBasedRules;
 using TddXt.NScan.Domain.NamespaceBasedRules;
 using TddXt.NScan.Domain.ProjectScopedRules;
-using TddXt.NScan.ReadingRules.Ports;
 
 namespace TddXt.NScan.Domain.Root
 {

@@ -1,5 +1,5 @@
-﻿using TddXt.NScan.Domain.DependencyPathBasedRules;
-using TddXt.NScan.Domain.SharedKernel;
+﻿using NScan.SharedKernel.SharedKernel;
+using TddXt.NScan.Domain.DependencyPathBasedRules;
 
 namespace TddXt.NScan.Domain.Root
 {

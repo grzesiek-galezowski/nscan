@@ -5,7 +5,7 @@ using Functional.Maybe.Just;
 using GlobExpressions;
 using Value;
 
-namespace TddXt.NScan.ReadingRules.Ports
+namespace NScan.Lib
 {
   public sealed class Pattern : ValueType<Pattern>
   {

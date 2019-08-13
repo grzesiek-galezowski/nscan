@@ -1,5 +1,5 @@
 ﻿using GlobExpressions;
-using TddXt.NScan.ReadingRules.Ports;
+using NScan.Lib;
 
 namespace TddXt.NScan.Domain.DependencyPathBasedRules
 {

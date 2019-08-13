@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.Data;
 using GlobExpressions;
+using NScan.Lib;
+using NScan.SharedKernel.Ports;
+using NScan.SharedKernel.SharedKernel;
 using Sprache;
-using TddXt.NScan.ReadingRules.Ports;
 
 namespace TddXt.NScan.ReadingRules.Adapters
 {

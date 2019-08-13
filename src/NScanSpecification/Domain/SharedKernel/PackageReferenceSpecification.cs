@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using TddXt.NScan.Domain.SharedKernel;
+using NScan.SharedKernel.SharedKernel;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 

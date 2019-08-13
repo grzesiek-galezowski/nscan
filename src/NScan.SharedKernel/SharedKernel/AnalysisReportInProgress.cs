@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TddXt.NScan.Domain.SharedKernel
+namespace NScan.SharedKernel.SharedKernel
 {
   public class AnalysisReportInProgress : IAnalysisReportInProgress
   {

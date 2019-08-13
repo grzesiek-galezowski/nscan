@@ -1,4 +1,7 @@
-﻿namespace TddXt.NScan.ReadingRules.Ports
+﻿using NScan.Lib;
+using NScan.SharedKernel.SharedKernel;
+
+namespace NScan.SharedKernel.Ports
 {
   public class HasAttributesOnRuleComplementDto
   {

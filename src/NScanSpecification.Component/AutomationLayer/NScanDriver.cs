@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
+using NScan.SharedKernel.Ports;
 using NScanSpecification.Lib.AutomationLayer;
 using TddXt.NScan.Domain.Root;
 using TddXt.NScan.NotifyingSupport.Adapters;
 using TddXt.NScan.NotifyingSupport.Ports;
-using TddXt.NScan.ReadingRules.Ports;
 
 namespace NScanSpecification.Component.AutomationLayer
 {

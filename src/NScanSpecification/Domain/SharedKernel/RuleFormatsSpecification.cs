@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using FluentAssertions;
-using TddXt.NScan.Domain.SharedKernel;
-using TddXt.NScan.ReadingRules.Ports;
+using NScan.SharedKernel.Ports;
+using NScan.SharedKernel.SharedKernel;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 

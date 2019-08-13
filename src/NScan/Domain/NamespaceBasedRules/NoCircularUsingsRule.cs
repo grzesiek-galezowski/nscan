@@ -1,6 +1,6 @@
 using System.Linq;
-using TddXt.NScan.Domain.SharedKernel;
-using TddXt.NScan.ReadingRules.Ports;
+using NScan.SharedKernel.Ports;
+using NScan.SharedKernel.SharedKernel;
 
 namespace TddXt.NScan.Domain.NamespaceBasedRules
 {

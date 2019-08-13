@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NScan.SharedKernel.SharedKernel;
 using TddXt.NScan.Domain.NamespaceBasedRules;
 using TddXt.NScan.Domain.ProjectScopedRules;
-using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.NotifyingSupport.Ports;
 using TddXt.NScan.ReadingCSharpSourceCode;
 using TddXt.NScan.ReadingSolution.Lib;

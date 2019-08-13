@@ -3,7 +3,7 @@ using System.Linq;
 using AnyClone;
 using AtmaFileSystem;
 using Functional.Maybe;
-using TddXt.NScan.Domain.SharedKernel;
+using NScan.SharedKernel.SharedKernel;
 using TddXt.NScan.ReadingSolution.Ports;
 using static AtmaFileSystem.AtmaFileSystemPaths;
 

@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
+using NScan.Lib;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
-using TddXt.NScan.ReadingRules.Ports;
 using Xunit;
 
 namespace TddXt.NScan.Specification.ReadingRules.Ports

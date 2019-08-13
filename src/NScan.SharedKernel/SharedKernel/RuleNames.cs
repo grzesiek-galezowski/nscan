@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TddXt.NScan.ReadingRules.Ports
+namespace NScan.SharedKernel.SharedKernel
 {
   public static class RuleNames
   {

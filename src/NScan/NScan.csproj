@@ -49,6 +49,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NScan.Lib\NScan.Lib.csproj" />
+    <ProjectReference Include="..\NScan.SharedKernel\NScan.SharedKernel.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,5 @@
-using TddXt.NScan.Domain.SharedKernel;
-using TddXt.NScan.ReadingRules.Ports;
+using NScan.Lib;
+using NScan.SharedKernel.SharedKernel;
 
 namespace TddXt.NScan.Domain.ProjectScopedRules
 {

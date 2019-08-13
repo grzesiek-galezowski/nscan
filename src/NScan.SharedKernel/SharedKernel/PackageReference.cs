@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
 using Value;
 
-namespace TddXt.NScan.Domain.SharedKernel
+namespace NScan.SharedKernel.SharedKernel
 {
   public sealed class PackageReference : ValueType<PackageReference>
   {

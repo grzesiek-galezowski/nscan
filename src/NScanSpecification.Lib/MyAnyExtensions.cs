@@ -1,9 +1,9 @@
 using GlobExpressions;
+using NScan.Lib;
+using NScan.SharedKernel.SharedKernel;
 using TddXt.AnyExtensibility;
 using TddXt.AnyRoot;
-using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.NotifyingSupport.Ports;
-using TddXt.NScan.ReadingRules.Ports;
 
 namespace TddXt.NScan.Specification
 {

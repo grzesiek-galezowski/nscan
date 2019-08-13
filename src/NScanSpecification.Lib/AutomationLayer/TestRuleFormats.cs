@@ -1,4 +1,4 @@
-﻿using TddXt.NScan.ReadingRules.Ports;
+﻿using NScan.SharedKernel.SharedKernel;
 
 namespace NScanSpecification.Lib.AutomationLayer
 {

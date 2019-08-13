@@ -1,6 +1,6 @@
 ﻿using NScan.Lib;
 
-namespace TddXt.NScan.ReadingRules.Ports
+namespace NScan.SharedKernel.Ports
 {
   public class RuleNameExtractionVisitor : IUnion5TransformingVisitor<
     IndependentRuleComplementDto, 

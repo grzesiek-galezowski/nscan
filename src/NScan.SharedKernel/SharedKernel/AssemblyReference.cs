@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Value;
 
-namespace TddXt.NScan.Domain.SharedKernel
+namespace NScan.SharedKernel.SharedKernel
 {
   public sealed class AssemblyReference : ValueType<AssemblyReference>
   {

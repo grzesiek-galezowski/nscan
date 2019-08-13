@@ -5,7 +5,6 @@ using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
 using TddXt.NScan.Domain.DependencyPathBasedRules;
 using TddXt.NScan.Domain.Root;
-using TddXt.NScan.ReadingRules.Ports;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 

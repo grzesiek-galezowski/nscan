@@ -1,6 +1,6 @@
 ﻿using System;
 using AtmaFileSystem;
-using TddXt.NScan.ReadingRules.Ports;
+using NScan.SharedKernel.Ports;
 
 namespace TddXt.NScan.NotifyingSupport.Ports
 {

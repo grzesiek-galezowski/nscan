@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using FluentAssertions;
+using NScan.SharedKernel.SharedKernel;
 using NSubstitute;
 using TddXt.AnyRoot.Collections;
 using TddXt.NScan.Domain.DependencyPathBasedRules;
 using TddXt.NScan.Domain.NamespaceBasedRules;
 using TddXt.NScan.Domain.ProjectScopedRules;
 using TddXt.NScan.Domain.Root;
-using TddXt.NScan.Domain.SharedKernel;
 using TddXt.XNSubstitute.Root;
 using Xunit;
 using static TddXt.AnyRoot.Root;

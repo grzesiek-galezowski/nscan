@@ -1,6 +1,6 @@
 using System;
 
-namespace TddXt.NScan.Domain.SharedKernel
+namespace NScan.SharedKernel.SharedKernel
 {
   public class InvalidRuleException : Exception
   {

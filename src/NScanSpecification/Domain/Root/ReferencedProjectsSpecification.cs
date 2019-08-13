@@ -1,9 +1,9 @@
 ﻿using System;
+using NScan.SharedKernel.SharedKernel;
 using NSubstitute;
 using TddXt.AnyRoot.Collections;
 using TddXt.NScan.Domain.DependencyPathBasedRules;
 using TddXt.NScan.Domain.Root;
-using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.NotifyingSupport.Ports;
 using Xunit;
 using static TddXt.AnyRoot.Root;

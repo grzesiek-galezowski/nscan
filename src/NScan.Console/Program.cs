@@ -1,9 +1,9 @@
 ﻿using System;
 using AtmaFileSystem;
 using Fclp;
+using NScan.SharedKernel.SharedKernel;
 using TddXt.NScan.Domain;
 using TddXt.NScan.Domain.Root;
-using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.NotifyingSupport.Adapters;
 using TddXt.NScan.WritingProgramOutput.Adapters;
 

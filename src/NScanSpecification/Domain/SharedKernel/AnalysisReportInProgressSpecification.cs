@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
+using NScan.SharedKernel.SharedKernel;
 using TddXt.AnyRoot.Strings;
-using TddXt.NScan.Domain.SharedKernel;
 using TddXt.XFluentAssert.Root;
 using Xunit;
 using static TddXt.AnyRoot.Root;

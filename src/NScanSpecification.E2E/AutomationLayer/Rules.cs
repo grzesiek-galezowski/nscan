@@ -2,8 +2,8 @@
 using System.IO;
 using System.Linq;
 using AtmaFileSystem;
+using NScan.SharedKernel.Ports;
 using NScanSpecification.Lib.AutomationLayer;
-using TddXt.NScan.ReadingRules.Ports;
 
 namespace NScanSpecification.E2E.AutomationLayer
 {

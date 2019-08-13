@@ -1,11 +1,11 @@
 ﻿using FluentAssertions;
+using NScan.Lib;
+using NScan.SharedKernel.SharedKernel;
 using NSubstitute;
 using TddXt.AnyRoot.Collections;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Domain.Root;
-using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.ReadingCSharpSourceCode;
-using TddXt.NScan.ReadingRules.Ports;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 

@@ -1,4 +1,4 @@
-namespace TddXt.NScan.Domain.SharedKernel
+namespace NScan.SharedKernel.SharedKernel
 {
   public class RuleViolation
   {

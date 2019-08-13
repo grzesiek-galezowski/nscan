@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using NScan.SharedKernel.SharedKernel;
 using TddXt.NScan.Domain.DependencyPathBasedRules;
-using TddXt.NScan.Domain.SharedKernel;
 using TddXt.NScan.NotifyingSupport.Ports;
 
 namespace TddXt.NScan.Domain.Root

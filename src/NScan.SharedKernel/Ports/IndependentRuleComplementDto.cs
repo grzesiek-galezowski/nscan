@@ -1,6 +1,8 @@
 ﻿using GlobExpressions;
+using NScan.Lib;
+using NScan.SharedKernel.SharedKernel;
 
-namespace TddXt.NScan.ReadingRules.Ports
+namespace NScan.SharedKernel.Ports
 {
   public class IndependentRuleComplementDto
   {

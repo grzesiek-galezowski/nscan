@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using TddXt.NScan.ReadingRules.Ports;
+using NScan.SharedKernel.SharedKernel;
 using Xunit;
 
 namespace TddXt.NScan.Specification.ReadingRules.Ports

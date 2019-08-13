@@ -1,5 +1,5 @@
 using NScan.Lib;
-using TddXt.NScan.ReadingRules.Ports;
+using NScan.SharedKernel.Ports;
 
 namespace NScanSpecification.E2E.AutomationLayer
 {

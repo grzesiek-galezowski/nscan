@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using NScan.SharedKernel.SharedKernel;
 using TddXt.NScan.Domain.DependencyPathBasedRules;
-using TddXt.NScan.Domain.SharedKernel;
 
 namespace TddXt.NScan.Domain.Root
 {

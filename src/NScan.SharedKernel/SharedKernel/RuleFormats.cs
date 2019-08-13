@@ -1,7 +1,8 @@
 using GlobExpressions;
-using TddXt.NScan.ReadingRules.Ports;
+using NScan.Lib;
+using NScan.SharedKernel.Ports;
 
-namespace TddXt.NScan.Domain.SharedKernel
+namespace NScan.SharedKernel.SharedKernel
 {
   public static class RuleFormats
   {

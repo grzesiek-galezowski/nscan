@@ -1,6 +1,6 @@
+using NScan.SharedKernel.SharedKernel;
 using NSubstitute;
 using TddXt.NScan.Domain.DependencyPathBasedRules;
-using TddXt.NScan.Domain.SharedKernel;
 using Xunit;
 
 namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
