@@ -1,4 +1,4 @@
-﻿namespace TddXt.NScan.Lib
+﻿namespace NScan.Lib
 {
   public interface IUnion5Visitor<in T1, in T2, in T3, in T4, in T5>
   {

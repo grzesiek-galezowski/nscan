@@ -3,7 +3,7 @@ using System.Linq;
 using FluentAssertions;
 using RunProcessAsTask;
 
-namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
+namespace NScanSpecification.E2E.AutomationLayer
 {
   static internal class ProcessAssertions
   {

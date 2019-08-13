@@ -1,10 +1,9 @@
 using System;
 using System.Linq;
-using FluentAssertions;
 using TddXt.NScan.ReadingCSharpSourceCode;
 using TddXt.NScan.ReadingSolution.Ports;
 
-namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
+namespace NScanSpecification.E2E.AutomationLayer
 {
   public static class SourceCodeFileText
   {

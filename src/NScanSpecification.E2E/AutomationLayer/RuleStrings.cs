@@ -1,6 +1,4 @@
-using TddXt.NScan.ReadingRules.Ports;
-
-namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
+namespace NScanSpecification.E2E.AutomationLayer
 {
   public static class RuleStrings
   {

@@ -1,5 +1,5 @@
 ﻿using System;
-using TddXt.NScan.Lib;
+using NScan.Lib;
 
 namespace NScanSpecification.Lib.AutomationLayer
 {

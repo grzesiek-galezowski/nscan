@@ -1,5 +1,6 @@
-﻿using NScanSpecification.Lib.AutomationLayer;
-using TddXt.NScan.Specification.EndToEnd.AutomationLayer;
+﻿using NScanSpecification.E2E.AutomationLayer;
+using NScanSpecification.Lib.AutomationLayer;
+using TddXt.NScan.Specification;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 using static NScanSpecification.Lib.AutomationLayer.XmlSourceCodeFileBuilder;
@@ -7,7 +8,7 @@ using static NScanSpecification.Lib.AutomationLayer.DependencyRuleBuilder;
 using static NScanSpecification.Lib.AutomationLayer.ClassDeclarationBuilder;
 using static NScanSpecification.Lib.AutomationLayer.MethodDeclarationBuilder;
 
-namespace TddXt.NScan.Specification.EndToEnd
+namespace NScanSpecification.E2E
 {
   public class AllMethodsDecoratedWithAttributesFeatureSpecification
   {

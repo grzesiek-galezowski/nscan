@@ -1,12 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using FluentAssertions;
 using TddXt.NScan.ReadingSolution.Ports;
 using static AtmaFileSystem.AtmaFileSystemPaths;
 
-namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
+namespace NScanSpecification.E2E.AutomationLayer
 {
   public class ProjectFiles
   {

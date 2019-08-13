@@ -5,7 +5,7 @@ using AtmaFileSystem;
 using static AtmaFileSystem.AtmaFileSystemPaths;
 using AbsoluteDirectoryPath = AtmaFileSystem.AbsoluteDirectoryPath;
 
-namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
+namespace NScanSpecification.E2E.AutomationLayer
 {
   public static class RelevantPaths
   {

@@ -6,7 +6,7 @@ using AbsoluteDirectoryPath = AtmaFileSystem.AbsoluteDirectoryPath;
 using DirectoryName = AtmaFileSystem.DirectoryName;
 using FileName = AtmaFileSystem.FileName;
 
-namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
+namespace NScanSpecification.E2E.AutomationLayer
 {
   public class SolutionDir
   {

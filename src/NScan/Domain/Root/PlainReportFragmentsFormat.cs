@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NScan.Lib;
 using TddXt.NScan.Domain.DependencyPathBasedRules;
-using TddXt.NScan.Lib;
 
 namespace TddXt.NScan.Domain.Root
 {

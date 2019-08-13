@@ -1,4 +1,4 @@
-namespace TddXt.NScan.Lib
+namespace NScan.Lib
 {
   public static class FormattingExtensions
   {

@@ -1,7 +1,7 @@
-using TddXt.NScan.Lib;
+using NScan.Lib;
 using TddXt.NScan.ReadingRules.Ports;
 
-namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
+namespace NScanSpecification.E2E.AutomationLayer
 {
   public class RuleToStringVisitor : IUnion5TransformingVisitor<
     IndependentRuleComplementDto,

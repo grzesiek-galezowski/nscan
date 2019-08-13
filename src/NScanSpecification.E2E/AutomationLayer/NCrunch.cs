@@ -2,7 +2,7 @@ using System;
 using AtmaFileSystem;
 using static AtmaFileSystem.AtmaFileSystemPaths;
 
-namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
+namespace NScanSpecification.E2E.AutomationLayer
 {
   internal static class NCrunch
   {

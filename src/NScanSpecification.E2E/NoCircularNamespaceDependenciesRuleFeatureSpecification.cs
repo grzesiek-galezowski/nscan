@@ -1,10 +1,10 @@
-﻿using TddXt.NScan.Specification.EndToEnd.AutomationLayer;
+﻿using NScanSpecification.E2E.AutomationLayer;
 using Xunit;
 using static NScanSpecification.Lib.AutomationLayer.HasNoCircularUsingsMessage;
 using static NScanSpecification.Lib.AutomationLayer.DependencyRuleBuilder;
 using static NScanSpecification.Lib.AutomationLayer.XmlSourceCodeFileBuilder;
 
-namespace TddXt.NScan.Specification.EndToEnd
+namespace NScanSpecification.E2E
 {
   public class NoCircularNamespaceDependenciesRuleFeatureSpecification
   {

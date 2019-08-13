@@ -1,9 +1,9 @@
-﻿using TddXt.NScan.Specification.EndToEnd.AutomationLayer;
+﻿using NScanSpecification.E2E.AutomationLayer;
 using Xunit;
 using static NScanSpecification.Lib.AutomationLayer.HasTargetFrameworkReportedMessage;
 using static NScanSpecification.Lib.AutomationLayer.DependencyRuleBuilder;
 
-namespace TddXt.NScan.Specification.EndToEnd
+namespace NScanSpecification.E2E
 {
   public class ProjectsHaveTargetFrameworkSpecification
   {

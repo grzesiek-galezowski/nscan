@@ -47,4 +47,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\NScan.Lib\NScan.Lib.csproj" />
+  </ItemGroup>
+
 </Project>

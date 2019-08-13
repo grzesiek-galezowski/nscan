@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
+using NScan.Lib;
 using TddXt.NScan.Domain.DependencyPathBasedRules;
 using TddXt.NScan.Domain.NamespaceBasedRules;
 using TddXt.NScan.Domain.ProjectScopedRules;
 using TddXt.NScan.Domain.SharedKernel;
-using TddXt.NScan.Lib;
 using TddXt.NScan.NotifyingSupport.Ports;
 using TddXt.NScan.ReadingRules.Ports;
 using TddXt.NScan.ReadingSolution.Lib;

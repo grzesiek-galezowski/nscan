@@ -8,7 +8,7 @@ using static AtmaFileSystem.AtmaFileSystemPaths;
 using static TddXt.AnyRoot.Root;
 using AbsoluteFilePath = AtmaFileSystem.AbsoluteFilePath;
 
-namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
+namespace NScanSpecification.E2E.AutomationLayer
 {
   public class NScanE2EDriver : IDisposable
   {

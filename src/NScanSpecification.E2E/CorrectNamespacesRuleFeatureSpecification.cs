@@ -1,9 +1,9 @@
-﻿using NScanSpecification.Lib.AutomationLayer;
-using TddXt.NScan.Specification.EndToEnd.AutomationLayer;
+﻿using NScanSpecification.E2E.AutomationLayer;
+using NScanSpecification.Lib.AutomationLayer;
 using Xunit;
 using static NScanSpecification.Lib.AutomationLayer.XmlSourceCodeFileBuilder;
 
-namespace TddXt.NScan.Specification.EndToEnd
+namespace NScanSpecification.E2E
 {
   public class CorrectNamespacesRuleFeatureSpecification
   {

@@ -1,4 +1,4 @@
-﻿namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
+﻿namespace NScanSpecification.E2E.AutomationLayer
 {
   public class ProjectDefinition
   {

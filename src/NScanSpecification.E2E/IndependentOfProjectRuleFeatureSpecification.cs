@@ -1,12 +1,12 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using NScanSpecification.E2E.AutomationLayer;
 using NScanSpecification.Lib.AutomationLayer;
 using TddXt.AnyRoot.Strings;
-using TddXt.NScan.Specification.EndToEnd.AutomationLayer;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 using static NScanSpecification.Lib.AutomationLayer.DependencyRuleBuilder;
 
-namespace TddXt.NScan.Specification.EndToEnd
+namespace NScanSpecification.E2E
 {
   [SuppressMessage("ReSharper", "TestFileNameWarning")]
   public class IndependentOfProjectRuleFeatureSpecification
