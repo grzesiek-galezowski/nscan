@@ -25,9 +25,9 @@ namespace TddXt.NScan.Specification.EndToEnd.AutomationLayer
 
     private void AddReferenceAsync((string dependent, string dependency) obj)
     {
-      ProcessAssertions.AssertSuccess(_dotNetExe.RunWith($"add " +
+      ProcessAssertions.AssertSuccess(_dotNetExe.RunWith("add " +
                                                         $"{obj.dependent} " +
-                                                        $"reference " +
+                                                        "reference " +
                                                         $"{obj.dependency}").Result);
     }
 

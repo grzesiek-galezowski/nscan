@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScanSpecification.E2E", "N
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrontEnd", "FrontEnd", "{D1CB90A1-5419-4CA0-A515-FCEDCEE125EE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CoarseGrainedSpecification", "CoarseGrainedSpecification", "{B1F9EEC7-4423-4389-9112-9614B1085BC1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,6 +76,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{E6DCC965-1BA4-4024-A59F-78CF98AE7085} = {D1CB90A1-5419-4CA0-A515-FCEDCEE125EE}
 		{C6FA1FE6-CD67-4453-A532-FD4938F76919} = {D1CB90A1-5419-4CA0-A515-FCEDCEE125EE}
+		{E3C00F7C-6625-463E-8812-9334AA91785D} = {B1F9EEC7-4423-4389-9112-9614B1085BC1}
+		{371B32D7-237B-42DF-B4A9-B8DE9BB3B977} = {B1F9EEC7-4423-4389-9112-9614B1085BC1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0347D312-6E86-42AD-9C08-DE40DD91B127}
