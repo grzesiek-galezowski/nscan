@@ -43,7 +43,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NScan.Main\NScan.Main.csproj" />
-    <ProjectReference Include="..\NScan\NScan.csproj" />
+    <ProjectReference Include="..\NScan\NScan.Domain.csproj" />
   </ItemGroup>
 
 </Project>

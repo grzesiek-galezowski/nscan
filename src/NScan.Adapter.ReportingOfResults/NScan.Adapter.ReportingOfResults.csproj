@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NScan\NScan.csproj" />
+    <ProjectReference Include="..\NScan.SharedKernel\NScan.SharedKernel.csproj" />
   </ItemGroup>
 
 </Project>

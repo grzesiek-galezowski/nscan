@@ -87,7 +87,7 @@ namespace TddXt.NScan.ReadingSolution.Lib
 
     public string RootNamespace()
     {
-      return _xmlProject.PropertyGroups.First().RootNamespace!;
+      return _xmlProject.PropertyGroups.First().RootNamespace ?? _xmlProject.AbsolutePath.FileName().WithoutExtension().ToString();
     }
 
     public void AddFile(XmlSourceCodeFile xmlSourceCodeFile)

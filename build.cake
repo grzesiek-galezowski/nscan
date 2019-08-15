@@ -52,7 +52,7 @@ Task("Clean")
 
 Task("RunPreviousNScan").Does(() =>
 {
-  NScanAnalyze(slnNetStandard, @".\nscan.config");
+  //NScanAnalyze(slnNetStandard, @".\nscan.config");
 });
 
 Task("DupFinder")
@@ -73,7 +73,7 @@ Task("BuildNScan")
     .IsDependentOn("RunPreviousNScan")
     .Does(() =>
 {
-    DotNetCoreBuild(srcDir + Directory("NScan"), new DotNetCoreBuildSettings
+    DotNetCoreBuild(srcDir + Directory("NScan.Main"), new DotNetCoreBuildSettings
     {
         Configuration = configuration,
         OutputDirectory = buildNScanDir,
@@ -122,7 +122,7 @@ Task("PackNScan")
     .IsDependentOn("BuildNScan")
     .Does(() => 
     {
-		DotNetCorePack(srcNetStandardDir + File("NScan"), defaultNugetPackSettings);
+		DotNetCorePack(srcNetStandardDir + File("NScan.Main"), defaultNugetPackSettings);
     });
 
 Task("PackNScanConsole")
@@ -153,9 +153,7 @@ Task("Push")
 			{
 				Source = "https://api.nuget.org/v3/index.json",
 			});
-
 		}
-
 	});
 
 //////////////////////////////////////////////////////////////////////

@@ -14,10 +14,15 @@
     <PackageReference Include="AtmaFileSystem" Version="2.1.1" />
     <PackageReference Include="Glob" Version="1.1.3" />
     <PackageReference Include="Value" Version="1.1.0.1" />
+    <PackageReference Include="AnyClone" Version="1.0.34" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="NotifyingSupport\Ports\" />
     <Folder Include="Ports\" />
+    <Folder Include="ReadingSolution\Lib\" />
+    <Folder Include="ReadingSolution\Ports\" />
+    <Folder Include="WritingProgramOutput\Ports\" />
   </ItemGroup>
 
   <ItemGroup>
