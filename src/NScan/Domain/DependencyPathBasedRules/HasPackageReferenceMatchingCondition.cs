@@ -1,6 +1,6 @@
 using GlobExpressions;
 
-namespace TddXt.NScan.Domain.DependencyPathBasedRules
+namespace NScan.Domain.Domain.DependencyPathBasedRules
 {
   public class HasPackageReferenceMatchingCondition : IDependencyCondition
   {

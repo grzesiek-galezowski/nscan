@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace TddXt.NScan.Domain.DependencyPathBasedRules
+namespace NScan.Domain.Domain.DependencyPathBasedRules
 {
   public class ProjectFoundSearchResult : IProjectSearchResult
   {

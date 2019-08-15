@@ -2,7 +2,7 @@ using System.Linq;
 using NScan.SharedKernel.Ports;
 using NScan.SharedKernel.SharedKernel;
 
-namespace TddXt.NScan.Domain.NamespaceBasedRules
+namespace NScan.Domain.Domain.NamespaceBasedRules
 {
   public class NoCircularUsingsRule : INamespacesBasedRule
   {

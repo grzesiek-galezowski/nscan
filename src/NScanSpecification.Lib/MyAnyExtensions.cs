@@ -1,11 +1,11 @@
 using GlobExpressions;
 using NScan.Lib;
+using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.SharedKernel;
 using TddXt.AnyExtensibility;
 using TddXt.AnyRoot;
-using TddXt.NScan.NotifyingSupport.Ports;
 
-namespace TddXt.NScan.Specification
+namespace NScanSpecification.Lib
 {
   public static class MyAnyExtensions
   {

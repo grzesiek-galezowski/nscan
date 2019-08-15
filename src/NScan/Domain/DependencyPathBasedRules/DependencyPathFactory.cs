@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace TddXt.NScan.Domain.DependencyPathBasedRules
+namespace NScan.Domain.Domain.DependencyPathBasedRules
 {
   public class DependencyPathFactory : IDependencyPathFactory
   {

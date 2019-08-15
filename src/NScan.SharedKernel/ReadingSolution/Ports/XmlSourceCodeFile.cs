@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using AtmaFileSystem;
-using NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode;
+using NScan.SharedKernel.ReadingCSharpSourceCode;
 
-namespace TddXt.NScan.ReadingSolution.Ports
+namespace NScan.SharedKernel.ReadingSolution.Ports
 {
   public class XmlSourceCodeFile
   {

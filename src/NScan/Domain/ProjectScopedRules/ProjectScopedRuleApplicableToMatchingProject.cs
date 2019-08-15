@@ -1,7 +1,7 @@
 ﻿using NScan.Lib;
 using NScan.SharedKernel.SharedKernel;
 
-namespace TddXt.NScan.Domain.ProjectScopedRules
+namespace NScan.Domain.Domain.ProjectScopedRules
 {
   public class ProjectScopedRuleApplicableToMatchingProject : IProjectScopedRule
   {

@@ -1,7 +1,7 @@
 using NScan.SharedKernel.Ports;
 using NScan.SharedKernel.SharedKernel;
 
-namespace TddXt.NScan.Domain.ProjectScopedRules
+namespace NScan.Domain.Domain.ProjectScopedRules
 {
   public class MethodsOfMatchingClassesAreDecoratedWithAttributeCheck : ISourceCodeFileContentCheck
   {

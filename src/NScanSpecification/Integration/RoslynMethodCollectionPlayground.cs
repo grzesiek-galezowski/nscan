@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using FluentAssertions;
 using NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode;
+using NScan.SharedKernel.ReadingCSharpSourceCode;
 using Xunit;
 
 namespace TddXt.NScan.Specification.Integration

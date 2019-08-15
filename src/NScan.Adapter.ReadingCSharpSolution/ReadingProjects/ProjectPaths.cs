@@ -7,12 +7,12 @@ using AtmaFileSystem;
 using Buildalyzer;
 using Functional.Maybe;
 using Functional.Maybe.Just;
-using TddXt.NScan.NotifyingSupport.Ports;
-using TddXt.NScan.ReadingSolution.Lib;
-using TddXt.NScan.ReadingSolution.Ports;
+using NScan.SharedKernel.NotifyingSupport.Ports;
+using NScan.SharedKernel.ReadingSolution.Lib;
+using NScan.SharedKernel.ReadingSolution.Ports;
 using static AtmaFileSystem.AtmaFileSystemPaths;
 
-namespace TddXt.NScan.ReadingSolution.Adapters
+namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
 {
   public class ProjectPaths
   {

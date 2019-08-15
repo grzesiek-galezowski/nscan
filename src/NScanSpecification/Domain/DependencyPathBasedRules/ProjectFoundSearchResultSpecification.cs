@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
+using NScan.Domain.Domain.DependencyPathBasedRules;
+using NScan.Domain.Domain.Root;
 using NSubstitute;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
 using TddXt.AnyRoot.Numbers;
-using TddXt.NScan.Domain.DependencyPathBasedRules;
-using TddXt.NScan.Domain.Root;
 using Xunit;
 
 namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules

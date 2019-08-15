@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace TddXt.NScan.ReadingSolution.Ports
+namespace NScan.SharedKernel.ReadingSolution.Ports
 {
 
   #nullable disable

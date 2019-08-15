@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
+using NScan.Domain.Domain.ProjectScopedRules;
+using NScan.Domain.Domain.Root;
+using NScan.SharedKernel.NotifyingSupport.Ports;
+using NScan.SharedKernel.ReadingSolution.Lib;
+using NScan.SharedKernel.ReadingSolution.Ports;
+using NScanSpecification.Lib;
 using NSubstitute;
-using TddXt.NScan.Domain.ProjectScopedRules;
-using TddXt.NScan.Domain.Root;
-using TddXt.NScan.NotifyingSupport.Ports;
-using TddXt.NScan.ReadingSolution.Lib;
-using TddXt.NScan.ReadingSolution.Ports;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 

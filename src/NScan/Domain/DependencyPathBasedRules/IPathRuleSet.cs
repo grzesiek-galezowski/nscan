@@ -1,6 +1,6 @@
 ﻿using NScan.SharedKernel.SharedKernel;
 
-namespace TddXt.NScan.Domain.DependencyPathBasedRules
+namespace NScan.Domain.Domain.DependencyPathBasedRules
 {
   public interface IPathRuleSet
   {

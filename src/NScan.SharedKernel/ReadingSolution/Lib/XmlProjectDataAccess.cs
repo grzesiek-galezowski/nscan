@@ -3,11 +3,11 @@ using System.Linq;
 using AnyClone;
 using AtmaFileSystem;
 using Functional.Maybe;
+using NScan.SharedKernel.ReadingSolution.Ports;
 using NScan.SharedKernel.SharedKernel;
-using TddXt.NScan.ReadingSolution.Ports;
 using static AtmaFileSystem.AtmaFileSystemPaths;
 
-namespace TddXt.NScan.ReadingSolution.Lib
+namespace NScan.SharedKernel.ReadingSolution.Lib
 {
   public interface IXmlProjectDataAccess
   {

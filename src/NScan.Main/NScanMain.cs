@@ -1,19 +1,19 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
+using NScan.Adapter.ReadingCSharpSolution.ReadingProjects;
 using NScan.Adapter.ReadingRules;
+using NScan.Domain.Domain.Root;
+using NScan.Lib;
+using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.Ports;
+using NScan.SharedKernel.ReadingSolution.Ports;
 using NScan.SharedKernel.SharedKernel;
+using NScan.SharedKernel.WritingProgramOutput.Ports;
 using Sprache;
-using TddXt.NScan.NotifyingSupport.Ports;
-using TddXt.NScan.ReadingSolution.Adapters;
-using TddXt.NScan.ReadingSolution.Ports;
-using TddXt.NScan.WritingProgramOutput.Ports;
 
-namespace TddXt.NScan.Domain.Root
+namespace TddXt.NScan
 {
   public static class NScanMain
   {

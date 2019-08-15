@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using AtmaFileSystem;
-using NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode;
 
-namespace TddXt.NScan.ReadingCSharpSourceCode
+namespace NScan.SharedKernel.ReadingCSharpSourceCode
 {
   public interface ICSharpFileSyntaxTree
   {

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AtmaFileSystem;
+using NScan.SharedKernel.ReadingSolution.Ports;
 using NScanSpecification.Lib.AutomationLayer;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
-using TddXt.NScan.ReadingSolution.Ports;
 using static AtmaFileSystem.AtmaFileSystemPaths;
 
 namespace NScanSpecification.Component.AutomationLayer

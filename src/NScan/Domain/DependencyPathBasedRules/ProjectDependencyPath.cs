@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NScan.Lib;
 
-namespace TddXt.NScan.Domain.DependencyPathBasedRules
+namespace NScan.Domain.Domain.DependencyPathBasedRules
 {
   public interface IProjectDependencyPath
   {

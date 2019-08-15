@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using NScan.Domain.Domain.DependencyPathBasedRules;
 using NScan.SharedKernel.SharedKernel;
-using TddXt.NScan.Domain.DependencyPathBasedRules;
 
-namespace TddXt.NScan.Domain.Root
+namespace NScan.Domain.Domain.Root
 {
   public interface IReferencingProjects
   {

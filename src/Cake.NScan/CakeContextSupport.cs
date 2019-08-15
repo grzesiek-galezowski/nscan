@@ -1,9 +1,9 @@
 ﻿using System;
 using AtmaFileSystem;
 using Cake.Core.Diagnostics;
+using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.Ports;
 using NScan.SharedKernel.SharedKernel;
-using TddXt.NScan.NotifyingSupport.Ports;
 
 namespace Cake.NScan
 {

@@ -1,4 +1,4 @@
-namespace TddXt.NScan.Domain.NamespaceBasedRules
+namespace NScan.Domain.Domain.NamespaceBasedRules
 {
   public interface ISourceCodeFileUsingNamespaces
   {

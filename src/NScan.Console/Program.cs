@@ -1,9 +1,8 @@
 ﻿using AtmaFileSystem;
 using Fclp;
 using NScan.Adapter.NotifyingSupport;
+using NScan.Adapter.ReportingOfResults;
 using NScan.SharedKernel.SharedKernel;
-using TddXt.NScan.Domain.Root;
-using TddXt.NScan.WritingProgramOutput.Adapters;
 
 namespace TddXt.NScan.Console
 {

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using NScan.SharedKernel.SharedKernel;
 
-namespace TddXt.NScan.Domain.NamespaceBasedRules
+namespace NScan.Domain.Domain.NamespaceBasedRules
 {
   public class NamespacesBasedRuleSet : INamespacesBasedRuleSet
   {

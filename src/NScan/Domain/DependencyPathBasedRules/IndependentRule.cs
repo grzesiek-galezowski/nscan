@@ -1,7 +1,7 @@
 ﻿using NScan.Lib;
 using NScan.SharedKernel.SharedKernel;
 
-namespace TddXt.NScan.Domain.DependencyPathBasedRules
+namespace NScan.Domain.Domain.DependencyPathBasedRules
 {
   public class IndependentRule : IDependencyRule
   {

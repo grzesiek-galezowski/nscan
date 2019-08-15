@@ -1,9 +1,10 @@
-﻿using NScan.SharedKernel.SharedKernel;
+﻿using NScan.Domain.Domain.DependencyPathBasedRules;
+using NScan.Domain.Domain.Root;
+using NScan.SharedKernel.SharedKernel;
+using NScanSpecification.Lib;
 using NSubstitute;
 using TddXt.AnyRoot.Collections;
 using TddXt.AnyRoot.Strings;
-using TddXt.NScan.Domain.DependencyPathBasedRules;
-using TddXt.NScan.Domain.Root;
 using TddXt.XNSubstitute.Root;
 using Xunit;
 using static TddXt.AnyRoot.Root;

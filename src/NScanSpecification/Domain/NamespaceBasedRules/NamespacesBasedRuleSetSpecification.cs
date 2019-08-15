@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using NScan.Domain.Domain.NamespaceBasedRules;
+using NScan.Domain.Domain.Root;
 using NScan.SharedKernel.SharedKernel;
 using NSubstitute;
-using TddXt.NScan.Domain.NamespaceBasedRules;
-using TddXt.NScan.Domain.Root;
 using Xunit;
 
 namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules

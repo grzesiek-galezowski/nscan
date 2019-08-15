@@ -2,7 +2,7 @@
 using AtmaFileSystem;
 using NScan.SharedKernel.Ports;
 
-namespace TddXt.NScan.NotifyingSupport.Ports
+namespace NScan.SharedKernel.NotifyingSupport.Ports
 {
   public interface INScanSupport
   {

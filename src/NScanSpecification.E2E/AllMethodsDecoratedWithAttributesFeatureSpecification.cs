@@ -1,6 +1,6 @@
 ﻿using NScanSpecification.E2E.AutomationLayer;
+using NScanSpecification.Lib;
 using NScanSpecification.Lib.AutomationLayer;
-using TddXt.NScan.Specification;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 using static NScanSpecification.Lib.AutomationLayer.XmlSourceCodeFileBuilder;

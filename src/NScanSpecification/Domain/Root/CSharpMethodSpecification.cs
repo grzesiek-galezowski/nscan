@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using FluentAssertions;
 using NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode;
+using NScan.Domain.Domain.ProjectScopedRules;
+using NScan.Domain.Domain.Root;
 using NScan.Lib;
+using NScan.SharedKernel.ReadingCSharpSourceCode;
 using NScan.SharedKernel.SharedKernel;
 using NSubstitute;
 using TddXt.AnyRoot.Collections;
 using TddXt.AnyRoot.Strings;
-using TddXt.NScan.Domain.ProjectScopedRules;
-using TddXt.NScan.Domain.Root;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 

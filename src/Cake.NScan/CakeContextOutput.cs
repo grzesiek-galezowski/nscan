@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Cake.Core.Diagnostics;
-using TddXt.NScan.Domain.Root;
-using TddXt.NScan.WritingProgramOutput.Ports;
+using NScan.Lib;
+using NScan.SharedKernel.WritingProgramOutput.Ports;
 
 namespace Cake.NScan
 {

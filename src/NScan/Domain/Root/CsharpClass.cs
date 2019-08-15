@@ -1,10 +1,9 @@
-using System;
 using System.Linq;
-using NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode;
 using NScan.Lib;
+using NScan.SharedKernel.ReadingCSharpSourceCode;
 using NScan.SharedKernel.SharedKernel;
 
-namespace TddXt.NScan.Domain.Root
+namespace NScan.Domain.Domain.Root
 {
   public class CSharpClass : ICSharpClass
   {

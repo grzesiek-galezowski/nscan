@@ -1,8 +1,9 @@
 ﻿using FluentAssertions;
+using NScan.Domain.Domain.ProjectScopedRules;
 using NScan.Lib;
 using NScan.SharedKernel.SharedKernel;
+using NScanSpecification.Lib;
 using NSubstitute;
-using TddXt.NScan.Domain.ProjectScopedRules;
 using TddXt.XNSubstitute.Root;
 using Xunit;
 using static TddXt.AnyRoot.Root;

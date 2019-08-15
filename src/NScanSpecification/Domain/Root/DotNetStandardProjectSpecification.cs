@@ -1,16 +1,17 @@
 using System.Collections.Generic;
 using FluentAssertions;
 using GlobExpressions;
+using NScan.Domain.Domain.DependencyPathBasedRules;
+using NScan.Domain.Domain.NamespaceBasedRules;
+using NScan.Domain.Domain.ProjectScopedRules;
+using NScan.Domain.Domain.Root;
 using NScan.Lib;
 using NScan.SharedKernel.SharedKernel;
+using NScanSpecification.Lib;
 using NSubstitute;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
 using TddXt.AnyRoot.Strings;
-using TddXt.NScan.Domain.DependencyPathBasedRules;
-using TddXt.NScan.Domain.NamespaceBasedRules;
-using TddXt.NScan.Domain.ProjectScopedRules;
-using TddXt.NScan.Domain.Root;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 

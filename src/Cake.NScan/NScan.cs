@@ -4,8 +4,6 @@ using Cake.Core;
 using Cake.Core.Annotations;
 using NScan.SharedKernel.SharedKernel;
 using TddXt.NScan;
-using TddXt.NScan.Domain;
-using TddXt.NScan.Domain.Root;
 
 namespace Cake.NScan
 {

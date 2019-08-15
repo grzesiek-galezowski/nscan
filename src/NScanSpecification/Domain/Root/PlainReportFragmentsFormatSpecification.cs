@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using FluentAssertions;
+using NScan.Domain.Domain.DependencyPathBasedRules;
+using NScan.Domain.Domain.Root;
 using TddXt.AnyRoot.Strings;
-using TddXt.NScan.Domain.DependencyPathBasedRules;
-using TddXt.NScan.Domain.Root;
 using Xunit;
 
 namespace TddXt.NScan.Specification.Domain.Root

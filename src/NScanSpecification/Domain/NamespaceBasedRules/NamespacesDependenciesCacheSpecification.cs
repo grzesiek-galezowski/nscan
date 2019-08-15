@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
+using NScan.Domain.Domain.NamespaceBasedRules;
 using TddXt.AnyRoot.Strings;
-using TddXt.NScan.Domain.NamespaceBasedRules;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 

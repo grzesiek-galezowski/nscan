@@ -5,7 +5,7 @@ using System.Threading;
 using AtmaFileSystem;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using TddXt.NScan.ReadingCSharpSourceCode;
+using NScan.SharedKernel.ReadingCSharpSourceCode;
 using static AtmaFileSystem.AtmaFileSystemPaths;
 
 namespace NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode

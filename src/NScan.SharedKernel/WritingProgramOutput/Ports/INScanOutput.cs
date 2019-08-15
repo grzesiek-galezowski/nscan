@@ -1,4 +1,4 @@
-namespace TddXt.NScan.WritingProgramOutput.Ports
+namespace NScan.SharedKernel.WritingProgramOutput.Ports
 {
   public interface INScanOutput
   {

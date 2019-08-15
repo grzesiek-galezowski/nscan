@@ -1,7 +1,7 @@
-using TddXt.NScan.Domain.NamespaceBasedRules;
-using TddXt.NScan.Domain.ProjectScopedRules;
+using NScan.Domain.Domain.NamespaceBasedRules;
+using NScan.Domain.Domain.ProjectScopedRules;
 
-namespace TddXt.NScan.Domain.Root
+namespace NScan.Domain.Domain.Root
 {
   public interface ISourceCodeFile : ISourceCodeFileUsingNamespaces, ISourceCodeFileInNamespace
   {}

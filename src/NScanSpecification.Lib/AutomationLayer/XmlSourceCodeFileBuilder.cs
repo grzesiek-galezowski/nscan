@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AtmaFileSystem;
+using NScan.SharedKernel.ReadingSolution.Ports;
 using TddXt.AnyRoot.Strings;
-using TddXt.NScan.ReadingSolution.Ports;
 using static TddXt.AnyRoot.Root;
 
 namespace NScanSpecification.Lib.AutomationLayer

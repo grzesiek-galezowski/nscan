@@ -5,6 +5,7 @@ using Functional.Maybe.Just;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using NScan.SharedKernel.ReadingCSharpSourceCode;
 
 namespace NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode
 {

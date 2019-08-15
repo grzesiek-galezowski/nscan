@@ -1,7 +1,6 @@
 ﻿using System.Xml.Serialization;
-using AtmaFileSystem;
 
-namespace TddXt.NScan.ReadingSolution.Ports
+namespace NScan.SharedKernel.ReadingSolution.Ports
 {
 #nullable disable
   [XmlRoot(ElementName = "Reference")]

@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using AtmaFileSystem;
-using TddXt.NScan.ReadingSolution.Ports;
+using NScan.SharedKernel.ReadingSolution.Ports;
 using static AtmaFileSystem.AtmaFileSystemPaths;
 using AbsoluteDirectoryPath = AtmaFileSystem.AbsoluteDirectoryPath;
 using DirectoryName = AtmaFileSystem.DirectoryName;

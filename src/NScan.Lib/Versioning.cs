@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.Reflection;
 
-namespace TddXt.NScan.Domain.Root
+namespace NScan.Lib
 {
   public static class Versioning
   {

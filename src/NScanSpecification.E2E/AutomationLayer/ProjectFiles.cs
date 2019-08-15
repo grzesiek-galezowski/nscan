@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
-using TddXt.NScan.ReadingSolution.Ports;
+using NScan.SharedKernel.ReadingSolution.Ports;
 using static AtmaFileSystem.AtmaFileSystemPaths;
 
 namespace NScanSpecification.E2E.AutomationLayer

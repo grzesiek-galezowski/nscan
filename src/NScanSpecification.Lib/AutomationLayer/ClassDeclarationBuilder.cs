@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode;
+using NScan.SharedKernel.ReadingCSharpSourceCode;
 
 namespace NScanSpecification.Lib.AutomationLayer
 {

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TddXt.NScan.Domain.NamespaceBasedRules
+namespace NScan.Domain.Domain.NamespaceBasedRules
 {
   public class NamespacesDependenciesCache : INamespacesDependenciesCache
   {

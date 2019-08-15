@@ -1,9 +1,9 @@
 using System;
 using System.Reflection;
-using TddXt.NScan.Domain.Root;
-using TddXt.NScan.WritingProgramOutput.Ports;
+using NScan.Lib;
+using NScan.SharedKernel.WritingProgramOutput.Ports;
 
-namespace TddXt.NScan.WritingProgramOutput.Adapters
+namespace NScan.Adapter.ReportingOfResults
 {
   public class ConsoleOutput : INScanOutput
   {

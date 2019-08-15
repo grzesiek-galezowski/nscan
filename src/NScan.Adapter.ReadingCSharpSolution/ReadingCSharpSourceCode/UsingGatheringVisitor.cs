@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using NScan.SharedKernel.ReadingCSharpSourceCode;
 
 namespace NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode
 {

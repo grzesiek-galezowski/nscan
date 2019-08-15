@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode
+namespace NScan.SharedKernel.ReadingCSharpSourceCode
 {
   public class MethodDeclarationInfo
   {

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode;
+using NScan.SharedKernel.ReadingCSharpSourceCode;
 
 namespace NScanSpecification.Lib.AutomationLayer
 {

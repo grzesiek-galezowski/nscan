@@ -4,11 +4,11 @@ using System.IO;
 using System.Linq;
 using AtmaFileSystem;
 using NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode;
-using TddXt.NScan.ReadingCSharpSourceCode;
-using TddXt.NScan.ReadingSolution.Lib;
-using TddXt.NScan.ReadingSolution.Ports;
+using NScan.SharedKernel.ReadingCSharpSourceCode;
+using NScan.SharedKernel.ReadingSolution.Lib;
+using NScan.SharedKernel.ReadingSolution.Ports;
 
-namespace TddXt.NScan.ReadingSolution.Adapters
+namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
 {
   public static class SourceCodeFilePaths
   {

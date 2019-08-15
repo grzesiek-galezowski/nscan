@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using NScan.Domain.Domain.DependencyPathBasedRules;
+using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.SharedKernel;
-using TddXt.NScan.Domain.DependencyPathBasedRules;
-using TddXt.NScan.NotifyingSupport.Ports;
 
-namespace TddXt.NScan.Domain.Root
+namespace NScan.Domain.Domain.Root
 {
   public interface IReferencedProjects
   {

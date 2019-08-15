@@ -1,7 +1,7 @@
-﻿using NScan.SharedKernel.SharedKernel;
+﻿using NScan.Domain.Domain.ProjectScopedRules;
+using NScan.SharedKernel.SharedKernel;
 using NSubstitute;
 using TddXt.AnyRoot.Strings;
-using TddXt.NScan.Domain.ProjectScopedRules;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
