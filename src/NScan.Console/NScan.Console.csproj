@@ -41,6 +41,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NScan.Adapter.ReportingOfResults\NScan.Adapter.ReportingOfResults.csproj" />
+    <ProjectReference Include="..\NScan.Adapters.NotifyingSupport\NScan.Adapter.NotifyingSupport.csproj" />
     <ProjectReference Include="..\NScan\NScan.csproj" />
   </ItemGroup>
 

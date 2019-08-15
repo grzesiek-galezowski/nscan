@@ -35,7 +35,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScan.Lib", "NScan.Lib\NSca
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScan.SharedKernel", "NScan.SharedKernel\NScan.SharedKernel.csproj", "{65DE5C02-867D-40F4-B7E2-6EB7F43BB2E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScan.Adapter.ReadingRules", "NScan.Adapter.ReadingRules\NScan.Adapter.ReadingRules.csproj", "{E6355837-5BD3-4765-BFC8-1FF7DE52BFCA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScan.Adapter.ReadingRules", "NScan.Adapter.ReadingRules\NScan.Adapter.ReadingRules.csproj", "{E6355837-5BD3-4765-BFC8-1FF7DE52BFCA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScan.Adapter.NotifyingSupport", "NScan.Adapters.NotifyingSupport\NScan.Adapter.NotifyingSupport.csproj", "{20ABB1C8-D9AD-41CA-A403-21BB9D7160A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScan.Adapter.ReportingOfResults", "NScan.Adapter.ReportingOfResults\NScan.Adapter.ReportingOfResults.csproj", "{126DA23A-4901-4A05-BD53-693260CDC2E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,6 +91,14 @@ Global
 		{E6355837-5BD3-4765-BFC8-1FF7DE52BFCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6355837-5BD3-4765-BFC8-1FF7DE52BFCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6355837-5BD3-4765-BFC8-1FF7DE52BFCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20ABB1C8-D9AD-41CA-A403-21BB9D7160A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20ABB1C8-D9AD-41CA-A403-21BB9D7160A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20ABB1C8-D9AD-41CA-A403-21BB9D7160A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20ABB1C8-D9AD-41CA-A403-21BB9D7160A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{126DA23A-4901-4A05-BD53-693260CDC2E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{126DA23A-4901-4A05-BD53-693260CDC2E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{126DA23A-4901-4A05-BD53-693260CDC2E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{126DA23A-4901-4A05-BD53-693260CDC2E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

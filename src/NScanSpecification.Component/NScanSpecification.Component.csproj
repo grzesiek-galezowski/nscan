@@ -35,6 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NScan.Adapters.NotifyingSupport\NScan.Adapter.NotifyingSupport.csproj" />
     <ProjectReference Include="..\NScanSpecification.Lib\NScanSpecification.Lib.csproj" />
   </ItemGroup>
 </Project>

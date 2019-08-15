@@ -4,7 +4,7 @@ using NScan.SharedKernel.Ports;
 using NScan.SharedKernel.SharedKernel;
 using TddXt.NScan.NotifyingSupport.Ports;
 
-namespace TddXt.NScan.NotifyingSupport.Adapters
+namespace NScan.Adapter.NotifyingSupport
 {
   public class ConsoleSupport : INScanSupport
   {

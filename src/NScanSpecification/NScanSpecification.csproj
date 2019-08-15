@@ -2,13 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-
     <IsPackable>false</IsPackable>
-
     <RootNamespace>TddXt.NScan.Specification</RootNamespace>
-
     <AssemblyName>TddXt.NScan.Specification</AssemblyName>
   </PropertyGroup>
+
   <PropertyGroup>
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>

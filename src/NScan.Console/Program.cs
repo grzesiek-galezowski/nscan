@@ -1,10 +1,8 @@
-﻿using System;
-using AtmaFileSystem;
+﻿using AtmaFileSystem;
 using Fclp;
+using NScan.Adapter.NotifyingSupport;
 using NScan.SharedKernel.SharedKernel;
-using TddXt.NScan.Domain;
 using TddXt.NScan.Domain.Root;
-using TddXt.NScan.NotifyingSupport.Adapters;
 using TddXt.NScan.WritingProgramOutput.Adapters;
 
 namespace TddXt.NScan.Console
@@ -27,7 +25,6 @@ namespace TddXt.NScan.Console
         return 1;
       }
     }
-
 
     private static FluentCommandLineParser CreateCliParser(InputArgumentsDto inputArguments)
     {
