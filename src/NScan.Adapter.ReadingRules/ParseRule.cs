@@ -1,12 +1,11 @@
 using System.Collections.Generic;
-using System.Data;
 using GlobExpressions;
 using NScan.Lib;
 using NScan.SharedKernel.Ports;
 using NScan.SharedKernel.SharedKernel;
 using Sprache;
 
-namespace TddXt.NScan.ReadingRules.Adapters
+namespace NScan.Adapter.ReadingRules
 {
   public static class ParseRule
   {

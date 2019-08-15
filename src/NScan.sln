@@ -33,7 +33,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CoarseGrainedSpecification"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScan.Lib", "NScan.Lib\NScan.Lib.csproj", "{B5326025-A0B8-4EAB-9E6C-9411A04B4D0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScan.SharedKernel", "NScan.SharedKernel\NScan.SharedKernel.csproj", "{65DE5C02-867D-40F4-B7E2-6EB7F43BB2E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScan.SharedKernel", "NScan.SharedKernel\NScan.SharedKernel.csproj", "{65DE5C02-867D-40F4-B7E2-6EB7F43BB2E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScan.Adapter.ReadingRules", "NScan.Adapter.ReadingRules\NScan.Adapter.ReadingRules.csproj", "{E6355837-5BD3-4765-BFC8-1FF7DE52BFCA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,10 @@ Global
 		{65DE5C02-867D-40F4-B7E2-6EB7F43BB2E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65DE5C02-867D-40F4-B7E2-6EB7F43BB2E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65DE5C02-867D-40F4-B7E2-6EB7F43BB2E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6355837-5BD3-4765-BFC8-1FF7DE52BFCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6355837-5BD3-4765-BFC8-1FF7DE52BFCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6355837-5BD3-4765-BFC8-1FF7DE52BFCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6355837-5BD3-4765-BFC8-1FF7DE52BFCA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

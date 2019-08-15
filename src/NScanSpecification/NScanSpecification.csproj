@@ -14,9 +14,6 @@
     <Nullable>enable</Nullable>
     <WarningsAsErrors>CS8600;CS8602;CS8603</WarningsAsErrors>
   </PropertyGroup>
-  <ItemGroup>
-    <None Remove="Integration\RoslynNamespaceDetectionPlayground.cs~RF12e8799f.TMP" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="NSubstitute.Analyzers.CSharp" Version="1.0.10" />
