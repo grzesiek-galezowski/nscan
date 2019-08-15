@@ -16,13 +16,19 @@
     <PackageReference Include="Functional.Maybe.Just" Version="1.0.0" />
     <PackageReference Include="Glob" Version="1.1.3" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.2.1" />
-    <PackageReference Include="Sprache" Version="2.2.0" />
     <PackageReference Include="Value" Version="1.1.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\NScan.Lib\NScan.Lib.csproj" />
     <ProjectReference Include="..\NScan.SharedKernel\NScan.SharedKernel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DependencyPathBasedRules\" />
+    <Folder Include="NamespaceBasedRules\" />
+    <Folder Include="ProjectScopedRules\" />
+    <Folder Include="Root\" />
   </ItemGroup>
 
 </Project>

@@ -19,7 +19,7 @@
 
   <ItemGroup>
     <Folder Include="NotifyingSupport\Ports\" />
-    <Folder Include="Ports\" />
+    <Folder Include="RuleDtos\" />
     <Folder Include="ReadingSolution\Lib\" />
     <Folder Include="ReadingSolution\Ports\" />
     <Folder Include="WritingProgramOutput\Ports\" />
