@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using AtmaFileSystem;
+using NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode;
 using TddXt.NScan.ReadingCSharpSourceCode;
 using TddXt.NScan.ReadingSolution.Lib;
 using TddXt.NScan.ReadingSolution.Ports;
@@ -49,7 +50,7 @@ namespace TddXt.NScan.ReadingSolution.Adapters
     private static XmlSourceCodeFile CreateXmlSourceCodeFile(
       XmlProjectDataAccess projectAccess, 
       AbsoluteDirectoryPath projectDirectory, 
-      CSharpFileSyntaxTree syntaxTree, 
+      ICSharpFileSyntaxTree syntaxTree, 
       Dictionary<string, ClassDeclarationInfo> classDeclarationSignatures)
     {
       return new XmlSourceCodeFile(

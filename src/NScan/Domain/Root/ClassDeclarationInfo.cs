@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TddXt.NScan.ReadingCSharpSourceCode
+namespace NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode
 {
   public class ClassDeclarationInfo
   {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Functional.Maybe;
 using Functional.Maybe.Just;
@@ -7,7 +6,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace TddXt.NScan.ReadingCSharpSourceCode
+namespace NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode
 {
   public class ClassGatheringVisitor : CSharpSyntaxVisitor
   {

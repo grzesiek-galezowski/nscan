@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using FluentAssertions;
-using TddXt.NScan.ReadingCSharpSourceCode;
+using NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode;
 using Xunit;
 
 namespace TddXt.NScan.Specification.Integration

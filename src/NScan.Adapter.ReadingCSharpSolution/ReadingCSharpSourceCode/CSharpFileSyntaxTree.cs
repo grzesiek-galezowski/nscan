@@ -5,11 +5,12 @@ using System.Threading;
 using AtmaFileSystem;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using TddXt.NScan.ReadingCSharpSourceCode;
 using static AtmaFileSystem.AtmaFileSystemPaths;
 
-namespace TddXt.NScan.ReadingCSharpSourceCode
+namespace NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode
 {
-  public class CSharpFileSyntaxTree
+  public class CSharpFileSyntaxTree : ICSharpFileSyntaxTree
   {
     public static CSharpFileSyntaxTree ParseText(string sourceCode, string path)
     {

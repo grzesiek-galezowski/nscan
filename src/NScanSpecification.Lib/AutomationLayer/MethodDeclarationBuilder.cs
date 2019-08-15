@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using TddXt.NScan.ReadingCSharpSourceCode;
+using NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode;
 
 namespace NScanSpecification.Lib.AutomationLayer
 {

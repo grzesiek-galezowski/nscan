@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using TddXt.NScan.ReadingCSharpSourceCode;
+using NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode;
 using TddXt.NScan.ReadingSolution.Ports;
 
 namespace NScanSpecification.E2E.AutomationLayer

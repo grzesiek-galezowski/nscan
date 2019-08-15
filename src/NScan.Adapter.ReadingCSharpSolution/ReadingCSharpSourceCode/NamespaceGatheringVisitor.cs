@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace TddXt.NScan.ReadingCSharpSourceCode
+namespace NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode
 {
   public class NamespaceGatheringVisitor : CSharpSyntaxVisitor
   {

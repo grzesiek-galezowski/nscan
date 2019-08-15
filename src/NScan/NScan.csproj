@@ -48,7 +48,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NScan.Adapter.ReadingRules\NScan.Adapter.ReadingRules.csproj" />
     <ProjectReference Include="..\NScan.Lib\NScan.Lib.csproj" />
     <ProjectReference Include="..\NScan.SharedKernel\NScan.SharedKernel.csproj" />
   </ItemGroup>

@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode;
 using NScan.SharedKernel.SharedKernel;
 using TddXt.NScan.Domain.NamespaceBasedRules;
 using TddXt.NScan.Domain.ProjectScopedRules;
 using TddXt.NScan.NotifyingSupport.Ports;
-using TddXt.NScan.ReadingCSharpSourceCode;
 using TddXt.NScan.ReadingSolution.Lib;
 using TddXt.NScan.ReadingSolution.Ports;
 

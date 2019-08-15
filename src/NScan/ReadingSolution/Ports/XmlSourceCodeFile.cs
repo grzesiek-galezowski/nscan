@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using AtmaFileSystem;
-using TddXt.NScan.ReadingCSharpSourceCode;
+using NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode;
 
 namespace TddXt.NScan.ReadingSolution.Ports
 {
