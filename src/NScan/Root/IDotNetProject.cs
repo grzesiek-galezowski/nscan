@@ -1,8 +1,8 @@
-﻿using NScan.Domain.Domain.DependencyPathBasedRules;
-using NScan.Domain.Domain.NamespaceBasedRules;
-using NScan.Domain.Domain.ProjectScopedRules;
+﻿using NScan.Domain.DependencyPathBasedRules;
+using NScan.Domain.NamespaceBasedRules;
+using NScan.Domain.ProjectScopedRules;
 
-namespace NScan.Domain.Domain.Root
+namespace NScan.Domain.Root
 {
   public interface IDotNetProject : IReferencedProject, IReferencingProject, IProjectScopedRuleTarget, INamespaceBasedRuleTarget, IDependencyPathBasedRuleTarget
   {}

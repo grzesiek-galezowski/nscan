@@ -1,8 +1,8 @@
 using GlobExpressions;
 using NScan.Lib;
-using NScan.SharedKernel.Ports;
+using NScan.SharedKernel.RuleDtos;
 
-namespace NScan.SharedKernel.SharedKernel
+namespace NScan.SharedKernel
 {
   public static class RuleFormats
   {

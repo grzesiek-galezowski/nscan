@@ -1,8 +1,8 @@
 ﻿using System;
 using AtmaFileSystem;
+using NScan.SharedKernel;
 using NScan.SharedKernel.NotifyingSupport.Ports;
-using NScan.SharedKernel.Ports;
-using NScan.SharedKernel.SharedKernel;
+using NScan.SharedKernel.RuleDtos;
 
 namespace NScan.Adapter.NotifyingSupport
 {

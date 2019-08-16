@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using NScan.SharedKernel.SharedKernel;
+using NScan.SharedKernel;
 
-namespace NScan.Domain.Domain.DependencyPathBasedRules
+namespace NScan.Domain.DependencyPathBasedRules
 {
   public interface IDependencyPathRuleViolationFactory
   {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
-using NScan.Domain.Domain.NamespaceBasedRules;
+using NScan.Domain.NamespaceBasedRules;
 using TddXt.AnyRoot.Strings;
 using Xunit;
 using static TddXt.AnyRoot.Root;

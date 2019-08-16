@@ -1,8 +1,8 @@
 ﻿using System;
-using NScan.Domain.Domain.DependencyPathBasedRules;
-using NScan.Domain.Domain.Root;
+using NScan.Domain.DependencyPathBasedRules;
+using NScan.Domain.Root;
+using NScan.SharedKernel;
 using NScan.SharedKernel.NotifyingSupport.Ports;
-using NScan.SharedKernel.SharedKernel;
 using NScanSpecification.Lib;
 using NSubstitute;
 using TddXt.AnyRoot.Collections;

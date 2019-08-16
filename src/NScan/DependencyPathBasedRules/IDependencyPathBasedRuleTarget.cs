@@ -1,7 +1,7 @@
 ﻿using GlobExpressions;
 using NScan.Lib;
 
-namespace NScan.Domain.Domain.DependencyPathBasedRules
+namespace NScan.Domain.DependencyPathBasedRules
 {
   public interface IDependencyPathBasedRuleTarget
   {

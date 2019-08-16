@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using NScan.Domain.Domain.DependencyPathBasedRules;
-using NScan.Domain.Domain.NamespaceBasedRules;
-using NScan.Domain.Domain.ProjectScopedRules;
-using NScan.SharedKernel.SharedKernel;
+using NScan.Domain.DependencyPathBasedRules;
+using NScan.Domain.NamespaceBasedRules;
+using NScan.Domain.ProjectScopedRules;
+using NScan.SharedKernel;
 
-namespace NScan.Domain.Domain.Root
+namespace NScan.Domain.Root
 {
   public class DotNetStandardSolution : ISolution, ISolutionContext
   {

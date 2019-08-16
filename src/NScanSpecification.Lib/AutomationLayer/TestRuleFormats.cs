@@ -1,4 +1,4 @@
-﻿using NScan.SharedKernel.SharedKernel;
+﻿using NScan.SharedKernel;
 
 namespace NScanSpecification.Lib.AutomationLayer
 {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NScan.SharedKernel.SharedKernel
+namespace NScan.SharedKernel
 {
   public class ResultBuilder
   {

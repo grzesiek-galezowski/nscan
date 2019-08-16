@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using GlobExpressions;
 using NScan.Lib;
-using NScan.SharedKernel.Ports;
-using NScan.SharedKernel.SharedKernel;
+using NScan.SharedKernel;
+using NScan.SharedKernel.RuleDtos;
 using Sprache;
 
 namespace NScan.Adapter.ReadingRules

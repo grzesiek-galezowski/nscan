@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace NScan.Domain.Domain.DependencyPathBasedRules
+namespace NScan.Domain.DependencyPathBasedRules
 {
   public delegate IProjectDependencyPath ProjectDependencyPathFactory(IReadOnlyList<IDependencyPathBasedRuleTarget> projects);
 

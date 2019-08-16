@@ -1,8 +1,8 @@
 using System.Linq;
-using NScan.SharedKernel.Ports;
-using NScan.SharedKernel.SharedKernel;
+using NScan.SharedKernel;
+using NScan.SharedKernel.RuleDtos;
 
-namespace NScan.Domain.Domain.NamespaceBasedRules
+namespace NScan.Domain.NamespaceBasedRules
 {
   public class NoCircularUsingsRule : INamespacesBasedRule
   {

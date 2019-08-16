@@ -1,10 +1,11 @@
 ﻿using FluentAssertions;
-using NScan.Domain.Domain.DependencyPathBasedRules;
-using NScan.Domain.Domain.Root;
+using NScan.Domain.DependencyPathBasedRules;
+using NScan.Domain.Root;
 using NSubstitute;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
 using Xunit;
+using static TddXt.AnyRoot.Root;
 
 namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
 {
@@ -17,12 +18,12 @@ namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
       //GIVEN
       var condition1 = Substitute.For<IDependencyCondition>();
       var condition2 = Substitute.For<IDependencyCondition>();
-      var depending = AnyRoot.Root.Any.Instance<IProjectSearchResult>();
-      var dependency = AnyRoot.Root.Any.Instance<IReferencedProject>();
-      var condition1Result = AnyRoot.Root.Any.Boolean();
-      var condition2Result = AnyRoot.Root.Any.Boolean();
+      var depending = Any.Instance<IProjectSearchResult>();
+      var dependency = Any.Instance<IReferencedProject>();
+      var condition1Result = Any.Boolean();
+      var condition2Result = Any.Boolean();
 
-      var joinedCondition = new JoinedDescribedCondition(condition1, condition2, AnyRoot.Root.Any.String());
+      var joinedCondition = new JoinedDescribedCondition(condition1, condition2, Any.String());
       
       condition1.Matches(depending, dependency).Returns(condition1Result);
       condition2.Matches(depending, dependency).Returns(condition2Result);
@@ -38,10 +39,10 @@ namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
     public void ShouldReturnsADescriptionItWasCreatedWith()
     {
       //GIVEN
-      var initialDescription = AnyRoot.Root.Any.String();
+      var initialDescription = Any.String();
       var condition = new JoinedDescribedCondition(
-        AnyRoot.Root.Any.Instance<IDependencyCondition>(), 
-        AnyRoot.Root.Any.Instance<IDependencyCondition>(),
+        Any.Instance<IDependencyCondition>(), 
+        Any.Instance<IDependencyCondition>(),
         initialDescription);
       
       //WHEN

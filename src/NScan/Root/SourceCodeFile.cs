@@ -2,12 +2,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using AtmaFileSystem;
-using NScan.Domain.Domain.NamespaceBasedRules;
-using NScan.Domain.Domain.ProjectScopedRules;
+using NScan.Domain.NamespaceBasedRules;
+using NScan.Domain.ProjectScopedRules;
 using NScan.Lib;
-using NScan.SharedKernel.SharedKernel;
+using NScan.SharedKernel;
 
-namespace NScan.Domain.Domain.Root
+namespace NScan.Domain.Root
 {
   public class SourceCodeFile : ISourceCodeFile
   {

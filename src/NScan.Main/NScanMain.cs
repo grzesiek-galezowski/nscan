@@ -4,12 +4,12 @@ using System.IO;
 using System.Reflection;
 using NScan.Adapter.ReadingCSharpSolution.ReadingProjects;
 using NScan.Adapter.ReadingRules;
-using NScan.Domain.Domain.Root;
+using NScan.Domain.Root;
 using NScan.Lib;
+using NScan.SharedKernel;
 using NScan.SharedKernel.NotifyingSupport.Ports;
-using NScan.SharedKernel.Ports;
 using NScan.SharedKernel.ReadingSolution.Ports;
-using NScan.SharedKernel.SharedKernel;
+using NScan.SharedKernel.RuleDtos;
 using NScan.SharedKernel.WritingProgramOutput.Ports;
 using Sprache;
 

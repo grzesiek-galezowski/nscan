@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace NScan.Domain.Domain.DependencyPathBasedRules
+namespace NScan.Domain.DependencyPathBasedRules
 {
   public interface IProjectSearchResult
   {

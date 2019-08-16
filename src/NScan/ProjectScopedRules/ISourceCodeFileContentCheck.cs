@@ -1,6 +1,6 @@
-using NScan.SharedKernel.SharedKernel;
+using NScan.SharedKernel;
 
-namespace NScan.Domain.Domain.ProjectScopedRules
+namespace NScan.Domain.ProjectScopedRules
 {
   public interface ISourceCodeFileContentCheck
   {

@@ -1,8 +1,9 @@
-﻿using NScan.Domain.Domain.DependencyPathBasedRules;
-using NScan.Domain.Domain.Root;
-using NScan.SharedKernel.SharedKernel;
+﻿using NScan.Domain.DependencyPathBasedRules;
+using NScan.Domain.Root;
+using NScan.SharedKernel;
 using NSubstitute;
 using Xunit;
+using static TddXt.AnyRoot.Root;
 
 namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
 {
@@ -17,9 +18,9 @@ namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
       var project1 = Substitute.For<IDotNetProject>();
       var project2 = Substitute.For<IDotNetProject>();
       var project3 = Substitute.For<IDotNetProject>();
-      var dependencyStartingPath1 = AnyRoot.Root.Any.Instance<IDependencyPathInProgress>();
-      var dependencyStartingPath2 = AnyRoot.Root.Any.Instance<IDependencyPathInProgress>();
-      var dependencyStartingPath3 = AnyRoot.Root.Any.Instance<IDependencyPathInProgress>();
+      var dependencyStartingPath1 = Any.Instance<IDependencyPathInProgress>();
+      var dependencyStartingPath2 = Any.Instance<IDependencyPathInProgress>();
+      var dependencyStartingPath3 = Any.Instance<IDependencyPathInProgress>();
 
       dependencyPathFactory.NewDependencyPathFor((IFinalDependencyPathDestination)pathCache).Returns(
         dependencyStartingPath1,
@@ -39,12 +40,12 @@ namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
     public void ShouldMakePassedRuleCheckAllItsPaths()
     {
       //GIVEN
-      var pathCache = new PathCache(AnyRoot.Root.Any.Instance<IDependencyPathFactory>());
+      var pathCache = new PathCache(Any.Instance<IDependencyPathFactory>());
       var rule = Substitute.For<IDependencyRule>();
-      var report = AnyRoot.Root.Any.Instance<IAnalysisReportInProgress>();
-      var path1 = AnyRoot.Root.Any.Instance<IProjectDependencyPath>();
-      var path2 = AnyRoot.Root.Any.Instance<IProjectDependencyPath>();
-      var path3 = AnyRoot.Root.Any.Instance<IProjectDependencyPath>();
+      var report = Any.Instance<IAnalysisReportInProgress>();
+      var path1 = Any.Instance<IProjectDependencyPath>();
+      var path2 = Any.Instance<IProjectDependencyPath>();
+      var path3 = Any.Instance<IProjectDependencyPath>();
       pathCache.Add(path1);
       pathCache.Add(path2);
       pathCache.Add(path3);

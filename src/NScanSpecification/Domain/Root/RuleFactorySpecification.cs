@@ -1,10 +1,10 @@
 ﻿using FluentAssertions;
 using GlobExpressions;
-using NScan.Domain.Domain.DependencyPathBasedRules;
-using NScan.Domain.Domain.NamespaceBasedRules;
-using NScan.Domain.Domain.ProjectScopedRules;
-using NScan.Domain.Domain.Root;
-using NScan.SharedKernel.Ports;
+using NScan.Domain.DependencyPathBasedRules;
+using NScan.Domain.NamespaceBasedRules;
+using NScan.Domain.ProjectScopedRules;
+using NScan.Domain.Root;
+using NScan.SharedKernel.RuleDtos;
 using NScanSpecification.Lib;
 using TddXt.NScan.Specification.Domain.ProjectScopedRules;
 using TddXt.XFluentAssert.Root;

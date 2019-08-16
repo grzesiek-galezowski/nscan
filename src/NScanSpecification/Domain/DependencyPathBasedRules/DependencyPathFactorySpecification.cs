@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using NScan.Domain.Domain.DependencyPathBasedRules;
+using NScan.Domain.DependencyPathBasedRules;
 using NSubstitute;
 using TddXt.XFluentAssert.Root;
 using Xunit;

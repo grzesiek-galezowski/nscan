@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
-using NScan.Domain.Domain.ProjectScopedRules;
-using NScan.Domain.Domain.Root;
-using NScan.SharedKernel.SharedKernel;
+using NScan.Domain.ProjectScopedRules;
+using NScan.Domain.Root;
+using NScan.SharedKernel;
 using NScanSpecification.Lib;
 using NSubstitute;
 using TddXt.AnyRoot.Strings;

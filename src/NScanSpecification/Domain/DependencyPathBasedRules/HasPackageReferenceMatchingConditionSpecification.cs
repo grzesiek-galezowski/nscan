@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using GlobExpressions;
-using NScan.Domain.Domain.DependencyPathBasedRules;
-using NScan.Domain.Domain.Root;
+using NScan.Domain.DependencyPathBasedRules;
+using NScan.Domain.Root;
 using NSubstitute;
 using TddXt.AnyRoot;
 using Xunit;

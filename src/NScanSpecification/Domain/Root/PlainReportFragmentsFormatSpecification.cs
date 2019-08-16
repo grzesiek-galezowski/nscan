@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using FluentAssertions;
-using NScan.Domain.Domain.DependencyPathBasedRules;
-using NScan.Domain.Domain.Root;
+using NScan.Domain.DependencyPathBasedRules;
+using NScan.Domain.Root;
 using TddXt.AnyRoot.Strings;
 using Xunit;
+using static TddXt.AnyRoot.Root;
 
 namespace TddXt.NScan.Specification.Domain.Root
 {
@@ -15,9 +16,9 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       //GIVEN
       var format = new PlainReportFragmentsFormat();
-      var p1 = AnyRoot.Root.Any.Instance<IReferencedProject>();
-      var p2 = AnyRoot.Root.Any.Instance<IReferencedProject>();
-      var p3 = AnyRoot.Root.Any.Instance<IReferencedProject>();
+      var p1 = Any.Instance<IReferencedProject>();
+      var p2 = Any.Instance<IReferencedProject>();
+      var p3 = Any.Instance<IReferencedProject>();
 
       //WHEN
       var result = format.ApplyToPath(new List<IDependencyPathBasedRuleTarget>() {p1, p2, p3});
@@ -31,7 +32,7 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       //GIVEN
       var format = new PlainReportFragmentsFormat();
-      var p1 = AnyRoot.Root.Any.Instance<IDependencyPathBasedRuleTarget>();
+      var p1 = Any.Instance<IDependencyPathBasedRuleTarget>();
 
       //WHEN
       var result = format.ApplyToPath(new List<IDependencyPathBasedRuleTarget>() {p1});
@@ -45,12 +46,12 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       //GIVEN
       var format = new PlainReportFragmentsFormat();
-      var namespace1 = AnyRoot.Root.Any.String();
-      var namespace2 = AnyRoot.Root.Any.String();
-      var namespace3 = AnyRoot.Root.Any.String();
-      var namespace4 = AnyRoot.Root.Any.String();
-      var namespace5 = AnyRoot.Root.Any.String();
-      var namespace6 = AnyRoot.Root.Any.String();
+      var namespace1 = Any.String();
+      var namespace2 = Any.String();
+      var namespace3 = Any.String();
+      var namespace4 = Any.String();
+      var namespace5 = Any.String();
+      var namespace6 = Any.String();
       var cycles = new List<IReadOnlyList<string>>
       {
         new List<string> {namespace1, namespace2, namespace3},

@@ -3,7 +3,7 @@ using System.Linq;
 using FluentAssertions;
 using NScan.Adapter.ReadingRules;
 using NScan.Lib;
-using NScan.SharedKernel.SharedKernel;
+using NScan.SharedKernel;
 using Sprache;
 using TddXt.AnyRoot.Strings;
 using Xunit;

@@ -1,5 +1,5 @@
 ﻿using System;
-using NScan.SharedKernel.Ports;
+using NScan.SharedKernel.RuleDtos;
 
 namespace TddXt.NScan.Specification.ReadingRules.Adapters
 {

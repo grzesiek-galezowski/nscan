@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
-using NScan.Domain.Domain.NamespaceBasedRules;
-using NScan.Domain.Domain.Root;
-using NScan.SharedKernel.Ports;
-using NScan.SharedKernel.SharedKernel;
+using NScan.Domain.NamespaceBasedRules;
+using NScan.Domain.Root;
+using NScan.SharedKernel;
+using NScan.SharedKernel.RuleDtos;
 using NSubstitute;
 using TddXt.AnyRoot.Collections;
 using TddXt.AnyRoot.Strings;

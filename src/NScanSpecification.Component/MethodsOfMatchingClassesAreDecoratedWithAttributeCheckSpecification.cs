@@ -1,6 +1,6 @@
-﻿using NScan.Domain.Domain.ProjectScopedRules;
-using NScan.SharedKernel.Ports;
-using NScan.SharedKernel.SharedKernel;
+﻿using NScan.Domain.ProjectScopedRules;
+using NScan.SharedKernel;
+using NScan.SharedKernel.RuleDtos;
 using NSubstitute;
 using TddXt.AnyRoot.Strings;
 using Xunit;

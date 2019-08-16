@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
-using NScan.Domain.Domain.ProjectScopedRules;
+using NScan.Domain.ProjectScopedRules;
 using NScan.Lib;
-using NScan.SharedKernel.SharedKernel;
+using NScan.SharedKernel;
 using NScanSpecification.Lib;
 using NSubstitute;
 using TddXt.XNSubstitute.Root;

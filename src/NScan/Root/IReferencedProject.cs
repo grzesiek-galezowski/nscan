@@ -1,7 +1,7 @@
-﻿using NScan.Domain.Domain.DependencyPathBasedRules;
-using NScan.SharedKernel.SharedKernel;
+﻿using NScan.Domain.DependencyPathBasedRules;
+using NScan.SharedKernel;
 
-namespace NScan.Domain.Domain.Root
+namespace NScan.Domain.Root
 {
   public interface IReferencedProject : IDependencyPathBasedRuleTarget
   {

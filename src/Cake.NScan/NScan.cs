@@ -2,7 +2,7 @@
 using AtmaFileSystem;
 using Cake.Core;
 using Cake.Core.Annotations;
-using NScan.SharedKernel.SharedKernel;
+using NScan.SharedKernel;
 using TddXt.NScan;
 
 namespace Cake.NScan

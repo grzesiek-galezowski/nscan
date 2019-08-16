@@ -2,9 +2,9 @@
 using System.Linq;
 using FluentAssertions;
 using NScan.Adapter.NotifyingSupport;
-using NScan.Domain.Domain.Root;
+using NScan.Domain.Root;
 using NScan.SharedKernel.NotifyingSupport.Ports;
-using NScan.SharedKernel.Ports;
+using NScan.SharedKernel.RuleDtos;
 using NScanSpecification.Lib.AutomationLayer;
 
 namespace NScanSpecification.Component.AutomationLayer

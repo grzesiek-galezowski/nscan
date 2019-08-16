@@ -1,16 +1,16 @@
 using System.Collections.Generic;
 using System.Linq;
-using NScan.Domain.Domain.DependencyPathBasedRules;
-using NScan.Domain.Domain.NamespaceBasedRules;
-using NScan.Domain.Domain.ProjectScopedRules;
+using NScan.Domain.DependencyPathBasedRules;
+using NScan.Domain.NamespaceBasedRules;
+using NScan.Domain.ProjectScopedRules;
 using NScan.Lib;
+using NScan.SharedKernel;
 using NScan.SharedKernel.NotifyingSupport.Ports;
-using NScan.SharedKernel.Ports;
 using NScan.SharedKernel.ReadingSolution.Lib;
 using NScan.SharedKernel.ReadingSolution.Ports;
-using NScan.SharedKernel.SharedKernel;
+using NScan.SharedKernel.RuleDtos;
 
-namespace NScan.Domain.Domain.Root
+namespace NScan.Domain.Root
 {
 
   public interface IRuleDtoVisitor : IUnion5Visitor<

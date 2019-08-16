@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NScan.SharedKernel.SharedKernel
+namespace NScan.SharedKernel
 {
   public static class RuleNames
   {

@@ -1,6 +1,6 @@
-﻿using NScan.Domain.Domain.DependencyPathBasedRules;
-using NScan.Domain.Domain.Root;
-using NScan.SharedKernel.SharedKernel;
+﻿using NScan.Domain.DependencyPathBasedRules;
+using NScan.Domain.Root;
+using NScan.SharedKernel;
 using NScanSpecification.Lib;
 using NSubstitute;
 using TddXt.AnyRoot.Collections;

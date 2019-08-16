@@ -1,7 +1,7 @@
 using GlobExpressions;
 using NScan.Lib;
+using NScan.SharedKernel;
 using NScan.SharedKernel.NotifyingSupport.Ports;
-using NScan.SharedKernel.SharedKernel;
 using TddXt.AnyExtensibility;
 using TddXt.AnyRoot;
 

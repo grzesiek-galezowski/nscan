@@ -1,7 +1,7 @@
 using NScan.SharedKernel.NotifyingSupport.Ports;
-using NScan.SharedKernel.Ports;
+using NScan.SharedKernel.RuleDtos;
 
-namespace NScan.Domain.Domain.Root
+namespace NScan.Domain.Root
 {
   public class RuleLoggingVisitor : IRuleDtoVisitor
   {

@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NScan.Domain.Domain.DependencyPathBasedRules;
+using NScan.Domain.DependencyPathBasedRules;
 using NScan.Lib;
 
-namespace NScan.Domain.Domain.Root
+namespace NScan.Domain.Root
 {
   public class PlainReportFragmentsFormat : IReportFragmentsFormat
   {

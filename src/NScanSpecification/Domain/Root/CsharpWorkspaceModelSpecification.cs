@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
-using NScan.Domain.Domain.ProjectScopedRules;
-using NScan.Domain.Domain.Root;
+using NScan.Domain.ProjectScopedRules;
+using NScan.Domain.Root;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.ReadingSolution.Lib;
 using NScan.SharedKernel.ReadingSolution.Ports;

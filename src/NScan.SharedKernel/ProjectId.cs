@@ -1,4 +1,4 @@
-﻿namespace NScan.SharedKernel.SharedKernel
+﻿namespace NScan.SharedKernel
 {
   public struct ProjectId
   {

@@ -1,6 +1,6 @@
-﻿using NScan.SharedKernel.SharedKernel;
+﻿using NScan.SharedKernel;
 
-namespace NScan.Domain.Domain.NamespaceBasedRules
+namespace NScan.Domain.NamespaceBasedRules
 {
   public interface INamespacesBasedRule
   {
