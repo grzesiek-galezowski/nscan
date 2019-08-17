@@ -1,6 +1,6 @@
 ﻿using AtmaFileSystem;
 
-namespace NScan.SharedKernel
+namespace TddXt.NScan
 {
   #nullable disable
   public class InputArgumentsDto
