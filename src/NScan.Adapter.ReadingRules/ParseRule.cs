@@ -14,7 +14,7 @@ namespace NScan.Adapter.ReadingRules
     private static readonly Parser<string> TextUntilWhitespace = Parse.AnyChar.Until(Spaces).Text();
     private static readonly Parser<IEnumerable<char>> ExceptKeyword = Parse.String("except");
     private static readonly Parser<string> TextUntilEol = Parse.AnyChar.Until(Parse.LineTerminator).Text().Token();
-    private static readonly Parser<IEnumerable<char>> IndependentOfKeyword = Parse.String(RuleNames.IndependentOf);
+    private static readonly Parser<IEnumerable<char>> IndependentOfKeyword = Parse.String(IndependentRuleMetadata.IndependentOf);
 
     public static Parser<RuleUnionDto> FromLine()
     {
@@ -37,14 +37,14 @@ namespace NScan.Adapter.ReadingRules
 
     private static Parser<RuleUnionDto> HasNoCircularUsingsRuleComplement(Pattern dependingPattern)
     {
-      return Parse.String(RuleNames.HasNoCircularUsings).Then(_ => OptionalSpacesUntilEol).Return(
+      return Parse.String(HasNoCircularUsingsRuleMetadata.HasNoCircularUsings).Then(_ => OptionalSpacesUntilEol).Return(
         RuleUnionDto.With(new NoCircularUsingsRuleComplementDto(dependingPattern)));
     }
 
     private static Parser<RuleUnionDto>
       HasCorrectNamespacesRuleComplement(Pattern dependingPattern)
     {
-      return Parse.String(RuleNames.HasCorrectNamespaces).Then(_ => OptionalSpacesUntilEol).Return(
+      return Parse.String(HasCorrectNamespacesRuleMetadata.HasCorrectNamespaces).Then(_ => OptionalSpacesUntilEol).Return(
         RuleUnionDto.With(new CorrectNamespacesRuleComplementDto(dependingPattern)));
     }
 
@@ -68,7 +68,7 @@ namespace NScan.Adapter.ReadingRules
 
     private static Parser<RuleUnionDto> HasAttributesOn(Pattern dependingPattern)
     {
-      return Parse.String(RuleNames.HasAttributesOn)
+      return Parse.String(HasAttributesOnRuleMetadata.HasAttributesOn)
         .Then(_ =>
           from classPattern in TextUntil(':')
           from methodPattern in TextUntilEol
@@ -81,7 +81,7 @@ namespace NScan.Adapter.ReadingRules
 
     private static Parser<RuleUnionDto> HasTargetFramework(Pattern dependingPattern)
     {
-      return Parse.String(RuleNames.HasTargetFramework)
+      return Parse.String(HasTargetFrameworkRuleMetadata.HasTargetFramework)
         .Then(_ =>
           from targetFramework in TextUntilEol
           select RuleUnionDto.With(

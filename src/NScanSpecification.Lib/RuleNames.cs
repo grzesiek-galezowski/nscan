@@ -1,15 +1,10 @@
 ﻿using System;
+using NScan.SharedKernel;
 
-namespace NScan.SharedKernel
+namespace NScanSpecification.Lib
 {
   public static class RuleNames
   {
-    public const string IndependentOf = "independentOf";
-    public const string HasCorrectNamespaces = "hasCorrectNamespaces";
-    public const string HasNoCircularUsings = "hasNoCircularUsings";
-    public const string HasAttributesOn = "hasAttributesOn";
-    public const string HasTargetFramework = "hasTargetFramework";
-
     public static T Switch<T>(string ruleName,
       Func<T> independentOfValueFactory,
       Func<T> correctNamespacesValueFactory, 
@@ -17,23 +12,23 @@ namespace NScan.SharedKernel
       Func<T> isDecoratedWithAttributeValueFactory,
       Func<T> hasTargetFrameworkValueFactory)
     {
-      if (ruleName == IndependentOf)
+      if (ruleName == IndependentRuleMetadata.IndependentOf)
       {
         return independentOfValueFactory();
       }
-      else if (ruleName == HasCorrectNamespaces)
+      else if (ruleName == HasCorrectNamespacesRuleMetadata.HasCorrectNamespaces)
       {
         return correctNamespacesValueFactory();
       }
-      else if(ruleName == HasNoCircularUsings)
+      else if(ruleName == HasNoCircularUsingsRuleMetadata.HasNoCircularUsings)
       {
         return noCircularUsingsValueFactory();
       }
-      else if(ruleName == HasAttributesOn)
+      else if(ruleName == HasAttributesOnRuleMetadata.HasAttributesOn)
       {
         return isDecoratedWithAttributeValueFactory();
       }
-      else if(ruleName == HasTargetFramework)
+      else if(ruleName == HasTargetFrameworkRuleMetadata.HasTargetFramework)
       {
         return hasTargetFrameworkValueFactory();
       }

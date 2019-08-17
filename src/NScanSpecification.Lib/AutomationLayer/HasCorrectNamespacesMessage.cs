@@ -1,4 +1,5 @@
 ﻿using System;
+using NScan.SharedKernel.RuleDtos;
 
 namespace NScanSpecification.Lib.AutomationLayer
 {
@@ -21,7 +22,7 @@ namespace NScanSpecification.Lib.AutomationLayer
 
     public HasCorrectNamespacesMessage ButHasMultipleNamespaces(string fileName, params string[] namespaces)
     {
-      return NewInstance(ToString() + $" but the file {fileName} declares multiple namespaces: {string.Join(", ", namespaces)}");
+      return NewInstance(ToString() + $" but the file {fileName} declares multiple namespaces: {String.Join(", ", namespaces)}");
     }
 
 
@@ -39,5 +40,6 @@ namespace NScanSpecification.Lib.AutomationLayer
     {
       return new HasCorrectNamespacesMessage(TestRuleFormats.FormatCorrectNamespacesRule(projectGlob));
     }
+
   }
 }

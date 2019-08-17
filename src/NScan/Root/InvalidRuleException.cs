@@ -1,6 +1,6 @@
 using System;
 
-namespace NScan.SharedKernel
+namespace NScan.Domain.Root
 {
   public class InvalidRuleException : Exception
   {

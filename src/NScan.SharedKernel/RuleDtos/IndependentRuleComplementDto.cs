@@ -14,7 +14,7 @@ namespace NScan.SharedKernel.RuleDtos
 
     public Glob DependencyPattern { get; } //Glob instead of Pattern because this does not support exclusions
     public string DependencyType { get; }
-    public string RuleName { get; } = RuleNames.IndependentOf;
+    public string RuleName { get; } = IndependentRuleMetadata.IndependentOf;
     public Pattern DependingPattern { get; }
   }
 }

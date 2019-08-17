@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using NScan.Domain.Root;
 using NScan.SharedKernel;
 using TddXt.AnyRoot.Strings;
 using TddXt.XFluentAssert.Root;

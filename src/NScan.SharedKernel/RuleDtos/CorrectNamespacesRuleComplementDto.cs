@@ -9,7 +9,7 @@ namespace NScan.SharedKernel.RuleDtos
       ProjectAssemblyNamePattern = projectAssemblyNamePattern;
     }
 
-    public string RuleName { get; } = RuleNames.HasCorrectNamespaces;
+    public string RuleName { get; } = HasCorrectNamespacesRuleMetadata.HasCorrectNamespaces;
     public Pattern ProjectAssemblyNamePattern { get; }
   }
 }

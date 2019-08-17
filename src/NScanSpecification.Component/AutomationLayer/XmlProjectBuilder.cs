@@ -3,9 +3,9 @@ using System.Linq;
 using AtmaFileSystem;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using NScanSpecification.Lib.AutomationLayer;
-using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
 using static AtmaFileSystem.AtmaFileSystemPaths;
+using static TddXt.AnyRoot.Root;
 
 namespace NScanSpecification.Component.AutomationLayer
 {
@@ -55,7 +55,7 @@ namespace NScanSpecification.Component.AutomationLayer
     {
       return assemblyNames.Select(name => new XmlAssemblyReference()
       {
-        HintPath = Root.Any.String(),
+        HintPath = Any.String(),
         Include = name
       }).ToList();
     }

@@ -28,7 +28,6 @@
     <Folder Include="DependencyPathBasedRules\" />
     <Folder Include="NamespaceBasedRules\" />
     <Folder Include="ProjectScopedRules\" />
-    <Folder Include="Root\" />
   </ItemGroup>
 
 </Project>

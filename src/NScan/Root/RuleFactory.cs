@@ -99,7 +99,7 @@ namespace NScan.Domain.Root
       return new IndependentRule(
         new JoinedDescribedCondition(new IsFollowingAssemblyCondition(),
           new HasAssemblyNameMatchingPatternCondition(
-            dependencyNamePattern), RuleFormats.FormatIndependentRule(dependingNamePattern, 
+            dependencyNamePattern), IndependentRuleMetadata.FormatIndependentRule(dependingNamePattern, 
             dependencyType, dependencyNamePattern)), 
         dependingNamePattern,
         RuleViolationFactory());
@@ -113,7 +113,7 @@ namespace NScan.Domain.Root
       return new IndependentRule(
         new DescribedCondition(
           new HasPackageReferenceMatchingCondition(packageNamePattern), 
-          RuleFormats.FormatIndependentRule(dependingAssemblyNamePattern, dependencyType, packageNamePattern)), 
+          IndependentRuleMetadata.FormatIndependentRule(dependingAssemblyNamePattern, dependencyType, packageNamePattern)), 
         dependingAssemblyNamePattern, RuleViolationFactory());
     }
 
@@ -122,7 +122,7 @@ namespace NScan.Domain.Root
       Glob assemblyNamePattern,
       string dependencyType)
     {
-      return new IndependentRule(new DescribedCondition(new HasAssemblyReferenceMatchingCondition(assemblyNamePattern), RuleFormats.FormatIndependentRule(dependingAssemblyNamePattern, dependencyType, assemblyNamePattern)), 
+      return new IndependentRule(new DescribedCondition(new HasAssemblyReferenceMatchingCondition(assemblyNamePattern), IndependentRuleMetadata.FormatIndependentRule(dependingAssemblyNamePattern, dependencyType, assemblyNamePattern)), 
         dependingAssemblyNamePattern, RuleViolationFactory());
     }
   }

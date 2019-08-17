@@ -9,29 +9,29 @@ namespace NScanSpecification.Lib.AutomationLayer
       string classNameInclusionPattern,
       string methodNameInclusionPattern)
     {
-      return $"{projectAssemblyNamePattern} {RuleNames.HasAttributesOn} {classNameInclusionPattern}:{methodNameInclusionPattern}";
+      return $"{projectAssemblyNamePattern} {HasAttributesOnRuleMetadata.HasAttributesOn} {classNameInclusionPattern}:{methodNameInclusionPattern}";
     }
 
     public static string FormatNoCircularUsingsRule(string projectAssemblyNamePattern)
     {
-      return $"{projectAssemblyNamePattern} {RuleNames.HasNoCircularUsings}";
+      return $"{projectAssemblyNamePattern} {HasNoCircularUsingsRuleMetadata.HasNoCircularUsings}";
     }
 
     public static string FormatCorrectNamespacesRule(string projectAssemblyNamePattern)
     {
-      return $"{projectAssemblyNamePattern} {RuleNames.HasCorrectNamespaces}";
+      return $"{projectAssemblyNamePattern} {HasCorrectNamespacesRuleMetadata.HasCorrectNamespaces}";
     }
 
     public static string FormatIndependentRule(string projectAssemblyNamePattern, string dependencyType, string dependencyPattern)
     {
-      return $"{projectAssemblyNamePattern} {RuleNames.IndependentOf} {dependencyType}:{dependencyPattern}";
+      return $"{projectAssemblyNamePattern} {IndependentRuleMetadata.IndependentOf} {dependencyType}:{dependencyPattern}";
     }
 
     public static string FormatHasTargetFrameworkRule(
       string projectAssemblyNamePattern,
       string frameworkId)
     {
-      return $"{projectAssemblyNamePattern} {RuleNames.HasTargetFramework} {frameworkId}";
+      return $"{projectAssemblyNamePattern} {HasTargetFrameworkRuleMetadata.HasTargetFramework} {frameworkId}";
     }
   }
 }

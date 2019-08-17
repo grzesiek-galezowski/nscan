@@ -14,7 +14,7 @@ namespace NScan.SharedKernel.RuleDtos
       MethodNameInclusionPattern = methodNameInclusionPattern;
     }
 
-    public string RuleName => RuleNames.HasAttributesOn;
+    public string RuleName => HasAttributesOnRuleMetadata.HasAttributesOn;
     public Pattern ProjectAssemblyNamePattern { get; }
     public Pattern ClassNameInclusionPattern { get; }
     public Pattern MethodNameInclusionPattern { get; }

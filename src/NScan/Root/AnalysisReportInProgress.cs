@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using NScan.SharedKernel;
 
-namespace NScan.SharedKernel
+namespace NScan.Domain.Root
 {
   public class AnalysisReportInProgress : IAnalysisReportInProgress
   {

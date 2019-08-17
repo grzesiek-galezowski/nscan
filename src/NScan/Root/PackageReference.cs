@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Value;
 
-namespace NScan.SharedKernel
+namespace NScan.Domain.Root
 {
   public sealed class PackageReference : ValueType<PackageReference>
   {

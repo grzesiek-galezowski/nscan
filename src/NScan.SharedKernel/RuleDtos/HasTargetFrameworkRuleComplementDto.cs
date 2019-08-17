@@ -10,7 +10,7 @@ namespace NScan.SharedKernel.RuleDtos
       TargetFramework = targetFramework;
     }
 
-    public string RuleName { get; } = RuleNames.HasTargetFramework;
+    public string RuleName { get; } = HasTargetFrameworkRuleMetadata.HasTargetFramework;
     public Pattern ProjectAssemblyNamePattern { get; }
     public string TargetFramework { get; }
   }

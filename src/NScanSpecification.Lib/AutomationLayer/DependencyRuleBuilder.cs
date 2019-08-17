@@ -54,7 +54,7 @@ namespace NScanSpecification.Lib.AutomationLayer
     {
       _dependencyName = dependentAssemblyName;
       _dependencyType = "project";
-      _ruleName = RuleNames.IndependentOf;
+      _ruleName = IndependentRuleMetadata.IndependentOf;
       return this;
     }
 
@@ -62,7 +62,7 @@ namespace NScanSpecification.Lib.AutomationLayer
     {
       _dependencyName = packageName;
       _dependencyType = "package";
-      _ruleName = RuleNames.IndependentOf;
+      _ruleName = IndependentRuleMetadata.IndependentOf;
       return this;
 
     }
@@ -70,7 +70,7 @@ namespace NScanSpecification.Lib.AutomationLayer
     public IFullRuleConstructed IndependentOfAssembly(string assemblyName)
     {
       _dependencyName = assemblyName;
-      _ruleName = RuleNames.IndependentOf;
+      _ruleName = IndependentRuleMetadata.IndependentOf;
       _dependencyType = "assembly";
       return this;
     }
@@ -83,19 +83,19 @@ namespace NScanSpecification.Lib.AutomationLayer
 
     public IFullRuleConstructed HasCorrectNamespaces()
     {
-      _ruleName = RuleNames.HasCorrectNamespaces;
+      _ruleName = HasCorrectNamespacesRuleMetadata.HasCorrectNamespaces;
       return this;
     }
 
     public IFullRuleConstructed HasNoCircularUsings()
     {
-      _ruleName = RuleNames.HasNoCircularUsings;
+      _ruleName = HasNoCircularUsingsRuleMetadata.HasNoCircularUsings;
       return this;
     }
 
     public IFullRuleConstructed ToHaveDecoratedMethods(string classInclusionPattern, string methodInclusionPattern)
     {
-      _ruleName = RuleNames.HasAttributesOn;
+      _ruleName = HasAttributesOnRuleMetadata.HasAttributesOn;
       _classInclusionPattern = classInclusionPattern;
       _methodInclusionPattern = methodInclusionPattern;
       return this;
@@ -103,7 +103,7 @@ namespace NScanSpecification.Lib.AutomationLayer
 
     public IFullRuleConstructed HasTargetFramework(string targetFramework)
     {
-      _ruleName = RuleNames.HasTargetFramework;
+      _ruleName = HasTargetFrameworkRuleMetadata.HasTargetFramework;
       _targetFramework = targetFramework;
       return this;
     }

@@ -30,27 +30,27 @@ namespace Cake.NScan
 
     public void Log(IndependentRuleComplementDto dto)
     {
-      Log(RuleFormats.Format(dto));
+      Log(IndependentRuleMetadata.Format(dto));
     }
 
     public void Log(CorrectNamespacesRuleComplementDto dto)
     {
-      Log(RuleFormats.Format(dto));
+      Log(HasCorrectNamespacesRuleMetadata.Format(dto));
     }
 
     public void Log(NoCircularUsingsRuleComplementDto dto)
     {
-      Log(RuleFormats.Format(dto));
+      Log(HasNoCircularUsingsRuleMetadata.Format(dto));
     }
 
     public void Log(HasAttributesOnRuleComplementDto dto)
     {
-      Log(RuleFormats.Format(dto));
+      Log(HasAttributesOnRuleMetadata.Format(dto));
     }
 
     public void Log(HasTargetFrameworkRuleComplementDto dto)
     {
-      Log(RuleFormats.Format(dto));
+      Log(HasTargetFrameworkRuleMetadata.Format(dto));
     }
 
     private void Log(string ruleDescription)

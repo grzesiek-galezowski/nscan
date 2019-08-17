@@ -23,27 +23,27 @@ namespace NScan.Adapter.NotifyingSupport
 
     public void Log(IndependentRuleComplementDto dto)
     {
-      Console.WriteLine($"{DiscoveredRule}{RuleFormats.Format(dto)}");
+      Console.WriteLine($"{DiscoveredRule}{IndependentRuleMetadata.Format(dto)}");
     }
 
     public void Log(CorrectNamespacesRuleComplementDto dto)
     {
-      Console.WriteLine($"{DiscoveredRule}{RuleFormats.Format(dto)}");
+      Console.WriteLine($"{DiscoveredRule}{HasCorrectNamespacesRuleMetadata.Format(dto)}");
     }
 
     public void Log(NoCircularUsingsRuleComplementDto dto)
     {
-      Console.WriteLine($"{DiscoveredRule}{RuleFormats.Format(dto)}");
+      Console.WriteLine($"{DiscoveredRule}{HasNoCircularUsingsRuleMetadata.Format(dto)}");
     }
 
     public void Log(HasAttributesOnRuleComplementDto dto)
     {
-      Console.WriteLine($"{DiscoveredRule}{RuleFormats.Format(dto)}");
+      Console.WriteLine($"{DiscoveredRule}{HasAttributesOnRuleMetadata.Format(dto)}");
     }
 
     public void Log(HasTargetFrameworkRuleComplementDto dto)
     {
-      Console.WriteLine($"{DiscoveredRule}{RuleFormats.Format(dto)}");
+      Console.WriteLine($"{DiscoveredRule}{HasTargetFrameworkRuleMetadata.Format(dto)}");
     }
   }
 }
