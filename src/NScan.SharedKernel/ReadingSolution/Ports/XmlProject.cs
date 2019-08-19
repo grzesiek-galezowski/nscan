@@ -21,6 +21,6 @@ namespace NScan.SharedKernel.ReadingSolution.Ports
     public AbsoluteFilePath AbsolutePath { get; set; }
 
     [XmlIgnore]
-    public List<XmlSourceCodeFile> SourceCodeFiles { get; }= new List<XmlSourceCodeFile>();
+    public List<XmlSourceCodeFile> SourceCodeFiles { get; } = new List<XmlSourceCodeFile>();
   }
 }

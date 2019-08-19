@@ -42,11 +42,8 @@ namespace NScan.SharedKernel.ReadingSolution.Lib
 
     public IEnumerable<XmlAssemblyReference> XmlAssemblyReferences()
     {
-      var xmlItemGroups = _xmlProject.ItemGroups.Where(
-        ig => ig.AssemblyReferences != null && ig.AssemblyReferences.Any()).ToList();
-
-      var references = xmlItemGroups
-        .FirstMaybe()
+      var references = _xmlProject.ItemGroups
+        .FirstMaybe(ig => ig.AssemblyReferences != null && ig.AssemblyReferences.Any())
         .Select(ig => ig.AssemblyReferences.ToList())
         .OrElse(() => new List<XmlAssemblyReference>());
       return references;
@@ -54,19 +51,18 @@ namespace NScan.SharedKernel.ReadingSolution.Lib
 
     public string DetermineAssemblyName()
     {
-      return _xmlProject.PropertyGroups.First().AssemblyName ?? _xmlProject.AbsolutePath.FileName().WithoutExtension().ToString();
+      return _xmlProject.PropertyGroups
+        .FirstMaybe(pg => pg.AssemblyName != null)
+        .Select(pg => pg.AssemblyName)
+        .OrElse(() => _xmlProject.AbsolutePath.FileName().WithoutExtension().ToString());
     }
 
     public IEnumerable<XmlProjectReference> ProjectReferences()
     {
-      var xmlItemGroups = _xmlProject.ItemGroups
-        .Where(ig => ig.ProjectReferences != null && ig.ProjectReferences.Any()).ToList();
-      if (xmlItemGroups.Any())
-      {
-        return xmlItemGroups.First().ProjectReferences.ToList();
-      }
-
-      return new List<XmlProjectReference>();
+        return _xmlProject.ItemGroups
+          .FirstMaybe(ig => ig.ProjectReferences != null && ig.ProjectReferences.Any())
+          .Select(ig => ig.ProjectReferences.ToList())
+          .OrElse(() => new List<XmlProjectReference>());
     }
 
     public ProjectId Id()
@@ -86,7 +82,10 @@ namespace NScan.SharedKernel.ReadingSolution.Lib
 
     public string RootNamespace()
     {
-      return _xmlProject.PropertyGroups.First().RootNamespace ?? _xmlProject.AbsolutePath.FileName().WithoutExtension().ToString();
+      return _xmlProject.PropertyGroups
+        .FirstMaybe(p => p.RootNamespace != null)
+        .Select(pg => pg.RootNamespace)
+        .OrElse(() => _xmlProject.AbsolutePath.FileName().WithoutExtension().ToString());
     }
 
     public void AddFile(XmlSourceCodeFile xmlSourceCodeFile)
@@ -97,24 +96,6 @@ namespace NScan.SharedKernel.ReadingSolution.Lib
     public AbsoluteDirectoryPath GetParentDirectoryName()
     {
       return _xmlProject.AbsolutePath.ParentDirectory();
-    }
-
-    public void NormalizeProjectAssemblyName()
-    {
-      if (_xmlProject.PropertyGroups.All(g => g.AssemblyName == null))
-      {
-        _xmlProject.PropertyGroups.First().AssemblyName
-          = _xmlProject.AbsolutePath.FileName().WithoutExtension().ToString();
-      }
-    }
-
-    public void NormalizeProjectRootNamespace()
-    {
-      if (_xmlProject.PropertyGroups.All(g => g.RootNamespace == null))
-      {
-        _xmlProject.PropertyGroups.First().RootNamespace
-          = _xmlProject.AbsolutePath.FileName().WithoutExtension().ToString();
-      }
     }
 
     public void NormalizeProjectDependencyPaths(AbsoluteFilePath projectFileAbsolutePath)

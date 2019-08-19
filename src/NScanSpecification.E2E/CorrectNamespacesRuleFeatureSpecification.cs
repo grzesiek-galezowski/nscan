@@ -1,6 +1,7 @@
 ﻿using NScanSpecification.E2E.AutomationLayer;
 using NScanSpecification.Lib.AutomationLayer;
 using Xunit;
+using static NScanSpecification.Lib.AutomationLayer.DependencyRuleBuilder;
 using static NScanSpecification.Lib.AutomationLayer.XmlSourceCodeFileBuilder;
 
 namespace NScanSpecification.E2E
@@ -17,7 +18,7 @@ namespace NScanSpecification.E2E
           .WithRootNamespace("MyProject")
           .With(FileWithNamespace("lol1.cs", "MyProject"))
           .With(FileWithNamespace("lol2.cs", "MyProject"));
-        context.Add(DependencyRuleBuilder.RuleDemandingThat().Project("*MyProject*").HasCorrectNamespaces());
+        context.Add(RuleDemandingThat().Project("*MyProject*").HasCorrectNamespaces());
 
         //WHEN
         context.PerformAnalysis();
@@ -39,7 +40,7 @@ namespace NScanSpecification.E2E
           .With(FileWithNamespace("lol1.cs", "WrongNamespace"))
           .With(FileWithNamespace("lol2.cs", "WrongNamespace"))
           .With(FileWithNamespace("lol3.cs", "MyProject"));
-        context.Add(DependencyRuleBuilder.RuleDemandingThat().Project("*MyProject*").HasCorrectNamespaces());
+        context.Add(RuleDemandingThat().Project("*MyProject*").HasCorrectNamespaces());
 
         //WHEN
         context.PerformAnalysis();
@@ -64,7 +65,7 @@ namespace NScanSpecification.E2E
           .WithRootNamespace("MyProject")
           .With(FileWithNamespace("Domain\\lol4.cs", "MyProject.Domain"))
           .With(FileWithNamespace("Domain\\lol5.cs", "MyProject"));
-        context.Add(DependencyRuleBuilder.RuleDemandingThat().Project("*MyProject*").HasCorrectNamespaces());
+        context.Add(RuleDemandingThat().Project("*MyProject*").HasCorrectNamespaces());
 
         //WHEN
         context.PerformAnalysis();
@@ -88,7 +89,7 @@ namespace NScanSpecification.E2E
         context.HasProject("MyProject")
           .WithRootNamespace("MyProject")
           .With(FileWithNamespace("obj\\lol4.cs", "Trolololo"));
-        context.Add(DependencyRuleBuilder.RuleDemandingThat().Project("*MyProject*").HasCorrectNamespaces());
+        context.Add(RuleDemandingThat().Project("*MyProject*").HasCorrectNamespaces());
 
         //WHEN
         context.PerformAnalysis();

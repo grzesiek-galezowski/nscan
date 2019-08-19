@@ -58,17 +58,17 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
     private static XmlProject LoadXmlProject(AbsoluteFilePath projectFilePath)
     {
       var xmlProjectData = DeserializeProjectData(projectFilePath);
-      xmlProjectData.SetAbsolutePath(projectFilePath);
-      xmlProjectData.NormalizeProjectDependencyPaths(projectFilePath);
-      xmlProjectData.NormalizeProjectAssemblyName();
-      xmlProjectData.NormalizeProjectRootNamespace();
+
       SourceCodeFilePaths.LoadFilesInto(xmlProjectData);
       return xmlProjectData.ToXmlProject();
     }
 
     private static XmlProjectDataAccess DeserializeProjectData(AbsoluteFilePath projectFilePath)
     {
-      return new XmlProjectDataAccess(DeserializeProjectFile(projectFilePath));
+      var xmlProjectDataAccess = new XmlProjectDataAccess(DeserializeProjectFile(projectFilePath));
+      xmlProjectDataAccess.SetAbsolutePath(projectFilePath);
+      xmlProjectDataAccess.NormalizeProjectDependencyPaths(projectFilePath);
+      return xmlProjectDataAccess;
     }
 
     private Func<AbsoluteFilePath, Maybe<XmlProject>> LoadXmlProjectFromPath()
