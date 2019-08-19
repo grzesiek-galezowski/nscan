@@ -37,15 +37,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScan.SharedKernel", "NScan
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScan.Adapter.ReadingRules", "NScan.Adapter.ReadingRules\NScan.Adapter.ReadingRules.csproj", "{E6355837-5BD3-4765-BFC8-1FF7DE52BFCA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScan.Adapter.NotifyingSupport", "NScan.Adapters.NotifyingSupport\NScan.Adapter.NotifyingSupport.csproj", "{20ABB1C8-D9AD-41CA-A403-21BB9D7160A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScan.Adapter.NotifyingSupport", "NScan.Adapters.NotifyingSupport\NScan.Adapter.NotifyingSupport.csproj", "{20ABB1C8-D9AD-41CA-A403-21BB9D7160A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScan.Adapter.ReportingOfResults", "NScan.Adapter.ReportingOfResults\NScan.Adapter.ReportingOfResults.csproj", "{126DA23A-4901-4A05-BD53-693260CDC2E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScan.Adapter.ReportingOfResults", "NScan.Adapter.ReportingOfResults\NScan.Adapter.ReportingOfResults.csproj", "{126DA23A-4901-4A05-BD53-693260CDC2E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScan.Adapter.ReadingCSharpSolution", "NScan.Adapter.ReadingCSharpSolution\NScan.Adapter.ReadingCSharpSolution.csproj", "{01C04E19-431B-43F0-927D-A949F8896090}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScan.Adapter.ReadingCSharpSolution", "NScan.Adapter.ReadingCSharpSolution\NScan.Adapter.ReadingCSharpSolution.csproj", "{01C04E19-431B-43F0-927D-A949F8896090}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScan.Main", "NScan.Main\NScan.Main.csproj", "{5B9AC079-58DA-488A-BFCE-0E26A18D5FEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScan.Main", "NScan.Main\NScan.Main.csproj", "{5B9AC079-58DA-488A-BFCE-0E26A18D5FEC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Adapters", "Adapters", "{BDBC4BC3-7AEE-46EC-A14E-298CF5BDB975}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScan.Domain.NamespaceBasedRules", "NScan.Domain.NamespaceBasedRules\NScan.Domain.NamespaceBasedRules.csproj", "{EA349A48-E14F-4082-BC2E-CF00D4195D46}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -113,6 +115,10 @@ Global
 		{5B9AC079-58DA-488A-BFCE-0E26A18D5FEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B9AC079-58DA-488A-BFCE-0E26A18D5FEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B9AC079-58DA-488A-BFCE-0E26A18D5FEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA349A48-E14F-4082-BC2E-CF00D4195D46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA349A48-E14F-4082-BC2E-CF00D4195D46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA349A48-E14F-4082-BC2E-CF00D4195D46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA349A48-E14F-4082-BC2E-CF00D4195D46}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
