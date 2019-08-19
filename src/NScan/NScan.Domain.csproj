@@ -20,13 +20,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NScan.Domain.DependencyPathBasedRules\NScan.Domain.DependencyPathBasedRules.csproj" />
     <ProjectReference Include="..\NScan.Domain.NamespaceBasedRules\NScan.Domain.NamespaceBasedRules.csproj" />
     <ProjectReference Include="..\NScan.Lib\NScan.Lib.csproj" />
     <ProjectReference Include="..\NScan.SharedKernel\NScan.SharedKernel.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DependencyPathBasedRules\" />
     <Folder Include="ProjectScopedRules\" />
   </ItemGroup>
 

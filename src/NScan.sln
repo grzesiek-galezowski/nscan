@@ -47,7 +47,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScan.Main", "NScan.Main\NS
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Adapters", "Adapters", "{BDBC4BC3-7AEE-46EC-A14E-298CF5BDB975}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScan.Domain.NamespaceBasedRules", "NScan.Domain.NamespaceBasedRules\NScan.Domain.NamespaceBasedRules.csproj", "{EA349A48-E14F-4082-BC2E-CF00D4195D46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScan.Domain.NamespaceBasedRules", "NScan.Domain.NamespaceBasedRules\NScan.Domain.NamespaceBasedRules.csproj", "{EA349A48-E14F-4082-BC2E-CF00D4195D46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScan.Domain.DependencyPathBasedRules", "NScan.Domain.DependencyPathBasedRules\NScan.Domain.DependencyPathBasedRules.csproj", "{FEE4E2FB-6EB5-4B83-8881-BE9E577B85B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -119,6 +121,10 @@ Global
 		{EA349A48-E14F-4082-BC2E-CF00D4195D46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA349A48-E14F-4082-BC2E-CF00D4195D46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA349A48-E14F-4082-BC2E-CF00D4195D46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEE4E2FB-6EB5-4B83-8881-BE9E577B85B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEE4E2FB-6EB5-4B83-8881-BE9E577B85B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEE4E2FB-6EB5-4B83-8881-BE9E577B85B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEE4E2FB-6EB5-4B83-8881-BE9E577B85B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
