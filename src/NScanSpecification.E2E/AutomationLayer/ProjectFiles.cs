@@ -8,12 +8,12 @@ namespace NScanSpecification.E2E.AutomationLayer
   public class ProjectFiles
   {
     private readonly SolutionDir _dir;
-    private readonly Dictionary<string, List<XmlSourceCodeFile>> _filesByProject;
+    private readonly Dictionary<string, List<SourceCodeFileDto>> _filesByProject;
 
     public ProjectFiles(SolutionDir dir)
     {
       _dir = dir;
-      _filesByProject = new Dictionary<string, List<XmlSourceCodeFile>>();
+      _filesByProject = new Dictionary<string, List<SourceCodeFileDto>>();
     }
 
     public void AddFilesToProjects()
@@ -38,11 +38,11 @@ namespace NScanSpecification.E2E.AutomationLayer
     {
       if (!_filesByProject.ContainsKey(projectName))
       {
-        _filesByProject[projectName] = new List<XmlSourceCodeFile>();
+        _filesByProject[projectName] = new List<SourceCodeFileDto>();
       }
     }
 
-    public void Add(string projectName, XmlSourceCodeFile xmlSourceCodeFile)
+    public void Add(string projectName, SourceCodeFileDto xmlSourceCodeFile)
     {
       _filesByProject[projectName].Add(xmlSourceCodeFile);
     }

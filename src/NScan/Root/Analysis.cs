@@ -44,9 +44,10 @@ namespace NScan.Domain.Root
 
     public static Analysis PrepareFor(IReadOnlyList<XmlProject> xmlProjects, INScanSupport support)
     {
+      var xmlProjectDataAccesses = xmlProjects.Select(p => new XmlProjectDataAccess2(p));
       var projects = 
         new CsharpWorkspaceModel(support, new RuleViolationFactory(new PlainReportFragmentsFormat()))
-          .CreateProjectsDictionaryFrom(xmlProjects.Select(p => new XmlProjectDataAccess(p)));
+          .CreateProjectsDictionaryFrom(xmlProjectDataAccesses);
 
       return new Analysis(new DotNetStandardSolution(projects,
           new PathCache(

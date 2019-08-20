@@ -7,13 +7,13 @@ namespace NScanSpecification.E2E.AutomationLayer
 {
   public static class SourceCodeFileText
   {
-    public static string GenerateFrom(XmlSourceCodeFile sourceCodeFile)
+    public static string GenerateFrom(SourceCodeFileDto sourceCodeFile)
     {
       return Usings(sourceCodeFile) + $"namespace {sourceCodeFile.DeclaredNamespaces.Single()}" + " {" +
              Classes(sourceCodeFile) + "}";
     }
 
-    private static string Classes(XmlSourceCodeFile sourceCodeFile)
+    private static string Classes(SourceCodeFileDto sourceCodeFile)
     {
       return string.Join(
         Environment.NewLine, 
@@ -43,7 +43,7 @@ namespace NScanSpecification.E2E.AutomationLayer
       return "[" + a + "]";
     }
 
-    private static string Usings(XmlSourceCodeFile sourceCodeFile)
+    private static string Usings(SourceCodeFileDto sourceCodeFile)
     {
       return string.Join(
         Environment.NewLine,

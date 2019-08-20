@@ -47,13 +47,13 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
     }
 
 
-    private static XmlSourceCodeFile CreateXmlSourceCodeFile(
+    private static SourceCodeFileDto CreateXmlSourceCodeFile(
       XmlProjectDataAccess projectAccess, 
       AbsoluteDirectoryPath projectDirectory, 
       ICSharpFileSyntaxTree syntaxTree, 
       Dictionary<string, ClassDeclarationInfo> classDeclarationSignatures)
     {
-      return new XmlSourceCodeFile(
+      return new SourceCodeFileDto(
         AtmaFileSystemPaths.RelativeFilePath(GetPathRelativeTo(projectDirectory, syntaxTree.FilePath)), 
         syntaxTree.GetAllUniqueNamespaces().ToList(), 
         projectAccess.RootNamespace(), 

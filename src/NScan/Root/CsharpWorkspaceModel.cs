@@ -6,7 +6,6 @@ using NScan.Domain.ProjectScopedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
-using NScan.SharedKernel.ReadingSolution.Lib;
 using NScan.SharedKernel.ReadingSolution.Ports;
 
 namespace NScan.Domain.Root
@@ -25,7 +24,7 @@ namespace NScan.Domain.Root
     }
 
     public Dictionary<ProjectId, IDotNetProject> CreateProjectsDictionaryFrom(
-      IEnumerable<IXmlProjectDataAccess> xmlProjectDataAccesses)
+      IEnumerable<IXmlProjectDataAccess2> xmlProjectDataAccesses)
     {
       var projects = new Dictionary<ProjectId, IDotNetProject>();
       foreach (var dataAccess in xmlProjectDataAccesses)
@@ -37,25 +36,29 @@ namespace NScan.Domain.Root
       return projects;
     }
 
-    private (ProjectId, DotNetStandardProject) CreateProject(IXmlProjectDataAccess projectDataAccess)
+    private (ProjectId, DotNetStandardProject) CreateProject(IXmlProjectDataAccess2 projectDataAccess)
     {
-      var assemblyName = projectDataAccess.DetermineAssemblyName();
+      var assemblyName = projectDataAccess.AssemblyName;
       var dotNetStandardProject = new DotNetStandardProject(
         assemblyName,
-        projectDataAccess.Id(), 
-        projectDataAccess.TargetFramework(), 
-        projectDataAccess.XmlPackageReferences().Select(ToPackageReference).ToList(),
-        projectDataAccess.XmlAssemblyReferences().Select(ToAssemblyReference).ToList(), 
-        projectDataAccess.SourceCodeFiles().Select(ToSourceCodeFile).ToList(), 
+        projectDataAccess.Id, 
+        projectDataAccess.TargetFramework, projectDataAccess.PackageReferences,
+        projectDataAccess.AssemblyReferences, 
+        SourceCodeFiles(projectDataAccess), 
         new NamespacesDependenciesCache(), 
         new ReferencedProjects(
-          projectDataAccess.ProjectReferences().Select(ToProjectId).ToArray(), 
+          projectDataAccess.ProjectIds, 
           _support), 
         new ReferencingProjects());
-      return (projectDataAccess.Id(), dotNetStandardProject);
+      return (projectDataAccess.Id, dotNetStandardProject);
     }
 
-    private SourceCodeFile ToSourceCodeFile(XmlSourceCodeFile scf)
+    private List<SourceCodeFile> SourceCodeFiles(IXmlProjectDataAccess2 projectDataAccess)
+    {
+      return projectDataAccess.SourceCodeFiles.Select(ToSourceCodeFile).ToList();
+    }
+
+    private SourceCodeFile ToSourceCodeFile(SourceCodeFileDto scf)
     {
       return new SourceCodeFile(
         _ruleViolationFactory, 
@@ -63,8 +66,7 @@ namespace NScan.Domain.Root
         scf.ParentProjectAssemblyName, 
         scf.ParentProjectRootNamespace, 
         scf.PathRelativeToProjectRoot, 
-        scf.Usings,
-        ToClasses(scf.Classes, methodDeclarationInfos => ToMethods(methodDeclarationInfos, _ruleViolationFactory)));
+        scf.Usings, ToClasses(scf.Classes, methodDeclarationInfos => ToMethods(methodDeclarationInfos, _ruleViolationFactory)));
     }
 
     private static ICSharpClass[] ToClasses(
@@ -78,21 +80,6 @@ namespace NScan.Domain.Root
       IProjectScopedRuleViolationFactory violationFactory)
     {
       return methodDeclarationInfos.Select(m => new CSharpMethod(m, violationFactory)).ToArray<ICSharpMethod>();
-    }
-
-    private static ProjectId ToProjectId(XmlProjectReference dto)
-    {
-      return new ProjectId(dto.FullIncludePath.ToString());
-    }
-
-    private static AssemblyReference ToAssemblyReference(XmlAssemblyReference r)
-    {
-      return new AssemblyReference(r.Include, r.HintPath);
-    }
-
-    private static PackageReference ToPackageReference(XmlPackageReference r)
-    {
-      return new PackageReference(r.Include, r.Version);
     }
   }
 }

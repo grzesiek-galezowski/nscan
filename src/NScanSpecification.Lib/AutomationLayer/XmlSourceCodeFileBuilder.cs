@@ -41,9 +41,9 @@ namespace NScanSpecification.Lib.AutomationLayer
       return this;
     }
 
-    public XmlSourceCodeFile BuildWith(string parentProjectAssemblyName, string parentProjectRootNamespace)
+    public SourceCodeFileDto BuildWith(string parentProjectAssemblyName, string parentProjectRootNamespace)
     {
-      return new XmlSourceCodeFile(
+      return new SourceCodeFileDto(
         AtmaFileSystemPaths.RelativeFilePath(FileName), 
         DeclaredNamespaces, 
         parentProjectRootNamespace, 

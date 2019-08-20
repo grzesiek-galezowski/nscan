@@ -31,7 +31,7 @@ namespace NScanSpecification.E2E.AutomationLayer
       return _absoluteSolutionDirectoryPath + rulesFileName;
     }
 
-    public FileInfo PathToFileInProject(DirectoryName projectDirectoryName, XmlSourceCodeFile sourceCodeFile)
+    public FileInfo PathToFileInProject(DirectoryName projectDirectoryName, SourceCodeFileDto sourceCodeFile)
     {
       var fullFilePath = _absoluteSolutionDirectoryPath + projectDirectoryName + sourceCodeFile.PathRelativeToProjectRoot;
       return fullFilePath.Info();

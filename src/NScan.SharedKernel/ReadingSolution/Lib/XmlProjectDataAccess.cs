@@ -15,7 +15,7 @@ namespace NScan.SharedKernel.ReadingSolution.Lib
     IEnumerable<XmlPackageReference> XmlPackageReferences();
     IEnumerable<XmlAssemblyReference> XmlAssemblyReferences();
     IEnumerable<XmlProjectReference> ProjectReferences();
-    IEnumerable<XmlSourceCodeFile> SourceCodeFiles();
+    IEnumerable<SourceCodeFileDto> SourceCodeFiles();
     string TargetFramework();
   }
 
@@ -70,7 +70,7 @@ namespace NScan.SharedKernel.ReadingSolution.Lib
       return new ProjectId(_xmlProject.AbsolutePath.ToString());
     }
 
-    public IEnumerable<XmlSourceCodeFile> SourceCodeFiles()
+    public IEnumerable<SourceCodeFileDto> SourceCodeFiles()
     {
       return _xmlProject.SourceCodeFiles!;
     }
@@ -88,7 +88,7 @@ namespace NScan.SharedKernel.ReadingSolution.Lib
         .OrElse(() => _xmlProject.AbsolutePath.FileName().WithoutExtension().ToString());
     }
 
-    public void AddFile(XmlSourceCodeFile xmlSourceCodeFile)
+    public void AddFile(SourceCodeFileDto xmlSourceCodeFile)
     {
       _xmlProject.SourceCodeFiles.Add(xmlSourceCodeFile);
     }
@@ -117,4 +117,6 @@ namespace NScan.SharedKernel.ReadingSolution.Lib
       return _xmlProject.Clone();
     }
   }
+
+
 }

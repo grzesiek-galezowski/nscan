@@ -5,10 +5,10 @@ using NScan.SharedKernel.ReadingCSharpSourceCode;
 
 namespace NScan.SharedKernel.ReadingSolution.Ports
 {
-  public class XmlSourceCodeFile
+  public class SourceCodeFileDto
   {
 
-    public XmlSourceCodeFile(RelativeFilePath filePathRelativeToProjectRoot,
+    public SourceCodeFileDto(RelativeFilePath filePathRelativeToProjectRoot,
       List<string> declaredNamespaces,
       string parentProjectRootNamespace,
       string parentProjectAssemblyName,

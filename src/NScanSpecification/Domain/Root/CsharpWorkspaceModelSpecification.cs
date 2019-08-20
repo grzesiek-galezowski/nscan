@@ -19,11 +19,13 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldCreateEmptyDictionaryWhenInputListDoesNotContainAnyProject()
     {
       //GIVEN
-      var csharpWorkspaceModel = new CsharpWorkspaceModel(Any.Instance<INScanSupport>(), Any.Instance<IProjectScopedRuleViolationFactory>());
+      var csharpWorkspaceModel = new CsharpWorkspaceModel(
+        Any.Instance<INScanSupport>(), 
+        Any.Instance<IProjectScopedRuleViolationFactory>());
 
       //WHEN
       IReadOnlyList<XmlProject> xmlProjects = new List<XmlProject>();
-      var projectDictionary = csharpWorkspaceModel.CreateProjectsDictionaryFrom(xmlProjects.Select(p => new XmlProjectDataAccess(p)));
+      var projectDictionary = csharpWorkspaceModel.CreateProjectsDictionaryFrom(xmlProjects.Select(p => new XmlProjectDataAccess2(p)));
 
       //THEN
       projectDictionary.Should().BeEmpty();
@@ -35,19 +37,19 @@ namespace TddXt.NScan.Specification.Domain.Root
       //GIVEN
       var csharpWorkspaceModel = new CsharpWorkspaceModel(
         Any.Instance<INScanSupport>(), Any.Instance<IProjectScopedRuleViolationFactory>());
-      var xmlProject1 = Substitute.For<IXmlProjectDataAccess>();
-      var xmlProject2 = Substitute.For<IXmlProjectDataAccess>();
-      var xmlProject3 = Substitute.For<IXmlProjectDataAccess>();
+      var xmlProject1 = Substitute.For<IXmlProjectDataAccess2>();
+      var xmlProject2 = Substitute.For<IXmlProjectDataAccess2>();
+      var xmlProject3 = Substitute.For<IXmlProjectDataAccess2>();
       var expectedProjectId1 = Any.ProjectId();
       var expectedProjectId2 = Any.ProjectId();
       var expectedProjectId3 = Any.ProjectId();
 
-      xmlProject1.Id().Returns(expectedProjectId1);
-      xmlProject2.Id().Returns(expectedProjectId2);
-      xmlProject3.Id().Returns(expectedProjectId3);
+      xmlProject1.Id.Returns(expectedProjectId1);
+      xmlProject2.Id.Returns(expectedProjectId2);
+      xmlProject3.Id.Returns(expectedProjectId3);
 
       //WHEN
-      IEnumerable<IXmlProjectDataAccess> xmlProjects = new List<IXmlProjectDataAccess>()
+      IEnumerable<IXmlProjectDataAccess2> xmlProjects = new List<IXmlProjectDataAccess2>()
       {
         xmlProject1,
         xmlProject2,
