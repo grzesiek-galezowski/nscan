@@ -9,7 +9,6 @@ using NScan.Domain.Root;
 using NScan.Lib;
 using NScan.SharedKernel;
 using NScan.SharedKernel.NotifyingSupport.Ports;
-using NScan.SharedKernel.ReadingSolution.Lib;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using NScan.SharedKernel.RuleDtos;
 using NScan.SharedKernel.WritingProgramOutput.Ports;

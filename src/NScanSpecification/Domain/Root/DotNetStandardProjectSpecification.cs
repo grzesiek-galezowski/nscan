@@ -7,6 +7,7 @@ using NScan.Domain.ProjectScopedRules;
 using NScan.Domain.Root;
 using NScan.Lib;
 using NScan.SharedKernel;
+using NScan.SharedKernel.ReadingSolution.Ports;
 using NScanSpecification.Lib;
 using NSubstitute;
 using TddXt.AnyRoot;

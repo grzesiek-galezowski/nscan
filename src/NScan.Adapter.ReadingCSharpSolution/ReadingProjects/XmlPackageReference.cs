@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace NScan.SharedKernel.ReadingSolution.Ports
+namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
 {
 #nullable disable
   [XmlRoot(ElementName = "PackageReference")]

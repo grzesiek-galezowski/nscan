@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Value;
 
-namespace NScan.Domain.Root
+namespace NScan.SharedKernel.ReadingSolution.Ports
 {
   public sealed class AssemblyReference : ValueType<AssemblyReference>
   {

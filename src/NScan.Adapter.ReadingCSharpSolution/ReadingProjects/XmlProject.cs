@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Serialization;
 using AtmaFileSystem;
+using NScan.SharedKernel.ReadingSolution.Ports;
 
-namespace NScan.SharedKernel.ReadingSolution.Ports
+namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
 {
 #nullable disable
   [XmlRoot(ElementName = "Project")]

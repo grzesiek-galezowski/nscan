@@ -5,7 +5,6 @@ using System.Linq;
 using AtmaFileSystem;
 using NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
-using NScan.SharedKernel.ReadingSolution.Lib;
 using NScan.SharedKernel.ReadingSolution.Ports;
 
 namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects

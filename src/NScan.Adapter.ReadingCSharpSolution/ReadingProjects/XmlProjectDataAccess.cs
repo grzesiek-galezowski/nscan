@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using AtmaFileSystem;
 using Functional.Maybe;
-using NScan.Domain.Root;
+using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using static AtmaFileSystem.AtmaFileSystemPaths;
 
-namespace NScan.SharedKernel.ReadingSolution.Lib
+namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
 {
   public class XmlProjectDataAccess
   {

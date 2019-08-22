@@ -7,6 +7,7 @@ using NScan.Domain.NamespaceBasedRules;
 using NScan.Domain.ProjectScopedRules;
 using NScan.Lib;
 using NScan.SharedKernel;
+using NScan.SharedKernel.ReadingSolution.Ports;
 
 namespace NScan.Domain.Root
 {

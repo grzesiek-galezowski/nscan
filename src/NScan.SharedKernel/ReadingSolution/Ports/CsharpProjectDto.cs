@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using NScan.Domain.Root;
 
 namespace NScan.SharedKernel.ReadingSolution.Ports
 {
