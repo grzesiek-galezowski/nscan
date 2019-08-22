@@ -2,7 +2,7 @@
 using Xunit;
 using static NScanSpecification.Lib.AutomationLayer.HasNoCircularUsingsMessage;
 using static NScanSpecification.Lib.AutomationLayer.DependencyRuleBuilder;
-using static NScanSpecification.Lib.AutomationLayer.XmlSourceCodeFileBuilder;
+using static NScanSpecification.Lib.AutomationLayer.SourceCodeFileDtoBuilder;
 
 namespace NScanSpecification.E2E
 {

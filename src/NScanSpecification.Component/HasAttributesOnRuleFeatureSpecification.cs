@@ -3,7 +3,7 @@ using TddXt.AnyRoot.Strings;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 using static NScanSpecification.Lib.AutomationLayer.HasAttributesOnMessage;
-using static NScanSpecification.Lib.AutomationLayer.XmlSourceCodeFileBuilder;
+using static NScanSpecification.Lib.AutomationLayer.SourceCodeFileDtoBuilder;
 using static NScanSpecification.Lib.AutomationLayer.DependencyRuleBuilder;
 using static NScanSpecification.Lib.AutomationLayer.ClassDeclarationBuilder;
 using static NScanSpecification.Lib.AutomationLayer.MethodDeclarationBuilder;

@@ -7,35 +7,35 @@ using static TddXt.AnyRoot.Root;
 
 namespace NScanSpecification.Lib.AutomationLayer
 {
-  public class XmlSourceCodeFileBuilder
+  public class SourceCodeFileDtoBuilder
   {
     private readonly List<ClassDeclarationBuilder> _classes = new List<ClassDeclarationBuilder>();
     private List<string> DeclaredNamespaces { get; }
     private string FileName { get; set; }
     private List<string> Usings { get; } = new List<string>();
 
-    public static XmlSourceCodeFileBuilder FileWithNamespace(string fileName, string fileNamespace)
+    public static SourceCodeFileDtoBuilder FileWithNamespace(string fileName, string fileNamespace)
     {
-      return new XmlSourceCodeFileBuilder(fileName, new List<string> { fileNamespace });
+      return new SourceCodeFileDtoBuilder(fileName, new List<string> { fileNamespace });
     }
 
-    public static XmlSourceCodeFileBuilder EmptyFile(string fileName)
+    public static SourceCodeFileDtoBuilder EmptyFile(string fileName)
     {
-      return new XmlSourceCodeFileBuilder(fileName, Enumerable.Empty<string>().ToList());
+      return new SourceCodeFileDtoBuilder(fileName, Enumerable.Empty<string>().ToList());
     }
 
-    public static XmlSourceCodeFileBuilder FileWithNamespaces(string fileName, params string[] namespaces)
+    public static SourceCodeFileDtoBuilder FileWithNamespaces(string fileName, params string[] namespaces)
     {
-      return new XmlSourceCodeFileBuilder(fileName, namespaces.ToList());
+      return new SourceCodeFileDtoBuilder(fileName, namespaces.ToList());
     }
 
-    private XmlSourceCodeFileBuilder(string fileName, List<string> declaredNamespaces)
+    private SourceCodeFileDtoBuilder(string fileName, List<string> declaredNamespaces)
     {
       FileName = fileName;
       DeclaredNamespaces = declaredNamespaces;
     }
 
-    public XmlSourceCodeFileBuilder Using(string usingDeclaration)
+    public SourceCodeFileDtoBuilder Using(string usingDeclaration)
     {
       Usings.Add(usingDeclaration);
       return this;
@@ -52,13 +52,13 @@ namespace NScanSpecification.Lib.AutomationLayer
         _classes.Select(c => c.WithNamespace(DeclaredNamespaces.First()).Build()).ToList());
     }
 
-    public static XmlSourceCodeFileBuilder File(string fileName)
+    public static SourceCodeFileDtoBuilder File(string fileName)
     {
       return FileWithNamespace(fileName, Any.AlphaString());
     }
 
 
-    public XmlSourceCodeFileBuilder Containing(ClassDeclarationBuilder classDeclarationBuilder)
+    public SourceCodeFileDtoBuilder Containing(ClassDeclarationBuilder classDeclarationBuilder)
     {
       _classes.Add(classDeclarationBuilder);
       return this;

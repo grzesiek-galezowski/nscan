@@ -34,10 +34,10 @@ namespace NScanSpecification.E2E.AutomationLayer
       return this;
     }
 
-    public E2EProjectDsl With(XmlSourceCodeFileBuilder sourceCodeFileBuilder)
+    public E2EProjectDsl With(SourceCodeFileDtoBuilder sourceCodeFileDtoBuilder)
     {
       _projectFiles.InitializeForProject(_projectName);
-      _projectFiles.Add(_projectName, sourceCodeFileBuilder.BuildWith(_projectName, _rootNamespace));
+      _projectFiles.Add(_projectName, sourceCodeFileDtoBuilder.BuildWith(_projectName, _rootNamespace));
       return this;
     }
 

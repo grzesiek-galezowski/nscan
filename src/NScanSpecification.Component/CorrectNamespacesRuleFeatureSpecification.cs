@@ -1,7 +1,7 @@
 ﻿using NScanSpecification.Component.AutomationLayer;
 using NScanSpecification.Lib.AutomationLayer;
 using Xunit;
-using static NScanSpecification.Lib.AutomationLayer.XmlSourceCodeFileBuilder;
+using static NScanSpecification.Lib.AutomationLayer.SourceCodeFileDtoBuilder;
 using static NScanSpecification.Lib.AutomationLayer.DependencyRuleBuilder;
 
 namespace NScanSpecification.Component

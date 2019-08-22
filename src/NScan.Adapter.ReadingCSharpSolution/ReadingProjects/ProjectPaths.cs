@@ -25,12 +25,12 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
       _support = support;
     }
 
-    public List<XmlProject> LoadXmlProjects()
+    public List<CsharpProjectDto> LoadXmlProjects()
     {
-      var xmlProjects = _projectFilePaths.Select(LoadXmlProjectFromPath())
+      var projectDtos = _projectFilePaths.Select(LoadXmlProjectFromPath())
         .Where(maybeProject => maybeProject.HasValue)
         .Select(maybeProject => maybeProject.Value).ToList();
-      return xmlProjects;
+      return projectDtos;
     }
 
     public static ProjectPaths From(string solutionFilePath, INScanSupport consoleSupport)
@@ -55,12 +55,12 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
       return result;
     }
 
-    private static XmlProject LoadXmlProject(AbsoluteFilePath projectFilePath)
+    private static CsharpProjectDto LoadXmlProject(AbsoluteFilePath projectFilePath)
     {
       var xmlProjectData = DeserializeProjectData(projectFilePath);
 
       SourceCodeFilePaths.LoadFilesInto(xmlProjectData);
-      return xmlProjectData.ToXmlProject();
+      return xmlProjectData.BuildCsharpProjectDto();
     }
 
     private static XmlProjectDataAccess DeserializeProjectData(AbsoluteFilePath projectFilePath)
@@ -71,7 +71,7 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
       return xmlProjectDataAccess;
     }
 
-    private Func<AbsoluteFilePath, Maybe<XmlProject>> LoadXmlProjectFromPath()
+    private Func<AbsoluteFilePath, Maybe<CsharpProjectDto>> LoadXmlProjectFromPath()
     {
       return path =>
       {
@@ -82,7 +82,7 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
         catch (InvalidOperationException e)
         {
           _support.SkippingProjectBecauseOfError(e, path);
-          return Maybe<XmlProject>.Nothing;
+          return Maybe<CsharpProjectDto>.Nothing;
         }
       };
     }

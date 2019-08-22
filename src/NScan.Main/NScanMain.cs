@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using NScan.Adapter.ReadingCSharpSolution.ReadingProjects;
 using NScan.Adapter.ReadingRules;
@@ -8,6 +9,7 @@ using NScan.Domain.Root;
 using NScan.Lib;
 using NScan.SharedKernel;
 using NScan.SharedKernel.NotifyingSupport.Ports;
+using NScan.SharedKernel.ReadingSolution.Lib;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using NScan.SharedKernel.RuleDtos;
 using NScan.SharedKernel.WritingProgramOutput.Ports;
@@ -37,8 +39,8 @@ namespace TddXt.NScan
 
         var ruleDtos = ReadRules(inputArguments);
         LogRules(ruleDtos, support);
-        var xmlProjects = ReadXmlProjects(inputArguments, support);
-        var analysis = Analysis.PrepareFor(xmlProjects, support);
+        var csharpProjectDtos = ReadCsharpProjects(inputArguments, support);
+        var analysis = Analysis.PrepareFor(csharpProjectDtos, support);
 
         analysis.AddRules(ruleDtos);
 
@@ -51,6 +53,14 @@ namespace TddXt.NScan
         support.Report(e);
         return -2;
       }
+    }
+
+    private static IEnumerable<CsharpProjectDto> ReadCsharpProjects(InputArgumentsDto inputArguments, INScanSupport support)
+    {
+      var paths = ProjectPaths.From(
+        inputArguments.SolutionPath.ToString(),
+        support);
+      return paths.LoadXmlProjects();
     }
 
     private static IEnumerable<RuleUnionDto> ReadRules(InputArgumentsDto inputArguments)
@@ -68,15 +78,6 @@ namespace TddXt.NScan
       {
         ruleUnion.Accept(new RuleLoggingVisitor(support));
       }
-    }
-
-    private static List<XmlProject> ReadXmlProjects(InputArgumentsDto cliOptions, INScanSupport support)
-    {
-      var paths = ProjectPaths.From(
-        cliOptions.SolutionPath.ToString(),
-        support);
-      var xmlProjects = paths.LoadXmlProjects();
-      return xmlProjects;
     }
   }
 }

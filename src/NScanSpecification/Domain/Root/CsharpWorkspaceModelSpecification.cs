@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using FluentAssertions;
 using NScan.Domain.ProjectScopedRules;
 using NScan.Domain.Root;
 using NScan.SharedKernel.NotifyingSupport.Ports;
-using NScan.SharedKernel.ReadingSolution.Lib;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using NScanSpecification.Lib;
 using NSubstitute;
@@ -24,8 +22,8 @@ namespace TddXt.NScan.Specification.Domain.Root
         Any.Instance<IProjectScopedRuleViolationFactory>());
 
       //WHEN
-      IReadOnlyList<XmlProject> xmlProjects = new List<XmlProject>();
-      var projectDictionary = csharpWorkspaceModel.CreateProjectsDictionaryFrom(xmlProjects.Select(p => new XmlProjectDataAccess2(p)));
+      IReadOnlyList<CsharpProjectDto> xmlProjects = new List<CsharpProjectDto>();
+      var projectDictionary = csharpWorkspaceModel.CreateProjectsDictionaryFrom(xmlProjects);
 
       //THEN
       projectDictionary.Should().BeEmpty();
@@ -37,19 +35,12 @@ namespace TddXt.NScan.Specification.Domain.Root
       //GIVEN
       var csharpWorkspaceModel = new CsharpWorkspaceModel(
         Any.Instance<INScanSupport>(), Any.Instance<IProjectScopedRuleViolationFactory>());
-      var xmlProject1 = Substitute.For<IXmlProjectDataAccess2>();
-      var xmlProject2 = Substitute.For<IXmlProjectDataAccess2>();
-      var xmlProject3 = Substitute.For<IXmlProjectDataAccess2>();
-      var expectedProjectId1 = Any.ProjectId();
-      var expectedProjectId2 = Any.ProjectId();
-      var expectedProjectId3 = Any.ProjectId();
-
-      xmlProject1.Id.Returns(expectedProjectId1);
-      xmlProject2.Id.Returns(expectedProjectId2);
-      xmlProject3.Id.Returns(expectedProjectId3);
+      var xmlProject1 = Any.Instance<CsharpProjectDto>();
+      var xmlProject2 = Any.Instance<CsharpProjectDto>();
+      var xmlProject3 = Any.Instance<CsharpProjectDto>();
 
       //WHEN
-      IEnumerable<IXmlProjectDataAccess2> xmlProjects = new List<IXmlProjectDataAccess2>()
+      IEnumerable<CsharpProjectDto> xmlProjects = new List<CsharpProjectDto>()
       {
         xmlProject1,
         xmlProject2,
@@ -59,12 +50,12 @@ namespace TddXt.NScan.Specification.Domain.Root
         xmlProjects);
 
       //THEN
-      projectDictionary.Should().ContainKey(expectedProjectId1);
-      projectDictionary.Should().ContainKey(expectedProjectId2);
-      projectDictionary.Should().ContainKey(expectedProjectId3);
-      projectDictionary[expectedProjectId1].Should().BeOfType<DotNetStandardProject>();
-      projectDictionary[expectedProjectId2].Should().BeOfType<DotNetStandardProject>();
-      projectDictionary[expectedProjectId3].Should().BeOfType<DotNetStandardProject>();
+      projectDictionary.Should().ContainKey(xmlProject1.Id);
+      projectDictionary.Should().ContainKey(xmlProject2.Id);
+      projectDictionary.Should().ContainKey(xmlProject3.Id);
+      projectDictionary[xmlProject1.Id].Should().BeOfType<DotNetStandardProject>();
+      projectDictionary[xmlProject2.Id].Should().BeOfType<DotNetStandardProject>();
+      projectDictionary[xmlProject3.Id].Should().BeOfType<DotNetStandardProject>();
     }
        
   }

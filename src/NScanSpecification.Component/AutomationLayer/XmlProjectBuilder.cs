@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AtmaFileSystem;
+using NScan.Domain.Root;
+using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using NScanSpecification.Lib.AutomationLayer;
 using TddXt.AnyRoot.Strings;
@@ -11,101 +13,53 @@ namespace NScanSpecification.Component.AutomationLayer
 {
   public class XmlProjectBuilder
   {
-    private readonly XmlProject _xmlProject;
+    private readonly string _assemblyName;
+    private string _targetFramework;
+    private readonly List<SourceCodeFileDtoBuilder> _sourceCodeFileBuilders = new List<SourceCodeFileDtoBuilder>();
+    private readonly ProjectId _projectId;
+    private readonly List<PackageReference> _packageReferences = new List<PackageReference>();
+    private readonly List<AssemblyReference> _assemblyReferences = new List<AssemblyReference>();
+    private readonly List<ProjectId> _referencedProjectIds = new List<ProjectId>();
+    private string _rootNamespace = "";
 
     private XmlProjectBuilder(string assemblyName)
     {
-      _xmlProject = new XmlProject
-      {
-        AbsolutePath = AbsolutePathTo(assemblyName),
-        PropertyGroups = new List<XmlPropertyGroup>
-        {
-          new XmlPropertyGroup
-          {
-            AssemblyName = assemblyName,
-            TargetFramework = "netcore21"
-          }
-        },
-        ItemGroups = new List<XmlItemGroup>()
-      };
+      _assemblyName = assemblyName;
+      _targetFramework = "netcore21";
+      _projectId = new ProjectId(AbsolutePathTo(assemblyName).ToString());
     }
 
     public void WithReferences(params string[] names)
     {
-      _xmlProject.ItemGroups.Add(
-        new XmlItemGroup() {ProjectReferences = ProjectReferencesFrom(names)}
-      );
+      _referencedProjectIds.AddRange(names.Select(n => new ProjectId(AbsolutePathTo(n).ToString())));
     }
 
     public void WithPackages(params string[] packageNames)
     {
-      _xmlProject.ItemGroups.Add(
-        new XmlItemGroup() {PackageReferences = PackageReferencesFrom(packageNames)}
-      );
+      _packageReferences.AddRange(packageNames.Select(pn => new PackageReference(pn, "1.0.0")));
     }
 
     public void WithAssemblyReferences(params string[] assemblyNames)
     {
-      _xmlProject.ItemGroups.Add(
-        new XmlItemGroup() { AssemblyReferences = AssemblyReferencesFrom(assemblyNames) }
-      );
+      _assemblyReferences.AddRange(assemblyNames.Select(an => new AssemblyReference(an, Any.String())));
     }
 
-    private List<XmlAssemblyReference> AssemblyReferencesFrom(string[] assemblyNames)
+    public XmlProjectBuilder With(SourceCodeFileDtoBuilder sourceCodeFileDtoBuilder)
     {
-      return assemblyNames.Select(name => new XmlAssemblyReference()
-      {
-        HintPath = Any.String(),
-        Include = name
-      }).ToList();
-    }
-
-
-    private List<XmlPackageReference> PackageReferencesFrom(string[] packageNames)
-    {
-      return packageNames.Select(name => new XmlPackageReference()
-      {
-        Include = name,
-        Version = "0.0.0"
-      }).ToList();
-    }
-
-    private static List<XmlProjectReference> ProjectReferencesFrom(string[] names)
-    {
-      return names.Select(n => new XmlProjectReference
-      {
-        FullIncludePath = AbsolutePathTo(n)
-      }).ToList();
-    }
-
-
-    public XmlProjectBuilder With(XmlSourceCodeFileBuilder xmlSourceCodeFileBuilder)
-    {
-      var xmlSourceCodeFile = xmlSourceCodeFileBuilder
-        .BuildWith(
-          _xmlProject.PropertyGroups.First().RootNamespace,
-          _xmlProject.PropertyGroups.First().AssemblyName
-        );
-
-      _xmlProject.SourceCodeFiles.Add(xmlSourceCodeFile);
+      _sourceCodeFileBuilders.Add(sourceCodeFileDtoBuilder);
       return this;
     }
 
     public XmlProjectBuilder WithRootNamespace(string rootNamespace)
     {
-      _xmlProject.PropertyGroups.First().RootNamespace = rootNamespace;
+      _rootNamespace = rootNamespace;
       return this;
     }
 
     public XmlProjectBuilder WithTargetFramework(string targetFramework)
     {
-      _xmlProject.PropertyGroups.First().TargetFramework = targetFramework;
+      _targetFramework = targetFramework;
       return this;
-    }
-
-    public XmlProject Build()
-    {
-      return _xmlProject;
     }
 
     private static AbsoluteFilePath AbsolutePathTo(string assemblyName)
@@ -118,5 +72,16 @@ namespace NScanSpecification.Component.AutomationLayer
       return new XmlProjectBuilder(assemblyName);
     }
 
+    public CsharpProjectDto BuildCsharpProjectDto()
+    {
+      return new CsharpProjectDto(
+        _assemblyName,
+        _sourceCodeFileBuilders.Select(b => b.BuildWith(_assemblyName, _rootNamespace)),
+        _targetFramework,
+        _projectId,
+        _packageReferences,
+        _assemblyReferences,
+        _referencedProjectIds.ToArray());
+    }
   }
 }

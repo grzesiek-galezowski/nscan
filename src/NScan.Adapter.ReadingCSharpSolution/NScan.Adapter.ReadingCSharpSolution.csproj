@@ -11,7 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ReadingProjects\" />
     <Folder Include="ReadingCSharpSourceCode\" />
   </ItemGroup>
 

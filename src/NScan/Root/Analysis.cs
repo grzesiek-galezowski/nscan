@@ -5,7 +5,6 @@ using NScan.Domain.NamespaceBasedRules;
 using NScan.Domain.ProjectScopedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.NotifyingSupport.Ports;
-using NScan.SharedKernel.ReadingSolution.Lib;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using NScan.SharedKernel.RuleDtos;
 
@@ -35,19 +34,19 @@ namespace NScan.Domain.Root
       _projectScopedRules = projectScopedRules;
       _namespacesBasedRuleSet = namespacesBasedRuleSet;
       _analysisReportInProgress = analysisReportInProgress;
-      _createRuleMappingVisitor = new CreateRuleMappingVisitor(ruleFactory, namespacesBasedRuleSet, projectScopedRules, pathRules);
+      _createRuleMappingVisitor = new CreateRuleMappingVisitor(
+        ruleFactory, namespacesBasedRuleSet, projectScopedRules, pathRules);
     }
 
     public string Report => _analysisReportInProgress.AsString();
     public int ReturnCode => _analysisReportInProgress.HasViolations() ? -1 : 0;
 
 
-    public static Analysis PrepareFor(IReadOnlyList<XmlProject> xmlProjects, INScanSupport support)
+    public static Analysis PrepareFor(IEnumerable<CsharpProjectDto> csharpProjectDtos, INScanSupport support)
     {
-      var xmlProjectDataAccesses = xmlProjects.Select(p => new XmlProjectDataAccess2(p));
       var projects = 
         new CsharpWorkspaceModel(support, new RuleViolationFactory(new PlainReportFragmentsFormat()))
-          .CreateProjectsDictionaryFrom(xmlProjectDataAccesses);
+          .CreateProjectsDictionaryFrom(csharpProjectDtos);
 
       return new Analysis(new DotNetStandardSolution(projects,
           new PathCache(

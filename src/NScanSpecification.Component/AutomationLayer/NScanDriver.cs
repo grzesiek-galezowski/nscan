@@ -4,6 +4,7 @@ using FluentAssertions;
 using NScan.Adapter.NotifyingSupport;
 using NScan.Domain.Root;
 using NScan.SharedKernel.NotifyingSupport.Ports;
+using NScan.SharedKernel.ReadingSolution.Ports;
 using NScan.SharedKernel.RuleDtos;
 using NScanSpecification.Lib.AutomationLayer;
 
@@ -30,7 +31,8 @@ namespace NScanSpecification.Component.AutomationLayer
 
     public void PerformAnalysis()
     {
-      _analysis = Analysis.PrepareFor(_xmlProjects.Select(p => p.Build()).ToList(), _consoleSupport);
+      List<CsharpProjectDto> xmlProjects = _xmlProjects.Select(p => p.BuildCsharpProjectDto()).ToList();
+      _analysis = Analysis.PrepareFor(xmlProjects, _consoleSupport);
       _analysis.AddRules(_rules);
       _analysis.Run();
     }

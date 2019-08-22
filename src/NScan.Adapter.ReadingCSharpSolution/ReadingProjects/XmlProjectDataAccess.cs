@@ -1,25 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
-using AnyClone;
 using AtmaFileSystem;
 using Functional.Maybe;
+using NScan.Domain.Root;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using static AtmaFileSystem.AtmaFileSystemPaths;
 
 namespace NScan.SharedKernel.ReadingSolution.Lib
 {
-  public interface IXmlProjectDataAccess
-  {
-    string DetermineAssemblyName();
-    ProjectId Id();
-    IEnumerable<XmlPackageReference> XmlPackageReferences();
-    IEnumerable<XmlAssemblyReference> XmlAssemblyReferences();
-    IEnumerable<XmlProjectReference> ProjectReferences();
-    IEnumerable<SourceCodeFileDto> SourceCodeFiles();
-    string TargetFramework();
-  }
-
-  public class XmlProjectDataAccess : IXmlProjectDataAccess
+  public class XmlProjectDataAccess
   {
     private readonly XmlProject _xmlProject;
 
@@ -28,7 +17,7 @@ namespace NScan.SharedKernel.ReadingSolution.Lib
       _xmlProject = xmlProject;
     }
 
-    public IEnumerable<XmlPackageReference> XmlPackageReferences()
+    private IEnumerable<XmlPackageReference> XmlPackageReferences()
     {
       var xmlItemGroups = _xmlProject.ItemGroups.Where(
         ig => ig.PackageReferences != null && ig.PackageReferences.Any()).ToList();
@@ -40,7 +29,7 @@ namespace NScan.SharedKernel.ReadingSolution.Lib
       return references;
     }
 
-    public IEnumerable<XmlAssemblyReference> XmlAssemblyReferences()
+    private IEnumerable<XmlAssemblyReference> XmlAssemblyReferences()
     {
       var references = _xmlProject.ItemGroups
         .FirstMaybe(ig => ig.AssemblyReferences != null && ig.AssemblyReferences.Any())
@@ -57,7 +46,7 @@ namespace NScan.SharedKernel.ReadingSolution.Lib
         .OrElse(() => _xmlProject.AbsolutePath.FileName().WithoutExtension().ToString());
     }
 
-    public IEnumerable<XmlProjectReference> ProjectReferences()
+    private IEnumerable<XmlProjectReference> ProjectReferences()
     {
         return _xmlProject.ItemGroups
           .FirstMaybe(ig => ig.ProjectReferences != null && ig.ProjectReferences.Any())
@@ -65,17 +54,17 @@ namespace NScan.SharedKernel.ReadingSolution.Lib
           .OrElse(() => new List<XmlProjectReference>());
     }
 
-    public ProjectId Id()
+    private ProjectId Id()
     {
       return new ProjectId(_xmlProject.AbsolutePath.ToString());
     }
 
-    public IEnumerable<SourceCodeFileDto> SourceCodeFiles()
+    private IEnumerable<SourceCodeFileDto> SourceCodeFiles()
     {
       return _xmlProject.SourceCodeFiles!;
     }
 
-    public string TargetFramework()
+    private string TargetFramework()
     {
       return _xmlProject.PropertyGroups.First(pg => pg.TargetFramework != null).TargetFramework;
     }
@@ -112,9 +101,12 @@ namespace NScan.SharedKernel.ReadingSolution.Lib
       _xmlProject.AbsolutePath = projectFilePath;
     }
 
-    public XmlProject ToXmlProject()
+    public CsharpProjectDto BuildCsharpProjectDto()
     {
-      return _xmlProject.Clone();
+      return new CsharpProjectDto(DetermineAssemblyName(), SourceCodeFiles(), TargetFramework(), Id(), XmlPackageReferences()
+        .Select(r => new PackageReference(r.Include, r.Version)).ToList(), XmlAssemblyReferences()
+        .Select(r => new AssemblyReference(r.Include, r.HintPath)).ToList(), ProjectReferences()
+        .Select(dto => new ProjectId(dto.FullIncludePath.ToString())).ToArray());
     }
   }
 

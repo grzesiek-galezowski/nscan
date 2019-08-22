@@ -24,7 +24,7 @@ namespace NScan.Domain.Root
     }
 
     public Dictionary<ProjectId, IDotNetProject> CreateProjectsDictionaryFrom(
-      IEnumerable<IXmlProjectDataAccess2> xmlProjectDataAccesses)
+      IEnumerable<CsharpProjectDto> xmlProjectDataAccesses)
     {
       var projects = new Dictionary<ProjectId, IDotNetProject>();
       foreach (var dataAccess in xmlProjectDataAccesses)
@@ -36,24 +36,25 @@ namespace NScan.Domain.Root
       return projects;
     }
 
-    private (ProjectId, DotNetStandardProject) CreateProject(IXmlProjectDataAccess2 projectDataAccess)
+    private (ProjectId, DotNetStandardProject) CreateProject(CsharpProjectDto projectDataAccess)
     {
       var assemblyName = projectDataAccess.AssemblyName;
       var dotNetStandardProject = new DotNetStandardProject(
         assemblyName,
         projectDataAccess.Id, 
-        projectDataAccess.TargetFramework, projectDataAccess.PackageReferences,
+        projectDataAccess.TargetFramework, 
+        projectDataAccess.PackageReferences,
         projectDataAccess.AssemblyReferences, 
         SourceCodeFiles(projectDataAccess), 
         new NamespacesDependenciesCache(), 
         new ReferencedProjects(
-          projectDataAccess.ProjectIds, 
+          projectDataAccess.ReferencedProjectIds, 
           _support), 
         new ReferencingProjects());
       return (projectDataAccess.Id, dotNetStandardProject);
     }
 
-    private List<SourceCodeFile> SourceCodeFiles(IXmlProjectDataAccess2 projectDataAccess)
+    private List<SourceCodeFile> SourceCodeFiles(CsharpProjectDto projectDataAccess)
     {
       return projectDataAccess.SourceCodeFiles.Select(ToSourceCodeFile).ToList();
     }
