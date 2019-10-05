@@ -36,12 +36,22 @@ namespace TddXt.NScan
 
         output.WriteVersion(Versioning.VersionOf(Assembly.GetExecutingAssembly()));
 
-        var ruleDtos = ReadRules(inputArguments);
-        LogRules(ruleDtos, support);
         var csharpProjectDtos = ReadCsharpProjects(inputArguments, support);
         var analysis = Analysis.PrepareFor(csharpProjectDtos, support);
 
-        analysis.AddRules(ruleDtos);
+        var rulesString = ReadRulesTextFrom(inputArguments);
+        
+        var dependencyPathDtos = ParserRulePreface.Then(ParseDependencyPathBasedRule.Complement).Many().Parse(rulesString);
+        LogRules(dependencyPathDtos, support);
+        analysis.AddRules(dependencyPathDtos);
+
+        var projectScopedDtos = ParserRulePreface.Then(ParseProjectScopedRule.Complement).Many().Parse(rulesString);
+        LogRules(projectScopedDtos, support);
+        analysis.AddRules(projectScopedDtos);
+        
+        var namespaceBasedDtos = ParserRulePreface.Then(ParseNamespaceBasedRule.Complement).Many().Parse(rulesString);
+        LogRules(namespaceBasedDtos, support);
+        analysis.AddRules(namespaceBasedDtos);
 
         analysis.Run();
         output.WriteAnalysisReport(analysis.Report);
@@ -62,11 +72,9 @@ namespace TddXt.NScan
       return paths.LoadXmlProjects();
     }
 
-    private static IEnumerable<RuleUnionDto> ReadRules(InputArgumentsDto inputArguments)
+    private static string ReadRulesTextFrom(InputArgumentsDto inputArguments)
     {
-      var rulesString = File.ReadAllText(inputArguments.RulesFilePath.ToString());
-      var ruleDtos = ParseRule.FromLine().Many().Parse(rulesString);
-      return ruleDtos;
+      return File.ReadAllText(inputArguments.RulesFilePath.ToString());
     }
 
     private static void LogRules(

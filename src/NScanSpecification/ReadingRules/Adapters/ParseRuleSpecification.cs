@@ -4,6 +4,7 @@ using FluentAssertions;
 using NScan.Adapter.ReadingRules;
 using NScan.Lib;
 using NScan.SharedKernel;
+using NScan.SharedKernel.RuleDtos;
 using Sprache;
 using TddXt.AnyRoot.Strings;
 using Xunit;
@@ -22,7 +23,7 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
       var dependency = Any.String();
 
       //WHEN
-      var ruleUnionDto = ParseRule.FromLine()
+      var ruleUnionDto = ParserRulePreface.Then(ParseDependencyPathBasedRule.Complement)
         .Parse($"{depending} {IndependentRuleMetadata.IndependentOf} {dependencyType}:{dependency}{Environment.NewLine}");
 
       //THEN
@@ -46,8 +47,8 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
       var dependingException = Any.String();
 
       //WHEN
-      var ruleUnionDto = ParseRule.FromLine()
-        .Parse(
+      var ruleUnionDto = ParserRulePreface.Then(ParseDependencyPathBasedRule.Complement)
+				.Parse(
           $"{depending} except {dependingException} {IndependentRuleMetadata.IndependentOf} {dependencyType}:{dependency}{Environment.NewLine}");
 
       //THEN
@@ -70,8 +71,8 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
       var dependency = Any.String();
 
       //WHEN
-      var ruleUnionDto = ParseRule.FromLine()
-        .Parse($"{depending}  {IndependentRuleMetadata.IndependentOf}  {dependencyType}:{dependency}{Environment.NewLine}");
+      var ruleUnionDto = ParserRulePreface.Then(ParseDependencyPathBasedRule.Complement)
+				.Parse($"{depending}  {IndependentRuleMetadata.IndependentOf}  {dependencyType}:{dependency}{Environment.NewLine}");
 
       //THEN
       ruleUnionDto.Accept(new IndependentRuleComplementDtoAssertion(independentRule =>
@@ -91,7 +92,8 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
       var depending = Any.String();
 
       //WHEN
-      var ruleUnionDto = ParseRule.FromLine().Parse($"{depending}  {HasCorrectNamespacesRuleMetadata.HasCorrectNamespaces}");
+      var ruleUnionDto = ParserRulePreface.Then(ParseNamespaceBasedRule.Complement).Parse(
+	      $"{depending}  {HasCorrectNamespacesRuleMetadata.HasCorrectNamespaces}");
 
       //THEN
 
@@ -110,7 +112,7 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
       var depending = Any.String();
 
       //WHEN
-      var ruleUnionDto = ParseRule.FromLine().Parse($"{depending} {HasNoCircularUsingsRuleMetadata.HasNoCircularUsings}");
+      var ruleUnionDto = ParserRulePreface.Then(ParseNamespaceBasedRule.Complement).Parse($"{depending} {HasNoCircularUsingsRuleMetadata.HasNoCircularUsings}");
 
       //THEN
       ruleUnionDto.Accept(new NoCircularUsingsRuleComplementDtoAssertion(dto =>
@@ -128,7 +130,7 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
       var depending = Any.String();
 
       //WHEN
-      var ruleUnionDtos = ParseRule.FromLine().Many().Parse(
+      var ruleUnionDtos = ParserRulePreface.Then(ParseNamespaceBasedRule.Complement).Many().Parse(
         $"{depending} {HasNoCircularUsingsRuleMetadata.HasNoCircularUsings}{Environment.NewLine}" +
         $"{depending} {HasNoCircularUsingsRuleMetadata.HasNoCircularUsings}{Environment.NewLine}"
       ).ToList();
@@ -153,7 +155,7 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
       var methodPattern = Any.String();
 
       //WHEN
-      var ruleUnionDtos = ParseRule.FromLine().Many().Parse(
+      var ruleUnionDtos = ParserRulePreface.Then(ParseProjectScopedRule.Complement).Many().Parse(
         $"{depending} {HasAttributesOnRuleMetadata.HasAttributesOn} {classPattern}:{methodPattern}{Environment.NewLine}" +
         $"{depending} {HasAttributesOnRuleMetadata.HasAttributesOn} {classPattern}:{methodPattern}{Environment.NewLine}"
       ).ToList();
@@ -179,7 +181,7 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
       var frameworkName = Any.String();
 
       //WHEN
-      var ruleUnionDtos = ParseRule.FromLine().Many().Parse(
+      var ruleUnionDtos = ParserRulePreface.Then(ParseProjectScopedRule.Complement).Many().Parse(
         $"{depending} {HasTargetFrameworkRuleMetadata.HasTargetFramework} {frameworkName}{Environment.NewLine}" +
         $"{depending} {HasTargetFrameworkRuleMetadata.HasTargetFramework} {frameworkName}{Environment.NewLine}"
       ).ToList();
