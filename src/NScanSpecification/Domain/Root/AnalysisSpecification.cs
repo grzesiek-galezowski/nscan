@@ -91,7 +91,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       };
 
       //WHEN
-      analysis.AddRules(ruleDtos);
+      analysis.AddDependencyPathRules(ruleDtos);
 
       //THEN
       pathRuleSet.Received(1).Add(rule1);
@@ -129,7 +129,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       };
 
       //WHEN
-      analysis.AddRules(ruleDtos);
+      analysis.AddNamespaceBasedRules(ruleDtos);
 
       //THEN
       namespaceBasedRuleSet.Received(1).Add(rule1);
@@ -167,7 +167,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       };
 
       //WHEN
-      analysis.AddRules(ruleDtos);
+      analysis.AddProjectScopedRules(ruleDtos);
 
       //THEN
       projectScopedRuleSet.Received(1).Add(rule1);

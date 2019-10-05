@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using AtmaFileSystem;
 using NScan.SharedKernel.RuleDtos;
-using NScanSpecification.Lib.AutomationLayer;
 
 namespace NScanSpecification.E2E.AutomationLayer
 {
@@ -17,10 +16,9 @@ namespace NScanSpecification.E2E.AutomationLayer
       File.WriteAllLines(fullRulesPath.ToString(), lines);
     }
 
-    public void Add(IFullRuleConstructed ruleDefinition)
+    public void Add(RuleUnionDto ruleDto)
     {
-      var ruleUnionDto = ruleDefinition.Build();
-      _rules.Add(ruleUnionDto);
+      _rules.Add(ruleDto);
     }
 
     private static string Name(RuleUnionDto dto)

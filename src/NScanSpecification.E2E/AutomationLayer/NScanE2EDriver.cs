@@ -45,9 +45,19 @@ namespace NScanSpecification.E2E.AutomationLayer
       return new E2EProjectDsl(projectName, _projectFiles, _references, projectDefinition);
     }
 
-    public void Add(IFullRuleConstructed ruleDefinition)
+    public void Add(IFullDependencyPathRuleConstructed ruleDefinition)
     {
-      _rules.Add(ruleDefinition);
+      _rules.Add(ruleDefinition.Build());
+    }
+    
+    public void Add(IFullNamespaceBasedRuleConstructed ruleDefinition)
+    {
+      _rules.Add(ruleDefinition.Build());
+    }
+
+    public void Add(IFullProjectScopedRuleConstructed ruleDefinition)
+    {
+      _rules.Add(ruleDefinition.Build());
     }
 
 

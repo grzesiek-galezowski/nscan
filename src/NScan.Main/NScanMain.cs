@@ -42,16 +42,16 @@ namespace TddXt.NScan
         var rulesString = ReadRulesTextFrom(inputArguments);
         
         var dependencyPathDtos = ParserRulePreface.Then(ParseDependencyPathBasedRule.Complement).Many().Parse(rulesString);
-        LogRules(dependencyPathDtos, support);
-        analysis.AddRules(dependencyPathDtos);
+        LogDependencyPathRules(dependencyPathDtos, support);
+        analysis.AddDependencyPathRules(dependencyPathDtos);
 
         var projectScopedDtos = ParserRulePreface.Then(ParseProjectScopedRule.Complement).Many().Parse(rulesString);
-        LogRules(projectScopedDtos, support);
-        analysis.AddRules(projectScopedDtos);
+        LogProjectScopedRules(projectScopedDtos, support);
+        analysis.AddProjectScopedRules(projectScopedDtos);
         
         var namespaceBasedDtos = ParserRulePreface.Then(ParseNamespaceBasedRule.Complement).Many().Parse(rulesString);
-        LogRules(namespaceBasedDtos, support);
-        analysis.AddRules(namespaceBasedDtos);
+        LogNamespaceBasedRules(namespaceBasedDtos, support);
+        analysis.AddNamespaceBasedRules(namespaceBasedDtos);
 
         analysis.Run();
         output.WriteAnalysisReport(analysis.Report);
@@ -77,7 +77,25 @@ namespace TddXt.NScan
       return File.ReadAllText(inputArguments.RulesFilePath.ToString());
     }
 
-    private static void LogRules(
+    private static void LogDependencyPathRules(
+      IEnumerable<RuleUnionDto> enumerable,
+      INScanSupport support)
+    {
+      foreach (var ruleUnion in enumerable)
+      {
+        ruleUnion.Accept(new RuleLoggingVisitor(support));
+      }
+    }
+    private static void LogProjectScopedRules(
+      IEnumerable<RuleUnionDto> enumerable,
+      INScanSupport support)
+    {
+      foreach (var ruleUnion in enumerable)
+      {
+        ruleUnion.Accept(new RuleLoggingVisitor(support));
+      }
+    }
+    private static void LogNamespaceBasedRules(
       IEnumerable<RuleUnionDto> enumerable,
       INScanSupport support)
     {

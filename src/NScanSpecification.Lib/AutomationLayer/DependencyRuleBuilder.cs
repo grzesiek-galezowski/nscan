@@ -8,18 +8,18 @@ namespace NScanSpecification.Lib.AutomationLayer
 {
   public interface IFullDependingPartStated
   {
-    IFullRuleConstructed IndependentOfProject(string dependentAssemblyName);
-    IFullRuleConstructed IndependentOfPackage(string packageName);
-    IFullRuleConstructed IndependentOfAssembly(string assemblyName);
+    IFullDependencyPathRuleConstructed IndependentOfProject(string dependentAssemblyName);
+    IFullDependencyPathRuleConstructed IndependentOfPackage(string packageName);
+    IFullDependencyPathRuleConstructed IndependentOfAssembly(string assemblyName);
   }
 
   public interface IProjectNameStated : IFullDependingPartStated
   {
     IFullDependingPartStated Except(string exclusionPattern);
-    IFullRuleConstructed HasCorrectNamespaces();
-    IFullRuleConstructed HasNoCircularUsings();
-    IFullRuleConstructed ToHaveDecoratedMethods(string classInclusionPattern, string methodInclusionPattern);
-    IFullRuleConstructed HasTargetFramework(string targetFramework);
+    IFullNamespaceBasedRuleConstructed HasCorrectNamespaces();
+    IFullNamespaceBasedRuleConstructed HasNoCircularUsings();
+    IFullProjectScopedRuleConstructed ToHaveDecoratedMethods(string classInclusionPattern, string methodInclusionPattern);
+    IFullProjectScopedRuleConstructed HasTargetFramework(string targetFramework);
   }
 
   public interface IRuleDefinitionStart
@@ -27,12 +27,27 @@ namespace NScanSpecification.Lib.AutomationLayer
     IProjectNameStated Project(string dependingAssemblyName);
   }
 
-  public interface IFullRuleConstructed
+  public interface IFullDependencyPathRuleConstructed
   {
     RuleUnionDto Build();
   }
 
-  public class DependencyRuleBuilder : IRuleDefinitionStart, IFullRuleConstructed, IProjectNameStated 
+  public interface IFullProjectScopedRuleConstructed
+  {
+    RuleUnionDto Build();
+  }
+  
+  public interface IFullNamespaceBasedRuleConstructed
+  {
+    RuleUnionDto Build();
+  }
+
+  public class DependencyRuleBuilder : 
+    IRuleDefinitionStart, 
+    IFullDependencyPathRuleConstructed, 
+    IFullProjectScopedRuleConstructed, 
+    IFullNamespaceBasedRuleConstructed, 
+    IProjectNameStated 
   {
     private string? _dependingPattern;
     private string? _ruleName;
@@ -50,7 +65,7 @@ namespace NScanSpecification.Lib.AutomationLayer
       return this;
     }
 
-    public IFullRuleConstructed IndependentOfProject(string dependentAssemblyName)
+    public IFullDependencyPathRuleConstructed IndependentOfProject(string dependentAssemblyName)
     {
       _dependencyName = dependentAssemblyName;
       _dependencyType = "project";
@@ -58,7 +73,7 @@ namespace NScanSpecification.Lib.AutomationLayer
       return this;
     }
 
-    public IFullRuleConstructed IndependentOfPackage(string packageName)
+    public IFullDependencyPathRuleConstructed IndependentOfPackage(string packageName)
     {
       _dependencyName = packageName;
       _dependencyType = "package";
@@ -67,7 +82,7 @@ namespace NScanSpecification.Lib.AutomationLayer
 
     }
 
-    public IFullRuleConstructed IndependentOfAssembly(string assemblyName)
+    public IFullDependencyPathRuleConstructed IndependentOfAssembly(string assemblyName)
     {
       _dependencyName = assemblyName;
       _ruleName = IndependentRuleMetadata.IndependentOf;
@@ -81,19 +96,19 @@ namespace NScanSpecification.Lib.AutomationLayer
       return this;
     }
 
-    public IFullRuleConstructed HasCorrectNamespaces()
+    public IFullNamespaceBasedRuleConstructed HasCorrectNamespaces()
     {
       _ruleName = HasCorrectNamespacesRuleMetadata.HasCorrectNamespaces;
       return this;
     }
 
-    public IFullRuleConstructed HasNoCircularUsings()
+    public IFullNamespaceBasedRuleConstructed HasNoCircularUsings()
     {
       _ruleName = HasNoCircularUsingsRuleMetadata.HasNoCircularUsings;
       return this;
     }
 
-    public IFullRuleConstructed ToHaveDecoratedMethods(string classInclusionPattern, string methodInclusionPattern)
+    public IFullProjectScopedRuleConstructed ToHaveDecoratedMethods(string classInclusionPattern, string methodInclusionPattern)
     {
       _ruleName = HasAttributesOnRuleMetadata.HasAttributesOn;
       _classInclusionPattern = classInclusionPattern;
@@ -101,7 +116,7 @@ namespace NScanSpecification.Lib.AutomationLayer
       return this;
     }
 
-    public IFullRuleConstructed HasTargetFramework(string targetFramework)
+    public IFullProjectScopedRuleConstructed HasTargetFramework(string targetFramework)
     {
       _ruleName = HasTargetFrameworkRuleMetadata.HasTargetFramework;
       _targetFramework = targetFramework;

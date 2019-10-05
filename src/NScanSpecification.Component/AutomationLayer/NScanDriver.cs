@@ -24,7 +24,15 @@ namespace NScanSpecification.Component.AutomationLayer
       return xmlProjectDsl;
     }
 
-    public void Add(IFullRuleConstructed ruleDefinition)
+    public void Add(IFullDependencyPathRuleConstructed ruleDefinition)
+    {
+      _rules.Add(ruleDefinition.Build());
+    }
+    public void Add(IFullProjectScopedRuleConstructed ruleDefinition)
+    {
+      _rules.Add(ruleDefinition.Build());
+    }
+    public void Add(IFullNamespaceBasedRuleConstructed ruleDefinition)
     {
       _rules.Add(ruleDefinition.Build());
     }
@@ -33,7 +41,7 @@ namespace NScanSpecification.Component.AutomationLayer
     {
       List<CsharpProjectDto> xmlProjects = _xmlProjects.Select(p => p.BuildCsharpProjectDto()).ToList();
       _analysis = Analysis.PrepareFor(xmlProjects, _consoleSupport);
-      _analysis.AddRules(_rules);
+      _analysis.AddDependencyPathRules(_rules);
       _analysis.Run();
     }
 

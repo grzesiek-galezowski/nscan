@@ -68,7 +68,21 @@ namespace NScan.Domain.Root
       _solution.Check(_namespacesBasedRuleSet, _analysisReportInProgress);
     }
 
-    public void AddRules(IEnumerable<RuleUnionDto> rules)
+    public void AddDependencyPathRules(IEnumerable<RuleUnionDto> rules)
+    {
+      foreach (var ruleUnionDto in rules)
+      {
+        ruleUnionDto.Accept(_createRuleMappingVisitor);
+      }
+    }
+    public void AddProjectScopedRules(IEnumerable<RuleUnionDto> rules)
+    {
+      foreach (var ruleUnionDto in rules)
+      {
+        ruleUnionDto.Accept(_createRuleMappingVisitor);
+      }
+    }
+    public void AddNamespaceBasedRules(IEnumerable<RuleUnionDto> rules)
     {
       foreach (var ruleUnionDto in rules)
       {
