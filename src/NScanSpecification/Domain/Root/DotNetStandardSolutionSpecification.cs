@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using FluentAssertions;
-using NScan.Domain.DependencyPathBasedRules;
-using NScan.Domain.NamespaceBasedRules;
-using NScan.Domain.ProjectScopedRules;
+using NScan.DependencyPathBasedRules;
 using NScan.Domain.Root;
+using NScan.NamespaceBasedRules;
+using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NScanSpecification.Lib;
 using NSubstitute;

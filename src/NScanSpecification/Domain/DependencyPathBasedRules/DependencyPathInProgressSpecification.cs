@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
-using NScan.Domain.DependencyPathBasedRules;
+using NScan.DependencyPathBasedRules;
 using NSubstitute;
 using TddXt.AnyRoot.Collections;
 using TddXt.XNSubstitute.Root;

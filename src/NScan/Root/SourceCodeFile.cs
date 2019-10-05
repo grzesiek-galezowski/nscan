@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using AtmaFileSystem;
-using NScan.Domain.NamespaceBasedRules;
-using NScan.Domain.ProjectScopedRules;
 using NScan.Lib;
+using NScan.NamespaceBasedRules;
+using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 
 namespace NScan.Domain.Root

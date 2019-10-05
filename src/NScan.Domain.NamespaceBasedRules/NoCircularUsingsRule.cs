@@ -2,7 +2,7 @@ using System.Linq;
 using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos;
 
-namespace NScan.Domain.NamespaceBasedRules
+namespace NScan.NamespaceBasedRules
 {
   public class NoCircularUsingsRule : INamespacesBasedRule
   {

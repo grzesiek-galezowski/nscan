@@ -1,4 +1,4 @@
-﻿using NScan.Domain.ProjectScopedRules;
+﻿using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos;
 using NSubstitute;

@@ -1,5 +1,5 @@
 ﻿using System;
-using NScan.Domain.DependencyPathBasedRules;
+using NScan.DependencyPathBasedRules;
 
 namespace NScan.Domain.Root
 {

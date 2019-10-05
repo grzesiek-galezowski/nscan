@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using FluentAssertions;
 using NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode;
-using NScan.Domain.ProjectScopedRules;
 using NScan.Domain.Root;
 using NScan.Lib;
+using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
 using NSubstitute;

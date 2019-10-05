@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using NScan.Domain.DependencyPathBasedRules;
-using NScan.Domain.NamespaceBasedRules;
-using NScan.Domain.ProjectScopedRules;
+using NScan.DependencyPathBasedRules;
+using NScan.NamespaceBasedRules;
+using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 
 namespace NScan.Domain.Root

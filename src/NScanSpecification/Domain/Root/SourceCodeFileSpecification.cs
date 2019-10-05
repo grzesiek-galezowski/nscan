@@ -2,10 +2,10 @@
 using System.Linq;
 using AtmaFileSystem;
 using FluentAssertions;
-using NScan.Domain.NamespaceBasedRules;
-using NScan.Domain.ProjectScopedRules;
 using NScan.Domain.Root;
 using NScan.Lib;
+using NScan.NamespaceBasedRules;
+using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NScanSpecification.Lib;
 using NSubstitute;

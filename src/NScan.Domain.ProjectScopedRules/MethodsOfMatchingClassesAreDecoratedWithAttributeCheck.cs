@@ -1,7 +1,7 @@
 using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos;
 
-namespace NScan.Domain.ProjectScopedRules
+namespace NScan.ProjectScopedRules
 {
   public class MethodsOfMatchingClassesAreDecoratedWithAttributeCheck : ISourceCodeFileContentCheck
   {

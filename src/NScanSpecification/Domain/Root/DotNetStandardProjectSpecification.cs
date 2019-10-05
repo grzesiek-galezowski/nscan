@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using FluentAssertions;
 using GlobExpressions;
-using NScan.Domain.DependencyPathBasedRules;
-using NScan.Domain.NamespaceBasedRules;
-using NScan.Domain.ProjectScopedRules;
+using NScan.DependencyPathBasedRules;
 using NScan.Domain.Root;
 using NScan.Lib;
+using NScan.NamespaceBasedRules;
+using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using NScanSpecification.Lib;

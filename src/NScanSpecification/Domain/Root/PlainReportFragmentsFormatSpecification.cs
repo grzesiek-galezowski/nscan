@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FluentAssertions;
-using NScan.Domain.DependencyPathBasedRules;
+using NScan.DependencyPathBasedRules;
 using NScan.Domain.Root;
 using TddXt.AnyRoot.Strings;
 using Xunit;

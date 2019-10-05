@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace NScan.Domain.NamespaceBasedRules
+namespace NScan.NamespaceBasedRules
 {
   public interface INamespacesDependenciesCache
   {

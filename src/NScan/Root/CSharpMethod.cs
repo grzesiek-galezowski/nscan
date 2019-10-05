@@ -1,6 +1,6 @@
 using System.Linq;
-using NScan.Domain.ProjectScopedRules;
 using NScan.Lib;
+using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
 

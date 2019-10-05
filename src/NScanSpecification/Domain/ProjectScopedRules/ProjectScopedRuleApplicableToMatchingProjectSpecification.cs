@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
-using NScan.Domain.ProjectScopedRules;
 using NScan.Lib;
+using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NScanSpecification.Lib;
 using NSubstitute;

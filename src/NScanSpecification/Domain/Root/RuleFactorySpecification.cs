@@ -1,9 +1,9 @@
 ﻿using FluentAssertions;
 using GlobExpressions;
-using NScan.Domain.DependencyPathBasedRules;
-using NScan.Domain.NamespaceBasedRules;
-using NScan.Domain.ProjectScopedRules;
+using NScan.DependencyPathBasedRules;
 using NScan.Domain.Root;
+using NScan.NamespaceBasedRules;
+using NScan.ProjectScopedRules;
 using NScan.SharedKernel.RuleDtos;
 using NScanSpecification.Lib;
 using TddXt.NScan.Specification.Domain.ProjectScopedRules;

@@ -1,6 +1,6 @@
-﻿using NScan.Domain.DependencyPathBasedRules;
-using NScan.Domain.NamespaceBasedRules;
-using NScan.Domain.ProjectScopedRules;
+﻿using NScan.DependencyPathBasedRules;
+using NScan.NamespaceBasedRules;
+using NScan.ProjectScopedRules;
 
 namespace NScan.Domain.Root
 {

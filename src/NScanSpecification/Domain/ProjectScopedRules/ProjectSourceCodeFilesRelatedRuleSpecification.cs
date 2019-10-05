@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
-using NScan.Domain.ProjectScopedRules;
 using NScan.Domain.Root;
+using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NScanSpecification.Lib;
 using NSubstitute;

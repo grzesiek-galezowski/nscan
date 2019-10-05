@@ -47,11 +47,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScan.Main", "NScan.Main\NS
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Adapters", "Adapters", "{BDBC4BC3-7AEE-46EC-A14E-298CF5BDB975}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScan.Domain.NamespaceBasedRules", "NScan.Domain.NamespaceBasedRules\NScan.Domain.NamespaceBasedRules.csproj", "{EA349A48-E14F-4082-BC2E-CF00D4195D46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScan.NamespaceBasedRules", "NScan.Domain.NamespaceBasedRules\NScan.NamespaceBasedRules.csproj", "{EA349A48-E14F-4082-BC2E-CF00D4195D46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScan.Domain.DependencyPathBasedRules", "NScan.Domain.DependencyPathBasedRules\NScan.Domain.DependencyPathBasedRules.csproj", "{FEE4E2FB-6EB5-4B83-8881-BE9E577B85B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScan.DependencyPathBasedRules", "NScan.Domain.DependencyPathBasedRules\NScan.DependencyPathBasedRules.csproj", "{FEE4E2FB-6EB5-4B83-8881-BE9E577B85B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScan.Domain.ProjectScopedRules", "NScan.Domain.ProjectScopedRules\NScan.Domain.ProjectScopedRules.csproj", "{EA7D76A5-CF12-427F-AEC9-A5188D64D2A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScan.ProjectScopedRules", "NScan.Domain.ProjectScopedRules\NScan.ProjectScopedRules.csproj", "{EA7D76A5-CF12-427F-AEC9-A5188D64D2A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

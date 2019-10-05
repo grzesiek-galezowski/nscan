@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
-using NScan.Domain.NamespaceBasedRules;
 using NScan.Domain.Root;
+using NScan.NamespaceBasedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos;
 using NSubstitute;

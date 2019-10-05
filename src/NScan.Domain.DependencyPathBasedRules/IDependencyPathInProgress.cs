@@ -1,4 +1,4 @@
-﻿namespace NScan.Domain.DependencyPathBasedRules
+﻿namespace NScan.DependencyPathBasedRules
 {
   public interface IDependencyPathInProgress
   {

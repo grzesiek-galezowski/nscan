@@ -18,20 +18,23 @@ namespace NScanSpecification.Component
         context.HasProject("MyProject")
           .WithTargetFramework("netcoreapp2.1");
 
-        context.Add(RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netcoreapp2.1"));
+        context.Add(
+          RuleDemandingThat().Project("*MyProject*")
+            .HasTargetFramework("netcoreapp2.1"));
 
         //WHEN
         context.PerformAnalysis();
 
         //THEN
-        context.ReportShouldContain(HasFramework("*MyProject*", "netcoreapp2.1").Ok());
+        context.ReportShouldContain(
+          HasFramework("*MyProject*", "netcoreapp2.1").Ok());
       }
 
       [Fact]
       public void ShouldReportErrorForProjectThatDoesNotHaveSpecifiedFramework()
       {
-        var context = new NScanDriver();
         //GIVEN
+        var context = new NScanDriver();
         context.HasProject("MyProject").WithTargetFramework("netcoreapp2.2");
 
         context.Add(RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netstandard2.0"));
@@ -47,8 +50,8 @@ namespace NScanSpecification.Component
       [Fact]
       public void ShouldReportErrorForMultipleProjectsThatDoNotHaveSpecifiedFramework()
       {
-        var context = new NScanDriver();
         //GIVEN
+        var context = new NScanDriver();
         context.HasProject("MyProject1").WithTargetFramework("netcoreapp2.2");
         context.HasProject("MyProject2").WithTargetFramework("netcoreapp2.2");
 
@@ -66,11 +69,11 @@ namespace NScanSpecification.Component
       [Fact]
       public void ShouldNotReportErrorForProjectsThatDoNotMatchTheNamePattern()
       {
+        //GIVEN
         var projectAssemblyNameThatDoesNotMatchRuleFilter = "Trolololo";
         var context = new NScanDriver();
-        //GIVEN
-        context.HasProject(projectAssemblyNameThatDoesNotMatchRuleFilter).WithTargetFramework("netcoreapp2.2");
 
+        context.HasProject(projectAssemblyNameThatDoesNotMatchRuleFilter).WithTargetFramework("netcoreapp2.2");
         context.Add(RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netstandard2.0"));
 
         //WHEN

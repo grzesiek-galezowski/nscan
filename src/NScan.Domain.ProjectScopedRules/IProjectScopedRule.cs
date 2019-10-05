@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using NScan.SharedKernel;
 
-namespace NScan.Domain.ProjectScopedRules
+namespace NScan.ProjectScopedRules
 {
   public interface IProjectFilesetScopedRule
   {

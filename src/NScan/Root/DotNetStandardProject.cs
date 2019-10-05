@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using GlobExpressions;
-using NScan.Domain.DependencyPathBasedRules;
-using NScan.Domain.NamespaceBasedRules;
-using NScan.Domain.ProjectScopedRules;
+using NScan.DependencyPathBasedRules;
 using NScan.Lib;
+using NScan.NamespaceBasedRules;
+using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingSolution.Ports;
 

@@ -1,4 +1,4 @@
-﻿using NScan.Domain.ProjectScopedRules;
+﻿using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NSubstitute;
 using TddXt.AnyRoot.Strings;

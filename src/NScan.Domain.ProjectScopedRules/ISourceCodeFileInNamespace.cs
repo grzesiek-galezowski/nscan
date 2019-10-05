@@ -1,7 +1,7 @@
 using NScan.Lib;
 using NScan.SharedKernel;
 
-namespace NScan.Domain.ProjectScopedRules
+namespace NScan.ProjectScopedRules
 {
   public interface ISourceCodeFileInNamespace
   {

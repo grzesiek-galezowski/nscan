@@ -1,4 +1,4 @@
-﻿using NScan.Domain.DependencyPathBasedRules;
+﻿using NScan.DependencyPathBasedRules;
 using NScan.SharedKernel;
 
 namespace NScan.Domain.Root

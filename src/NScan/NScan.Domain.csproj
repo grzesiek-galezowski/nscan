@@ -10,6 +10,23 @@
     <WarningsAsErrors>CS8600;CS8602;CS8603</WarningsAsErrors>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <Version>0.10.2</Version>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageId>NScan.Domain</PackageId>
+    <Authors>Grzegorz Galezowski</Authors>
+    <Product>NScan</Product>
+    <Description></Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://grzesiek-galezowski.github.io/nscan/</PackageProjectUrl>
+    <PackageIconUrl>https://github.com/grzesiek-galezowski/nscan/raw/master/NScan.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/grzesiek-galezowski/nscan</RepositoryUrl>
+    <RepositoryType>github</RepositoryType>
+    <PackageTags>static analysis, quality gate, dependency management</PackageTags>
+    <PackageReleaseNotes>Added printing version number on run</PackageReleaseNotes>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="AtmaFileSystem" Version="2.1.1" />
     <PackageReference Include="Functional.Maybe" Version="2.0.18" />
@@ -20,11 +37,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NScan.Domain.DependencyPathBasedRules\NScan.Domain.DependencyPathBasedRules.csproj" />
-    <ProjectReference Include="..\NScan.Domain.NamespaceBasedRules\NScan.Domain.NamespaceBasedRules.csproj" />
-    <ProjectReference Include="..\NScan.Domain.ProjectScopedRules\NScan.Domain.ProjectScopedRules.csproj" />
+    <ProjectReference Include="..\NScan.Domain.DependencyPathBasedRules\NScan.DependencyPathBasedRules.csproj" />
+    <ProjectReference Include="..\NScan.Domain.NamespaceBasedRules\NScan.NamespaceBasedRules.csproj" />
+    <ProjectReference Include="..\NScan.Domain.ProjectScopedRules\NScan.ProjectScopedRules.csproj" />
     <ProjectReference Include="..\NScan.Lib\NScan.Lib.csproj" />
     <ProjectReference Include="..\NScan.SharedKernel\NScan.SharedKernel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-namespace NScan.Domain.NamespaceBasedRules
+namespace NScan.NamespaceBasedRules
 {
   public interface ISourceCodeFileUsingNamespaces
   {

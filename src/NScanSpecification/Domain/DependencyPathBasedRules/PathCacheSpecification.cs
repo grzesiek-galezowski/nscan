@@ -1,4 +1,4 @@
-﻿using NScan.Domain.DependencyPathBasedRules;
+﻿using NScan.DependencyPathBasedRules;
 using NScan.Domain.Root;
 using NScan.SharedKernel;
 using NSubstitute;

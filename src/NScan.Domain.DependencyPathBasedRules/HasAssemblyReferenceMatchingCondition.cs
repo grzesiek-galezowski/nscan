@@ -1,6 +1,6 @@
 ﻿using GlobExpressions;
 
-namespace NScan.Domain.DependencyPathBasedRules
+namespace NScan.DependencyPathBasedRules
 {
   public class HasAssemblyReferenceMatchingCondition : IDependencyCondition
   {
