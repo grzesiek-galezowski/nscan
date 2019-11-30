@@ -4,7 +4,6 @@ using FluentAssertions;
 using NScan.Adapter.ReadingRules;
 using NScan.Lib;
 using NScan.SharedKernel;
-using NScan.SharedKernel.RuleDtos;
 using Sprache;
 using TddXt.AnyRoot.Strings;
 using Xunit;
@@ -92,7 +91,7 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
       var depending = Any.String();
 
       //WHEN
-      var ruleUnionDto = ParserRulePreface.Then(ParseNamespaceBasedRule.Complement).Parse(
+      var ruleUnionDto = ParserRulePreface.Then(ParseProjectScopedRule.Complement).Parse(
 	      $"{depending}  {HasCorrectNamespacesRuleMetadata.HasCorrectNamespaces}");
 
       //THEN

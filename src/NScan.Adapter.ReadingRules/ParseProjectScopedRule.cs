@@ -7,15 +7,16 @@ using Sprache;
 
 namespace NScan.Adapter.ReadingRules
 {
-	//bug separate beginning parser from the other parsers
 	public static class ParseProjectScopedRule
 	{
 		private static readonly Parser<string> TextUntilEol = Parse.AnyChar.Until(Parse.LineTerminator).Text().Token();
+    private static readonly Parser<IEnumerable<char>> OptionalSpacesUntilEol = Parse.WhiteSpace.Until(Parse.LineTerminator);
 
 		public static Parser<RuleUnionDto> Complement(
 			Pattern dependingPattern)
 		{
-			return HasAttributesOn(dependingPattern)
+			return HasCorrectNamespacesRuleComplement(dependingPattern)
+        .Or(HasAttributesOn(dependingPattern))
 					.Or(HasTargetFramework(dependingPattern));
 		}
 
@@ -23,6 +24,15 @@ namespace NScan.Adapter.ReadingRules
 		{
 			return Parse.AnyChar.Until(Parse.Char(c)).Text().Token();
 		}
+
+    private static Parser<RuleUnionDto>
+      HasCorrectNamespacesRuleComplement(Pattern dependingPattern)
+    {
+      return Parse.String(HasCorrectNamespacesRuleMetadata.HasCorrectNamespaces)
+        .Then(_ => OptionalSpacesUntilEol)
+        .Return(RuleUnionDto.With(new CorrectNamespacesRuleComplementDto(dependingPattern)));
+    }
+
 
 		private static Parser<RuleUnionDto> HasAttributesOn(Pattern dependingPattern)
 		{

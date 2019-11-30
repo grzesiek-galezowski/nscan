@@ -13,21 +13,13 @@ namespace NScan.Adapter.ReadingRules
     public static Parser<RuleUnionDto> Complement(
       Pattern dependingPattern)
     {
-      return HasCorrectNamespacesRuleComplement(dependingPattern)
-        .Or(HasNoCircularUsingsRuleComplement(dependingPattern));
+      return HasNoCircularUsingsRuleComplement(dependingPattern);
     }
 
     private static Parser<RuleUnionDto> HasNoCircularUsingsRuleComplement(Pattern dependingPattern)
     {
       return Parse.String(HasNoCircularUsingsRuleMetadata.HasNoCircularUsings).Then(_ => OptionalSpacesUntilEol).Return(
         RuleUnionDto.With(new NoCircularUsingsRuleComplementDto(dependingPattern)));
-    }
-
-    private static Parser<RuleUnionDto>
-      HasCorrectNamespacesRuleComplement(Pattern dependingPattern)
-    {
-      return Parse.String(HasCorrectNamespacesRuleMetadata.HasCorrectNamespaces).Then(_ => OptionalSpacesUntilEol).Return(
-        RuleUnionDto.With(new CorrectNamespacesRuleComplementDto(dependingPattern)));
     }
   }
 
