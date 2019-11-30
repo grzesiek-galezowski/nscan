@@ -1,4 +1,4 @@
-﻿namespace NScan.Lib
+﻿namespace NScan.Lib.Union5
 {
   public interface IUnion5TransformingVisitor<in T1, in T2, in T3, in T4, in T5, out TReturn>
   {

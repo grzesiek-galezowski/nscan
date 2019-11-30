@@ -1,4 +1,5 @@
 ﻿using NScan.Lib;
+using NScan.Lib.Union5;
 using NScan.SharedKernel.RuleDtos;
 
 namespace TddXt.NScan.Specification.ReadingRules.Adapters

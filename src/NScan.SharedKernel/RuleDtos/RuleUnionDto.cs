@@ -1,4 +1,5 @@
 ﻿using NScan.Lib;
+using NScan.Lib.Union5;
 
 namespace NScan.SharedKernel.RuleDtos
 {

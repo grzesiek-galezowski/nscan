@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NScan.Lib
+namespace NScan.Lib.Union5
 {
   public abstract class Union5<T1, T2, T3, T4, T5>
   {
