@@ -4,7 +4,7 @@ using NScan.SharedKernel.RuleDtos;
 
 namespace TddXt.NScan.Specification.ReadingRules.Adapters
 {
-  public class RuleUnionDtoAssertion : IUnion5Visitor<IndependentRuleComplementDto, CorrectNamespacesRuleComplementDto, NoCircularUsingsRuleComplementDto, HasAttributesOnRuleComplementDto, HasTargetFrameworkRuleComplementDto>
+  public class RuleUnionDtoAssertion : IUnionVisitor<IndependentRuleComplementDto, CorrectNamespacesRuleComplementDto, NoCircularUsingsRuleComplementDto, HasAttributesOnRuleComplementDto, HasTargetFrameworkRuleComplementDto>
   {
     public virtual void Visit(HasAttributesOnRuleComplementDto dto)
     {

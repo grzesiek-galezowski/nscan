@@ -3,7 +3,7 @@ using NScan.Lib.Union5;
 
 namespace NScan.SharedKernel.RuleDtos
 {
-  public class RuleNameExtractionVisitor : IUnion5TransformingVisitor<
+  public class RuleNameExtractionVisitor : IUnionTransformingVisitor<
     IndependentRuleComplementDto, 
     CorrectNamespacesRuleComplementDto, 
     NoCircularUsingsRuleComplementDto, 
@@ -37,7 +37,7 @@ namespace NScan.SharedKernel.RuleDtos
     }
   }
 
-  public class RuleUnionDto : Union5<
+  public class RuleUnionDto : Union<
     IndependentRuleComplementDto, 
     CorrectNamespacesRuleComplementDto,
     NoCircularUsingsRuleComplementDto,

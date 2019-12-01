@@ -4,7 +4,7 @@ using NScan.SharedKernel.RuleDtos;
 
 namespace NScan.Domain.Root
 {
-  public interface IRuleDtoVisitor : IUnion5Visitor<
+  public interface IRuleDtoVisitor : IUnionVisitor<
     IndependentRuleComplementDto,
     CorrectNamespacesRuleComplementDto,
     NoCircularUsingsRuleComplementDto,

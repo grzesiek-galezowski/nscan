@@ -2,33 +2,33 @@
 
 namespace NScan.Lib.Union5
 {
-  public abstract class Union5<T1, T2, T3, T4, T5>
+  public abstract class Union<T1, T2, T3, T4, T5>
   {
     private readonly object? _value = null;
 
-    protected Union5(T1 o)
+    protected Union(T1 o)
     {
       AssertNotNull(o!);
       _value = o;
     }
-    protected Union5(T2 o)
+    protected Union(T2 o)
     {
       AssertNotNull(o!);
       _value = o;
     }
-    protected Union5(T3 o)
-    {
-      AssertNotNull(o!);
-      _value = o;
-    }
-
-    protected Union5(T4 o)
+    protected Union(T3 o)
     {
       AssertNotNull(o!);
       _value = o;
     }
 
-    protected Union5(T5 o)
+    protected Union(T4 o)
+    {
+      AssertNotNull(o!);
+      _value = o;
+    }
+
+    protected Union(T5 o)
     {
       AssertNotNull(o!);
       _value = o;
@@ -42,7 +42,7 @@ namespace NScan.Lib.Union5
       }
     }
 
-    public void Accept(IUnion5Visitor<T1, T2, T3, T4, T5> visitor)
+    public void Accept(IUnionVisitor<T1, T2, T3, T4, T5> visitor)
     {
       switch (_value)
       {
@@ -66,7 +66,7 @@ namespace NScan.Lib.Union5
       }
     }
 
-    public TReturn Accept<TReturn>(IUnion5TransformingVisitor<T1, T2, T3, T4, T5, TReturn> transformingVisitor)
+    public TReturn Accept<TReturn>(IUnionTransformingVisitor<T1, T2, T3, T4, T5, TReturn> transformingVisitor)
     {
       return _value switch
       {

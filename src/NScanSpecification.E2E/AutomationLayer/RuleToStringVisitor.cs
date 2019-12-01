@@ -4,7 +4,7 @@ using NScan.SharedKernel.RuleDtos;
 
 namespace NScanSpecification.E2E.AutomationLayer
 {
-  public class RuleToStringVisitor : IUnion5TransformingVisitor<
+  public class RuleToStringVisitor : IUnionTransformingVisitor<
     IndependentRuleComplementDto,
     CorrectNamespacesRuleComplementDto,
     NoCircularUsingsRuleComplementDto,
