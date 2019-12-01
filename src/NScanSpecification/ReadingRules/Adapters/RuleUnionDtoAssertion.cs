@@ -1,10 +1,10 @@
-﻿using NScan.Lib;
-using NScan.Lib.Union5;
+﻿using NScan.Domain.Root;
 using NScan.SharedKernel.RuleDtos;
 
 namespace TddXt.NScan.Specification.ReadingRules.Adapters
 {
-  public class RuleUnionDtoAssertion : IUnionVisitor<IndependentRuleComplementDto, CorrectNamespacesRuleComplementDto, NoCircularUsingsRuleComplementDto, HasAttributesOnRuleComplementDto, HasTargetFrameworkRuleComplementDto>
+  public class RuleUnionDtoAssertion : 
+    IRuleDtoVisitor, IPathBasedRuleDtoVisitor, INamespaceBasedRuleDtoVisitor, IProjectScopedRuleDtoVisitor
   {
     public virtual void Visit(HasAttributesOnRuleComplementDto dto)
     {

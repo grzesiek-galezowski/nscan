@@ -1,16 +1,29 @@
-using NScan.Lib;
+using NScan.Lib.Union1;
+using NScan.Lib.Union3;
 using NScan.Lib.Union5;
 using NScan.SharedKernel.RuleDtos;
 
 namespace NScanSpecification.E2E.AutomationLayer
 {
-  public class RuleToStringVisitor : IUnionTransformingVisitor<
-    IndependentRuleComplementDto,
-    CorrectNamespacesRuleComplementDto,
-    NoCircularUsingsRuleComplementDto,
-    HasAttributesOnRuleComplementDto,
-    HasTargetFrameworkRuleComplementDto,
-    string>
+  public class RuleToStringVisitor : 
+    IUnionTransformingVisitor<
+      IndependentRuleComplementDto, 
+      CorrectNamespacesRuleComplementDto, 
+      NoCircularUsingsRuleComplementDto, 
+      HasAttributesOnRuleComplementDto, 
+      HasTargetFrameworkRuleComplementDto, 
+      string>,
+    IUnionTransformingVisitor<
+      IndependentRuleComplementDto, 
+      string>,
+    IUnionTransformingVisitor<
+      CorrectNamespacesRuleComplementDto, 
+      HasAttributesOnRuleComplementDto, 
+      HasTargetFrameworkRuleComplementDto, 
+      string>,
+    IUnionTransformingVisitor<
+      NoCircularUsingsRuleComplementDto, 
+      string>
   {
     public string Visit(NoCircularUsingsRuleComplementDto dto)
     {

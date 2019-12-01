@@ -5,7 +5,7 @@ using NScan.SharedKernel.RuleDtos;
 
 namespace NScan.Domain.Root
 {
-  public class CreateRuleMappingVisitor : IRuleDtoVisitor
+  public class CreateRuleMappingVisitor : IRuleDtoVisitor, IPathBasedRuleDtoVisitor, INamespaceBasedRuleDtoVisitor, IProjectScopedRuleDtoVisitor
   {
     private readonly IRuleFactory _ruleFactory;
     private readonly INamespacesBasedRuleSet _namespacesBasedRuleSet;

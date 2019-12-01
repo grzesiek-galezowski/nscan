@@ -1,15 +1,29 @@
 ﻿using NScan.Lib;
+using NScan.Lib.Union1;
+using NScan.Lib.Union3;
 using NScan.Lib.Union5;
 
 namespace NScan.SharedKernel.RuleDtos
 {
-  public class RuleNameExtractionVisitor : IUnionTransformingVisitor<
-    IndependentRuleComplementDto, 
-    CorrectNamespacesRuleComplementDto, 
-    NoCircularUsingsRuleComplementDto, 
-    HasAttributesOnRuleComplementDto, 
-    HasTargetFrameworkRuleComplementDto, 
-    string>
+  public class RuleNameExtractionVisitor : 
+    IUnionTransformingVisitor<
+      IndependentRuleComplementDto, 
+      CorrectNamespacesRuleComplementDto, 
+      NoCircularUsingsRuleComplementDto, 
+      HasAttributesOnRuleComplementDto, 
+      HasTargetFrameworkRuleComplementDto, 
+      string>,
+    IUnionTransformingVisitor<
+      IndependentRuleComplementDto, 
+      string>,
+    IUnionTransformingVisitor<
+      CorrectNamespacesRuleComplementDto, 
+      HasAttributesOnRuleComplementDto, 
+      HasTargetFrameworkRuleComplementDto, 
+      string>,
+    IUnionTransformingVisitor<
+      NoCircularUsingsRuleComplementDto, 
+      string>
   {
     public string Visit(HasTargetFrameworkRuleComplementDto dto)
     {

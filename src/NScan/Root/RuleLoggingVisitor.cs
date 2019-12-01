@@ -3,7 +3,7 @@ using NScan.SharedKernel.RuleDtos;
 
 namespace NScan.Domain.Root
 {
-  public class RuleLoggingVisitor : IRuleDtoVisitor
+  public class RuleLoggingVisitor : IRuleDtoVisitor, IPathBasedRuleDtoVisitor, INamespaceBasedRuleDtoVisitor, IProjectScopedRuleDtoVisitor
   {
     private readonly INScanSupport _support;
 
