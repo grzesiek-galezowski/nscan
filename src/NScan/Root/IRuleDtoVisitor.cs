@@ -16,7 +16,14 @@ namespace NScan.Domain.Root
     NoCircularUsingsRuleComplementDto,
     HasAttributesOnRuleComplementDto,
     HasTargetFrameworkRuleComplementDto
-  >
+  >,
+    IUnionVisitor<IndependentRuleComplementDto>,
+    IUnionVisitor<NoCircularUsingsRuleComplementDto>,
+    IUnionVisitor<
+      CorrectNamespacesRuleComplementDto,
+      HasAttributesOnRuleComplementDto,
+      HasTargetFrameworkRuleComplementDto
+    >
   {
   }
   

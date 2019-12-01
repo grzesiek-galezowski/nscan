@@ -6,6 +6,9 @@ using NScan.Domain.Root;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using NScan.SharedKernel.RuleDtos;
+using NScan.SharedKernel.RuleDtos.DependencyPathBased;
+using NScan.SharedKernel.RuleDtos.NamespaceBased;
+using NScan.SharedKernel.RuleDtos.ProjectScoped;
 using NScanSpecification.Lib.AutomationLayer;
 
 namespace NScanSpecification.Component.AutomationLayer
@@ -26,17 +29,17 @@ namespace NScanSpecification.Component.AutomationLayer
 
     public void Add(IFullDependencyPathRuleConstructed ruleDefinition)
     {
-      _rules.Add(new DependencyPathAnalysisRule(ruleDefinition.Build()));
+      _rules.Add(new DependencyPathAnalysisRule(ruleDefinition.BuildDependencyPathBasedRule()));
     }
     
     public void Add(IFullProjectScopedRuleConstructed ruleDefinition)
     {
-      _rules.Add(new ProjectScopedAnalysisRule(ruleDefinition.Build()));
+      _rules.Add(new ProjectScopedAnalysisRule(ruleDefinition.BuildProjectScopedRule()));
     }
 
     public void Add(IFullNamespaceBasedRuleConstructed ruleDefinition)
     {
-      _rules.Add(new NamespaceBasedAnalysisRule(ruleDefinition.Build()));
+      _rules.Add(new NamespaceBasedAnalysisRule(ruleDefinition.BuildNamespaceBasedRule()));
     }
 
     public void PerformAnalysis()
@@ -70,9 +73,9 @@ namespace NScanSpecification.Component.AutomationLayer
 
   public class DependencyPathAnalysisRule : IAnalysisRule
   {
-    private readonly RuleUnionDto _dto;
+    private readonly DependencyPathBasedRuleUnionDto _dto;
 
-    public DependencyPathAnalysisRule(RuleUnionDto dto)
+    public DependencyPathAnalysisRule(DependencyPathBasedRuleUnionDto dto)
     {
       _dto = dto;
     }
@@ -85,9 +88,9 @@ namespace NScanSpecification.Component.AutomationLayer
 
   public class ProjectScopedAnalysisRule : IAnalysisRule
   {
-    private readonly RuleUnionDto _dto;
+    private readonly ProjectScopedRuleUnionDto _dto;
 
-    public ProjectScopedAnalysisRule(RuleUnionDto dto)
+    public ProjectScopedAnalysisRule(ProjectScopedRuleUnionDto dto)
     {
       _dto = dto;
     }
@@ -100,9 +103,9 @@ namespace NScanSpecification.Component.AutomationLayer
 
   public class NamespaceBasedAnalysisRule : IAnalysisRule
   {
-    private readonly RuleUnionDto _dto;
+    private readonly NamespaceBasedRuleUnionDto _dto;
 
-    public NamespaceBasedAnalysisRule(RuleUnionDto dto)
+    public NamespaceBasedAnalysisRule(NamespaceBasedRuleUnionDto dto)
     {
       _dto = dto;
     }

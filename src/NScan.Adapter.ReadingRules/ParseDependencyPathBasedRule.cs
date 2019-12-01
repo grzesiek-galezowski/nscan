@@ -13,13 +13,13 @@ namespace NScan.Adapter.ReadingRules
 	  private static readonly Parser<string> TextUntilEol = Parse.AnyChar.Until(Parse.LineTerminator).Text().Token();
     private static readonly Parser<IEnumerable<char>> IndependentOfKeyword = Parse.String(IndependentRuleMetadata.IndependentOf);
 
-    public static Parser<RuleUnionDto> Complement(
+    public static Parser<DependencyPathBasedRuleUnionDto> Complement(
       Pattern dependingPattern)
     {
       return IndependentOfRuleComplement(dependingPattern);
     }
 
-    private static Parser<RuleUnionDto>
+    private static Parser<DependencyPathBasedRuleUnionDto>
       IndependentOfRuleComplement(Pattern dependingPattern)
     {
 
@@ -27,7 +27,7 @@ namespace NScan.Adapter.ReadingRules
         .Then(_ => 
           from dependencyType in TextUntil(':')
           from dependency in TextUntilEol
-          select RuleUnionDto.With(
+          select DependencyPathBasedRuleUnionDto.With(
             new IndependentRuleComplementDto(dependencyType, 
               dependingPattern, new Glob(dependency))));
     }

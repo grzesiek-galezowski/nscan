@@ -13,7 +13,7 @@ namespace NScan.Adapter.ReadingRules
 		private static readonly Parser<string> TextUntilEol = Parse.AnyChar.Until(Parse.LineTerminator).Text().Token();
     private static readonly Parser<IEnumerable<char>> OptionalSpacesUntilEol = Parse.WhiteSpace.Until(Parse.LineTerminator);
 
-		public static Parser<RuleUnionDto> Complement(
+		public static Parser<ProjectScopedRuleUnionDto> Complement(
 			Pattern dependingPattern)
 		{
 			return HasCorrectNamespacesRuleComplement(dependingPattern)
@@ -26,34 +26,34 @@ namespace NScan.Adapter.ReadingRules
 			return Parse.AnyChar.Until(Parse.Char(c)).Text().Token();
 		}
 
-    private static Parser<RuleUnionDto>
+    private static Parser<ProjectScopedRuleUnionDto>
       HasCorrectNamespacesRuleComplement(Pattern dependingPattern)
     {
       return Parse.String(HasCorrectNamespacesRuleMetadata.HasCorrectNamespaces)
         .Then(_ => OptionalSpacesUntilEol)
-        .Return(RuleUnionDto.With(new CorrectNamespacesRuleComplementDto(dependingPattern)));
+        .Return(ProjectScopedRuleUnionDto.With(new CorrectNamespacesRuleComplementDto(dependingPattern)));
     }
 
 
-		private static Parser<RuleUnionDto> HasAttributesOn(Pattern dependingPattern)
+		private static Parser<ProjectScopedRuleUnionDto> HasAttributesOn(Pattern dependingPattern)
 		{
 			return Parse.String(HasAttributesOnRuleMetadata.HasAttributesOn)
 				.Then(_ =>
 					from classPattern in TextUntil(':')
 					from methodPattern in TextUntilEol
-					select RuleUnionDto.With(
+					select ProjectScopedRuleUnionDto.With(
 						new HasAttributesOnRuleComplementDto(
 							dependingPattern, 
 							Pattern.WithoutExclusion(classPattern),
 							Pattern.WithoutExclusion(methodPattern))));
 		}
 
-		private static Parser<RuleUnionDto> HasTargetFramework(Pattern dependingPattern)
+		private static Parser<ProjectScopedRuleUnionDto> HasTargetFramework(Pattern dependingPattern)
 		{
 			return Parse.String(HasTargetFrameworkRuleMetadata.HasTargetFramework)
 				.Then(_ =>
 					from targetFramework in TextUntilEol
-					select RuleUnionDto.With(
+					select ProjectScopedRuleUnionDto.With(
 						new HasTargetFrameworkRuleComplementDto(
 							dependingPattern, targetFramework)));
 		}

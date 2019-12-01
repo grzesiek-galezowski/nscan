@@ -7,6 +7,9 @@ using NScan.SharedKernel;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using NScan.SharedKernel.RuleDtos;
+using NScan.SharedKernel.RuleDtos.DependencyPathBased;
+using NScan.SharedKernel.RuleDtos.NamespaceBased;
+using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
 namespace NScan.Domain.Root
 {
@@ -68,21 +71,21 @@ namespace NScan.Domain.Root
       _solution.Check(_namespacesBasedRuleSet, _analysisReportInProgress);
     }
 
-    public void AddDependencyPathRules(IEnumerable<RuleUnionDto> rules)
+    public void AddDependencyPathRules(IEnumerable<DependencyPathBasedRuleUnionDto> rules)
     {
       foreach (var ruleUnionDto in rules)
       {
         ruleUnionDto.Accept(_createRuleMappingVisitor);
       }
     }
-    public void AddProjectScopedRules(IEnumerable<RuleUnionDto> rules)
+    public void AddProjectScopedRules(IEnumerable<ProjectScopedRuleUnionDto> rules)
     {
       foreach (var ruleUnionDto in rules)
       {
         ruleUnionDto.Accept(_createRuleMappingVisitor);
       }
     }
-    public void AddNamespaceBasedRules(IEnumerable<RuleUnionDto> rules)
+    public void AddNamespaceBasedRules(IEnumerable<NamespaceBasedRuleUnionDto> rules)
     {
       foreach (var ruleUnionDto in rules)
       {

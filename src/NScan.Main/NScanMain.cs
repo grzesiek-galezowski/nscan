@@ -11,6 +11,9 @@ using NScan.SharedKernel;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using NScan.SharedKernel.RuleDtos;
+using NScan.SharedKernel.RuleDtos.DependencyPathBased;
+using NScan.SharedKernel.RuleDtos.NamespaceBased;
+using NScan.SharedKernel.RuleDtos.ProjectScoped;
 using NScan.SharedKernel.WritingProgramOutput.Ports;
 using Sprache;
 
@@ -78,7 +81,7 @@ namespace TddXt.NScan
     }
 
     private static void LogDependencyPathRules(
-      IEnumerable<RuleUnionDto> enumerable,
+      IEnumerable<DependencyPathBasedRuleUnionDto> enumerable,
       INScanSupport support)
     {
       foreach (var ruleUnion in enumerable)
@@ -87,7 +90,7 @@ namespace TddXt.NScan
       }
     }
     private static void LogProjectScopedRules(
-      IEnumerable<RuleUnionDto> enumerable,
+      IEnumerable<ProjectScopedRuleUnionDto> enumerable,
       INScanSupport support)
     {
       foreach (var ruleUnion in enumerable)
@@ -96,7 +99,7 @@ namespace TddXt.NScan
       }
     }
     private static void LogNamespaceBasedRules(
-      IEnumerable<RuleUnionDto> enumerable,
+      IEnumerable<NamespaceBasedRuleUnionDto> enumerable,
       INScanSupport support)
     {
       foreach (var ruleUnion in enumerable)

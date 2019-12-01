@@ -19,7 +19,7 @@ namespace NScanSpecification.Lib.AutomationLayer
   public interface IProjectNameStated : IFullDependingPartStated
   {
     IFullDependingPartStated Except(string exclusionPattern);
-    IFullNamespaceBasedRuleConstructed HasCorrectNamespaces();
+    IFullProjectScopedRuleConstructed HasCorrectNamespaces();
     IFullNamespaceBasedRuleConstructed HasNoCircularUsings();
     IFullProjectScopedRuleConstructed ToHaveDecoratedMethods(string classInclusionPattern, string methodInclusionPattern);
     IFullProjectScopedRuleConstructed HasTargetFramework(string targetFramework);
@@ -102,7 +102,7 @@ namespace NScanSpecification.Lib.AutomationLayer
       return this;
     }
 
-    public IFullNamespaceBasedRuleConstructed HasCorrectNamespaces()
+    public IFullProjectScopedRuleConstructed HasCorrectNamespaces()
     {
       _ruleName = HasCorrectNamespacesRuleMetadata.HasCorrectNamespaces;
       return this;

@@ -88,9 +88,9 @@ namespace TddXt.NScan.Specification.Domain.Root
       ruleFactory.CreateDependencyRuleFrom(ruleDto3).Returns(rule3);
       var ruleDtos = new []
       {
-        RuleUnionDto.With(ruleDto1),
-        RuleUnionDto.With(ruleDto2),
-        RuleUnionDto.With(ruleDto3)
+        DependencyPathBasedRuleUnionDto.With(ruleDto1),
+        DependencyPathBasedRuleUnionDto.With(ruleDto2),
+        DependencyPathBasedRuleUnionDto.With(ruleDto3)
       };
 
       //WHEN
@@ -126,11 +126,10 @@ namespace TddXt.NScan.Specification.Domain.Root
       
       var ruleDtos = new[]
       {
-        RuleUnionDto.With(ruleDto1),
-        RuleUnionDto.With(ruleDto2),
-        RuleUnionDto.With(ruleDto3)
+        NamespaceBasedRuleUnionDto.With(ruleDto1),
+        NamespaceBasedRuleUnionDto.With(ruleDto2),
+        NamespaceBasedRuleUnionDto.With(ruleDto3)
       };
-
       //WHEN
       analysis.AddNamespaceBasedRules(ruleDtos);
 
@@ -164,9 +163,9 @@ namespace TddXt.NScan.Specification.Domain.Root
       
       var ruleDtos = new[]
       {
-        RuleUnionDto.With(ruleDto1),
-        RuleUnionDto.With(ruleDto2),
-        RuleUnionDto.With(ruleDto3)
+        ProjectScopedRuleUnionDto.With(ruleDto1),
+        ProjectScopedRuleUnionDto.With(ruleDto2),
+        ProjectScopedRuleUnionDto.With(ruleDto3)
       };
 
       //WHEN
