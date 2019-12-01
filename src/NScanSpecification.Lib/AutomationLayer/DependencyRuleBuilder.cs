@@ -33,16 +33,19 @@ namespace NScanSpecification.Lib.AutomationLayer
   public interface IFullDependencyPathRuleConstructed
   {
     RuleUnionDto Build();
+    DependencyPathBasedRuleUnionDto BuildDependencyPathBasedRule();
   }
 
   public interface IFullProjectScopedRuleConstructed
   {
     RuleUnionDto Build();
+    ProjectScopedRuleUnionDto BuildProjectScopedRule();
   }
   
   public interface IFullNamespaceBasedRuleConstructed
   {
     RuleUnionDto Build();
+    NamespaceBasedRuleUnionDto BuildNamespaceBasedRule();
   }
 
   public class DependencyRuleBuilder : 
@@ -126,11 +129,10 @@ namespace NScanSpecification.Lib.AutomationLayer
       return this;
     }
 
+    //bug remove later
     public RuleUnionDto Build()
     {
-      var dependingPattern = _exclusionPattern
-        .Select(p => Pattern.WithExclusion(_dependingPattern.OrThrow(), p))
-        .OrElse(() => Pattern.WithoutExclusion(_dependingPattern.OrThrow()));
+      var dependingPattern = GetDependingPattern();
 
       return RuleNames.Switch(
         _ruleName.OrThrow(),
@@ -140,6 +142,42 @@ namespace NScanSpecification.Lib.AutomationLayer
         HasAttributesOnMethods(dependingPattern),
         () => RuleUnionDto.With(new HasTargetFrameworkRuleComplementDto(dependingPattern, 
           _targetFramework.OrThrow())));
+    }
+
+    public DependencyPathBasedRuleUnionDto BuildDependencyPathBasedRule()
+    {
+      return DependencyPathBasedRuleUnionDto.With(new IndependentRuleComplementDto(
+        _dependencyType.OrThrow(),
+        GetDependingPattern(),
+        new Glob(_dependencyName)));
+    }
+
+    private Pattern GetDependingPattern()
+    {
+      return _exclusionPattern
+        .Select(p => Pattern.WithExclusion(_dependingPattern.OrThrow(), p))
+        .OrElse(() => Pattern.WithoutExclusion(_dependingPattern.OrThrow()));
+    }
+
+    public ProjectScopedRuleUnionDto BuildProjectScopedRule()
+    {
+      var dependingPattern = GetDependingPattern();
+
+      return ProjectScopedRuleNames.Switch(
+        _ruleName.OrThrow(),
+        () => ProjectScopedRuleUnionDto.With(new CorrectNamespacesRuleComplementDto(dependingPattern)),
+        () => ProjectScopedRuleUnionDto.With(new HasAttributesOnRuleComplementDto(
+          dependingPattern,
+          Pattern.WithoutExclusion(_classInclusionPattern.OrThrow(nameof(_classInclusionPattern))),
+          Pattern.WithoutExclusion(_methodInclusionPattern.OrThrow(nameof(_methodInclusionPattern)))
+        )),
+        () => ProjectScopedRuleUnionDto.With(new HasTargetFrameworkRuleComplementDto(dependingPattern, 
+          _targetFramework.OrThrow())));
+    }
+
+    public NamespaceBasedRuleUnionDto BuildNamespaceBasedRule()
+    {
+      return NamespaceBasedRuleUnionDto.With(new NoCircularUsingsRuleComplementDto(GetDependingPattern()));
     }
 
     private Func<RuleUnionDto> HasAttributesOnMethods(Pattern dependingPattern)
