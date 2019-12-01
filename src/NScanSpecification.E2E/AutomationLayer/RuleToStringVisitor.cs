@@ -1,7 +1,6 @@
 using NScan.Lib.Union1;
 using NScan.Lib.Union3;
 using NScan.Lib.Union5;
-using NScan.SharedKernel.RuleDtos;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
@@ -15,17 +14,6 @@ namespace NScanSpecification.E2E.AutomationLayer
       NoCircularUsingsRuleComplementDto, 
       HasAttributesOnRuleComplementDto, 
       HasTargetFrameworkRuleComplementDto, 
-      string>,
-    IUnionTransformingVisitor<
-      IndependentRuleComplementDto, 
-      string>,
-    IUnionTransformingVisitor<
-      CorrectNamespacesRuleComplementDto, 
-      HasAttributesOnRuleComplementDto, 
-      HasTargetFrameworkRuleComplementDto, 
-      string>,
-    IUnionTransformingVisitor<
-      NoCircularUsingsRuleComplementDto, 
       string>
   {
     public string Visit(NoCircularUsingsRuleComplementDto dto)

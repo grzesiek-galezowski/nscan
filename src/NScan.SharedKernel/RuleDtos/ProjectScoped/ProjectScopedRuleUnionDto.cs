@@ -1,29 +1,19 @@
-﻿using NScan.Lib.Union5;
-using NScan.SharedKernel.RuleDtos.DependencyPathBased;
-using NScan.SharedKernel.RuleDtos.NamespaceBased;
+﻿using NScan.Lib.Union3;
 
 namespace NScan.SharedKernel.RuleDtos.ProjectScoped
 {
   public class ProjectScopedRuleUnionDto : Union<
-    IndependentRuleComplementDto, 
     CorrectNamespacesRuleComplementDto,
-    NoCircularUsingsRuleComplementDto,
     HasAttributesOnRuleComplementDto,
     HasTargetFrameworkRuleComplementDto>
   {
-    private readonly RuleNameExtractionVisitor _ruleNameExtractionVisitor = new RuleNameExtractionVisitor();
+    private readonly IUnionTransformingVisitor<
+      CorrectNamespacesRuleComplementDto, 
+      HasAttributesOnRuleComplementDto, 
+      HasTargetFrameworkRuleComplementDto, 
+      string> _ruleNameExtractionVisitor = new RuleNameExtractionVisitor();
 
     public static ProjectScopedRuleUnionDto With(CorrectNamespacesRuleComplementDto dto)
-    {
-      return new ProjectScopedRuleUnionDto(dto);
-    }
-
-    public static ProjectScopedRuleUnionDto With(NoCircularUsingsRuleComplementDto dto)
-    {
-      return new ProjectScopedRuleUnionDto(dto);
-    }
-
-    public static ProjectScopedRuleUnionDto With(IndependentRuleComplementDto dto)
     {
       return new ProjectScopedRuleUnionDto(dto);
     }
@@ -40,15 +30,7 @@ namespace NScan.SharedKernel.RuleDtos.ProjectScoped
 
     public string RuleName => Accept(_ruleNameExtractionVisitor);
 
-    private ProjectScopedRuleUnionDto(IndependentRuleComplementDto o) : base(o)
-    {
-    }
-
     private ProjectScopedRuleUnionDto(CorrectNamespacesRuleComplementDto o) : base(o)
-    {
-    }
-
-    private ProjectScopedRuleUnionDto(NoCircularUsingsRuleComplementDto o) : base(o)
     {
     }
 
