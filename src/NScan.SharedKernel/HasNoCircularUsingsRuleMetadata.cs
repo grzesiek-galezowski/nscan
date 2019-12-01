@@ -1,4 +1,5 @@
 using NScan.SharedKernel.RuleDtos;
+using NScan.SharedKernel.RuleDtos.NamespaceBased;
 
 namespace NScan.SharedKernel
 {

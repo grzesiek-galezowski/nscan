@@ -1,5 +1,6 @@
 ﻿using System;
 using NScan.SharedKernel.RuleDtos;
+using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
 namespace TddXt.NScan.Specification.ReadingRules.Adapters
 {

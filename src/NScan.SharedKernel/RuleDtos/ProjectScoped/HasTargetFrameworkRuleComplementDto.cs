@@ -1,6 +1,6 @@
 ﻿using NScan.Lib;
 
-namespace NScan.SharedKernel.RuleDtos
+namespace NScan.SharedKernel.RuleDtos.ProjectScoped
 {
   public class HasTargetFrameworkRuleComplementDto
   {

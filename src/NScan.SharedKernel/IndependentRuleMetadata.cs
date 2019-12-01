@@ -1,6 +1,7 @@
 using GlobExpressions;
 using NScan.Lib;
 using NScan.SharedKernel.RuleDtos;
+using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 
 namespace NScan.SharedKernel
 {

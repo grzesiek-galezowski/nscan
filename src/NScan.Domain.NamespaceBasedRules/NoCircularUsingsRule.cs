@@ -1,6 +1,7 @@
 using System.Linq;
 using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos;
+using NScan.SharedKernel.RuleDtos.NamespaceBased;
 
 namespace NScan.NamespaceBasedRules
 {

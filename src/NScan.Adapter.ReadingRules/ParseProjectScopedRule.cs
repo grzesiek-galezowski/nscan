@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NScan.Lib;
 using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos;
+using NScan.SharedKernel.RuleDtos.ProjectScoped;
 using Sprache;
 
 namespace NScan.Adapter.ReadingRules

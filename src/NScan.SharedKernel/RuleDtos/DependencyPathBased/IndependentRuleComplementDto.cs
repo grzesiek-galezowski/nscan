@@ -1,7 +1,7 @@
 ﻿using GlobExpressions;
 using NScan.Lib;
 
-namespace NScan.SharedKernel.RuleDtos
+namespace NScan.SharedKernel.RuleDtos.DependencyPathBased
 {
   public class IndependentRuleComplementDto
   {

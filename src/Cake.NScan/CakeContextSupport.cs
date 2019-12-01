@@ -4,6 +4,9 @@ using Cake.Core.Diagnostics;
 using NScan.SharedKernel;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.RuleDtos;
+using NScan.SharedKernel.RuleDtos.DependencyPathBased;
+using NScan.SharedKernel.RuleDtos.NamespaceBased;
+using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
 namespace Cake.NScan
 {

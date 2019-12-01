@@ -2,6 +2,9 @@
 using NScan.Lib.Union1;
 using NScan.Lib.Union3;
 using NScan.Lib.Union5;
+using NScan.SharedKernel.RuleDtos.DependencyPathBased;
+using NScan.SharedKernel.RuleDtos.NamespaceBased;
+using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
 namespace NScan.SharedKernel.RuleDtos
 {
@@ -107,4 +110,6 @@ namespace NScan.SharedKernel.RuleDtos
     {
     }
   }
+
+
 }

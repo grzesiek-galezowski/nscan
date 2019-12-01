@@ -3,6 +3,7 @@ using GlobExpressions;
 using NScan.Lib;
 using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos;
+using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using Sprache;
 
 namespace NScan.Adapter.ReadingRules

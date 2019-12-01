@@ -4,6 +4,7 @@ using NScan.Domain.Root;
 using NScan.NamespaceBasedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos;
+using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NSubstitute;
 using TddXt.AnyRoot.Collections;
 using TddXt.AnyRoot.Strings;
