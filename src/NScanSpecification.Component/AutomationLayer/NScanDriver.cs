@@ -15,7 +15,7 @@ namespace NScanSpecification.Component.AutomationLayer
     private readonly INScanSupport _consoleSupport = new ConsoleSupport();
     private readonly List<XmlProjectBuilder> _xmlProjects = new List<XmlProjectBuilder>();
     private Analysis? _analysis;
-    private readonly List<RuleUnionDto> _rules = new List<RuleUnionDto>();
+    private readonly List<IAnalysisRule> _rules = new List<IAnalysisRule>();
 
     public XmlProjectBuilder HasProject(string assemblyName)
     {
@@ -26,22 +26,24 @@ namespace NScanSpecification.Component.AutomationLayer
 
     public void Add(IFullDependencyPathRuleConstructed ruleDefinition)
     {
-      _rules.Add(ruleDefinition.Build());
+      _rules.Add(new DependencyPathAnalysisRule(ruleDefinition.Build()));
     }
+    
     public void Add(IFullProjectScopedRuleConstructed ruleDefinition)
     {
-      _rules.Add(ruleDefinition.Build());
+      _rules.Add(new ProjectScopedAnalysisRule(ruleDefinition.Build()));
     }
+
     public void Add(IFullNamespaceBasedRuleConstructed ruleDefinition)
     {
-      _rules.Add(ruleDefinition.Build());
+      _rules.Add(new NamespaceBasedAnalysisRule(ruleDefinition.Build()));
     }
 
     public void PerformAnalysis()
     {
       List<CsharpProjectDto> xmlProjects = _xmlProjects.Select(p => p.BuildCsharpProjectDto()).ToList();
       _analysis = Analysis.PrepareFor(xmlProjects, _consoleSupport);
-      _analysis.AddDependencyPathRules(_rules);
+      _rules.ForEach(r => r.AddTo(_analysis!));
       _analysis.Run();
     }
 
@@ -64,5 +66,55 @@ namespace NScanSpecification.Component.AutomationLayer
     {
       _analysis.OrThrow().Report.Should().Contain(message.ToString());
     }
+  }
+
+  public class DependencyPathAnalysisRule : IAnalysisRule
+  {
+    private readonly RuleUnionDto _dto;
+
+    public DependencyPathAnalysisRule(RuleUnionDto dto)
+    {
+      _dto = dto;
+    }
+
+    public void AddTo(Analysis analysis)
+    {
+      analysis.AddDependencyPathRules(new [] {_dto});
+    }
+  }
+
+  public class ProjectScopedAnalysisRule : IAnalysisRule
+  {
+    private readonly RuleUnionDto _dto;
+
+    public ProjectScopedAnalysisRule(RuleUnionDto dto)
+    {
+      _dto = dto;
+    }
+
+    public void AddTo(Analysis analysis)
+    {
+      analysis.AddProjectScopedRules(new [] {_dto});
+    }
+  }
+
+  public class NamespaceBasedAnalysisRule : IAnalysisRule
+  {
+    private readonly RuleUnionDto _dto;
+
+    public NamespaceBasedAnalysisRule(RuleUnionDto dto)
+    {
+      _dto = dto;
+    }
+
+    public void AddTo(Analysis analysis)
+    {
+      analysis.AddNamespaceBasedRules(new [] {_dto});
+    }
+  }
+
+  internal interface IAnalysisRule
+  {
+    void AddTo(Analysis analysis);
   }
 }
