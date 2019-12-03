@@ -30,6 +30,11 @@ namespace NScan.Domain.Root
       _support.Log(dto);
     }
 
+    public void Visit(NoUsingsRuleComplementDto dto)
+    {
+      _support.Log(dto);
+    }
+
     public void Visit(CorrectNamespacesRuleComplementDto dto)
     {
       _support.Log(dto);

@@ -4,6 +4,7 @@ using FluentAssertions;
 using NScan.Adapter.ReadingRules;
 using NScan.Lib;
 using NScan.SharedKernel;
+using NScanSpecification.Lib.AutomationLayer;
 using Sprache;
 using TddXt.AnyRoot.Strings;
 using Xunit;
@@ -144,6 +145,30 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
       }));
       ruleUnionDto.RuleName.Should().Be(HasNoCircularUsingsRuleMetadata.HasNoCircularUsings);
     }
+
+    [Fact]
+    public void ShouldParseNoUsingsRuleDefinition()
+    {
+      //GIVEN
+      var depending = Any.String();
+
+      //WHEN
+      var from = Any.String();
+      var to = Any.String();
+      var ruleUnionDto = ParserRulePreface.Then(ParseNamespaceBasedRule.Complement)
+        .Parse(TestRuleFormats.FormatNoUsingsRule(depending, from, to));
+
+      //THEN
+      ruleUnionDto.Accept(new NoUsingsRuleComplementDtoAssertion(dto =>
+      {
+        dto.RuleName.Should().Be("hasNoUsings" /* bug */);
+        dto.ProjectAssemblyNamePattern.Should().Be(Pattern.WithoutExclusion(depending));
+        dto.FromPattern.Should().Be(Pattern.WithoutExclusion(from));
+        dto.ToPattern.Should().Be(Pattern.WithoutExclusion(to));
+      }));
+      ruleUnionDto.RuleName.Should().Be("hasNoUsings" /* bug */);
+    }
+
 
     [Fact]
     public void ShouldParseHasAttributesOnRuleDefinitionMultipleTimes()

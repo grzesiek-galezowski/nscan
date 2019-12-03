@@ -48,5 +48,12 @@ namespace NScan.Adapter.NotifyingSupport
     {
       Console.WriteLine($"{DiscoveredRule}{HasTargetFrameworkRuleMetadata.Format(dto)}");
     }
+
+    public void Log(NoUsingsRuleComplementDto dto)
+    {
+      //bug
+      Console.WriteLine($"{DiscoveredRule}{dto.ProjectAssemblyNamePattern.Description()} " +
+                        $"hasNoUsings from {dto.FromPattern.Description()} to {dto.ToPattern.Description()}");
+    }
   }
 }

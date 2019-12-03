@@ -1,14 +1,13 @@
 using NScan.DependencyPathBasedRules;
 using NScan.NamespaceBasedRules;
 using NScan.ProjectScopedRules;
-using NScan.SharedKernel.RuleDtos;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
 namespace NScan.Domain.Root
 {
-  public class CreateRuleMappingVisitor : IRuleDtoVisitor, IPathBasedRuleDtoVisitor, INamespaceBasedRuleDtoVisitor, IProjectScopedRuleDtoVisitor
+  public class CreateRuleMappingVisitor : IRuleDtoVisitor
   {
     private readonly IRuleFactory _ruleFactory;
     private readonly INamespacesBasedRuleSet _namespacesBasedRuleSet;
@@ -40,6 +39,12 @@ namespace NScan.Domain.Root
     }
 
     public void Visit(NoCircularUsingsRuleComplementDto dto)
+    {
+      var rule = _ruleFactory.CreateNamespacesBasedRuleFrom(dto);
+      _namespacesBasedRuleSet.Add(rule);
+    }
+
+    public void Visit(NoUsingsRuleComplementDto dto)
     {
       var rule = _ruleFactory.CreateNamespacesBasedRuleFrom(dto);
       _namespacesBasedRuleSet.Add(rule);

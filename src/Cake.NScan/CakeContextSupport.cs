@@ -56,6 +56,13 @@ namespace Cake.NScan
       Log(HasTargetFrameworkRuleMetadata.Format(dto));
     }
 
+    public void Log(NoUsingsRuleComplementDto dto)
+    {
+      //bug duplication
+      Log($"{dto.ProjectAssemblyNamePattern.Description()} " +
+                        $"hasNoUsings from {dto.FromPattern.Description()} to {dto.ToPattern.Description()}");
+    }
+
     private void Log(string ruleDescription)
     {
       _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, Discovered(ruleDescription));

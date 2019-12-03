@@ -89,6 +89,10 @@ namespace NScan.Domain.Root
       return new NoCircularUsingsRule(ruleDto, RuleViolationFactory());
     }
 
+    public INamespacesBasedRule CreateNamespacesBasedRuleFrom(NoUsingsRuleComplementDto ruleDto)
+    {
+      return new NoUsingsRule(ruleDto);
+    }
 
     private static IRuleViolationFactory RuleViolationFactory()
     {

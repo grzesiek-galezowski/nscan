@@ -1,6 +1,5 @@
 using System.Linq;
 using NScan.SharedKernel;
-using NScan.SharedKernel.RuleDtos;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 
 namespace NScan.NamespaceBasedRules
@@ -18,7 +17,7 @@ namespace NScan.NamespaceBasedRules
 
     public string Description()
     {
-      return $"{_ruleDto.ProjectAssemblyNamePattern.Description()} {_ruleDto.RuleName}";
+      return HasNoCircularUsingsRuleMetadata.Format(_ruleDto);
     }
 
     public void Evaluate(

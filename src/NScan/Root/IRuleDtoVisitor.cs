@@ -1,4 +1,5 @@
 using NScan.Lib.Union1;
+using NScan.Lib.Union2;
 using NScan.Lib.Union3;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
@@ -11,7 +12,7 @@ namespace NScan.Domain.Root
   {
   }
 
-  public interface INamespaceBasedRuleDtoVisitor : IUnionVisitor<NoCircularUsingsRuleComplementDto>
+  public interface INamespaceBasedRuleDtoVisitor : IUnionVisitor<NoCircularUsingsRuleComplementDto, NoUsingsRuleComplementDto>
   {
   }
 

@@ -112,7 +112,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       var rule2 = Any.Instance<INamespacesBasedRule>();
       var rule3 = Any.Instance<INamespacesBasedRule>();
       var ruleDto1 = Any.Instance<NoCircularUsingsRuleComplementDto>();
-      var ruleDto2 = Any.Instance<NoCircularUsingsRuleComplementDto>();
+      var ruleDto2 = Any.Instance<NoUsingsRuleComplementDto>();
       var ruleDto3 = Any.Instance<NoCircularUsingsRuleComplementDto>();
       var analysis = new AnalysisBuilder()
       {
@@ -130,6 +130,7 @@ namespace TddXt.NScan.Specification.Domain.Root
         NamespaceBasedRuleUnionDto.With(ruleDto2),
         NamespaceBasedRuleUnionDto.With(ruleDto3)
       };
+
       //WHEN
       analysis.AddNamespaceBasedRules(ruleDtos);
 

@@ -116,6 +116,21 @@ namespace TddXt.NScan.Specification.Domain.Root
       projectScopedRule.Should().BeOfType<NoCircularUsingsRule>();
       projectScopedRule.Should().DependOn(ruleDto);
     }
+    
+    [Fact]
+    public void ShouldCreateNoDependenciesRule()
+    {
+      //GIVEN
+      var ruleFactory = new RuleFactory();
+      var ruleDto = Any.Instance<NoUsingsRuleComplementDto>();
+
+      //WHEN
+      var projectScopedRule = ruleFactory.CreateNamespacesBasedRuleFrom(ruleDto);
+
+      //THEN
+      projectScopedRule.Should().BeOfType<NoUsingsRule>();
+      projectScopedRule.Should().DependOn(ruleDto);
+    }
 
     [Fact]
     public void ShouldCreateHasAttributesOnRuleFromDto()

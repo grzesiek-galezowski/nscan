@@ -1,13 +1,11 @@
 ﻿using NScan.Domain.Root;
-using NScan.SharedKernel.RuleDtos;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
 namespace TddXt.NScan.Specification.ReadingRules.Adapters
 {
-  public class RuleUnionDtoAssertion : 
-    IRuleDtoVisitor, IPathBasedRuleDtoVisitor, INamespaceBasedRuleDtoVisitor, IProjectScopedRuleDtoVisitor
+  public class RuleUnionDtoAssertion : IRuleDtoVisitor
   {
     public virtual void Visit(HasAttributesOnRuleComplementDto dto)
     {
@@ -17,6 +15,11 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
     public virtual void Visit(NoCircularUsingsRuleComplementDto dto)
     {
       AssertionLambdas.FailWhen<NoCircularUsingsRuleComplementDto>()(dto);
+    }
+
+    public virtual void Visit(NoUsingsRuleComplementDto dto)
+    {
+      AssertionLambdas.FailWhen<NoUsingsRuleComplementDto>()(dto);
     }
 
     public virtual void Visit(CorrectNamespacesRuleComplementDto dto)

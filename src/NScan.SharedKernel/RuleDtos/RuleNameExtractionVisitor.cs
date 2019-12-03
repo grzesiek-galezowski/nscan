@@ -1,4 +1,5 @@
 ﻿using NScan.Lib.Union1;
+using NScan.Lib.Union2;
 using NScan.Lib.Union3;
 using NScan.Lib.Union5;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
@@ -18,6 +19,7 @@ namespace NScan.SharedKernel.RuleDtos
       string>,
     IUnionTransformingVisitor<
       NoCircularUsingsRuleComplementDto, 
+      NoUsingsRuleComplementDto, 
       string>
   {
     public string Visit(HasTargetFrameworkRuleComplementDto dto)
@@ -31,6 +33,11 @@ namespace NScan.SharedKernel.RuleDtos
     }
 
     public string Visit(NoCircularUsingsRuleComplementDto dto)
+    {
+      return dto.RuleName;
+    }
+
+    public string Visit(NoUsingsRuleComplementDto dto)
     {
       return dto.RuleName;
     }
