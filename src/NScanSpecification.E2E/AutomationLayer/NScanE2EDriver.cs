@@ -52,7 +52,8 @@ namespace NScanSpecification.E2E.AutomationLayer
     
     public void Add(IFullNamespaceBasedRuleConstructed ruleDefinition)
     {
-      _rules.Add(ruleDefinition.Build());
+      var ruleUnionDto = ruleDefinition.Build();
+      _rules.Add(ruleUnionDto);
     }
 
     public void Add(IFullProjectScopedRuleConstructed ruleDefinition)
@@ -103,7 +104,8 @@ namespace NScanSpecification.E2E.AutomationLayer
       AssertFileExists(nscanConsoleProjectPath);
 
       //RunForDebug();
-      var analysisResultAnalysisResult = _dotNetExe.RunWith($"run --project {nscanConsoleProjectPath} -- -p \"{_fullSolutionPath}\" -r \"{_fullRulesPath}\"").Result;
+      var analysisResultAnalysisResult = _dotNetExe.RunWith(
+        $"run --project {nscanConsoleProjectPath} -- -p \"{_fullSolutionPath}\" -r \"{_fullRulesPath}\"").Result;
       _analysisResult.Assign(analysisResultAnalysisResult);
     }
 

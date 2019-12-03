@@ -9,6 +9,7 @@ namespace NScanSpecification.Lib
       Func<T> independentOfValueFactory,
       Func<T> correctNamespacesValueFactory, 
       Func<T> noCircularUsingsValueFactory, 
+      Func<T> noUsingsValueFactory, 
       Func<T> isDecoratedWithAttributeValueFactory,
       Func<T> hasTargetFrameworkValueFactory)
     {
@@ -23,6 +24,10 @@ namespace NScanSpecification.Lib
       else if(ruleName == HasNoCircularUsingsRuleMetadata.HasNoCircularUsings)
       {
         return noCircularUsingsValueFactory();
+      }
+      else if(ruleName == "hasNoUsings") //bug
+      {
+        return noUsingsValueFactory();
       }
       else if(ruleName == HasAttributesOnRuleMetadata.HasAttributesOn)
       {

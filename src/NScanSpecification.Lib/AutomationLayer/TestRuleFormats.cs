@@ -17,6 +17,11 @@ namespace NScanSpecification.Lib.AutomationLayer
       return $"{projectAssemblyNamePattern} {HasNoCircularUsingsRuleMetadata.HasNoCircularUsings}";
     }
 
+    public static string FormatNoUsingsRule(string projectAssemblyNamePattern, string from, string to)
+    {
+      return $"{projectAssemblyNamePattern} hasNoUsings from {from} to {to}";
+    }
+
     public static string FormatCorrectNamespacesRule(string projectAssemblyNamePattern)
     {
       return $"{projectAssemblyNamePattern} {HasCorrectNamespacesRuleMetadata.HasCorrectNamespaces}";

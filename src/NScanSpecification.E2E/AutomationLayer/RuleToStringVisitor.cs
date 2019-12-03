@@ -12,6 +12,7 @@ namespace NScanSpecification.E2E.AutomationLayer
       IndependentRuleComplementDto, 
       CorrectNamespacesRuleComplementDto, 
       NoCircularUsingsRuleComplementDto, 
+      NoUsingsRuleComplementDto, 
       HasAttributesOnRuleComplementDto, 
       HasTargetFrameworkRuleComplementDto, 
       string>
@@ -19,6 +20,13 @@ namespace NScanSpecification.E2E.AutomationLayer
     public string Visit(NoCircularUsingsRuleComplementDto dto)
     {
       return $"{dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName}";
+    }
+
+    public string Visit(NoUsingsRuleComplementDto dto)
+    {
+      return
+        $"{dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName} " +
+        $"from {dto.FromPattern.Description()} to {dto.ToPattern.Description()}";
     }
 
     public string Visit(CorrectNamespacesRuleComplementDto dto)

@@ -2,7 +2,6 @@
 using GlobExpressions;
 using NScan.Lib;
 using NScan.SharedKernel;
-using NScan.SharedKernel.RuleDtos;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
@@ -23,6 +22,7 @@ namespace NScanSpecification.Lib.AutomationLayer
     IFullNamespaceBasedRuleConstructed HasNoCircularUsings();
     IFullProjectScopedRuleConstructed ToHaveDecoratedMethods(string classInclusionPattern, string methodInclusionPattern);
     IFullProjectScopedRuleConstructed HasTargetFramework(string targetFramework);
+    IFullNamespaceBasedRuleConstructed HasNoUsings(string from, string to);
   }
 
   public interface IRuleDefinitionStart
@@ -63,6 +63,8 @@ namespace NScanSpecification.Lib.AutomationLayer
     private string? _classInclusionPattern;
     private string? _methodInclusionPattern;
     private string? _targetFramework;
+    private string? _from;
+    private string? _to;
 
     public IProjectNameStated Project(string dependingAssemblyName)
     {
@@ -129,6 +131,14 @@ namespace NScanSpecification.Lib.AutomationLayer
       return this;
     }
 
+    public IFullNamespaceBasedRuleConstructed HasNoUsings(string @from, string to)
+    {
+      _ruleName = "hasNoUsings";
+      _from = from;
+      _to = to;
+      return this;
+    }
+
     //bug remove later
     public RuleUnionDto Build()
     {
@@ -139,9 +149,19 @@ namespace NScanSpecification.Lib.AutomationLayer
         IndependentOf(dependingPattern),
         CorrectNamespaces(dependingPattern),
         NoCircularUsings(dependingPattern),
+        () => NoUsings(dependingPattern),
         HasAttributesOnMethods(dependingPattern),
         () => RuleUnionDto.With(new HasTargetFrameworkRuleComplementDto(dependingPattern, 
           _targetFramework.OrThrow())));
+    }
+
+    private RuleUnionDto NoUsings(Pattern dependingPattern)
+    {
+      return RuleUnionDto.With(new NoUsingsRuleComplementDto(
+        dependingPattern,
+        Pattern.WithoutExclusion(_from.OrThrow(nameof(_from))),
+        Pattern.WithoutExclusion(_to.OrThrow(nameof(_to)))
+      ));
     }
 
     public DependencyPathBasedRuleUnionDto BuildDependencyPathBasedRule()

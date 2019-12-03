@@ -9,6 +9,7 @@ namespace NScanSpecification.Lib.AutomationLayer
     IndependentRuleComplementDto, 
     CorrectNamespacesRuleComplementDto,
     NoCircularUsingsRuleComplementDto,
+    NoUsingsRuleComplementDto,
     HasAttributesOnRuleComplementDto,
     HasTargetFrameworkRuleComplementDto>
   {
@@ -18,6 +19,11 @@ namespace NScanSpecification.Lib.AutomationLayer
     }
 
     public static RuleUnionDto With(NoCircularUsingsRuleComplementDto dto)
+    {
+      return new RuleUnionDto(dto);
+    }
+    
+    public static RuleUnionDto With(NoUsingsRuleComplementDto dto)
     {
       return new RuleUnionDto(dto);
     }
@@ -46,6 +52,10 @@ namespace NScanSpecification.Lib.AutomationLayer
     }
 
     private RuleUnionDto(NoCircularUsingsRuleComplementDto o) : base(o)
+    {
+    }
+    
+    private RuleUnionDto(NoUsingsRuleComplementDto o) : base(o)
     {
     }
 
