@@ -44,7 +44,7 @@ namespace NScanSpecification.Component.AutomationLayer
 
     public void PerformAnalysis()
     {
-      List<CsharpProjectDto> xmlProjects = _xmlProjects.Select(p => p.BuildCsharpProjectDto()).ToList();
+      var xmlProjects = _xmlProjects.Select(p => p.BuildCsharpProjectDto()).ToList();
       _analysis = Analysis.PrepareFor(xmlProjects, _consoleSupport);
       _rules.ForEach(r => r.AddTo(_analysis!));
       _analysis.Run();

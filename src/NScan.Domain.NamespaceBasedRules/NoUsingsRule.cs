@@ -5,16 +5,17 @@ namespace NScan.NamespaceBasedRules
 {
   public class NoUsingsRule : INamespacesBasedRule
   {
-    private readonly NoUsingsRuleComplementDto _ruleDto;
+    private readonly NoUsingsRuleComplementDto _dto;
 
-    public NoUsingsRule(NoUsingsRuleComplementDto ruleDto)
+    public NoUsingsRule(NoUsingsRuleComplementDto dto)
     {
-      _ruleDto = ruleDto;
+      _dto = dto;
     }
 
     public string Description()
     {
-      throw new System.NotImplementedException();
+      //bug component test
+      return $"{_dto.ProjectAssemblyNamePattern.Description()} {_dto.RuleName} from {_dto.FromPattern.Description()} to {_dto.ToPattern.Description()}"; //bug
     }
 
     public void Evaluate(string projectAssemblyName, INamespacesDependenciesCache namespacesCache,

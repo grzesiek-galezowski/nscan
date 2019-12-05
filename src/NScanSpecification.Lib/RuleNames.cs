@@ -44,6 +44,27 @@ namespace NScanSpecification.Lib
     }
   }
   
+  public static class NamespaceBasedRuleNames
+  {
+    public static T Switch<T>(string ruleName,
+      Func<T> noCircularUsingsValueFactory, 
+      Func<T> noUsingsValueFactory)
+    {
+      if(ruleName == HasNoCircularUsingsRuleMetadata.HasNoCircularUsings)
+      {
+        return noCircularUsingsValueFactory();
+      }
+      else if(ruleName == "hasNoUsings") //bug
+      {
+        return noUsingsValueFactory();
+      }
+      else
+      {
+        throw new InvalidOperationException($"Unknown rule name {ruleName}");
+      }
+    }
+  }
+  
   public static class ProjectScopedRuleNames
   {
     public static T Switch<T>(string ruleName,
