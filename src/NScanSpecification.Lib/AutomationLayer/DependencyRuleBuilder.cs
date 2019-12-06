@@ -161,13 +161,6 @@ namespace NScanSpecification.Lib.AutomationLayer
       return RuleUnionDto.With(NoUsingsComplement());
     }
 
-    private Pattern GetDependingPattern()
-    {
-      return _exclusionPattern
-        .Select(p => Pattern.WithExclusion(_dependingPattern.OrThrow(), p))
-        .OrElse(() => Pattern.WithoutExclusion(_dependingPattern.OrThrow()));
-    }
-
     public DependencyPathBasedRuleUnionDto BuildDependencyPathBasedRule()
     {
       return DependencyPathBasedRuleUnionDto.With(IndependentRuleComplement());
@@ -254,6 +247,13 @@ namespace NScanSpecification.Lib.AutomationLayer
     public static IRuleDefinitionStart RuleDemandingThat()
     {
       return new DependencyRuleBuilder();
+    }
+
+    private Pattern GetDependingPattern()
+    {
+      return _exclusionPattern
+        .Select(p => Pattern.WithExclusion(_dependingPattern.OrThrow(), p))
+        .OrElse(() => Pattern.WithoutExclusion(_dependingPattern.OrThrow()));
     }
   }
 }
