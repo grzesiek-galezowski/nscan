@@ -1,5 +1,4 @@
-﻿using System;
-using GlobExpressions;
+﻿using GlobExpressions;
 using NScan.Lib;
 using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
@@ -157,26 +156,10 @@ namespace NScanSpecification.Lib.AutomationLayer
       return RuleUnionDto.With(HasTargetFrameworkRuleComplement());
     }
 
-    private HasTargetFrameworkRuleComplementDto HasTargetFrameworkRuleComplement()
-    {
-      return new HasTargetFrameworkRuleComplementDto(GetDependingPattern(), 
-        _targetFramework.OrThrow());
-    }
-
     private RuleUnionDto NoUsings()
     {
       return RuleUnionDto.With(NoUsingsComplement());
     }
-
-    private NoUsingsRuleComplementDto NoUsingsComplement()
-    {
-      return new NoUsingsRuleComplementDto(
-        GetDependingPattern(),
-        Pattern.WithoutExclusion(_from.OrThrow(nameof(_from))),
-        Pattern.WithoutExclusion(_to.OrThrow(nameof(_to)))
-      );
-    }
-
 
     private Pattern GetDependingPattern()
     {
@@ -207,23 +190,9 @@ namespace NScanSpecification.Lib.AutomationLayer
         () => NamespaceBasedRuleUnionDto.With(NoUsingsComplement()));
     }
 
-    private NoCircularUsingsRuleComplementDto NoCircularUsingsRuleComplement()
-    {
-      return new NoCircularUsingsRuleComplementDto(GetDependingPattern());
-    }
-
     private RuleUnionDto HasAttributesOnMethods()
     {
       return RuleUnionDto.With(HasAttributesOnRuleComplement());
-    }
-
-    private HasAttributesOnRuleComplementDto HasAttributesOnRuleComplement()
-    {
-      return new HasAttributesOnRuleComplementDto(
-        GetDependingPattern(),
-        Pattern.WithoutExclusion(_classInclusionPattern.OrThrow(nameof(_classInclusionPattern))),
-        Pattern.WithoutExclusion(_methodInclusionPattern.OrThrow(nameof(_methodInclusionPattern)))
-      );
     }
 
     private RuleUnionDto NoCircularUsings()
@@ -235,15 +204,43 @@ namespace NScanSpecification.Lib.AutomationLayer
     {
       return RuleUnionDto.With(CorrectNamespacesRuleComplement());
     }
-
-    private CorrectNamespacesRuleComplementDto CorrectNamespacesRuleComplement()
-    {
-      return new CorrectNamespacesRuleComplementDto(GetDependingPattern());
-    }
-
     private RuleUnionDto IndependentOf()
     {
       return RuleUnionDto.With(IndependentRuleComplement());
+    }
+
+    private HasTargetFrameworkRuleComplementDto HasTargetFrameworkRuleComplement()
+    {
+      return new HasTargetFrameworkRuleComplementDto(GetDependingPattern(), 
+        _targetFramework.OrThrow());
+    }
+
+    private NoUsingsRuleComplementDto NoUsingsComplement()
+    {
+      return new NoUsingsRuleComplementDto(
+        GetDependingPattern(),
+        Pattern.WithoutExclusion(_from.OrThrow(nameof(_from))),
+        Pattern.WithoutExclusion(_to.OrThrow(nameof(_to)))
+      );
+    }
+    
+    private NoCircularUsingsRuleComplementDto NoCircularUsingsRuleComplement()
+    {
+      return new NoCircularUsingsRuleComplementDto(GetDependingPattern());
+    }
+    
+    private HasAttributesOnRuleComplementDto HasAttributesOnRuleComplement()
+    {
+      return new HasAttributesOnRuleComplementDto(
+        GetDependingPattern(),
+        Pattern.WithoutExclusion(_classInclusionPattern.OrThrow(nameof(_classInclusionPattern))),
+        Pattern.WithoutExclusion(_methodInclusionPattern.OrThrow(nameof(_methodInclusionPattern)))
+      );
+    }
+    
+    private CorrectNamespacesRuleComplementDto CorrectNamespacesRuleComplement()
+    {
+      return new CorrectNamespacesRuleComplementDto(GetDependingPattern());
     }
 
     private IndependentRuleComplementDto IndependentRuleComplement()
@@ -257,31 +254,6 @@ namespace NScanSpecification.Lib.AutomationLayer
     public static IRuleDefinitionStart RuleDemandingThat()
     {
       return new DependencyRuleBuilder();
-    }
-  }
-
-  public static class X
-  {
-    public static T OrThrow<T>(this T? instance) where T : class
-    {
-      return instance.OrThrow(nameof(instance));
-    }
-
-    public static T OrThrow<T>(this T? instance, string instanceName) where T : class
-    {
-      return instance ?? throw new ArgumentNullException(instanceName);
-    }
-
-    public static TResult? Select<T, TResult>(this T? a, Func<T, TResult> fn) 
-      where T: class 
-      where TResult : class
-    {
-      return a == null ? null : fn(a);
-    }
-
-    public static T OrElse<T>(this T? a, Func<T> @default) where T : class
-    {
-      return a ?? @default();
     }
   }
 }
