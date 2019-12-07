@@ -25,7 +25,8 @@ namespace NScan.Domain.Root
     private readonly ISolution _solution;
     private readonly IRuleDtoVisitor _createRuleMappingVisitor;
 
-    public Analysis(ISolution solution,
+    public Analysis(
+      ISolution solution,
       IPathRuleSet pathRules,
       IProjectScopedRuleSet projectScopedRules,
       INamespacesBasedRuleSet namespacesBasedRuleSet,
@@ -37,8 +38,11 @@ namespace NScan.Domain.Root
       _projectScopedRules = projectScopedRules;
       _namespacesBasedRuleSet = namespacesBasedRuleSet;
       _analysisReportInProgress = analysisReportInProgress;
-      _createRuleMappingVisitor = new CreateRuleMappingVisitor(
-        ruleFactory, namespacesBasedRuleSet, projectScopedRules, pathRules);
+      //bug extract the three factories as parameters:
+      var namespaceBasedRuleFactory = (INamespaceBasedRuleFactory)ruleFactory;
+      var projectScopedRuleFactory = (IProjectScopedRuleFactory)ruleFactory;
+      var dependencyBasedRuleFactory = (IDependencyBasedRuleFactory)ruleFactory;
+      _createRuleMappingVisitor = new CreateRuleMappingVisitor(namespacesBasedRuleSet, projectScopedRules, pathRules, namespaceBasedRuleFactory, dependencyBasedRuleFactory, projectScopedRuleFactory);
     }
 
     public string Report => _analysisReportInProgress.AsString();
