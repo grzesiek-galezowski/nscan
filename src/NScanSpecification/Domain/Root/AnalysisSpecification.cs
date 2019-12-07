@@ -18,16 +18,22 @@ namespace TddXt.NScan.Specification.Domain.Root
   public class AnalysisBuilder
   {
     public ISolution Solution { private get; set; } = Any.Instance<ISolution>();
-    public IPathRuleSet PathRuleSet { private get; set; } = Any.Instance<IPathRuleSet>();
     public IAnalysisReportInProgress ReportInProgress { private get; set; } = Any.Instance<IAnalysisReportInProgress>();
-    public IRuleFactory Factory { private get; set; } = Any.Instance<IRuleFactory>();
-    public IProjectScopedRuleSet ProjectScopedRuleSet { get; set; } = Any.Instance<IProjectScopedRuleSet>();
-    public INamespacesBasedRuleSet ProjectNamespacesRuleSet { private get; set; } =
-      Any.Instance<INamespacesBasedRuleSet>();
+    public ISpecificKindOfRuleAnalysis<DependencyPathBasedRuleUnionDto> DependencyAnalysis { private get; set; } =
+      Any.Instance<ISpecificKindOfRuleAnalysis<DependencyPathBasedRuleUnionDto>>();
+    public ISpecificKindOfRuleAnalysis<ProjectScopedRuleUnionDto> ProjectAnalysis { private get; set; } =
+      Any.Instance<ISpecificKindOfRuleAnalysis<ProjectScopedRuleUnionDto>>();
+    public ISpecificKindOfRuleAnalysis<NamespaceBasedRuleUnionDto> NamespacesAnalysis { private get; set; } =
+      Any.Instance<ISpecificKindOfRuleAnalysis<NamespaceBasedRuleUnionDto>>();
 
     public Analysis Build()
     {
-      return new Analysis(Solution, PathRuleSet, ProjectScopedRuleSet, ProjectNamespacesRuleSet, ReportInProgress, Factory);
+      return new Analysis(
+        Solution,
+        ReportInProgress,
+        DependencyAnalysis,
+        ProjectAnalysis,
+        NamespacesAnalysis);
     }
   }
 
@@ -38,16 +44,16 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       //GIVEN
       var solution = Substitute.For<ISolution>();
-      var pathRuleSet = Any.Instance<IPathRuleSet>();
       var analysisReport = Any.Instance<IAnalysisReportInProgress>();
-      var projectScopedRuleSet = Any.Instance<IProjectScopedRuleSet>();
-      var namespacesBasedRuleSet = Any.Instance<INamespacesBasedRuleSet>();
+      var projectAnalysis = Substitute.For<ISpecificKindOfRuleAnalysis<ProjectScopedRuleUnionDto>>();
+      var namespacesAnalysis = Substitute.For<ISpecificKindOfRuleAnalysis<NamespaceBasedRuleUnionDto>>();
+      var dependencyAnalysis = Substitute.For<ISpecificKindOfRuleAnalysis<DependencyPathBasedRuleUnionDto>>();
       var analysis = new AnalysisBuilder()
       {
         ReportInProgress = analysisReport,
-        PathRuleSet = pathRuleSet,
-        ProjectScopedRuleSet = projectScopedRuleSet,
-        ProjectNamespacesRuleSet = namespacesBasedRuleSet,
+        ProjectAnalysis = projectAnalysis,
+        NamespacesAnalysis = namespacesAnalysis,
+        DependencyAnalysis = dependencyAnalysis,
         Solution = solution
       }.Build();
 
@@ -59,9 +65,9 @@ namespace TddXt.NScan.Specification.Domain.Root
       {
         solution.ResolveAllProjectsReferences();
         solution.BuildCache();
-        solution.Check(pathRuleSet, analysisReport);
-        solution.Check(projectScopedRuleSet, analysisReport);
-        solution.Check(namespacesBasedRuleSet, analysisReport);
+        dependencyAnalysis.PerformOn(solution, analysisReport);
+        projectAnalysis.PerformOn(solution, analysisReport);
+        namespacesAnalysis.PerformOn(solution, analysisReport);
       });
     }
 
@@ -69,23 +75,15 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldAddAllDependencyRulesFromDtosToRuleSet()
     {
       //GIVEN
-      var pathRuleSet = Substitute.For<IPathRuleSet>();
-      var ruleFactory = Substitute.For<IRuleFactory>();
-      var rule1 = Any.Instance<IDependencyRule>();
-      var rule2 = Any.Instance<IDependencyRule>();
-      var rule3 = Any.Instance<IDependencyRule>();
       var ruleDto1 = Any.Instance<IndependentRuleComplementDto>();
       var ruleDto2 = Any.Instance<IndependentRuleComplementDto>();
       var ruleDto3 = Any.Instance<IndependentRuleComplementDto>();
+      var dependencyAnalysis = Substitute.For<ISpecificKindOfRuleAnalysis<DependencyPathBasedRuleUnionDto>>();
       var analysis = new AnalysisBuilder()
       {
-        PathRuleSet = pathRuleSet,
-        Factory = ruleFactory
+        DependencyAnalysis = dependencyAnalysis
       }.Build();
 
-      ruleFactory.CreateDependencyRuleFrom(ruleDto1).Returns(rule1);
-      ruleFactory.CreateDependencyRuleFrom(ruleDto2).Returns(rule2);
-      ruleFactory.CreateDependencyRuleFrom(ruleDto3).Returns(rule3);
       var ruleDtos = new []
       {
         DependencyPathBasedRuleUnionDto.With(ruleDto1),
@@ -97,33 +95,22 @@ namespace TddXt.NScan.Specification.Domain.Root
       analysis.AddDependencyPathRules(ruleDtos);
 
       //THEN
-      pathRuleSet.Received(1).Add(rule1);
-      pathRuleSet.Received(1).Add(rule2);
-      pathRuleSet.Received(1).Add(rule3);
+      dependencyAnalysis.Received(1).Add(ruleDtos);
     }
 
     [Fact]
     public void ShouldAddAllNamespaceBasedRulesFromDtosToRuleSet()
     {
       //GIVEN
-      var namespaceBasedRuleSet = Substitute.For<INamespacesBasedRuleSet>();
-      var ruleFactory = Substitute.For<IRuleFactory>();
-      var rule1 = Any.Instance<INamespacesBasedRule>();
-      var rule2 = Any.Instance<INamespacesBasedRule>();
-      var rule3 = Any.Instance<INamespacesBasedRule>();
       var ruleDto1 = Any.Instance<NoCircularUsingsRuleComplementDto>();
       var ruleDto2 = Any.Instance<NoUsingsRuleComplementDto>();
       var ruleDto3 = Any.Instance<NoCircularUsingsRuleComplementDto>();
+      var namespacesAnalysis = Substitute.For<ISpecificKindOfRuleAnalysis<NamespaceBasedRuleUnionDto>>();
       var analysis = new AnalysisBuilder()
       {
-        ProjectNamespacesRuleSet = namespaceBasedRuleSet,
-        Factory = ruleFactory
+        NamespacesAnalysis = namespacesAnalysis,
       }.Build();
 
-      ruleFactory.CreateNamespacesBasedRuleFrom(ruleDto1).Returns(rule1);
-      ruleFactory.CreateNamespacesBasedRuleFrom(ruleDto2).Returns(rule2);
-      ruleFactory.CreateNamespacesBasedRuleFrom(ruleDto3).Returns(rule3);
-      
       var ruleDtos = new[]
       {
         NamespaceBasedRuleUnionDto.With(ruleDto1),
@@ -135,33 +122,22 @@ namespace TddXt.NScan.Specification.Domain.Root
       analysis.AddNamespaceBasedRules(ruleDtos);
 
       //THEN
-      namespaceBasedRuleSet.Received(1).Add(rule1);
-      namespaceBasedRuleSet.Received(1).Add(rule2);
-      namespaceBasedRuleSet.Received(1).Add(rule3);
+      namespacesAnalysis.Received(1).Add(ruleDtos);
     }
     
     [Fact]
     public void ShouldAddAllProjectScopedRulesFromDtosToRuleSet()
     {
       //GIVEN
-      var projectScopedRuleSet = Substitute.For<IProjectScopedRuleSet>();
-      var ruleFactory = Substitute.For<IRuleFactory>();
-      var rule1 = Any.Instance<IProjectScopedRule>();
-      var rule2 = Any.Instance<IProjectScopedRule>();
-      var rule3 = Any.Instance<IProjectScopedRule>();
       var ruleDto1 = Any.Instance<CorrectNamespacesRuleComplementDto>();
       var ruleDto2 = Any.Instance<HasTargetFrameworkRuleComplementDto>();
       var ruleDto3 = Any.Instance<HasAttributesOnRuleComplementDto>();
-      var analysis = new AnalysisBuilder()
+      var projectAnalysis = Substitute.For<ISpecificKindOfRuleAnalysis<ProjectScopedRuleUnionDto>>();
+      var analysis = new AnalysisBuilder
       {
-        ProjectScopedRuleSet = projectScopedRuleSet,
-        Factory = ruleFactory
+        ProjectAnalysis = projectAnalysis,
       }.Build();
 
-      ruleFactory.CreateProjectScopedRuleFrom(ruleDto1).Returns(rule1);
-      ruleFactory.CreateProjectScopedRuleFrom(ruleDto2).Returns(rule2);
-      ruleFactory.CreateProjectScopedRuleFrom(ruleDto3).Returns(rule3);
-      
       var ruleDtos = new[]
       {
         ProjectScopedRuleUnionDto.With(ruleDto1),
@@ -173,9 +149,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       analysis.AddProjectScopedRules(ruleDtos);
 
       //THEN
-      projectScopedRuleSet.Received(1).Add(rule1);
-      projectScopedRuleSet.Received(1).Add(rule2);
-      projectScopedRuleSet.Received(1).Add(rule3);
+      projectAnalysis.Received(1).Add(ruleDtos);
     }
     
     [Fact]

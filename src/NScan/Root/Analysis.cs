@@ -23,20 +23,16 @@ namespace NScan.Domain.Root
 
     public Analysis(
       ISolution solution,
-      IPathRuleSet pathRules,
-      IProjectScopedRuleSet projectScopedRules,
-      INamespacesBasedRuleSet namespacesBasedRuleSet,
-      IAnalysisReportInProgress analysisReportInProgress,
-      IRuleFactory ruleFactory)
+      IAnalysisReportInProgress analysisReportInProgress, 
+      ISpecificKindOfRuleAnalysis<DependencyPathBasedRuleUnionDto> dependencyAnalysis, 
+      ISpecificKindOfRuleAnalysis<ProjectScopedRuleUnionDto> projectAnalysis, 
+      ISpecificKindOfRuleAnalysis<NamespaceBasedRuleUnionDto> projectNamespacesAnalysis)
     {
       _solution = solution;
       _analysisReportInProgress = analysisReportInProgress;
-      var namespaceBasedRuleFactory = (INamespaceBasedRuleFactory)ruleFactory;
-      var projectScopedRuleFactory = (IProjectScopedRuleFactory)ruleFactory;
-      var dependencyBasedRuleFactory = (IDependencyBasedRuleFactory)ruleFactory;
-      _dependencyAnalysis = new DependencyAnalysis(pathRules, dependencyBasedRuleFactory);
-      _projectAnalysis = new ProjectAnalysis(projectScopedRules, projectScopedRuleFactory);
-      _projectNamespacesAnalysis = new ProjectNamespacesAnalysis(namespacesBasedRuleSet, namespaceBasedRuleFactory);
+      _dependencyAnalysis = dependencyAnalysis;
+      _projectAnalysis = projectAnalysis;
+      _projectNamespacesAnalysis = projectNamespacesAnalysis;
     }
 
     public string Report => _analysisReportInProgress.AsString();
@@ -49,14 +45,17 @@ namespace NScan.Domain.Root
         new CsharpWorkspaceModel(support, new RuleViolationFactory(new PlainReportFragmentsFormat()))
           .CreateProjectsDictionaryFrom(csharpProjectDtos);
 
+      IRuleFactory ruleFactory = new RuleFactory();
+      IDependencyBasedRuleFactory dependencyBasedRuleFactory = ruleFactory;
+      IProjectScopedRuleFactory projectScopedRuleFactory = ruleFactory;
+      INamespaceBasedRuleFactory namespaceBasedRuleFactory = ruleFactory;
       return new Analysis(new DotNetStandardSolution(projects,
           new PathCache(
             new DependencyPathFactory())),
-        new PathRuleSet(), 
-        new ProjectScopedRuleSet(), 
-        new NamespacesBasedRuleSet(),
-        new AnalysisReportInProgress(),
-        new RuleFactory());
+        new AnalysisReportInProgress(), 
+        new DependencyAnalysis(new PathRuleSet(), dependencyBasedRuleFactory), 
+        new ProjectAnalysis(new ProjectScopedRuleSet(), projectScopedRuleFactory), 
+        new ProjectNamespacesAnalysis(new NamespacesBasedRuleSet(), namespaceBasedRuleFactory));
     }
 
     public void Run()
