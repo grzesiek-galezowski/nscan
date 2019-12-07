@@ -10,12 +10,18 @@ using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
 namespace NScan.Domain.Root
 {
-  public class RuleFactory : IRuleFactory
+  public class RuleFactory : IRuleFactory, IDependencyBasedRuleFactory, IProjectScopedRuleFactory, INamespaceBasedRuleFactory
   {
+    private readonly IRuleViolationFactory _ruleViolationFactory;
+
+    public RuleFactory(IRuleViolationFactory ruleViolationFactory)
+    {
+      _ruleViolationFactory = ruleViolationFactory;
+    }
+
     public const string ProjectDependencyType = "project";
     public const string PackageDependencyType = "package";
     public const string AssemblyDependencyType = "assembly";
-
 
     public IDependencyRule CreateDependencyRuleFrom(IndependentRuleComplementDto independentRuleComplementDto)
     {
@@ -56,10 +62,10 @@ namespace NScan.Domain.Root
 
     public IProjectScopedRule CreateProjectScopedRuleFrom(HasAttributesOnRuleComplementDto ruleDto)
     {
+      //bug use Metadata class?
       return new ProjectScopedRuleApplicableToMatchingProject(
         ruleDto.ProjectAssemblyNamePattern,
-        new ProjectSourceCodeFilesRelatedRule($"{ruleDto.ProjectAssemblyNamePattern.Description()} {ruleDto.RuleName} " +
-          $"{ruleDto.ClassNameInclusionPattern.Description()}:{ruleDto.MethodNameInclusionPattern.Description()}",
+        new ProjectSourceCodeFilesRelatedRule(HasAttributesOnRuleMetadata.Format(ruleDto),
           new MethodsOfMatchingClassesAreDecoratedWithAttributeCheck(ruleDto)));
     }
 
@@ -69,7 +75,7 @@ namespace NScan.Domain.Root
         new ProjectScopedRuleApplicableToMatchingProject(
           ruleDto.ProjectAssemblyNamePattern,
           new HasTargetFrameworkRule(ruleDto.TargetFramework, 
-            RuleViolationFactory(), 
+            _ruleViolationFactory, 
             RuleDescription(ruleDto)));
     }
 
@@ -80,22 +86,17 @@ namespace NScan.Domain.Root
 
     private static string RuleDescription(CorrectNamespacesRuleComplementDto ruleDto)
     {
-      return ruleDto.ProjectAssemblyNamePattern.Description() + " " + ruleDto.RuleName;
+      return HasCorrectNamespacesRuleMetadata.Format(ruleDto);
     }
 
     public INamespacesBasedRule CreateNamespacesBasedRuleFrom(NoCircularUsingsRuleComplementDto ruleDto)
     {
-      return new NoCircularUsingsRule(ruleDto, RuleViolationFactory());
+      return new NoCircularUsingsRule(ruleDto, _ruleViolationFactory);
     }
 
     public INamespacesBasedRule CreateNamespacesBasedRuleFrom(NoUsingsRuleComplementDto ruleDto)
     {
       return new NoUsingsRule(ruleDto);
-    }
-
-    private static IRuleViolationFactory RuleViolationFactory()
-    {
-      return new RuleViolationFactory(new PlainReportFragmentsFormat());
     }
 
     private IDependencyRule CreateIndependentOfProjectRule(Pattern dependingNamePattern,
@@ -108,10 +109,10 @@ namespace NScan.Domain.Root
             dependencyNamePattern), IndependentRuleMetadata.FormatIndependentRule(dependingNamePattern, 
             dependencyType, dependencyNamePattern)), 
         dependingNamePattern,
-        RuleViolationFactory());
+        _ruleViolationFactory);
     }
 
-    private static IDependencyRule CreateIndependentOfPackageRule(
+    private IDependencyRule CreateIndependentOfPackageRule(
       Pattern dependingAssemblyNamePattern,
       Glob packageNamePattern,
       string dependencyType)
@@ -120,16 +121,18 @@ namespace NScan.Domain.Root
         new DescribedCondition(
           new HasPackageReferenceMatchingCondition(packageNamePattern), 
           IndependentRuleMetadata.FormatIndependentRule(dependingAssemblyNamePattern, dependencyType, packageNamePattern)), 
-        dependingAssemblyNamePattern, RuleViolationFactory());
+        dependingAssemblyNamePattern, _ruleViolationFactory);
     }
 
-    private static IDependencyRule CreateIndependentOfAssemblyRule(
+    private IDependencyRule CreateIndependentOfAssemblyRule(
       Pattern dependingAssemblyNamePattern,
       Glob assemblyNamePattern,
       string dependencyType)
     {
       return new IndependentRule(new DescribedCondition(new HasAssemblyReferenceMatchingCondition(assemblyNamePattern), IndependentRuleMetadata.FormatIndependentRule(dependingAssemblyNamePattern, dependencyType, assemblyNamePattern)), 
-        dependingAssemblyNamePattern, RuleViolationFactory());
+        dependingAssemblyNamePattern, _ruleViolationFactory);
     }
   }
+
+
 }

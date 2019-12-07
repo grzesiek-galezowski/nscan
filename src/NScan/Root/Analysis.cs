@@ -45,7 +45,7 @@ namespace NScan.Domain.Root
         new CsharpWorkspaceModel(support, new RuleViolationFactory(new PlainReportFragmentsFormat()))
           .CreateProjectsDictionaryFrom(csharpProjectDtos);
 
-      IRuleFactory ruleFactory = new RuleFactory();
+      IRuleFactory ruleFactory = new RuleFactory(new RuleViolationFactory(new PlainReportFragmentsFormat()));
       IDependencyBasedRuleFactory dependencyBasedRuleFactory = ruleFactory;
       IProjectScopedRuleFactory projectScopedRuleFactory = ruleFactory;
       INamespaceBasedRuleFactory namespaceBasedRuleFactory = ruleFactory;

@@ -22,7 +22,7 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldCreateIndependentOfProjectRuleWithPassedIds()
     {
       //GIVEN
-      var ruleFactory = new RuleFactory();
+      var ruleFactory = new RuleFactory(new RuleViolationFactory(new PlainReportFragmentsFormat()));
       var dependingId = Any.Pattern();
       var dependencyId = Any.Instance<Glob>();
       
@@ -46,7 +46,7 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldCreateIndependentOfPackageRuleWithPassedIds()
     {
       //GIVEN
-      var ruleFactory = new RuleFactory();
+      var ruleFactory = new RuleFactory(new RuleViolationFactory(new PlainReportFragmentsFormat()));
       var dependingNamePattern = Any.Pattern();
       var packageNamePattern = Any.Instance<Glob>();
 
@@ -68,7 +68,8 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldCreateIndependentOfAssemblyRuleWithPassedIds()
     {
       //GIVEN
-      var ruleFactory = new RuleFactory();
+      var ruleViolationFactory = Any.Instance<IRuleViolationFactory>();
+      var ruleFactory = new RuleFactory(ruleViolationFactory);
       var dependingNamePattern = Any.Pattern();
       var assemblyNamePattern = Any.Instance<Glob>();
       
@@ -84,13 +85,14 @@ namespace TddXt.NScan.Specification.Domain.Root
       rule.Should().DependOnTypeChain(typeof(DescribedCondition), typeof(HasAssemblyReferenceMatchingCondition));
       rule.Should().DependOn(dependingNamePattern);
       rule.Should().DependOn(assemblyNamePattern);
+      rule.Should().DependOn(ruleViolationFactory);
     }
 
     [Fact]
     public void ShouldCreateCorrectNamespacesRule()
     {
       //GIVEN
-      var ruleFactory = new RuleFactory();
+      var ruleFactory = new RuleFactory(Any.Instance<IRuleViolationFactory>());
       var ruleDto = Any.Instance<CorrectNamespacesRuleComplementDto>();
 
       //WHEN
@@ -106,7 +108,7 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldCreateNoCircularDependenciesRule()
     {
       //GIVEN
-      var ruleFactory = new RuleFactory();
+      var ruleFactory = new RuleFactory(new RuleViolationFactory(new PlainReportFragmentsFormat()));
       var ruleDto = Any.Instance<NoCircularUsingsRuleComplementDto>();
 
       //WHEN
@@ -121,7 +123,7 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldCreateNoDependenciesRule()
     {
       //GIVEN
-      var ruleFactory = new RuleFactory();
+      var ruleFactory = new RuleFactory(new RuleViolationFactory(new PlainReportFragmentsFormat()));
       var ruleDto = Any.Instance<NoUsingsRuleComplementDto>();
 
       //WHEN
@@ -136,7 +138,7 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldCreateHasAttributesOnRuleFromDto()
     {
       //GIVEN
-      var ruleFactory = new RuleFactory();
+      var ruleFactory = new RuleFactory(Any.Instance<IRuleViolationFactory>());
       var ruleDto = Any.Instance<HasAttributesOnRuleComplementDto>();
 
       //WHEN
@@ -154,7 +156,8 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldCreateHasTargetFrameworkRuleFromDto()
     {
       //GIVEN
-      var ruleFactory = new RuleFactory();
+      var ruleViolationFactory = Any.Instance<IRuleViolationFactory>();
+      var ruleFactory = new RuleFactory(ruleViolationFactory);
       var ruleDto = Any.Instance<HasTargetFrameworkRuleComplementDto>();
 
       //WHEN
@@ -165,6 +168,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       projectScopedRule.Should().DependOn<HasTargetFrameworkRule>();
       projectScopedRule.Should().DependOn(ruleDto.ProjectAssemblyNamePattern);
       projectScopedRule.Should().DependOn(ruleDto.TargetFramework);
+      projectScopedRule.Should().DependOn(ruleViolationFactory);
     }
   }
 }
