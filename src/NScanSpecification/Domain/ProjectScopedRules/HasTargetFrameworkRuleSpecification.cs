@@ -34,8 +34,7 @@ namespace TddXt.NScan.Specification.Domain.ProjectScopedRules
     {
         //GIVEN
         var ruleDescription = Any.String();
-        var targetFramework = Any.String();
-        var rule = new HasTargetFrameworkRule(targetFramework, 
+        var rule = new HasTargetFrameworkRule(Any.String(), 
           Any.Instance<IProjectScopedRuleViolationFactory>(), 
           ruleDescription);
 
@@ -43,7 +42,7 @@ namespace TddXt.NScan.Specification.Domain.ProjectScopedRules
         var stringRepresentation = rule.ToString();
 
         //THEN
-        stringRepresentation.Should().Be(ruleDescription + " " + targetFramework);
+        stringRepresentation.Should().Be(ruleDescription);
     }
 
 
@@ -61,7 +60,7 @@ namespace TddXt.NScan.Specification.Domain.ProjectScopedRules
           var rule = new HasTargetFrameworkRule(expectedTargetFramework, violationFactory, ruleDescription);
 
           violationFactory.ProjectScopedRuleViolation(
-            ruleDescription + " " + expectedTargetFramework, $"Project {assemblyName} has target framework {targetFramework}").Returns(violation);
+            ruleDescription, $"Project {assemblyName} has target framework {targetFramework}").Returns(violation);
 
           //WHEN
           rule.ApplyTo(assemblyName, targetFramework, analysisReportInProgress);

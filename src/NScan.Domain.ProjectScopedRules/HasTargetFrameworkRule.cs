@@ -7,7 +7,6 @@ namespace NScan.ProjectScopedRules
     void ApplyTo(string assemblyName, string targetFramework, IAnalysisReportInProgress report);
   }
 
-
   public class HasTargetFrameworkRule : IProjectScopedRule, ITargetFrameworkCheck
   {
     private readonly string _expectedTargetFramework;
@@ -41,7 +40,7 @@ namespace NScan.ProjectScopedRules
 
     public override string ToString()
     {
-      return $"{_ruleDescription} {_expectedTargetFramework}";
+      return _ruleDescription;
     }
   }
 }

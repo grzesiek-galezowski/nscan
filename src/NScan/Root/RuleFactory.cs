@@ -56,7 +56,7 @@ namespace NScan.Domain.Root
     public IProjectScopedRule CreateProjectScopedRuleFrom(CorrectNamespacesRuleComplementDto ruleDto)
     {
       return new ProjectScopedRuleApplicableToMatchingProject(ruleDto.ProjectAssemblyNamePattern, 
-        new ProjectSourceCodeFilesRelatedRule(RuleDescription(ruleDto), 
+        new ProjectSourceCodeFilesRelatedRule(HasCorrectNamespacesRuleMetadata.Format(ruleDto), 
         new CorrectNamespacesInFileCheck()));
     }
 
@@ -76,17 +76,7 @@ namespace NScan.Domain.Root
           ruleDto.ProjectAssemblyNamePattern,
           new HasTargetFrameworkRule(ruleDto.TargetFramework, 
             _ruleViolationFactory, 
-            RuleDescription(ruleDto)));
-    }
-
-    private string RuleDescription(HasTargetFrameworkRuleComplementDto ruleDto)
-    {
-      return ruleDto.ProjectAssemblyNamePattern.Description() + " " + ruleDto.RuleName;
-    }
-
-    private static string RuleDescription(CorrectNamespacesRuleComplementDto ruleDto)
-    {
-      return HasCorrectNamespacesRuleMetadata.Format(ruleDto);
+            HasTargetFrameworkRuleMetadata.Format(ruleDto)));
     }
 
     public INamespacesBasedRule CreateNamespacesBasedRuleFrom(NoCircularUsingsRuleComplementDto ruleDto)
