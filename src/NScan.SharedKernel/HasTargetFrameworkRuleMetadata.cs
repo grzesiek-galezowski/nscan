@@ -1,4 +1,3 @@
-using NScan.SharedKernel.RuleDtos;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
 namespace NScan.SharedKernel

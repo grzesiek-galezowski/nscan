@@ -9,7 +9,9 @@ namespace NScan.Domain.Root
 {
   public class CreateRuleMappingVisitor : IRuleDtoVisitor
   {
-    private readonly IRuleFactory _ruleFactory;
+    private readonly INamespaceBasedRuleFactory _namespaceBasedRuleFactory;
+    private readonly IProjectScopedRuleFactory _projectScopedRuleFactory;
+    private readonly IDependencyBasedRuleFactory _dependencyBasedRuleFactory;
     private readonly INamespacesBasedRuleSet _namespacesBasedRuleSet;
     private readonly IProjectScopedRuleSet _projectScopedRules;
     private readonly IPathRuleSet _pathRules;
@@ -20,7 +22,9 @@ namespace NScan.Domain.Root
       IProjectScopedRuleSet projectScopedRules, 
       IPathRuleSet pathRules)
     {
-      _ruleFactory = ruleFactory;
+      _namespaceBasedRuleFactory = (INamespaceBasedRuleFactory)ruleFactory;
+      _dependencyBasedRuleFactory = (IDependencyBasedRuleFactory)ruleFactory;
+      _projectScopedRuleFactory = (IProjectScopedRuleFactory)ruleFactory;
       _namespacesBasedRuleSet = namespacesBasedRuleSet;
       _projectScopedRules = projectScopedRules;
       _pathRules = pathRules;
@@ -28,37 +32,37 @@ namespace NScan.Domain.Root
 
     public void Visit(HasTargetFrameworkRuleComplementDto arg)
     {
-      var rule = _ruleFactory.CreateProjectScopedRuleFrom(arg);
+      var rule = _projectScopedRuleFactory.CreateProjectScopedRuleFrom(arg);
       _projectScopedRules.Add(rule);
     }
 
     public void Visit(HasAttributesOnRuleComplementDto dto)
     {
-      var rule = _ruleFactory.CreateProjectScopedRuleFrom(dto);
+      var rule = _projectScopedRuleFactory.CreateProjectScopedRuleFrom(dto);
       _projectScopedRules.Add(rule);
     }
 
     public void Visit(NoCircularUsingsRuleComplementDto dto)
     {
-      var rule = _ruleFactory.CreateNamespacesBasedRuleFrom(dto);
+      var rule = _namespaceBasedRuleFactory.CreateNamespacesBasedRuleFrom(dto);
       _namespacesBasedRuleSet.Add(rule);
     }
 
     public void Visit(NoUsingsRuleComplementDto dto)
     {
-      var rule = _ruleFactory.CreateNamespacesBasedRuleFrom(dto);
+      var rule = _namespaceBasedRuleFactory.CreateNamespacesBasedRuleFrom(dto);
       _namespacesBasedRuleSet.Add(rule);
     }
 
     public void Visit(CorrectNamespacesRuleComplementDto dto)
     {
-      var rule = _ruleFactory.CreateProjectScopedRuleFrom(dto);
+      var rule = _projectScopedRuleFactory.CreateProjectScopedRuleFrom(dto);
       _projectScopedRules.Add(rule);
     }
 
     public void Visit(IndependentRuleComplementDto dto)
     {
-      var rule = _ruleFactory.CreateDependencyRuleFrom(dto);
+      var rule = _dependencyBasedRuleFactory.CreateDependencyRuleFrom(dto);
       _pathRules.Add(rule);
     }
   }

@@ -1,6 +1,5 @@
 using GlobExpressions;
 using NScan.Lib;
-using NScan.SharedKernel.RuleDtos;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 
 namespace NScan.SharedKernel
@@ -19,8 +18,7 @@ namespace NScan.SharedKernel
       string dependencyType, 
       Glob dependencyNamePattern)
     {
-      return FormatIndependentRule(dependingNamePattern.Description(), IndependentRuleMetadata.IndependentOf, dependencyType,
-        dependencyNamePattern.Pattern);
+      return FormatIndependentRule(dependingNamePattern.Description(), IndependentOf, dependencyType, dependencyNamePattern.Pattern);
     }
 
     private static string FormatIndependentRule(string projectAssemblyNamePattern, string ruleName, string dependencyType, string dependencyPattern)
