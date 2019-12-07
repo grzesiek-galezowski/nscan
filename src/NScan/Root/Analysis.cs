@@ -11,7 +11,32 @@ using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
 namespace NScan.Domain.Root
 {
-  public class Analysis
+  public class DependencyAnalysis
+  {
+    private readonly IPathRuleSet _pathRuleSet;
+    private readonly IDependencyBasedRuleFactory _dependencyBasedRuleFactory;
+
+    public DependencyAnalysis(IPathRuleSet pathRuleSet, IDependencyBasedRuleFactory dependencyBasedRuleFactory)
+    {
+      _pathRuleSet = pathRuleSet;
+      _dependencyBasedRuleFactory = dependencyBasedRuleFactory;
+    }
+
+    public void Perform(IAnalysisReportInProgress analysisReportInProgress, ISolution solution)
+    {
+      solution.Check(_pathRuleSet, analysisReportInProgress);
+    }
+
+    public void Add(IEnumerable<DependencyPathBasedRuleUnionDto> rules)
+    {
+      foreach (var ruleUnionDto in rules)
+      {
+        ruleUnionDto.Accept(new CreateDependencyBasedRuleVisitor(_dependencyBasedRuleFactory, _pathRuleSet));
+      }
+    }
+  }
+
+  public class Analysis //bug extract two more analysis classes
   {
     public const int ReturnCodeOk = 0;
     public const int ReturnCodeAnalysisFailed = -1;
@@ -24,6 +49,7 @@ namespace NScan.Domain.Root
     private readonly INamespaceBasedRuleDtoVisitor _createNamespaceBasedRuleVisitor;
     private readonly IPathBasedRuleDtoVisitor _createDependencyBasedRuleVisitor;
     private readonly IProjectScopedRuleDtoVisitor _createProjectScopedRuleVisitor;
+    private readonly DependencyAnalysis _dependencyAnalysis;
 
     public Analysis(
       ISolution solution,
@@ -45,6 +71,7 @@ namespace NScan.Domain.Root
       _createNamespaceBasedRuleVisitor = new CreateNamespaceBasedRuleVisitor(namespaceBasedRuleFactory, namespacesBasedRuleSet);
       _createDependencyBasedRuleVisitor = new CreateDependencyBasedRuleVisitor(dependencyBasedRuleFactory, pathRules);
       _createProjectScopedRuleVisitor = new CreateProjectScopedRuleVisitor(projectScopedRuleFactory, projectScopedRules);
+      _dependencyAnalysis = new DependencyAnalysis(_pathRules, dependencyBasedRuleFactory);
     }
 
     public string Report => _analysisReportInProgress.AsString();
@@ -72,30 +99,49 @@ namespace NScan.Domain.Root
       _solution.ResolveAllProjectsReferences();
       _solution.BuildCache();
       //_solution.PrintDebugInfo();
-      _solution.Check(_pathRules, _analysisReportInProgress);
-      _solution.Check(_projectScopedRules, _analysisReportInProgress);
-      _solution.Check(_namespacesBasedRuleSet, _analysisReportInProgress);
+      _dependencyAnalysis.Perform(_analysisReportInProgress, _solution);
+      CheckProject(_analysisReportInProgress, _projectScopedRules, _solution);
+      CheckNamespaces(_analysisReportInProgress, _namespacesBasedRuleSet, _solution);
+    }
+
+    private static void CheckNamespaces(IAnalysisReportInProgress analysisReportInProgress, INamespacesBasedRuleSet namespacesBasedRuleSet, ISolution solution)
+    {
+      solution.Check(namespacesBasedRuleSet, analysisReportInProgress);
+    }
+
+    private static void CheckProject(IAnalysisReportInProgress analysisReportInProgress, IProjectScopedRuleSet projectScopedRuleSet, ISolution solution)
+    {
+      solution.Check(projectScopedRuleSet, analysisReportInProgress);
     }
 
     public void AddDependencyPathRules(IEnumerable<DependencyPathBasedRuleUnionDto> rules)
     {
-      foreach (var ruleUnionDto in rules)
-      {
-        ruleUnionDto.Accept(_createDependencyBasedRuleVisitor);
-      }
+      _dependencyAnalysis.Add(rules);
     }
+
     public void AddProjectScopedRules(IEnumerable<ProjectScopedRuleUnionDto> rules)
     {
-      foreach (var ruleUnionDto in rules)
-      {
-        ruleUnionDto.Accept(_createProjectScopedRuleVisitor);
-      }
+      AddProject(_createProjectScopedRuleVisitor, rules);
     }
-    public void AddNamespaceBasedRules(IEnumerable<NamespaceBasedRuleUnionDto> rules)
+
+    private static void AddProject(IProjectScopedRuleDtoVisitor createProjectScopedRuleVisitor, IEnumerable<ProjectScopedRuleUnionDto> rules)
     {
       foreach (var ruleUnionDto in rules)
       {
-        ruleUnionDto.Accept(_createNamespaceBasedRuleVisitor);
+        ruleUnionDto.Accept(createProjectScopedRuleVisitor);
+      }
+    }
+
+    public void AddNamespaceBasedRules(IEnumerable<NamespaceBasedRuleUnionDto> rules)
+    {
+      AddNamespace(_createNamespaceBasedRuleVisitor, rules);
+    }
+
+    private static void AddNamespace(INamespaceBasedRuleDtoVisitor createNamespaceBasedRuleVisitor, IEnumerable<NamespaceBasedRuleUnionDto> rules)
+    {
+      foreach (var ruleUnionDto in rules)
+      {
+        ruleUnionDto.Accept(createNamespaceBasedRuleVisitor);
       }
     }
   }
