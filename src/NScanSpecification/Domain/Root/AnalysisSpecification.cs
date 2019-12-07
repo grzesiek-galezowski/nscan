@@ -227,5 +227,4 @@ namespace TddXt.NScan.Specification.Domain.Root
       analysisReturnCode.Should().Be(expectedCode);
     }
   }
-    
 }
