@@ -28,7 +28,7 @@ namespace NScanSpecification.Lib
       {
         return noCircularUsingsValueFactory();
       }
-      else if(ruleName == HasNoUsingsRuleMetadata.RuleName) //bug
+      else if(ruleName == HasNoUsingsRuleMetadata.HasNoUsings) //bug
       {
         return noUsingsValueFactory();
       }
@@ -57,7 +57,7 @@ namespace NScanSpecification.Lib
       {
         return noCircularUsingsValueFactory();
       }
-      else if(ruleName == HasNoUsingsRuleMetadata.RuleName)
+      else if(ruleName == HasNoUsingsRuleMetadata.HasNoUsings)
       {
         return noUsingsValueFactory();
       }

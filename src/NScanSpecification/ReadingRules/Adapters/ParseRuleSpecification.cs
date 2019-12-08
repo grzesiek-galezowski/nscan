@@ -164,12 +164,12 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
       //THEN
       ruleUnionDto.Accept(new NoUsingsRuleComplementDtoAssertion(dto =>
       {
-        dto.RuleName.Should().Be(HasNoUsingsRuleMetadata.RuleName);
+        dto.RuleName.Should().Be(HasNoUsingsRuleMetadata.HasNoUsings);
         dto.ProjectAssemblyNamePattern.Should().Be(Pattern.WithoutExclusion(depending));
         dto.FromPattern.Should().Be(Pattern.WithoutExclusion(from));
         dto.ToPattern.Should().Be(Pattern.WithoutExclusion(to));
       }));
-      ruleUnionDto.RuleName.Should().Be(HasNoUsingsRuleMetadata.RuleName);
+      ruleUnionDto.RuleName.Should().Be(HasNoUsingsRuleMetadata.HasNoUsings);
     }
 
 

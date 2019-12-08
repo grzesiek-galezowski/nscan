@@ -2,8 +2,7 @@ namespace NScan.SharedKernel.RuleDtos.NamespaceBased
 {
   public static class HasNoUsingsRuleMetadata
   {
-    //bug UT
-    public const string RuleName = "hasNoUsings";
+    public const string HasNoUsings = "hasNoUsings";
 
     public static string Format(NoUsingsRuleComplementDto dto)
     {

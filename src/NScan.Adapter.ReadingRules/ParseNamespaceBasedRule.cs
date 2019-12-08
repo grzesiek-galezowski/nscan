@@ -20,7 +20,7 @@ namespace NScan.Adapter.ReadingRules
 
     private static Parser<NamespaceBasedRuleUnionDto> HasNoUsingsRuleComplement(Pattern dependingPattern)
     {
-      return Parse.String(HasNoUsingsRuleMetadata.RuleName)
+      return Parse.String(HasNoUsingsRuleMetadata.HasNoUsings)
         .Then(_ => Spaces)
         .Then(_ => 
           from fromKeyWord in Parse.String("from").Then(_ => Spaces)
