@@ -21,7 +21,7 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
     {
       //GIVEN
       var dto = Any.Instance<NoCircularUsingsRuleComplementDto>();
-      var rule = new NoCircularUsingsRule(dto, Any.Instance<IRuleViolationFactory>());
+      var rule = new NoCircularUsingsRule(dto, Any.Instance<INamespaceBasedRuleViolationFactory>());
 
       //WHEN
       var description = rule.Description();
@@ -34,7 +34,7 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
     public void ShouldReportErrorWhenNamespacesCacheContainsAnyCycles()
     {
       //GIVEN
-      var ruleViolationFactory = Substitute.For<IRuleViolationFactory>();
+      var ruleViolationFactory = Substitute.For<INamespaceBasedRuleViolationFactory>();
       var rule = new NoCircularUsingsRule(Any.Instance<NoCircularUsingsRuleComplementDto>(), ruleViolationFactory);
       var cache = Substitute.For<INamespacesDependenciesCache>();
       var report = Substitute.For<IAnalysisReportInProgress>();
@@ -56,7 +56,9 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
     public void ShouldNotReportErrorWhenNamespacesCacheContainsNoCycles()
     {
       //GIVEN
-      var rule = new NoCircularUsingsRule(Any.Instance<NoCircularUsingsRuleComplementDto>(), Any.Instance<INamespaceBasedRuleViolationFactory>());
+      var rule = new NoCircularUsingsRule(
+        Any.Instance<NoCircularUsingsRuleComplementDto>(), 
+        Any.Instance<INamespaceBasedRuleViolationFactory>());
       var cache = Substitute.For<INamespacesDependenciesCache>();
       var report = Substitute.For<IAnalysisReportInProgress>();
 

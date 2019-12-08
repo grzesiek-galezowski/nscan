@@ -14,7 +14,7 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldCreateCorrectNamespacesRule()
     {
       //GIVEN
-      var ruleFactory = new ProjectScopedRuleFactory(Any.Instance<IRuleViolationFactory>());
+      var ruleFactory = new ProjectScopedRuleFactory(Any.Instance<IProjectScopedRuleViolationFactory>());
       var ruleDto = Any.Instance<CorrectNamespacesRuleComplementDto>();
 
       //WHEN
@@ -30,7 +30,7 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldCreateHasAttributesOnRuleFromDto()
     {
       //GIVEN
-      var ruleFactory = new ProjectScopedRuleFactory(Any.Instance<IRuleViolationFactory>());
+      var ruleFactory = new ProjectScopedRuleFactory(Any.Instance<IProjectScopedRuleViolationFactory>());
       var ruleDto = Any.Instance<HasAttributesOnRuleComplementDto>();
 
       //WHEN
@@ -48,7 +48,7 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldCreateHasTargetFrameworkRuleFromDto()
     {
       //GIVEN
-      var ruleViolationFactory = Any.Instance<IRuleViolationFactory>();
+      var ruleViolationFactory = Any.Instance<IProjectScopedRuleViolationFactory>();
       var ruleFactory = new ProjectScopedRuleFactory(ruleViolationFactory);
       var ruleDto = Any.Instance<HasTargetFrameworkRuleComplementDto>();
 

@@ -67,7 +67,7 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldCreateIndependentOfAssemblyRuleWithPassedIds()
     {
       //GIVEN
-      var ruleViolationFactory = Any.Instance<IRuleViolationFactory>();
+      var ruleViolationFactory = Any.Instance<IDependencyPathRuleViolationFactory>();
       var ruleFactory = new DependencyPathRuleFactory(ruleViolationFactory);
       var dependingNamePattern = Any.Pattern();
       var assemblyNamePattern = Any.Instance<Glob>();

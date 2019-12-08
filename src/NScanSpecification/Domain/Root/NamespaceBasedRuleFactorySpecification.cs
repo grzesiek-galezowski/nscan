@@ -31,7 +31,7 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldCreateNoUsingsRule()
     {
       //GIVEN
-      var ruleFactory = new NamespaceBasedRuleFactory(new RuleViolationFactory(new PlainReportFragmentsFormat()));
+      var ruleFactory = new NamespaceBasedRuleFactory(Any.Instance<INamespaceBasedRuleViolationFactory>());
       var ruleDto = Any.Instance<NoUsingsRuleComplementDto>();
 
       //WHEN

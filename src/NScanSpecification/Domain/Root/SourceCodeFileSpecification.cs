@@ -24,7 +24,7 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldReportIncorrectNamespaceWhenIsInRootFolderAndItsOnlyNamespaceDoesNotMatchRootNamespace()
     {
       //GIVEN
-      var ruleViolationFactory = Substitute.For<IRuleViolationFactory>();
+      var ruleViolationFactory = Substitute.For<IProjectScopedRuleViolationFactory>();
       var parentProjectAssemblyName = Any.String();
       var parentProjectRootNamespace = Any.String();
       var pathRelativeToProjectRoot = Any.Instance<RelativeFilePath>();
@@ -60,7 +60,7 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldReportErrorWhenFileDeclaresNoNamespaces()
     {
       //GIVEN
-      var ruleViolationFactory = Substitute.For<IRuleViolationFactory>();
+      var ruleViolationFactory = Substitute.For<IProjectScopedRuleViolationFactory>();
       var parentProjectAssemblyName = Any.String();
       var parentProjectRootNamespace = Any.String();
       var pathRelativeToProjectRoot = Any.Instance<RelativeFilePath>();
@@ -95,7 +95,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       //GIVEN
       var namespace1 = Any.String();
       var namespace2 = Any.String();
-      var ruleViolationFactory = Substitute.For<IRuleViolationFactory>();
+      var ruleViolationFactory = Substitute.For<IProjectScopedRuleViolationFactory>();
       var parentProjectAssemblyName = Any.String();
       var report = Substitute.For<IAnalysisReportInProgress>();
       var ruleDescription = Any.String();

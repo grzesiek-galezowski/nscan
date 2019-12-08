@@ -19,7 +19,7 @@ namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
       //GIVEN
       var dependencyCondition = Substitute.For<IDescribedDependencyCondition>();
       var dependingAssemblyNamePattern = Any.Pattern();
-      var rule = new IndependentRule(dependencyCondition, dependingAssemblyNamePattern, Any.Instance<IRuleViolationFactory>());
+      var rule = new IndependentRule(dependencyCondition, dependingAssemblyNamePattern, Any.Instance<IDependencyPathRuleViolationFactory>());
       var report = Substitute.For<IAnalysisReportInProgress>();
       var projectDependencyPath = Substitute.For<IProjectDependencyPath>();
 
@@ -40,7 +40,7 @@ namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
       var dependencyCondition = Substitute.For<IDescribedDependencyCondition>();
       var conditionDescription = Any.String();
       var dependingAssemblyNamePattern = Any.Pattern();
-      var ruleViolationFactory = Substitute.For<IRuleViolationFactory>();
+      var ruleViolationFactory = Substitute.For<IDependencyPathRuleViolationFactory>();
       var rule = new IndependentRule(dependencyCondition, dependingAssemblyNamePattern, ruleViolationFactory);
       var report = Substitute.For<IAnalysisReportInProgress>();
       var projectDependencyPath = Substitute.For<IProjectDependencyPath>();
@@ -80,7 +80,10 @@ namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
       var dependencyCondition = Substitute.For<IDescribedDependencyCondition>();
       var conditionDescription = Any.String();
       var dependingAssemblyNamePattern = Any.Pattern();
-      var rule = new IndependentRule(dependencyCondition, dependingAssemblyNamePattern, Any.Instance<IRuleViolationFactory>());
+      var rule = new IndependentRule(
+        dependencyCondition, 
+        dependingAssemblyNamePattern, 
+        Any.Instance<IDependencyPathRuleViolationFactory>());
       var report = Substitute.For<IAnalysisReportInProgress>();
       var projectDependencyPath = Substitute.For<IProjectDependencyPath>();
       var dependingAssembly = Substitute.For<IProjectSearchResult>();

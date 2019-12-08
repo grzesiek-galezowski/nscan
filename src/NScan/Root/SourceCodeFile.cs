@@ -38,6 +38,7 @@ namespace NScan.Domain.Root
 
     public void EvaluateNamespacesCorrectness(IAnalysisReportInProgress report, string ruleDescription)
     {
+      //bug get rid of this code here. Move this to rule as another interface
       if (_declaredNamespaces.Count == 0)
       {
         report.Add(_ruleViolationFactory.ProjectScopedRuleViolation(ruleDescription, 
