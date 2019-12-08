@@ -1,7 +1,6 @@
-using NScan.ProjectScopedRules;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
-namespace NScan.Domain.Root
+namespace NScan.ProjectScopedRules
 {
   //bug move to specific project
   public class ProjectScopedRuleFactory : IProjectScopedRuleFactory

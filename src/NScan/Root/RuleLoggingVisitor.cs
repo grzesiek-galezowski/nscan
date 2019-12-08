@@ -1,3 +1,6 @@
+using NScan.DependencyPathBasedRules;
+using NScan.NamespaceBasedRules;
+using NScan.ProjectScopedRules;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.RuleDtos;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;

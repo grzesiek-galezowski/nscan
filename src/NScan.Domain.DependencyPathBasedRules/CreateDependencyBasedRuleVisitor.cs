@@ -1,7 +1,6 @@
-using NScan.DependencyPathBasedRules;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 
-namespace NScan.Domain.Root
+namespace NScan.DependencyPathBasedRules
 {
   public class CreateDependencyBasedRuleVisitor : IPathBasedRuleDtoVisitor
   {

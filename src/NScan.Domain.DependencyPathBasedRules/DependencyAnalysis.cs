@@ -1,9 +1,8 @@
 using System.Collections.Generic;
-using NScan.DependencyPathBasedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 
-namespace NScan.Domain.Root
+namespace NScan.DependencyPathBasedRules
 {
   public interface IDependencyAnalysis
   {

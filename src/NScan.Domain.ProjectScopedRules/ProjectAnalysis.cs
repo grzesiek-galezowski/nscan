@@ -1,9 +1,8 @@
 using System.Collections.Generic;
-using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
-namespace NScan.Domain.Root
+namespace NScan.ProjectScopedRules
 {
   public interface IProjectAnalysis
   {

@@ -1,9 +1,8 @@
 using GlobExpressions;
-using NScan.DependencyPathBasedRules;
 using NScan.Lib;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 
-namespace NScan.Domain.Root
+namespace NScan.DependencyPathBasedRules
 {
   public class DependencyPathRuleFactory : IDependencyBasedRuleFactory
   {

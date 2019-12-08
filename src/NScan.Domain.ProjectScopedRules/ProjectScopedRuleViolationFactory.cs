@@ -1,7 +1,6 @@
-using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 
-namespace NScan.Domain.Root
+namespace NScan.ProjectScopedRules
 {
   public class ProjectScopedRuleViolationFactory : IProjectScopedRuleViolationFactory
   {

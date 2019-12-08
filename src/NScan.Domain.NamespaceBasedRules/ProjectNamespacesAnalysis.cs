@@ -1,9 +1,8 @@
 using System.Collections.Generic;
-using NScan.NamespaceBasedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 
-namespace NScan.Domain.Root
+namespace NScan.NamespaceBasedRules
 {
   public interface IProjectNamespacesAnalysis
   {

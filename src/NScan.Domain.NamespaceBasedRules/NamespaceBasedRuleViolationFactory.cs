@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
-using NScan.NamespaceBasedRules;
 using NScan.SharedKernel;
 
-namespace NScan.Domain.Root
+namespace NScan.NamespaceBasedRules
 {
   public class NamespaceBasedRuleViolationFactory : INamespaceBasedRuleViolationFactory
   {

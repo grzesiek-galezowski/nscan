@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using NScan.DependencyPathBasedRules;
 
-namespace NScan.Domain.Root
+namespace NScan.DependencyPathBasedRules
 {
   public interface IDependencyPathReportFragmentsFormat
   {

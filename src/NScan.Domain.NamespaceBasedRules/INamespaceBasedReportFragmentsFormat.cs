@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace NScan.Domain.Root
+namespace NScan.NamespaceBasedRules
 {
   public interface INamespaceBasedReportFragmentsFormat
   {

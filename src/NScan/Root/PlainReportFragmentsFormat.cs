@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NScan.DependencyPathBasedRules;
 using NScan.Lib;
+using NScan.NamespaceBasedRules;
 
 namespace NScan.Domain.Root
 {

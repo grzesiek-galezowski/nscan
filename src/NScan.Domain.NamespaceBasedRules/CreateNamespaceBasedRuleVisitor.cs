@@ -1,7 +1,6 @@
-using NScan.NamespaceBasedRules;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 
-namespace NScan.Domain.Root
+namespace NScan.NamespaceBasedRules
 {
   public class CreateNamespaceBasedRuleVisitor : INamespaceBasedRuleDtoVisitor
   {

@@ -1,7 +1,7 @@
 using NScan.Lib.Union3;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
-namespace NScan.Domain.Root
+namespace NScan.ProjectScopedRules
 {
   public interface IProjectScopedRuleDtoVisitor : 
     IUnionVisitor<

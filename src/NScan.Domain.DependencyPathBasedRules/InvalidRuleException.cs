@@ -1,6 +1,6 @@
 using System;
 
-namespace NScan.Domain.Root
+namespace NScan.DependencyPathBasedRules
 {
   public class InvalidRuleException : Exception
   {
