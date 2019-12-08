@@ -1,8 +1,6 @@
 ﻿using System;
 using AtmaFileSystem;
-using NScan.SharedKernel;
 using NScan.SharedKernel.NotifyingSupport.Ports;
-using NScan.SharedKernel.RuleDtos;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
@@ -51,9 +49,7 @@ namespace NScan.Adapter.NotifyingSupport
 
     public void Log(NoUsingsRuleComplementDto dto)
     {
-      //bug
-      Console.WriteLine($"{DiscoveredRule}{dto.ProjectAssemblyNamePattern.Description()} " +
-                        $"hasNoUsings from {dto.FromPattern.Description()} to {dto.ToPattern.Description()}");
+      Console.WriteLine($"{DiscoveredRule}{HasNoUsingsRuleMetadata.Format(dto)}");
     }
   }
 }

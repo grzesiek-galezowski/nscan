@@ -58,9 +58,7 @@ namespace Cake.NScan
 
     public void Log(NoUsingsRuleComplementDto dto)
     {
-      //bug duplication
-      Log($"{dto.ProjectAssemblyNamePattern.Description()} " +
-                        $"hasNoUsings from {dto.FromPattern.Description()} to {dto.ToPattern.Description()}");
+      Log(HasNoUsingsRuleMetadata.Format(dto));
     }
 
     private void Log(string ruleDescription)

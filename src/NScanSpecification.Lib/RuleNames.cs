@@ -1,5 +1,8 @@
 ﻿using System;
 using NScan.SharedKernel;
+using NScan.SharedKernel.RuleDtos.DependencyPathBased;
+using NScan.SharedKernel.RuleDtos.NamespaceBased;
+using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
 namespace NScanSpecification.Lib
 {
@@ -25,7 +28,7 @@ namespace NScanSpecification.Lib
       {
         return noCircularUsingsValueFactory();
       }
-      else if(ruleName == "hasNoUsings") //bug
+      else if(ruleName == HasNoUsingsRuleMetadata.RuleName) //bug
       {
         return noUsingsValueFactory();
       }
@@ -54,7 +57,7 @@ namespace NScanSpecification.Lib
       {
         return noCircularUsingsValueFactory();
       }
-      else if(ruleName == "hasNoUsings") //bug
+      else if(ruleName == HasNoUsingsRuleMetadata.RuleName)
       {
         return noUsingsValueFactory();
       }

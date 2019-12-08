@@ -5,7 +5,6 @@ using NScan.SharedKernel.RuleDtos.NamespaceBased;
 
 namespace NScan.Domain.Root
 {
-  //bug UT
   public class ProjectNamespacesAnalysis : ISpecificKindOfRuleAnalysis<NamespaceBasedRuleUnionDto>
   {
     private readonly INamespacesBasedRuleSet _namespacesBasedRuleSet;

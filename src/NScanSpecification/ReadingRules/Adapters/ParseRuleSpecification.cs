@@ -4,6 +4,9 @@ using FluentAssertions;
 using NScan.Adapter.ReadingRules;
 using NScan.Lib;
 using NScan.SharedKernel;
+using NScan.SharedKernel.RuleDtos.DependencyPathBased;
+using NScan.SharedKernel.RuleDtos.NamespaceBased;
+using NScan.SharedKernel.RuleDtos.ProjectScoped;
 using NScanSpecification.Lib.AutomationLayer;
 using Sprache;
 using TddXt.AnyRoot.Strings;
@@ -161,12 +164,12 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
       //THEN
       ruleUnionDto.Accept(new NoUsingsRuleComplementDtoAssertion(dto =>
       {
-        dto.RuleName.Should().Be("hasNoUsings" /* bug */);
+        dto.RuleName.Should().Be(HasNoUsingsRuleMetadata.RuleName);
         dto.ProjectAssemblyNamePattern.Should().Be(Pattern.WithoutExclusion(depending));
         dto.FromPattern.Should().Be(Pattern.WithoutExclusion(from));
         dto.ToPattern.Should().Be(Pattern.WithoutExclusion(to));
       }));
-      ruleUnionDto.RuleName.Should().Be("hasNoUsings" /* bug */);
+      ruleUnionDto.RuleName.Should().Be(HasNoUsingsRuleMetadata.RuleName);
     }
 
 

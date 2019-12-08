@@ -2,11 +2,9 @@ using System.Collections.Generic;
 using NScan.DependencyPathBasedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
-using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
 namespace NScan.Domain.Root
 {
-  //bug UT
   public class DependencyAnalysis : ISpecificKindOfRuleAnalysis<DependencyPathBasedRuleUnionDto>
   {
     private readonly IPathRuleSet _pathRuleSet;

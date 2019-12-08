@@ -1,8 +1,5 @@
 using System.Collections.Generic;
-using System.Net.Mail;
-using Functional.Maybe;
 using NScan.Lib;
-using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using Sprache;
 
@@ -15,8 +12,7 @@ namespace NScan.Adapter.ReadingRules
     private static readonly Parser<IEnumerable<char>> Spaces = Parse.WhiteSpace.AtLeastOnce();
     private static readonly Parser<string> TextUntilWhitespace = Parse.AnyChar.Until(Spaces).Text();
 
-    public static Parser<NamespaceBasedRuleUnionDto> Complement(
-      Pattern dependingPattern)
+    public static Parser<NamespaceBasedRuleUnionDto> Complement(Pattern dependingPattern)
     {
       return HasNoCircularUsingsRuleComplement(dependingPattern)
         .Or(HasNoUsingsRuleComplement(dependingPattern));
@@ -24,7 +20,7 @@ namespace NScan.Adapter.ReadingRules
 
     private static Parser<NamespaceBasedRuleUnionDto> HasNoUsingsRuleComplement(Pattern dependingPattern)
     {
-      return Parse.String("hasNoUsings")
+      return Parse.String(HasNoUsingsRuleMetadata.RuleName)
         .Then(_ => Spaces)
         .Then(_ => 
           from fromKeyWord in Parse.String("from").Then(_ => Spaces)

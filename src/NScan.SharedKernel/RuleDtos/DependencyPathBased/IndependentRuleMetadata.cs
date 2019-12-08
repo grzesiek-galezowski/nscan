@@ -1,8 +1,7 @@
 using GlobExpressions;
 using NScan.Lib;
-using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 
-namespace NScan.SharedKernel
+namespace NScan.SharedKernel.RuleDtos.DependencyPathBased
 {
   public static class IndependentRuleMetadata
   {

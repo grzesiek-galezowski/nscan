@@ -11,7 +11,7 @@ using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
 namespace NScan.Domain.Root
 {
-  public class Analysis //bug extract two more analysis classes
+  public class Analysis
   {
     public const int ReturnCodeOk = 0;
     public const int ReturnCodeAnalysisFailed = -1;

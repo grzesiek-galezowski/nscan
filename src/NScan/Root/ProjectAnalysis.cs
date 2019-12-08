@@ -5,7 +5,6 @@ using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
 namespace NScan.Domain.Root
 {
-  //bug UT
   public class ProjectAnalysis : ISpecificKindOfRuleAnalysis<ProjectScopedRuleUnionDto>
   {
     private readonly IProjectScopedRuleSet _projectScopedRuleSet;

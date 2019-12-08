@@ -7,7 +7,7 @@ namespace NScan.SharedKernel.RuleDtos.NamespaceBased
     public Pattern ProjectAssemblyNamePattern { get; }
     public Pattern FromPattern { get; }
     public Pattern ToPattern { get; }
-    public string RuleName { get; } = "hasNoUsings"; //bug
+    public string RuleName { get; } = HasNoUsingsRuleMetadata.RuleName;
 
     public NoUsingsRuleComplementDto(Pattern projectPattern, Pattern fromPattern, Pattern toPattern)
     {

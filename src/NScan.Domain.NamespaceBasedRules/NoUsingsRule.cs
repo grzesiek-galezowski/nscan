@@ -14,11 +14,12 @@ namespace NScan.NamespaceBasedRules
 
     public string Description()
     {
-      //bug component test
-      return $"{_dto.ProjectAssemblyNamePattern.Description()} {_dto.RuleName} from {_dto.FromPattern.Description()} to {_dto.ToPattern.Description()}"; //bug
+      return HasNoUsingsRuleMetadata.Format(_dto);
     }
 
-    public void Evaluate(string projectAssemblyName, INamespacesDependenciesCache namespacesCache,
+    public void Evaluate(
+      string projectAssemblyName, 
+      INamespacesDependenciesCache namespacesCache,
       IAnalysisReportInProgress report)
     {
     }

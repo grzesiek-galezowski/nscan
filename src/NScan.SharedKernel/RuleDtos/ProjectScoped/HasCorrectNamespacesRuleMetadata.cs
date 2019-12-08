@@ -1,7 +1,4 @@
-using NScan.SharedKernel.RuleDtos;
-using NScan.SharedKernel.RuleDtos.ProjectScoped;
-
-namespace NScan.SharedKernel
+namespace NScan.SharedKernel.RuleDtos.ProjectScoped
 {
   public static class HasCorrectNamespacesRuleMetadata
   {
