@@ -1,7 +1,6 @@
 using NScan.DependencyPathBasedRules;
 using NScan.NamespaceBasedRules;
 using NScan.ProjectScopedRules;
-using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
@@ -12,11 +11,15 @@ namespace NScan.Domain.Root
   {
     private readonly IRuleViolationFactory _ruleViolationFactory;
     private readonly IDependencyBasedRuleFactory _dependencyPathRuleFactory;
+    private readonly ProjectScopedRuleFactory _projectScopedRuleFactory;
+    private readonly NamespaceBasedRuleFactory _namespaceBasedRuleFactory;
 
     public RuleFactory(IRuleViolationFactory ruleViolationFactory)
     {
       _ruleViolationFactory = ruleViolationFactory;
       _dependencyPathRuleFactory = new DependencyPathRuleFactory(ruleViolationFactory);
+      _projectScopedRuleFactory = new ProjectScopedRuleFactory(ruleViolationFactory);
+      _namespaceBasedRuleFactory = new NamespaceBasedRuleFactory(ruleViolationFactory);
     }
 
     public IDependencyRule CreateDependencyRuleFrom(IndependentRuleComplementDto independentRuleComplementDto)
@@ -26,37 +29,27 @@ namespace NScan.Domain.Root
 
     public IProjectScopedRule CreateProjectScopedRuleFrom(CorrectNamespacesRuleComplementDto ruleDto)
     {
-      return new ProjectScopedRuleApplicableToMatchingProject(ruleDto.ProjectAssemblyNamePattern, 
-        new ProjectSourceCodeFilesRelatedRule(HasCorrectNamespacesRuleMetadata.Format(ruleDto), 
-        new CorrectNamespacesInFileCheck()));
+      return _projectScopedRuleFactory.CreateProjectScopedRuleFrom(ruleDto);
     }
 
     public IProjectScopedRule CreateProjectScopedRuleFrom(HasAttributesOnRuleComplementDto ruleDto)
     {
-      return new ProjectScopedRuleApplicableToMatchingProject(
-        ruleDto.ProjectAssemblyNamePattern,
-        new ProjectSourceCodeFilesRelatedRule(HasAttributesOnRuleMetadata.Format(ruleDto),
-          new MethodsOfMatchingClassesAreDecoratedWithAttributeCheck(ruleDto)));
+      return _projectScopedRuleFactory.CreateProjectScopedRuleFrom(ruleDto);
     }
 
     public IProjectScopedRule CreateProjectScopedRuleFrom(HasTargetFrameworkRuleComplementDto ruleDto)
     {
-      return 
-        new ProjectScopedRuleApplicableToMatchingProject(
-          ruleDto.ProjectAssemblyNamePattern,
-          new HasTargetFrameworkRule(ruleDto.TargetFramework, 
-            _ruleViolationFactory, 
-            HasTargetFrameworkRuleMetadata.Format(ruleDto)));
+      return _projectScopedRuleFactory.CreateProjectScopedRuleFrom(ruleDto);
     }
 
     public INamespacesBasedRule CreateNamespacesBasedRuleFrom(NoCircularUsingsRuleComplementDto ruleDto)
     {
-      return new NoCircularUsingsRule(ruleDto, _ruleViolationFactory);
+      return _namespaceBasedRuleFactory.CreateNamespacesBasedRuleFrom(ruleDto);
     }
 
     public INamespacesBasedRule CreateNamespacesBasedRuleFrom(NoUsingsRuleComplementDto ruleDto)
     {
-      return new NoUsingsRule(ruleDto);
+      return _namespaceBasedRuleFactory.CreateNamespacesBasedRuleFrom(ruleDto);
     }
   }
 

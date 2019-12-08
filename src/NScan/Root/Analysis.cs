@@ -41,21 +41,18 @@ namespace NScan.Domain.Root
 
     public static Analysis PrepareFor(IEnumerable<CsharpProjectDto> csharpProjectDtos, INScanSupport support)
     {
+      var ruleViolationFactory = new RuleViolationFactory(new PlainReportFragmentsFormat());
       var projects = 
-        new CsharpWorkspaceModel(support, new RuleViolationFactory(new PlainReportFragmentsFormat()))
+        new CsharpWorkspaceModel(support, ruleViolationFactory)
           .CreateProjectsDictionaryFrom(csharpProjectDtos);
 
-      IRuleFactory ruleFactory = new RuleFactory(new RuleViolationFactory(new PlainReportFragmentsFormat()));
-      IDependencyBasedRuleFactory dependencyBasedRuleFactory = ruleFactory;
-      IProjectScopedRuleFactory projectScopedRuleFactory = ruleFactory;
-      INamespaceBasedRuleFactory namespaceBasedRuleFactory = ruleFactory;
       return new Analysis(new DotNetStandardSolution(projects,
           new PathCache(
             new DependencyPathFactory())),
         new AnalysisReportInProgress(), 
-        new DependencyAnalysis(new PathRuleSet(), dependencyBasedRuleFactory), 
-        new ProjectAnalysis(new ProjectScopedRuleSet(), projectScopedRuleFactory), 
-        new ProjectNamespacesAnalysis(new NamespacesBasedRuleSet(), namespaceBasedRuleFactory));
+        new DependencyAnalysis(new PathRuleSet(), new DependencyPathRuleFactory(ruleViolationFactory)), 
+        new ProjectAnalysis(new ProjectScopedRuleSet(), new ProjectScopedRuleFactory(ruleViolationFactory)), 
+        new ProjectNamespacesAnalysis(new NamespacesBasedRuleSet(), new NamespaceBasedRuleFactory(ruleViolationFactory)));
     }
 
     public void Run()
