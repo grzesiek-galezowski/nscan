@@ -1,4 +1,4 @@
-﻿namespace NScan.Lib.Union5
+﻿namespace NScan.Lib.Union6
 {
   public interface IUnionVisitor<in T1, in T2, in T3, in T4, in T5, in T6>
   {

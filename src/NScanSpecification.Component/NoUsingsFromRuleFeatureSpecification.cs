@@ -4,7 +4,7 @@ using Xunit;
 using static NScanSpecification.Lib.AutomationLayer.DependencyRuleBuilder;
 using static NScanSpecification.Lib.AutomationLayer.SourceCodeFileDtoBuilder;
 
-namespace NScanSpecification.E2E
+namespace NScanSpecification.Component
 {
   public class NoUsingsFromRuleFeatureSpecification
   {
