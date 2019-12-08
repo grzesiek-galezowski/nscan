@@ -1,7 +1,6 @@
 ﻿using NScan.Lib.Union2;
-using NScan.SharedKernel.RuleDtos.NamespaceBased;
 
-namespace NScan.SharedKernel.RuleDtos
+namespace NScan.SharedKernel.RuleDtos.NamespaceBased
 {
   public class NamespaceBasedRuleNameExtractionVisitor :
     IUnionTransformingVisitor<

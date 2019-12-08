@@ -1,7 +1,6 @@
 ﻿using NScan.Lib.Union1;
-using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 
-namespace NScan.SharedKernel.RuleDtos
+namespace NScan.SharedKernel.RuleDtos.DependencyPathBased
 {
   public class IndependentRuleNameExtractionVisitor :
     IUnionTransformingVisitor<

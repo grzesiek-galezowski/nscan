@@ -1,7 +1,6 @@
 ﻿using NScan.Lib.Union3;
-using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
-namespace NScan.SharedKernel.RuleDtos
+namespace NScan.SharedKernel.RuleDtos.ProjectScoped
 {
   public class ProjectScopedRuleNameExtractionVisitor :
     IUnionTransformingVisitor<
