@@ -11,7 +11,7 @@ namespace NScan.SharedKernel.RuleDtos.ProjectScoped
       CorrectNamespacesRuleComplementDto, 
       HasAttributesOnRuleComplementDto, 
       HasTargetFrameworkRuleComplementDto, 
-      string> _ruleNameExtractionVisitor = new RuleNameExtractionVisitor();
+      string> _ruleNameExtractionVisitor = new ProjectScopedRuleNameExtractionVisitor();
 
     public static ProjectScopedRuleUnionDto With(CorrectNamespacesRuleComplementDto dto)
     {

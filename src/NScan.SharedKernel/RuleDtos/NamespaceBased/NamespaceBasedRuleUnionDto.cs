@@ -1,5 +1,4 @@
-﻿using NScan.Lib.Union1;
-using NScan.Lib.Union2;
+﻿using NScan.Lib.Union2;
 
 namespace NScan.SharedKernel.RuleDtos.NamespaceBased
 {
@@ -11,7 +10,7 @@ namespace NScan.SharedKernel.RuleDtos.NamespaceBased
     private readonly IUnionTransformingVisitor<
       NoCircularUsingsRuleComplementDto, 
       NoUsingsRuleComplementDto, 
-      string> _ruleNameExtractionVisitor = new RuleNameExtractionVisitor();
+      string> _ruleNameExtractionVisitor = new NamespaceBasedRuleNameExtractionVisitor();
 
     public static NamespaceBasedRuleUnionDto With(NoCircularUsingsRuleComplementDto dto)
     {

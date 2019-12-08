@@ -6,7 +6,7 @@ namespace NScan.SharedKernel.RuleDtos.DependencyPathBased
     IndependentRuleComplementDto>
   {
     private readonly IUnionTransformingVisitor<IndependentRuleComplementDto, string> _ruleNameExtractionVisitor 
-      = new RuleNameExtractionVisitor();
+      = new IndependentRuleNameExtractionVisitor();
 
     public static DependencyPathBasedRuleUnionDto With(IndependentRuleComplementDto dto)
     {
