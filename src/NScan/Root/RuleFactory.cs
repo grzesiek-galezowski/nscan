@@ -62,7 +62,6 @@ namespace NScan.Domain.Root
 
     public IProjectScopedRule CreateProjectScopedRuleFrom(HasAttributesOnRuleComplementDto ruleDto)
     {
-      //bug use Metadata class?
       return new ProjectScopedRuleApplicableToMatchingProject(
         ruleDto.ProjectAssemblyNamePattern,
         new ProjectSourceCodeFilesRelatedRule(HasAttributesOnRuleMetadata.Format(ruleDto),
