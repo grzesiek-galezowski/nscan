@@ -19,12 +19,12 @@ namespace TddXt.NScan.Specification.Domain.Root
   {
     public ISolution Solution { private get; set; } = Any.Instance<ISolution>();
     public IAnalysisReportInProgress ReportInProgress { private get; set; } = Any.Instance<IAnalysisReportInProgress>();
-    public ISpecificKindOfRuleAnalysis<DependencyPathBasedRuleUnionDto> DependencyAnalysis { private get; set; } =
-      Any.Instance<ISpecificKindOfRuleAnalysis<DependencyPathBasedRuleUnionDto>>();
-    public ISpecificKindOfRuleAnalysis<ProjectScopedRuleUnionDto> ProjectAnalysis { private get; set; } =
-      Any.Instance<ISpecificKindOfRuleAnalysis<ProjectScopedRuleUnionDto>>();
-    public ISpecificKindOfRuleAnalysis<NamespaceBasedRuleUnionDto> NamespacesAnalysis { private get; set; } =
-      Any.Instance<ISpecificKindOfRuleAnalysis<NamespaceBasedRuleUnionDto>>();
+    public IDependencyAnalysis DependencyAnalysis { private get; set; } =
+      Any.Instance<IDependencyAnalysis>();
+    public IProjectAnalysis ProjectAnalysis { private get; set; } =
+      Any.Instance<IProjectAnalysis>();
+    public IProjectNamespacesAnalysis NamespacesAnalysis { private get; set; } =
+      Any.Instance<IProjectNamespacesAnalysis>();
 
     public Analysis Build()
     {
@@ -45,9 +45,9 @@ namespace TddXt.NScan.Specification.Domain.Root
       //GIVEN
       var solution = Substitute.For<ISolution>();
       var analysisReport = Any.Instance<IAnalysisReportInProgress>();
-      var projectAnalysis = Substitute.For<ISpecificKindOfRuleAnalysis<ProjectScopedRuleUnionDto>>();
-      var namespacesAnalysis = Substitute.For<ISpecificKindOfRuleAnalysis<NamespaceBasedRuleUnionDto>>();
-      var dependencyAnalysis = Substitute.For<ISpecificKindOfRuleAnalysis<DependencyPathBasedRuleUnionDto>>();
+      var projectAnalysis = Substitute.For<IProjectAnalysis>();
+      var namespacesAnalysis = Substitute.For<IProjectNamespacesAnalysis>();
+      var dependencyAnalysis = Substitute.For<IDependencyAnalysis>();
       var analysis = new AnalysisBuilder()
       {
         ReportInProgress = analysisReport,
@@ -78,7 +78,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       var ruleDto1 = Any.Instance<IndependentRuleComplementDto>();
       var ruleDto2 = Any.Instance<IndependentRuleComplementDto>();
       var ruleDto3 = Any.Instance<IndependentRuleComplementDto>();
-      var dependencyAnalysis = Substitute.For<ISpecificKindOfRuleAnalysis<DependencyPathBasedRuleUnionDto>>();
+      var dependencyAnalysis = Substitute.For<IDependencyAnalysis>();
       var analysis = new AnalysisBuilder()
       {
         DependencyAnalysis = dependencyAnalysis
@@ -105,7 +105,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       var ruleDto1 = Any.Instance<NoCircularUsingsRuleComplementDto>();
       var ruleDto2 = Any.Instance<NoUsingsRuleComplementDto>();
       var ruleDto3 = Any.Instance<NoCircularUsingsRuleComplementDto>();
-      var namespacesAnalysis = Substitute.For<ISpecificKindOfRuleAnalysis<NamespaceBasedRuleUnionDto>>();
+      var namespacesAnalysis = Substitute.For<IProjectNamespacesAnalysis>();
       var analysis = new AnalysisBuilder()
       {
         NamespacesAnalysis = namespacesAnalysis,
@@ -132,7 +132,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       var ruleDto1 = Any.Instance<CorrectNamespacesRuleComplementDto>();
       var ruleDto2 = Any.Instance<HasTargetFrameworkRuleComplementDto>();
       var ruleDto3 = Any.Instance<HasAttributesOnRuleComplementDto>();
-      var projectAnalysis = Substitute.For<ISpecificKindOfRuleAnalysis<ProjectScopedRuleUnionDto>>();
+      var projectAnalysis = Substitute.For<IProjectAnalysis>();
       var analysis = new AnalysisBuilder
       {
         ProjectAnalysis = projectAnalysis,

@@ -17,16 +17,16 @@ namespace NScan.Domain.Root
     public const int ReturnCodeAnalysisFailed = -1;
     private readonly IAnalysisReportInProgress _analysisReportInProgress;
     private readonly ISolution _solution;
-    private readonly ISpecificKindOfRuleAnalysis<DependencyPathBasedRuleUnionDto> _dependencyAnalysis;
-    private readonly ISpecificKindOfRuleAnalysis<ProjectScopedRuleUnionDto> _projectAnalysis;
-    private readonly ISpecificKindOfRuleAnalysis<NamespaceBasedRuleUnionDto>  _projectNamespacesAnalysis;
+    private readonly IDependencyAnalysis _dependencyAnalysis;
+    private readonly IProjectAnalysis _projectAnalysis;
+    private readonly IProjectNamespacesAnalysis  _projectNamespacesAnalysis;
 
     public Analysis(
       ISolution solution,
       IAnalysisReportInProgress analysisReportInProgress, 
-      ISpecificKindOfRuleAnalysis<DependencyPathBasedRuleUnionDto> dependencyAnalysis, 
-      ISpecificKindOfRuleAnalysis<ProjectScopedRuleUnionDto> projectAnalysis, 
-      ISpecificKindOfRuleAnalysis<NamespaceBasedRuleUnionDto> projectNamespacesAnalysis)
+      IDependencyAnalysis dependencyAnalysis, 
+      IProjectAnalysis projectAnalysis, 
+      IProjectNamespacesAnalysis projectNamespacesAnalysis)
     {
       _solution = solution;
       _analysisReportInProgress = analysisReportInProgress;

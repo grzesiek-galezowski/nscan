@@ -5,7 +5,13 @@ using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 
 namespace NScan.Domain.Root
 {
-  public class DependencyAnalysis : ISpecificKindOfRuleAnalysis<DependencyPathBasedRuleUnionDto>
+  public interface IDependencyAnalysis
+  {
+    void PerformOn(ISolution solution, IAnalysisReportInProgress analysisReportInProgress);
+    void Add(IEnumerable<DependencyPathBasedRuleUnionDto> rules);
+  }
+
+  public class DependencyAnalysis : IDependencyAnalysis
   {
     private readonly IPathRuleSet _pathRuleSet;
     private readonly IDependencyBasedRuleFactory _dependencyBasedRuleFactory;

@@ -5,7 +5,13 @@ using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
 namespace NScan.Domain.Root
 {
-  public class ProjectAnalysis : ISpecificKindOfRuleAnalysis<ProjectScopedRuleUnionDto>
+  public interface IProjectAnalysis
+  {
+    void PerformOn(ISolution solution, IAnalysisReportInProgress analysisReportInProgress);
+    void Add(IEnumerable<ProjectScopedRuleUnionDto> rules);
+  }
+
+  public class ProjectAnalysis : IProjectAnalysis
   {
     private readonly IProjectScopedRuleSet _projectScopedRuleSet;
     private readonly IProjectScopedRuleFactory _projectScopedRuleFactory;
