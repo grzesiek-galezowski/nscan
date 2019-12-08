@@ -21,11 +21,13 @@ variables:
 
 steps:
 
-- task: DotNetCoreInstaller@0
+steps:
+- task: UseDotNet@2
+  displayName: 'Use .NET Core sdk'
   inputs:
-    packageType: 'sdk'
-    version: '3.0.100-preview7-012821' 
-  displayName: Install .NET Core 3
+    packageType: sdk
+    version: 3.1
+    installationPath: $(Agent.ToolsDirectory)/dotnet
 
 - script: |
     powershell ./build.ps1
