@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
-using TddXt.AnyRoot;
 using Xunit;
+using static TddXt.AnyRoot.Root;
 
 namespace TddXt.NScan.Specification.ReadingRules.Ports
 {
@@ -17,7 +17,7 @@ namespace TddXt.NScan.Specification.ReadingRules.Ports
     public static void ShouldProvideFormattedDescriptionOfIndependentRuleDto()
     {
       //GIVEN
-      var dto = Root.Any.Instance<NoUsingsRuleComplementDto>();
+      var dto = Any.Instance<NoUsingsRuleComplementDto>();
       
       //WHEN
       var text = HasNoUsingsRuleMetadata.Format(dto);

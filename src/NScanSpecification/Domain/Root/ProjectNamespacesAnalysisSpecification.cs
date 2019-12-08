@@ -5,6 +5,7 @@ using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NSubstitute;
 using Xunit;
+using static TddXt.AnyRoot.Root;
 
 namespace TddXt.NScan.Specification.Domain.Root
 {
@@ -17,18 +18,18 @@ namespace TddXt.NScan.Specification.Domain.Root
       var ruleSet = Substitute.For<INamespacesBasedRuleSet>();
       var ruleFactory = Substitute.For<INamespaceBasedRuleFactory>();
       var analysis = new ProjectNamespacesAnalysis(ruleSet, ruleFactory);
-      var dto1 = AnyRoot.Root.Any.Instance<NoUsingsRuleComplementDto>();
-      var dto2 = AnyRoot.Root.Any.Instance<NoCircularUsingsRuleComplementDto>();
-      var dto3 = AnyRoot.Root.Any.Instance<NoUsingsRuleComplementDto>();
+      var dto1 = Any.Instance<NoUsingsRuleComplementDto>();
+      var dto2 = Any.Instance<NoCircularUsingsRuleComplementDto>();
+      var dto3 = Any.Instance<NoUsingsRuleComplementDto>();
       var projectScopedRuleUnionDtos = new List<NamespaceBasedRuleUnionDto>()
       {
         NamespaceBasedRuleUnionDto.With(dto1), 
         NamespaceBasedRuleUnionDto.With(dto2), 
         NamespaceBasedRuleUnionDto.With(dto3)
       };
-      var rule1 = AnyRoot.Root.Any.Instance<INamespacesBasedRule>();
-      var rule2 = AnyRoot.Root.Any.Instance<INamespacesBasedRule>();
-      var rule3 = AnyRoot.Root.Any.Instance<INamespacesBasedRule>();
+      var rule1 = Any.Instance<INamespacesBasedRule>();
+      var rule2 = Any.Instance<INamespacesBasedRule>();
+      var rule3 = Any.Instance<INamespacesBasedRule>();
 
       ruleFactory.CreateNamespacesBasedRuleFrom(dto1).Returns(rule1);
       ruleFactory.CreateNamespacesBasedRuleFrom(dto2).Returns(rule2);
@@ -50,11 +51,11 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldApplyTheRulesetToSolution()
     {
       //GIVEN
-      var ruleSet = AnyRoot.Root.Any.Instance<INamespacesBasedRuleSet>();
-      var projectAnalysis = new ProjectNamespacesAnalysis(ruleSet, AnyRoot.Root.Any.Instance<INamespaceBasedRuleFactory>());
+      var ruleSet = Any.Instance<INamespacesBasedRuleSet>();
+      var projectAnalysis = new ProjectNamespacesAnalysis(ruleSet, Any.Instance<INamespaceBasedRuleFactory>());
       var solution = Substitute.For<ISolution>();
 
-      var analysisReportInProgress = AnyRoot.Root.Any.Instance<IAnalysisReportInProgress>();
+      var analysisReportInProgress = Any.Instance<IAnalysisReportInProgress>();
 
       //WHEN
       projectAnalysis.PerformOn(solution, analysisReportInProgress);
