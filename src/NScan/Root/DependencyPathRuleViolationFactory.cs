@@ -7,9 +7,9 @@ namespace NScan.Domain.Root
   public class DependencyPathRuleViolationFactory : IDependencyPathRuleViolationFactory
   {
     //bug UT
-    private readonly IReportFragmentsFormat _reportFragmentsFormat;
+    private readonly IDependencyPathReportFragmentsFormat _reportFragmentsFormat;
 
-    public DependencyPathRuleViolationFactory(IReportFragmentsFormat reportFragmentsFormat)
+    public DependencyPathRuleViolationFactory(IDependencyPathReportFragmentsFormat reportFragmentsFormat)
     {
       _reportFragmentsFormat = reportFragmentsFormat;
     }

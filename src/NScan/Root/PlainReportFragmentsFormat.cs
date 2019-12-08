@@ -6,7 +6,8 @@ using NScan.Lib;
 
 namespace NScan.Domain.Root
 {
-  public class PlainReportFragmentsFormat : IReportFragmentsFormat
+  //bug split into two
+  public class PlainReportFragmentsFormat : IDependencyPathReportFragmentsFormat, INamespaceBasedReportFragmentsFormat
   {
     public string ApplyToPath(IReadOnlyList<IDependencyPathBasedRuleTarget> violationPath)
     {

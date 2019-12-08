@@ -3,9 +3,8 @@ using NScan.DependencyPathBasedRules;
 
 namespace NScan.Domain.Root
 {
-  public interface IReportFragmentsFormat
+  public interface IDependencyPathReportFragmentsFormat
   {
     string ApplyToPath(IReadOnlyList<IDependencyPathBasedRuleTarget> violationPath);
-    string ApplyToCycles(IReadOnlyList<IReadOnlyList<string>> cycles);
   }
 }

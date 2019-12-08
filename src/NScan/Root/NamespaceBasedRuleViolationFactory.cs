@@ -8,9 +8,9 @@ namespace NScan.Domain.Root
   public class NamespaceBasedRuleViolationFactory : INamespaceBasedRuleViolationFactory
   {
     //bug UT
-    private readonly IReportFragmentsFormat _reportFragmentsFormat;
+    private readonly INamespaceBasedReportFragmentsFormat _reportFragmentsFormat;
 
-    public NamespaceBasedRuleViolationFactory(IReportFragmentsFormat reportFragmentsFormat)
+    public NamespaceBasedRuleViolationFactory(INamespaceBasedReportFragmentsFormat reportFragmentsFormat)
     {
       _reportFragmentsFormat = reportFragmentsFormat;
     }
