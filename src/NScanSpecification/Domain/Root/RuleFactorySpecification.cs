@@ -29,7 +29,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       //WHEN
       var independentRuleComplementDto =
         new IndependentRuleComplementDto(
-          RuleFactory.ProjectDependencyType, 
+          DependencyPathRuleFactory.ProjectDependencyType, 
           dependingId, 
           dependencyId);
       var rule = ruleFactory.CreateDependencyRuleFrom(independentRuleComplementDto);
@@ -52,7 +52,7 @@ namespace TddXt.NScan.Specification.Domain.Root
 
       //WHEN
       var independentRuleComplementDto = new IndependentRuleComplementDto(
-        RuleFactory.PackageDependencyType,
+        DependencyPathRuleFactory.PackageDependencyType,
         dependingNamePattern, 
         packageNamePattern);
       var rule = ruleFactory.CreateDependencyRuleFrom(independentRuleComplementDto);
@@ -75,7 +75,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       
       //WHEN
       var independentRuleComplementDto = new IndependentRuleComplementDto(
-        RuleFactory.AssemblyDependencyType, 
+        DependencyPathRuleFactory.AssemblyDependencyType, 
         dependingNamePattern, 
         assemblyNamePattern);
       var rule = ruleFactory.CreateDependencyRuleFrom(independentRuleComplementDto);
