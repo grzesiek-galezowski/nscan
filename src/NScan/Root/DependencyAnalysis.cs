@@ -7,7 +7,7 @@ namespace NScan.Domain.Root
 {
   public interface IDependencyAnalysis
   {
-    void PerformOn(ISolution solution, IAnalysisReportInProgress analysisReportInProgress);
+    void PerformOn(ISolutionForDependencyPathBasedRules solution, IAnalysisReportInProgress analysisReportInProgress);
     void Add(IEnumerable<DependencyPathBasedRuleUnionDto> rules);
   }
 
@@ -22,7 +22,7 @@ namespace NScan.Domain.Root
       _dependencyBasedRuleFactory = dependencyBasedRuleFactory;
     }
 
-    public void PerformOn(ISolution solution, IAnalysisReportInProgress analysisReportInProgress)
+    public void PerformOn(ISolutionForDependencyPathBasedRules solution, IAnalysisReportInProgress analysisReportInProgress)
     {
       solution.Check(_pathRuleSet, analysisReportInProgress);
     }

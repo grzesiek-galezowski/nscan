@@ -7,7 +7,7 @@ namespace NScan.Domain.Root
 {
   public interface IProjectAnalysis
   {
-    void PerformOn(ISolution solution, IAnalysisReportInProgress analysisReportInProgress);
+    void PerformOn(ISolutionForProjectScopedRules solution, IAnalysisReportInProgress analysisReportInProgress);
     void Add(IEnumerable<ProjectScopedRuleUnionDto> rules);
   }
 
@@ -24,7 +24,7 @@ namespace NScan.Domain.Root
       _projectScopedRuleFactory = projectScopedRuleFactory;
     }
 
-    public void PerformOn(ISolution solution, IAnalysisReportInProgress analysisReportInProgress)
+    public void PerformOn(ISolutionForProjectScopedRules solution, IAnalysisReportInProgress analysisReportInProgress)
     {
       solution.Check(_projectScopedRuleSet, analysisReportInProgress);
     }

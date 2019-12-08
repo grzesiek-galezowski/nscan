@@ -7,7 +7,7 @@ namespace NScan.Domain.Root
 {
   public interface IProjectNamespacesAnalysis
   {
-    void PerformOn(ISolution solution, IAnalysisReportInProgress analysisReportInProgress);
+    void PerformOn(ISolutionForNamespaceBasedRules solution, IAnalysisReportInProgress analysisReportInProgress);
     void Add(IEnumerable<NamespaceBasedRuleUnionDto> rules);
   }
 
@@ -24,7 +24,7 @@ namespace NScan.Domain.Root
       _namespaceBasedRuleFactory = namespaceBasedRuleFactory;
     }
 
-    public void PerformOn(ISolution solution, IAnalysisReportInProgress analysisReportInProgress)
+    public void PerformOn(ISolutionForNamespaceBasedRules solution, IAnalysisReportInProgress analysisReportInProgress)
     {
       solution.Check(_namespacesBasedRuleSet, analysisReportInProgress);
     }
