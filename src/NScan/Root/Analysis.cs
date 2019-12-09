@@ -50,9 +50,9 @@ namespace NScan.Domain.Root
             new DependencyPathFactory())),
         new AnalysisReportInProgress(), 
         //bug move compositions to specific projects
-        new DependencyAnalysis(new PathRuleSet(), new DependencyPathRuleFactory(new DependencyPathRuleViolationFactory(new PlainReportFragmentsFormat()))), 
+        new DependencyAnalysis(new PathRuleSet(), new DependencyPathRuleFactory(new DependencyPathRuleViolationFactory(new DependencyPathReportFragmentsFormat()))), 
         new ProjectAnalysis(new ProjectScopedRuleSet(), new ProjectScopedRuleFactory(new ProjectScopedRuleViolationFactory())), 
-        new ProjectNamespacesAnalysis(new NamespacesBasedRuleSet(), new NamespaceBasedRuleFactory(new NamespaceBasedRuleViolationFactory(new PlainReportFragmentsFormat()))));
+        new ProjectNamespacesAnalysis(new NamespacesBasedRuleSet(), new NamespaceBasedRuleFactory(new NamespaceBasedRuleViolationFactory(new NamespaceBasedReportFragmentsFormat()))));
     }
 
     public void Run()

@@ -1,22 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using NScan.DependencyPathBasedRules;
 using NScan.Lib;
-using NScan.NamespaceBasedRules;
 
-namespace NScan.Domain.Root
+namespace NScan.NamespaceBasedRules
 {
-  //bug split into two
-  public class PlainReportFragmentsFormat : IDependencyPathReportFragmentsFormat, INamespaceBasedReportFragmentsFormat
+  public class NamespaceBasedReportFragmentsFormat : INamespaceBasedReportFragmentsFormat
   {
-    public string ApplyToPath(IReadOnlyList<IDependencyPathBasedRuleTarget> violationPath)
-    {
-      return violationPath.Skip(1).Aggregate(
-        "[" + violationPath.First().ToString() + "]",
-        (total, current) => total + "->" + "[" + current.ToString() + "]");
-    }
-
     public string ApplyToCycles(IReadOnlyList<IReadOnlyList<string>> cycles)
     {
       string result = string.Empty;
