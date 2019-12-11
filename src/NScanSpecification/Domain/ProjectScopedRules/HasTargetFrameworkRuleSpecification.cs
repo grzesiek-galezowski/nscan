@@ -1,10 +1,8 @@
-﻿using System;
-using FluentAssertions;
+﻿using FluentAssertions;
 using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NSubstitute;
 using TddXt.AnyRoot.Strings;
-using TddXt.XNSubstitute.Root;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 

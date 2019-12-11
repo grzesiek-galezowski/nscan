@@ -12,7 +12,7 @@ using NSubstitute;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
 using TddXt.AnyRoot.Strings;
-using TddXt.XNSubstitute.Root;
+using TddXt.XNSubstitute;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 

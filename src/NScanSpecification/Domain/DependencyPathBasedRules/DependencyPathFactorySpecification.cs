@@ -2,6 +2,7 @@
 using NScan.DependencyPathBasedRules;
 using NSubstitute;
 using TddXt.XFluentAssert.Root;
+using TddXt.XFluentAssertRoot;
 using Xunit;
 
 namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules

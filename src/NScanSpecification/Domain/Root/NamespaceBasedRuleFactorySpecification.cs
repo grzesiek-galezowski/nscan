@@ -3,6 +3,7 @@ using NScan.Domain.Root;
 using NScan.NamespaceBasedRules;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using TddXt.XFluentAssert.Root;
+using TddXt.XFluentAssertRoot;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 

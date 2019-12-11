@@ -3,6 +3,7 @@ using NScan.Domain.Root;
 using NScan.ProjectScopedRules;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
 using TddXt.XFluentAssert.Root;
+using TddXt.XFluentAssertRoot;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 

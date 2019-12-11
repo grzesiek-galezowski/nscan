@@ -4,7 +4,7 @@ using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NScanSpecification.Lib;
 using NSubstitute;
-using TddXt.XNSubstitute.Root;
+using TddXt.XNSubstitute;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 

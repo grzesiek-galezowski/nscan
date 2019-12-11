@@ -4,7 +4,7 @@ using FluentAssertions;
 using NScan.DependencyPathBasedRules;
 using NSubstitute;
 using TddXt.AnyRoot.Collections;
-using TddXt.XNSubstitute.Root;
+using TddXt.XNSubstitute;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 

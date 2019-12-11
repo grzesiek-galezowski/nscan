@@ -1,14 +1,12 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
-using NScan.Domain.Root;
 using NScan.NamespaceBasedRules;
 using NScan.SharedKernel;
-using NScan.SharedKernel.RuleDtos;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NSubstitute;
 using TddXt.AnyRoot.Collections;
 using TddXt.AnyRoot.Strings;
-using TddXt.XNSubstitute.Root;
+using TddXt.XNSubstitute;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 

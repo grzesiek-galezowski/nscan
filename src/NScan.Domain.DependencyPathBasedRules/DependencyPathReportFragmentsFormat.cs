@@ -9,7 +9,7 @@ namespace NScan.DependencyPathBasedRules
     {
       return violationPath.Skip(1).Aggregate(
         "[" + violationPath.First().ToString() + "]",
-        (total, current) => total + "->" + "[" + current.ToString() + "]");
+        (total, current) => $"{total}->[{current.ToString()}]");
     }
   }
 }
