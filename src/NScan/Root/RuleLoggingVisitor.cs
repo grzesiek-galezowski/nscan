@@ -2,14 +2,13 @@ using NScan.DependencyPathBasedRules;
 using NScan.NamespaceBasedRules;
 using NScan.ProjectScopedRules;
 using NScan.SharedKernel.NotifyingSupport.Ports;
-using NScan.SharedKernel.RuleDtos;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
 namespace NScan.Domain.Root
 {
-  public class RuleLoggingVisitor : IRuleDtoVisitor, IPathBasedRuleDtoVisitor, INamespaceBasedRuleDtoVisitor, IProjectScopedRuleDtoVisitor
+  public class RuleLoggingVisitor : IPathBasedRuleDtoVisitor, INamespaceBasedRuleDtoVisitor, IProjectScopedRuleDtoVisitor
   {
     private readonly INScanSupport _support;
 

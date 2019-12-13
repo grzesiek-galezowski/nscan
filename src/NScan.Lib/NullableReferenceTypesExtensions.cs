@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NScanSpecification.Lib.AutomationLayer
+namespace NScan.Lib
 {
   public static class NullableReferenceTypesExtensions
   {

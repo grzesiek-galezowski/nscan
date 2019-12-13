@@ -1,8 +1,6 @@
 ﻿using FluentAssertions;
-using NScan.Domain.Root;
 using NScan.ProjectScopedRules;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
-using TddXt.XFluentAssert.Root;
 using TddXt.XFluentAssertRoot;
 using Xunit;
 using static TddXt.AnyRoot.Root;
@@ -36,7 +34,7 @@ namespace TddXt.NScan.Specification.Domain.Root
 
       //WHEN
       var projectScopedRule = ruleFactory.CreateProjectScopedRuleFrom(ruleDto);
-
+      
       //THEN
       projectScopedRule.Should().BeOfType<ProjectScopedRuleApplicableToMatchingProject>();
       projectScopedRule.Should().DependOn<ProjectSourceCodeFilesRelatedRule>();

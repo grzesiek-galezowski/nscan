@@ -3,6 +3,7 @@ using System.Linq;
 using FluentAssertions;
 using NScan.Adapter.NotifyingSupport;
 using NScan.Domain.Root;
+using NScan.Lib;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using NScan.SharedKernel.RuleDtos;

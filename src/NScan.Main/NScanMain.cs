@@ -70,14 +70,14 @@ namespace TddXt.NScan
     private static IEnumerable<CsharpProjectDto> ReadCsharpProjects(InputArgumentsDto inputArguments, INScanSupport support)
     {
       var paths = ProjectPaths.From(
-        inputArguments.SolutionPath.ToString(),
+        inputArguments.SolutionPath.OrThrow().ToString(),
         support);
       return paths.LoadXmlProjects();
     }
 
     private static string ReadRulesTextFrom(InputArgumentsDto inputArguments)
     {
-      return File.ReadAllText(inputArguments.RulesFilePath.ToString());
+      return File.ReadAllText(inputArguments.RulesFilePath.OrThrow().ToString());
     }
 
     private static void LogDependencyPathRules(

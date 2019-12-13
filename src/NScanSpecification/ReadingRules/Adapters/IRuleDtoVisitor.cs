@@ -2,7 +2,7 @@ using NScan.DependencyPathBasedRules;
 using NScan.NamespaceBasedRules;
 using NScan.ProjectScopedRules;
 
-namespace NScan.Domain.Root
+namespace TddXt.NScan.Specification.ReadingRules.Adapters
 {
   public interface IRuleDtoVisitor :
     IPathBasedRuleDtoVisitor,

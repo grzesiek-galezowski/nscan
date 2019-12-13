@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
+using NScan.Lib;
 using NScanSpecification.Lib.AutomationLayer;
 using RunProcessAsTask;
 
