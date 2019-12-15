@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using NScan.Domain.Root;
+using NScan.Domain;
 using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;

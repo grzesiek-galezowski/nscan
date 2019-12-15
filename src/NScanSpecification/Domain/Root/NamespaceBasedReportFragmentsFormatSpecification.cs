@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using FluentAssertions;
-using NScan.Domain.Root;
 using NScan.NamespaceBasedRules;
 using TddXt.AnyRoot.Strings;
 using Xunit;

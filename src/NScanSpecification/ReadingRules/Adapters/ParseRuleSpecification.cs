@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
+using Functional.Maybe;
 using NScan.Adapter.ReadingRules;
 using NScan.Lib;
 using NScan.SharedKernel;
@@ -27,7 +28,7 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
 
       //WHEN
       var ruleUnionDto = ParserRulePreface.Then(ParseDependencyPathBasedRule.Complement)
-        .Parse($"{depending} {IndependentRuleMetadata.IndependentOf} {dependencyType}:{dependency}{Environment.NewLine}");
+        .Parse($"{depending} {IndependentRuleMetadata.IndependentOf} {dependencyType}:{dependency}{Environment.NewLine}").Value;
 
       //THEN
       ruleUnionDto.Accept(new IndependentRuleComplementDtoAssertion(independentRule =>
@@ -52,7 +53,7 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
       //WHEN
       var ruleUnionDto = ParserRulePreface.Then(ParseDependencyPathBasedRule.Complement)
 				.Parse(
-          $"{depending} except {dependingException} {IndependentRuleMetadata.IndependentOf} {dependencyType}:{dependency}{Environment.NewLine}");
+          $"{depending} except {dependingException} {IndependentRuleMetadata.IndependentOf} {dependencyType}:{dependency}{Environment.NewLine}").Value;
 
       //THEN
       ruleUnionDto.Accept(new IndependentRuleComplementDtoAssertion(independentRule =>
@@ -75,7 +76,7 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
 
       //WHEN
       var ruleUnionDto = ParserRulePreface.Then(ParseDependencyPathBasedRule.Complement)
-				.Parse($"{depending}  {IndependentRuleMetadata.IndependentOf}  {dependencyType}:{dependency}{Environment.NewLine}");
+				.Parse($"{depending}  {IndependentRuleMetadata.IndependentOf}  {dependencyType}:{dependency}{Environment.NewLine}").Value;
 
       //THEN
       ruleUnionDto.Accept(new IndependentRuleComplementDtoAssertion(independentRule =>
@@ -96,7 +97,7 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
 
       //WHEN
       var ruleUnionDto = ParserRulePreface.Then(ParseProjectScopedRule.Complement).Parse(
-	      $"{depending}  {HasCorrectNamespacesRuleMetadata.HasCorrectNamespaces}");
+	      $"{depending}  {HasCorrectNamespacesRuleMetadata.HasCorrectNamespaces}").Value;
 
       //THEN
 
@@ -115,7 +116,8 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
       var depending = Any.String();
 
       //WHEN
-      var ruleUnionDto = ParserRulePreface.Then(ParseNamespaceBasedRule.Complement).Parse($"{depending} {HasNoCircularUsingsRuleMetadata.HasNoCircularUsings}");
+      var ruleUnionDto = ParserRulePreface.Then(ParseNamespaceBasedRule.Complement)
+        .Parse($"{depending} {HasNoCircularUsingsRuleMetadata.HasNoCircularUsings}").Value;
 
       //THEN
       ruleUnionDto.Accept(new NoCircularUsingsRuleComplementDtoAssertion(dto =>
@@ -136,7 +138,7 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
       var ruleUnionDtos = ParserRulePreface.Then(ParseNamespaceBasedRule.Complement).Many().Parse(
         $"{depending} {HasNoCircularUsingsRuleMetadata.HasNoCircularUsings}{Environment.NewLine}" +
         $"{depending} {HasNoCircularUsingsRuleMetadata.HasNoCircularUsings}{Environment.NewLine}"
-      ).ToList();
+      ).WhereValueExist().ToList();
 
       //THEN
       ruleUnionDtos.Count.Should().Be(2);
@@ -159,7 +161,7 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
       var from = Any.String();
       var to = Any.String();
       var ruleUnionDto = ParserRulePreface.Then(ParseNamespaceBasedRule.Complement)
-        .Parse(TestRuleFormats.FormatNoUsingsRule(depending, from, to));
+        .Parse(TestRuleFormats.FormatNoUsingsRule(depending, from, to)).Value;
 
       //THEN
       ruleUnionDto.Accept(new NoUsingsRuleComplementDtoAssertion(dto =>
@@ -185,7 +187,7 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
       var ruleUnionDtos = ParserRulePreface.Then(ParseProjectScopedRule.Complement).Many().Parse(
         $"{depending} {HasAttributesOnRuleMetadata.HasAttributesOn} {classPattern}:{methodPattern}{Environment.NewLine}" +
         $"{depending} {HasAttributesOnRuleMetadata.HasAttributesOn} {classPattern}:{methodPattern}{Environment.NewLine}"
-      ).ToList();
+      ).WhereValueExist().ToList();
 
       //THEN
       ruleUnionDtos.Count.Should().Be(2);
@@ -211,7 +213,7 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
       var ruleUnionDtos = ParserRulePreface.Then(ParseProjectScopedRule.Complement).Many().Parse(
         $"{depending} {HasTargetFrameworkRuleMetadata.HasTargetFramework} {frameworkName}{Environment.NewLine}" +
         $"{depending} {HasTargetFrameworkRuleMetadata.HasTargetFramework} {frameworkName}{Environment.NewLine}"
-      ).ToList();
+      ).WhereValueExist().ToList();
 
       //THEN
       ruleUnionDtos.Count.Should().Be(2);

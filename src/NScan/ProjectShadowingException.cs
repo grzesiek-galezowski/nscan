@@ -1,7 +1,7 @@
 ﻿using System;
 using NScan.DependencyPathBasedRules;
 
-namespace NScan.Domain.Root
+namespace NScan.Domain
 {
   public class ProjectShadowingException : Exception
   {

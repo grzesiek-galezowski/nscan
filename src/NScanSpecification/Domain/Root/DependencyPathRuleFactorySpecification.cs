@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using GlobExpressions;
 using NScan.DependencyPathBasedRules;
-using NScan.Domain.Root;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NScanSpecification.Lib;
 using TddXt.XFluentAssert.Root;

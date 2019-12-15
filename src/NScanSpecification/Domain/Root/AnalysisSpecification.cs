@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using NScan.DependencyPathBasedRules;
-using NScan.Domain.Root;
+using NScan.Domain;
 using NScan.NamespaceBasedRules;
 using NScan.ProjectScopedRules;
 using NScan.SharedKernel;

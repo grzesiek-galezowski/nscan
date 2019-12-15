@@ -4,7 +4,7 @@ using System.Linq;
 using NScan.DependencyPathBasedRules;
 using NScan.SharedKernel;
 
-namespace NScan.Domain.Root
+namespace NScan.Domain
 {
   public interface IReferencingProjects
   {

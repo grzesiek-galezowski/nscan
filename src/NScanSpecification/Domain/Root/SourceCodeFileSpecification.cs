@@ -2,7 +2,7 @@
 using System.Linq;
 using AtmaFileSystem;
 using FluentAssertions;
-using NScan.Domain.Root;
+using NScan.Domain;
 using NScan.Lib;
 using NScan.NamespaceBasedRules;
 using NScan.ProjectScopedRules;

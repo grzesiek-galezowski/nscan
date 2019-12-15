@@ -8,6 +8,16 @@
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
     <WarningsAsErrors>CS8600;CS8602;CS8603</WarningsAsErrors>
+    <Authors>Grzegorz Galezowski</Authors>
+    <Product>NScan</Product>
+    <Description></Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://grzesiek-galezowski.github.io/nscan/</PackageProjectUrl>
+    <PackageIconUrl>https://github.com/grzesiek-galezowski/nscan/raw/master/NScan.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/grzesiek-galezowski/nscan</RepositoryUrl>
+    <RepositoryType>github</RepositoryType>
+    <PackageTags>static analysis, quality gate, dependency management</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,6 +27,13 @@
   <ItemGroup>
     <ProjectReference Include="..\NScan.Lib\NScan.Lib.csproj" />
     <ProjectReference Include="..\NScan.SharedKernel\NScan.SharedKernel.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

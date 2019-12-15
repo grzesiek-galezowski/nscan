@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using NScan.DependencyPathBasedRules;
-using NScan.Domain.Root;
+using NScan.Domain;
 using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NSubstitute;

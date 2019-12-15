@@ -1,7 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using NScan.DependencyPathBasedRules;
-using NScan.Domain.Root;
+using NScan.Domain;
 using NScanSpecification.Lib;
 using TddXt.AnyRoot;
 using Xunit;

@@ -7,7 +7,7 @@ using NScan.NamespaceBasedRules;
 using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 
-namespace NScan.Domain.Root
+namespace NScan.Domain
 {
   public class SourceCodeFile : ISourceCodeFile
   {

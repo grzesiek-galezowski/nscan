@@ -8,7 +8,7 @@ using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
 using NScan.SharedKernel.ReadingSolution.Ports;
 
-namespace NScan.Domain.Root
+namespace NScan.Domain
 {
   public class CsharpWorkspaceModel
   {

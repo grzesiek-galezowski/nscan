@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using FluentAssertions;
 using GlobExpressions;
 using NScan.DependencyPathBasedRules;
-using NScan.Domain.Root;
+using NScan.Domain;
 using NScan.Lib;
 using NScan.NamespaceBasedRules;
 using NScan.ProjectScopedRules;

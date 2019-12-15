@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NScan.Domain.Root
+namespace NScan.Domain
 {
   public class ReferencedProjectNotFoundInSolutionException : Exception
   {

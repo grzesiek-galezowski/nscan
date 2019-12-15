@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AtmaFileSystem;
-using NScan.Domain.Root;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using NScanSpecification.Lib.AutomationLayer;

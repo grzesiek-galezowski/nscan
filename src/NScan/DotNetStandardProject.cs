@@ -9,7 +9,7 @@ using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingSolution.Ports;
 
-namespace NScan.Domain.Root
+namespace NScan.Domain
 {
   public class DotNetStandardProject : IDotNetProject
   {

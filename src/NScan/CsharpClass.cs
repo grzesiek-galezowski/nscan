@@ -3,7 +3,7 @@ using NScan.Lib;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
 
-namespace NScan.Domain.Root
+namespace NScan.Domain
 {
   public class CSharpClass : ICSharpClass
   {

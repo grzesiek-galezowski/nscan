@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using NScan.Domain.Root;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using Xunit;
 using static TddXt.AnyRoot.Root;

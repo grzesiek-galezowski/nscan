@@ -4,7 +4,7 @@ using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
 
-namespace NScan.Domain.Root
+namespace NScan.Domain
 {
   public class CSharpMethod : ICSharpMethod
   {

@@ -9,7 +9,7 @@ using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
-namespace NScan.Domain.Root
+namespace NScan.Domain
 {
   public class Analysis
   {

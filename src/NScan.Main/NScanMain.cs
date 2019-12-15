@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Functional.Maybe;
 using NScan.Adapter.ReadingCSharpSolution.ReadingProjects;
 using NScan.Adapter.ReadingRules;
-using NScan.Domain.Root;
+using NScan.Domain;
 using NScan.Lib;
 using NScan.SharedKernel;
 using NScan.SharedKernel.NotifyingSupport.Ports;
@@ -44,15 +45,16 @@ namespace TddXt.NScan
 
         var rulesString = ReadRulesTextFrom(inputArguments);
         
-        var dependencyPathDtos = ParserRulePreface.Then(ParseDependencyPathBasedRule.Complement).Many().Parse(rulesString);
+        var dependencyPathDtos = ParserRulePreface.Then(ParseDependencyPathBasedRule.Complement).Many().Parse(rulesString).WhereValueExist();
         LogDependencyPathRules(dependencyPathDtos, support);
         analysis.AddDependencyPathRules(dependencyPathDtos);
-
-        var projectScopedDtos = ParserRulePreface.Then(ParseProjectScopedRule.Complement).Many().Parse(rulesString);
-        LogProjectScopedRules(projectScopedDtos, support);
-        analysis.AddProjectScopedRules(projectScopedDtos);
         
-        var namespaceBasedDtos = ParserRulePreface.Then(ParseNamespaceBasedRule.Complement).Many().Parse(rulesString);
+        var projectScopedDtos = ParserRulePreface.Then(ParseProjectScopedRule.Complement).Many().Parse(rulesString).WhereValueExist();
+        analysis.AddProjectScopedRules(projectScopedDtos);
+        LogProjectScopedRules(projectScopedDtos, support);
+
+        
+        var namespaceBasedDtos = ParserRulePreface.Then(ParseNamespaceBasedRule.Complement).Many().Parse(rulesString).WhereValueExist();
         LogNamespaceBasedRules(namespaceBasedDtos, support);
         analysis.AddNamespaceBasedRules(namespaceBasedDtos);
 

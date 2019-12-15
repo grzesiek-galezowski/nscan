@@ -145,6 +145,47 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
       //THEN
       paths.Should().BeEmpty();
     }
+
+    [Fact]
+    public void ShouldNotReturnAPathConsistingOfASingleEntry()
+    {
+      //GIVEN
+      var cache = new NamespacesDependenciesCache();
+      var namespace1 = Any.String();
+      var namespace2 = Any.String();
+
+      cache.AddMapping(namespace1, namespace2);
+
+      //WHEN
+      var paths = cache.RetrievePathsBetween(
+        Pattern.WithoutExclusion(namespace1), 
+        Pattern.WithoutExclusion(namespace1));
+
+      //THEN
+      paths.Should().BeEmpty();
+    }
+
+    //bug one path should be reported only once
+
+    [Fact]
+    public void ShouldReturnADirectPathFromSourceToDestination()
+    {
+      //GIVEN
+      var cache = new NamespacesDependenciesCache();
+      var namespace1 = Any.String();
+      var namespace2 = Any.String();
+
+      cache.AddMapping(namespace1, namespace2);
+
+      //WHEN
+      var paths = cache.RetrievePathsBetween(
+        Pattern.WithoutExclusion(namespace1), 
+        Pattern.WithoutExclusion(namespace2));
+
+      //THEN
+      paths[0].Should().BeEquivalentTo(new List<string> {namespace1, namespace2});
+      paths.Should().HaveCount(1);
+    }
     
     [Fact]
     public void ShouldReturnAllPathsFromSourceToDestinationWhenMultiplePathsExist()

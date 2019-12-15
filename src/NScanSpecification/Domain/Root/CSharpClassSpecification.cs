@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode;
-using NScan.Domain.Root;
+using NScan.Domain;
 using NScan.Lib;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingCSharpSourceCode;

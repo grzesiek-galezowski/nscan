@@ -35,18 +35,16 @@ namespace NScan.NamespaceBasedRules
         Fill2(paths, @namespace, new List<string>(), toPattern);
       }
       return paths;
-
-
-      return new IReadOnlyList<string>[] { };
     }
 
     private void Fill2(List<List<string>> paths, string @namespace, List<string> currentPath, Pattern toPattern)
     {
-      if (toPattern.IsMatch(@namespace))
+      if (currentPath.Count > 0 && toPattern.IsMatch(@namespace))
       {
         paths.Add(currentPath.Append(@namespace).ToList());
         return;
       }
+
       if (PathEnd(@namespace))
       {
         return;

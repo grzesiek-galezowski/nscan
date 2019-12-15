@@ -1,7 +1,7 @@
 ﻿using NScan.Lib;
 using NScan.SharedKernel;
 
-namespace NScan.Domain.Root
+namespace NScan.Domain
 {
   public interface ICSharpClass
   {

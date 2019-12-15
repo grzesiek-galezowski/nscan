@@ -4,7 +4,7 @@ using NScan.DependencyPathBasedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 
-namespace NScan.Domain.Root
+namespace NScan.Domain
 {
   public interface IReferencedProjects
   {
