@@ -11,7 +11,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>0.10.2</Version>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageId>NScan.Domain</PackageId>
     <Authors>Grzegorz Galezowski</Authors>

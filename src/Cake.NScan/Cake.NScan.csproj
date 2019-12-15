@@ -13,7 +13,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>0.10.2</Version>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageId>Cake.NScan</PackageId>
     <Authors>Grzegorz Galezowski</Authors>

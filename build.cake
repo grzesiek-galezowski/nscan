@@ -29,15 +29,15 @@ var buildCakeNScanDir = buildDir + Directory(cakeNscan) + Directory("netstandard
 var srcNetStandardDir = srcDir; //TODO inline
 var slnNetStandard = srcNetStandardDir + File(solutionName);
 var specificationNetStandardDir = specificationDir + Directory("netcoreapp2.1");
-var version="2.0.0"
-Func<ProcessArgumentBuilder, ProcessArgumentBuilder> versionCustomization = args=>args.Append("-p:VersionPrefix=" + version); 
+var version="0.50.1";
+Func<ProcessArgumentBuilder, ProcessArgumentBuilder> versionCustomization = args => args.Append("-p:VersionPrefix=" + version); 
 
 var defaultNugetPackSettings = new DotNetCorePackSettings 
 {
 	IncludeSymbols = true,
 	Configuration = "Release",
 	OutputDirectory = "./nuget",
-	ArgumentCustomization = args=>args.Append("--include-symbols -p:SymbolPackageFormat=snupkg -p:VersionPrefix=" + version)
+	ArgumentCustomization = args => args.Append("--include-symbols -p:SymbolPackageFormat=snupkg -p:VersionPrefix=" + version)
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -54,7 +54,7 @@ Task("Clean")
 
 Task("RunPreviousNScan").Does(() =>
 {
-  //NScanAnalyze(slnNetStandard, @".\nscan.config");
+  NScanAnalyze(slnNetStandard, @".\nscan.config");
 });
 
 Task("DupFinder")
@@ -104,8 +104,6 @@ Task("BuildCakeNScan")
         OutputDirectory = buildCakeNScanDir,
 	    ArgumentCustomization = versionCustomization
     });
-
-
 });
 
 Task("RunNScanUnitTests")

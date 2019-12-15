@@ -14,7 +14,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>0.10.2</Version>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageId>NScan.Console</PackageId>
     <Authors>Grzegorz Galezowski</Authors>
