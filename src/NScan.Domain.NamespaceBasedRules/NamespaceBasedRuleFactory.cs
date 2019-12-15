@@ -18,7 +18,7 @@ namespace NScan.NamespaceBasedRules
 
     public INamespacesBasedRule CreateNamespacesBasedRuleFrom(NoUsingsRuleComplementDto ruleDto)
     {
-      return new NoUsingsRule(ruleDto);
+      return new NoUsingsRule(ruleDto, _ruleViolationFactory);
     }
   }
 }

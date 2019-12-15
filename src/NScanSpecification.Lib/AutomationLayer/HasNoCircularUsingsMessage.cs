@@ -18,13 +18,7 @@ namespace NScanSpecification.Lib.AutomationLayer
 
     private static string Format(string[] cyclePath)
     {
-      var result = $"Cycle 1:{Environment.NewLine}";
-      for (var i = 0; i < cyclePath.Length; ++i)
-      {
-        result += i.Indentations() + cyclePath[i] + Environment.NewLine;
-      }
-
-      return result;
+      return PathFormat.For("Cycle 1", cyclePath);
     }
 
     protected override HasNoCircularUsingsMessage NewInstance(string str)

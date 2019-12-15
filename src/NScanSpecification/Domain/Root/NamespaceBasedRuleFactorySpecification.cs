@@ -1,8 +1,6 @@
 ﻿using FluentAssertions;
-using NScan.Domain.Root;
 using NScan.NamespaceBasedRules;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
-using TddXt.XFluentAssert.Root;
 using TddXt.XFluentAssertRoot;
 using Xunit;
 using static TddXt.AnyRoot.Root;
@@ -20,27 +18,29 @@ namespace TddXt.NScan.Specification.Domain.Root
       var ruleDto = Any.Instance<NoCircularUsingsRuleComplementDto>();
 
       //WHEN
-      var projectScopedRule = ruleFactory.CreateNamespacesBasedRuleFrom(ruleDto);
+      var rule = ruleFactory.CreateNamespacesBasedRuleFrom(ruleDto);
 
       //THEN
-      projectScopedRule.Should().BeOfType<NoCircularUsingsRule>();
-      projectScopedRule.Should().DependOn(ruleDto);
-      projectScopedRule.Should().DependOn(violationFactory);
+      rule.Should().BeOfType<NoCircularUsingsRule>();
+      rule.Should().DependOn(ruleDto);
+      rule.Should().DependOn(violationFactory);
     }
     
     [Fact]
     public void ShouldCreateNoUsingsRule()
     {
       //GIVEN
-      var ruleFactory = new NamespaceBasedRuleFactory(Any.Instance<INamespaceBasedRuleViolationFactory>());
+      var violationFactory = Any.Instance<INamespaceBasedRuleViolationFactory>();
+      var ruleFactory = new NamespaceBasedRuleFactory(violationFactory);
       var ruleDto = Any.Instance<NoUsingsRuleComplementDto>();
 
       //WHEN
-      var projectScopedRule = ruleFactory.CreateNamespacesBasedRuleFrom(ruleDto);
+      var rule = ruleFactory.CreateNamespacesBasedRuleFrom(ruleDto);
 
       //THEN
-      projectScopedRule.Should().BeOfType<NoUsingsRule>();
-      projectScopedRule.Should().DependOn(ruleDto);
+      rule.Should().BeOfType<NoUsingsRule>();
+      rule.Should().DependOn(ruleDto);
+      rule.Should().DependOn(violationFactory);
     }
   }
 }

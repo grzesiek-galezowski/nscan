@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using NScan.Lib;
 
 namespace NScan.NamespaceBasedRules
 {
@@ -21,39 +22,74 @@ namespace NScan.NamespaceBasedRules
       var cycles = new List<List<string>>();
       foreach (var @namespace in _adjacencyList.Keys)
       {
-        Fill(@namespace, new List<string>(), cycles);
+        Fill(cycles, @namespace, new List<string>());
       }
       return cycles;
     }
 
-    private void Fill(string @namespace, List<string> currentPath, List<List<string>> cycles)
+    public IReadOnlyList<IReadOnlyList<string>> RetrievePathsBetween(Pattern fromPattern, Pattern toPattern)
     {
-      if (PathEndedWithoutACycle(@namespace))
+      var paths = new List<List<string>>();
+      foreach (var @namespace in _adjacencyList.Keys.Where(fromPattern.IsMatch))
       {
+        Fill2(paths, @namespace, new List<string>(), toPattern);
       }
-      else if (SelfUsingFound(@namespace, currentPath))
-      {
+      return paths;
 
+
+      return new IReadOnlyList<string>[] { };
+    }
+
+    private void Fill2(List<List<string>> paths, string @namespace, List<string> currentPath, Pattern toPattern)
+    {
+      if (toPattern.IsMatch(@namespace))
+      {
+        paths.Add(currentPath.Append(@namespace).ToList());
+        return;
       }
-      else if (FullCycleDetected(@namespace, currentPath))
+      if (PathEnd(@namespace))
+      {
+        return;
+      }
+
+      foreach (var neighbour in _adjacencyList[@namespace])
+      {
+        Fill2(paths, neighbour, currentPath.Append(@namespace).ToList(), toPattern);
+      }
+    }
+
+    private void Fill(List<List<string>> cycles, string @namespace, List<string> currentPath)
+    {
+      if (PathEnd(@namespace))
+      {
+        return;
+      }
+
+      if (SelfUsingFound(@namespace, currentPath))
+      {
+        return;
+      }
+
+      if (FullCycleDetected(@namespace, currentPath))
       {
         //full cycle is a cycle that starts with current namespace, e.g. A->B->A
         if (CycleIsNotReportedAlreadyAsStartingFromDifferentElement(currentPath, cycles))
         {
           cycles.Add(currentPath.Append(@namespace).ToList());
         }
+
+        return;
       }
-      else if(OvergrownCycleDetected(@namespace, currentPath))
+
+      if(OvergrownCycleDetected(@namespace, currentPath))
       {
         //overgrown cycles are paths that contains other cycles, e.g. A->B->C->B   
+        return;
       }
-      else
+
+      foreach (var neighbour in _adjacencyList[@namespace])
       {
-        var neighbours = _adjacencyList[@namespace];
-        foreach (var neighbour in neighbours)
-        {
-          Fill(neighbour, currentPath.Append(@namespace).ToList(), cycles);
-        }
+        Fill(cycles, neighbour, currentPath.Append(@namespace).ToList());
       }
     }
 
@@ -62,7 +98,7 @@ namespace NScan.NamespaceBasedRules
       return currentPath.Count == 1 && currentPath[0] == @namespace;
     }
 
-    private bool PathEndedWithoutACycle(string @namespace)
+    private bool PathEnd(string @namespace)
     {
       return !_adjacencyList.ContainsKey(@namespace);
     }

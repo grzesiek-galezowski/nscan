@@ -4,6 +4,6 @@ namespace NScan.NamespaceBasedRules
 {
   public interface INamespaceBasedReportFragmentsFormat
   {
-    string ApplyToCycles(IReadOnlyList<IReadOnlyList<string>> cycles);
+    string ApplyTo(IReadOnlyList<IReadOnlyList<string>> paths, string header);
   }
 }

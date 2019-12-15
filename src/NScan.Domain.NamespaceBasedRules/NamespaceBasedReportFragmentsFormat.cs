@@ -6,17 +6,17 @@ namespace NScan.NamespaceBasedRules
 {
   public class NamespaceBasedReportFragmentsFormat : INamespaceBasedReportFragmentsFormat
   {
-    public string ApplyToCycles(IReadOnlyList<IReadOnlyList<string>> cycles)
+    public string ApplyTo(IReadOnlyList<IReadOnlyList<string>> paths, string header)
     {
       string result = string.Empty;
-      for (var i = 0; i < cycles.Count; i++)
+      for (var pathIndex = 0; pathIndex < paths.Count; pathIndex++)
       {
-        result += $"Cycle {i + 1}:{Environment.NewLine}";
-        var singleCycle = cycles[i];
-        for (var j = 0; j < singleCycle.Count; j++)
+        result += $"{header} {pathIndex + 1}:{Environment.NewLine}";
+        var singlePath = paths[pathIndex];
+        for (var cycleElementIndex = 0; cycleElementIndex < singlePath.Count; cycleElementIndex++)
         {
-          var segment = singleCycle[j];
-          result += Indent(j) + segment + Environment.NewLine;
+          var segment = singlePath[cycleElementIndex];
+          result += Indent(cycleElementIndex) + segment + Environment.NewLine;
         }
       }
       return result;
