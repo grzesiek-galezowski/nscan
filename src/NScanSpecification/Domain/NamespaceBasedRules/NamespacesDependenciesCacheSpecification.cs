@@ -212,6 +212,27 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
       paths[1].Should().BeEquivalentTo(new List<string> {namespace1, namespace4, namespace3});
       paths.Should().HaveCount(2);
     }
+    
+    [Fact]
+    public void ShouldReduceDuplicatesWhenReturningPaths()
+    {
+      //GIVEN
+      var cache = new NamespacesDependenciesCache();
+      var namespace1 = Any.String();
+      var namespace2 = Any.String();
+
+      cache.AddMapping(namespace1, namespace2);
+      cache.AddMapping(namespace1, namespace2);
+
+      //WHEN
+      var paths = cache.RetrievePathsBetween(
+        Pattern.WithoutExclusion(namespace1), 
+        Pattern.WithoutExclusion(namespace2));
+
+      //THEN
+      paths[0].Should().BeEquivalentTo(new List<string> {namespace1, namespace2});
+      paths.Should().HaveCount(1);
+    }
 
   }
 }

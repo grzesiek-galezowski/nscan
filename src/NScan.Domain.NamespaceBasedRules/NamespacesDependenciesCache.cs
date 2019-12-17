@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NScan.Lib;
@@ -8,13 +9,18 @@ namespace NScan.NamespaceBasedRules
   {
     private readonly Dictionary<string, List<string>> _adjacencyList = new Dictionary<string, List<string>>();
 
+    //bug adjacency list acepts duplicates but should not!
     public void AddMapping(string namespaceName, string usingName)
     {
       if (!_adjacencyList.ContainsKey(namespaceName))
       {
         _adjacencyList[namespaceName] = new List<string>();
       }
-      _adjacencyList[namespaceName].Add(usingName);
+
+      if(!_adjacencyList[namespaceName].Contains(usingName))
+      {
+        _adjacencyList[namespaceName].Add(usingName);
+      }
     }
 
     public IReadOnlyList<IReadOnlyList<string>> RetrieveCycles()
@@ -22,7 +28,7 @@ namespace NScan.NamespaceBasedRules
       var cycles = new List<List<string>>();
       foreach (var @namespace in _adjacencyList.Keys)
       {
-        Fill(cycles, @namespace, new List<string>());
+        SearchForNextElementInCycle(cycles, @namespace, new List<string>());
       }
       return cycles;
     }
@@ -32,12 +38,13 @@ namespace NScan.NamespaceBasedRules
       var paths = new List<List<string>>();
       foreach (var @namespace in _adjacencyList.Keys.Where(fromPattern.IsMatch))
       {
-        Fill2(paths, @namespace, new List<string>(), toPattern);
+        SearchForNextElementInPath(paths, @namespace, new List<string>(), toPattern);
       }
       return paths;
     }
 
-    private void Fill2(List<List<string>> paths, string @namespace, List<string> currentPath, Pattern toPattern)
+    private void SearchForNextElementInPath(
+      ICollection<List<string>> paths, string @namespace, List<string> currentPath, Pattern toPattern)
     {
       if (currentPath.Count > 0 && toPattern.IsMatch(@namespace))
       {
@@ -52,11 +59,11 @@ namespace NScan.NamespaceBasedRules
 
       foreach (var neighbour in _adjacencyList[@namespace])
       {
-        Fill2(paths, neighbour, currentPath.Append(@namespace).ToList(), toPattern);
+        SearchForNextElementInPath(paths, neighbour, currentPath.Append(@namespace).ToList(), toPattern);
       }
     }
 
-    private void Fill(List<List<string>> cycles, string @namespace, List<string> currentPath)
+    private void SearchForNextElementInCycle(List<List<string>> cycles, string @namespace, List<string> currentPath)
     {
       if (PathEnd(@namespace))
       {
@@ -87,7 +94,7 @@ namespace NScan.NamespaceBasedRules
 
       foreach (var neighbour in _adjacencyList[@namespace])
       {
-        Fill(cycles, neighbour, currentPath.Append(@namespace).ToList());
+        SearchForNextElementInCycle(cycles, neighbour, currentPath.Append(@namespace).ToList());
       }
     }
 
