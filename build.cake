@@ -119,6 +119,16 @@ Task("RunNScanUnitTests")
            Logger = "trx"
         });
     }
+    DotNetCoreTest(srcNetStandardDir.ToString() +"/NScanSpecification.Component/NScanSpecification.Component.csproj", new DotNetCoreTestSettings           
+    {
+        Configuration = configuration,
+        Logger = "trx"
+    });
+    DotNetCoreTest(srcNetStandardDir.ToString() + "/NScanSpecification.E2E/NScanSpecification.E2E.csproj", new DotNetCoreTestSettings           
+    {
+        Configuration = configuration,
+        Logger = "trx"
+    });
 });
 
 Task("PackNScan")
