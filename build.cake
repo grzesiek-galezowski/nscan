@@ -29,7 +29,7 @@ var buildCakeNScanDir = buildDir + Directory(cakeNscan) + Directory("netstandard
 var srcNetStandardDir = srcDir; //TODO inline
 var slnNetStandard = srcNetStandardDir + File(solutionName);
 var specificationNetStandardDir = specificationDir + Directory("netcoreapp2.1");
-var version="0.50.1";
+var version="0.50.2";
 Func<ProcessArgumentBuilder, ProcessArgumentBuilder> versionCustomization = args => args.Append("-p:VersionPrefix=" + version); 
 
 var defaultNugetPackSettings = new DotNetCorePackSettings 
