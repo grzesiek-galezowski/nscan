@@ -25,6 +25,9 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
       ruleSet.Add(rule1);
       ruleSet.Add(rule2);
       ruleSet.Add(rule3);
+      var rule1Description = rule1.Description();
+      var rule2Description = rule2.Description();
+      var rule3Description = rule3.Description();
 
       //WHEN
       ruleSet.Check(new List<INamespaceBasedRuleTarget> {project1, project2, project3}, report);
@@ -35,15 +38,15 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
         project1.Evaluate(rule1, report);
         project2.Evaluate(rule1, report);
         project3.Evaluate(rule1, report);
-        report.FinishedChecking(rule1.Description());
+        report.FinishedChecking(rule1Description);
         project1.Evaluate(rule2, report);
         project2.Evaluate(rule2, report);
         project3.Evaluate(rule2, report);
-        report.FinishedChecking(rule2.Description());
+        report.FinishedChecking(rule2Description);
         project1.Evaluate(rule3, report);
         project2.Evaluate(rule3, report);
         project3.Evaluate(rule3, report);
-        report.FinishedChecking(rule3.Description());
+        report.FinishedChecking(rule3Description);
       });
     }
   }

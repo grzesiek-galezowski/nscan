@@ -5,6 +5,9 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AssemblyName>NScan.Console</AssemblyName>
     <RootNamespace>TddXt.NScan.Console</RootNamespace>
+
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>NScan</ToolCommandName>
   </PropertyGroup>
   
   <PropertyGroup>
@@ -26,6 +29,7 @@
     <RepositoryType>github</RepositoryType>
     <PackageTags>static analysis, quality gate, dependency management</PackageTags>
     <PackageReleaseNotes>Added printing version number on run</PackageReleaseNotes>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

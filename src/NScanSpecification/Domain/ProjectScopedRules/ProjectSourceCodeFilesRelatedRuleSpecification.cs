@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using FluentAssertions;
 using NScan.Domain;
 using NScan.ProjectScopedRules;
@@ -32,7 +34,6 @@ namespace TddXt.NScan.Specification.Domain.ProjectScopedRules
     public void ShouldAnalyzeNamespaceCorrectnessOnEachAnalyzedFiles()
     {
       //GIVEN
-      var projectAssemblyNamePattern = Any.Pattern();
       var fileContentCheck = Substitute.For<ISourceCodeFileContentCheck>();
       var ruleDescription = Any.String();
       var rule = new ProjectSourceCodeFilesRelatedRule(ruleDescription, fileContentCheck);
@@ -43,7 +44,7 @@ namespace TddXt.NScan.Specification.Domain.ProjectScopedRules
       {
         file1, file2, file3
       };
-      var report = Any.Instance<IAnalysisReportInProgress>();
+      var report = Substitute.For<IAnalysisReportInProgress>();
 
       //WHEN
       rule.Check(files, report);
@@ -54,7 +55,7 @@ namespace TddXt.NScan.Specification.Domain.ProjectScopedRules
         fileContentCheck.ApplyTo(file1, ruleDescription, report);
         fileContentCheck.ApplyTo(file2, ruleDescription, report);
         fileContentCheck.ApplyTo(file3, ruleDescription, report);
-        report.FinishedChecking(projectAssemblyNamePattern + " hasCorrectNamespaces");
+        report.FinishedChecking(ruleDescription);
       });
     }
 
