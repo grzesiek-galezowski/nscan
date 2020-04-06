@@ -22,13 +22,11 @@ var cakeNscan = "cake.nscan";
 var buildDir = Directory("./build") + Directory(configuration);
 var publishDir = Directory("./publish");
 var srcDir = Directory("./src");
-var specificationDir = Directory("./specification") + Directory(configuration);
 var buildNScanDir = buildDir + Directory(nscan) + Directory("netstandard2.0");
-var buildNScanConsoleDir = buildDir + Directory(nscanConsole) + Directory("netcoreapp2.1");
+var buildNScanConsoleDir = buildDir + Directory(nscanConsole) + Directory("netcoreapp2.2"); //bug!
 var buildCakeNScanDir = buildDir + Directory(cakeNscan) + Directory("netstandard2.0");
 var srcNetStandardDir = srcDir; //TODO inline
 var slnNetStandard = srcNetStandardDir + File(solutionName);
-var specificationNetStandardDir = specificationDir + Directory("netcoreapp2.1");
 var version="0.50.2";
 Func<ProcessArgumentBuilder, ProcessArgumentBuilder> versionCustomization = args => args.Append("-p:VersionPrefix=" + version); 
 
