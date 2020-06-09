@@ -2,7 +2,7 @@
 
 namespace NScan.SharedKernel.RuleDtos.DependencyPathBased
 {
-  public class DependencyPathBasedRuleUnionDto : Union<
+  public sealed class DependencyPathBasedRuleUnionDto : Union<
     IndependentRuleComplementDto>
   {
     private readonly IUnionTransformingVisitor<IndependentRuleComplementDto, string> _ruleNameExtractionVisitor 

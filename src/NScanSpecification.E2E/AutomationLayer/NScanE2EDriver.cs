@@ -10,7 +10,7 @@ using AbsoluteFilePath = AtmaFileSystem.AbsoluteFilePath;
 
 namespace NScanSpecification.E2E.AutomationLayer
 {
-  public class NScanE2EDriver : IDisposable
+  public sealed class NScanE2EDriver : IDisposable
   {
     private readonly string _solutionName = Any.AlphaString();
 

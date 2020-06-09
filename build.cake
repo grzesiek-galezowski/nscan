@@ -27,7 +27,7 @@ var buildNScanConsoleDir = buildDir + Directory(nscanConsole) + Directory("netco
 var buildCakeNScanDir = buildDir + Directory(cakeNscan) + Directory("netstandard2.0");
 var srcNetStandardDir = srcDir; //TODO inline
 var slnNetStandard = srcNetStandardDir + File(solutionName);
-var version="0.50.2";
+var version="0.50.3";
 Func<ProcessArgumentBuilder, ProcessArgumentBuilder> versionCustomization = args => args.Append("-p:VersionPrefix=" + version); 
 
 var defaultNugetPackSettings = new DotNetCorePackSettings 

@@ -30,7 +30,6 @@ namespace Lolek
         .Contain("Microsoft.CodeAnalysis.CSharp")
         .And.Contain("Nunit")
         .And.Contain("Trolololo");
-      //backlog does not support static usings...
     }
 
     [Fact]

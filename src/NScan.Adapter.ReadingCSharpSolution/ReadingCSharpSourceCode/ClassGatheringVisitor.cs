@@ -6,6 +6,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
+using NullableReferenceTypesExtensions;
 
 namespace NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode
 {
@@ -27,7 +28,7 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode
     {
       var className = node.Identifier.ValueText;
       var currentNamespace = Maybe<string>.Nothing;
-      var currentParent = (CSharpSyntaxNode)node.Parent;
+      var currentParent = (CSharpSyntaxNode)node.Parent.OrThrow();
       while (!(currentParent is CompilationUnitSyntax))
       {
         if (currentParent is NamespaceDeclarationSyntax enclosingNamespace)
@@ -39,7 +40,7 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode
           className = enclosingClass.Identifier.ValueText + "." + className;
         }
 
-        currentParent = (CSharpSyntaxNode)currentParent.Parent;
+        currentParent = (CSharpSyntaxNode)currentParent.Parent.OrThrow();
       }
 
       _classes.Add(
@@ -72,7 +73,7 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode
         }
       }
 
-      _classes.Last().Methods.Add(new MethodDeclarationInfo(node.Identifier.Value.ToString(), attributes));
+      _classes.Last().Methods.Add(new MethodDeclarationInfo(node.Identifier.Value.OrThrow().ToString(), attributes));
     }
   }
 }
