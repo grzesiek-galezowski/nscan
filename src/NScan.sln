@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScanSpecification.Lib", "N
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScanSpecification.E2E", "NScanSpecification.E2E\NScanSpecification.E2E.csproj", "{371B32D7-237B-42DF-B4A9-B8DE9BB3B977}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrontEnd", "FrontEnd", "{D1CB90A1-5419-4CA0-A515-FCEDCEE125EE}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrontEndAdapters", "FrontEndAdapters", "{D1CB90A1-5419-4CA0-A515-FCEDCEE125EE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CoarseGrainedSpecification", "CoarseGrainedSpecification", "{B1F9EEC7-4423-4389-9112-9614B1085BC1}"
 EndProject
@@ -45,7 +45,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScan.Adapter.ReadingCSharp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScan.Main", "NScan.Main\NScan.Main.csproj", "{5B9AC079-58DA-488A-BFCE-0E26A18D5FEC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Adapters", "Adapters", "{BDBC4BC3-7AEE-46EC-A14E-298CF5BDB975}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SecondaryAdapters", "SecondaryAdapters", "{BDBC4BC3-7AEE-46EC-A14E-298CF5BDB975}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScan.NamespaceBasedRules", "NScan.Domain.NamespaceBasedRules\NScan.NamespaceBasedRules.csproj", "{EA349A48-E14F-4082-BC2E-CF00D4195D46}"
 EndProject
