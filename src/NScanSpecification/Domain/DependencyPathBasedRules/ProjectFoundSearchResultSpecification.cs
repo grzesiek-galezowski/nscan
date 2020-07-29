@@ -17,7 +17,7 @@ namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
     public void ShouldExistWhenWrappingNonNullInstance()
     {
       //GIVEN
-      var result = new ProjectFoundSearchResult(Any.Instance<IReferencedProject>(), Any.Integer());
+      var result = new ProjectFoundSearchResult(Any.Instance<IDependencyPathBasedRuleTarget>(), Any.Integer());
 
       //WHEN
       var exists = result.Exists();
@@ -31,7 +31,7 @@ namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
     {
       //GIVEN
       var resultOccurenceIndex = Any.Integer();
-      var result = new ProjectFoundSearchResult(Any.Instance<IReferencedProject>(), resultOccurenceIndex);
+      var result = new ProjectFoundSearchResult(Any.Instance<IDependencyPathBasedRuleTarget>(), resultOccurenceIndex);
       var anotherResult = Substitute.For<IProjectSearchResult>();
 
       anotherResult.IsNotAfter(resultOccurenceIndex).Returns(true);
@@ -48,10 +48,10 @@ namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
     {
       //GIVEN
       var resultOccurenceIndex = Any.Integer();
-      var result = new ProjectFoundSearchResult(Any.Instance<IReferencedProject>(), resultOccurenceIndex);
+      var result = new ProjectFoundSearchResult(Any.Instance<IDependencyPathBasedRuleTarget>(), resultOccurenceIndex);
       var anotherResult = Substitute.For<IProjectSearchResult>();
-      var expectedResult = Any.ReadOnlyList<IReferencedProject>();
-      var projectPath = Any.Enumerable<IReferencedProject>();
+      var expectedResult = Any.ReadOnlyList<IDependencyPathBasedRuleTarget>();
+      var projectPath = Any.Enumerable<IDependencyPathBasedRuleTarget>();
 
       anotherResult.TerminatedSegmentStartingFrom(resultOccurenceIndex, projectPath).Returns(expectedResult);
 
@@ -66,10 +66,10 @@ namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
     public void ShouldReturnTerminatedSegmentUsingPassedStartIndex()
     {
       //GIVEN
-      var project1 = Any.Instance<IReferencedProject>();
-      var project2 = Any.Instance<IReferencedProject>();
-      var project3 = Any.Instance<IReferencedProject>();
-      var project4 = Any.Instance<IReferencedProject>();
+      var project1 = Any.Instance<IDependencyPathBasedRuleTarget>();
+      var project2 = Any.Instance<IDependencyPathBasedRuleTarget>();
+      var project3 = Any.Instance<IDependencyPathBasedRuleTarget>();
+      var project4 = Any.Instance<IDependencyPathBasedRuleTarget>();
       var projectPath = new List<IDependencyPathBasedRuleTarget>
       {
         project1,
@@ -79,7 +79,7 @@ namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
       };
       var startIndex = 1;
       var endIndex = 2;
-      var result = new ProjectFoundSearchResult(Any.Instance<IReferencedProject>(), endIndex);
+      var result = new ProjectFoundSearchResult(Any.Instance<IDependencyPathBasedRuleTarget>(), endIndex);
 
       //WHEN
       var segment = result.TerminatedSegmentStartingFrom(startIndex, projectPath);
@@ -93,7 +93,7 @@ namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
     public void ShouldNotBeAnotherProject()
     {
       //GIVEN
-      var project = Any.Instance<IReferencedProject>();
+      var project = Any.Instance<IDependencyPathBasedRuleTarget>();
       var searchResult = new ProjectFoundSearchResult(project, Any.Integer());
 
       //WHEN
@@ -107,7 +107,7 @@ namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
     public void ShouldBeItself()
     {
       //GIVEN
-      var project = Any.Instance<IReferencedProject>();
+      var project = Any.Instance<IDependencyPathBasedRuleTarget>();
       var searchResult = new ProjectFoundSearchResult(project, Any.Integer());
 
       //WHEN
@@ -123,7 +123,7 @@ namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
     {
       //GIVEN
       var occurenceIndex = Any.Integer();
-      var searchResult = new ProjectFoundSearchResult(Any.Instance<IReferencedProject>(), occurenceIndex);
+      var searchResult = new ProjectFoundSearchResult(Any.Instance<IDependencyPathBasedRuleTarget>(), occurenceIndex);
 
       //WHEN
       var isBefore = searchResult.IsNotAfter(occurenceIndex + 1);
@@ -138,7 +138,7 @@ namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
       //GIVEN
       var occurenceIndex = Any.Integer();
       var searchResult = new ProjectFoundSearchResult(
-        Any.Instance<IReferencedProject>(),
+        Any.Instance<IDependencyPathBasedRuleTarget>(),
         occurenceIndex);
 
       //WHEN

@@ -19,7 +19,7 @@ namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
       var condition1 = Substitute.For<IDependencyCondition>();
       var condition2 = Substitute.For<IDependencyCondition>();
       var depending = Any.Instance<IProjectSearchResult>();
-      var dependency = Any.Instance<IReferencedProject>();
+      var dependency = Any.Instance<IDependencyPathBasedRuleTarget>();
       var condition1Result = Any.Boolean();
       var condition2Result = Any.Boolean();
 

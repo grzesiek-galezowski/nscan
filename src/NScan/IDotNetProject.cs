@@ -4,6 +4,11 @@ using NScan.ProjectScopedRules;
 
 namespace NScan.Domain
 {
-  public interface IDotNetProject : IReferencedProject, IReferencingProject, IProjectScopedRuleTarget, INamespaceBasedRuleTarget, IDependencyPathBasedRuleTarget
+  public interface IDotNetProject : 
+    IReferencedProject, 
+    IReferencingProject, 
+    IProjectScopedRuleTarget, 
+    INamespaceBasedRuleTarget, 
+    IDependencyPathBasedRuleTarget
   {}
 }

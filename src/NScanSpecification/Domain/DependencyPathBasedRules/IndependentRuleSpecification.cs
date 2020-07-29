@@ -46,7 +46,7 @@ namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
       var projectDependencyPath = Substitute.For<IProjectDependencyPath>();
       var dependingAssembly = Substitute.For<IProjectSearchResult>();
       var dependencyAssembly = Substitute.For<IProjectSearchResult>();
-      var violatingPathSegment = Any.ReadOnlyList<IReferencedProject>();
+      var violatingPathSegment = Any.ReadOnlyList<IDependencyPathBasedRuleTarget>();
       var violation = Any.Instance<RuleViolation>();
 
       dependencyCondition.Description().Returns(conditionDescription);

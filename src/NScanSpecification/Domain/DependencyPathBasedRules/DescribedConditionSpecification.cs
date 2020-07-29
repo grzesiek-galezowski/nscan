@@ -19,7 +19,7 @@ namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
       var innerMatching = Any.Boolean();
       var condition = new DescribedCondition(innerCondition, Any.String());
       var depending = Any.Instance<IProjectSearchResult>();
-      var dependency = Any.Instance<IReferencedProject>();
+      var dependency = Any.Instance<IDependencyPathBasedRuleTarget>();
 
       innerCondition.Matches(depending, dependency).Returns(innerMatching);
 

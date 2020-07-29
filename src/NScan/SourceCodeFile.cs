@@ -19,7 +19,8 @@ namespace NScan.Domain
     private readonly IReadOnlyList<string> _usings;
     private readonly ICSharpClass[] _classes;
 
-    public SourceCodeFile(IProjectScopedRuleViolationFactory ruleViolationFactory,
+    public SourceCodeFile(
+      IProjectScopedRuleViolationFactory ruleViolationFactory,
       IReadOnlyList<string> declaredNamespaces,
       string parentProjectAssemblyName,
       string parentProjectRootNamespace,

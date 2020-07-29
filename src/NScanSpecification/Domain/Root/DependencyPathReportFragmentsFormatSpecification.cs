@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
 using NScan.DependencyPathBasedRules;
-using NScan.Domain;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
@@ -14,9 +13,9 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       //GIVEN
       var format = new DependencyPathReportFragmentsFormat();
-      var p1 = Any.Instance<IReferencedProject>();
-      var p2 = Any.Instance<IReferencedProject>();
-      var p3 = Any.Instance<IReferencedProject>();
+      var p1 = Any.Instance<IDependencyPathBasedRuleTarget>();
+      var p2 = Any.Instance<IDependencyPathBasedRuleTarget>();
+      var p3 = Any.Instance<IDependencyPathBasedRuleTarget>();
 
       //WHEN
       var result = format.ApplyToPath(new List<IDependencyPathBasedRuleTarget>() {p1, p2, p3});

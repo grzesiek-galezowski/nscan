@@ -18,7 +18,7 @@ namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
       var packagePattern = Any.Instance<Glob>();
       var condition = new HasPackageReferenceMatchingCondition(packagePattern);
       var depending = Any.Instance<IProjectSearchResult>();
-      var dependency = Substitute.For<IReferencedProject>();
+      var dependency = Substitute.For<IDependencyPathBasedRuleTarget>();
       var dependencyAnswer = Any.Boolean();
 
       dependency.HasPackageReferenceMatching(packagePattern).Returns(dependencyAnswer);

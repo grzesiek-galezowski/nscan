@@ -17,7 +17,7 @@ namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
     public void ShouldReturnSegmentBetweenTwoResultsAsSegmentStartingWithDependingAndEndingWithDependency()
     {
       //GIVEN
-      var projects = Any.ReadOnlyList<IReferencedProject>();
+      var projects = Any.ReadOnlyList<IDependencyPathBasedRuleTarget>();
       var projectsSegment = Any.OtherThan(projects);
       var path = new ProjectDependencyPath(projects, Any.Instance<IProjectFoundSearchResultFactory>());
       var depending = Substitute.For<IProjectSearchResult>();
@@ -36,9 +36,9 @@ namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
     public void ShouldReturnResultWithFoundProjectAndItsIndexWhenTheProjectMatchesCondition()
     {
       //GIVEN
-      var project1 = Any.Instance<IReferencedProject>();
-      var project2 = Any.Instance<IReferencedProject>();
-      var project3 = Any.Instance<IReferencedProject>();
+      var project1 = Any.Instance<IDependencyPathBasedRuleTarget>();
+      var project2 = Any.Instance<IDependencyPathBasedRuleTarget>();
+      var project3 = Any.Instance<IDependencyPathBasedRuleTarget>();
       var projects = new List<IDependencyPathBasedRuleTarget>
       {
         project1, project2, project3
@@ -66,9 +66,9 @@ namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
     public void ShouldReturnNotFoundResultWhenNoneOfTheProjectsMatchCondition()
     {
       //GIVEN
-      var project1 = Any.Instance<IReferencedProject>();
-      var project2 = Any.Instance<IReferencedProject>();
-      var project3 = Any.Instance<IReferencedProject>();
+      var project1 = Any.Instance<IDependencyPathBasedRuleTarget>();
+      var project2 = Any.Instance<IDependencyPathBasedRuleTarget>();
+      var project3 = Any.Instance<IDependencyPathBasedRuleTarget>();
       var projects = new List<IDependencyPathBasedRuleTarget>
       {
         project1, project2, project3
@@ -97,9 +97,9 @@ namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
     {
       //GIVEN
       var pattern = Any.Pattern();
-      var project1 = Substitute.For<IReferencedProject>();
-      var project2 = Substitute.For<IReferencedProject>();
-      var project3 = Substitute.For<IReferencedProject>();
+      var project1 = Substitute.For<IDependencyPathBasedRuleTarget>();
+      var project2 = Substitute.For<IDependencyPathBasedRuleTarget>();
+      var project3 = Substitute.For<IDependencyPathBasedRuleTarget>();
       var projects = new List<IDependencyPathBasedRuleTarget>
       {
         project1, project2, project3
@@ -126,9 +126,9 @@ namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
     {
       //GIVEN
       var pattern = Any.Pattern();
-      var project1 = Substitute.For<IReferencedProject>();
-      var project2 = Substitute.For<IReferencedProject>();
-      var project3 = Substitute.For<IReferencedProject>();
+      var project1 = Substitute.For<IDependencyPathBasedRuleTarget>();
+      var project2 = Substitute.For<IDependencyPathBasedRuleTarget>();
+      var project3 = Substitute.For<IDependencyPathBasedRuleTarget>();
       var projects = new List<IDependencyPathBasedRuleTarget>
       {
         project1, project2, project3
