@@ -1,5 +1,4 @@
 ﻿using System;
-using NScan.SharedKernel.RuleDtos;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 
 namespace TddXt.NScan.Specification.ReadingRules.Adapters

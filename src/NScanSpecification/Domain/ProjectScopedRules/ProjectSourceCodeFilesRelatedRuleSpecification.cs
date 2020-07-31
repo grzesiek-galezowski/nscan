@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using FluentAssertions;
 using NScan.Domain;
 using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
-using NScanSpecification.Lib;
 using NSubstitute;
 using TddXt.AnyRoot.Strings;
 using Xunit;

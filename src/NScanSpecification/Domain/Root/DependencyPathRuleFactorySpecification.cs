@@ -3,7 +3,6 @@ using GlobExpressions;
 using NScan.DependencyPathBasedRules;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NScanSpecification.Lib;
-using TddXt.XFluentAssert.Root;
 using TddXt.XFluentAssertRoot;
 using Xunit;
 using static TddXt.AnyRoot.Root;

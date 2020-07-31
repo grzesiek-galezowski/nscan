@@ -4,8 +4,6 @@ using NScan.Domain;
 using NScan.ProjectScopedRules;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.ReadingSolution.Ports;
-using NScanSpecification.Lib;
-using NSubstitute;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 

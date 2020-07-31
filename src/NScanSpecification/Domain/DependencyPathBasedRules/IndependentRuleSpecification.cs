@@ -1,5 +1,4 @@
 ﻿using NScan.DependencyPathBasedRules;
-using NScan.Domain;
 using NScan.SharedKernel;
 using NScanSpecification.Lib;
 using NSubstitute;

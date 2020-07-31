@@ -11,12 +11,15 @@ namespace NScan.Domain
   {
     private readonly IPathCache _pathCache;
     private readonly Dictionary<ProjectId, IDotNetProject> _projectsById;
+    private readonly IReadOnlyList<INamespaceBasedRuleTarget> _namespaceBasedRuleTargets;
 
     public DotNetStandardSolution(
       Dictionary<ProjectId, IDotNetProject> projectsById,
-      IPathCache pathCache)
+      IPathCache pathCache, 
+      IReadOnlyList<INamespaceBasedRuleTarget> namespaceBasedRuleTargets)
     {
       _projectsById = projectsById;
+      _namespaceBasedRuleTargets = namespaceBasedRuleTargets;
       _pathCache = pathCache;
     }
 
@@ -49,13 +52,13 @@ namespace NScan.Domain
 
     public void Check(INamespacesBasedRuleSet ruleSet, IAnalysisReportInProgress analysisReportInProgress)
     {
-      ruleSet.Check(Projects(), analysisReportInProgress);
+      ruleSet.Check(_namespaceBasedRuleTargets, analysisReportInProgress);
     }
 
     public void BuildCache()
     {
       _pathCache.BuildStartingFrom(RootProjects());
-      foreach (var dotNetProject in Projects())
+      foreach (var dotNetProject in _namespaceBasedRuleTargets)
       {
         dotNetProject.RefreshNamespacesCache();
       }

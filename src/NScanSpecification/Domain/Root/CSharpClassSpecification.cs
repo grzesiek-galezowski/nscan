@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode;
 using NScan.Domain;
 using NScan.Lib;
 using NScan.SharedKernel;

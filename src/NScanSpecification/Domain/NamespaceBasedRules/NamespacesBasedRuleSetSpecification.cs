@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using NScan.Domain;
 using NScan.NamespaceBasedRules;
 using NScan.SharedKernel;
 using NSubstitute;
@@ -16,9 +15,9 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
       //GIVEN
       var ruleSet = new NamespacesBasedRuleSet();
       var report = Substitute.For<IAnalysisReportInProgress>();
-      var project1 = Substitute.For<IDotNetProject>();
-      var project2 = Substitute.For<IDotNetProject>();
-      var project3 = Substitute.For<IDotNetProject>();
+      var project1 = Substitute.For<INamespaceBasedRuleTarget>();
+      var project2 = Substitute.For<INamespaceBasedRuleTarget>();
+      var project3 = Substitute.For<INamespaceBasedRuleTarget>();
       var rule1 = Any.Instance<INamespacesBasedRule>();
       var rule2 = Any.Instance<INamespacesBasedRule>();
       var rule3 = Any.Instance<INamespacesBasedRule>();

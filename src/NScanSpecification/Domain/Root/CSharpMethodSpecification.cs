@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using FluentAssertions;
-using NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode;
 using NScan.Domain;
 using NScan.Lib;
 using NScan.ProjectScopedRules;

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using NScan.DependencyPathBasedRules;
 using NScan.NamespaceBasedRules;
 using NScan.ProjectScopedRules;
@@ -41,18 +42,34 @@ namespace NScan.Domain
 
     public static Analysis PrepareFor(IEnumerable<CsharpProjectDto> csharpProjectDtos, INScanSupport support)
     {
-      var projects = 
-        new CsharpWorkspaceModel(support, new ProjectScopedRuleViolationFactory())
-          .CreateProjectsDictionaryFrom(csharpProjectDtos);
+      var csharpWorkspaceModel = new CsharpWorkspaceModel(support, new ProjectScopedRuleViolationFactory());
+      var projects = csharpWorkspaceModel.CreateProjectsDictionaryFrom(csharpProjectDtos);
+      var namespaceBasedRuleTargets = csharpWorkspaceModel.NamespaceBasedRuleTargets(csharpProjectDtos);
 
       return new Analysis(new DotNetStandardSolution(projects,
           new PathCache(
-            new DependencyPathFactory())),
+            new DependencyPathFactory()), 
+          //BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG   
+          //BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG   
+          //BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG   
+          namespaceBasedRuleTargets //bug get rid of this delegation!
+          ),
         new AnalysisReportInProgress(), 
         //bug move compositions to specific projects
-        new DependencyAnalysis(new PathRuleSet(), new DependencyPathRuleFactory(new DependencyPathRuleViolationFactory(new DependencyPathReportFragmentsFormat()))), 
-        new ProjectAnalysis(new ProjectScopedRuleSet(), new ProjectScopedRuleFactory(new ProjectScopedRuleViolationFactory())), 
-        new ProjectNamespacesAnalysis(new NamespacesBasedRuleSet(), new NamespaceBasedRuleFactory(new NamespaceBasedRuleViolationFactory(new NamespaceBasedReportFragmentsFormat()))));
+        new DependencyAnalysis(
+          new PathRuleSet(), 
+          new DependencyPathRuleFactory(
+            new DependencyPathRuleViolationFactory(
+              new DependencyPathReportFragmentsFormat()))), 
+        new ProjectAnalysis(
+          new ProjectScopedRuleSet(), 
+          new ProjectScopedRuleFactory(
+            new ProjectScopedRuleViolationFactory())), 
+        new ProjectNamespacesAnalysis(
+          new NamespacesBasedRuleSet(), 
+          new NamespaceBasedRuleFactory(
+            new NamespaceBasedRuleViolationFactory(
+              new NamespaceBasedReportFragmentsFormat()))));
     }
 
     public void Run()

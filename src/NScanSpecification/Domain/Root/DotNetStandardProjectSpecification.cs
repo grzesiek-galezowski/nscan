@@ -39,7 +39,6 @@ namespace TddXt.NScan.Specification.Domain.Root
     }
 
 
-
     [Fact]
     public void ShouldAddItselfWithItsIdAsAReferenceToAnotherProjectWhenAskedToResolveAsReferenceOfThisProject()
     {
@@ -59,7 +58,8 @@ namespace TddXt.NScan.Specification.Domain.Root
     }
 
     [Fact]
-    public void ShouldAddItselfWithItsIdAsAReferencingProjectToAnotherProjectWhenAskedToResolveAsReferencingThisProject()
+    public void
+      ShouldAddItselfWithItsIdAsAReferencingProjectToAnotherProjectWhenAskedToResolveAsReferencingThisProject()
     {
       //GIVEN
       var referencedProject = Substitute.For<IReferencedProject>();
@@ -188,58 +188,6 @@ namespace TddXt.NScan.Specification.Domain.Root
     }
 
     [Fact]
-    public void ShouldAddAllFilesInfoToNamespacesCacheWhenAskedToRefreshIt()
-    {
-      //GIVEN
-      var file1 = Substitute.For<ISourceCodeFile>();
-      var file2 = Substitute.For<ISourceCodeFile>();
-      var file3 = Substitute.For<ISourceCodeFile>();
-      var files = new List<ISourceCodeFile>()
-      {
-        file1, file2, file3
-      };
-      var namespacesCache = Any.Instance<INamespacesDependenciesCache>();
-      var project = new DotNetStandardProjectBuilder
-      {
-        NamespacesDependenciesCache = namespacesCache,
-        Files = files
-      }.Build();
-
-      //WHEN
-      project.RefreshNamespacesCache();
-
-      //THEN
-      Received.InOrder(() =>
-      {
-        file1.AddNamespaceMappingTo(namespacesCache);
-        file2.AddNamespaceMappingTo(namespacesCache);
-        file3.AddNamespaceMappingTo(namespacesCache);
-      });
-    }
-
-    [Fact]
-    public void ShouldEvaluateRuleWithItsNamespaceDependenciesMapping()
-    {
-      //GIVEN
-      var namespacesCache = Any.Instance<INamespacesDependenciesCache>();
-      var rule = Substitute.For<INamespacesBasedRule>();
-      var report = Any.Instance<IAnalysisReportInProgress>();
-      var projectAssemblyName = Any.String();
-      var project = new DotNetStandardProjectBuilder
-      {
-        NamespacesDependenciesCache = namespacesCache,
-        AssemblyName = projectAssemblyName
-      }.Build();
-
-      //WHEN
-      project.Evaluate(rule, report);
-
-      //THEN
-      rule.Received(1).Evaluate(projectAssemblyName, namespacesCache, report);
-    }
-
-
-    [Fact]
     public void ShouldReturnAssemblyNameWhenAskedForStringRepresentation()
     {
       //GIVEN
@@ -334,7 +282,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       }.Build();
       var rule = Substitute.For<IProjectFilesetScopedRule>();
       var report = Any.Instance<IAnalysisReportInProgress>();
-      
+
       //WHEN
       project.AnalyzeFiles(rule, report);
 
@@ -353,7 +301,7 @@ namespace TddXt.NScan.Specification.Domain.Root
         AssemblyName = Any.String()
       }.Build();
       var pattern = new Glob(patternString);
-      
+
       //WHEN
       var result = project.HasProjectAssemblyNameMatching(pattern);
 
@@ -394,25 +342,23 @@ namespace TddXt.NScan.Specification.Domain.Root
           PackageReferences,
           AssemblyReferences,
           Files,
-          NamespacesDependenciesCache,
-          ReferencedProjects, 
+          ReferencedProjects,
           ReferencingProjects);
       }
 
       public IReferencedProjects ReferencedProjects { get; set; } = Any.Instance<IReferencedProjects>();
 
-      public IReadOnlyList<PackageReference> PackageReferences { private get; set; } = Any.ReadOnlyList<PackageReference>();
+      public IReadOnlyList<PackageReference> PackageReferences { private get; set; } =
+        Any.ReadOnlyList<PackageReference>();
+
       public IReadOnlyList<AssemblyReference> AssemblyReferences { private get; set; } =
         Any.ReadOnlyList<AssemblyReference>();
 
       public ProjectId ProjectId { private get; set; } = Any.ProjectId();
       public string AssemblyName { private get; set; } = Any.String();
       public IReadOnlyList<ISourceCodeFile> Files { private get; set; } = Any.ReadOnlyList<ISourceCodeFile>();
-      public INamespacesDependenciesCache NamespacesDependenciesCache { private get; set; } = Any.Instance<INamespacesDependenciesCache>();
       public IReferencingProjects ReferencingProjects { private get; set; } = Any.Instance<IReferencingProjects>();
       public string TargetFramework { get; set; } = Any.String();
     }
   }
-
-  
 }

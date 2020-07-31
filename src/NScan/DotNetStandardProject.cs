@@ -4,7 +4,6 @@ using System.Linq;
 using GlobExpressions;
 using NScan.DependencyPathBasedRules;
 using NScan.Lib;
-using NScan.NamespaceBasedRules;
 using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingSolution.Ports;
@@ -18,18 +17,17 @@ namespace NScan.Domain
     private readonly IReadOnlyList<ISourceCodeFile> _files;
     private readonly ProjectId _id;
     private readonly string _targetFramework;
-    private readonly INamespacesDependenciesCache _namespacesDependenciesCache;
     private readonly IReadOnlyList<PackageReference> _packageReferences;
     private readonly IReferencedProjects _referencedProjects;
     private readonly IReferencingProjects _referencingProjects;
 
-    public DotNetStandardProject(string assemblyName,
+    public DotNetStandardProject(
+      string assemblyName,
       ProjectId id,
       string targetFramework,
       IReadOnlyList<PackageReference> packageReferences,
       IReadOnlyList<AssemblyReference> assemblyReferences,
       IReadOnlyList<ISourceCodeFile> files,
-      INamespacesDependenciesCache namespacesDependenciesCache,
       IReferencedProjects referencedProjects,
       IReferencingProjects referencingProjects)
     {
@@ -39,7 +37,6 @@ namespace NScan.Domain
       _packageReferences = packageReferences;
       _assemblyReferences = assemblyReferences;
       _files = files;
-      _namespacesDependenciesCache = namespacesDependenciesCache;
       _referencedProjects = referencedProjects;
       _referencingProjects = referencingProjects;
     }
@@ -88,19 +85,6 @@ namespace NScan.Domain
       IAnalysisReportInProgress analysisReportInProgress)
     {
       targetFrameworkCheck.ApplyTo(_assemblyName, _targetFramework, analysisReportInProgress);
-    }
-
-    public void RefreshNamespacesCache()
-    {
-      foreach (var sourceCodeFile in _files)
-      {
-        sourceCodeFile.AddNamespaceMappingTo(_namespacesDependenciesCache);
-      }
-    }
-
-    public void Evaluate(INamespacesBasedRule rule, IAnalysisReportInProgress report)
-    {
-      rule.Evaluate(_assemblyName, _namespacesDependenciesCache, report);
     }
 
     public bool HasProjectAssemblyNameMatching(Glob glob) => glob.IsMatch(_assemblyName);

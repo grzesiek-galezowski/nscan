@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using NScan.NamespaceBasedRules;
 using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
@@ -36,7 +37,7 @@ namespace NScan.Domain
       return projects;
     }
 
-    private (ProjectId, DotNetStandardProject) CreateProject(CsharpProjectDto projectDataAccess)
+    public (ProjectId, DotNetStandardProject) CreateProject(CsharpProjectDto projectDataAccess)
     {
       var assemblyName = projectDataAccess.AssemblyName;
       var dotNetStandardProject = new DotNetStandardProject(
@@ -46,7 +47,6 @@ namespace NScan.Domain
         projectDataAccess.PackageReferences,
         projectDataAccess.AssemblyReferences, 
         SourceCodeFiles(projectDataAccess), 
-        new NamespacesDependenciesCache(), 
         new ReferencedProjects(
           projectDataAccess.ReferencedProjectIds, 
           _support), 
@@ -81,6 +81,16 @@ namespace NScan.Domain
       IProjectScopedRuleViolationFactory violationFactory)
     {
       return methodDeclarationInfos.Select(m => new CSharpMethod(m, violationFactory)).ToArray<ICSharpMethod>();
+    }
+
+    public List<NamespaceBasedRuleTarget> NamespaceBasedRuleTargets(IEnumerable<CsharpProjectDto> csharpProjectDtos)
+    {
+      return csharpProjectDtos.Select(dataAccess =>
+          new NamespaceBasedRuleTarget(
+            dataAccess.AssemblyName,
+            SourceCodeFiles(dataAccess),
+            new NamespacesDependenciesCache()))
+        .ToList();
     }
   }
 }
