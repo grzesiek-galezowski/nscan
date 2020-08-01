@@ -50,7 +50,7 @@ namespace TddXt.NScan.Specification.Domain.Root
         fileBuilder.DeclaredNamespaces.Single()).Returns(violation);
 
       //WHEN
-      file.EvaluateNamespacesCorrectness(report, ruleDescription);
+      file.CheckNamespacesCorrectness(report, ruleDescription);
 
       //THEN
       XReceived.Only(() => report.Add(violation));
@@ -83,7 +83,7 @@ namespace TddXt.NScan.Specification.Domain.Root
         pathRelativeToProjectRoot + " has no namespace declared").Returns(violation);
 
       //WHEN
-      file.EvaluateNamespacesCorrectness(report, ruleDescription);
+      file.CheckNamespacesCorrectness(report, ruleDescription);
 
       //THEN
       XReceived.Only(() => report.Add(violation));
@@ -119,7 +119,7 @@ namespace TddXt.NScan.Specification.Domain.Root
         $"declares multiple namespaces: {namespace1}, {namespace2}").Returns(violation);
 
       //WHEN
-      file.EvaluateNamespacesCorrectness(report, ruleDescription);
+      file.CheckNamespacesCorrectness(report, ruleDescription);
 
       //THEN
       XReceived.Only(() => report.Add(violation));
@@ -135,7 +135,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       var report = Substitute.For<IAnalysisReportInProgress>();
 
       //WHEN
-      file.EvaluateNamespacesCorrectness(report, Any.String());
+      file.CheckNamespacesCorrectness(report, Any.String());
 
       //THEN
       report.ReceivedNothing();
@@ -213,7 +213,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       class3.NameMatches(classNameInclusionPattern).Returns(true);
 
       //WHEN
-      sourceCodeFile.EvaluateMethodsHavingCorrectAttributes(report, classNameInclusionPattern, methodNameInclusionPattern, ruleDescription);
+      sourceCodeFile.CheckMethodsHavingCorrectAttributes(report, classNameInclusionPattern, methodNameInclusionPattern, ruleDescription);
 
       //THEN
       class1.Received(1).EvaluateDecorationWithAttributes(report, methodNameInclusionPattern, ruleDescription);

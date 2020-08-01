@@ -7,7 +7,7 @@ namespace NScan.ProjectScopedRules
     public void ApplyTo(ISourceCodeFileInNamespace sourceCodeFile, string ruleDescription,
       IAnalysisReportInProgress report)
     {
-      sourceCodeFile.EvaluateNamespacesCorrectness(report, ruleDescription);
+      sourceCodeFile.CheckNamespacesCorrectness(report, ruleDescription);
     }
   }
 }

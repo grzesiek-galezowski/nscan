@@ -8,12 +8,12 @@ namespace NScan.Domain
   public class ProjectScopedRuleTarget : IProjectScopedRuleTarget //bug move
   {
     private readonly string _assemblyName;
-    private readonly IReadOnlyList<ISourceCodeFile> _sourceCodeFiles;
+    private readonly IReadOnlyList<ISourceCodeFileInNamespace> _sourceCodeFiles;
     private readonly string _targetFramework;
 
     public ProjectScopedRuleTarget(
       string assemblyName,
-      IReadOnlyList<ISourceCodeFile> sourceCodeFiles, 
+      IReadOnlyList<ISourceCodeFileInNamespace> sourceCodeFiles, 
       string targetFramework)
     {
       _assemblyName = assemblyName;

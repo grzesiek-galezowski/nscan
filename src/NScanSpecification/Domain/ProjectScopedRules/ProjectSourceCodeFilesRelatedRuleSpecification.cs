@@ -34,10 +34,10 @@ namespace TddXt.NScan.Specification.Domain.ProjectScopedRules
       var fileContentCheck = Substitute.For<ISourceCodeFileContentCheck>();
       var ruleDescription = Any.String();
       var rule = new ProjectSourceCodeFilesRelatedRule(ruleDescription, fileContentCheck);
-      var file1 = Substitute.For<ISourceCodeFile>();
-      var file2 = Substitute.For<ISourceCodeFile>();
-      var file3 = Substitute.For<ISourceCodeFile>();
-      var files = new List<ISourceCodeFile>
+      var file1 = Substitute.For<ISourceCodeFileInNamespace>();
+      var file2 = Substitute.For<ISourceCodeFileInNamespace>();
+      var file3 = Substitute.For<ISourceCodeFileInNamespace>();
+      var files = new List<ISourceCodeFileInNamespace>
       {
         file1, file2, file3
       };

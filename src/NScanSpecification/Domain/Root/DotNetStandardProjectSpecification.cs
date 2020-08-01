@@ -312,9 +312,7 @@ namespace TddXt.NScan.Specification.Domain.Root
 
       public ProjectId ProjectId { private get; set; } = Any.ProjectId();
       public string AssemblyName { private get; set; } = Any.String();
-      public IReadOnlyList<ISourceCodeFile> Files { private get; set; } = Any.ReadOnlyList<ISourceCodeFile>();
       public IReferencingProjects ReferencingProjects { private get; set; } = Any.Instance<IReferencingProjects>();
-      public string TargetFramework { get; set; } = Any.String();
     }
   }
 }

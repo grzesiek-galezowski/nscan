@@ -22,7 +22,7 @@ namespace TddXt.NScan.Specification.Domain.ProjectScopedRules
       check.ApplyTo(file, description, report);
 
       //THEN
-      file.Received(1).EvaluateNamespacesCorrectness(report, description);
+      file.Received(1).CheckNamespacesCorrectness(report, description);
     }
   }
 }

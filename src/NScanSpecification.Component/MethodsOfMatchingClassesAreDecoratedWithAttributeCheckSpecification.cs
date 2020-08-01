@@ -25,7 +25,7 @@ namespace NScanSpecification.Component
       check.ApplyTo(file, description, report);
 
       //THEN
-      file.Received(1).EvaluateMethodsHavingCorrectAttributes(
+      file.Received(1).CheckMethodsHavingCorrectAttributes(
         report, 
         dto.ClassNameInclusionPattern, 
         dto.MethodNameInclusionPattern, 

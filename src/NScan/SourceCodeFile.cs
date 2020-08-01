@@ -9,7 +9,7 @@ using NScan.SharedKernel;
 
 namespace NScan.Domain
 {
-  public class SourceCodeFile : ISourceCodeFile
+  public class SourceCodeFile : ISourceCodeFileUsingNamespaces, ISourceCodeFileInNamespace
   {
     private readonly IProjectScopedRuleViolationFactory _ruleViolationFactory;
     private readonly IReadOnlyList<string> _declaredNamespaces;
@@ -37,7 +37,7 @@ namespace NScan.Domain
       _classes = classes;
     }
 
-    public void EvaluateNamespacesCorrectness(IAnalysisReportInProgress report, string ruleDescription)
+    public void CheckNamespacesCorrectness(IAnalysisReportInProgress report, string ruleDescription)
     {
       //bug get rid of this code here. Move this to rule as another interface
       if (_declaredNamespaces.Count == 0)
@@ -59,7 +59,7 @@ namespace NScan.Domain
       }
     }
 
-    public void EvaluateMethodsHavingCorrectAttributes(
+    public void CheckMethodsHavingCorrectAttributes(
       IAnalysisReportInProgress report, 
       Pattern classNameInclusionPattern,
       Pattern methodNameInclusionPattern, 

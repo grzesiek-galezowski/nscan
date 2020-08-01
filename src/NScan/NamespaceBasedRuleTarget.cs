@@ -7,12 +7,12 @@ namespace NScan.Domain
   public class NamespaceBasedRuleTarget : INamespaceBasedRuleTarget //bug move this to a namespace-specific project
   {
     private readonly string _assemblyName;
-    private readonly IReadOnlyList<ISourceCodeFile> _sourceCodeFiles;
+    private readonly IReadOnlyList<ISourceCodeFileUsingNamespaces> _sourceCodeFiles;
     private readonly INamespacesDependenciesCache _namespacesDependenciesCache;
 
     public NamespaceBasedRuleTarget(
       string assemblyName, 
-      IReadOnlyList<ISourceCodeFile> sourceCodeFiles,
+      IReadOnlyList<ISourceCodeFileUsingNamespaces> sourceCodeFiles,
       INamespacesDependenciesCache namespacesDependenciesCache)
     {
       _assemblyName = assemblyName;

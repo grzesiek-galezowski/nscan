@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using NScan.Domain;
 using NScan.NamespaceBasedRules;
+using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NSubstitute;
 using TddXt.AnyRoot.Collections;
@@ -21,7 +22,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       var projectAssemblyName = AnyRoot.Root.Any.String();
       var project = new NamespaceBasedRuleTarget(
         projectAssemblyName,
-        AnyRoot.Root.Any.ReadOnlyList<ISourceCodeFile>(),
+        AnyRoot.Root.Any.ReadOnlyList<ISourceCodeFileUsingNamespaces>(),
         namespacesCache);
 
       //WHEN
@@ -35,10 +36,10 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldAddAllFilesInfoToNamespacesCacheWhenAskedToRefreshIt()
     {
       //GIVEN
-      var file1 = Substitute.For<ISourceCodeFile>();
-      var file2 = Substitute.For<ISourceCodeFile>();
-      var file3 = Substitute.For<ISourceCodeFile>();
-      var files = new List<ISourceCodeFile>()
+      var file1 = Substitute.For<ISourceCodeFileUsingNamespaces>();
+      var file2 = Substitute.For<ISourceCodeFileUsingNamespaces>();
+      var file3 = Substitute.For<ISourceCodeFileUsingNamespaces>();
+      var files = new List<ISourceCodeFileUsingNamespaces>()
       {
         file1, file2, file3
       };

@@ -5,8 +5,8 @@ namespace NScan.ProjectScopedRules
 {
   public interface ISourceCodeFileInNamespace
   {
-    void EvaluateNamespacesCorrectness(IAnalysisReportInProgress report, string ruleDescription);
-    void EvaluateMethodsHavingCorrectAttributes(
+    void CheckNamespacesCorrectness(IAnalysisReportInProgress report, string ruleDescription);
+    void CheckMethodsHavingCorrectAttributes(
       IAnalysisReportInProgress report, 
       Pattern classNameInclusionPattern,
       Pattern methodNameInclusionPattern,

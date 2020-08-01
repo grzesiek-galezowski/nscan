@@ -37,7 +37,7 @@ namespace NScan.Domain
       return projects;
     }
 
-    public (ProjectId, DotNetStandardProject) CreateProject(CsharpProjectDto projectDataAccess)
+    private (ProjectId, DotNetStandardProject) CreateProject(CsharpProjectDto projectDataAccess)
     {
       var assemblyName = projectDataAccess.AssemblyName;
       var dotNetStandardProject = new DotNetStandardProject(
@@ -65,7 +65,9 @@ namespace NScan.Domain
         scf.ParentProjectAssemblyName, 
         scf.ParentProjectRootNamespace, 
         scf.PathRelativeToProjectRoot, 
-        scf.Usings, ToClasses(scf.Classes, methodDeclarationInfos => ToMethods(methodDeclarationInfos, _ruleViolationFactory)));
+        scf.Usings, 
+        ToClasses(scf.Classes, 
+          methodDeclarationInfos => ToMethods(methodDeclarationInfos, _ruleViolationFactory)));
     }
 
     private static ICSharpClass[] ToClasses(

@@ -23,7 +23,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       var assemblyName = Any.String();
       var project = new ProjectScopedRuleTarget(
         assemblyName, 
-        Any.ReadOnlyList<ISourceCodeFile>(), 
+        Any.ReadOnlyList<ISourceCodeFileInNamespace>(), 
         targetFramework);
       var report = Any.Instance<IAnalysisReportInProgress>();
 
@@ -38,7 +38,7 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldPassAllItsFilesToProjectScopedRuleAlongWithRootNamespace()
     {
       //GIVEN
-      var files = Any.ReadOnlyList<ISourceCodeFile>();
+      var files = Any.ReadOnlyList<ISourceCodeFileInNamespace>();
       var project = new ProjectScopedRuleTarget(Any.String(), files, Any.String());
       var rule = Substitute.For<IProjectFilesetScopedRule>();
       var report = Any.Instance<IAnalysisReportInProgress>();
@@ -55,7 +55,10 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       //GIVEN
       var assemblyName = Any.String();
-      var project = new ProjectScopedRuleTarget(assemblyName, Any.ReadOnlyList<ISourceCodeFile>(), Any.String());
+      var project = new ProjectScopedRuleTarget(
+        assemblyName, 
+        Any.ReadOnlyList<ISourceCodeFileInNamespace>(), 
+        Any.String());
 
       //WHEN
       var hasProject = project.HasProjectAssemblyNameMatching(Pattern.WithoutExclusion(assemblyName));
@@ -72,7 +75,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       var assemblyName = Any.String() + "." + assemblySuffix;
       var project = new ProjectScopedRuleTarget(
         assemblyName, 
-        Any.ReadOnlyList<ISourceCodeFile>(), 
+        Any.ReadOnlyList<ISourceCodeFileInNamespace>(), 
         Any.String());
       string assemblyNamePattern = "*." + assemblySuffix;
 
@@ -90,7 +93,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       var searchedAssemblyName = Any.String();
       var project = new ProjectScopedRuleTarget(
         Any.OtherThan(searchedAssemblyName), 
-        Any.ReadOnlyList<ISourceCodeFile>(), 
+        Any.ReadOnlyList<ISourceCodeFileInNamespace>(), 
         Any.String());
 
       //WHEN
