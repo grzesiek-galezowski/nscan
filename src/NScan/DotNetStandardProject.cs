@@ -4,7 +4,6 @@ using System.Linq;
 using GlobExpressions;
 using NScan.DependencyPathBasedRules;
 using NScan.Lib;
-using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingSolution.Ports;
 
@@ -14,9 +13,7 @@ namespace NScan.Domain
   {
     private readonly string _assemblyName;
     private readonly IReadOnlyList<AssemblyReference> _assemblyReferences;
-    private readonly IReadOnlyList<ISourceCodeFile> _files;
     private readonly ProjectId _id;
-    private readonly string _targetFramework;
     private readonly IReadOnlyList<PackageReference> _packageReferences;
     private readonly IReferencedProjects _referencedProjects;
     private readonly IReferencingProjects _referencingProjects;
@@ -24,19 +21,15 @@ namespace NScan.Domain
     public DotNetStandardProject(
       string assemblyName,
       ProjectId id,
-      string targetFramework,
       IReadOnlyList<PackageReference> packageReferences,
       IReadOnlyList<AssemblyReference> assemblyReferences,
-      IReadOnlyList<ISourceCodeFile> files,
       IReferencedProjects referencedProjects,
       IReferencingProjects referencingProjects)
     {
       _assemblyName = assemblyName;
       _id = id;
-      _targetFramework = targetFramework;
       _packageReferences = packageReferences;
       _assemblyReferences = assemblyReferences;
-      _files = files;
       _referencedProjects = referencedProjects;
       _referencingProjects = referencingProjects;
     }
@@ -80,13 +73,6 @@ namespace NScan.Domain
     public bool HasProjectAssemblyNameMatching(Pattern pattern) => 
       pattern.IsMatch(_assemblyName);
 
-    public void ValidateTargetFrameworkWith(
-      ITargetFrameworkCheck targetFrameworkCheck,
-      IAnalysisReportInProgress analysisReportInProgress)
-    {
-      targetFrameworkCheck.ApplyTo(_assemblyName, _targetFramework, analysisReportInProgress);
-    }
-
     public bool HasProjectAssemblyNameMatching(Glob glob) => glob.IsMatch(_assemblyName);
 
     public void ResolveAsReferenceOf(IReferencingProject project)
@@ -102,11 +88,6 @@ namespace NScan.Domain
     public override string ToString()
     {
       return _assemblyName;
-    }
-
-    public void AnalyzeFiles(IProjectFilesetScopedRule rule, IAnalysisReportInProgress report)
-    {
-      rule.Check(_files, report);
     }
 
     public bool HasPackageReferenceMatching(Glob packagePattern)

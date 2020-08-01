@@ -43,10 +43,8 @@ namespace NScan.Domain
       var dotNetStandardProject = new DotNetStandardProject(
         assemblyName,
         projectDataAccess.Id, 
-        projectDataAccess.TargetFramework, 
         projectDataAccess.PackageReferences,
         projectDataAccess.AssemblyReferences, 
-        SourceCodeFiles(projectDataAccess), 
         new ReferencedProjects(
           projectDataAccess.ReferencedProjectIds, 
           _support), 
@@ -90,6 +88,18 @@ namespace NScan.Domain
             dataAccess.AssemblyName,
             SourceCodeFiles(dataAccess),
             new NamespacesDependenciesCache()))
+        .ToList();
+    }
+
+    public IReadOnlyList<IProjectScopedRuleTarget> ProjectScopedRuleTargets(IEnumerable<CsharpProjectDto> csharpProjectDtos)
+    {
+      return csharpProjectDtos
+        .Select(dataAccess => 
+          new ProjectScopedRuleTarget(
+            dataAccess.AssemblyName, 
+            SourceCodeFiles(dataAccess), 
+            dataAccess.TargetFramework))
+        .Cast<IProjectScopedRuleTarget>()
         .ToList();
     }
   }

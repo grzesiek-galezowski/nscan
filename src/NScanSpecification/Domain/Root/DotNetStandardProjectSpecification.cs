@@ -270,26 +270,6 @@ namespace TddXt.NScan.Specification.Domain.Root
       result.Should().BeFalse();
     }
 
-
-    [Fact]
-    public void ShouldPassAllItsFilesToProjectScopedRuleAlongWithRootNamespace()
-    {
-      //GIVEN
-      var files = Any.ReadOnlyList<ISourceCodeFile>();
-      var project = new DotNetStandardProjectBuilder()
-      {
-        Files = files
-      }.Build();
-      var rule = Substitute.For<IProjectFilesetScopedRule>();
-      var report = Any.Instance<IAnalysisReportInProgress>();
-
-      //WHEN
-      project.AnalyzeFiles(rule, report);
-
-      //THEN
-      rule.Received(1).Check(files, report);
-    }
-
     [Theory]
     [InlineData("*", true)]
     [InlineData("", false)]
@@ -309,28 +289,6 @@ namespace TddXt.NScan.Specification.Domain.Root
       result.Should().Be(expectedResult);
     }
 
-    [Fact]
-    public void ShouldApplyTargetFrameworkCheckToItsTargetFramework()
-    {
-      //GIVEN
-      var targetFramework = Any.String();
-      var targetFrameworkCheck = Substitute.For<ITargetFrameworkCheck>();
-      var assemblyName = Any.String();
-      var project = new DotNetStandardProjectBuilder
-      {
-        TargetFramework = targetFramework,
-        AssemblyName = assemblyName
-      }.Build();
-      var report = Any.Instance<IAnalysisReportInProgress>();
-
-      //WHEN
-      project.ValidateTargetFrameworkWith(targetFrameworkCheck, report);
-
-      //THEN
-      targetFrameworkCheck.Received(1).ApplyTo(assemblyName, targetFramework, report);
-    }
-
-
     private class DotNetStandardProjectBuilder
     {
       public DotNetStandardProject Build()
@@ -338,10 +296,8 @@ namespace TddXt.NScan.Specification.Domain.Root
         return new DotNetStandardProject(
           AssemblyName,
           ProjectId,
-          TargetFramework,
           PackageReferences,
           AssemblyReferences,
-          Files,
           ReferencedProjects,
           ReferencingProjects);
       }

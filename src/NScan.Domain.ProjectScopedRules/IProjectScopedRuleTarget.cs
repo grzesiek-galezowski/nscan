@@ -10,4 +10,5 @@ namespace NScan.ProjectScopedRules
     void ValidateTargetFrameworkWith(ITargetFrameworkCheck targetFrameworkCheck,
       IAnalysisReportInProgress analysisReportInProgress);
   }
+
 }

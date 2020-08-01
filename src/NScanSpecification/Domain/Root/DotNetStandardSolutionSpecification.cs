@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using FluentAssertions;
 using NScan.DependencyPathBasedRules;
 using NScan.Domain;
@@ -33,7 +34,8 @@ namespace TddXt.NScan.Specification.Domain.Root
       var dotNetStandardSolution = new DotNetStandardSolution(
         projectsById, 
         Any.Instance<IPathCache>(), 
-        Any.ReadOnlyList<INamespaceBasedRuleTarget>());
+        Any.ReadOnlyList<INamespaceBasedRuleTarget>(), 
+        Any.ReadOnlyList<IProjectScopedRuleTarget>());
       
 
       //WHEN
@@ -63,7 +65,8 @@ namespace TddXt.NScan.Specification.Domain.Root
       var dotNetStandardSolution = new DotNetStandardSolution(
         projectsById, 
         Any.Instance<IPathCache>(), 
-        Any.ReadOnlyList<INamespaceBasedRuleTarget>());
+        Any.ReadOnlyList<INamespaceBasedRuleTarget>(), 
+        Any.ReadOnlyList<IProjectScopedRuleTarget>());
       
 
       //WHEN
@@ -91,7 +94,8 @@ namespace TddXt.NScan.Specification.Domain.Root
       var solution = new DotNetStandardSolution(
         projectsById, 
         pathCache, 
-        Any.ReadOnlyList<INamespaceBasedRuleTarget>());
+        Any.ReadOnlyList<INamespaceBasedRuleTarget>(), 
+        Any.ReadOnlyList<IProjectScopedRuleTarget>());
 
       root1.IsRoot().Returns(true);
       root2.IsRoot().Returns(true);
@@ -111,14 +115,16 @@ namespace TddXt.NScan.Specification.Domain.Root
       var target1 = Substitute.For<INamespaceBasedRuleTarget>();
       var target2 = Substitute.For<INamespaceBasedRuleTarget>();
       var target3 = Substitute.For<INamespaceBasedRuleTarget>();
-      
+
+      var projectsById = Any.ReadOnlyDictionary<ProjectId, IDotNetProject>();
       var solution = new DotNetStandardSolution(
-        Any.Dictionary<ProjectId, IDotNetProject>(), 
+        projectsById, 
         Any.Instance<IPathCache>(), 
         new List<INamespaceBasedRuleTarget>()
         {
           target1, target2, target3
-        });
+        }, 
+        Any.ReadOnlyList<IProjectScopedRuleTarget>());
 
       //WHEN
       solution.BuildCache();
@@ -142,7 +148,8 @@ namespace TddXt.NScan.Specification.Domain.Root
       var dotNetStandardSolution = new DotNetStandardSolution(
         projectsById, 
         Any.Instance<IPathCache>(), 
-        Any.ReadOnlyList<INamespaceBasedRuleTarget>());
+        Any.ReadOnlyList<INamespaceBasedRuleTarget>(), 
+        Any.ReadOnlyList<IProjectScopedRuleTarget>());
 
 
       //WHEN - THEN
@@ -160,7 +167,8 @@ namespace TddXt.NScan.Specification.Domain.Root
       var solution = new DotNetStandardSolution(
         projectsById, 
         pathCache, 
-        Any.ReadOnlyList<INamespaceBasedRuleTarget>());
+        Any.ReadOnlyList<INamespaceBasedRuleTarget>(), 
+        Any.ReadOnlyList<IProjectScopedRuleTarget>());
       var ruleSet = Substitute.For<IPathRuleSet>();
       var report = Any.Instance<IAnalysisReportInProgress>();
       
@@ -175,19 +183,12 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldOrderTheProjectScopedRuleSetToCheckTheProjectsForVerification()
     {
       //GIVEN
-      var project1 = Any.Instance<IDotNetProject>();
-      var project2 = Any.Instance<IDotNetProject>();
-      var project3 = Any.Instance<IDotNetProject>();
-      var projectsById = new Dictionary<ProjectId, IDotNetProject>()
-      {
-        {Any.ProjectId(), project1},
-        {Any.ProjectId(), project2},
-        {Any.ProjectId(), project3},
-      };
+      var projectScopedRuleTargets = Any.ReadOnlyList<IProjectScopedRuleTarget>();
       var solution = new DotNetStandardSolution(
-        projectsById, 
+        Any.Dictionary<ProjectId, IDotNetProject>(), 
         Any.Instance<IPathCache>(), 
-        Any.ReadOnlyList<INamespaceBasedRuleTarget>());
+        Any.ReadOnlyList<INamespaceBasedRuleTarget>(), 
+        projectScopedRuleTargets);
       var ruleSet = Substitute.For<IProjectScopedRuleSet>();
       var report = Any.Instance<IAnalysisReportInProgress>();
       
@@ -195,7 +196,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       solution.Check(ruleSet, report);
 
       //THEN
-      ruleSet.Received(1).Check(ListContaining(project1, project2, project3), report);
+      ruleSet.Received(1).Check(projectScopedRuleTargets, report);
     }
 
     [Fact]
@@ -203,10 +204,12 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       //GIVEN
       var namespaceBasedRuleTargets = Any.ReadOnlyList<INamespaceBasedRuleTarget>();
+      IReadOnlyDictionary<ProjectId, IDotNetProject> projectsById = Any.Dictionary<ProjectId, IDotNetProject>();
       var solution = new DotNetStandardSolution(
-        Any.Dictionary<ProjectId, IDotNetProject>(),
+        projectsById,
         Any.Instance<IPathCache>(), 
-        namespaceBasedRuleTargets);
+        namespaceBasedRuleTargets, 
+        Any.ReadOnlyList<IProjectScopedRuleTarget>());
       var ruleSet = Substitute.For<INamespacesBasedRuleSet>();
       var report = Any.Instance<IAnalysisReportInProgress>();
       
@@ -215,16 +218,6 @@ namespace TddXt.NScan.Specification.Domain.Root
 
       //THEN
       ruleSet.Received(1).Check(namespaceBasedRuleTargets, report);
-    }
-
-    private static IReadOnlyList<IDotNetProject> ListContaining(IDotNetProject project1, IDotNetProject project2, IDotNetProject project3)
-    {
-      return Arg<IReadOnlyList<IDotNetProject>>.That(Contains(project1, project2, project3));
-    }
-
-    private static Action<IReadOnlyList<IDotNetProject>> Contains(IDotNetProject project1, IDotNetProject project2, IDotNetProject project3)
-    {
-      return rol => rol.Should().BeEquivalentTo(project1, project2, project3);
     }
   }
 }

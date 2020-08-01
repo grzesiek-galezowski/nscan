@@ -10,17 +10,20 @@ namespace NScan.Domain
   public class DotNetStandardSolution : ISolution, ISolutionContext
   {
     private readonly IPathCache _pathCache;
-    private readonly Dictionary<ProjectId, IDotNetProject> _projectsById;
+    private readonly IReadOnlyDictionary<ProjectId, IDotNetProject> _projectsById;
     private readonly IReadOnlyList<INamespaceBasedRuleTarget> _namespaceBasedRuleTargets;
+    private readonly IReadOnlyList<IProjectScopedRuleTarget> _projectScopedRuleTargets;
 
     public DotNetStandardSolution(
-      Dictionary<ProjectId, IDotNetProject> projectsById,
+      IReadOnlyDictionary<ProjectId, IDotNetProject> projectsById,
       IPathCache pathCache, 
-      IReadOnlyList<INamespaceBasedRuleTarget> namespaceBasedRuleTargets)
+      IReadOnlyList<INamespaceBasedRuleTarget> namespaceBasedRuleTargets, 
+      IReadOnlyList<IProjectScopedRuleTarget> projectScopedRuleTargets)
     {
       _projectsById = projectsById;
       _namespaceBasedRuleTargets = namespaceBasedRuleTargets;
       _pathCache = pathCache;
+      _projectScopedRuleTargets = projectScopedRuleTargets;
     }
 
     public void ResolveAllProjectsReferences()
@@ -47,7 +50,7 @@ namespace NScan.Domain
 
     public void Check(IProjectScopedRuleSet ruleSet, IAnalysisReportInProgress analysisReportInProgress)
     {
-      ruleSet.Check(_projectsById.Values.ToList(), analysisReportInProgress);
+      ruleSet.Check(_projectScopedRuleTargets, analysisReportInProgress);
     }
 
     public void Check(INamespacesBasedRuleSet ruleSet, IAnalysisReportInProgress analysisReportInProgress)

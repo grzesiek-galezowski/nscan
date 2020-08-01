@@ -12,7 +12,8 @@ namespace NScan.DependencyPathBasedRules
 
     IProjectSearchResult AssemblyWithNameMatching(Pattern pattern);
 
-    IReadOnlyList<IDependencyPathBasedRuleTarget> SegmentBetween(IProjectSearchResult dependingProjectSearchResult,
+    IReadOnlyList<IDependencyPathBasedRuleTarget> SegmentBetween(
+      IProjectSearchResult dependingProjectSearchResult,
       IProjectSearchResult dependency);
   }
 

@@ -39,20 +39,18 @@ namespace NScan.Domain
     public string Report => _analysisReportInProgress.AsString();
     public int ReturnCode => _analysisReportInProgress.HasViolations() ? -1 : 0;
 
-
     public static Analysis PrepareFor(IEnumerable<CsharpProjectDto> csharpProjectDtos, INScanSupport support)
     {
       var csharpWorkspaceModel = new CsharpWorkspaceModel(support, new ProjectScopedRuleViolationFactory());
       var projects = csharpWorkspaceModel.CreateProjectsDictionaryFrom(csharpProjectDtos);
       var namespaceBasedRuleTargets = csharpWorkspaceModel.NamespaceBasedRuleTargets(csharpProjectDtos);
+      var projectScopedRuleTargets = csharpWorkspaceModel.ProjectScopedRuleTargets(csharpProjectDtos);
 
       return new Analysis(new DotNetStandardSolution(projects,
           new PathCache(
             new DependencyPathFactory()), 
-          //BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG   
-          //BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG   
-          //BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG   
-          namespaceBasedRuleTargets //bug get rid of this delegation!
+          namespaceBasedRuleTargets, 
+          projectScopedRuleTargets
           ),
         new AnalysisReportInProgress(), 
         //bug move compositions to specific projects
