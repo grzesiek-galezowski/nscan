@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NScan.DependencyPathBasedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.ReadingSolution.Ports;

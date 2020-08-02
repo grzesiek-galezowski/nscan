@@ -1,7 +1,6 @@
-﻿using NScan.DependencyPathBasedRules;
-using NScan.SharedKernel;
+﻿using NScan.SharedKernel;
 
-namespace NScan.Domain
+namespace NScan.DependencyPathBasedRules
 {
   public interface IReferencedProject
   {

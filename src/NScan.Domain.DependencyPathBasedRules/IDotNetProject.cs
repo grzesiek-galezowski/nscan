@@ -1,6 +1,4 @@
-﻿using NScan.DependencyPathBasedRules;
-
-namespace NScan.Domain
+﻿namespace NScan.DependencyPathBasedRules
 {
   public interface IDotNetProject : 
     IReferencedProject,
