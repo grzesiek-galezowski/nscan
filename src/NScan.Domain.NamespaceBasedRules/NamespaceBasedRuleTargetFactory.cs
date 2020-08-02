@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using NScan.NamespaceBasedRules;
 using NScan.SharedKernel.ReadingSolution.Ports;
 
-namespace NScan.Domain
+namespace NScan.NamespaceBasedRules
 {
   public class NamespaceBasedRuleTargetFactory
   {

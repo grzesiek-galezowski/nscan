@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NScan.ProjectScopedRules;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
 using NScan.SharedKernel.ReadingSolution.Ports;
 
-namespace NScan.Domain
+namespace NScan.ProjectScopedRules
 {
   public class ProjectScopedRuleTargetFactory
   {
