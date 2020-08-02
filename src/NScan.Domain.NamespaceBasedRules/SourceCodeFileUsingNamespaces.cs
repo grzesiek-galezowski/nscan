@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using NScan.NamespaceBasedRules;
 
-namespace NScan.Domain
+namespace NScan.NamespaceBasedRules
 {
   public class SourceCodeFileUsingNamespaces : ISourceCodeFileUsingNamespaces //bug move to another file
   {

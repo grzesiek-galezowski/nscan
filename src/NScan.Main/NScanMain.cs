@@ -1,17 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using Functional.Maybe;
 using NScan.Adapter.ReadingCSharpSolution.ReadingProjects;
 using NScan.Adapter.ReadingRules;
 using NScan.Domain;
 using NScan.Lib;
-using NScan.SharedKernel;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.ReadingSolution.Ports;
-using NScan.SharedKernel.RuleDtos;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;

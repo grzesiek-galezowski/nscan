@@ -1,5 +1,4 @@
-﻿using NScan.SharedKernel;
-using NScan.SharedKernel.RuleDtos.DependencyPathBased;
+﻿using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
 

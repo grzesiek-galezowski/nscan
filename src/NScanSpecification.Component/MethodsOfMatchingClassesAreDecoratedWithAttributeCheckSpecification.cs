@@ -1,6 +1,5 @@
 ﻿using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
-using NScan.SharedKernel.RuleDtos;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
 using NSubstitute;
 using TddXt.AnyRoot.Strings;

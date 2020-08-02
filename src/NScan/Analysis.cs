@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using NScan.DependencyPathBasedRules;
 using NScan.NamespaceBasedRules;
 using NScan.ProjectScopedRules;

@@ -1,10 +1,9 @@
 using System.Linq;
 using NScan.Lib;
-using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
 
-namespace NScan.Domain
+namespace NScan.ProjectScopedRules
 {
   public class CSharpMethod : ICSharpMethod
   {

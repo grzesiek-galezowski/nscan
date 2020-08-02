@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using NScan.Domain;
 using NScan.NamespaceBasedRules;
-using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NSubstitute;
 using TddXt.AnyRoot.Collections;

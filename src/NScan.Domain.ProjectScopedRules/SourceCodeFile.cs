@@ -3,10 +3,9 @@ using System.IO;
 using System.Linq;
 using AtmaFileSystem;
 using NScan.Lib;
-using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 
-namespace NScan.Domain
+namespace NScan.ProjectScopedRules
 {
   public class SourceCodeFile : ISourceCodeFileInNamespace
   {

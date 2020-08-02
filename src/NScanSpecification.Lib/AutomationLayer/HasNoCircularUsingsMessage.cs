@@ -1,5 +1,4 @@
 ﻿using System;
-using NScan.Lib;
 
 namespace NScanSpecification.Lib.AutomationLayer
 {

@@ -2,7 +2,6 @@
 using Fclp;
 using NScan.Adapter.NotifyingSupport;
 using NScan.Adapter.ReportingOfResults;
-using NScan.SharedKernel;
 
 namespace TddXt.NScan.Console
 {

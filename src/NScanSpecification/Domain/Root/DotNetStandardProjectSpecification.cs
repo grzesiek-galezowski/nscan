@@ -4,8 +4,6 @@ using GlobExpressions;
 using NScan.DependencyPathBasedRules;
 using NScan.Domain;
 using NScan.Lib;
-using NScan.NamespaceBasedRules;
-using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using NScanSpecification.Lib;

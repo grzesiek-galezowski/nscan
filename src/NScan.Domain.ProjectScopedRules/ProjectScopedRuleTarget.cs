@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using NScan.Lib;
-using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 
-namespace NScan.Domain
+namespace NScan.ProjectScopedRules
 {
   public class ProjectScopedRuleTarget : IProjectScopedRuleTarget //bug move
   {

@@ -1,6 +1,5 @@
 ﻿using System;
 using AtmaFileSystem;
-using NScan.SharedKernel.RuleDtos;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;

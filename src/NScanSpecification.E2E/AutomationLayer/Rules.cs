@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using AtmaFileSystem;
-using NScan.SharedKernel.RuleDtos;
 using NScanSpecification.Lib.AutomationLayer;
 
 namespace NScanSpecification.E2E.AutomationLayer

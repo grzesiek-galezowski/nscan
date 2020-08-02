@@ -1,5 +1,4 @@
 ﻿using System;
-using NScan.SharedKernel.RuleDtos;
 
 namespace NScanSpecification.Lib.AutomationLayer
 {
