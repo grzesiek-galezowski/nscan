@@ -40,12 +40,15 @@ namespace NScan.Domain
 
     public static Analysis PrepareFor(IEnumerable<CsharpProjectDto> csharpProjectDtos, INScanSupport support)
     {
-      var csharpWorkspaceModel = new CsharpWorkspaceModel(support, new ProjectScopedRuleViolationFactory());
-      var projects = csharpWorkspaceModel.CreateProjectsDictionaryFrom(csharpProjectDtos);
-      var namespaceBasedRuleTargets = csharpWorkspaceModel.NamespaceBasedRuleTargets(csharpProjectDtos);
-      var projectScopedRuleTargets = csharpWorkspaceModel.ProjectScopedRuleTargets(csharpProjectDtos);
+      var dependencyPathBasedRuleTargetFactory = new DependencyPathBasedRuleTargetFactory(support);
+      var projectScopedRuleTargetFactory = new ProjectScopedRuleTargetFactory();
+      var namespaceBasedRuleTargetFactory = new NamespaceBasedRuleTargetFactory(new ProjectScopedRuleViolationFactory());
 
-      return new Analysis(new DotNetStandardSolution(projects,
+      var projectsByIds = dependencyPathBasedRuleTargetFactory.CreateDependencyPathRuleTargetsByIds(csharpProjectDtos);
+      var namespaceBasedRuleTargets = projectScopedRuleTargetFactory.NamespaceBasedRuleTargets(csharpProjectDtos);
+      var projectScopedRuleTargets = namespaceBasedRuleTargetFactory.ProjectScopedRuleTargets(csharpProjectDtos);
+
+      return new Analysis(new DotNetStandardSolution(projectsByIds,
           new PathCache(
             new DependencyPathFactory()), 
           namespaceBasedRuleTargets, 

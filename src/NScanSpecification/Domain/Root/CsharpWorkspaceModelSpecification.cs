@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
 using NScan.Domain;
-using NScan.ProjectScopedRules;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using Xunit;
@@ -9,19 +8,18 @@ using static TddXt.AnyRoot.Root;
 
 namespace TddXt.NScan.Specification.Domain.Root
 {
-  public class CsharpWorkspaceModelSpecification
+  public class DependencyPathBasedRuleTargetFactorySpecification
   {
     [Fact]
     public void ShouldCreateEmptyDictionaryWhenInputListDoesNotContainAnyProject()
     {
       //GIVEN
-      var csharpWorkspaceModel = new CsharpWorkspaceModel(
-        Any.Instance<INScanSupport>(), 
-        Any.Instance<IProjectScopedRuleViolationFactory>());
+      var csharpWorkspaceModel = new DependencyPathBasedRuleTargetFactory(
+        Any.Instance<INScanSupport>());
 
       //WHEN
       IReadOnlyList<CsharpProjectDto> xmlProjects = new List<CsharpProjectDto>();
-      var projectDictionary = csharpWorkspaceModel.CreateProjectsDictionaryFrom(xmlProjects);
+      var projectDictionary = csharpWorkspaceModel.CreateDependencyPathRuleTargetsByIds(xmlProjects);
 
       //THEN
       projectDictionary.Should().BeEmpty();
@@ -31,8 +29,8 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldCreateDotNetStandardProjectsFromInput()
     {
       //GIVEN
-      var csharpWorkspaceModel = new CsharpWorkspaceModel(
-        Any.Instance<INScanSupport>(), Any.Instance<IProjectScopedRuleViolationFactory>());
+      var csharpWorkspaceModel = new DependencyPathBasedRuleTargetFactory(
+        Any.Instance<INScanSupport>());
       var xmlProject1 = Any.Instance<CsharpProjectDto>();
       var xmlProject2 = Any.Instance<CsharpProjectDto>();
       var xmlProject3 = Any.Instance<CsharpProjectDto>();
@@ -44,7 +42,7 @@ namespace TddXt.NScan.Specification.Domain.Root
         xmlProject2,
         xmlProject3
       };
-      var projectDictionary = csharpWorkspaceModel.CreateProjectsDictionaryFrom(
+      var projectDictionary = csharpWorkspaceModel.CreateDependencyPathRuleTargetsByIds(
         xmlProjects);
 
       //THEN
