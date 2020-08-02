@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using NScan.NamespaceBasedRules;
 using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
@@ -65,9 +64,9 @@ namespace NScan.Domain
         scf.ParentProjectAssemblyName, 
         scf.ParentProjectRootNamespace, 
         scf.PathRelativeToProjectRoot, 
-        scf.Usings, 
         ToClasses(scf.Classes, 
-          methodDeclarationInfos => ToMethods(methodDeclarationInfos, _ruleViolationFactory)));
+          methodDeclarationInfos => 
+            ToMethods(methodDeclarationInfos, _ruleViolationFactory)));
     }
 
     private static ICSharpClass[] ToClasses(
@@ -88,8 +87,16 @@ namespace NScan.Domain
       return csharpProjectDtos.Select(dataAccess =>
           new NamespaceBasedRuleTarget(
             dataAccess.AssemblyName,
-            SourceCodeFiles(dataAccess),
+            SourceCodeFilesUsingNamespaces(dataAccess),
             new NamespacesDependenciesCache()))
+        .ToList();
+    }
+
+    private List<SourceCodeFileUsingNamespaces> SourceCodeFilesUsingNamespaces(CsharpProjectDto dataAccess)
+    {
+      return dataAccess.SourceCodeFiles.Select(scf => new SourceCodeFileUsingNamespaces(
+          scf.Usings,
+          scf.DeclaredNamespaces))
         .ToList();
     }
 

@@ -3,20 +3,18 @@ using System.IO;
 using System.Linq;
 using AtmaFileSystem;
 using NScan.Lib;
-using NScan.NamespaceBasedRules;
 using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 
 namespace NScan.Domain
 {
-  public class SourceCodeFile : ISourceCodeFileUsingNamespaces, ISourceCodeFileInNamespace
+  public class SourceCodeFile : ISourceCodeFileInNamespace
   {
     private readonly IProjectScopedRuleViolationFactory _ruleViolationFactory;
     private readonly IReadOnlyList<string> _declaredNamespaces;
     private readonly string _parentProjectAssemblyName;
     private readonly string _parentProjectRootNamespace;
     private readonly RelativeFilePath _pathRelativeToProjectRoot;
-    private readonly IReadOnlyList<string> _usings;
     private readonly ICSharpClass[] _classes;
 
     public SourceCodeFile(
@@ -24,8 +22,7 @@ namespace NScan.Domain
       IReadOnlyList<string> declaredNamespaces,
       string parentProjectAssemblyName,
       string parentProjectRootNamespace,
-      RelativeFilePath pathRelativeToProjectRoot,
-      IReadOnlyList<string> usings, 
+      RelativeFilePath pathRelativeToProjectRoot, 
       ICSharpClass[] classes)
     {
       _ruleViolationFactory = ruleViolationFactory;
@@ -33,7 +30,6 @@ namespace NScan.Domain
       _parentProjectAssemblyName = parentProjectAssemblyName;
       _parentProjectRootNamespace = parentProjectRootNamespace;
       _pathRelativeToProjectRoot = pathRelativeToProjectRoot;
-      _usings = usings;
       _classes = classes;
     }
 
@@ -70,17 +66,6 @@ namespace NScan.Domain
         if (cSharpClass.NameMatches(classNameInclusionPattern))
         {
           cSharpClass.EvaluateDecorationWithAttributes(report, methodNameInclusionPattern, ruleDescription);
-        }
-      }
-    }
-
-    public void AddNamespaceMappingTo(INamespacesDependenciesCache namespacesDependenciesCache)
-    {
-      foreach (var declaredNamespace in _declaredNamespaces)
-      {
-        foreach (var @using in _usings)
-        {
-          namespacesDependenciesCache.AddMapping(declaredNamespace, @using);
         }
       }
     }

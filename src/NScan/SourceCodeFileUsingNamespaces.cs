@@ -1,0 +1,32 @@
+using System.Collections.Generic;
+using NScan.NamespaceBasedRules;
+
+namespace NScan.Domain
+{
+  public class SourceCodeFileUsingNamespaces : ISourceCodeFileUsingNamespaces //bug move to another file
+  {
+    private readonly IReadOnlyList<string> _usings;
+    private readonly IReadOnlyList<string> _declaredNamespaces;
+
+    public SourceCodeFileUsingNamespaces(
+      IReadOnlyList<string> usings, //bug value objects
+      IReadOnlyList<string> declaredNamespaces //bug value objects
+    )
+    {
+      _usings = usings;
+      _declaredNamespaces = declaredNamespaces;
+    }
+
+    public void AddNamespaceMappingTo(INamespacesDependenciesCache namespacesDependenciesCache)
+    {
+      foreach (var declaredNamespace in _declaredNamespaces)
+      {
+        foreach (var @using in _usings)
+        {
+          namespacesDependenciesCache.AddMapping(declaredNamespace, @using);
+        }
+      }
+
+    }
+  }
+}
