@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using NScan.NamespaceBasedRules;
 using NScan.SharedKernel;
 
-namespace NScan.Domain
+namespace NScan.NamespaceBasedRules
 {
   public class SolutionForNamespaceBasedRules : ISolutionForNamespaceBasedRules //bug move
   {

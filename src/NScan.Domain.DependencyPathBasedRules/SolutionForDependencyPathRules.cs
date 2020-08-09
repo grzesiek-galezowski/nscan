@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using NScan.DependencyPathBasedRules;
 using NScan.SharedKernel;
 
-namespace NScan.Domain
+namespace NScan.DependencyPathBasedRules
 {
   public class SolutionForDependencyPathRules : ISolutionForDependencyPathBasedRules, ISolutionContext //bug move
   {
