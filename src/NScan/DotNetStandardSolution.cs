@@ -1,29 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NScan.DependencyPathBasedRules;
-using NScan.NamespaceBasedRules;
-using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 
 namespace NScan.Domain
 {
   public class DotNetStandardSolution : ISolution, ISolutionContext
   {
-    private readonly IPathCache _pathCache;
     private readonly IReadOnlyDictionary<ProjectId, IDotNetProject> _projectsById;
-    private readonly IReadOnlyList<INamespaceBasedRuleTarget> _namespaceBasedRuleTargets;
-    private readonly IReadOnlyList<IProjectScopedRuleTarget> _projectScopedRuleTargets;
 
     public DotNetStandardSolution(
-      IReadOnlyDictionary<ProjectId, IDotNetProject> projectsById,
-      IPathCache pathCache, 
-      IReadOnlyList<INamespaceBasedRuleTarget> namespaceBasedRuleTargets, 
-      IReadOnlyList<IProjectScopedRuleTarget> projectScopedRuleTargets)
+      IReadOnlyDictionary<ProjectId, IDotNetProject> projectsById)
     {
       _projectsById = projectsById;
-      _namespaceBasedRuleTargets = namespaceBasedRuleTargets;
-      _pathCache = pathCache;
-      _projectScopedRuleTargets = projectScopedRuleTargets;
     }
 
     public void ResolveAllProjectsReferences()
@@ -40,30 +29,6 @@ namespace NScan.Domain
       foreach (var project in _projectsById.Values.Where(v => v.IsRoot()))
       {
         project.Print(0);
-      }
-    }
-
-    public void Check(IPathRuleSet ruleSet, IAnalysisReportInProgress analysisReportInProgress)
-    {
-      ruleSet.Check(_pathCache, analysisReportInProgress);
-    }
-
-    public void Check(IProjectScopedRuleSet ruleSet, IAnalysisReportInProgress analysisReportInProgress)
-    {
-      ruleSet.Check(_projectScopedRuleTargets, analysisReportInProgress);
-    }
-
-    public void Check(INamespacesBasedRuleSet ruleSet, IAnalysisReportInProgress analysisReportInProgress)
-    {
-      ruleSet.Check(_namespaceBasedRuleTargets, analysisReportInProgress);
-    }
-
-    public void BuildCache()
-    {
-      _pathCache.BuildStartingFrom(RootProjects());
-      foreach (var dotNetProject in _namespaceBasedRuleTargets)
-      {
-        dotNetProject.RefreshNamespacesCache();
       }
     }
 
@@ -87,16 +52,6 @@ namespace NScan.Domain
     {
       return $"Could not find referenced project {referencedProjectId} " +
              "probably because it was in an incompatible format and was skipped during project collection phase.";
-    }
-
-    private IDependencyPathBasedRuleTarget[] RootProjects()
-    {
-      return Projects().Where(project => project.IsRoot()).ToArray();
-    }
-
-    private IReadOnlyList<IDotNetProject> Projects()
-    {
-      return _projectsById.Values.ToList();
     }
   }
 }

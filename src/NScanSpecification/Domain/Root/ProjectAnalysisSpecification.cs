@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using NScan.Domain;
 using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
@@ -21,7 +20,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       var dto1 = Any.Instance<CorrectNamespacesRuleComplementDto>();
       var dto2 = Any.Instance<HasAttributesOnRuleComplementDto>();
       var dto3 = Any.Instance<HasTargetFrameworkRuleComplementDto>();
-      var projectScopedRuleUnionDtos = new List<ProjectScopedRuleUnionDto>()
+      var projectScopedRuleUnionDtos = new List<ProjectScopedRuleUnionDto>
       {
         ProjectScopedRuleUnionDto.With(dto1), 
         ProjectScopedRuleUnionDto.With(dto2), 
@@ -53,7 +52,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       //GIVEN
       var ruleSet = Any.Instance<IProjectScopedRuleSet>();
       var projectAnalysis = new ProjectAnalysis(ruleSet, Any.Instance<IProjectScopedRuleFactory>());
-      var solution = Substitute.For<ISolution>();
+      var solution = Substitute.For<ISolutionForProjectScopedRules>();
 
       var analysisReportInProgress = Any.Instance<IAnalysisReportInProgress>();
 

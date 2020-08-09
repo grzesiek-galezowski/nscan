@@ -26,7 +26,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       var parentProjectAssemblyName = Any.String();
       var parentProjectRootNamespace = Any.String();
       var pathRelativeToProjectRoot = Any.Instance<RelativeFilePath>();
-      var fileBuilder = new SourceCodeFileBuilder()
+      var fileBuilder = new SourceCodeFileBuilder
       {
         RuleViolationFactory = ruleViolationFactory,
         ParentProjectAssemblyName = parentProjectAssemblyName,
@@ -62,7 +62,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       var parentProjectAssemblyName = Any.String();
       var parentProjectRootNamespace = Any.String();
       var pathRelativeToProjectRoot = Any.Instance<RelativeFilePath>();
-      var fileBuilder = new SourceCodeFileBuilder()
+      var fileBuilder = new SourceCodeFileBuilder
       {
         RuleViolationFactory = ruleViolationFactory,
         DeclaredNamespaces = new List<string>(),
@@ -101,7 +101,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       var projectRootNamespace = Any.String();
       var fileName = Any.Instance<RelativeFilePath>();
 
-      var file = new SourceCodeFileBuilder()
+      var file = new SourceCodeFileBuilder
       {
         DeclaredNamespaces = new List<string> { namespace1, namespace2 },
         RuleViolationFactory = ruleViolationFactory,

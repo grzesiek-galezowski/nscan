@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using FluentAssertions;
 using GlobExpressions;
 using NScan.DependencyPathBasedRules;
-using NScan.Domain;
 using NScan.Lib;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingSolution.Ports;
@@ -43,7 +42,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       //GIVEN
       var referencingProject = Substitute.For<IReferencingProject>();
       var projectId = Any.ProjectId();
-      var project = new DotNetStandardProjectBuilder()
+      var project = new DotNetStandardProjectBuilder
       {
         ProjectId = projectId
       }.Build();
@@ -62,7 +61,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       //GIVEN
       var referencedProject = Substitute.For<IReferencedProject>();
       var projectId = Any.ProjectId();
-      var project = new DotNetStandardProjectBuilder()
+      var project = new DotNetStandardProjectBuilder
       {
         ProjectId = projectId
       }.Build();
@@ -101,7 +100,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       var referencingProjects = Substitute.For<IReferencingProjects>();
       var projectId = Any.ProjectId();
       var referencingProject = Any.Instance<IDependencyPathBasedRuleTarget>();
-      var project = new DotNetStandardProjectBuilder()
+      var project = new DotNetStandardProjectBuilder
       {
         ReferencingProjects = referencingProjects
       }.Build();
@@ -118,7 +117,7 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       //GIVEN
       var referencedProjects = Substitute.For<IReferencedProjects>();
-      var project = new DotNetStandardProjectBuilder()
+      var project = new DotNetStandardProjectBuilder
       {
         ReferencedProjects = referencedProjects
       }.Build();
@@ -137,7 +136,7 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       //GIVEN
       var assemblyName = Any.String();
-      var project = new DotNetStandardProjectBuilder()
+      var project = new DotNetStandardProjectBuilder
       {
         AssemblyName = assemblyName
       }.Build();
@@ -155,7 +154,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       //GIVEN
       var assemblySuffix = Any.String();
       var assemblyName = Any.String() + "." + assemblySuffix;
-      var project = new DotNetStandardProjectBuilder()
+      var project = new DotNetStandardProjectBuilder
       {
         AssemblyName = assemblyName
       }.Build();
@@ -207,9 +206,9 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       //GIVEN
       var packageReference = Any.String();
-      var project = new DotNetStandardProjectBuilder()
+      var project = new DotNetStandardProjectBuilder
       {
-        PackageReferences = new List<PackageReference>()
+        PackageReferences = new List<PackageReference>
         {
           new PackageReference(packageReference, Any.String())
         }
@@ -240,9 +239,9 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       //GIVEN
       var assemblyReferenceName = Any.String();
-      var project = new DotNetStandardProjectBuilder()
+      var project = new DotNetStandardProjectBuilder
       {
-        AssemblyReferences = new List<AssemblyReference>()
+        AssemblyReferences = new List<AssemblyReference>
         {
           new AssemblyReference(assemblyReferenceName, Any.String())
         }

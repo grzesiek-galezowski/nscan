@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using NScan.DependencyPathBasedRules;
-using NScan.Domain;
 using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NSubstitute;
@@ -21,7 +20,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       var dto1 = Any.Instance<IndependentRuleComplementDto>();
       var dto2 = Any.Instance<IndependentRuleComplementDto>();
       var dto3 = Any.Instance<IndependentRuleComplementDto>();
-      var projectScopedRuleUnionDtos = new List<DependencyPathBasedRuleUnionDto>()
+      var projectScopedRuleUnionDtos = new List<DependencyPathBasedRuleUnionDto>
       {
         DependencyPathBasedRuleUnionDto.With(dto1), 
         DependencyPathBasedRuleUnionDto.With(dto2), 
@@ -53,7 +52,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       //GIVEN
       var ruleSet = Any.Instance<IPathRuleSet>();
       var projectAnalysis = new DependencyAnalysis(ruleSet, Any.Instance<IDependencyBasedRuleFactory>());
-      var solution = Substitute.For<ISolution>();
+      var solution = Substitute.For<ISolutionForDependencyPathBasedRules>();
 
       var analysisReportInProgress = Any.Instance<IAnalysisReportInProgress>();
 

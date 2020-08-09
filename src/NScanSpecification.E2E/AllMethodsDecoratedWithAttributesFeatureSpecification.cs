@@ -31,7 +31,9 @@ namespace NScanSpecification.E2E
             Method(matchingMethod1Name),
             Method(matchingMethod2Name))));
 
-      context.Add(RuleDemandingThat().Project(projectAssemblyNameInclusionPattern).ToHaveDecoratedMethods(classInclusionPattern, methodInclusionPattern));
+      context.Add(RuleDemandingThat()
+        .Project(projectAssemblyNameInclusionPattern)
+        .HasDecoratedMethods(classInclusionPattern, methodInclusionPattern));
 
       //WHEN
       context.PerformAnalysis();

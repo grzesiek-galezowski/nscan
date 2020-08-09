@@ -5,6 +5,7 @@ using NSubstitute;
 using TddXt.AnyRoot.Collections;
 using TddXt.AnyRoot.Strings;
 using Xunit;
+using static TddXt.AnyRoot.Root;
 
 namespace TddXt.NScan.Specification.Domain.Root
 {
@@ -14,13 +15,13 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldEvaluateRuleWithItsNamespaceDependenciesMapping()
     {
       //GIVEN
-      var namespacesCache = AnyRoot.Root.Any.Instance<INamespacesDependenciesCache>();
+      var namespacesCache = Any.Instance<INamespacesDependenciesCache>();
       var rule = Substitute.For<INamespacesBasedRule>();
-      var report = AnyRoot.Root.Any.Instance<IAnalysisReportInProgress>();
-      var projectAssemblyName = AnyRoot.Root.Any.String();
+      var report = Any.Instance<IAnalysisReportInProgress>();
+      var projectAssemblyName = Any.String();
       var project = new NamespaceBasedRuleTarget(
         projectAssemblyName,
-        AnyRoot.Root.Any.ReadOnlyList<ISourceCodeFileUsingNamespaces>(),
+        Any.ReadOnlyList<ISourceCodeFileUsingNamespaces>(),
         namespacesCache);
 
       //WHEN
@@ -37,13 +38,13 @@ namespace TddXt.NScan.Specification.Domain.Root
       var file1 = Substitute.For<ISourceCodeFileUsingNamespaces>();
       var file2 = Substitute.For<ISourceCodeFileUsingNamespaces>();
       var file3 = Substitute.For<ISourceCodeFileUsingNamespaces>();
-      var files = new List<ISourceCodeFileUsingNamespaces>()
+      var files = new List<ISourceCodeFileUsingNamespaces>
       {
         file1, file2, file3
       };
-      var namespacesCache = AnyRoot.Root.Any.Instance<INamespacesDependenciesCache>();
+      var namespacesCache = Any.Instance<INamespacesDependenciesCache>();
       var project = new NamespaceBasedRuleTarget(
-        AnyRoot.Root.Any.String(),
+        Any.String(),
         files,
         namespacesCache);
 

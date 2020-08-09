@@ -22,7 +22,7 @@ namespace NScanSpecification.Component
       context.HasProject("MyProject")
         .WithRootNamespace("MyProject");
 
-      context.Add(RuleDemandingThat().Project("*MyProject*").ToHaveDecoratedMethods("*Specification", "Should*"));
+      context.Add(RuleDemandingThat().Project("*MyProject*").HasDecoratedMethods("*Specification", "Should*"));
 
       //WHEN
       context.PerformAnalysis();
@@ -42,7 +42,7 @@ namespace NScanSpecification.Component
         .WithRootNamespace("MyProject")
         .With(File("lol.cs"));
 
-      context.Add(RuleDemandingThat().Project("*MyProject*").ToHaveDecoratedMethods("*Specification", "Should*"));
+      context.Add(RuleDemandingThat().Project("*MyProject*").HasDecoratedMethods("*Specification", "Should*"));
 
       //WHEN
       context.PerformAnalysis();
@@ -63,7 +63,7 @@ namespace NScanSpecification.Component
         .With(File("lol.cs").Containing(
           Class("MySpecification")));
 
-      context.Add(RuleDemandingThat().Project("*MyProject*").ToHaveDecoratedMethods("*Specification", "Should*"));
+      context.Add(RuleDemandingThat().Project("*MyProject*").HasDecoratedMethods("*Specification", "Should*"));
 
       //WHEN
       context.PerformAnalysis();
@@ -89,7 +89,7 @@ namespace NScanSpecification.Component
             .DecoratedWithAttribute(Any.String())
           )));
 
-      context.Add(RuleDemandingThat().Project("*MyProject*").ToHaveDecoratedMethods("*Specification", "Should*"));
+      context.Add(RuleDemandingThat().Project("*MyProject*").HasDecoratedMethods("*Specification", "Should*"));
 
       //WHEN
       context.PerformAnalysis();
@@ -116,7 +116,7 @@ namespace NScanSpecification.Component
             Method(methodName1),
             Method(methodName2))));
 
-      context.Add(RuleDemandingThat().Project("*MyProject*").ToHaveDecoratedMethods("*Specification", "Should*"));
+      context.Add(RuleDemandingThat().Project("*MyProject*").HasDecoratedMethods("*Specification", "Should*"));
 
       //WHEN
       context.PerformAnalysis();

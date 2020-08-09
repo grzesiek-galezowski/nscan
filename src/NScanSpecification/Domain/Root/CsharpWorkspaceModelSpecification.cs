@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
 using NScan.DependencyPathBasedRules;
-using NScan.Domain;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using Xunit;
@@ -37,7 +36,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       var xmlProject3 = Any.Instance<CsharpProjectDto>();
 
       //WHEN
-      IEnumerable<CsharpProjectDto> xmlProjects = new List<CsharpProjectDto>()
+      IEnumerable<CsharpProjectDto> xmlProjects = new List<CsharpProjectDto>
       {
         xmlProject1,
         xmlProject2,

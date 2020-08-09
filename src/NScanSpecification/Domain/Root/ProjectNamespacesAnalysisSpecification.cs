@@ -21,7 +21,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       var dto1 = Any.Instance<NoUsingsRuleComplementDto>();
       var dto2 = Any.Instance<NoCircularUsingsRuleComplementDto>();
       var dto3 = Any.Instance<NoUsingsRuleComplementDto>();
-      var projectScopedRuleUnionDtos = new List<NamespaceBasedRuleUnionDto>()
+      var projectScopedRuleUnionDtos = new List<NamespaceBasedRuleUnionDto>
       {
         NamespaceBasedRuleUnionDto.With(dto1), 
         NamespaceBasedRuleUnionDto.With(dto2), 
@@ -53,7 +53,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       //GIVEN
       var ruleSet = Any.Instance<INamespacesBasedRuleSet>();
       var projectAnalysis = new ProjectNamespacesAnalysis(ruleSet, Any.Instance<INamespaceBasedRuleFactory>());
-      var solution = Substitute.For<ISolution>();
+      var solution = Substitute.For<ISolutionForNamespaceBasedRules>();
 
       var analysisReportInProgress = Any.Instance<IAnalysisReportInProgress>();
 

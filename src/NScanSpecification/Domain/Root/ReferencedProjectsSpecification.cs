@@ -1,6 +1,5 @@
 ﻿using System;
 using NScan.DependencyPathBasedRules;
-using NScan.Domain;
 using NScan.SharedKernel;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScanSpecification.Lib;

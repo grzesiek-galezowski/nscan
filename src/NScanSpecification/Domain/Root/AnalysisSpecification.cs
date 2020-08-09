@@ -24,17 +24,28 @@ namespace TddXt.NScan.Specification.Domain.Root
       Any.Instance<IProjectAnalysis>();
     public IProjectNamespacesAnalysis NamespacesAnalysis { private get; set; } =
       Any.Instance<IProjectNamespacesAnalysis>();
+    public ISolutionForDependencyPathBasedRules SolutionForDependencyPathBasedRules { get; set; } =
+      Any.Instance<ISolutionForDependencyPathBasedRules>();
+    public ISolutionForProjectScopedRules SolutionForProjectScopedRules { get; set; } =
+      Any.Instance<ISolutionForProjectScopedRules>();    
+    public ISolutionForNamespaceBasedRules SolutionForNamespaceBasedRules { get; set; } =
+      Any.Instance<ISolutionForNamespaceBasedRules>();
 
     public Analysis Build()
     {
+      ISolution solution = Solution;
       return new Analysis(
-        Solution,
+        solution,
         ReportInProgress,
         DependencyAnalysis,
         ProjectAnalysis,
-        NamespacesAnalysis);
+        NamespacesAnalysis, 
+        SolutionForDependencyPathBasedRules, 
+        SolutionForProjectScopedRules, 
+        SolutionForNamespaceBasedRules);
     }
   }
+
 
   public class AnalysisSpecification
   {
@@ -47,26 +58,39 @@ namespace TddXt.NScan.Specification.Domain.Root
       var projectAnalysis = Substitute.For<IProjectAnalysis>();
       var namespacesAnalysis = Substitute.For<IProjectNamespacesAnalysis>();
       var dependencyAnalysis = Substitute.For<IDependencyAnalysis>();
-      var analysis = new AnalysisBuilder()
+      var solutionForDependencyPathRules = Substitute.For<ISolutionForDependencyPathBasedRules>();
+      var solutionForProjectScopedRules = Substitute.For<ISolutionForProjectScopedRules>();
+      var solutionForNamespaceBasedRules = Substitute.For<ISolutionForNamespaceBasedRules>();
+      var analysis = new AnalysisBuilder
       {
         ReportInProgress = analysisReport,
         ProjectAnalysis = projectAnalysis,
         NamespacesAnalysis = namespacesAnalysis,
         DependencyAnalysis = dependencyAnalysis,
-        Solution = solution
+        Solution = solution,
+        SolutionForDependencyPathBasedRules = solutionForDependencyPathRules,
+        SolutionForProjectScopedRules = solutionForProjectScopedRules,
+        SolutionForNamespaceBasedRules = solutionForNamespaceBasedRules
       }.Build();
 
       //WHEN
       analysis.Run();
 
       //THEN
+      //bug split into three tests?
       Received.InOrder(() =>
       {
         solution.ResolveAllProjectsReferences();
-        solution.BuildCache();
-        dependencyAnalysis.PerformOn(solution, analysisReport);
-        projectAnalysis.PerformOn(solution, analysisReport);
-        namespacesAnalysis.PerformOn(solution, analysisReport);
+        solutionForDependencyPathRules.BuildDependencyPathCache();
+        dependencyAnalysis.PerformOn(solutionForDependencyPathRules, analysisReport);
+      });
+      
+      projectAnalysis.Received(1).PerformOn(solutionForProjectScopedRules, analysisReport);
+
+      Received.InOrder(() =>
+      {
+        solutionForNamespaceBasedRules.BuildNamespacesCache();
+        namespacesAnalysis.PerformOn(solutionForNamespaceBasedRules, analysisReport);
       });
     }
 
@@ -78,7 +102,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       var ruleDto2 = Any.Instance<IndependentRuleComplementDto>();
       var ruleDto3 = Any.Instance<IndependentRuleComplementDto>();
       var dependencyAnalysis = Substitute.For<IDependencyAnalysis>();
-      var analysis = new AnalysisBuilder()
+      var analysis = new AnalysisBuilder
       {
         DependencyAnalysis = dependencyAnalysis
       }.Build();
@@ -105,7 +129,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       var ruleDto2 = Any.Instance<NoUsingsRuleComplementDto>();
       var ruleDto3 = Any.Instance<NoCircularUsingsRuleComplementDto>();
       var namespacesAnalysis = Substitute.For<IProjectNamespacesAnalysis>();
-      var analysis = new AnalysisBuilder()
+      var analysis = new AnalysisBuilder
       {
         NamespacesAnalysis = namespacesAnalysis,
       }.Build();
@@ -156,7 +180,7 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       //GIVEN
       var analysisInProgressReport = Substitute.For<IAnalysisReportInProgress>();
-      var analysis = new AnalysisBuilder()
+      var analysis = new AnalysisBuilder
       {
         ReportInProgress = analysisInProgressReport
       }.Build();

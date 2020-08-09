@@ -57,7 +57,7 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
       var namespacesCache = Substitute.For<INamespacesDependenciesCache>();
       var report = Substitute.For<IAnalysisReportInProgress>();
       var violation = Any.Instance<RuleViolation>();
-      var pathsFound = new List<IReadOnlyList<string>>()
+      var pathsFound = new List<IReadOnlyList<string>>
       {
         Any.Instance<IReadOnlyList<string>>(),
         Any.Instance<IReadOnlyList<string>>(),

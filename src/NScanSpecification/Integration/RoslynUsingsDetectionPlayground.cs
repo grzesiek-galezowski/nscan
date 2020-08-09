@@ -42,8 +42,8 @@ namespace Lolek
     [Fact]
     public void ShouldCorrectlyRecognizeLocalStaticUsings()
     {
-      CSharpFileSyntaxTree.ParseText(@"using static TddXt.AnyRoot.Root;", "").GetAllUsingsFrom(new Dictionary<string, ClassDeclarationInfo>()
-          {
+      CSharpFileSyntaxTree.ParseText(@"using static TddXt.AnyRoot.Root;", "").GetAllUsingsFrom(new Dictionary<string, ClassDeclarationInfo>
+        {
             {"TddXt.AnyRoot.Root", new ClassDeclarationInfo("Root", "TddXt.AnyRoot")}
           })
         .Should().Contain("TddXt.AnyRoot");

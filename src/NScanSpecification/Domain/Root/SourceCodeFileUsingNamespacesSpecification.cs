@@ -3,6 +3,7 @@ using NScan.NamespaceBasedRules;
 using NSubstitute;
 using TddXt.AnyRoot.Strings;
 using Xunit;
+using static TddXt.AnyRoot.Root;
 
 namespace TddXt.NScan.Specification.Domain.Root
 {
@@ -12,12 +13,12 @@ namespace TddXt.NScan.Specification.Domain.Root
     public void ShouldAddMappingBetweenNamespaceAndUsingsToCacheWhenAsked()
     {
       //GIVEN
-      var namespace1 = AnyRoot.Root.Any.String();
-      var namespace2 = AnyRoot.Root.Any.String();
-      var namespace3 = AnyRoot.Root.Any.String();
-      var using1 = AnyRoot.Root.Any.String();
-      var using2 = AnyRoot.Root.Any.String();
-      var using3 = AnyRoot.Root.Any.String();
+      var namespace1 = Any.String();
+      var namespace2 = Any.String();
+      var namespace3 = Any.String();
+      var using1 = Any.String();
+      var using2 = Any.String();
+      var using3 = Any.String();
       var cache = Substitute.For<INamespacesDependenciesCache>();
 
       var file = new SourceCodeFileUsingNamespaces(

@@ -20,23 +20,32 @@ namespace NScan.Domain
     private readonly IDependencyAnalysis _dependencyAnalysis;
     private readonly IProjectAnalysis _projectAnalysis;
     private readonly IProjectNamespacesAnalysis  _projectNamespacesAnalysis;
+    private readonly ISolutionForDependencyPathBasedRules _solutionForDependencyPathBasedRules;
+    private readonly ISolutionForProjectScopedRules _solutionForProjectScopedRules;
+    private readonly ISolutionForNamespaceBasedRules _solutionForNamespaceBasedRules;
 
     public Analysis(
       ISolution solution,
-      IAnalysisReportInProgress analysisReportInProgress, 
-      IDependencyAnalysis dependencyAnalysis, 
-      IProjectAnalysis projectAnalysis, 
-      IProjectNamespacesAnalysis projectNamespacesAnalysis)
+      IAnalysisReportInProgress analysisReportInProgress,
+      IDependencyAnalysis dependencyAnalysis,
+      IProjectAnalysis projectAnalysis,
+      IProjectNamespacesAnalysis projectNamespacesAnalysis,
+      ISolutionForDependencyPathBasedRules solutionForDependencyPathBasedRules,
+      ISolutionForProjectScopedRules solutionForProjectScopedRules,
+      ISolutionForNamespaceBasedRules solutionForNamespaceBasedRules)
     {
       _solution = solution;
       _analysisReportInProgress = analysisReportInProgress;
       _dependencyAnalysis = dependencyAnalysis;
       _projectAnalysis = projectAnalysis;
       _projectNamespacesAnalysis = projectNamespacesAnalysis;
+      _solutionForDependencyPathBasedRules = solutionForDependencyPathBasedRules;
+      _solutionForProjectScopedRules = solutionForProjectScopedRules;
+      _solutionForNamespaceBasedRules = solutionForNamespaceBasedRules;
     }
 
     public string Report => _analysisReportInProgress.AsString();
-    public int ReturnCode => _analysisReportInProgress.HasViolations() ? -1 : 0;
+    public int ReturnCode => _analysisReportInProgress.HasViolations() ? -1 : 0; //bug UI implementation leak
 
     public static Analysis PrepareFor(IEnumerable<CsharpProjectDto> csharpProjectDtos, INScanSupport support)
     {
@@ -48,12 +57,11 @@ namespace NScan.Domain
       var namespaceBasedRuleTargets = namespaceBasedRuleTargetFactory.NamespaceBasedRuleTargets(csharpProjectDtos);
       var projectScopedRuleTargets = projectScopedRuleTargetFactory.ProjectScopedRuleTargets(csharpProjectDtos);
 
-      return new Analysis(new DotNetStandardSolution(projectsByIds,
-          new PathCache(
-            new DependencyPathFactory()), 
-          namespaceBasedRuleTargets, 
-          projectScopedRuleTargets
-          ),
+      var pathCache = new PathCache(
+        new DependencyPathFactory());
+      ISolution solution = new DotNetStandardSolution(projectsByIds
+      );
+      return new Analysis(solution,
         new AnalysisReportInProgress(), 
         //bug move compositions to specific projects
         new DependencyAnalysis(
@@ -69,17 +77,21 @@ namespace NScan.Domain
           new NamespacesBasedRuleSet(), 
           new NamespaceBasedRuleFactory(
             new NamespaceBasedRuleViolationFactory(
-              new NamespaceBasedReportFragmentsFormat()))));
+              new NamespaceBasedReportFragmentsFormat()))), 
+        new SolutionForDependencyPathRules(pathCache, projectsByIds), 
+        new SolutionForProjectScopedRules(projectScopedRuleTargets), 
+        new SolutionForNamespaceBasedRules(namespaceBasedRuleTargets));
     }
 
     public void Run()
     {
-      _solution.ResolveAllProjectsReferences();
-      _solution.BuildCache();
+      _solution.ResolveAllProjectsReferences(); //bug move to dependency rules
+      _solutionForDependencyPathBasedRules.BuildDependencyPathCache();
+      _solutionForNamespaceBasedRules.BuildNamespacesCache();
       //_solution.PrintDebugInfo();
-      _dependencyAnalysis.PerformOn(_solution, _analysisReportInProgress);
-      _projectAnalysis.PerformOn(_solution, _analysisReportInProgress);
-      _projectNamespacesAnalysis.PerformOn(_solution, _analysisReportInProgress);
+      _dependencyAnalysis.PerformOn(_solutionForDependencyPathBasedRules, _analysisReportInProgress);
+      _projectAnalysis.PerformOn(_solutionForProjectScopedRules, _analysisReportInProgress);
+      _projectNamespacesAnalysis.PerformOn(_solutionForNamespaceBasedRules, _analysisReportInProgress);
     }
 
     public void AddDependencyPathRules(IEnumerable<DependencyPathBasedRuleUnionDto> rules)

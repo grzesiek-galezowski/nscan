@@ -1,7 +1,5 @@
-﻿using System;
-using FluentAssertions;
+﻿using FluentAssertions;
 using NScan.DependencyPathBasedRules;
-using NScan.Domain;
 using NScanSpecification.Lib;
 using TddXt.AnyRoot;
 using Xunit;
@@ -48,7 +46,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       projects.Put(projectId, dependencyPathBasedRuleTarget);
 
       //WHEN - THEN
-      new Action(() => projects.Put(projectId, dependencyPathBasedRuleTarget)).Should().NotThrow();
+      projects.Invoking(p => p.Put(projectId, dependencyPathBasedRuleTarget)).Should().NotThrow();
     }
 
     [Fact]
@@ -61,7 +59,8 @@ namespace TddXt.NScan.Specification.Domain.Root
       projects.Put(projectId, dependencyPathBasedRuleTarget);
 
       //WHEN - THEN
-      new Action(() => projects.Put(projectId, Any.OtherThan(dependencyPathBasedRuleTarget))).Should().ThrowExactly<ProjectShadowingException>();
+      projects.Invoking(p => p.Put(projectId, Any.OtherThan(dependencyPathBasedRuleTarget)))
+        .Should().ThrowExactly<ProjectShadowingException>();
     }
 
     

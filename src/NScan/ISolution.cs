@@ -1,13 +1,7 @@
-﻿using NScan.DependencyPathBasedRules;
-using NScan.NamespaceBasedRules;
-using NScan.ProjectScopedRules;
-
-namespace NScan.Domain
+﻿namespace NScan.Domain
 {
-  public interface ISolution : ISolutionForDependencyPathBasedRules, ISolutionForProjectScopedRules, ISolutionForNamespaceBasedRules
+  public interface ISolution
   {
     void ResolveAllProjectsReferences();
-    void PrintDebugInfo();
-    void BuildCache();
   }
 }

@@ -18,7 +18,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       var p3 = Any.Instance<IDependencyPathBasedRuleTarget>();
 
       //WHEN
-      var result = format.ApplyToPath(new List<IDependencyPathBasedRuleTarget>() {p1, p2, p3});
+      var result = format.ApplyToPath(new List<IDependencyPathBasedRuleTarget> {p1, p2, p3});
 
       //THEN
       result.Should().Be($"[{p1.ToString()}]->[{p2.ToString()}]->[{p3.ToString()}]");
@@ -32,7 +32,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       var p1 = Any.Instance<IDependencyPathBasedRuleTarget>();
 
       //WHEN
-      var result = format.ApplyToPath(new List<IDependencyPathBasedRuleTarget>() {p1});
+      var result = format.ApplyToPath(new List<IDependencyPathBasedRuleTarget> {p1});
 
       //THEN
       result.Should().Be($"[{p1.ToString()}]");

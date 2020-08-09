@@ -18,7 +18,7 @@ namespace NScanSpecification.Lib.AutomationLayer
     IFullDependingPartStated Except(string exclusionPattern);
     IFullProjectScopedRuleConstructed HasCorrectNamespaces();
     IFullNamespaceBasedRuleConstructed HasNoCircularUsings();
-    IFullProjectScopedRuleConstructed ToHaveDecoratedMethods(string classInclusionPattern, string methodInclusionPattern);
+    IFullProjectScopedRuleConstructed HasDecoratedMethods(string classInclusionPattern, string methodInclusionPattern);
     IFullProjectScopedRuleConstructed HasTargetFramework(string targetFramework);
     IFullNamespaceBasedRuleConstructed HasNoUsings(string from, string to);
   }
@@ -114,7 +114,7 @@ namespace NScanSpecification.Lib.AutomationLayer
       return this;
     }
 
-    public IFullProjectScopedRuleConstructed ToHaveDecoratedMethods(string classInclusionPattern, string methodInclusionPattern)
+    public IFullProjectScopedRuleConstructed HasDecoratedMethods(string classInclusionPattern, string methodInclusionPattern)
     {
       _ruleName = HasAttributesOnRuleMetadata.HasAttributesOn;
       _classInclusionPattern = classInclusionPattern;
