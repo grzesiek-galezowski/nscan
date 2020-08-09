@@ -25,6 +25,7 @@ namespace NScan.NamespaceBasedRules
 
     public void PerformOn(ISolutionForNamespaceBasedRules solution, IAnalysisReportInProgress analysisReportInProgress)
     {
+      solution.BuildNamespacesCache();
       solution.Check(_namespacesBasedRuleSet, analysisReportInProgress);
     }
 

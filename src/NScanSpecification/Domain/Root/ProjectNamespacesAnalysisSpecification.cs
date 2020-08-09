@@ -48,7 +48,7 @@ namespace TddXt.NScan.Specification.Domain.Root
     }
     
     [Fact]
-    public void ShouldApplyTheRulesetToSolution()
+    public void ShouldBuildCacheApplyTheRulesetToSolutionWhenPerformed()
     {
       //GIVEN
       var ruleSet = Any.Instance<INamespacesBasedRuleSet>();
@@ -61,7 +61,11 @@ namespace TddXt.NScan.Specification.Domain.Root
       projectAnalysis.PerformOn(solution, analysisReportInProgress);
 
       //THEN
-      solution.Received(1).Check(ruleSet, analysisReportInProgress);
+      Received.InOrder(() =>
+      {
+        solution.BuildNamespacesCache();
+        solution.Check(ruleSet, analysisReportInProgress);
+      });
     }
   }
 }

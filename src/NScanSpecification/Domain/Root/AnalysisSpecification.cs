@@ -16,7 +16,6 @@ namespace TddXt.NScan.Specification.Domain.Root
 {
   public class AnalysisBuilder
   {
-    public ISolution Solution { private get; set; } = Any.Instance<ISolution>();
     public IAnalysisReportInProgress ReportInProgress { private get; set; } = Any.Instance<IAnalysisReportInProgress>();
     public IDependencyAnalysis DependencyAnalysis { private get; set; } =
       Any.Instance<IDependencyAnalysis>();
@@ -33,10 +32,7 @@ namespace TddXt.NScan.Specification.Domain.Root
 
     public Analysis Build()
     {
-      ISolution solution = Solution;
-      return new Analysis(
-        solution,
-        ReportInProgress,
+      return new Analysis(ReportInProgress,
         DependencyAnalysis,
         ProjectAnalysis,
         NamespacesAnalysis, 
@@ -50,10 +46,9 @@ namespace TddXt.NScan.Specification.Domain.Root
   public class AnalysisSpecification
   {
     [Fact]
-    public void ShouldBuildUpMetadataAndCheckRuleSetsWhenRan()
+    public void ShouldRunAllKindsOfAnalysisWhenRan()
     {
       //GIVEN
-      var solution = Substitute.For<ISolution>();
       var analysisReport = Any.Instance<IAnalysisReportInProgress>();
       var projectAnalysis = Substitute.For<IProjectAnalysis>();
       var namespacesAnalysis = Substitute.For<IProjectNamespacesAnalysis>();
@@ -67,7 +62,6 @@ namespace TddXt.NScan.Specification.Domain.Root
         ProjectAnalysis = projectAnalysis,
         NamespacesAnalysis = namespacesAnalysis,
         DependencyAnalysis = dependencyAnalysis,
-        Solution = solution,
         SolutionForDependencyPathBasedRules = solutionForDependencyPathRules,
         SolutionForProjectScopedRules = solutionForProjectScopedRules,
         SolutionForNamespaceBasedRules = solutionForNamespaceBasedRules
@@ -77,21 +71,9 @@ namespace TddXt.NScan.Specification.Domain.Root
       analysis.Run();
 
       //THEN
-      //bug split into three tests?
-      Received.InOrder(() =>
-      {
-        solution.ResolveAllProjectsReferences();
-        solutionForDependencyPathRules.BuildDependencyPathCache();
-        dependencyAnalysis.PerformOn(solutionForDependencyPathRules, analysisReport);
-      });
-      
+      dependencyAnalysis.Received(1).PerformOn(solutionForDependencyPathRules, analysisReport);
       projectAnalysis.Received(1).PerformOn(solutionForProjectScopedRules, analysisReport);
-
-      Received.InOrder(() =>
-      {
-        solutionForNamespaceBasedRules.BuildNamespacesCache();
-        namespacesAnalysis.PerformOn(solutionForNamespaceBasedRules, analysisReport);
-      });
+      namespacesAnalysis.Received(1).PerformOn(solutionForNamespaceBasedRules, analysisReport);
     }
 
     [Fact]

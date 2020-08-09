@@ -23,6 +23,8 @@ namespace NScan.DependencyPathBasedRules
 
     public void PerformOn(ISolutionForDependencyPathBasedRules solution, IAnalysisReportInProgress analysisReportInProgress)
     {
+      solution.ResolveAllProjectsReferences();
+      solution.BuildDependencyPathCache();
       solution.Check(_pathRuleSet, analysisReportInProgress);
     }
 

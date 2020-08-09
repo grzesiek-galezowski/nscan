@@ -47,7 +47,7 @@ namespace TddXt.NScan.Specification.Domain.Root
     }
     
     [Fact]
-    public void ShouldApplyTheRulesetToSolution()
+    public void ShouldPrepareCachesAndApplyTheRulesetToSolution()
     {
       //GIVEN
       var ruleSet = Any.Instance<IPathRuleSet>();
@@ -60,7 +60,12 @@ namespace TddXt.NScan.Specification.Domain.Root
       projectAnalysis.PerformOn(solution, analysisReportInProgress);
 
       //THEN
-      solution.Received(1).Check(ruleSet, analysisReportInProgress);
+      Received.InOrder(() =>
+      {
+        solution.ResolveAllProjectsReferences();
+        solution.BuildDependencyPathCache();
+        solution.Check(ruleSet, analysisReportInProgress);
+      });
     }
   }
 }

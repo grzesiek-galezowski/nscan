@@ -16,7 +16,6 @@ namespace NScan.Domain
     public const int ReturnCodeOk = 0;
     public const int ReturnCodeAnalysisFailed = -1;
     private readonly IAnalysisReportInProgress _analysisReportInProgress;
-    private readonly ISolution _solution;
     private readonly IDependencyAnalysis _dependencyAnalysis;
     private readonly IProjectAnalysis _projectAnalysis;
     private readonly IProjectNamespacesAnalysis  _projectNamespacesAnalysis;
@@ -24,9 +23,7 @@ namespace NScan.Domain
     private readonly ISolutionForProjectScopedRules _solutionForProjectScopedRules;
     private readonly ISolutionForNamespaceBasedRules _solutionForNamespaceBasedRules;
 
-    public Analysis(
-      ISolution solution,
-      IAnalysisReportInProgress analysisReportInProgress,
+    public Analysis(IAnalysisReportInProgress analysisReportInProgress,
       IDependencyAnalysis dependencyAnalysis,
       IProjectAnalysis projectAnalysis,
       IProjectNamespacesAnalysis projectNamespacesAnalysis,
@@ -34,7 +31,6 @@ namespace NScan.Domain
       ISolutionForProjectScopedRules solutionForProjectScopedRules,
       ISolutionForNamespaceBasedRules solutionForNamespaceBasedRules)
     {
-      _solution = solution;
       _analysisReportInProgress = analysisReportInProgress;
       _dependencyAnalysis = dependencyAnalysis;
       _projectAnalysis = projectAnalysis;
@@ -49,20 +45,7 @@ namespace NScan.Domain
 
     public static Analysis PrepareFor(IEnumerable<CsharpProjectDto> csharpProjectDtos, INScanSupport support)
     {
-      var dependencyPathBasedRuleTargetFactory = new DependencyPathBasedRuleTargetFactory(support);
-      var namespaceBasedRuleTargetFactory = new NamespaceBasedRuleTargetFactory();
-      var projectScopedRuleTargetFactory = new ProjectScopedRuleTargetFactory(new ProjectScopedRuleViolationFactory());
-
-      var projectsByIds = dependencyPathBasedRuleTargetFactory.CreateDependencyPathRuleTargetsByIds(csharpProjectDtos);
-      var namespaceBasedRuleTargets = namespaceBasedRuleTargetFactory.NamespaceBasedRuleTargets(csharpProjectDtos);
-      var projectScopedRuleTargets = projectScopedRuleTargetFactory.ProjectScopedRuleTargets(csharpProjectDtos);
-
-      var pathCache = new PathCache(
-        new DependencyPathFactory());
-      ISolution solution = new DotNetStandardSolution(projectsByIds
-      );
-      return new Analysis(solution,
-        new AnalysisReportInProgress(), 
+      return new Analysis(new AnalysisReportInProgress(), 
         //bug move compositions to specific projects
         new DependencyAnalysis(
           new PathRuleSet(), 
@@ -78,16 +61,17 @@ namespace NScan.Domain
           new NamespaceBasedRuleFactory(
             new NamespaceBasedRuleViolationFactory(
               new NamespaceBasedReportFragmentsFormat()))), 
-        new SolutionForDependencyPathRules(pathCache, projectsByIds), 
-        new SolutionForProjectScopedRules(projectScopedRuleTargets), 
-        new SolutionForNamespaceBasedRules(namespaceBasedRuleTargets));
+        new SolutionForDependencyPathRules(new PathCache(
+          new DependencyPathFactory()), new DependencyPathBasedRuleTargetFactory(support)
+          .CreateDependencyPathRuleTargetsByIds(csharpProjectDtos)), 
+        new SolutionForProjectScopedRules(new ProjectScopedRuleTargetFactory(new ProjectScopedRuleViolationFactory())
+          .ProjectScopedRuleTargets(csharpProjectDtos)), 
+        new SolutionForNamespaceBasedRules(new NamespaceBasedRuleTargetFactory()
+          .NamespaceBasedRuleTargets(csharpProjectDtos)));
     }
 
     public void Run()
     {
-      _solution.ResolveAllProjectsReferences(); //bug move to dependency rules
-      _solutionForDependencyPathBasedRules.BuildDependencyPathCache();
-      _solutionForNamespaceBasedRules.BuildNamespacesCache();
       //_solution.PrintDebugInfo();
       _dependencyAnalysis.PerformOn(_solutionForDependencyPathBasedRules, _analysisReportInProgress);
       _projectAnalysis.PerformOn(_solutionForProjectScopedRules, _analysisReportInProgress);
