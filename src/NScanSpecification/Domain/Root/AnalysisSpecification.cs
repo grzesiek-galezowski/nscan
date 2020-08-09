@@ -35,10 +35,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       return new Analysis(ReportInProgress,
         DependencyAnalysis,
         ProjectAnalysis,
-        NamespacesAnalysis, 
-        SolutionForDependencyPathBasedRules, 
-        SolutionForProjectScopedRules, 
-        SolutionForNamespaceBasedRules);
+        NamespacesAnalysis);
     }
   }
 
@@ -71,9 +68,9 @@ namespace TddXt.NScan.Specification.Domain.Root
       analysis.Run();
 
       //THEN
-      dependencyAnalysis.Received(1).PerformOn(solutionForDependencyPathRules, analysisReport);
-      projectAnalysis.Received(1).PerformOn(solutionForProjectScopedRules, analysisReport);
-      namespacesAnalysis.Received(1).PerformOn(solutionForNamespaceBasedRules, analysisReport);
+      dependencyAnalysis.Received(1).Perform(analysisReport);
+      projectAnalysis.Received(1).Perform(analysisReport);
+      namespacesAnalysis.Received(1).PerformOn(analysisReport);
     }
 
     [Fact]

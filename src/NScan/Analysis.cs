@@ -19,25 +19,16 @@ namespace NScan.Domain
     private readonly IDependencyAnalysis _dependencyAnalysis;
     private readonly IProjectAnalysis _projectAnalysis;
     private readonly IProjectNamespacesAnalysis  _projectNamespacesAnalysis;
-    private readonly ISolutionForDependencyPathBasedRules _solutionForDependencyPathBasedRules;
-    private readonly ISolutionForProjectScopedRules _solutionForProjectScopedRules;
-    private readonly ISolutionForNamespaceBasedRules _solutionForNamespaceBasedRules;
 
     public Analysis(IAnalysisReportInProgress analysisReportInProgress,
       IDependencyAnalysis dependencyAnalysis,
       IProjectAnalysis projectAnalysis,
-      IProjectNamespacesAnalysis projectNamespacesAnalysis,
-      ISolutionForDependencyPathBasedRules solutionForDependencyPathBasedRules,
-      ISolutionForProjectScopedRules solutionForProjectScopedRules,
-      ISolutionForNamespaceBasedRules solutionForNamespaceBasedRules)
+      IProjectNamespacesAnalysis projectNamespacesAnalysis)
     {
       _analysisReportInProgress = analysisReportInProgress;
       _dependencyAnalysis = dependencyAnalysis;
       _projectAnalysis = projectAnalysis;
       _projectNamespacesAnalysis = projectNamespacesAnalysis;
-      _solutionForDependencyPathBasedRules = solutionForDependencyPathBasedRules;
-      _solutionForProjectScopedRules = solutionForProjectScopedRules;
-      _solutionForNamespaceBasedRules = solutionForNamespaceBasedRules;
     }
 
     public string Report => _analysisReportInProgress.AsString();
@@ -46,36 +37,17 @@ namespace NScan.Domain
     public static Analysis PrepareFor(IEnumerable<CsharpProjectDto> csharpProjectDtos, INScanSupport support)
     {
       return new Analysis(new AnalysisReportInProgress(), 
-        //bug move compositions to specific projects
-        new DependencyAnalysis(
-          new PathRuleSet(), 
-          new DependencyPathRuleFactory(
-            new DependencyPathRuleViolationFactory(
-              new DependencyPathReportFragmentsFormat()))), 
-        new ProjectAnalysis(
-          new ProjectScopedRuleSet(), 
-          new ProjectScopedRuleFactory(
-            new ProjectScopedRuleViolationFactory())), 
-        new ProjectNamespacesAnalysis(
-          new NamespacesBasedRuleSet(), 
-          new NamespaceBasedRuleFactory(
-            new NamespaceBasedRuleViolationFactory(
-              new NamespaceBasedReportFragmentsFormat()))), 
-        new SolutionForDependencyPathRules(new PathCache(
-          new DependencyPathFactory()), new DependencyPathBasedRuleTargetFactory(support)
-          .CreateDependencyPathRuleTargetsByIds(csharpProjectDtos)), 
-        new SolutionForProjectScopedRules(new ProjectScopedRuleTargetFactory(new ProjectScopedRuleViolationFactory())
-          .ProjectScopedRuleTargets(csharpProjectDtos)), 
-        new SolutionForNamespaceBasedRules(new NamespaceBasedRuleTargetFactory()
-          .NamespaceBasedRuleTargets(csharpProjectDtos)));
+        DependencyAnalysis.PrepareFor(csharpProjectDtos, support), 
+        ProjectAnalysis.PrepareFor(csharpProjectDtos), 
+        ProjectNamespacesAnalysis.PrepareFor2(csharpProjectDtos));
     }
 
     public void Run()
     {
       //_solution.PrintDebugInfo();
-      _dependencyAnalysis.PerformOn(_solutionForDependencyPathBasedRules, _analysisReportInProgress);
-      _projectAnalysis.PerformOn(_solutionForProjectScopedRules, _analysisReportInProgress);
-      _projectNamespacesAnalysis.PerformOn(_solutionForNamespaceBasedRules, _analysisReportInProgress);
+      _dependencyAnalysis.Perform(_analysisReportInProgress);
+      _projectAnalysis.Perform(_analysisReportInProgress);
+      _projectNamespacesAnalysis.PerformOn(_analysisReportInProgress);
     }
 
     public void AddDependencyPathRules(IEnumerable<DependencyPathBasedRuleUnionDto> rules)

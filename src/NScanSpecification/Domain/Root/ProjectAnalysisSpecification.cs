@@ -16,7 +16,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       //GIVEN
       var ruleSet = Substitute.For<IProjectScopedRuleSet>();
       var ruleFactory = Substitute.For<IProjectScopedRuleFactory>();
-      var projectAnalysis = new ProjectAnalysis(ruleSet, ruleFactory);
+      var projectAnalysis = new ProjectAnalysis(Any.Instance<ISolutionForProjectScopedRules>(), ruleSet, ruleFactory);
       var dto1 = Any.Instance<CorrectNamespacesRuleComplementDto>();
       var dto2 = Any.Instance<HasAttributesOnRuleComplementDto>();
       var dto3 = Any.Instance<HasTargetFrameworkRuleComplementDto>();
@@ -51,13 +51,13 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       //GIVEN
       var ruleSet = Any.Instance<IProjectScopedRuleSet>();
-      var projectAnalysis = new ProjectAnalysis(ruleSet, Any.Instance<IProjectScopedRuleFactory>());
       var solution = Substitute.For<ISolutionForProjectScopedRules>();
+      var projectAnalysis = new ProjectAnalysis(solution, ruleSet, Any.Instance<IProjectScopedRuleFactory>());
 
       var analysisReportInProgress = Any.Instance<IAnalysisReportInProgress>();
 
       //WHEN
-      projectAnalysis.PerformOn(solution, analysisReportInProgress);
+      projectAnalysis.Perform(analysisReportInProgress);
 
       //THEN
       solution.Received(1).Check(ruleSet, analysisReportInProgress);

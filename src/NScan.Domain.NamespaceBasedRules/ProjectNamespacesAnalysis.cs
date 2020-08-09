@@ -1,32 +1,35 @@
 using System.Collections.Generic;
 using NScan.SharedKernel;
+using NScan.SharedKernel.ReadingSolution.Ports;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 
 namespace NScan.NamespaceBasedRules
 {
   public interface IProjectNamespacesAnalysis
   {
-    void PerformOn(ISolutionForNamespaceBasedRules solution, IAnalysisReportInProgress analysisReportInProgress);
+    void PerformOn(IAnalysisReportInProgress analysisReportInProgress);
     void Add(IEnumerable<NamespaceBasedRuleUnionDto> rules);
   }
 
   public class ProjectNamespacesAnalysis : IProjectNamespacesAnalysis
   {
+    private readonly ISolutionForNamespaceBasedRules _solution;
     private readonly INamespacesBasedRuleSet _namespacesBasedRuleSet;
     private readonly INamespaceBasedRuleFactory _namespaceBasedRuleFactory;
 
-    public ProjectNamespacesAnalysis(
+    public ProjectNamespacesAnalysis(ISolutionForNamespaceBasedRules solution,
       INamespacesBasedRuleSet namespacesBasedRuleSet,
       INamespaceBasedRuleFactory namespaceBasedRuleFactory)
     {
+      _solution = solution;
       _namespacesBasedRuleSet = namespacesBasedRuleSet;
       _namespaceBasedRuleFactory = namespaceBasedRuleFactory;
     }
 
-    public void PerformOn(ISolutionForNamespaceBasedRules solution, IAnalysisReportInProgress analysisReportInProgress)
+    public void PerformOn(IAnalysisReportInProgress analysisReportInProgress)
     {
-      solution.BuildNamespacesCache();
-      solution.Check(_namespacesBasedRuleSet, analysisReportInProgress);
+      _solution.BuildNamespacesCache();
+      _solution.Check(_namespacesBasedRuleSet, analysisReportInProgress);
     }
 
     public void Add(IEnumerable<NamespaceBasedRuleUnionDto> rules)
@@ -35,6 +38,17 @@ namespace NScan.NamespaceBasedRules
       {
         ruleUnionDto.Accept(new CreateNamespaceBasedRuleVisitor(_namespaceBasedRuleFactory, _namespacesBasedRuleSet));
       }
+    }
+
+    public static ProjectNamespacesAnalysis PrepareFor2(IEnumerable<CsharpProjectDto> csharpProjectDtos)
+    {
+      return new ProjectNamespacesAnalysis(
+        new SolutionForNamespaceBasedRules(new NamespaceBasedRuleTargetFactory()
+          .NamespaceBasedRuleTargets(csharpProjectDtos)),
+        new NamespacesBasedRuleSet(), 
+        new NamespaceBasedRuleFactory(
+          new NamespaceBasedRuleViolationFactory(
+            new NamespaceBasedReportFragmentsFormat())));
     }
   }
 }

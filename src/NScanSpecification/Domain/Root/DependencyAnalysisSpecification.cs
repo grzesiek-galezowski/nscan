@@ -16,7 +16,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       //GIVEN
       var ruleSet = Substitute.For<IPathRuleSet>();
       var ruleFactory = Substitute.For<IDependencyBasedRuleFactory>();
-      var analysis = new DependencyAnalysis(ruleSet, ruleFactory);
+      var analysis = new DependencyAnalysis(Any.Instance<ISolutionForDependencyPathBasedRules>(), ruleSet, ruleFactory);
       var dto1 = Any.Instance<IndependentRuleComplementDto>();
       var dto2 = Any.Instance<IndependentRuleComplementDto>();
       var dto3 = Any.Instance<IndependentRuleComplementDto>();
@@ -51,13 +51,13 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       //GIVEN
       var ruleSet = Any.Instance<IPathRuleSet>();
-      var projectAnalysis = new DependencyAnalysis(ruleSet, Any.Instance<IDependencyBasedRuleFactory>());
       var solution = Substitute.For<ISolutionForDependencyPathBasedRules>();
+      var projectAnalysis = new DependencyAnalysis(solution, ruleSet, Any.Instance<IDependencyBasedRuleFactory>());
 
       var analysisReportInProgress = Any.Instance<IAnalysisReportInProgress>();
 
       //WHEN
-      projectAnalysis.PerformOn(solution, analysisReportInProgress);
+      projectAnalysis.Perform(analysisReportInProgress);
 
       //THEN
       Received.InOrder(() =>

@@ -17,7 +17,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       //GIVEN
       var ruleSet = Substitute.For<INamespacesBasedRuleSet>();
       var ruleFactory = Substitute.For<INamespaceBasedRuleFactory>();
-      var analysis = new ProjectNamespacesAnalysis(ruleSet, ruleFactory);
+      var analysis = new ProjectNamespacesAnalysis(Any.Instance<ISolutionForNamespaceBasedRules>(), ruleSet, ruleFactory);
       var dto1 = Any.Instance<NoUsingsRuleComplementDto>();
       var dto2 = Any.Instance<NoCircularUsingsRuleComplementDto>();
       var dto3 = Any.Instance<NoUsingsRuleComplementDto>();
@@ -52,13 +52,13 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       //GIVEN
       var ruleSet = Any.Instance<INamespacesBasedRuleSet>();
-      var projectAnalysis = new ProjectNamespacesAnalysis(ruleSet, Any.Instance<INamespaceBasedRuleFactory>());
       var solution = Substitute.For<ISolutionForNamespaceBasedRules>();
+      var projectAnalysis = new ProjectNamespacesAnalysis(solution, ruleSet, Any.Instance<INamespaceBasedRuleFactory>());
 
       var analysisReportInProgress = Any.Instance<IAnalysisReportInProgress>();
 
       //WHEN
-      projectAnalysis.PerformOn(solution, analysisReportInProgress);
+      projectAnalysis.PerformOn(analysisReportInProgress);
 
       //THEN
       Received.InOrder(() =>
