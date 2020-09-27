@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using AtmaFileSystem;
 using FluentAssertions;
 using NScanSpecification.Lib.AutomationLayer;
@@ -62,15 +63,15 @@ namespace NScanSpecification.E2E.AutomationLayer
     }
 
 
-    public void PerformAnalysis()
+    public async Task PerformAnalysis()
     {
-      CreateSolution();
-      _projectsCollection.CreateOnDisk(_solutionDir, _dotNetExe);
+      await CreateSolution();
+      await _projectsCollection.CreateOnDisk(_solutionDir, _dotNetExe);
       _references.AddToProjects();
-      _projectsCollection.AddToSolution(_solutionName);
+      await _projectsCollection.AddToSolutionAsync(_solutionName);
       _projectFiles.AddFilesToProjects();
-      _rules.SaveIn(_fullRulesPath);
-      RunAnalysis();
+      await _rules.SaveIn(_fullRulesPath);
+      await RunAnalysis();
     }
 
     public void ReportShouldNotContainText(string text)
@@ -93,7 +94,7 @@ namespace NScanSpecification.E2E.AutomationLayer
       _solutionDir.DeleteWithContent();
     }
 
-    private void RunAnalysis()
+    private async Task RunAnalysis()
     {
 
       var repositoryPath = RelevantPaths.RepositoryPath();
@@ -104,8 +105,8 @@ namespace NScanSpecification.E2E.AutomationLayer
       AssertFileExists(nscanConsoleProjectPath);
 
       //RunForDebug();
-      var analysisResultAnalysisResult = _dotNetExe.RunWith(
-        $"run --project {nscanConsoleProjectPath} -- -p \"{_fullSolutionPath}\" -r \"{_fullRulesPath}\"").Result;
+      var analysisResultAnalysisResult = await _dotNetExe.RunWith(
+        $"run --project {nscanConsoleProjectPath} --no-build --no-restore -- -p \"{_fullSolutionPath}\" -r \"{_fullRulesPath}\"");
       _analysisResult.Assign(analysisResultAnalysisResult);
     }
 
@@ -136,9 +137,9 @@ namespace NScanSpecification.E2E.AutomationLayer
       Directory.Exists(directoryPath.ToString()).Should().BeTrue(directoryPath + " should exist");
     }
 
-    private void CreateSolution()
+    private async Task CreateSolution()
     {
-      ProcessAssertions.AssertSuccess(_dotNetExe.RunWith($"new sln --name {_solutionName}").Result);
+      ProcessAssertions.AssertSuccess(await _dotNetExe.RunWith($"new sln --name {_solutionName}"));
     }
 
     public void ReportShouldContain(ReportedMessage reportedMessage)

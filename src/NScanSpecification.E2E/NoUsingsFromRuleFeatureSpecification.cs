@@ -1,4 +1,5 @@
-﻿using NScanSpecification.E2E.AutomationLayer;
+﻿using System.Threading.Tasks;
+using NScanSpecification.E2E.AutomationLayer;
 using Xunit;
 using static NScanSpecification.Lib.AutomationLayer.DependencyRuleBuilder;
 using static NScanSpecification.Lib.AutomationLayer.HasNoUsingsMessage;
@@ -9,7 +10,7 @@ namespace NScanSpecification.E2E
   public class NoUsingsFromRuleFeatureSpecification
   {
     [Fact]
-    public void ShouldReportSuccessWhenThereAreNoCircularDependenciesBetweenNamespaces()
+    public async Task ShouldReportSuccessWhenThereAreNoCircularDependenciesBetweenNamespaces()
     {
       //GIVEN
       using var context = new NScanE2EDriver();
@@ -21,14 +22,14 @@ namespace NScanSpecification.E2E
         .HasNoUsings(@from: "MyProject.Ports*", to: "MyProject.Adapters*"));
 
       //WHEN
-      context.PerformAnalysis();
+      await context.PerformAnalysis();
 
       //THEN
       context.ReportShouldContain(HasNoUsings("*MyProject*", "MyProject.Ports*", "MyProject.Adapters*").Ok());
     }
 
     [Fact]
-    public void ShouldReportFailureWhenThereAreForbiddenUsingDependenciesBetweenNamespaces()
+    public async Task ShouldReportFailureWhenThereAreForbiddenUsingDependenciesBetweenNamespaces()
     {
       //GIVEN
       using var context = new NScanE2EDriver();
@@ -40,7 +41,7 @@ namespace NScanSpecification.E2E
         .HasNoUsings(@from: "MyProject.Ports*", to: "MyProject.Adapters*"));
 
       //WHEN
-      context.PerformAnalysis();
+      await context.PerformAnalysis();
 
       //THEN
       context.ReportShouldContain(HasNoUsings("*MyProject*", "MyProject.Ports*", "MyProject.Adapters*").Error()

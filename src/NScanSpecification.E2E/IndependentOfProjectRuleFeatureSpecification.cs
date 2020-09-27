@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 using NScanSpecification.E2E.AutomationLayer;
 using NScanSpecification.Lib.AutomationLayer;
 using TddXt.AnyRoot.Strings;
@@ -12,49 +13,45 @@ namespace NScanSpecification.E2E
   public class IndependentOfProjectRuleFeatureSpecification
   {
     [Fact]
-    public void ShouldReportSuccessWhenNoProjectHasSpecifiedAssemblyReference()
+    public async Task ShouldReportSuccessWhenNoProjectHasSpecifiedAssemblyReference()
     {
       //GIVEN
       var projectName = Any.String();
       var assemblyName = Any.String();
-      using (var context = new NScanE2EDriver())
-      {
-        context.HasProject(projectName);
+      using var context = new NScanE2EDriver();
+      context.HasProject(projectName);
 
-        context.Add(RuleDemandingThat().Project(projectName).IndependentOfProject(assemblyName));
+      context.Add(RuleDemandingThat().Project(projectName).IndependentOfProject(assemblyName));
 
-        //WHEN
-        context.PerformAnalysis();
+      //WHEN
+      await context.PerformAnalysis();
 
-        //THEN
-        context.ReportShouldContain(
-          ProjectIndependentOfMessage.ProjectIndependentOfProject(projectName, assemblyName).Ok());
-        context.ShouldIndicateSuccess();
-      }
+      //THEN
+      context.ReportShouldContain(
+        ProjectIndependentOfMessage.ProjectIndependentOfProject(projectName, assemblyName).Ok());
+      context.ShouldIndicateSuccess();
     }
 
     [Fact]
-    public void ShouldReportFailureWhenProjectsHasSpecifiedAssemblyReferenceDirectly()
+    public async Task ShouldReportFailureWhenProjectsHasSpecifiedAssemblyReferenceDirectly()
     {
       //GIVEN
       var projectName = Any.String();
       var dependencyProjectName = Any.String();
-      using (var context = new NScanE2EDriver())
-      {
-        context.HasProject(dependencyProjectName);
-        context.HasProject(projectName).WithAssemblyReferences(dependencyProjectName);
+      using var context = new NScanE2EDriver();
+      context.HasProject(dependencyProjectName);
+      context.HasProject(projectName).WithAssemblyReferences(dependencyProjectName);
 
-        context.Add(RuleDemandingThat().Project(projectName).IndependentOfProject(dependencyProjectName));
+      context.Add(RuleDemandingThat().Project(projectName).IndependentOfProject(dependencyProjectName));
 
-        //WHEN
-        context.PerformAnalysis();
+      //WHEN
+      await context.PerformAnalysis();
 
-        //THEN
-        context.ReportShouldContain(
-          ProjectIndependentOfMessage.ProjectIndependentOfProject(projectName, dependencyProjectName).Error()
-            .ViolationPath(projectName));
-        context.ShouldIndicateFailure();
-      }
+      //THEN
+      context.ReportShouldContain(
+        ProjectIndependentOfMessage.ProjectIndependentOfProject(projectName, dependencyProjectName).Error()
+          .ViolationPath(projectName));
+      context.ShouldIndicateFailure();
     }
   }
 }

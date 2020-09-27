@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using AtmaFileSystem;
 using NScanSpecification.Lib.AutomationLayer;
 
@@ -10,10 +11,10 @@ namespace NScanSpecification.E2E.AutomationLayer
   {
     private readonly List<RuleUnionDto> _rules = new List<RuleUnionDto>();
 
-    public void SaveIn(AbsoluteFilePath fullRulesPath)
+    public Task SaveIn(AbsoluteFilePath fullRulesPath)
     {
       var lines = _rules.Select(Name).ToList();
-      File.WriteAllLines(fullRulesPath.ToString(), lines);
+      return File.WriteAllLinesAsync(fullRulesPath.ToString(), lines);
     }
 
     public void Add(RuleUnionDto ruleDto)

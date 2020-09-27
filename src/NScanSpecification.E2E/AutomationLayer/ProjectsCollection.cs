@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using AtmaFileSystem;
 using static AtmaFileSystem.AtmaFileSystemPaths;
 
@@ -21,28 +22,27 @@ namespace NScanSpecification.E2E.AutomationLayer
       _projects.Add(projectDefinition);
     }
 
-    public void AddToSolution(string solutionName)
+    public async Task AddToSolutionAsync(string solutionName)
     {
       ProcessAssertions.AssertSuccess(
-        _dotNetExe.RunWith($"sln {solutionName}.sln add {string.Join(" ", _projects.Select(p => p.ProjectName))}")
-          .Result);
+        await _dotNetExe.RunWith(
+          $"sln {solutionName}.sln add {string.Join(" ", _projects.Select(p => p.ProjectName))}"));
     }
 
-    public void CreateOnDisk(SolutionDir solutionDir, DotNetExe dotNetExe)
+    public Task CreateOnDisk(SolutionDir solutionDir, DotNetExe dotNetExe)
     {
-      _projects.ForEach(projectDefinition =>
+      return Task.WhenAll(_projects.Select(p =>
       {
-        var absoluteDirectoryPath = solutionDir.PathToProject(projectDefinition.ProjectName);
-        CreateProject(dotNetExe, projectDefinition.ProjectName, absoluteDirectoryPath, projectDefinition.TargetFramework);
-      });
+        var absoluteDirectoryPath = solutionDir.PathToProject(p.ProjectName);
+        return CreateProject(dotNetExe, p.ProjectName, absoluteDirectoryPath, p.TargetFramework);
+      }));
     }
 
-    private static void CreateProject(DotNetExe dotNetExe, string projectName, AbsoluteDirectoryPath projectDirPath,
+    private static async Task CreateProject(DotNetExe dotNetExe, string projectName, AbsoluteDirectoryPath projectDirPath,
       string targetFramework)
     {
       ProcessAssertions.AssertSuccess(
-        dotNetExe.RunWith($"new classlib --name {projectName} -f {targetFramework}")
-          .Result);
+        await dotNetExe.RunWith($"new classlib --name {projectName} -f {targetFramework}"));
       RemoveDefaultFileCreatedByTemplate(projectDirPath);
     }
 

@@ -1,4 +1,5 @@
-﻿using NScanSpecification.E2E.AutomationLayer;
+﻿using System.Threading.Tasks;
+using NScanSpecification.E2E.AutomationLayer;
 using Xunit;
 using static NScanSpecification.Lib.AutomationLayer.HasTargetFrameworkReportedMessage;
 using static NScanSpecification.Lib.AutomationLayer.DependencyRuleBuilder;
@@ -8,42 +9,37 @@ namespace NScanSpecification.E2E
   public class ProjectsHaveTargetFrameworkSpecification
   {
     [Fact]
-    public void ShouldReportSuccessWhenAllProjectsHaveSpecifiedFramework()
+    public async Task ShouldReportSuccessWhenAllProjectsHaveSpecifiedFramework()
     {
       //GIVEN
-      using (var context = new NScanE2EDriver())
-      {
-        context.HasProject("MyProject")
-          .WithTargetFramework("netcoreapp2.2");
+      using var context = new NScanE2EDriver();
+      context.HasProject("MyProject")
+        .WithTargetFramework("netcoreapp2.2");
           
-        context.Add(RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netcoreapp2.2"));
+      context.Add(RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netcoreapp2.2"));
 
-        //WHEN
-        context.PerformAnalysis();
+      //WHEN
+      await context.PerformAnalysis();
 
-        //THEN
-        context.ReportShouldContain(HasFramework("*MyProject*", "netcoreapp2.2").Ok());
-      }
+      //THEN
+      context.ReportShouldContain(HasFramework("*MyProject*", "netcoreapp2.2").Ok());
     }
 
     [Fact]
-    public void ShouldReportErrorForProjectsThatDoNotHaveSpecifiedFramework()
+    public async Task ShouldReportErrorForProjectsThatDoNotHaveSpecifiedFramework()
     {
       //GIVEN
-      using (var context = new NScanE2EDriver())
-      {
-        context.HasProject("MyProject")
-          .WithTargetFramework("netcoreapp2.2");
+      using var context = new NScanE2EDriver();
+      context.HasProject("MyProject").WithTargetFramework("netcoreapp2.2");
 
-        context.Add(RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netstandard2.0"));
+      context.Add(RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netstandard2.0"));
 
-        //WHEN
-        context.PerformAnalysis();
+      //WHEN
+      await context.PerformAnalysis();
 
-        //THEN
-        context.ReportShouldContain(HasFramework("*MyProject*", "netstandard2.0").Error()
-          .ProjectHasAnotherTargetFramework("MyProject", "netcoreapp2.2"));
-      }
+      //THEN
+      context.ReportShouldContain(HasFramework("*MyProject*", "netstandard2.0").Error()
+        .ProjectHasAnotherTargetFramework("MyProject", "netcoreapp2.2"));
     }
   }
 }

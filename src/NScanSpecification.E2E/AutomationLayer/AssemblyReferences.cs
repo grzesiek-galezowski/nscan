@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NScanSpecification.E2E.AutomationLayer
 {
@@ -22,17 +23,17 @@ namespace NScanSpecification.E2E.AutomationLayer
       }
     }
 
-    private void AddReferenceAsync((string dependent, string dependency) obj)
+    private async Task AddReferenceAsync((string dependent, string dependency) obj)
     {
-      ProcessAssertions.AssertSuccess(_dotNetExe.RunWith("add " +
+      ProcessAssertions.AssertSuccess(await _dotNetExe.RunWith("add " +
                                                         $"{obj.dependent} " +
                                                         "reference " +
-                                                        $"{obj.dependency}").Result);
+                                                        $"{obj.dependency}"));
     }
 
     public void AddToProjects()
     {
-      ReferencesByProjectName.ForEach(AddReferenceAsync);
+      ReferencesByProjectName.ForEach(async tuple => await AddReferenceAsync(tuple));
     }
   }
 }

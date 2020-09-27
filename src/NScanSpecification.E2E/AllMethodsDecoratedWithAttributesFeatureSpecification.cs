@@ -1,4 +1,5 @@
-﻿using NScanSpecification.E2E.AutomationLayer;
+﻿using System.Threading.Tasks;
+using NScanSpecification.E2E.AutomationLayer;
 using NScanSpecification.Lib;
 using NScanSpecification.Lib.AutomationLayer;
 using Xunit;
@@ -13,7 +14,7 @@ namespace NScanSpecification.E2E
   public class AllMethodsDecoratedWithAttributesFeatureSpecification
   {
     [Fact]
-    public void ShouldRaiseErrorWhenMethodsMatchingPatternAreNotDecoratedWithAttributes()
+    public async Task ShouldRaiseErrorWhenMethodsMatchingPatternAreNotDecoratedWithAttributes()
     {
       //GIVEN
       const string projectName = "MyProject";
@@ -36,7 +37,7 @@ namespace NScanSpecification.E2E
         .HasDecoratedMethods(classInclusionPattern, methodInclusionPattern));
 
       //WHEN
-      context.PerformAnalysis();
+      await context.PerformAnalysis();
 
       //THEN
       context.ReportShouldContain(
