@@ -35,16 +35,16 @@ namespace NScanSpecification.Component
       {
         //GIVEN
         var context = new NScanDriver();
-        context.HasProject("MyProject").WithTargetFramework("netcoreapp2.2");
+        context.HasProject("MyProject").WithTargetFramework("netcoreapp3.1");
 
-        context.Add(RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netstandard2.0"));
+        context.Add(RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netstandard2.1"));
 
         //WHEN
         context.PerformAnalysis();
 
         //THEN
-        context.ReportShouldContain(HasFramework("*MyProject*", "netstandard2.0").Error()
-          .ProjectHasAnotherTargetFramework("MyProject", "netcoreapp2.2"));
+        context.ReportShouldContain(HasFramework("*MyProject*", "netstandard2.1").Error()
+          .ProjectHasAnotherTargetFramework("MyProject", "netcoreapp3.1"));
       }
 
       [Fact]
@@ -52,18 +52,18 @@ namespace NScanSpecification.Component
       {
         //GIVEN
         var context = new NScanDriver();
-        context.HasProject("MyProject1").WithTargetFramework("netcoreapp2.2");
-        context.HasProject("MyProject2").WithTargetFramework("netcoreapp2.2");
+        context.HasProject("MyProject1").WithTargetFramework("netcoreapp3.1");
+        context.HasProject("MyProject2").WithTargetFramework("netcoreapp3.1");
 
-        context.Add(RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netstandard2.0"));
+        context.Add(RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netstandard2.1"));
 
         //WHEN
         context.PerformAnalysis();
 
         //THEN
-        context.ReportShouldContain(HasFramework("*MyProject*", "netstandard2.0").Error()
-          .ProjectHasAnotherTargetFramework("MyProject1", "netcoreapp2.2")
-          .ProjectHasAnotherTargetFramework("MyProject2", "netcoreapp2.2"));
+        context.ReportShouldContain(HasFramework("*MyProject*", "netstandard2.1").Error()
+          .ProjectHasAnotherTargetFramework("MyProject1", "netcoreapp3.1")
+          .ProjectHasAnotherTargetFramework("MyProject2", "netcoreapp3.1"));
       }
 
       [Fact]
@@ -73,8 +73,8 @@ namespace NScanSpecification.Component
         var projectAssemblyNameThatDoesNotMatchRuleFilter = "Trolololo";
         var context = new NScanDriver();
 
-        context.HasProject(projectAssemblyNameThatDoesNotMatchRuleFilter).WithTargetFramework("netcoreapp2.2");
-        context.Add(RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netstandard2.0"));
+        context.HasProject(projectAssemblyNameThatDoesNotMatchRuleFilter).WithTargetFramework("netcoreapp3.1");
+        context.Add(RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netstandard2.1"));
 
         //WHEN
         context.PerformAnalysis();

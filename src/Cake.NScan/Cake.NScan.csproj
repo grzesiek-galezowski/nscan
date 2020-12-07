@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <AssemblyName>Cake.NScan</AssemblyName>
     <RootNamespace>Cake.NScan</RootNamespace>
@@ -28,7 +28,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cake.Core" Version="0.38.1" PrivateAssets="All" />
+    <PackageReference Include="Cake.Core" Version="0.38.5" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>

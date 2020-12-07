@@ -14,15 +14,15 @@ namespace NScanSpecification.E2E
       //GIVEN
       using var context = new NScanE2EDriver();
       context.HasProject("MyProject")
-        .WithTargetFramework("netcoreapp2.2");
+        .WithTargetFramework("netcoreapp3.1");
           
-      context.Add(RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netcoreapp2.2"));
+      context.Add(RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netcoreapp3.1"));
 
       //WHEN
       await context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContain(HasFramework("*MyProject*", "netcoreapp2.2").Ok());
+      context.ReportShouldContain(HasFramework("*MyProject*", "netcoreapp3.1").Ok());
     }
 
     [Fact]
@@ -30,16 +30,16 @@ namespace NScanSpecification.E2E
     {
       //GIVEN
       using var context = new NScanE2EDriver();
-      context.HasProject("MyProject").WithTargetFramework("netcoreapp2.2");
+      context.HasProject("MyProject").WithTargetFramework("netcoreapp3.1");
 
-      context.Add(RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netstandard2.0"));
+      context.Add(RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netstandard2.1"));
 
       //WHEN
       await context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContain(HasFramework("*MyProject*", "netstandard2.0").Error()
-        .ProjectHasAnotherTargetFramework("MyProject", "netcoreapp2.2"));
+      context.ReportShouldContain(HasFramework("*MyProject*", "netstandard2.1").Error()
+        .ProjectHasAnotherTargetFramework("MyProject", "netcoreapp3.1"));
     }
   }
 }

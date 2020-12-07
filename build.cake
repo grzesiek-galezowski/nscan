@@ -22,12 +22,12 @@ var cakeNscan = "cake.nscan";
 var buildDir = Directory("./build") + Directory(configuration);
 var publishDir = Directory("./publish");
 var srcDir = Directory("./src");
-var buildNScanDir = buildDir + Directory(nscan) + Directory("netstandard2.0");
-var buildNScanConsoleDir = buildDir + Directory(nscanConsole) + Directory("netcoreapp2.2"); //bug!
-var buildCakeNScanDir = buildDir + Directory(cakeNscan) + Directory("netstandard2.0");
+var buildNScanDir = buildDir + Directory(nscan) + Directory("netstandard2.1");
+var buildNScanConsoleDir = buildDir + Directory(nscanConsole) + Directory("netcoreapp3.1"); //bug!
+var buildCakeNScanDir = buildDir + Directory(cakeNscan) + Directory("netstandard2.1");
 var srcNetStandardDir = srcDir; //TODO inline
 var slnNetStandard = srcNetStandardDir + File(solutionName);
-var version="0.50.3";
+var version="0.60.0";
 Func<ProcessArgumentBuilder, ProcessArgumentBuilder> versionCustomization = args => args.Append("-p:VersionPrefix=" + version); 
 
 var defaultNugetPackSettings = new DotNetCorePackSettings 
@@ -186,7 +186,7 @@ Task("Default")
 
 RunTarget(target);
 
-//#r "C:\\Users\\grzes\\Documents\\GitHub\\nscan\\CakePlugin\\bin\\Debug\\netstandard2.0\\CakePlugin.dll"
+//#r "C:\\Users\\grzes\\Documents\\GitHub\\nscan\\CakePlugin\\bin\\Debug\\netstandard2.1\\CakePlugin.dll"
 
 //var target = Argument("target", "Default");
 //Task("Default")
