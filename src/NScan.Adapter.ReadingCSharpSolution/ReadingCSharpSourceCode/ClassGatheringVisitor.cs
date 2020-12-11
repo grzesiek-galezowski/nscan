@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Functional.Maybe;
 using Functional.Maybe.Just;
 using Microsoft.CodeAnalysis;
@@ -26,7 +27,7 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode
 
     public override void VisitClassDeclaration(ClassDeclarationSyntax node)
     {
-      var className = node.Identifier.ValueText;
+      var className = node.Identifier.ValueText + GenericParameters(node);
       var currentNamespace = Maybe<string>.Nothing;
       var currentParent = (CSharpSyntaxNode)node.Parent.OrThrow();
       while (!(currentParent is CompilationUnitSyntax))
@@ -46,6 +47,18 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode
       _classes.Add(
         new ClassDeclarationInfo(className, currentNamespace.OrElse(() => string.Empty) ));
       VisitChildrenOf(node);
+    }
+
+    private string GenericParameters(ClassDeclarationSyntax node)
+    {
+      if (node.TypeParameterList == null)
+      {
+        return string.Empty;
+      }
+      else
+      {
+        return $"<{GenericTypeListWithRemovedWhitespaces(node.TypeParameterList)}>";
+      }
     }
 
     public Dictionary<string, ClassDeclarationInfo> ToDictionary()
@@ -74,6 +87,11 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode
       }
 
       _classes.Last().Methods.Add(new MethodDeclarationInfo(node.Identifier.Value.OrThrow().ToString(), attributes));
+    }
+    
+    private static string GenericTypeListWithRemovedWhitespaces(TypeParameterListSyntax typeParameterList)
+    {
+      return TypeFormatting.StripWhitespace(typeParameterList.Parameters.ToFullString());
     }
   }
 }

@@ -327,3 +327,4 @@ ASALocalRun/
 .mfractor/
 tools/*
 *.snupkg
+*.ncrunchproject

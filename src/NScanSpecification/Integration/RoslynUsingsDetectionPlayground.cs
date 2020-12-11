@@ -48,6 +48,17 @@ namespace Lolek
           })
         .Should().Contain("TddXt.AnyRoot");
     }
+    
+    [Fact]
+    public void ShouldCorrectlyRecognizeLocalStaticGenericUsings()
+    {
+      var allUsings = CSharpFileSyntaxTree.ParseText(@"using static Functional.Maybe.Maybe<int, int>;", "").GetAllUsingsFrom(
+        new Dictionary<string, ClassDeclarationInfo>
+        {
+          {"Functional.Maybe.Maybe<int,int>", new ClassDeclarationInfo("Maybe<int,int>", "Functional.Maybe.Maybe<int,int>")}
+        });
+      allUsings.Should().Contain("Functional.Maybe.Maybe<int,int>");
+    }
 
     [Fact]
     public void ShouldIgnoreForeignStaticUsings()

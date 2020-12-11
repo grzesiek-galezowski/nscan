@@ -17,7 +17,7 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode
 
     public override void VisitUsingDirective(UsingDirectiveSyntax node)
     {
-      var usingSubject = node.Name.ToString();
+      var usingSubject = TypeFormatting.StripWhitespace(node.Name.ToString());
       if (node.StaticKeyword.Value == null)
       {
         _usingNames.Add(usingSubject);
