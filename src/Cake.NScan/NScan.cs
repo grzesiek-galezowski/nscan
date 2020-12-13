@@ -6,6 +6,7 @@ using TddXt.NScan;
 
 namespace Cake.NScan
 {
+  [CakeAliasCategory("NScan")]
   public static class NScan
   {
     [CakeMethodAlias]
@@ -18,8 +19,8 @@ namespace Cake.NScan
     [CakeMethodAlias]
     // ReSharper disable once MemberCanBePrivate.Global
     public static void NScanAnalyze(
-      this ICakeContext context, 
-      string solutionPath, 
+      this ICakeContext context,
+      string solutionPath,
       string rulesFilePath,
       NScanSettings settings)
     {
@@ -61,7 +62,7 @@ namespace Cake.NScan
   {
     public NScanFailedException(int result) : base($"NScan failed with result: {result}")
     {
-      
+
     }
   }
 
