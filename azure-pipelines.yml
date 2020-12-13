@@ -22,7 +22,7 @@ steps:
       packageType: sdk
   
   - script: |
-      dotnet tool update --global Cake.Tool --version 1.0.0-rc0001 --tool-path ./tools
+      dotnet tool update --version 1.0.0-rc0001 --tool-path ./tools Cake.Tool
       ./tools/dotnet-cake.exe --Target RunNScanUnitTests
   
   - task: PublishTestResults@2
