@@ -22,7 +22,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AtmaFileSystem" Version="3.2.3" />
+    <PackageReference Include="AtmaFileSystem" Version="4.5.0" />
     <PackageReference Include="Glob" Version="1.1.8" />
     <PackageReference Include="Value" Version="1.1.0.1" />
   </ItemGroup>
