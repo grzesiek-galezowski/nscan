@@ -23,9 +23,7 @@ steps:
   
   - script: |
       dotnet tool update --version 1.0.0-rc0001 --tool-path ./tools Cake.Tool
-      ls
-      ls ./tools/
-      ./tools/dotnet-cake.exe --Target RunNScanUnitTests
+      ./tools/dotnet-cake --Target RunNScanUnitTests
   
   - task: PublishTestResults@2
     condition: succeededOrFailed()
