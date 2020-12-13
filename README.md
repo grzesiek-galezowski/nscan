@@ -6,7 +6,7 @@ NScan analyzes .NET Core solution for violated depenency conventions. If you nee
 
 NScan is provided in a form of:
 
-* [A .NET Standard 2.0 library](https://www.nuget.org/packages/NScan/)
+* [A .NET Standard 2.1 library](https://www.nuget.org/packages/NScan/)
 * [A console tool](https://www.nuget.org/packages/NScan.Console/)
 * [A Cake build system addin](https://www.nuget.org/packages/Cake.NScan/)
 
