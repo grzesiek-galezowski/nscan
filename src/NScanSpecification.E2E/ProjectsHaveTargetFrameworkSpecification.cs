@@ -38,8 +38,9 @@ namespace NScanSpecification.E2E
       await context.PerformAnalysis();
 
       //THEN
-      context.ReportShouldContain(HasFramework("*MyProject*", "netstandard2.1").Error()
-        .ProjectHasAnotherTargetFramework("MyProject", "netcoreapp3.1"));
+      context.ReportShouldContain(
+        HasFramework("*MyProject*", "netstandard2.1").Error()
+          .ProjectHasAnotherTargetFramework("MyProject", "netcoreapp3.1"));
     }
   }
 }

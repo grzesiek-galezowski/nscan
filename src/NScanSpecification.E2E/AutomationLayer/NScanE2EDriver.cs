@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using AtmaFileSystem;
+using AtmaFileSystem.IO;
 using FluentAssertions;
 using NScanSpecification.Lib.AutomationLayer;
 using TddXt.AnyRoot.Strings;
@@ -28,7 +29,7 @@ namespace NScanSpecification.E2E.AutomationLayer
 
     public NScanE2EDriver()
     {
-      _solutionDir = new SolutionDir(RelevantPaths.CreateRandomDirectory(), _solutionName);
+      _solutionDir = RepositoryOnDisk.CreateHomeForSolution(_solutionName);
       _fullSolutionPath = _solutionDir.SolutionFilePath();
       _fullRulesPath = _solutionDir.PathToFile(RulesFileName);
       _projectFiles = new ProjectFiles(_solutionDir);
@@ -96,13 +97,14 @@ namespace NScanSpecification.E2E.AutomationLayer
 
     private async Task RunAnalysis()
     {
-
-      var repositoryPath = RelevantPaths.RepositoryPath();
+      var repositoryPath = RepositoryOnDisk.RootPath();
       AssertDirectoryExists(repositoryPath);
 
-      var nscanConsoleProjectPath = RelevantPaths.NscanConsoleProjectPath(repositoryPath);
+      var nscanConsoleProjectPath = RepositoryOnDisk.NScanConsoleProjectPath(repositoryPath);
       
       AssertFileExists(nscanConsoleProjectPath);
+      AssertFileExists(_fullSolutionPath);
+      AssertFileExists(_fullRulesPath);
 
       //RunForDebug();
       var analysisResultAnalysisResult = await _dotNetExe.RunWith(
@@ -112,7 +114,7 @@ namespace NScanSpecification.E2E.AutomationLayer
 
     private void RunForDebug() //todo expand on this ability. This may be interesting if there's a good way to capture console output or when I add logging to a file
     {
-      var repositoryPath2 = RelevantPaths.RepositoryPath();
+      var repositoryPath2 = RepositoryOnDisk.RootPath();
       var nscanConsoleDllPath = 
         repositoryPath2 
         + DirectoryName("src") 
@@ -129,12 +131,12 @@ namespace NScanSpecification.E2E.AutomationLayer
 
     private void AssertFileExists(AbsoluteFilePath filePath)
     {
-      File.Exists(filePath.ToString()).Should().BeTrue(filePath + " should exist");
+      filePath.Exists().Should().BeTrue(filePath + " should exist");
     }
 
     private static void AssertDirectoryExists(AbsoluteDirectoryPath directoryPath)
     {
-      Directory.Exists(directoryPath.ToString()).Should().BeTrue(directoryPath + " should exist");
+      directoryPath.Exists().Should().BeTrue(directoryPath + " should exist");
     }
 
     private async Task CreateSolution()

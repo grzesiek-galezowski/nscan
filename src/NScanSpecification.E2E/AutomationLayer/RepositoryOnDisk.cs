@@ -7,7 +7,7 @@ using AbsoluteDirectoryPath = AtmaFileSystem.AbsoluteDirectoryPath;
 
 namespace NScanSpecification.E2E.AutomationLayer
 {
-  public static class RelevantPaths
+  public static class RepositoryOnDisk
   {
     public static DirectoryInfo CreateRandomDirectory()
     {
@@ -16,7 +16,7 @@ namespace NScanSpecification.E2E.AutomationLayer
       return new DirectoryInfo(tempDirectory);
     }
 
-    public static AbsoluteDirectoryPath RepositoryPath()
+    public static AbsoluteDirectoryPath RootPath()
     {
       if (NCrunch.RunsThisTest())
       {
@@ -37,10 +37,15 @@ namespace NScanSpecification.E2E.AutomationLayer
 
     }
 
-    public static AbsoluteFilePath NscanConsoleProjectPath(AbsoluteDirectoryPath repositoryPath)
+    public static AbsoluteFilePath NScanConsoleProjectPath(AbsoluteDirectoryPath repositoryPath)
     {
       return 
         repositoryPath + DirectoryName("src") + DirectoryName("NScan.Console") + FileName("NScan.Console.csproj");
+    }
+
+    public static SolutionDir CreateHomeForSolution(string solutionName)
+    {
+      return new SolutionDir(RepositoryOnDisk.CreateRandomDirectory(), solutionName);
     }
   }
 }

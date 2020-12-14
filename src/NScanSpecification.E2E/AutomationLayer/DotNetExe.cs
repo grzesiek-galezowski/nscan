@@ -20,6 +20,7 @@ namespace NScanSpecification.E2E.AutomationLayer
         {
           WorkingDirectory = _workingDirectory.FullName().ToString(),
         }).ConfigureAwait(false);
+
       return processInfo;
     }
   }
