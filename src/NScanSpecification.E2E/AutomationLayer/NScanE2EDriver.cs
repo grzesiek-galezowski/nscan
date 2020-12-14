@@ -26,6 +26,7 @@ namespace NScanSpecification.E2E.AutomationLayer
     private readonly ProjectsCollection _projectsCollection;
     private readonly AnalysisResult _analysisResult;
     private readonly SolutionDir _solutionDir;
+    private readonly ITestSupport _testSupport = new ConsoleTestSupport();
 
     public NScanE2EDriver()
     {
@@ -33,7 +34,7 @@ namespace NScanSpecification.E2E.AutomationLayer
       _fullSolutionPath = _solutionDir.SolutionFilePath();
       _fullRulesPath = _solutionDir.PathToFile(RulesFileName);
       _projectFiles = new ProjectFiles(_solutionDir);
-      _dotNetExe = new DotNetExe(_solutionDir);
+      _dotNetExe = new DotNetExe(_solutionDir, _testSupport);
       _references = new AssemblyReferences(_dotNetExe);
       _rules = new Rules();
       _projectsCollection = new ProjectsCollection(_dotNetExe);
