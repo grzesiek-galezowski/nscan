@@ -52,7 +52,7 @@ Task("Clean")
 
 Task("RunPreviousNScan").Does(() =>
 {
-  NScanAnalyze(slnNetStandard, @".\nscan.config");
+  NScanAnalyze(slnNetStandard, @"./nscan.config");
 });
 
 Task("DupFinder")
