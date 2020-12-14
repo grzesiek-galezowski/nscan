@@ -46,10 +46,8 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
     {
       var serializer = new XmlSerializer(typeof(XmlProject));
       XmlProject result;
-      using (var fileStream = new FileStream(projectFilePath.ToString(), FileMode.Open))
-      {
-        result = (XmlProject) serializer.Deserialize(fileStream);
-      }
+      using var fileStream = new FileStream(projectFilePath.ToString(), FileMode.Open);
+      result = (XmlProject) serializer.Deserialize(fileStream);
 
       return result;
     }

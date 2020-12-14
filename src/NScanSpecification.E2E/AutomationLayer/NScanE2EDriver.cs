@@ -6,6 +6,7 @@ using AtmaFileSystem.IO;
 using FluentAssertions;
 using NScanSpecification.Lib.AutomationLayer;
 using TddXt.AnyRoot.Strings;
+using Xunit.Abstractions;
 using static AtmaFileSystem.AtmaFileSystemPaths;
 using static TddXt.AnyRoot.Root;
 using AbsoluteFilePath = AtmaFileSystem.AbsoluteFilePath;
@@ -26,15 +27,15 @@ namespace NScanSpecification.E2E.AutomationLayer
     private readonly ProjectsCollection _projectsCollection;
     private readonly AnalysisResult _analysisResult;
     private readonly SolutionDir _solutionDir;
-    private readonly ITestSupport _testSupport = new ConsoleTestSupport();
 
-    public NScanE2EDriver()
+    public NScanE2EDriver(ITestOutputHelper output)
     {
+      ITestSupport testSupport = new ConsoleXUnitTestSupport(output);
       _solutionDir = RepositoryOnDisk.CreateHomeForSolution(_solutionName);
       _fullSolutionPath = _solutionDir.SolutionFilePath();
       _fullRulesPath = _solutionDir.PathToFile(RulesFileName);
       _projectFiles = new ProjectFiles(_solutionDir);
-      _dotNetExe = new DotNetExe(_solutionDir, _testSupport);
+      _dotNetExe = new DotNetExe(_solutionDir, testSupport);
       _references = new AssemblyReferences(_dotNetExe);
       _rules = new Rules();
       _projectsCollection = new ProjectsCollection(_dotNetExe);

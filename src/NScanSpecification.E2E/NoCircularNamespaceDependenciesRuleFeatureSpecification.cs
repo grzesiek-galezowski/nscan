@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using NScanSpecification.E2E.AutomationLayer;
 using Xunit;
+using Xunit.Abstractions;
 using static NScanSpecification.Lib.AutomationLayer.HasNoCircularUsingsMessage;
 using static NScanSpecification.Lib.AutomationLayer.DependencyRuleBuilder;
 using static NScanSpecification.Lib.AutomationLayer.SourceCodeFileDtoBuilder;
@@ -9,11 +10,18 @@ namespace NScanSpecification.E2E
 {
   public class NoCircularNamespaceDependenciesRuleFeatureSpecification
   {
+    private readonly ITestOutputHelper _output;
+
+    public NoCircularNamespaceDependenciesRuleFeatureSpecification(ITestOutputHelper output)
+    {
+      _output = output;
+    }
+
     [Fact]
     public async Task ShouldReportSuccessWhenThereAreNoCircularDependenciesBetweenNamespaces()
     {
       //GIVEN
-      using var context = new NScanE2EDriver();
+      using var context = new NScanE2EDriver(_output);
       context.HasProject("MyProject")
         .WithRootNamespace("MyProject")
         .With(FileWithNamespace("lol1.cs", "MyProject"));
@@ -30,7 +38,7 @@ namespace NScanSpecification.E2E
     public async Task ShouldReportErrorWhenACycleIsDiscovered()
     {
       //GIVEN
-      using var context = new NScanE2EDriver();
+      using var context = new NScanE2EDriver(_output);
       context.HasProject("MyProject")
         .WithRootNamespace("MyProject")
         .With(FileWithNamespace("lol1.cs", "MyProject").Using("MyProject.Util"))
