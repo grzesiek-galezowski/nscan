@@ -125,7 +125,8 @@ Task("RunNScanUnitTests")
 });
 
 Task("RunE2ETests")
-    .IsDependentOn("BuildNScanConsole", "RunNScanUnitTests")
+    .IsDependentOn("BuildNScanConsole")
+    .IsDependentOn("RunNScanUnitTests")
     .Does(() =>
     {
         DotNetCoreTest(srcNetStandardDir.ToString() + "/NScanSpecification.E2E/NScanSpecification.E2E.csproj", new DotNetCoreTestSettings           
@@ -136,21 +137,24 @@ Task("RunE2ETests")
     })
 
 Task("PackNScan")
-    .IsDependentOn("BuildNScan", "RunE2ETests")
+    .IsDependentOn("BuildNScan")
+    .IsDependentOn("RunE2ETests")
     .Does(() => 
     {
 		DotNetCorePack(srcNetStandardDir + File("NScan.Main"), defaultNugetPackSettings);
     });
 
 Task("PackNScanConsole")
-    .IsDependentOn("BuildNScanConsole", "RunE2ETests")
+    .IsDependentOn("BuildNScanConsole")
+    .IsDependentOn("RunE2ETests")
     .Does(() => 
     {
 		DotNetCorePack(srcNetStandardDir + File("NScan.Console"), defaultNugetPackSettings);
     });
 
 Task("PackCakeNScan")
-	.IsDependentOn("BuildCakeNScan", "RunE2ETests")
+	.IsDependentOn("BuildCakeNScan")
+	.IsDependentOn("RunE2ETests")
     .Does(() => 
     {
 		DotNetCorePack(srcNetStandardDir + File("Cake.NScan"), defaultNugetPackSettings);
