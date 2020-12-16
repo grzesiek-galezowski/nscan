@@ -134,7 +134,7 @@ Task("RunE2ETests")
             Configuration = configuration,
             Logger = "trx"
         });
-    })
+    });
 
 Task("PackNScan")
     .IsDependentOn("BuildNScan")
