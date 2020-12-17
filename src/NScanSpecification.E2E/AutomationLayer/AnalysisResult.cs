@@ -2,6 +2,7 @@
 using System.Linq;
 using FluentAssertions;
 using NScan.Lib;
+using NullableReferenceTypesExtensions;
 using RunProcessAsTask;
 
 namespace NScanSpecification.E2E.AutomationLayer

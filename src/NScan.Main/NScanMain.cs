@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -13,6 +13,7 @@ using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
 using NScan.SharedKernel.WritingProgramOutput.Ports;
+using NullableReferenceTypesExtensions;
 using Sprache;
 
 namespace TddXt.NScan

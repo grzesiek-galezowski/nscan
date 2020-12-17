@@ -1,5 +1,6 @@
-using System;
+﻿using System;
 using AtmaFileSystem;
+using NullableReferenceTypesExtensions;
 using static AtmaFileSystem.AtmaFileSystemPaths;
 
 namespace NScanSpecification.E2E.AutomationLayer
@@ -13,7 +14,8 @@ namespace NScanSpecification.E2E.AutomationLayer
 
     public static AbsoluteDirectoryPath OriginalSolutionPath()
     {
-      return AbsoluteDirectoryPath(Environment.GetEnvironmentVariable("NCrunch.OriginalSolutionPath"));
+      return AbsoluteDirectoryPath(
+        Environment.GetEnvironmentVariable("NCrunch.OriginalSolutionPath").OrThrow());
     }
   }
 }

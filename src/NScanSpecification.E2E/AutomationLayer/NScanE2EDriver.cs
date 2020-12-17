@@ -111,6 +111,7 @@ namespace NScanSpecification.E2E.AutomationLayer
       AssertFileExists(_fullRulesPath);
 
       //RunForDebug();
+      //bug NCrunch should run this from its own dir!!
       var analysisResultAnalysisResult = await _dotNetExe.RunWith(
         $"run --project {nscanConsoleProjectPath} -c {CurrentConfiguration()} --no-build --no-restore -- -p \"{_fullSolutionPath}\" -r \"{_fullRulesPath}\"");
       _analysisResult.Assign(analysisResultAnalysisResult);

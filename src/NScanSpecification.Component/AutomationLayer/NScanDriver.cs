@@ -9,6 +9,7 @@ using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
 using NScanSpecification.Lib.AutomationLayer;
+using NullableReferenceTypesExtensions;
 
 namespace NScanSpecification.Component.AutomationLayer
 {
