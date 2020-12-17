@@ -1,10 +1,12 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using AtmaFileSystem;
 using AtmaFileSystem.IO;
 using FluentAssertions;
 using NScanSpecification.Lib.AutomationLayer;
+using NullableReferenceTypesExtensions;
 using TddXt.AnyRoot.Strings;
 using Xunit.Abstractions;
 using static AtmaFileSystem.AtmaFileSystemPaths;
@@ -110,8 +112,14 @@ namespace NScanSpecification.E2E.AutomationLayer
 
       //RunForDebug();
       var analysisResultAnalysisResult = await _dotNetExe.RunWith(
-        $"run --project {nscanConsoleProjectPath} --no-build --no-restore -- -p \"{_fullSolutionPath}\" -r \"{_fullRulesPath}\"");
+        $"run --project {nscanConsoleProjectPath} -c {CurrentConfiguration()} --no-build --no-restore -- -p \"{_fullSolutionPath}\" -r \"{_fullRulesPath}\"");
       _analysisResult.Assign(analysisResultAnalysisResult);
+    }
+
+    private string CurrentConfiguration()
+    {
+      var assemblyConfigurationAttribute = this.GetType().Assembly.GetCustomAttribute<AssemblyConfigurationAttribute>();
+      return assemblyConfigurationAttribute.OrThrow().Configuration;
     }
 
     private void RunForDebug() //todo expand on this ability. This may be interesting if there's a good way to capture console output or when I add logging to a file
