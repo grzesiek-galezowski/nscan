@@ -29,7 +29,7 @@
     <RepositoryType>github</RepositoryType>
     <PackageTags>static analysis, quality gate, dependency management</PackageTags>
     <PackageReleaseNotes>Added printing version number on run</PackageReleaseNotes>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
