@@ -1,15 +1,13 @@
 ﻿using System;
-using System.IO;
-using System.Reflection;
 using System.Threading.Tasks;
 using AtmaFileSystem;
 using AtmaFileSystem.IO;
 using FluentAssertions;
 using NScanSpecification.Lib.AutomationLayer;
-using NullableReferenceTypesExtensions;
 using TddXt.AnyRoot.Strings;
 using Xunit.Abstractions;
 using static AtmaFileSystem.AtmaFileSystemPaths;
+using static NScanSpecification.E2E.AutomationLayer.BuildEnvironment;
 using static TddXt.AnyRoot.Root;
 using AbsoluteFilePath = AtmaFileSystem.AbsoluteFilePath;
 
@@ -19,8 +17,8 @@ namespace NScanSpecification.E2E.AutomationLayer
   {
     private readonly string _solutionName = Any.AlphaString();
 
-    private readonly AbsoluteFilePath _fullSolutionPath;
-    private readonly AbsoluteFilePath _fullRulesPath;
+    private readonly AbsoluteFilePath _fullFixtureSolutionPath;
+    private readonly AbsoluteFilePath _fullFixtureRulesPath;
     private static readonly FileName RulesFileName = FileName("rules.config");
     private readonly ProjectFiles _projectFiles;
     private readonly AssemblyReferences _references;
@@ -28,16 +26,17 @@ namespace NScanSpecification.E2E.AutomationLayer
     private readonly Rules _rules;
     private readonly ProjectsCollection _projectsCollection;
     private readonly AnalysisResult _analysisResult;
-    private readonly SolutionDir _solutionDir;
+    private readonly SolutionDir _fixtureSolutionDir;
+    private static readonly Lazy<Task> BuildNScanConsoleOnce = new Lazy<Task>(BuildNScanConsole);
 
     public NScanE2EDriver(ITestOutputHelper output)
     {
       ITestSupport testSupport = new ConsoleXUnitTestSupport(output);
-      _solutionDir = RepositoryOnDisk.CreateHomeForSolution(_solutionName);
-      _fullSolutionPath = _solutionDir.SolutionFilePath();
-      _fullRulesPath = _solutionDir.PathToFile(RulesFileName);
-      _projectFiles = new ProjectFiles(_solutionDir);
-      _dotNetExe = new DotNetExe(_solutionDir, testSupport);
+      _fixtureSolutionDir = RelevantPaths.CreateHomeForFixtureSolution(_solutionName);
+      _fullFixtureSolutionPath = _fixtureSolutionDir.SolutionFilePath();
+      _fullFixtureRulesPath = _fixtureSolutionDir.PathToFile(RulesFileName);
+      _projectFiles = new ProjectFiles(_fixtureSolutionDir);
+      _dotNetExe = new DotNetExe(_fixtureSolutionDir, testSupport);
       _references = new AssemblyReferences(_dotNetExe);
       _rules = new Rules();
       _projectsCollection = new ProjectsCollection(_dotNetExe);
@@ -71,11 +70,12 @@ namespace NScanSpecification.E2E.AutomationLayer
     public async Task PerformAnalysis()
     {
       await CreateSolution();
-      await _projectsCollection.CreateOnDisk(_solutionDir, _dotNetExe);
+      await _projectsCollection.CreateOnDisk(_fixtureSolutionDir, _dotNetExe);
       _references.AddToProjects();
       await _projectsCollection.AddToSolutionAsync(_solutionName);
       _projectFiles.AddFilesToProjects();
-      await _rules.SaveIn(_fullRulesPath);
+      await _rules.SaveIn(_fullFixtureRulesPath);
+      await BuildNScanConsoleOnce.Value;
       await RunAnalysis();
     }
 
@@ -96,58 +96,27 @@ namespace NScanSpecification.E2E.AutomationLayer
 
     public void Dispose()
     {
-      _solutionDir.DeleteWithContent();
+      _fixtureSolutionDir.DeleteWithContent();
     }
 
     private async Task RunAnalysis()
     {
-      var repositoryPath = RepositoryOnDisk.RootPath();
-      AssertDirectoryExists(repositoryPath);
-
-      var nscanConsoleProjectPath = RepositoryOnDisk.NScanConsoleProjectPath(repositoryPath);
+      var nscanBinaryPath = BuildOutputDirectory().AddFileName("NScan.Console.dll");
       
-      AssertFileExists(nscanConsoleProjectPath);
-      AssertFileExists(_fullSolutionPath);
-      AssertFileExists(_fullRulesPath);
+      AssertFileExists(nscanBinaryPath);
+      AssertFileExists(_fullFixtureSolutionPath);
+      AssertFileExists(_fullFixtureRulesPath);
 
-      //RunForDebug();
-      //bug NCrunch should run this from its own dir!!
       var analysisResultAnalysisResult = await _dotNetExe.RunWith(
-        $"run --project {nscanConsoleProjectPath} -c {CurrentConfiguration()} --no-build --no-restore -- -p \"{_fullSolutionPath}\" -r \"{_fullRulesPath}\"");
+        $"{nscanBinaryPath} " +
+        $"-p \"{_fullFixtureSolutionPath}\" " +
+        $"-r \"{_fullFixtureRulesPath}\"");
       _analysisResult.Assign(analysisResultAnalysisResult);
-    }
-
-    private string CurrentConfiguration()
-    {
-      var assemblyConfigurationAttribute = this.GetType().Assembly.GetCustomAttribute<AssemblyConfigurationAttribute>();
-      return assemblyConfigurationAttribute.OrThrow().Configuration;
-    }
-
-    private void RunForDebug() //todo expand on this ability. This may be interesting if there's a good way to capture console output or when I add logging to a file
-    {
-      var repositoryPath2 = RepositoryOnDisk.RootPath();
-      var nscanConsoleDllPath = 
-        repositoryPath2 
-        + DirectoryName("src") 
-        + DirectoryName("NScan.Console") 
-        + DirectoryName("bin") 
-        + DirectoryName("Debug")
-        + DirectoryName("netcoreapp2.1") 
-        + FileName("NScan.Console.dll");
-
-      AssertFileExists(nscanConsoleDllPath);
-      AppDomain.CurrentDomain.ExecuteAssembly(nscanConsoleDllPath.ToString(),
-        new[] {"-p", _fullSolutionPath.ToString(), "-r", _fullRulesPath.ToString()});
     }
 
     private void AssertFileExists(AbsoluteFilePath filePath)
     {
       filePath.Exists().Should().BeTrue(filePath + " should exist");
-    }
-
-    private static void AssertDirectoryExists(AbsoluteDirectoryPath directoryPath)
-    {
-      directoryPath.Exists().Should().BeTrue(directoryPath + " should exist");
     }
 
     private async Task CreateSolution()

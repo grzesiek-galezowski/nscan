@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.IO;
+using FluentAssertions;
 using NScan.Lib;
 using TddXt.AnyRoot.Strings;
 using Xunit;
@@ -85,6 +86,5 @@ namespace TddXt.NScan.Specification.ReadingRules.Ports
       //THEN
       description.Should().Be(inclusionPattern + " except " + exclusionPattern);
     }
-
   }
 }

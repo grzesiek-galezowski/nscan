@@ -7,14 +7,13 @@
   </PropertyGroup>
   
   <PropertyGroup>
-    <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
     <WarningsAsErrors>nullable</WarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Any" Version="5.0.0" />
-    <PackageReference Include="AtmaFileSystem" Version="4.5.0" />
+    <PackageReference Include="AtmaFileSystem" Version="4.6.1" />
     <PackageReference Include="FluentAssertions" Version="5.10.3" />
     <PackageReference Include="Glob" Version="1.1.8" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />

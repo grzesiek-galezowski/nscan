@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Threading.Tasks;
+using AtmaFileSystem;
 using RunProcessAsTask;
 
 namespace NScanSpecification.E2E.AutomationLayer
@@ -18,10 +19,15 @@ namespace NScanSpecification.E2E.AutomationLayer
     public async Task<ProcessResults> RunWith(string arguments)
     {
       _testSupport.RunningDotnetExeWith(arguments, _workingDirectory);
+      return await RunWith(arguments, _workingDirectory.FullName());
+    }
+
+    public static async Task<ProcessResults> RunWith(string arguments, AbsoluteDirectoryPath workingDirectory)
+    {
       var processInfo = await ProcessEx.RunAsync(
         new ProcessStartInfo("dotnet.exe", arguments)
         {
-          WorkingDirectory = _workingDirectory.FullName().ToString(),
+          WorkingDirectory = workingDirectory.ToString(),
         }).ConfigureAwait(false);
 
       return processInfo;
