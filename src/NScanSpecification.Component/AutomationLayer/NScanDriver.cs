@@ -2,7 +2,6 @@
 using System.Linq;
 using FluentAssertions;
 using NScan.Adapter.NotifyingSupport;
-using NScan.Domain;
 using NScan.Lib;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
@@ -10,6 +9,8 @@ using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
 using NScanSpecification.Lib.AutomationLayer;
 using NullableReferenceTypesExtensions;
+using TddXt.NScan;
+using TddXt.NScan.Domain;
 
 namespace NScanSpecification.Component.AutomationLayer
 {

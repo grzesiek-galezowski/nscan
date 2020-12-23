@@ -28,8 +28,8 @@
   <ItemGroup>
     <ProjectReference Include="..\NScan.Adapter.ReadingCSharpSolution\NScan.Adapter.ReadingCSharpSolution.csproj" />
     <ProjectReference Include="..\NScan.Adapter.ReadingRules\NScan.Adapter.ReadingRules.csproj" />
+    <ProjectReference Include="..\NScan.Main\NScan.Main.csproj" />
     <ProjectReference Include="..\NScanSpecification.Lib\NScanSpecification.Lib.csproj" />
-    <ProjectReference Include="..\NScan\NScan.Domain.csproj" />
   </ItemGroup>
 
 </Project>

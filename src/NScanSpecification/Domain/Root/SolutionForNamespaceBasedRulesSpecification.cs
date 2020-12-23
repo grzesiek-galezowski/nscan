@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using NScan.Domain;
 using NScan.NamespaceBasedRules;
 using NScan.SharedKernel;
 using NSubstitute;

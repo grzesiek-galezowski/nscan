@@ -6,7 +6,6 @@ using Functional.Maybe;
 using NScan.Adapter.ReadingCSharpSolution.ReadingProjects;
 using NScan.Adapter.ReadingRules;
 using NScan.DependencyPathBasedRules;
-using NScan.Domain;
 using NScan.Lib;
 using NScan.NamespaceBasedRules;
 using NScan.ProjectScopedRules;
@@ -18,6 +17,7 @@ using NScan.SharedKernel.RuleDtos.ProjectScoped;
 using NScan.SharedKernel.WritingProgramOutput.Ports;
 using NullableReferenceTypesExtensions;
 using Sprache;
+using TddXt.NScan.Domain;
 
 namespace TddXt.NScan
 {
@@ -54,7 +54,6 @@ namespace TddXt.NScan
         analysis.AddProjectScopedRules(projectScopedDtos);
         LogProjectScopedRules(projectScopedDtos, support);
 
-        
         var namespaceBasedDtos = ParserRulePreface.Then(ParseNamespaceBasedRule.Complement).Many().Parse(rulesString).WhereValueExist();
         LogNamespaceBasedRules(namespaceBasedDtos, support);
         analysis.AddNamespaceBasedRules(namespaceBasedDtos);

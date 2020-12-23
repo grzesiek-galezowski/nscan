@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using FluentAssertions;
 using NScan.DependencyPathBasedRules;
-using NScan.Domain;
 using NScan.SharedKernel;
 using NScanSpecification.Lib;
 using NSubstitute;
