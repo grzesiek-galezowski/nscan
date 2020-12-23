@@ -5,8 +5,11 @@ using System.Reflection;
 using Functional.Maybe;
 using NScan.Adapter.ReadingCSharpSolution.ReadingProjects;
 using NScan.Adapter.ReadingRules;
+using NScan.DependencyPathBasedRules;
 using NScan.Domain;
 using NScan.Lib;
+using NScan.NamespaceBasedRules;
+using NScan.ProjectScopedRules;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
@@ -86,7 +89,7 @@ namespace TddXt.NScan
     {
       foreach (var ruleUnion in enumerable)
       {
-        ruleUnion.Accept(new RuleLoggingVisitor(support));
+        ruleUnion.Accept(new PathBasedRuleLoggingVisitor(support));
       }
     }
     private static void LogProjectScopedRules(
@@ -95,7 +98,7 @@ namespace TddXt.NScan
     {
       foreach (var ruleUnion in enumerable)
       {
-        ruleUnion.Accept(new RuleLoggingVisitor(support));
+        ruleUnion.Accept(new ProjectScopedRuleLoggingVisitor(support));
       }
     }
     private static void LogNamespaceBasedRules(
@@ -104,7 +107,7 @@ namespace TddXt.NScan
     {
       foreach (var ruleUnion in enumerable)
       {
-        ruleUnion.Accept(new RuleLoggingVisitor(support));
+        ruleUnion.Accept(new NamespaceBasedRuleLoggingVisitor(support));
       }
     }
   }
