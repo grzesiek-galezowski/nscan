@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="Any" Version="5.0.0" />
-    <PackageReference Include="AtmaFileSystem" Version="4.6.1" />
+    <PackageReference Include="AtmaFileSystem" Version="4.7.0" />
     <PackageReference Include="FluentAssertions" Version="5.10.3" />
     <PackageReference Include="Glob" Version="1.1.8" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />

@@ -33,7 +33,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AtmaFileSystem" Version="4.6.1" />
+    <PackageReference Include="AtmaFileSystem" Version="4.7.0" />
     <PackageReference Include="FluentCommandLineParser-netstandard" Version="1.4.3.13" />
     <PackageReference Include="Functional.Maybe" Version="2.0.20" />
     <PackageReference Include="Functional.Maybe.Just" Version="1.5.0" />
