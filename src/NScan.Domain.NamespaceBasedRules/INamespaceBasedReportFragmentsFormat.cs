@@ -4,6 +4,6 @@ namespace NScan.NamespaceBasedRules
 {
   public interface INamespaceBasedReportFragmentsFormat
   {
-    string ApplyTo(IReadOnlyList<IReadOnlyList<string>> paths, string header);
+    string ApplyTo(IReadOnlyList<IReadOnlyList<NamespaceName>> paths, string header);
   }
 }

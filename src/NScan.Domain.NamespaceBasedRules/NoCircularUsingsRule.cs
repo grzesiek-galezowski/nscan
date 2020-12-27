@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 
@@ -28,7 +28,11 @@ namespace NScan.NamespaceBasedRules
       var cycles = namespacesCache.RetrieveCycles();
       if (cycles.Any())
       {
-        report.Add(_ruleViolationFactory.NoCyclesRuleViolation(Description(), projectAssemblyName, cycles));
+        report.Add(
+          _ruleViolationFactory.NoCyclesRuleViolation(
+            Description(), 
+            projectAssemblyName, 
+            cycles));
       }
     }
   }

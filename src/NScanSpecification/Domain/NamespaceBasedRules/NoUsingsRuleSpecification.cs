@@ -4,6 +4,7 @@ using NScan.NamespaceBasedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NSubstitute;
+using TddXt.AnyRoot.Collections;
 using TddXt.AnyRoot.Strings;
 using TddXt.XNSubstitute;
 using Xunit;
@@ -37,7 +38,8 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
       var namespacesCache = Substitute.For<INamespacesDependenciesCache>();
       var report = Substitute.For<IAnalysisReportInProgress>();
 
-      namespacesCache.RetrievePathsBetween(dto.FromPattern, dto.ToPattern).Returns(new List<IReadOnlyList<string>>());
+      namespacesCache.RetrievePathsBetween(dto.FromPattern, dto.ToPattern)
+        .Returns(new List<IReadOnlyList<NamespaceName>>());
 
       //WHEN
       rule.Evaluate(assemblyName, namespacesCache, report);
@@ -57,13 +59,16 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
       var namespacesCache = Substitute.For<INamespacesDependenciesCache>();
       var report = Substitute.For<IAnalysisReportInProgress>();
       var violation = Any.Instance<RuleViolation>();
-      var pathsFound = new List<IReadOnlyList<string>>
+      var pathsFound = new List<IReadOnlyList<NamespaceName>>
       {
-        Any.Instance<IReadOnlyList<string>>(),
-        Any.Instance<IReadOnlyList<string>>(),
-        Any.Instance<IReadOnlyList<string>>(),
+        Any.ReadOnlyList<NamespaceName>(),
+        Any.ReadOnlyList<NamespaceName>(),
+        Any.ReadOnlyList<NamespaceName>(),
       };
-      ruleViolationFactory.NoUsingsRuleViolation(rule.Description(), assemblyName, pathsFound)
+      ruleViolationFactory.NoUsingsRuleViolation(
+          rule.Description(), 
+          assemblyName, 
+          pathsFound)
         .Returns(violation);
       namespacesCache.RetrievePathsBetween(dto.FromPattern, dto.ToPattern).Returns(pathsFound);
 

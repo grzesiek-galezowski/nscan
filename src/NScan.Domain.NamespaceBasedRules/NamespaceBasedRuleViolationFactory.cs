@@ -13,7 +13,10 @@ namespace NScan.NamespaceBasedRules
       _reportFragmentsFormat = reportFragmentsFormat;
     }
 
-    public RuleViolation NoCyclesRuleViolation(string ruleDescription, string projectAssemblyName, IReadOnlyList<IReadOnlyList<string>> cycles)
+    public RuleViolation NoCyclesRuleViolation(
+      string ruleDescription, 
+      string projectAssemblyName,
+      IReadOnlyList<IReadOnlyList<NamespaceName>> cycles)
     {
       return new(
         ruleDescription, 
@@ -21,7 +24,10 @@ namespace NScan.NamespaceBasedRules
         _reportFragmentsFormat.ApplyTo(cycles, "Cycle"));
     }
 
-    public RuleViolation NoUsingsRuleViolation(string ruleDescription, string projectAssemblyName, IReadOnlyList<IReadOnlyList<string>> pathsFound)
+    public RuleViolation NoUsingsRuleViolation(
+      string ruleDescription, 
+      string projectAssemblyName,
+      IReadOnlyList<IReadOnlyList<NamespaceName>> pathsFound)
     {
       return new(
         ruleDescription, 

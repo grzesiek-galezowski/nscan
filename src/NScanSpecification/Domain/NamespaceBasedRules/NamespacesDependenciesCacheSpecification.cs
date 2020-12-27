@@ -74,7 +74,12 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
       var cycles = cache.RetrieveCycles();
 
       //THEN
-      cycles.Single().Should().BeEquivalentTo(new List<string> {namespace1, namespace2, namespace1});
+      cycles.Single().Should().Equal(new List<NamespaceName>
+      {
+        new(namespace1), 
+        new(namespace2), 
+        new(namespace1)
+      });
     }
 
     [Fact]
@@ -94,7 +99,13 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
       var cycles = cache.RetrieveCycles();
 
       //THEN
-      cycles.Single().Should().BeEquivalentTo(new List<string> {namespace1, namespace2, namespace3, namespace1});
+      cycles.Single().Should().BeEquivalentTo(new List<NamespaceName>
+      {
+        new(namespace1), 
+        new(namespace2), 
+        new(namespace3), 
+        new(namespace1)
+      });
     }
 
     [Fact]
@@ -118,8 +129,19 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
       var cycles = cache.RetrieveCycles();
 
       //THEN
-      cycles[0].Should().BeEquivalentTo(new List<string> {namespace1, namespace2, namespace1});
-      cycles[1].Should().BeEquivalentTo(new List<string> {namespace1, namespace3, namespace4, namespace1});
+      cycles[0].Should().Equal(new List<NamespaceName>
+      {
+        new(namespace1), 
+        new(namespace2), 
+        new(namespace1)
+      });
+      cycles[1].Should().Equal(new List<NamespaceName>
+      {
+        new(namespace1), 
+        new(namespace3), 
+        new(namespace4), 
+        new(namespace1)
+      });
       cycles.Should().HaveCount(2);
     }
     
@@ -183,7 +205,11 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
         Pattern.WithoutExclusion(namespace2));
 
       //THEN
-      paths[0].Should().BeEquivalentTo(new List<string> {namespace1, namespace2});
+      paths[0].Should().BeEquivalentTo(new List<NamespaceName>
+      {
+        new(namespace1), 
+        new(namespace2)
+      });
       paths.Should().HaveCount(1);
     }
     
@@ -208,8 +234,19 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
         Pattern.WithoutExclusion(namespace3));
 
       //THEN
-      paths[0].Should().BeEquivalentTo(new List<string> {namespace1, namespace2, namespace3});
-      paths[1].Should().BeEquivalentTo(new List<string> {namespace1, namespace4, namespace3});
+      paths[0].Should().BeEquivalentTo(new List<NamespaceName>
+      {
+        new(namespace1), 
+        new(namespace2), 
+        new(namespace3)
+      });
+      paths[1].Should().BeEquivalentTo(
+        new List<NamespaceName>
+        {
+          new(namespace1), 
+          new(namespace4), 
+          new(namespace3)
+        });
       paths.Should().HaveCount(2);
     }
     
@@ -230,7 +267,11 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
         Pattern.WithoutExclusion(namespace2));
 
       //THEN
-      paths[0].Should().BeEquivalentTo(new List<string> {namespace1, namespace2});
+      paths[0].Should().BeEquivalentTo(new List<NamespaceName>
+      {
+        new(namespace1), 
+        new(namespace2)
+      });
       paths.Should().HaveCount(1);
     }
 

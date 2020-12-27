@@ -15,17 +15,17 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       //GIVEN
       var format = new NamespaceBasedReportFragmentsFormat();
-      var namespace1 = Any.String();
-      var namespace2 = Any.String();
-      var namespace3 = Any.String();
-      var namespace4 = Any.String();
-      var namespace5 = Any.String();
-      var namespace6 = Any.String();
+      var namespace1 = Any.Instance<NamespaceName>();
+      var namespace2 = Any.Instance<NamespaceName>();
+      var namespace3 = Any.Instance<NamespaceName>();
+      var namespace4 = Any.Instance<NamespaceName>();
+      var namespace5 = Any.Instance<NamespaceName>();
+      var namespace6 = Any.Instance<NamespaceName>();
       var header = Any.String();
-      var cycles = new List<IReadOnlyList<string>>
+      var cycles = new List<IReadOnlyList<NamespaceName>>
       {
-        new List<string> {namespace1, namespace2, namespace3},
-        new List<string> {namespace4, namespace5, namespace6},
+        new List<NamespaceName> {namespace1, namespace2, namespace3},
+        new List<NamespaceName> {namespace4, namespace5, namespace6},
       };
 
       //WHEN
@@ -34,13 +34,13 @@ namespace TddXt.NScan.Specification.Domain.Root
       //THEN
       result.Should().Be(
         $"{header} 1:{Environment.NewLine}" +
-        $"  {namespace1}{Environment.NewLine}" +
-        $"    {namespace2}{Environment.NewLine}" +
-        $"      {namespace3}{Environment.NewLine}" +
+        $"  {namespace1.Value}{Environment.NewLine}" +
+        $"    {namespace2.Value}{Environment.NewLine}" +
+        $"      {namespace3.Value}{Environment.NewLine}" +
         $"{header} 2:{Environment.NewLine}" +
-        $"  {namespace4}{Environment.NewLine}" +
-        $"    {namespace5}{Environment.NewLine}" +
-        $"      {namespace6}{Environment.NewLine}");
+        $"  {namespace4.Value}{Environment.NewLine}" +
+        $"    {namespace5.Value}{Environment.NewLine}" +
+        $"      {namespace6.Value}{Environment.NewLine}");
     }
 
   }

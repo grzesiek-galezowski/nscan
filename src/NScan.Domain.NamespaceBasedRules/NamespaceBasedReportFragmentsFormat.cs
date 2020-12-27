@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using NScan.Lib;
 
@@ -6,7 +6,7 @@ namespace NScan.NamespaceBasedRules
 {
   public class NamespaceBasedReportFragmentsFormat : INamespaceBasedReportFragmentsFormat
   {
-    public string ApplyTo(IReadOnlyList<IReadOnlyList<string>> paths, string header)
+    public string ApplyTo(IReadOnlyList<IReadOnlyList<NamespaceName>> paths, string header)
     {
       string result = string.Empty;
       for (var pathIndex = 0; pathIndex < paths.Count; pathIndex++)
@@ -15,7 +15,7 @@ namespace NScan.NamespaceBasedRules
         var singlePath = paths[pathIndex];
         for (var cycleElementIndex = 0; cycleElementIndex < singlePath.Count; cycleElementIndex++)
         {
-          var segment = singlePath[cycleElementIndex];
+          var segment = singlePath[cycleElementIndex].Value;
           result += Indent(cycleElementIndex) + segment + Environment.NewLine;
         }
       }

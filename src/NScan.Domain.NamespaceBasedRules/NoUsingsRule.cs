@@ -28,7 +28,10 @@ namespace NScan.NamespaceBasedRules
       var paths = namespacesCache.RetrievePathsBetween(_dto.FromPattern, _dto.ToPattern);
       if (paths.Any())
       {
-        report.Add(_ruleViolationFactory.NoUsingsRuleViolation(Description(), projectAssemblyName, paths));
+        report.Add(
+          _ruleViolationFactory.NoUsingsRuleViolation(
+            Description(), 
+            projectAssemblyName, paths));
       }
     }
   }

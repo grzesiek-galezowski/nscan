@@ -32,17 +32,18 @@ namespace NScan.NamespaceBasedRules
       }
     }
 
-    public IReadOnlyList<IReadOnlyList<string>> RetrieveCycles()
+    public IReadOnlyList<IReadOnlyList<NamespaceName>> RetrieveCycles()
     {
       var cycles = new List<List<NamespaceName>>();
       foreach (var @namespace in _adjacencyList.Keys)
       {
         SearchForNextElementInCycle(cycles, @namespace, new List<NamespaceName>());
       }
-      return cycles.Select(p => p.Select(e => e.Value).ToList()).ToList();
+      return cycles;
     }
 
-    public IReadOnlyList<IReadOnlyList<string>> RetrievePathsBetween(Pattern fromPattern, Pattern toPattern)
+    public IReadOnlyList<IReadOnlyList<NamespaceName>> 
+      RetrievePathsBetween(Pattern fromPattern, Pattern toPattern)
     {
       var paths = new List<List<NamespaceName>>();
       foreach (var @namespace in _adjacencyList.Keys.Where(k => k.Matches(fromPattern)))
@@ -52,7 +53,7 @@ namespace NScan.NamespaceBasedRules
           new List<NamespaceName>(), 
           toPattern, @namespace);
       }
-      return paths.Select(p => p.Select(e => e.Value).ToList()).ToList();
+      return paths;
     }
 
     private void SearchForNextElementInPath(
