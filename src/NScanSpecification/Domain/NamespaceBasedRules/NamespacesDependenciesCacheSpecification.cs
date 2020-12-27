@@ -29,9 +29,9 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
     {
       //GIVEN
       var cache = new NamespacesDependenciesCache();
-      var namespace1 = Any.String();
-      var namespace2 = Any.String();
-      var namespace3 = Any.String();
+      var namespace1 = Any.Instance<NamespaceName>();
+      var namespace2 = Any.Instance<NamespaceName>();
+      var namespace3 = Any.Instance<NamespaceName>();
 
       cache.AddMapping(namespace1, namespace2);
       cache.AddMapping(namespace2, namespace3);
@@ -48,7 +48,7 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
     {
       //GIVEN
       var cache = new NamespacesDependenciesCache();
-      var namespace1 = Any.String();
+      var namespace1 = Any.Instance<NamespaceName>();
 
       cache.AddMapping(namespace1, namespace1);
 
@@ -64,8 +64,8 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
     {
       //GIVEN
       var cache = new NamespacesDependenciesCache();
-      var namespace1 = Any.String();
-      var namespace2 = Any.String();
+      var namespace1 = Any.Instance<NamespaceName>();
+      var namespace2 = Any.Instance<NamespaceName>();
 
       cache.AddMapping(namespace1, namespace2);
       cache.AddMapping(namespace2, namespace1);
@@ -76,9 +76,9 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
       //THEN
       cycles.Single().Should().Equal(new List<NamespaceName>
       {
-        new(namespace1), 
-        new(namespace2), 
-        new(namespace1)
+        namespace1, 
+        namespace2, 
+        namespace1
       });
     }
 
@@ -87,9 +87,9 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
     {
       //GIVEN
       var cache = new NamespacesDependenciesCache();
-      var namespace1 = Any.String();
-      var namespace2 = Any.String();
-      var namespace3 = Any.String();
+      var namespace1 = Any.Instance<NamespaceName>();
+      var namespace2 = Any.Instance<NamespaceName>();
+      var namespace3 = Any.Instance<NamespaceName>();
 
       cache.AddMapping(namespace1, namespace2);
       cache.AddMapping(namespace2, namespace3);
@@ -101,10 +101,10 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
       //THEN
       cycles.Single().Should().BeEquivalentTo(new List<NamespaceName>
       {
-        new(namespace1), 
-        new(namespace2), 
-        new(namespace3), 
-        new(namespace1)
+        namespace1, 
+        namespace2, 
+        namespace3, 
+        namespace1
       });
     }
 
@@ -113,10 +113,10 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
     {
       //GIVEN
       var cache = new NamespacesDependenciesCache();
-      var namespace1 = Any.String();
-      var namespace2 = Any.String();
-      var namespace3 = Any.String();
-      var namespace4 = Any.String();
+      var namespace1 = Any.Instance<NamespaceName>();
+      var namespace2 = Any.Instance<NamespaceName>();
+      var namespace3 = Any.Instance<NamespaceName>();
+      var namespace4 = Any.Instance<NamespaceName>();
 
       cache.AddMapping(namespace1, namespace2);
       cache.AddMapping(namespace2, namespace1);
@@ -131,16 +131,16 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
       //THEN
       cycles[0].Should().Equal(new List<NamespaceName>
       {
-        new(namespace1), 
-        new(namespace2), 
-        new(namespace1)
+        namespace1,
+        namespace2,
+        namespace1,
       });
       cycles[1].Should().Equal(new List<NamespaceName>
       {
-        new(namespace1), 
-        new(namespace3), 
-        new(namespace4), 
-        new(namespace1)
+        namespace1, 
+        namespace3, 
+        namespace4, 
+        namespace1
       });
       cycles.Should().HaveCount(2);
     }
@@ -150,10 +150,10 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
     {
       //GIVEN
       var cache = new NamespacesDependenciesCache();
-      var namespace1 = Any.String();
-      var namespace2 = Any.String();
-      var namespace3 = Any.String();
-      var namespace4 = Any.String();
+      var namespace1 = Any.Instance<NamespaceName>();
+      var namespace2 = Any.Instance<NamespaceName>();
+      var namespace3 = Any.Instance<NamespaceName>();
+      var namespace4 = Any.Instance<NamespaceName>();
 
       cache.AddMapping(namespace1, namespace2);
       cache.AddMapping(namespace2, namespace3);
@@ -161,8 +161,8 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
 
       //WHEN
       var paths = cache.RetrievePathsBetween(
-        Pattern.WithoutExclusion(namespace1), 
-        Pattern.WithoutExclusion(namespace4));
+        Pattern.WithoutExclusion(namespace1.Value), 
+        Pattern.WithoutExclusion(namespace4.Value));
 
       //THEN
       paths.Should().BeEmpty();
@@ -173,15 +173,15 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
     {
       //GIVEN
       var cache = new NamespacesDependenciesCache();
-      var namespace1 = Any.String();
-      var namespace2 = Any.String();
+      var namespace1 = Any.Instance<NamespaceName>();
+      var namespace2 = Any.Instance<NamespaceName>();
 
       cache.AddMapping(namespace1, namespace2);
 
       //WHEN
       var paths = cache.RetrievePathsBetween(
-        Pattern.WithoutExclusion(namespace1), 
-        Pattern.WithoutExclusion(namespace1));
+        Pattern.WithoutExclusion(namespace1.Value), 
+        Pattern.WithoutExclusion(namespace1.Value));
 
       //THEN
       paths.Should().BeEmpty();
@@ -194,21 +194,21 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
     {
       //GIVEN
       var cache = new NamespacesDependenciesCache();
-      var namespace1 = Any.String();
-      var namespace2 = Any.String();
+      var namespace1 = Any.Instance<NamespaceName>();
+      var namespace2 = Any.Instance<NamespaceName>();
 
       cache.AddMapping(namespace1, namespace2);
 
       //WHEN
       var paths = cache.RetrievePathsBetween(
-        Pattern.WithoutExclusion(namespace1), 
-        Pattern.WithoutExclusion(namespace2));
+        Pattern.WithoutExclusion(namespace1.Value), 
+        Pattern.WithoutExclusion(namespace2.Value));
 
       //THEN
       paths[0].Should().BeEquivalentTo(new List<NamespaceName>
       {
-        new(namespace1), 
-        new(namespace2)
+        namespace1, 
+        namespace2
       });
       paths.Should().HaveCount(1);
     }
@@ -218,10 +218,10 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
     {
       //GIVEN
       var cache = new NamespacesDependenciesCache();
-      var namespace1 = Any.String();
-      var namespace2 = Any.String();
-      var namespace3 = Any.String();
-      var namespace4 = Any.String();
+      var namespace1 = Any.Instance<NamespaceName>();
+      var namespace2 = Any.Instance<NamespaceName>();
+      var namespace3 = Any.Instance<NamespaceName>();
+      var namespace4 = Any.Instance<NamespaceName>();
 
       cache.AddMapping(namespace1, namespace2);
       cache.AddMapping(namespace1, namespace4);
@@ -230,22 +230,22 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
 
       //WHEN
       var paths = cache.RetrievePathsBetween(
-        Pattern.WithoutExclusion(namespace1), 
-        Pattern.WithoutExclusion(namespace3));
+        Pattern.WithoutExclusion(namespace1.Value), 
+        Pattern.WithoutExclusion(namespace3.Value));
 
       //THEN
       paths[0].Should().BeEquivalentTo(new List<NamespaceName>
       {
-        new(namespace1), 
-        new(namespace2), 
-        new(namespace3)
+        namespace1, 
+        namespace2, 
+        namespace3
       });
       paths[1].Should().BeEquivalentTo(
         new List<NamespaceName>
         {
-          new(namespace1), 
-          new(namespace4), 
-          new(namespace3)
+          namespace1, 
+          namespace4, 
+          namespace3
         });
       paths.Should().HaveCount(2);
     }
@@ -255,25 +255,24 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
     {
       //GIVEN
       var cache = new NamespacesDependenciesCache();
-      var namespace1 = Any.String();
-      var namespace2 = Any.String();
+      var namespace1 = Any.Instance<NamespaceName>();
+      var namespace2 = Any.Instance<NamespaceName>();
 
       cache.AddMapping(namespace1, namespace2);
       cache.AddMapping(namespace1, namespace2);
 
       //WHEN
       var paths = cache.RetrievePathsBetween(
-        Pattern.WithoutExclusion(namespace1), 
-        Pattern.WithoutExclusion(namespace2));
+        Pattern.WithoutExclusion(namespace1.Value), 
+        Pattern.WithoutExclusion(namespace2.Value));
 
       //THEN
       paths[0].Should().BeEquivalentTo(new List<NamespaceName>
       {
-        new(namespace1), 
-        new(namespace2)
+        namespace1, 
+        namespace2
       });
       paths.Should().HaveCount(1);
     }
-
   }
 }

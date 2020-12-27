@@ -9,10 +9,10 @@ namespace NScan.NamespaceBasedRules
     private readonly Dictionary<NamespaceName, List<NamespaceName>> _adjacencyList = new();
 
     //bug adjacency list accepts duplicates but should not!
-    public void AddMapping(string namespaceName, string usingName)
+    public void AddMapping(NamespaceName namespaceName, NamespaceName usingName)
     {
-      InitializeNeighborsOf(new NamespaceName(namespaceName));
-      AddNeighborOf(new NamespaceName(namespaceName), new NamespaceName(usingName));
+      InitializeNeighborsOf(namespaceName);
+      AddNeighborOf(namespaceName, usingName);
     }
 
     private void AddNeighborOf(NamespaceName namespaceName, NamespaceName usingName)

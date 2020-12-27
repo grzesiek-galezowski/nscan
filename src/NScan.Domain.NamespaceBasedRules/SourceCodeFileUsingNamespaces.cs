@@ -23,7 +23,7 @@ namespace NScan.NamespaceBasedRules
       {
         foreach (var @using in _usings)
         {
-          namespacesDependenciesCache.AddMapping(declaredNamespace, @using);
+          namespacesDependenciesCache.AddMapping(new NamespaceName(declaredNamespace), new NamespaceName(@using));
         }
       }
 

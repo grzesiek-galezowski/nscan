@@ -30,15 +30,24 @@ namespace TddXt.NScan.Specification.Domain.Root
       file.AddNamespaceMappingTo(cache);
 
       //THEN
-      cache.Received(1).AddMapping(namespace1, using1);
-      cache.Received(1).AddMapping(namespace1, using2);
-      cache.Received(1).AddMapping(namespace1, using3);
-      cache.Received(1).AddMapping(namespace2, using1);
-      cache.Received(1).AddMapping(namespace2, using2);
-      cache.Received(1).AddMapping(namespace2, using3);
-      cache.Received(1).AddMapping(namespace3, using1);
-      cache.Received(1).AddMapping(namespace3, using2);
-      cache.Received(1).AddMapping(namespace3, using3);
+      cache.Received(1).AddMapping(
+        new NamespaceName(namespace1), new NamespaceName(using1));
+      cache.Received(1).AddMapping(
+        new NamespaceName(namespace1), new NamespaceName(using2));
+      cache.Received(1).AddMapping(
+        new NamespaceName(namespace1), new NamespaceName(using3));
+      cache.Received(1).AddMapping(
+        new NamespaceName(namespace2), new NamespaceName(using1));
+      cache.Received(1).AddMapping(
+        new NamespaceName(namespace2), new NamespaceName(using2));
+      cache.Received(1).AddMapping(
+        new NamespaceName(namespace2), new NamespaceName(using3));
+      cache.Received(1).AddMapping(
+        new NamespaceName(namespace3), new NamespaceName(using1));
+      cache.Received(1).AddMapping(
+        new NamespaceName(namespace3), new NamespaceName(using2));
+      cache.Received(1).AddMapping(
+        new NamespaceName(namespace3), new NamespaceName(using3));
     }
   }
 }
