@@ -10,7 +10,7 @@ namespace NScan.SharedKernel.RuleDtos.DependencyPathBased
 
     public static DependencyPathBasedRuleUnionDto With(IndependentRuleComplementDto dto)
     {
-      return new DependencyPathBasedRuleUnionDto(dto);
+      return new(dto);
     }
 
     public string RuleName => Accept(_ruleNameExtractionVisitor);

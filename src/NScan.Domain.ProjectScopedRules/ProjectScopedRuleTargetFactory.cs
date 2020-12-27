@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
@@ -34,7 +34,7 @@ namespace NScan.ProjectScopedRules
 
     private SourceCodeFile ToSourceCodeFile(SourceCodeFileDto scf)
     {
-      return new SourceCodeFile(
+      return new(
         _ruleViolationFactory, 
         scf.DeclaredNamespaces, 
         scf.ParentProjectAssemblyName, 

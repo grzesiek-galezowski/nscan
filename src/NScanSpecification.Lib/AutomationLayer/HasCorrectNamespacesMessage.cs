@@ -32,12 +32,12 @@ namespace NScanSpecification.Lib.AutomationLayer
 
     protected override HasCorrectNamespacesMessage NewInstance(string str)
     {
-      return new HasCorrectNamespacesMessage(str);
+      return new(str);
     }
 
     public static HasCorrectNamespacesMessage HasCorrectNamespaces(string projectGlob)
     {
-      return new HasCorrectNamespacesMessage(TestRuleFormats.FormatCorrectNamespacesRule(projectGlob));
+      return new(TestRuleFormats.FormatCorrectNamespacesRule(projectGlob));
     }
 
   }

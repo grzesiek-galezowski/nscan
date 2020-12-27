@@ -15,32 +15,32 @@ namespace NScanSpecification.Lib.AutomationLayer
   {
     public static RuleUnionDto With(CorrectNamespacesRuleComplementDto dto)
     {
-      return new RuleUnionDto(dto);
+      return new(dto);
     }
 
     public static RuleUnionDto With(NoCircularUsingsRuleComplementDto dto)
     {
-      return new RuleUnionDto(dto);
+      return new(dto);
     }
     
     public static RuleUnionDto With(NoUsingsRuleComplementDto dto)
     {
-      return new RuleUnionDto(dto);
+      return new(dto);
     }
 
     public static RuleUnionDto With(IndependentRuleComplementDto dto)
     {
-      return new RuleUnionDto(dto);
+      return new(dto);
     }
 
     public static RuleUnionDto With(HasAttributesOnRuleComplementDto dto)
     {
-      return new RuleUnionDto(dto);
+      return new(dto);
     }
 
     public static RuleUnionDto With(HasTargetFrameworkRuleComplementDto dto)
     {
-      return new RuleUnionDto(dto);
+      return new(dto);
     }
 
     private RuleUnionDto(IndependentRuleComplementDto o) : base(o)

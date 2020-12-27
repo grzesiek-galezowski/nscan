@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -14,7 +14,7 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode
   {
     public static CSharpFileSyntaxTree ParseText(string sourceCode, string path)
     {
-      return new CSharpFileSyntaxTree(CSharpSyntaxTree.ParseText(sourceCode, path: path));
+      return new(CSharpSyntaxTree.ParseText(sourceCode, path: path));
     }
 
     private readonly SyntaxTree _syntaxTree;

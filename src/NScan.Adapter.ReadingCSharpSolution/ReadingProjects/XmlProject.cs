@@ -22,6 +22,6 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
     public AbsoluteFilePath AbsolutePath { get; set; }
 
     [XmlIgnore]
-    public List<SourceCodeFileDto> SourceCodeFiles { get; } = new List<SourceCodeFileDto>();
+    public List<SourceCodeFileDto> SourceCodeFiles { get; } = new();
   }
 }

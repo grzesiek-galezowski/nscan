@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using AtmaFileSystem;
 using Functional.Maybe;
@@ -56,7 +56,7 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
 
     private ProjectId Id()
     {
-      return new ProjectId(_xmlProject.AbsolutePath.ToString());
+      return new(_xmlProject.AbsolutePath.ToString());
     }
 
     private IEnumerable<SourceCodeFileDto> SourceCodeFiles()
@@ -103,7 +103,7 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
 
     public CsharpProjectDto BuildCsharpProjectDto()
     {
-      return new CsharpProjectDto(DetermineAssemblyName(), SourceCodeFiles(), TargetFramework(), Id(), XmlPackageReferences()
+      return new(DetermineAssemblyName(), SourceCodeFiles(), TargetFramework(), Id(), XmlPackageReferences()
         .Select(r => new PackageReference(r.Include, r.Version)).ToList(), XmlAssemblyReferences()
         .Select(r => new AssemblyReference(r.Include, r.HintPath)).ToList(), ProjectReferences()
         .Select(dto => new ProjectId(dto.FullIncludePath.ToString())).ToArray());

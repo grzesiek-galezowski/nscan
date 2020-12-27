@@ -6,7 +6,7 @@ namespace NScanSpecification.Lib.AutomationLayer
   {
     public static HasNoUsingsMessage HasNoUsings(string project, string from, string to)
     {
-      return new HasNoUsingsMessage(TestRuleFormats.FormatNoUsingsRule(project, from, to));
+      return new(TestRuleFormats.FormatNoUsingsRule(project, from, to));
     }
 
     public HasNoUsingsMessage(string returnValue) : base(returnValue)
@@ -15,7 +15,7 @@ namespace NScanSpecification.Lib.AutomationLayer
 
     protected override HasNoUsingsMessage NewInstance(string str)
     {
-      return new HasNoUsingsMessage(str);
+      return new(str);
     }
 
     public HasNoUsingsMessage UsingsPathFound(string projectAssemblyName, params string[] path)

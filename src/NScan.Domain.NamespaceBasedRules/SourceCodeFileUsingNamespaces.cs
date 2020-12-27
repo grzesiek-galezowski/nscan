@@ -1,8 +1,9 @@
+﻿using System;
 using System.Collections.Generic;
 
 namespace NScan.NamespaceBasedRules
 {
-  public class SourceCodeFileUsingNamespaces : ISourceCodeFileUsingNamespaces //bug move to another file
+  public class SourceCodeFileUsingNamespaces : ISourceCodeFileUsingNamespaces
   {
     private readonly IReadOnlyList<string> _usings;
     private readonly IReadOnlyList<string> _declaredNamespaces;

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NScan.SharedKernel;
 
 namespace NScan.DependencyPathBasedRules
@@ -15,7 +15,7 @@ namespace NScan.DependencyPathBasedRules
 
     public RuleViolation PathRuleViolation(string ruleDescription, IReadOnlyList<IDependencyPathBasedRuleTarget> violationPath)
     {
-      return new RuleViolation(ruleDescription, "Violating path: ", _reportFragmentsFormat.ApplyToPath(violationPath));
+      return new(ruleDescription, "Violating path: ", _reportFragmentsFormat.ApplyToPath(violationPath));
     }
   }
 }

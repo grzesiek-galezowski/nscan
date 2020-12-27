@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
@@ -41,7 +41,7 @@ namespace NScan.ProjectScopedRules
 
     public static ProjectAnalysis PrepareFor(IEnumerable<CsharpProjectDto> csharpProjectDtos)
     {
-      return new ProjectAnalysis(
+      return new(
         new SolutionForProjectScopedRules(new ProjectScopedRuleTargetFactory(new ProjectScopedRuleViolationFactory())
           .ProjectScopedRuleTargets(csharpProjectDtos)),
         new ProjectScopedRuleSet(), 

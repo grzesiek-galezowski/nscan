@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Functional.Maybe;
 using Functional.Maybe.Just;
@@ -20,14 +20,14 @@ namespace NScan.Lib
 
     public static Pattern WithoutExclusion(string pattern)
     {
-      return new Pattern(
+      return new(
         pattern ?? throw new ArgumentNullException(nameof(pattern)), 
         Maybe<string>.Nothing);
     }
 
     public static Pattern WithExclusion(string inclusionPattern, string exclusionPattern)
     {
-      return new Pattern(
+      return new(
         inclusionPattern ?? throw new ArgumentNullException(nameof(inclusionPattern)),
         exclusionPattern.Just()
         );

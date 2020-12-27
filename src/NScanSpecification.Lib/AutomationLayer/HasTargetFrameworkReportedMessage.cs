@@ -10,12 +10,12 @@ namespace NScanSpecification.Lib.AutomationLayer
 
     protected override HasTargetFrameworkReportedMessage NewInstance(string str)
     {
-      return new HasTargetFrameworkReportedMessage(str);
+      return new(str);
     }
 
     public static HasTargetFrameworkReportedMessage HasFramework(string projectAssemblyNamePattern, string frameworkId)
     {
-      return new HasTargetFrameworkReportedMessage(TestRuleFormats.FormatHasTargetFrameworkRule(projectAssemblyNamePattern, frameworkId));
+      return new(TestRuleFormats.FormatHasTargetFrameworkRule(projectAssemblyNamePattern, frameworkId));
     }
 
     public HasTargetFrameworkReportedMessage ProjectHasAnotherTargetFramework(string projectName, string actualTargetFramework)

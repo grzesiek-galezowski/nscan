@@ -14,11 +14,11 @@ namespace NScanSpecification.Component.AutomationLayer
   {
     private readonly string _assemblyName;
     private string _targetFramework;
-    private readonly List<SourceCodeFileDtoBuilder> _sourceCodeFileBuilders = new List<SourceCodeFileDtoBuilder>();
+    private readonly List<SourceCodeFileDtoBuilder> _sourceCodeFileBuilders = new();
     private readonly ProjectId _projectId;
-    private readonly List<PackageReference> _packageReferences = new List<PackageReference>();
-    private readonly List<AssemblyReference> _assemblyReferences = new List<AssemblyReference>();
-    private readonly List<ProjectId> _referencedProjectIds = new List<ProjectId>();
+    private readonly List<PackageReference> _packageReferences = new();
+    private readonly List<AssemblyReference> _assemblyReferences = new();
+    private readonly List<ProjectId> _referencedProjectIds = new();
     private string _rootNamespace = "";
 
     private XmlProjectBuilder(string assemblyName)
@@ -68,12 +68,12 @@ namespace NScanSpecification.Component.AutomationLayer
 
     public static XmlProjectBuilder WithAssemblyName(string assemblyName)
     {
-      return new XmlProjectBuilder(assemblyName);
+      return new(assemblyName);
     }
 
     public CsharpProjectDto BuildCsharpProjectDto()
     {
-      return new CsharpProjectDto(
+      return new(
         _assemblyName,
         _sourceCodeFileBuilders.Select(b => b.BuildWith(_assemblyName, _rootNamespace)),
         _targetFramework,

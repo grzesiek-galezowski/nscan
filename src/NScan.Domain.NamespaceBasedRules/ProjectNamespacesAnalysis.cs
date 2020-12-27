@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
@@ -42,7 +42,7 @@ namespace NScan.NamespaceBasedRules
 
     public static ProjectNamespacesAnalysis PrepareFor2(IEnumerable<CsharpProjectDto> csharpProjectDtos)
     {
-      return new ProjectNamespacesAnalysis(
+      return new(
         new SolutionForNamespaceBasedRules(new NamespaceBasedRuleTargetFactory()
           .NamespaceBasedRuleTargets(csharpProjectDtos)),
         new NamespacesBasedRuleSet(), 

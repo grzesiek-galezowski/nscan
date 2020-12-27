@@ -32,7 +32,7 @@ namespace TddXt.NScan.Specification.Domain.Root
 
     public Analysis Build()
     {
-      return new Analysis(ReportInProgress,
+      return new(ReportInProgress,
         DependencyAnalysis,
         ProjectAnalysis,
         NamespacesAnalysis);

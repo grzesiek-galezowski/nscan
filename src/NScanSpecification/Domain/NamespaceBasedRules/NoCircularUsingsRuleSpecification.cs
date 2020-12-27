@@ -71,7 +71,7 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
 
     private static List<IReadOnlyList<string>> EmptyList()
     {
-      return new List<IReadOnlyList<string>>();
+      return new();
     }
   }
 }

@@ -17,9 +17,9 @@ namespace NScanSpecification.Component.AutomationLayer
   public class NScanDriver
   {
     private readonly INScanSupport _consoleSupport = new ConsoleSupport();
-    private readonly List<XmlProjectBuilder> _xmlProjects = new List<XmlProjectBuilder>();
+    private readonly List<XmlProjectBuilder> _xmlProjects = new();
     private Analysis? _analysis;
-    private readonly List<IAnalysisRule> _rules = new List<IAnalysisRule>();
+    private readonly List<IAnalysisRule> _rules = new();
 
     public XmlProjectBuilder HasProject(string assemblyName)
     {

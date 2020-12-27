@@ -3,7 +3,7 @@ using NScan.SharedKernel;
 
 namespace NScan.NamespaceBasedRules
 {
-  public class NamespaceBasedRuleTarget : INamespaceBasedRuleTarget //bug move this to a namespace-specific project
+  public class NamespaceBasedRuleTarget : INamespaceBasedRuleTarget
   {
     private readonly string _assemblyName;
     private readonly IReadOnlyList<ISourceCodeFileUsingNamespaces> _sourceCodeFiles;

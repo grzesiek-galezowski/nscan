@@ -1,11 +1,11 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NScan.SharedKernel;
 
 namespace NScan.ProjectScopedRules
 {
   public class ProjectScopedRuleSet : IProjectScopedRuleSet
   {
-    private readonly List<IProjectScopedRule> _rules = new List<IProjectScopedRule>();
+    private readonly List<IProjectScopedRule> _rules = new();
 
     public void Add(IProjectScopedRule rule)
     {

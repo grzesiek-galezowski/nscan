@@ -193,7 +193,7 @@ namespace TddXt.NScan.Specification.Domain.Root
   {
     public SourceCodeFile Build()
     {
-      return new SourceCodeFile(RuleViolationFactory, DeclaredNamespaces,
+      return new(RuleViolationFactory, DeclaredNamespaces,
         ParentProjectAssemblyName, ParentProjectRootNamespace, PathRelativeToProjectRoot,
         Classes);
     }
@@ -216,7 +216,7 @@ namespace TddXt.NScan.Specification.Domain.Root
   {
     public static List<T> AsList<T>(this T item)
     {
-      return new List<T> { item };
+      return new() { item };
     }
   }
 }

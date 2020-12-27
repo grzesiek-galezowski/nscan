@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using FluentAssertions;
 using GlobExpressions;
 using NScan.DependencyPathBasedRules;
@@ -210,7 +210,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       {
         PackageReferences = new List<PackageReference>
         {
-          new PackageReference(packageReference, Any.String())
+          new(packageReference, Any.String())
         }
       }.Build();
 
@@ -243,7 +243,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       {
         AssemblyReferences = new List<AssemblyReference>
         {
-          new AssemblyReference(assemblyReferenceName, Any.String())
+          new(assemblyReferenceName, Any.String())
         }
       }.Build();
 
@@ -290,7 +290,7 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       public DotNetStandardProject Build()
       {
-        return new DotNetStandardProject(
+        return new(
           AssemblyName,
           ProjectId,
           PackageReferences,

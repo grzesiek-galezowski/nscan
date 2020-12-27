@@ -1,11 +1,11 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NScan.SharedKernel;
 
 namespace NScan.NamespaceBasedRules
 {
   public class NamespacesBasedRuleSet : INamespacesBasedRuleSet
   {
-    private readonly List<INamespacesBasedRule> _rules = new List<INamespacesBasedRule>();
+    private readonly List<INamespacesBasedRule> _rules = new();
 
     public void Add(INamespacesBasedRule rule)
     {

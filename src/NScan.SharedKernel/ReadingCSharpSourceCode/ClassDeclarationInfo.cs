@@ -13,7 +13,7 @@ namespace NScan.SharedKernel.ReadingCSharpSourceCode
     public string FullName => NamespacePrefix() + Name;
     public string Namespace { get; }
     public string Name { get; }
-    public List<MethodDeclarationInfo> Methods { get; } = new List<MethodDeclarationInfo>();
+    public List<MethodDeclarationInfo> Methods { get; } = new();
 
     private string NamespacePrefix()
     {

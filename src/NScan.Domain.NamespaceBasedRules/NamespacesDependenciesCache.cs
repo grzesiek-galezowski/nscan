@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using NScan.Lib;
 
@@ -6,7 +6,7 @@ namespace NScan.NamespaceBasedRules
 {
   public class NamespacesDependenciesCache : INamespacesDependenciesCache
   {
-    private readonly Dictionary<string, List<string>> _adjacencyList = new Dictionary<string, List<string>>();
+    private readonly Dictionary<string, List<string>> _adjacencyList = new();
 
     //bug adjacency list acepts duplicates but should not!
     public void AddMapping(string namespaceName, string usingName)

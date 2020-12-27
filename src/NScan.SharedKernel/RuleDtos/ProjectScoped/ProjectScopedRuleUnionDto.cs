@@ -15,17 +15,17 @@ namespace NScan.SharedKernel.RuleDtos.ProjectScoped
 
     public static ProjectScopedRuleUnionDto With(CorrectNamespacesRuleComplementDto dto)
     {
-      return new ProjectScopedRuleUnionDto(dto);
+      return new(dto);
     }
 
     public static ProjectScopedRuleUnionDto With(HasAttributesOnRuleComplementDto dto)
     {
-      return new ProjectScopedRuleUnionDto(dto);
+      return new(dto);
     }
 
     public static ProjectScopedRuleUnionDto With(HasTargetFrameworkRuleComplementDto dto)
     {
-      return new ProjectScopedRuleUnionDto(dto);
+      return new(dto);
     }
 
     public string RuleName => Accept(_ruleNameExtractionVisitor);

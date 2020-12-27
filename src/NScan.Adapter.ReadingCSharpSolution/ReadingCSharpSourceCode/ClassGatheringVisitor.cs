@@ -13,7 +13,7 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode
 {
   public class ClassGatheringVisitor : CSharpSyntaxVisitor
   {
-    private readonly List<ClassDeclarationInfo> _classes = new List<ClassDeclarationInfo>();
+    private readonly List<ClassDeclarationInfo> _classes = new();
 
     public override void VisitCompilationUnit(CompilationUnitSyntax node)
     {

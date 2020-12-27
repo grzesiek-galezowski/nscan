@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
@@ -8,7 +8,7 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode
   public class UsingGatheringVisitor : CSharpSyntaxVisitor
   {
     private readonly IReadOnlyDictionary<string, ClassDeclarationInfo> _classDeclarationInfos;
-    private readonly List<string> _usingNames = new List<string>();
+    private readonly List<string> _usingNames = new();
 
     public UsingGatheringVisitor(IReadOnlyDictionary<string, ClassDeclarationInfo> classDeclarationInfos)
     {

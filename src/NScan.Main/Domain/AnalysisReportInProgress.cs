@@ -6,10 +6,10 @@ namespace TddXt.NScan.Domain
 {
   public class AnalysisReportInProgress : IAnalysisReportInProgress
   {
-    private readonly List<string> _ruleNames = new List<string>();
+    private readonly List<string> _ruleNames = new();
 
     private readonly Dictionary<string, HashSet<string>> _violations
-      = new Dictionary<string, HashSet<string>>();
+      = new();
 
     public string AsString()
     {

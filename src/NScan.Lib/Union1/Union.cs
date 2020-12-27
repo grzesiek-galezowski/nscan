@@ -4,7 +4,7 @@ namespace NScan.Lib.Union1
 {
   public abstract class Union<T1>
   {
-    private readonly object? _value = null;
+    private readonly object? _value;
 
     protected Union(T1 o)
     {

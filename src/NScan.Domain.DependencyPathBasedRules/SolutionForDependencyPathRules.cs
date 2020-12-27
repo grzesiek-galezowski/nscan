@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using NScan.SharedKernel;
 
@@ -11,7 +11,7 @@ namespace NScan.DependencyPathBasedRules
 
     public SolutionForDependencyPathRules(
       IPathCache pathCache,
-      IReadOnlyDictionary<ProjectId, IDotNetProject> projectsById) //bug not DotNetProjects!
+      IReadOnlyDictionary<ProjectId, IDotNetProject> projectsById)
     {
       _pathCache = pathCache;
       _projectsById = projectsById;

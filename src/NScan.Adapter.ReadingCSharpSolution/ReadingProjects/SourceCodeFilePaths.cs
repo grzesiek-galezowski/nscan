@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -52,7 +52,7 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
       ICSharpFileSyntaxTree syntaxTree, 
       Dictionary<string, ClassDeclarationInfo> classDeclarationSignatures)
     {
-      return new SourceCodeFileDto(
+      return new(
         AtmaFileSystemPaths.RelativeFilePath(GetPathRelativeTo(projectDirectory, syntaxTree.FilePath)), 
         syntaxTree.GetAllUniqueNamespaces().ToList(), 
         projectAccess.RootNamespace(), 
