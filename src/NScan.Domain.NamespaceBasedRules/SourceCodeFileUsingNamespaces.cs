@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using NullableReferenceTypesExtensions;
 
 namespace NScan.NamespaceBasedRules
 {
   public class SourceCodeFileUsingNamespaces : ISourceCodeFileUsingNamespaces
   {
-    private readonly IReadOnlyList<string> _usings;
-    private readonly IReadOnlyList<string> _declaredNamespaces;
+    private readonly IReadOnlyList<NamespaceName> _usings;
+    private readonly IReadOnlyList<NamespaceName> _declaredNamespaces;
 
     public SourceCodeFileUsingNamespaces(
-      IReadOnlyList<string> usings, //bug value objects
-      IReadOnlyList<string> declaredNamespaces //bug value objects
+      IReadOnlyList<NamespaceName> usings,
+      IReadOnlyList<NamespaceName> declaredNamespaces
     )
     {
       _usings = usings;
@@ -23,7 +25,8 @@ namespace NScan.NamespaceBasedRules
       {
         foreach (var @using in _usings)
         {
-          namespacesDependenciesCache.AddMapping(new NamespaceName(declaredNamespace), new NamespaceName(@using));
+          namespacesDependenciesCache
+            .AddMapping(declaredNamespace, @using);
         }
       }
 

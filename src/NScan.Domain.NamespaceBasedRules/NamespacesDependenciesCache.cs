@@ -142,7 +142,6 @@ namespace NScan.NamespaceBasedRules
       return currentPath.Contains(namespaceName) && currentPath[0] != namespaceName;
     }
 
-
     private static bool CycleIsNotReportedAlreadyAsStartingFromDifferentElement(IEnumerable<NamespaceName> currentPath, List<List<NamespaceName>> cycles)
     {
       //A->B->A and B->A->B are the same cycle, no need to report twice
@@ -163,14 +162,6 @@ namespace NScan.NamespaceBasedRules
     {
       key = tuple.Key;
       value = tuple.Value;
-    }
-  }
-
-  public record NamespaceName(string Value)
-  {
-    public bool Matches(Pattern fromPattern)
-    {
-      return fromPattern.IsMatch(Value);
     }
   }
 }

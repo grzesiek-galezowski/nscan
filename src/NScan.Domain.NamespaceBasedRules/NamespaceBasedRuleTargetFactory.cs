@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using NScan.SharedKernel.ReadingSolution.Ports;
 
@@ -19,8 +19,8 @@ namespace NScan.NamespaceBasedRules
     private List<SourceCodeFileUsingNamespaces> SourceCodeFilesUsingNamespaces(CsharpProjectDto dataAccess)
     {
       return dataAccess.SourceCodeFiles.Select(scf => new SourceCodeFileUsingNamespaces(
-          scf.Usings,
-          scf.DeclaredNamespaces))
+          scf.Usings.Select(n => new NamespaceName(n)).ToList(),
+          scf.DeclaredNamespaces.Select(n => new NamespaceName(n)).ToList()))
         .ToList();
     }
   }
