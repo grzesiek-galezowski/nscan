@@ -8,6 +8,6 @@ namespace System.Runtime.CompilerServices //bug running nscan should pick this i
   /// This class should not be used by developers in source code.
   /// </summary>
   [EditorBrowsable(EditorBrowsableState.Never)]
-  internal static class IsExternalInit {
+  public static class IsExternalInit {
   }
 }

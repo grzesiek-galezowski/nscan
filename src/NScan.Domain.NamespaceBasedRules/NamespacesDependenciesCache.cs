@@ -6,122 +6,153 @@ namespace NScan.NamespaceBasedRules
 {
   public class NamespacesDependenciesCache : INamespacesDependenciesCache
   {
-    private readonly Dictionary<string, List<string>> _adjacencyList = new();
+    private readonly Dictionary<NamespaceName, List<NamespaceName>> _adjacencyList = new();
 
-    //bug adjacency list acepts duplicates but should not!
+    //bug adjacency list accepts duplicates but should not!
     public void AddMapping(string namespaceName, string usingName)
     {
-      if (!_adjacencyList.ContainsKey(namespaceName))
-      {
-        _adjacencyList[namespaceName] = new List<string>();
-      }
+      InitializeNeighborsOf(new NamespaceName(namespaceName));
+      AddNeighborOf(new NamespaceName(namespaceName), new NamespaceName(usingName));
+    }
 
-      if(!_adjacencyList[namespaceName].Contains(usingName))
+    private void AddNeighborOf(NamespaceName namespaceName, NamespaceName usingName)
+    {
+      if (!_adjacencyList[namespaceName].Contains(usingName))
       {
         _adjacencyList[namespaceName].Add(usingName);
       }
     }
 
+    //bug is NamespaceName OK? What about static usings?
+    private void InitializeNeighborsOf(NamespaceName namespaceName)
+    {
+      if (!_adjacencyList.ContainsKey(namespaceName))
+      {
+        _adjacencyList[namespaceName] = new List<NamespaceName>();
+      }
+    }
+
     public IReadOnlyList<IReadOnlyList<string>> RetrieveCycles()
     {
-      var cycles = new List<List<string>>();
+      var cycles = new List<List<NamespaceName>>();
       foreach (var @namespace in _adjacencyList.Keys)
       {
-        SearchForNextElementInCycle(cycles, @namespace, new List<string>());
+        SearchForNextElementInCycle(cycles, @namespace, new List<NamespaceName>());
       }
-      return cycles;
+      return cycles.Select(p => p.Select(e => e.Value).ToList()).ToList();
     }
 
     public IReadOnlyList<IReadOnlyList<string>> RetrievePathsBetween(Pattern fromPattern, Pattern toPattern)
     {
-      var paths = new List<List<string>>();
-      foreach (var @namespace in _adjacencyList.Keys.Where(fromPattern.IsMatch))
+      var paths = new List<List<NamespaceName>>();
+      foreach (var @namespace in _adjacencyList.Keys.Where(k => k.Matches(fromPattern)))
       {
-        SearchForNextElementInPath(paths, @namespace, new List<string>(), toPattern);
+        SearchForNextElementInPath(
+          paths, 
+          new List<NamespaceName>(), 
+          toPattern, @namespace);
       }
-      return paths;
+      return paths.Select(p => p.Select(e => e.Value).ToList()).ToList();
     }
 
     private void SearchForNextElementInPath(
-      ICollection<List<string>> paths, string @namespace, List<string> currentPath, Pattern toPattern)
+      ICollection<List<NamespaceName>> paths, 
+      List<NamespaceName> currentPath, 
+      Pattern toPattern, 
+      NamespaceName namespaceName)
     {
-      if (currentPath.Count > 0 && toPattern.IsMatch(@namespace))
+      if (currentPath.Count > 0 && namespaceName.Matches(toPattern))
       {
-        paths.Add(currentPath.Append(@namespace).ToList());
+        paths.Add(currentPath.Append(namespaceName).ToList());
         return;
       }
 
-      if (PathEnd(@namespace))
+      if (PathEnd(namespaceName))
       {
         return;
       }
 
-      foreach (var neighbour in _adjacencyList[@namespace])
+      foreach (var neighbour in _adjacencyList[namespaceName])
       {
-        SearchForNextElementInPath(paths, neighbour, currentPath.Append(@namespace).ToList(), toPattern);
+        SearchForNextElementInPath(paths, currentPath.Append(namespaceName).ToList(), toPattern, neighbour);
       }
     }
 
-    private void SearchForNextElementInCycle(List<List<string>> cycles, string @namespace, List<string> currentPath)
+    private void SearchForNextElementInCycle(
+      List<List<NamespaceName>> cycles, 
+      NamespaceName namespaceName,
+      List<NamespaceName> currentPath)
     {
-      if (PathEnd(@namespace))
+      if (PathEnd(namespaceName))
       {
         return;
       }
 
-      if (SelfUsingFound(@namespace, currentPath))
+      if (SelfUsingFound(namespaceName, currentPath))
       {
         return;
       }
 
-      if (FullCycleDetected(@namespace, currentPath))
+      if (FullCycleDetected(namespaceName, currentPath))
       {
         //full cycle is a cycle that starts with current namespace, e.g. A->B->A
         if (CycleIsNotReportedAlreadyAsStartingFromDifferentElement(currentPath, cycles))
         {
-          cycles.Add(currentPath.Append(@namespace).ToList());
+          cycles.Add(currentPath.Append(namespaceName).ToList());
         }
 
         return;
       }
 
-      if(OvergrownCycleDetected(@namespace, currentPath))
+      if(OvergrownCycleDetected(namespaceName, currentPath))
       {
         //overgrown cycles are paths that contains other cycles, e.g. A->B->C->B   
         return;
       }
 
-      foreach (var neighbour in _adjacencyList[@namespace])
+      foreach (var neighbour in NeighborsOf(namespaceName))
       {
-        SearchForNextElementInCycle(cycles, neighbour, currentPath.Append(@namespace).ToList());
+        SearchForNextElementInCycle(cycles, neighbour, currentPath.Append(namespaceName).ToList());
       }
     }
 
-    private static bool SelfUsingFound(string @namespace, List<string> currentPath)
+    private List<NamespaceName> NeighborsOf(NamespaceName namespaceName)
     {
-      return currentPath.Count == 1 && currentPath[0] == @namespace;
+      return _adjacencyList[namespaceName];
     }
 
-    private bool PathEnd(string @namespace)
+    private static bool SelfUsingFound(NamespaceName namespaceName, List<NamespaceName> currentPath)
     {
-      return !_adjacencyList.ContainsKey(@namespace);
+      return currentPath.Count == 1 && currentPath[0] == namespaceName;
     }
 
-    private static bool FullCycleDetected(string @namespace, IReadOnlyList<string> currentPath)
+    private bool PathEnd(NamespaceName namespaceName)
     {
-      return currentPath.Contains(@namespace) && currentPath[0] == @namespace;
+      return !_adjacencyList.ContainsKey(namespaceName);
     }
 
-    private bool OvergrownCycleDetected(string @namespace, List<string> currentPath)
+    private static bool FullCycleDetected(NamespaceName namespaceName, List<NamespaceName> currentPath)
     {
-      return currentPath.Contains(@namespace) && currentPath[0] != @namespace;
+      return currentPath.Contains(namespaceName) && currentPath[0] == namespaceName;
+    }
+
+    private bool OvergrownCycleDetected(NamespaceName namespaceName, List<NamespaceName> currentPath)
+    {
+      return currentPath.Contains(namespaceName) && currentPath[0] != namespaceName;
     }
 
 
-    private static bool CycleIsNotReportedAlreadyAsStartingFromDifferentElement(IEnumerable<string> currentPath, List<List<string>> cycles)
+    private static bool CycleIsNotReportedAlreadyAsStartingFromDifferentElement(IEnumerable<NamespaceName> currentPath, List<List<NamespaceName>> cycles)
     {
       //A->B->A and B->A->B are the same cycle, no need to report twice
-      return !cycles.Any(cycle => cycle.Distinct().OrderBy(s => s).SequenceEqual(currentPath.Distinct().OrderBy(s => s)));
+      return !cycles.Any(cycle => 
+        cycle
+          .Distinct()
+          .OrderBy(s => s.Value)
+          .SequenceEqual(
+            currentPath
+              .Distinct()
+              .OrderBy(s => s.Value)));
     }
   }
 
@@ -131,6 +162,14 @@ namespace NScan.NamespaceBasedRules
     {
       key = tuple.Key;
       value = tuple.Value;
+    }
+  }
+
+  public record NamespaceName(string Value)
+  {
+    public bool Matches(Pattern fromPattern)
+    {
+      return fromPattern.IsMatch(Value);
     }
   }
 }
