@@ -1,12 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 
 namespace NScan.NamespaceBasedRules
 {
   //bug should this be a record?
-  public record PotentialCycle(List<NamespaceName> Elements)
+  public record PotentialCycle(ImmutableList<NamespaceName> Elements)
   {
-    private List<NamespaceName> Elements { get; } = Elements;
+    private ImmutableList<NamespaceName> Elements { get; } = Elements;
+
+    public static PotentialCycle Empty() => new(ImmutableList<NamespaceName>.Empty);
 
     public bool ConsistsSolelyOf(NamespaceName namespaceName)
     {
@@ -24,18 +27,16 @@ namespace NScan.NamespaceBasedRules
     }
 
     public PotentialCycle Plus(NamespaceName namespaceName) 
-      => new(Elements.Append(namespaceName).ToList());
+      => new(Elements.Add(namespaceName).ToImmutableList());
 
     public List<NamespaceName> AsList()
     {
       return Elements.ToList();
     }
 
-    public static PotentialCycle Empty() => new(new List<NamespaceName>());
-
-    public bool IsEquivalentTo(PotentialCycle cycle)
+    public bool IsEquivalentTo(PotentialCycle other)
     {
-      return cycle
+      return other
         .ElementsOrderedForEquivalencyComparison()
         .SequenceEqual(
           ElementsOrderedForEquivalencyComparison());
