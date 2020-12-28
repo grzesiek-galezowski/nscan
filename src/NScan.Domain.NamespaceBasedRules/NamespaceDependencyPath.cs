@@ -5,11 +5,11 @@ using System.Linq;
 namespace NScan.NamespaceBasedRules
 {
   //bug should this be a record?
-  public record PotentialCycle(ImmutableList<NamespaceName> Elements)
+  public record NamespaceDependencyPath(ImmutableList<NamespaceName> Elements)
   {
-    private ImmutableList<NamespaceName> Elements { get; } = Elements;
+    public ImmutableList<NamespaceName> Elements { get; } = Elements; //bug make private
 
-    public static PotentialCycle Empty() => new(ImmutableList<NamespaceName>.Empty);
+    public static NamespaceDependencyPath Empty() => new(ImmutableList<NamespaceName>.Empty);
 
     public bool ConsistsSolelyOf(NamespaceName namespaceName)
     {
@@ -26,7 +26,7 @@ namespace NScan.NamespaceBasedRules
       return Elements.Contains(namespaceName) && Elements[0] != namespaceName;
     }
 
-    public PotentialCycle Plus(NamespaceName namespaceName) 
+    public NamespaceDependencyPath Plus(NamespaceName namespaceName) 
       => new(Elements.Add(namespaceName).ToImmutableList());
 
     public List<NamespaceName> AsList()
@@ -34,7 +34,7 @@ namespace NScan.NamespaceBasedRules
       return Elements.ToList();
     }
 
-    public bool IsEquivalentTo(PotentialCycle other)
+    public bool IsEquivalentTo(NamespaceDependencyPath other)
     {
       return other
         .ElementsOrderedForEquivalencyComparison()
@@ -49,5 +49,9 @@ namespace NScan.NamespaceBasedRules
         .OrderBy(s => s.Value);
     }
 
+    public bool HasElements()
+    {
+      return Elements.Count > 0;
+    }
   }
 }
