@@ -85,20 +85,14 @@ namespace NScan.NamespaceBasedRules
         return;
       }
 
-      foreach (var neighbour in _dependenciesByNamespace[namespaceName])
+      foreach (var neighbor in _dependenciesByNamespace[namespaceName])
       {
         SearchForNextElementInPath(
           paths, 
           currentPath.Plus(namespaceName), 
           toPattern, 
-          neighbour);
+          neighbor);
       }
-    }
-
-    private static NamespaceDependencyPath NP(List<NamespaceName> currentPath)
-    {
-      return new NamespaceDependencyPath(
-        currentPath.ToImmutableList());
     }
 
     private void SearchForNextElementInCycle(
@@ -128,20 +122,20 @@ namespace NScan.NamespaceBasedRules
         return;
       }
 
-      //overgrown cycle detected:
+      //overgrown cycle detection
       if(namespaceDependencyPath.ContainsButDoesNotBeginWith(current))
       {
         //overgrown cycles are paths that contains other cycles, e.g. A->B->C->B   
         return;
       }
 
-      foreach (var neighbour in NeighborsOf(current))
+      foreach (var dependency in DependenciesOf(current))
       {
-        SearchForNextElementInCycle(cycles, neighbour, namespaceDependencyPath.Plus(current));
+        SearchForNextElementInCycle(cycles, dependency, namespaceDependencyPath.Plus(current));
       }
     }
 
-    private List<NamespaceName> NeighborsOf(NamespaceName namespaceName)
+    private List<NamespaceName> DependenciesOf(NamespaceName namespaceName)
     {
       return _dependenciesByNamespace[namespaceName];
     }
@@ -153,7 +147,7 @@ namespace NScan.NamespaceBasedRules
 
     private static bool CycleIsNotReportedAlreadyAsStartingFromDifferentElement(
       NamespaceDependencyPath namespaceDependencyPath,
-      List<NamespaceDependencyPath> cycles)
+      IEnumerable<NamespaceDependencyPath> cycles)
     {
       //A->B->A and B->A->B are the same cycle, no need to report twice
       return !cycles.Any(c => c.IsEquivalentTo(namespaceDependencyPath));
