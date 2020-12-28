@@ -29,17 +29,9 @@ namespace NScan.NamespaceBasedRules
     public NamespaceDependencyPath Plus(NamespaceName namespaceName) 
       => new(Elements.Add(namespaceName).ToImmutableList());
 
-    public List<NamespaceName> AsList()
+    public List<NamespaceName> AsList() //bug remove in the end
     {
       return Elements.ToList();
-    }
-
-    public bool IsEquivalentTo(NamespaceDependencyPath other)
-    {
-      return other
-        .ElementsOrderedForEquivalencyComparison()
-        .SequenceEqual(
-          ElementsOrderedForEquivalencyComparison());
     }
 
     public bool HasElements()
@@ -47,6 +39,13 @@ namespace NScan.NamespaceBasedRules
       return Elements.Count > 0;
     }
 
+    private bool IsEquivalentTo(NamespaceDependencyPath other)
+    {
+      return other
+        .ElementsOrderedForEquivalencyComparison()
+        .SequenceEqual(
+          ElementsOrderedForEquivalencyComparison());
+    }
     private IOrderedEnumerable<NamespaceName> ElementsOrderedForEquivalencyComparison()
     {
       return Elements
