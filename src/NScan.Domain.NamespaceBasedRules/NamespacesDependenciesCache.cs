@@ -34,10 +34,14 @@ namespace NScan.NamespaceBasedRules
 
     public IReadOnlyList<IReadOnlyList<NamespaceName>> RetrieveCycles()
     {
+      //TODO return cycles as well
       var cycles = new List<List<NamespaceName>>();
       foreach (var @namespace in _adjacencyList.Keys)
       {
-        SearchForNextElementInCycle(cycles, @namespace, new List<NamespaceName>());
+        SearchForNextElementInCycle(
+          cycles, 
+          @namespace, 
+          CurrentPath.Empty());
       }
       return cycles;
     }
@@ -68,7 +72,7 @@ namespace NScan.NamespaceBasedRules
         return;
       }
 
-      if (PathEnd(namespaceName))
+      if (NoDependenciesFrom(namespaceName))
       {
         return;
       }
@@ -81,31 +85,33 @@ namespace NScan.NamespaceBasedRules
 
     private void SearchForNextElementInCycle(
       List<List<NamespaceName>> cycles, 
-      NamespaceName namespaceName,
-      List<NamespaceName> currentPath)
+      NamespaceName namespaceName, 
+      CurrentPath currentPath)
     {
-      if (PathEnd(namespaceName))
+      if (NoDependenciesFrom(namespaceName))
       {
         return;
       }
 
-      if (SelfUsingFound(namespaceName, currentPath))
+      if (currentPath.ConsistsSolelyOf(namespaceName))
       {
         return;
       }
 
-      if (FullCycleDetected(namespaceName, currentPath))
+      //full cycle detected
+      if (currentPath.BeginsWith(namespaceName))
       {
         //full cycle is a cycle that starts with current namespace, e.g. A->B->A
         if (CycleIsNotReportedAlreadyAsStartingFromDifferentElement(currentPath, cycles))
         {
-          cycles.Add(currentPath.Append(namespaceName).ToList());
+          cycles.Add(currentPath.Plus(namespaceName).AsList());
         }
 
         return;
       }
 
-      if(OvergrownCycleDetected(namespaceName, currentPath))
+      //overgrown cycle detected:
+      if(currentPath.ContainsButDoesNotBeginWith(namespaceName))
       {
         //overgrown cycles are paths that contains other cycles, e.g. A->B->C->B   
         return;
@@ -113,7 +119,7 @@ namespace NScan.NamespaceBasedRules
 
       foreach (var neighbour in NeighborsOf(namespaceName))
       {
-        SearchForNextElementInCycle(cycles, neighbour, currentPath.Append(namespaceName).ToList());
+        SearchForNextElementInCycle(cycles, neighbour, currentPath.Plus(namespaceName));
       }
     }
 
@@ -122,27 +128,14 @@ namespace NScan.NamespaceBasedRules
       return _adjacencyList[namespaceName];
     }
 
-    private static bool SelfUsingFound(NamespaceName namespaceName, List<NamespaceName> currentPath)
-    {
-      return currentPath.Count == 1 && currentPath[0] == namespaceName;
-    }
-
-    private bool PathEnd(NamespaceName namespaceName)
+    private bool NoDependenciesFrom(NamespaceName namespaceName)
     {
       return !_adjacencyList.ContainsKey(namespaceName);
     }
 
-    private static bool FullCycleDetected(NamespaceName namespaceName, List<NamespaceName> currentPath)
-    {
-      return currentPath.Contains(namespaceName) && currentPath[0] == namespaceName;
-    }
-
-    private bool OvergrownCycleDetected(NamespaceName namespaceName, List<NamespaceName> currentPath)
-    {
-      return currentPath.Contains(namespaceName) && currentPath[0] != namespaceName;
-    }
-
-    private static bool CycleIsNotReportedAlreadyAsStartingFromDifferentElement(IEnumerable<NamespaceName> currentPath, List<List<NamespaceName>> cycles)
+    private static bool CycleIsNotReportedAlreadyAsStartingFromDifferentElement(
+      CurrentPath currentPath,
+      List<List<NamespaceName>> cycles)
     {
       //A->B->A and B->A->B are the same cycle, no need to report twice
       return !cycles.Any(cycle => 
@@ -150,11 +143,11 @@ namespace NScan.NamespaceBasedRules
           .Distinct()
           .OrderBy(s => s.Value)
           .SequenceEqual(
-            currentPath
-              .Distinct()
-              .OrderBy(s => s.Value)));
+            currentPath.ElementsOrderedForEquivalencyComparison()));
     }
   }
+
+  //bug morph into full type 
 
   public static class KeyValuePairDeconstruction
   {
