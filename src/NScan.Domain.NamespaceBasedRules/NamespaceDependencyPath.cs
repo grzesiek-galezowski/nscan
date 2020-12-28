@@ -6,6 +6,12 @@ using Value;
 
 namespace NScan.NamespaceBasedRules
 {
+  public interface INamespaceDependencyPathFormat
+  {
+    string ElementTerminator();
+    string ElementIndentation(int elementIndex);
+  }
+
   //bug should this be a record?
   public class NamespaceDependencyPath : ValueType<NamespaceDependencyPath>
   {
@@ -26,7 +32,7 @@ namespace NScan.NamespaceBasedRules
 
     public override string ToString()
     {
-      return string.Join(", ", Elements);
+      return ToStringFormatted(new SimpleDependencyPathFormat());
     }
 
     public bool IsPathToItself()
@@ -86,5 +92,31 @@ namespace NScan.NamespaceBasedRules
       //A->B->A and B->A->B are the same cycle, no need to report twice
       return !cycles.Any(c => c.IsEquivalentTo(this));
     }
+
+    public string ToStringFormatted(INamespaceDependencyPathFormat format)
+    {
+      string result = string.Empty;
+      for (var cycleElementIndex = 0; cycleElementIndex < Elements.Count; cycleElementIndex++)
+      {
+        var segment = Elements[cycleElementIndex].Value;
+        result += format.ElementIndentation(cycleElementIndex) + segment + format.ElementTerminator();
+      }
+
+      return result;
+    }
+
+    private class SimpleDependencyPathFormat : INamespaceDependencyPathFormat
+    {
+      public string ElementTerminator()
+      {
+        return ", ";
+      }
+
+      public string ElementIndentation(int elementIndex)
+      {
+        return string.Empty;
+      }
+    }
+
   }
 }

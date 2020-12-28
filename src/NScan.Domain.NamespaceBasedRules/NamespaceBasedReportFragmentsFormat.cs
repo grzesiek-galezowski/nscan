@@ -4,7 +4,7 @@ using NScan.Lib;
 
 namespace NScan.NamespaceBasedRules
 {
-  public class NamespaceBasedReportFragmentsFormat : INamespaceBasedReportFragmentsFormat
+  public class NamespaceBasedReportFragmentsFormat : INamespaceBasedReportFragmentsFormat, INamespaceDependencyPathFormat
   {
     public string ApplyTo(IReadOnlyList<NamespaceDependencyPath> paths, string header)
     {
@@ -12,19 +12,19 @@ namespace NScan.NamespaceBasedRules
       for (var pathIndex = 0; pathIndex < paths.Count; pathIndex++)
       {
         result += $"{header} {pathIndex + 1}:{Environment.NewLine}";
-        var singlePath = paths[pathIndex];
-        for (var cycleElementIndex = 0; cycleElementIndex < singlePath.AsList().Count; cycleElementIndex++)
-        {
-          var segment = singlePath.AsList()[cycleElementIndex].Value;
-          result += Indent(cycleElementIndex) + segment + Environment.NewLine;
-        }
+        result += paths[pathIndex].ToStringFormatted(this);
       }
       return result;
     }
 
-    private static string Indent(int j)
+    public string ElementTerminator()
     {
-      return ((j+1)*2).Spaces();
+      return Environment.NewLine;
+    }
+
+    public string ElementIndentation(int elementIndex)
+    {
+      return ((elementIndex+1)*2).Spaces();
     }
   }
 }
