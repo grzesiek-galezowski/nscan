@@ -39,7 +39,7 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
       var report = Substitute.For<IAnalysisReportInProgress>();
 
       namespacesCache.RetrievePathsBetween(dto.FromPattern, dto.ToPattern)
-        .Returns(new List<IReadOnlyList<NamespaceName>>());
+        .Returns(new List<NamespaceDependencyPath>());
 
       //WHEN
       rule.Evaluate(assemblyName, namespacesCache, report);
@@ -59,11 +59,11 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
       var namespacesCache = Substitute.For<INamespacesDependenciesCache>();
       var report = Substitute.For<IAnalysisReportInProgress>();
       var violation = Any.Instance<RuleViolation>();
-      var pathsFound = new List<IReadOnlyList<NamespaceName>>
+      var pathsFound = new List<NamespaceDependencyPath>
       {
-        Any.ReadOnlyList<NamespaceName>(),
-        Any.ReadOnlyList<NamespaceName>(),
-        Any.ReadOnlyList<NamespaceName>(),
+        Any.Instance<NamespaceDependencyPath>(),
+        Any.Instance<NamespaceDependencyPath>(),
+        Any.Instance<NamespaceDependencyPath>(),
       };
       ruleViolationFactory.NoUsingsRuleViolation(
           rule.Description(), 

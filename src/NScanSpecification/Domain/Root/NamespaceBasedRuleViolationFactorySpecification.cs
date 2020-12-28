@@ -22,7 +22,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       var cyclesString = Any.String();
       var description = Any.String();
       var projectAssemblyName = Any.String();
-      var cycles = Any.ReadOnlyList<IReadOnlyList<NamespaceName>>();
+      var cycles = Any.ReadOnlyList<NamespaceDependencyPath>();
 
       fragments.ApplyTo(cycles, "Cycle").Returns(cyclesString);
       
@@ -45,7 +45,7 @@ namespace TddXt.NScan.Specification.Domain.Root
       var pathsString = Any.String();
       var description = Any.String();
       var projectAssemblyName = Any.String();
-      var paths = Any.ReadOnlyList<IReadOnlyList<NamespaceName>>();
+      var paths = Any.ReadOnlyList<NamespaceDependencyPath>();
 
       fragments.ApplyTo(paths, "Violation").Returns(pathsString);
       

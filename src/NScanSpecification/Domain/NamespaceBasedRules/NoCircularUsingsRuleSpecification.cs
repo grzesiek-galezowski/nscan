@@ -36,7 +36,7 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
       var rule = new NoCircularUsingsRule(Any.Instance<NoCircularUsingsRuleComplementDto>(), ruleViolationFactory);
       var cache = Substitute.For<INamespacesDependenciesCache>();
       var report = Substitute.For<IAnalysisReportInProgress>();
-      var cycles = Any.ReadOnlyList<IReadOnlyList<NamespaceName>>();
+      var cycles = Any.ReadOnlyList<NamespaceDependencyPath>();
       var violation = Any.Instance<RuleViolation>();
       var projectAssemblyName = Any.String();
 
@@ -69,7 +69,7 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
       report.ReceivedNothing();
     }
 
-    private static List<IReadOnlyList<NamespaceName>> EmptyList()
+    private static List<NamespaceDependencyPath> EmptyList()
     {
       return new();
     }

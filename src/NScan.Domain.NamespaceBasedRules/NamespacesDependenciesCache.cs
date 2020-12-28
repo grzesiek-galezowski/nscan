@@ -18,8 +18,7 @@ namespace NScan.NamespaceBasedRules
       AddNeighborOf(namespaceName, usingName);
     }
 
-
-    public IReadOnlyList<IReadOnlyList<NamespaceName>> RetrieveCycles()
+    public List<NamespaceDependencyPath> RetrieveCycles()
     {
       //TODO return cycles as well
       var cycles = new List<NamespaceDependencyPath>();
@@ -30,11 +29,10 @@ namespace NScan.NamespaceBasedRules
           @namespace, 
           NamespaceDependencyPath.Empty());
       }
-      return cycles.Select(c => c.AsList()).ToList(); //bug
+      return cycles; //bug
     }
 
-    public IReadOnlyList<IReadOnlyList<NamespaceName>> 
-      RetrievePathsBetween(Pattern fromPattern, Pattern toPattern)
+    public List<NamespaceDependencyPath> RetrievePathsBetween(Pattern fromPattern, Pattern toPattern)
     {
       var paths = new List<NamespaceDependencyPath>();
       foreach (var @namespace in NamespacesMatching(fromPattern))
@@ -45,7 +43,7 @@ namespace NScan.NamespaceBasedRules
           toPattern, 
           @namespace);
       }
-      return paths.Select(p => p.AsList()).ToList();
+      return paths;
     }
 
     private IEnumerable<NamespaceName> NamespacesMatching(Pattern fromPattern)

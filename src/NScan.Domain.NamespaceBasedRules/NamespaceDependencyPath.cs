@@ -1,15 +1,33 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.ComponentModel.Design;
 using System.Linq;
+using Value;
 
 namespace NScan.NamespaceBasedRules
 {
   //bug should this be a record?
-  public record NamespaceDependencyPath(ImmutableList<NamespaceName> Elements)
+  public class NamespaceDependencyPath : ValueType<NamespaceDependencyPath>
   {
-    private ImmutableList<NamespaceName> Elements { get; } = Elements; //bug make private
+    public NamespaceDependencyPath(ImmutableList<NamespaceName> elements)
+    {
+      Elements = elements;
+    }
+
+    private ImmutableList<NamespaceName> Elements { get; }
 
     public static NamespaceDependencyPath Empty() => new(ImmutableList<NamespaceName>.Empty);
+    public static NamespaceDependencyPath With(params NamespaceName[] args) => new(args.ToImmutableList());
+
+    protected override IEnumerable<object> GetAllAttributesToBeUsedForEquality()
+    {
+      return new ListByValue<NamespaceName>(Elements);
+    }
+
+    public override string ToString()
+    {
+      return string.Join(", ", Elements);
+    }
 
     public bool IsPathToItself()
     {

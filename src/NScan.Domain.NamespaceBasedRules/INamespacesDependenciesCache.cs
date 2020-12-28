@@ -6,7 +6,7 @@ namespace NScan.NamespaceBasedRules
   public interface INamespacesDependenciesCache
   {
     void AddMapping(NamespaceName namespaceName, NamespaceName usingName);
-    IReadOnlyList<IReadOnlyList<NamespaceName>> RetrieveCycles();
-    IReadOnlyList<IReadOnlyList<NamespaceName>> RetrievePathsBetween(Pattern fromPattern, Pattern toPattern);
+    List<NamespaceDependencyPath> RetrieveCycles();
+    List<NamespaceDependencyPath> RetrievePathsBetween(Pattern fromPattern, Pattern toPattern);
   }
 }

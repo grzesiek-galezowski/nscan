@@ -22,10 +22,10 @@ namespace TddXt.NScan.Specification.Domain.Root
       var namespace5 = Any.Instance<NamespaceName>();
       var namespace6 = Any.Instance<NamespaceName>();
       var header = Any.String();
-      var cycles = new List<IReadOnlyList<NamespaceName>>
+      var cycles = new List<NamespaceDependencyPath>
       {
-        new List<NamespaceName> {namespace1, namespace2, namespace3},
-        new List<NamespaceName> {namespace4, namespace5, namespace6},
+        NamespaceDependencyPath.With(namespace1, namespace2, namespace3),
+        NamespaceDependencyPath.With(namespace4, namespace5, namespace6),
       };
 
       //WHEN
