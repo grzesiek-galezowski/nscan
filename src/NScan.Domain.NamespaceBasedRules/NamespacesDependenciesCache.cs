@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using NScan.Lib;
@@ -96,7 +97,7 @@ namespace NScan.NamespaceBasedRules
     }
 
     private void SearchForNextElementInCycle(
-      List<NamespaceDependencyPath> cycles, 
+      List<NamespaceDependencyPath> alreadyDetectedCycles, 
       NamespaceName current, 
       NamespaceDependencyPath namespaceDependencyPath)
     {
@@ -105,25 +106,27 @@ namespace NScan.NamespaceBasedRules
         return;
       }
 
-      if (namespaceDependencyPath.ConsistsSolelyOf(current))
+      var pathIncludingCurrentElement = namespaceDependencyPath.Plus(current);
+
+      if (pathIncludingCurrentElement.IsPathToItself())
       {
         return;
       }
 
       //full cycle detected
-      if (namespaceDependencyPath.BeginsWith(current))
+      if (pathIncludingCurrentElement.FormsACycleFromFirstElement())
       {
         //full cycle is a cycle that starts with current namespace, e.g. A->B->A
-        if (CycleIsNotReportedAlreadyAsStartingFromDifferentElement(namespaceDependencyPath, cycles))
+        if (pathIncludingCurrentElement.IsEquivalentToAnyOf(alreadyDetectedCycles))
         {
-          cycles.Add(namespaceDependencyPath.Plus(current));
+          alreadyDetectedCycles.Add(pathIncludingCurrentElement);
         }
 
         return;
       }
 
       //overgrown cycle detection
-      if(namespaceDependencyPath.ContainsButDoesNotBeginWith(current))
+      if(pathIncludingCurrentElement.ContainsACycleButNotFromFirstElement())
       {
         //overgrown cycles are paths that contains other cycles, e.g. A->B->C->B   
         return;
@@ -131,7 +134,7 @@ namespace NScan.NamespaceBasedRules
 
       foreach (var dependency in DependenciesOf(current))
       {
-        SearchForNextElementInCycle(cycles, dependency, namespaceDependencyPath.Plus(current));
+        SearchForNextElementInCycle(alreadyDetectedCycles, dependency, pathIncludingCurrentElement);
       }
     }
 
@@ -143,14 +146,6 @@ namespace NScan.NamespaceBasedRules
     private bool NoDependenciesFrom(NamespaceName namespaceName)
     {
       return !_dependenciesByNamespace.ContainsKey(namespaceName);
-    }
-
-    private static bool CycleIsNotReportedAlreadyAsStartingFromDifferentElement(
-      NamespaceDependencyPath namespaceDependencyPath,
-      IEnumerable<NamespaceDependencyPath> cycles)
-    {
-      //A->B->A and B->A->B are the same cycle, no need to report twice
-      return !cycles.Any(c => c.IsEquivalentTo(namespaceDependencyPath));
     }
   }
 

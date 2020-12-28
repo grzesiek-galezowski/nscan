@@ -7,23 +7,23 @@ namespace NScan.NamespaceBasedRules
   //bug should this be a record?
   public record NamespaceDependencyPath(ImmutableList<NamespaceName> Elements)
   {
-    public ImmutableList<NamespaceName> Elements { get; } = Elements; //bug make private
+    private ImmutableList<NamespaceName> Elements { get; } = Elements; //bug make private
 
     public static NamespaceDependencyPath Empty() => new(ImmutableList<NamespaceName>.Empty);
 
-    public bool ConsistsSolelyOf(NamespaceName namespaceName)
+    public bool IsPathToItself()
     {
-      return Elements.Count == 1 && Elements[0] == namespaceName;
+      return Elements.Count == 2 && BeginsAndEndsWithTheSameElement();
     }
 
-    public bool BeginsWith(NamespaceName namespaceName)
+    public bool FormsACycleFromFirstElement()
     {
-      return Elements.Contains(namespaceName) && Elements[0] == namespaceName;
+      return Elements.Count > 2 && BeginsAndEndsWithTheSameElement();
     }
 
-    public bool ContainsButDoesNotBeginWith(NamespaceName namespaceName)
+    public bool ContainsACycleButNotFromFirstElement()
     {
-      return Elements.Contains(namespaceName) && Elements[0] != namespaceName;
+      return ContainsANamespaceTwice() && !BeginsAndEndsWithTheSameElement();
     }
 
     public NamespaceDependencyPath Plus(NamespaceName namespaceName) 
@@ -42,6 +42,11 @@ namespace NScan.NamespaceBasedRules
           ElementsOrderedForEquivalencyComparison());
     }
 
+    public bool HasElements()
+    {
+      return Elements.Count > 0;
+    }
+
     private IOrderedEnumerable<NamespaceName> ElementsOrderedForEquivalencyComparison()
     {
       return Elements
@@ -49,9 +54,20 @@ namespace NScan.NamespaceBasedRules
         .OrderBy(s => s.Value);
     }
 
-    public bool HasElements()
+    private bool BeginsAndEndsWithTheSameElement()
     {
-      return Elements.Count > 0;
+      return Elements[0] == Elements[^1];
+    }
+
+    private bool ContainsANamespaceTwice()
+    {
+      return Elements.GroupBy(_ => _).Where(_ => _.Count() > 1).Sum(_ => _.Count()) > 0;
+    }
+
+    public bool IsEquivalentToAnyOf(IEnumerable<NamespaceDependencyPath> cycles)
+    {
+      //A->B->A and B->A->B are the same cycle, no need to report twice
+      return !cycles.Any(c => c.IsEquivalentTo(this));
     }
   }
 }
