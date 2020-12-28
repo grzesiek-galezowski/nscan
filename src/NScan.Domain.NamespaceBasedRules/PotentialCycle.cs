@@ -3,7 +3,8 @@ using System.Linq;
 
 namespace NScan.NamespaceBasedRules
 {
-  public record CurrentPath(List<NamespaceName> Elements)
+  //bug should this be a record?
+  public record PotentialCycle(List<NamespaceName> Elements)
   {
     private List<NamespaceName> Elements { get; } = Elements;
 
@@ -22,24 +23,30 @@ namespace NScan.NamespaceBasedRules
       return Elements.Contains(namespaceName) && Elements[0] != namespaceName;
     }
 
-    public CurrentPath Plus(NamespaceName namespaceName) 
+    public PotentialCycle Plus(NamespaceName namespaceName) 
       => new(Elements.Append(namespaceName).ToList());
-
-    public IOrderedEnumerable<NamespaceName> ElementsOrderedForEquivalencyComparison()
-    {
-      return Elements
-        .Distinct()
-        .OrderBy(s => s.Value);
-    }
 
     public List<NamespaceName> AsList()
     {
       return Elements.ToList();
     }
 
-    public static CurrentPath Empty()
+    public static PotentialCycle Empty() => new(new List<NamespaceName>());
+
+    public bool IsEquivalentTo(PotentialCycle cycle)
     {
-      return new CurrentPath(new List<NamespaceName>());
+      return cycle
+        .ElementsOrderedForEquivalencyComparison()
+        .SequenceEqual(
+          ElementsOrderedForEquivalencyComparison());
     }
+
+    private IOrderedEnumerable<NamespaceName> ElementsOrderedForEquivalencyComparison()
+    {
+      return Elements
+        .Distinct()
+        .OrderBy(s => s.Value);
+    }
+
   }
 }
