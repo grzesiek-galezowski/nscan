@@ -185,8 +185,6 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
       paths.Should().BeEmpty();
     }
 
-    //bug one path should be reported only once
-
     [Fact]
     public void ShouldReturnADirectPathFromSourceToDestination()
     {
@@ -221,8 +219,8 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
       var namespace4 = Any.Instance<NamespaceName>();
 
       cache.AddMapping(namespace1, namespace2);
-      cache.AddMapping(namespace1, namespace4);
       cache.AddMapping(namespace2, namespace3);
+      cache.AddMapping(namespace1, namespace4);
       cache.AddMapping(namespace4, namespace3);
 
       //WHEN

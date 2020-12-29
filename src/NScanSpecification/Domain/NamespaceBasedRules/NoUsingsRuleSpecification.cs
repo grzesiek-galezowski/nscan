@@ -77,6 +77,5 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
       //THEN
       report.Received(1).Add(violation);
     }
-    //bug support more paths than just one
   }
 }
