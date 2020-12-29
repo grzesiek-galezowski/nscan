@@ -1,5 +1,4 @@
-﻿using System.IO;
-using FluentAssertions;
+﻿using FluentAssertions;
 using NScan.Lib;
 using TddXt.AnyRoot.Strings;
 using Xunit;

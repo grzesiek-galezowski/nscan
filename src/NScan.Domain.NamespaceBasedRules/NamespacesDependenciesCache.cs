@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
+﻿using System.Collections.Generic;
 using System.Linq;
 using NScan.Lib;
 
@@ -20,7 +18,6 @@ namespace NScan.NamespaceBasedRules
 
     public List<NamespaceDependencyPath> RetrieveCycles()
     {
-      //TODO return cycles as well
       var cycles = new List<NamespaceDependencyPath>();
       foreach (var @namespace in _dependenciesByNamespace.Keys)
       {
@@ -115,6 +112,8 @@ namespace NScan.NamespaceBasedRules
       if (pathIncludingCurrentElement.FormsACycleFromFirstElement())
       {
         //full cycle is a cycle that starts with current namespace, e.g. A->B->A
+
+        //A->B->A and B->A->B are the same cycle, no need to report twice
         if (pathIncludingCurrentElement.IsEquivalentToAnyOf(alreadyDetectedCycles))
         {
           alreadyDetectedCycles.Add(pathIncludingCurrentElement);

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using FluentAssertions;
 using NScan.NamespaceBasedRules;
 using NScan.SharedKernel;

@@ -4,7 +4,8 @@ using NScan.SharedKernel;
 
 namespace NScan.DependencyPathBasedRules
 {
-  public class SolutionForDependencyPathRules : ISolutionForDependencyPathBasedRules, ISolutionContext //bug move
+  public class SolutionForDependencyPathRules 
+    : ISolutionForDependencyPathBasedRules, ISolutionContext
   {
     private readonly IPathCache _pathCache;
     private readonly IReadOnlyDictionary<ProjectId, IDotNetProject> _projectsById;

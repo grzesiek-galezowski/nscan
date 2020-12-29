@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using NullableReferenceTypesExtensions;
+﻿using System.Collections.Generic;
 
 namespace NScan.NamespaceBasedRules
 {

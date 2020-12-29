@@ -4,7 +4,6 @@ using System.Linq;
 using FluentAssertions;
 using NScan.Lib;
 using NScan.NamespaceBasedRules;
-using TddXt.AnyRoot.Strings;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 

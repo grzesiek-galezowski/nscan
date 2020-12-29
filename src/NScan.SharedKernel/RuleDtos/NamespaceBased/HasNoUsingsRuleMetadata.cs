@@ -1,6 +1,5 @@
-namespace NScan.SharedKernel.RuleDtos.NamespaceBased
+﻿namespace NScan.SharedKernel.RuleDtos.NamespaceBased
 {
-  //TODO consider pushing these members to DTO itself?
   public static class HasNoUsingsRuleMetadata
   {
     public const string HasNoUsings = "hasNoUsings";

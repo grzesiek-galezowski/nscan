@@ -4,7 +4,6 @@ using NScan.NamespaceBasedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NSubstitute;
-using TddXt.AnyRoot.Collections;
 using TddXt.AnyRoot.Strings;
 using TddXt.XNSubstitute;
 using Xunit;
@@ -78,12 +77,6 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
       //THEN
       report.Received(1).Add(violation);
     }
-    /*
-      if (cycles.Any())
-      {
-        report.Add(_ruleViolationFactory.NoCyclesRuleViolation(Description(), projectAssemblyName, cycles));
-      }
-    */
     //bug support more paths than just one
   }
 }

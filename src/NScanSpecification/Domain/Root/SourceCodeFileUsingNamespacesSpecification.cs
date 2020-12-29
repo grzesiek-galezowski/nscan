@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using NScan.NamespaceBasedRules;
 using NSubstitute;
-using TddXt.AnyRoot.Strings;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
