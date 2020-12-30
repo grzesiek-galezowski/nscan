@@ -14,6 +14,7 @@ namespace NScan.NamespaceBasedRules
   public class NamespaceDependencyPath : ValueType<NamespaceDependencyPath>
   {
     private readonly ImmutableList<NamespaceName> _elements;
+    private static readonly SimpleDependencyPathFormat DefaultFormat = new();
 
     public NamespaceDependencyPath(ImmutableList<NamespaceName> elements)
     {
@@ -25,12 +26,12 @@ namespace NScan.NamespaceBasedRules
 
     protected override IEnumerable<object> GetAllAttributesToBeUsedForEquality()
     {
-      return new ListByValue<NamespaceName>(_elements);
+      yield return new ListByValue<NamespaceName>(_elements);
     }
 
     public override string ToString()
     {
-      return ToStringFormatted(new SimpleDependencyPathFormat());
+      return ToStringFormatted(DefaultFormat);
     }
 
     public bool IsPathToItself()
@@ -72,7 +73,7 @@ namespace NScan.NamespaceBasedRules
     {
       return _elements
         .Distinct()
-        .OrderBy(s => s.Value);
+        .OrderBy(s => s.ToString());
     }
 
     private bool BeginsAndEndsWithTheSameElement()
@@ -95,7 +96,7 @@ namespace NScan.NamespaceBasedRules
       string result = string.Empty;
       for (var cycleElementIndex = 0; cycleElementIndex < _elements.Count; cycleElementIndex++)
       {
-        var segment = _elements[cycleElementIndex].Value;
+        var segment = _elements[cycleElementIndex].ToString();
         result += format.ElementIndentation(cycleElementIndex) + segment + format.ElementTerminator();
       }
 

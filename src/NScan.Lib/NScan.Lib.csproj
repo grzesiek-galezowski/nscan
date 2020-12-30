@@ -24,6 +24,10 @@
     <PackageReference Include="Functional.Maybe" Version="2.0.20" />
     <PackageReference Include="Functional.Maybe.Just" Version="1.5.0" />
     <PackageReference Include="Glob" Version="1.1.8" />
+    <PackageReference Include="IsExternalInit" Version="1.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Value" Version="1.1.0.1" />
   </ItemGroup>
   

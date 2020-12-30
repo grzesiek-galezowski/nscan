@@ -34,13 +34,13 @@ namespace TddXt.NScan.Specification.Domain.Root
       //THEN
       result.Should().Be(
         $"{header} 1:{Environment.NewLine}" +
-        $"  {namespace1.Value}{Environment.NewLine}" +
-        $"    {namespace2.Value}{Environment.NewLine}" +
-        $"      {namespace3.Value}{Environment.NewLine}" +
+        $"  {namespace1}{Environment.NewLine}" +
+        $"    {namespace2}{Environment.NewLine}" +
+        $"      {namespace3}{Environment.NewLine}" +
         $"{header} 2:{Environment.NewLine}" +
-        $"  {namespace4.Value}{Environment.NewLine}" +
-        $"    {namespace5.Value}{Environment.NewLine}" +
-        $"      {namespace6.Value}{Environment.NewLine}");
+        $"  {namespace4}{Environment.NewLine}" +
+        $"    {namespace5}{Environment.NewLine}" +
+        $"      {namespace6}{Environment.NewLine}");
     }
 
   }

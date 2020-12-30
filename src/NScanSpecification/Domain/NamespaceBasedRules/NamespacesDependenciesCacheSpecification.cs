@@ -159,8 +159,8 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
 
       //WHEN
       var paths = cache.RetrievePathsBetween(
-        Pattern.WithoutExclusion(namespace1.Value), 
-        Pattern.WithoutExclusion(namespace4.Value));
+        Pattern.WithoutExclusion(namespace1.ToString()), 
+        Pattern.WithoutExclusion(namespace4.ToString()));
 
       //THEN
       paths.Should().BeEmpty();
@@ -178,8 +178,8 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
 
       //WHEN
       var paths = cache.RetrievePathsBetween(
-        Pattern.WithoutExclusion(namespace1.Value), 
-        Pattern.WithoutExclusion(namespace1.Value));
+        Pattern.WithoutExclusion(namespace1.ToString()), 
+        Pattern.WithoutExclusion(namespace1.ToString()));
 
       //THEN
       paths.Should().BeEmpty();
@@ -197,8 +197,8 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
 
       //WHEN
       var paths = cache.RetrievePathsBetween(
-        Pattern.WithoutExclusion(namespace1.Value), 
-        Pattern.WithoutExclusion(namespace2.Value));
+        Pattern.WithoutExclusion(namespace1.ToString()), 
+        Pattern.WithoutExclusion(namespace2.ToString()));
 
       //THEN
       paths[0].Should().Be(NamespaceDependencyPath.With(
@@ -225,8 +225,8 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
 
       //WHEN
       var paths = cache.RetrievePathsBetween(
-        Pattern.WithoutExclusion(namespace1.Value), 
-        Pattern.WithoutExclusion(namespace3.Value));
+        Pattern.WithoutExclusion(namespace1.ToString()), 
+        Pattern.WithoutExclusion(namespace3.ToString()));
 
       //THEN
       paths[0].Should().Be(NamespaceDependencyPath.With(
@@ -257,8 +257,8 @@ namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
 
       //WHEN
       var paths = cache.RetrievePathsBetween(
-        Pattern.WithoutExclusion(namespace1.Value), 
-        Pattern.WithoutExclusion(namespace2.Value));
+        Pattern.WithoutExclusion(namespace1.ToString()), 
+        Pattern.WithoutExclusion(namespace2.ToString()));
 
       //THEN
       paths[0].Should().Be(NamespaceDependencyPath.With(

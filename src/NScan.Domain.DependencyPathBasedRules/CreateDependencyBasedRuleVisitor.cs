@@ -1,4 +1,4 @@
-using NScan.SharedKernel.RuleDtos.DependencyPathBased;
+﻿using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 
 namespace NScan.DependencyPathBasedRules
 {
