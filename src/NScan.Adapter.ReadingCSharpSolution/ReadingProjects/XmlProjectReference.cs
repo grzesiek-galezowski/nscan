@@ -5,10 +5,10 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
 {
 #nullable disable
   [XmlRoot(ElementName = "ProjectReference")]
-  public class XmlProjectReference
+  public record XmlProjectReference
   {
     [XmlAttribute(AttributeName = "Include")]
-    public string Include { get; set; }
+    public string Include { get; init; }
 
     [XmlIgnore]
     public AbsoluteFilePath FullIncludePath { get; set; }

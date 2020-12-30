@@ -7,7 +7,8 @@ namespace NScan.DependencyPathBasedRules
     private readonly IDependencyBasedRuleFactory _dependencyBasedRuleFactory;
     private readonly IPathRuleSet _pathRules;
 
-    public CreateDependencyBasedRuleVisitor(IDependencyBasedRuleFactory dependencyBasedRuleFactory,
+    public CreateDependencyBasedRuleVisitor(
+      IDependencyBasedRuleFactory dependencyBasedRuleFactory,
       IPathRuleSet pathRules)
     {
       _dependencyBasedRuleFactory = dependencyBasedRuleFactory;

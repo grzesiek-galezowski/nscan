@@ -10,7 +10,7 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
 {
   public class XmlProjectDataAccess
   {
-    private readonly XmlProject _xmlProject;
+    private XmlProject _xmlProject;
 
     public XmlProjectDataAccess(XmlProject xmlProject)
     {
@@ -98,7 +98,7 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
 
     public void SetAbsolutePath(AbsoluteFilePath projectFilePath)
     {
-      _xmlProject.AbsolutePath = projectFilePath;
+      _xmlProject = _xmlProject with { AbsolutePath = projectFilePath };
     }
 
     public CsharpProjectDto BuildCsharpProjectDto()

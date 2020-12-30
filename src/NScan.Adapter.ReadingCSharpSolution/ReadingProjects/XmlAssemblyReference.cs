@@ -4,12 +4,12 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
 {
 #nullable disable
   [XmlRoot(ElementName = "Reference")]
-  public class XmlAssemblyReference
+  public record XmlAssemblyReference
   {
     [XmlElement(ElementName = "HintPath")]
-    public string HintPath { get; set; }
+    public string HintPath { get; init; }
 
     [XmlAttribute(AttributeName = "Include")]
-    public string Include { get; set; }
+    public string Include { get; init; }
   }
 }

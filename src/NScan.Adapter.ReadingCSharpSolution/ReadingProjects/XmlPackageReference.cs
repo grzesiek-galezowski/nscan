@@ -4,12 +4,12 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
 {
 #nullable disable
   [XmlRoot(ElementName = "PackageReference")]
-  public class XmlPackageReference
+  public record XmlPackageReference
   {
     [XmlAttribute(AttributeName = "Include")]
-    public string Include { get; set; }
+    public string Include { get; init; }
 
     [XmlAttribute(AttributeName = "Version")]
-    public string Version { get; set; }
+    public string Version { get; init; }
   }
 }

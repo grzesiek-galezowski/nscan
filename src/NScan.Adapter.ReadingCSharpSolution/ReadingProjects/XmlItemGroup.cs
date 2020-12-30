@@ -5,15 +5,15 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
 {
 #nullable disable
   [XmlRoot(ElementName = "ItemGroup")]
-  public class XmlItemGroup
+  public record XmlItemGroup
   {
     [XmlElement(ElementName = "PackageReference")]
-    public List<XmlPackageReference> PackageReferences { get; set; }
+    public List<XmlPackageReference> PackageReferences { get; init; }
 
     [XmlElement(ElementName = "ProjectReference")]
-    public List<XmlProjectReference> ProjectReferences { get; set; }
+    public List<XmlProjectReference> ProjectReferences { get; init; }
 
     [XmlElement(ElementName = "Reference")]
-    public List<XmlAssemblyReference> AssemblyReferences { get; set; }
+    public List<XmlAssemblyReference> AssemblyReferences { get; init; }
   }
 }

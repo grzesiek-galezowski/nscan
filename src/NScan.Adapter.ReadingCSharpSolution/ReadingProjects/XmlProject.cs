@@ -7,19 +7,19 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
 {
 #nullable disable
   [XmlRoot(ElementName = "Project")]
-  public class XmlProject
+  public record XmlProject
   {
     [XmlElement(ElementName = "PropertyGroup")]
-    public List<XmlPropertyGroup> PropertyGroups { get; set; }
+    public List<XmlPropertyGroup> PropertyGroups { get; init; }
 
     [XmlElement(ElementName = "ItemGroup")]
-    public List<XmlItemGroup> ItemGroups { get; set; }
+    public List<XmlItemGroup> ItemGroups { get; init; }
 
     [XmlAttribute(AttributeName = "Sdk")]
-    public string Sdk { get; set; }
+    public string Sdk { get; init; }
 
     [XmlIgnore]
-    public AbsoluteFilePath AbsolutePath { get; set; }
+    public AbsoluteFilePath AbsolutePath { get; init; }
 
     [XmlIgnore]
     public List<SourceCodeFileDto> SourceCodeFiles { get; } = new();

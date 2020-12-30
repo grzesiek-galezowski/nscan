@@ -204,7 +204,8 @@ namespace NScanSpecification.Lib.AutomationLayer
 
     private HasTargetFrameworkRuleComplementDto HasTargetFrameworkRuleComplement()
     {
-      return new(GetDependingPattern(), 
+      return new HasTargetFrameworkRuleComplementDto(
+        GetDependingPattern(), 
         _targetFramework.OrThrow());
     }
 

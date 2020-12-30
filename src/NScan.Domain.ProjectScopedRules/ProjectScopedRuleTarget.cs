@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NScan.Lib;
 using NScan.SharedKernel;
 
@@ -30,10 +30,14 @@ namespace NScan.ProjectScopedRules
       return pattern.IsMatch(_assemblyName);
     }
 
-    public void ValidateTargetFrameworkWith(ITargetFrameworkCheck targetFrameworkCheck,
+    public void ValidateTargetFrameworkWith(
+      ITargetFrameworkCheck targetFrameworkCheck,
       IAnalysisReportInProgress analysisReportInProgress)
     {
-      targetFrameworkCheck.ApplyTo(_assemblyName, _targetFramework, analysisReportInProgress);
+      targetFrameworkCheck.ApplyTo(
+        _assemblyName, 
+        _targetFramework, 
+        analysisReportInProgress);
     }
   }
 }

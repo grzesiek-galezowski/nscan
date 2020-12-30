@@ -5,31 +5,31 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
 
   #nullable disable
   [XmlRoot(ElementName = "PropertyGroup")]
-  public class XmlPropertyGroup
+  public record XmlPropertyGroup
   {
     [XmlElement(ElementName = "TargetFramework")]
-    public string TargetFramework { get; set; }
+    public string TargetFramework { get; init; }
 
     [XmlElement(ElementName = "AssemblyName")]
-    public string AssemblyName { get; set; }
+    public string AssemblyName { get; init; }
 
     [XmlElement(ElementName = "RootNamespace")]
-    public string RootNamespace { get; set; }
+    public string RootNamespace { get; init; }
 
     [XmlElement(ElementName = "SignAssembly")]
-    public string SignAssembly { get; set; }
+    public string SignAssembly { get; init; }
 
     [XmlElement(ElementName = "AssemblyOriginatorKeyFile")]
-    public string AssemblyOriginatorKeyFile { get; set; }
+    public string AssemblyOriginatorKeyFile { get; init; }
 
     [XmlElement(ElementName = "DelaySign")]
-    public string DelaySign { get; set; }
+    public string DelaySign { get; init; }
 
     [XmlElement(ElementName = "OutputPath")]
-    public string OutputPath { get; set; }
+    public string OutputPath { get; init; }
 
     [XmlAttribute(AttributeName = "Condition")]
-    public string Condition { get; set; }
+    public string Condition { get; init; }
   }
 
 }

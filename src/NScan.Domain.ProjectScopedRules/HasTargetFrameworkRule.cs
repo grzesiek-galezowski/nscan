@@ -25,7 +25,7 @@ namespace NScan.ProjectScopedRules
 
     public void Check(IProjectScopedRuleTarget project, IAnalysisReportInProgress report)
     {
-      project.ValidateTargetFrameworkWith((ITargetFrameworkCheck) this, report);
+      project.ValidateTargetFrameworkWith(this, report);
     }
 
     public void ApplyTo(string assemblyName, string targetFramework, IAnalysisReportInProgress report)
