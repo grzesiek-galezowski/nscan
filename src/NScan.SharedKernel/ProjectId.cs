@@ -1,8 +1,10 @@
-﻿namespace NScan.SharedKernel
+﻿using System.Collections.Generic;
+using Value;
+
+namespace NScan.SharedKernel
 {
-  public struct ProjectId
+  public class ProjectId : ValueType<ProjectId>
   {
-    // ReSharper disable once NotAccessedField.Local
     private readonly string _absolutePath;
 
     public ProjectId(string absolutePath)
@@ -13,6 +15,11 @@
     public override string ToString()
     {
       return _absolutePath;
+    }
+
+    protected override IEnumerable<object> GetAllAttributesToBeUsedForEquality()
+    {
+      yield return _absolutePath;
     }
   }
 }

@@ -4,7 +4,7 @@ using NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
 using Xunit;
 
-namespace TddXt.NScan.Specification.Integration
+namespace NScan.Adapter.ReadingCSharpSolutionSpecification.Integration
 {
   public class RoslynMethodCollectionPlayground
   {

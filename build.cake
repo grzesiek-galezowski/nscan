@@ -104,7 +104,7 @@ Task("BuildCakeNScan")
     });
 });
 
-Task("RunNScanUnitTests")
+Task("RunNScanUnitTests") //todo this runs integration tests as well
     .IsDependentOn("BuildNScan")
     .Does(() =>
 {

@@ -103,10 +103,17 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
 
     public CsharpProjectDto BuildCsharpProjectDto()
     {
-      return new(DetermineAssemblyName(), SourceCodeFiles(), TargetFramework(), Id(), XmlPackageReferences()
-        .Select(r => new PackageReference(r.Include, r.Version)).ToList(), XmlAssemblyReferences()
-        .Select(r => new AssemblyReference(r.Include, r.HintPath)).ToList(), ProjectReferences()
-        .Select(dto => new ProjectId(dto.FullIncludePath.ToString())).ToArray());
+      return new(
+        Id(), 
+        DetermineAssemblyName(), 
+        TargetFramework(), 
+        SourceCodeFiles(), 
+        XmlPackageReferences()
+        .Select(r => new PackageReference(r.Include, r.Version)).ToList(), 
+        XmlAssemblyReferences()
+        .Select(r => new AssemblyReference(r.Include, r.HintPath)).ToList(), 
+        ProjectReferences()
+        .Select(dto => new ProjectId(dto.FullIncludePath.ToString())).ToList());
     }
   }
 

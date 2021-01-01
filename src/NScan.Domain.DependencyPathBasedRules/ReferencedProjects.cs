@@ -18,10 +18,12 @@ namespace NScan.DependencyPathBasedRules
     private readonly IDictionary<ProjectId, IReferencedProject> _referencedProjects 
       = new Dictionary<ProjectId, IReferencedProject>();
 
-    private readonly ProjectId[] _referencedProjectsIds;
+    private readonly IReadOnlyList<ProjectId> _referencedProjectsIds;
     private readonly INScanSupport _support;
 
-    public ReferencedProjects(ProjectId[] referencedProjectsIds, INScanSupport support)
+    public ReferencedProjects(
+      IReadOnlyList<ProjectId> referencedProjectsIds, 
+      INScanSupport support)
     {
       _referencedProjectsIds = referencedProjectsIds;
       _support = support;

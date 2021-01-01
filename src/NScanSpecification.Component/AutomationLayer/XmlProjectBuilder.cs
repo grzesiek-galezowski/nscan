@@ -73,14 +73,10 @@ namespace NScanSpecification.Component.AutomationLayer
 
     public CsharpProjectDto BuildCsharpProjectDto()
     {
-      return new(
+      return new(_projectId,
         _assemblyName,
-        _sourceCodeFileBuilders.Select(b => b.BuildWith(_assemblyName, _rootNamespace)),
         _targetFramework,
-        _projectId,
-        _packageReferences,
-        _assemblyReferences,
-        _referencedProjectIds.ToArray());
+        _sourceCodeFileBuilders.Select(b => b.BuildWith(_assemblyName, _rootNamespace)), _packageReferences, _assemblyReferences, _referencedProjectIds.ToArray());
     }
   }
 }

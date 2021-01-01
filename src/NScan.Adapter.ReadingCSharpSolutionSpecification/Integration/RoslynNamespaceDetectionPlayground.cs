@@ -2,7 +2,7 @@
 using NScan.Adapter.ReadingCSharpSolution.ReadingCSharpSourceCode;
 using Xunit;
 
-namespace TddXt.NScan.Specification.Integration
+namespace NScan.Adapter.ReadingCSharpSolutionSpecification.Integration
 {
   //backlog single namesace per file rule
 

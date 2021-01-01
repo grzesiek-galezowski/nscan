@@ -1,10 +1,17 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace NScan.SharedKernel.ReadingSolution.Ports
 {
   public class CsharpProjectDto
   {
-    public CsharpProjectDto(string assemblyName, IEnumerable<SourceCodeFileDto> sourceCodeFileDtos, string targetFramework, ProjectId projectId, List<PackageReference> packageReferences, List<AssemblyReference> assemblyReferences, ProjectId[] referencedProjectIds)
+    public CsharpProjectDto(
+      ProjectId projectId, 
+      string assemblyName, 
+      string targetFramework,
+      IEnumerable<SourceCodeFileDto> sourceCodeFileDtos, 
+      IReadOnlyList<PackageReference> packageReferences,
+      IReadOnlyList<AssemblyReference> assemblyReferences, 
+      IReadOnlyList<ProjectId> referencedProjectIds)
     {
       AssemblyName = assemblyName;
       SourceCodeFiles = sourceCodeFileDtos;
@@ -27,6 +34,6 @@ namespace NScan.SharedKernel.ReadingSolution.Ports
 
     public IReadOnlyList<AssemblyReference> AssemblyReferences { get; }
 
-    public ProjectId[] ReferencedProjectIds { get; }
+    public IReadOnlyList<ProjectId> ReferencedProjectIds { get; }
   }
 }
