@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using AtmaFileSystem;
 using NScan.SharedKernel;
@@ -76,7 +77,12 @@ namespace NScanSpecification.Component.AutomationLayer
       return new(_projectId,
         _assemblyName,
         _targetFramework,
-        _sourceCodeFileBuilders.Select(b => b.BuildWith(_assemblyName, _rootNamespace)), _packageReferences, _assemblyReferences, _referencedProjectIds.ToArray());
+        _sourceCodeFileBuilders
+          .Select(
+            b => b.BuildWith(_assemblyName, _rootNamespace)).ToImmutableList(), 
+        _packageReferences.ToImmutableList(), 
+        _assemblyReferences.ToImmutableList(), 
+        _referencedProjectIds.ToImmutableList());
     }
   }
 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -45,9 +45,8 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
     private static XmlProject DeserializeProjectFile(AbsoluteFilePath projectFilePath)
     {
       var serializer = new XmlSerializer(typeof(XmlProject));
-      XmlProject result;
       using var fileStream = new FileStream(projectFilePath.ToString(), FileMode.Open);
-      result = (XmlProject) serializer.Deserialize(fileStream);
+      XmlProject result = (XmlProject) serializer.Deserialize(fileStream);
 
       return result;
     }
@@ -62,7 +61,8 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
 
     private static XmlProjectDataAccess DeserializeProjectData(AbsoluteFilePath projectFilePath)
     {
-      var xmlProjectDataAccess = new XmlProjectDataAccess(DeserializeProjectFile(projectFilePath));
+      var xmlProjectDataAccess = new XmlProjectDataAccess(
+        DeserializeProjectFile(projectFilePath));
       xmlProjectDataAccess.SetAbsolutePath(projectFilePath);
       xmlProjectDataAccess.NormalizeProjectDependencyPaths(projectFilePath);
       return xmlProjectDataAccess;

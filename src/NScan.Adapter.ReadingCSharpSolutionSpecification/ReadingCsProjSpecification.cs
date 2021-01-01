@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,7 @@ using NScan.SharedKernel.ReadingSolution.Ports;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
+using TddXt.AnyRoot.Strings;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
@@ -22,35 +24,56 @@ namespace NScan.Adapter.ReadingCSharpSolutionSpecification
   public class ReadingCsProjSpecification : INScanSupport
   {
     [Fact]
-    public void Test1() //bug
+    public void ShouldBeAbleToCreateDtoFromSdkCsprojDefaultTemplate()
     {
       //GIVEN
-      var absoluteFilePath = AbsoluteFilePath.Value(Path.GetFullPath("project1.csproj"));
-      ProjectRootElement project = ProjectCreator.Templates.SdkCsproj(absoluteFilePath.ToString());
-      project.AddProperty("Lol", "Lol2");
+      var csprojName = Any.String();
+      var csprojPath = CsProjPathTo(csprojName);
+      var project = ProjectCreator.Templates.SdkCsproj(csprojPath.ToString());
 
       using (new FileScope(project))
       {
         //WHEN
-        var csharpProjectDto = ReadCSharpProjectFrom(absoluteFilePath);
+        var csharpProjectDto = ReadCSharpProjectFrom(csprojPath);
 
-        csharpProjectDto.AssemblyName.Should().Be("project1");
-        csharpProjectDto.Id.Should().Be(new ProjectId(absoluteFilePath.ToString()));
-        csharpProjectDto.TargetFramework.Should().Be("netstandard2.0");
-        csharpProjectDto.SourceCodeFiles.Should().BeEmpty();
-        csharpProjectDto.AssemblyReferences.Should().BeEmpty();
-        csharpProjectDto.PackageReferences.Should().BeEmpty();
-        csharpProjectDto.ReferencedProjectIds.Should().BeEmpty();
+        //THEN
         csharpProjectDto.Should().BeEquivalentTo(
-          new CsharpProjectDto(new ProjectId(absoluteFilePath.ToString()),
-            "project1",
+          new CsharpProjectDto(new ProjectId(csprojPath.ToString()),
+            csprojName,
             "netstandard2.0",
-            Enumerable.Empty<SourceCodeFileDto>(), 
-            Enumerable.Empty<PackageReference>().ToList(), 
-            Enumerable.Empty<AssemblyReference>().ToList(), 
-            Array.Empty<ProjectId>()));
+            ImmutableList<SourceCodeFileDto>.Empty,
+            ImmutableList<PackageReference>.Empty, 
+            ImmutableList<AssemblyReference>.Empty, 
+            ImmutableList<ProjectId>.Empty));
       }
+    }
 
+    [Fact]
+    public void ShouldBeAbleToReadTargetFrameworkWhateverItIs()
+    {
+      //GIVEN
+      var csprojName = Any.String();
+      var csprojPath = CsProjPathTo(csprojName);
+      var targetFramework = Any.String("TargetFramework");
+      var project = ProjectCreator.Templates.SdkCsproj(
+        csprojPath.ToString(),
+        targetFramework: targetFramework);
+
+      using (new FileScope(project))
+      {
+        //WHEN
+        var csharpProjectDto = ReadCSharpProjectFrom(csprojPath);
+
+        //THEN
+        csharpProjectDto.TargetFramework.Should().Be(targetFramework);
+      }
+    }
+
+    //bug tests for missing fields
+
+    private static AbsoluteFilePath CsProjPathTo(string csprojName)
+    {
+      return AbsoluteFilePath.Value(Path.GetFullPath(csprojName+".csproj"));
     }
 
     private CsharpProjectDto ReadCSharpProjectFrom(AbsoluteFilePath absoluteFilePath)

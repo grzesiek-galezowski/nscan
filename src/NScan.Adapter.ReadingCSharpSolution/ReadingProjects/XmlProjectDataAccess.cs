@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using AtmaFileSystem;
 using Functional.Maybe;
@@ -59,9 +60,9 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
       return new(_xmlProject.AbsolutePath.ToString());
     }
 
-    private IEnumerable<SourceCodeFileDto> SourceCodeFiles()
+    private ImmutableList<SourceCodeFileDto> SourceCodeFiles()
     {
-      return _xmlProject.SourceCodeFiles!;
+      return _xmlProject.SourceCodeFiles!.ToImmutableList();
     }
 
     private string TargetFramework()
@@ -109,11 +110,11 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
         TargetFramework(), 
         SourceCodeFiles(), 
         XmlPackageReferences()
-        .Select(r => new PackageReference(r.Include, r.Version)).ToList(), 
+        .Select(r => new PackageReference(r.Include, r.Version)).ToImmutableList(), 
         XmlAssemblyReferences()
-        .Select(r => new AssemblyReference(r.Include, r.HintPath)).ToList(), 
+        .Select(r => new AssemblyReference(r.Include, r.HintPath)).ToImmutableList(), 
         ProjectReferences()
-        .Select(dto => new ProjectId(dto.FullIncludePath.ToString())).ToList());
+        .Select(dto => new ProjectId(dto.FullIncludePath.ToString())).ToImmutableList());
     }
   }
 

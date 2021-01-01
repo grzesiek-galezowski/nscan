@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace NScan.SharedKernel.ReadingSolution.Ports
 {
@@ -8,10 +9,10 @@ namespace NScan.SharedKernel.ReadingSolution.Ports
       ProjectId projectId, 
       string assemblyName, 
       string targetFramework,
-      IEnumerable<SourceCodeFileDto> sourceCodeFileDtos, 
-      IReadOnlyList<PackageReference> packageReferences,
-      IReadOnlyList<AssemblyReference> assemblyReferences, 
-      IReadOnlyList<ProjectId> referencedProjectIds)
+      ImmutableList<SourceCodeFileDto> sourceCodeFileDtos, 
+      ImmutableList<PackageReference> packageReferences,
+      ImmutableList<AssemblyReference> assemblyReferences, 
+      ImmutableList<ProjectId> referencedProjectIds)
     {
       AssemblyName = assemblyName;
       SourceCodeFiles = sourceCodeFileDtos;
