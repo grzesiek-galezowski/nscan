@@ -45,35 +45,34 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
 
     private static XmlProject DeserializeProjectFile(AbsoluteFilePath projectFilePath)
     {
-      var serializer = new XmlSerializer(typeof(XmlProject), new []
+      var serializer = CreateXmlSerializer();
+      using var fileStream = new FileStream(projectFilePath.ToString(), FileMode.Open);
+      XmlProject result = (XmlProject) serializer.Deserialize(fileStream);
+      return result;
+    }
+
+    private static XmlSerializer CreateXmlSerializer()
+    {
+      var serializer = new XmlSerializer(typeof(XmlProject), new[]
       {
         typeof(XmlPropertyGroup),
         typeof(XmlItemGroup),
       });
-      using var fileStream = new FileStream(projectFilePath.ToString(), FileMode.Open);
-
       serializer.UnknownAttribute += (sender, args) =>
       {
         System.Xml.XmlAttribute attr = args.Attr;
         Console.WriteLine($"Unknown attribute {attr.Name}=\'{attr.Value}\'");
       };
-      serializer.UnknownNode += (sender, args) =>
-      {
-        Console.WriteLine($"Unknown Node:{args.Name}\t{args.Text}");
-      };
-      serializer.UnknownElement += 
-        (sender, args) => 
-          Console.WriteLine("Unknown Element:" 
+      serializer.UnknownNode += (sender, args) => { Console.WriteLine($"Unknown Node:{args.Name}\t{args.Text}"); };
+      serializer.UnknownElement +=
+        (sender, args) =>
+          Console.WriteLine("Unknown Element:"
                             + args.Element.Name + " " + args.Element.InnerXml);
-      serializer.UnreferencedObject += 
-        (sender, args) => 
+      serializer.UnreferencedObject +=
+        (sender, args) =>
           Console.WriteLine("Unreferenced Object:"
                             + args.UnreferencedId + " " + args.UnreferencedObject.ToString());
-      
-      XmlProject result = (XmlProject) serializer.Deserialize(fileStream);
-      Console.WriteLine(result.PropertyGroups[0].AssemblyOriginatorKeyFile ?? "null"); //bug
-      Console.WriteLine(result.PropertyGroups[0].ToString().Replace(",", Environment.NewLine)); //bug
-      return result;
+      return serializer;
     }
 
     private static CsharpProjectDto LoadXmlProject(AbsoluteFilePath projectFilePath)
