@@ -32,8 +32,7 @@ namespace NScan.ProjectScopedRules
       return 
         new ProjectScopedRuleApplicableToMatchingProject(
           ruleDto.ProjectAssemblyNamePattern,
-          new HasTargetFrameworkRule(ruleDto.TargetFramework, _ruleViolationFactory, 
-            HasTargetFrameworkRuleMetadata.Format(ruleDto)));
+          new HasPropertyValueRule("TargetFramework", ruleDto.TargetFramework, _ruleViolationFactory, HasTargetFrameworkRuleMetadata.Format(ruleDto)));
     }
   }
 }

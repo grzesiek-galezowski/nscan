@@ -21,8 +21,8 @@ namespace NScan.ProjectScopedRules
         .Select(dataAccess => 
           new ProjectScopedRuleTarget(
             dataAccess.AssemblyName, 
-            SourceCodeFiles(dataAccess), 
-            dataAccess.TargetFramework))
+            SourceCodeFiles(dataAccess),
+            dataAccess.Properties))
         .Cast<IProjectScopedRuleTarget>()
         .ToList();
     }

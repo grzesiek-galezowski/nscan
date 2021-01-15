@@ -8,16 +8,15 @@ namespace NScan.ProjectScopedRules
   {
     private readonly string _assemblyName;
     private readonly IReadOnlyList<ISourceCodeFileInNamespace> _sourceCodeFiles;
-    private readonly string _targetFramework;
+    private readonly IReadOnlyDictionary<string, string> _properties;
 
-    public ProjectScopedRuleTarget(
-      string assemblyName,
+    public ProjectScopedRuleTarget(string assemblyName,
       IReadOnlyList<ISourceCodeFileInNamespace> sourceCodeFiles, 
-      string targetFramework)
+      IReadOnlyDictionary<string, string> properties)
     {
       _assemblyName = assemblyName;
       _sourceCodeFiles = sourceCodeFiles;
-      _targetFramework = targetFramework;
+      _properties = properties;
     }
 
     public void AnalyzeFiles(IProjectFilesetScopedRule rule, IAnalysisReportInProgress report)
@@ -30,13 +29,13 @@ namespace NScan.ProjectScopedRules
       return pattern.IsMatch(_assemblyName);
     }
 
-    public void ValidateTargetFrameworkWith(
-      ITargetFrameworkCheck targetFrameworkCheck,
+    public void ValidateProperty(
+      IPropertyCheck propertyCheck,
       IAnalysisReportInProgress analysisReportInProgress)
     {
-      targetFrameworkCheck.ApplyTo(
+      propertyCheck.ApplyTo(
         _assemblyName, 
-        _targetFramework, 
+        _properties, 
         analysisReportInProgress);
     }
   }

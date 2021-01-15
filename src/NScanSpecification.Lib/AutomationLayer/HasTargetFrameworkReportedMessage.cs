@@ -20,7 +20,7 @@ namespace NScanSpecification.Lib.AutomationLayer
 
     public HasTargetFrameworkReportedMessage ProjectHasAnotherTargetFramework(string projectName, string actualTargetFramework)
     {
-      return NewInstance(this + NewLine + $"Project {projectName} has target framework {actualTargetFramework}");
+      return NewInstance(this + NewLine + $"Project {projectName} has TargetFramework {actualTargetFramework}");
     }
   }
 }

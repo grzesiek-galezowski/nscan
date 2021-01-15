@@ -1,3 +1,4 @@
+﻿using System.Collections.Generic;
 using FluentAssertions;
 using NScan.Lib;
 using NScan.ProjectScopedRules;
@@ -14,23 +15,23 @@ namespace TddXt.NScan.Specification.Domain.Root
   public class ProjectScopedRuleTargetSpecification
   {
     [Fact]
-    public void ShouldApplyTargetFrameworkCheckToItsTargetFramework()
+    public void ShouldApplyPropertyCheckToItsTargetFramework()
     {
       //GIVEN
-      var targetFramework = Any.String();
-      var targetFrameworkCheck = Substitute.For<ITargetFrameworkCheck>();
+      var propertyCheck = Substitute.For<IPropertyCheck>();
       var assemblyName = Any.String();
+      var properties = Any.ReadOnlyDictionary<string, string>();
       var project = new ProjectScopedRuleTarget(
         assemblyName, 
-        Any.ReadOnlyList<ISourceCodeFileInNamespace>(), 
-        targetFramework);
+        Any.ReadOnlyList<ISourceCodeFileInNamespace>(),
+        properties);
       var report = Any.Instance<IAnalysisReportInProgress>();
 
       //WHEN
-      project.ValidateTargetFrameworkWith(targetFrameworkCheck, report);
+      project.ValidateProperty(propertyCheck, report);
 
       //THEN
-      targetFrameworkCheck.Received(1).ApplyTo(assemblyName, targetFramework, report);
+      propertyCheck.Received(1).ApplyTo(assemblyName, properties, report);
     }
 
     [Fact]
@@ -38,7 +39,10 @@ namespace TddXt.NScan.Specification.Domain.Root
     {
       //GIVEN
       var files = Any.ReadOnlyList<ISourceCodeFileInNamespace>();
-      var project = new ProjectScopedRuleTarget(Any.String(), files, Any.String());
+      var project = new ProjectScopedRuleTarget(
+        Any.String(), 
+        files,
+        Any.ReadOnlyDictionary<string, string>());
       var rule = Substitute.For<IProjectFilesetScopedRule>();
       var report = Any.Instance<IAnalysisReportInProgress>();
 
@@ -56,8 +60,8 @@ namespace TddXt.NScan.Specification.Domain.Root
       var assemblyName = Any.String();
       var project = new ProjectScopedRuleTarget(
         assemblyName, 
-        Any.ReadOnlyList<ISourceCodeFileInNamespace>(), 
-        Any.String());
+        Any.ReadOnlyList<ISourceCodeFileInNamespace>(),
+        Any.ReadOnlyDictionary<string, string>());
 
       //WHEN
       var hasProject = project.HasProjectAssemblyNameMatching(Pattern.WithoutExclusion(assemblyName));
@@ -74,8 +78,8 @@ namespace TddXt.NScan.Specification.Domain.Root
       var assemblyName = Any.String() + "." + assemblySuffix;
       var project = new ProjectScopedRuleTarget(
         assemblyName, 
-        Any.ReadOnlyList<ISourceCodeFileInNamespace>(), 
-        Any.String());
+        Any.ReadOnlyList<ISourceCodeFileInNamespace>(),
+        Any.ReadOnlyDictionary<string, string>());
       string assemblyNamePattern = "*." + assemblySuffix;
 
       //WHEN
@@ -92,8 +96,8 @@ namespace TddXt.NScan.Specification.Domain.Root
       var searchedAssemblyName = Any.String();
       var project = new ProjectScopedRuleTarget(
         Any.OtherThan(searchedAssemblyName), 
-        Any.ReadOnlyList<ISourceCodeFileInNamespace>(), 
-        Any.String());
+        Any.ReadOnlyList<ISourceCodeFileInNamespace>(),
+        Any.ReadOnlyDictionary<string, string>());
 
       //WHEN
       var hasProject = project.HasProjectAssemblyNameMatching(Pattern.WithoutExclusion(searchedAssemblyName));

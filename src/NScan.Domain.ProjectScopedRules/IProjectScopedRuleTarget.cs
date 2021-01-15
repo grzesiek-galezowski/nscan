@@ -7,7 +7,7 @@ namespace NScan.ProjectScopedRules
   {
     void AnalyzeFiles(IProjectFilesetScopedRule rule, IAnalysisReportInProgress report);
     bool HasProjectAssemblyNameMatching(Pattern pattern);
-    void ValidateTargetFrameworkWith(ITargetFrameworkCheck targetFrameworkCheck,
+    void ValidateProperty(IPropertyCheck propertyCheck,
       IAnalysisReportInProgress analysisReportInProgress);
   }
 

@@ -21,6 +21,7 @@ namespace NScanSpecification.Component.AutomationLayer
     private readonly List<AssemblyReference> _assemblyReferences = new();
     private readonly List<ProjectId> _referencedProjectIds = new();
     private string _rootNamespace = "";
+    private ImmutableDictionary<string, string> _properties = ImmutableDictionary<string, string>.Empty;
 
     private XmlProjectBuilder(string assemblyName)
     {
@@ -59,6 +60,7 @@ namespace NScanSpecification.Component.AutomationLayer
     public XmlProjectBuilder WithTargetFramework(string targetFramework)
     {
       _targetFramework = targetFramework;
+      _properties = _properties.Add("TargetFramework", _targetFramework);
       return this;
     }
 
@@ -80,7 +82,7 @@ namespace NScanSpecification.Component.AutomationLayer
         _sourceCodeFileBuilders
           .Select(
             b => b.BuildWith(_assemblyName, _rootNamespace)).ToImmutableList(), 
-        ImmutableDictionary<string, string>.Empty, 
+        _properties, 
         _packageReferences.ToImmutableList(), 
         _assemblyReferences.ToImmutableList(), 
         _referencedProjectIds.ToImmutableList());

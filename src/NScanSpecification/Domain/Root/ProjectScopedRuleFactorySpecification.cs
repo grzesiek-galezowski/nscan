@@ -56,7 +56,7 @@ namespace TddXt.NScan.Specification.Domain.Root
 
       //THEN
       projectScopedRule.Should().BeOfType<ProjectScopedRuleApplicableToMatchingProject>();
-      projectScopedRule.Should().DependOn<HasTargetFrameworkRule>();
+      projectScopedRule.Should().DependOn<HasPropertyValueRule>();
       projectScopedRule.Should().DependOn(ruleDto.ProjectAssemblyNamePattern);
       projectScopedRule.Should().DependOn(ruleDto.TargetFramework);
       projectScopedRule.Should().DependOn(ruleViolationFactory);
