@@ -5,6 +5,7 @@ using AtmaFileSystem;
 using Functional.Maybe;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingSolution.Ports;
+using NullableReferenceTypesExtensions;
 using static AtmaFileSystem.AtmaFileSystemPaths;
 
 namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
@@ -41,9 +42,10 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
 
     public string DetermineAssemblyName()
     {
-      return _xmlProject.PropertyGroups
+      var xmlProjectPropertyGroups = _xmlProject.PropertyGroups;
+      return xmlProjectPropertyGroups
         .FirstMaybe(pg => pg.AssemblyName != null)
-        .Select(pg => pg.AssemblyName)
+        .Select(pg => pg.AssemblyName.OrThrow())
         .OrElse(() => _xmlProject.AbsolutePath.FileName().WithoutExtension().ToString());
     }
 
@@ -67,14 +69,23 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
 
     private string TargetFramework()
     {
-      return _xmlProject.PropertyGroups.First(pg => pg.TargetFramework != null).TargetFramework;
+      return _xmlProject.PropertyGroups
+        .First(pg => pg.TargetFramework != null).TargetFramework.OrThrow();
     }
+
+    private ImmutableDictionary<string, string> Properties()
+    {
+      var keyValuePairs 
+        = _xmlProject.PropertyGroups.SelectMany(p => p.Properties);
+      return keyValuePairs.ToImmutableDictionary(kvp => kvp.Key, kvp => kvp.Value);
+    }
+
 
     public string RootNamespace()
     {
       return _xmlProject.PropertyGroups
         .FirstMaybe(p => p.RootNamespace != null)
-        .Select(pg => pg.RootNamespace)
+        .Select(pg => pg.RootNamespace.OrThrow())
         .OrElse(() => _xmlProject.AbsolutePath.FileName().WithoutExtension().ToString());
     }
 
@@ -108,7 +119,8 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
         Id(), 
         DetermineAssemblyName(), 
         TargetFramework(), 
-        SourceCodeFiles(), 
+        SourceCodeFiles(),
+        Properties(),
         XmlPackageReferences()
         .Select(r => new PackageReference(r.Include, r.Version)).ToImmutableList(), 
         XmlAssemblyReferences()
@@ -117,6 +129,4 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
         .Select(dto => new ProjectId(dto.FullIncludePath.ToString())).ToImmutableList());
     }
   }
-
-
 }

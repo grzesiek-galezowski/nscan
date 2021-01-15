@@ -3,15 +3,15 @@ using System.Collections.Immutable;
 
 namespace NScan.SharedKernel.ReadingSolution.Ports
 {
-  public class CsharpProjectDto
+  public record CsharpProjectDto
   {
-    public CsharpProjectDto(
-      ProjectId projectId, 
-      string assemblyName, 
+    public CsharpProjectDto(ProjectId projectId,
+      string assemblyName,
       string targetFramework,
-      ImmutableList<SourceCodeFileDto> sourceCodeFileDtos, 
+      ImmutableList<SourceCodeFileDto> sourceCodeFileDtos,
+      ImmutableDictionary<string, string> properties,
       ImmutableList<PackageReference> packageReferences,
-      ImmutableList<AssemblyReference> assemblyReferences, 
+      ImmutableList<AssemblyReference> assemblyReferences,
       ImmutableList<ProjectId> referencedProjectIds)
     {
       AssemblyName = assemblyName;
@@ -21,6 +21,7 @@ namespace NScan.SharedKernel.ReadingSolution.Ports
       PackageReferences = packageReferences;
       AssemblyReferences = assemblyReferences;
       ReferencedProjectIds = referencedProjectIds;
+      Properties = properties;
     }
 
     public string AssemblyName { get; }
@@ -36,5 +37,7 @@ namespace NScan.SharedKernel.ReadingSolution.Ports
     public IReadOnlyList<AssemblyReference> AssemblyReferences { get; }
 
     public IReadOnlyList<ProjectId> ReferencedProjectIds { get; }
+
+    public IReadOnlyDictionary<string, string> Properties { get; }
   }
 }

@@ -80,6 +80,7 @@ namespace NScanSpecification.Component.AutomationLayer
         _sourceCodeFileBuilders
           .Select(
             b => b.BuildWith(_assemblyName, _rootNamespace)).ToImmutableList(), 
+        ImmutableDictionary<string, string>.Empty, 
         _packageReferences.ToImmutableList(), 
         _assemblyReferences.ToImmutableList(), 
         _referencedProjectIds.ToImmutableList());

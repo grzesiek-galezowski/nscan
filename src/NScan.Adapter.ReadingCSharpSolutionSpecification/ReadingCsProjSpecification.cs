@@ -41,10 +41,15 @@ namespace NScan.Adapter.ReadingCSharpSolutionSpecification
           new CsharpProjectDto(new ProjectId(csprojPath.ToString()),
             csprojName,
             "netstandard2.0",
-            ImmutableList<SourceCodeFileDto>.Empty,
+            ImmutableList<SourceCodeFileDto>.Empty, 
+            ImmutableDictionary<string, string>.Empty, 
             ImmutableList<PackageReference>.Empty, 
             ImmutableList<AssemblyReference>.Empty, 
-            ImmutableList<ProjectId>.Empty));
+            ImmutableList<ProjectId>.Empty), 
+          options => options
+            .WithTracing()
+            .ComparingByMembers<CsharpProjectDto>()
+            .Excluding(dto => dto.Properties));
       }
     }
 
@@ -66,6 +71,88 @@ namespace NScan.Adapter.ReadingCSharpSolutionSpecification
 
         //THEN
         csharpProjectDto.TargetFramework.Should().Be(targetFramework);
+      }
+    }
+
+    [Fact]
+    public void ShouldExposePropertiesAsDictionary()
+    {
+      //GIVEN
+      var csprojName = Any.String();
+      var csprojPath = CsProjPathTo(csprojName);
+      var targetFramework = Any.String("TargetFramework");
+      var outputType = Any.String();
+
+      var outputPath = Any.String();
+      var assemblyName = Any.String();
+      var rootNamespace = Any.String();
+      var packAsTool = Any.String();
+      var toolCommandName = Any.String();
+      var langVersion = Any.String();
+      var nullable = Any.String();
+      var warningsAsErrors = Any.String();
+      var packageRequiresLicenseAcceptance = Any.String();
+      var packageId = Any.String();
+      var authors = Any.String();
+      var product = Any.String();
+      var description = Any.String();
+      var packageLicenseFile = Any.String();
+      var packageProjectUrl = Any.String();
+      var packageIconUrl = Any.String();
+      var repositoryUrl = Any.String();
+      var repositoryType = Any.String();
+      var packageTags = Any.String();
+      var packageReleaseNotes = Any.String();
+      var generatePackageOnBuild = Any.String();
+      var assemblyOriginatorKeyFile = Any.String();
+
+      var globalProperties = new Dictionary<string, string>()
+      {
+        ["AssemblyName"] = assemblyName,
+        ["RootNamespace"] = rootNamespace,
+        ["PackAsTool"] = packAsTool,
+        ["ToolCommandName"] = toolCommandName,
+        ["LangVersion"] = langVersion,
+        ["Nullable"] = nullable,
+        ["WarningsAsErrors"] = warningsAsErrors,
+        ["PackageRequireLicenseAcceptance"] = packageRequiresLicenseAcceptance,
+        ["PackageId"] = packageId,
+        ["Authors"] = authors,
+        ["Product"] = product,
+        ["Description"] = description,
+        ["OutputPath"] = outputPath,
+        ["PackageLicenseFile"] = packageLicenseFile,
+        ["PackageProjectUrl"] = packageProjectUrl,
+        ["PackageIconUrl"] = packageIconUrl,
+        ["RepositoryUrl"] = repositoryUrl,
+        ["RepositoryType"] = repositoryType,
+        ["PackageTags"] = packageTags,
+        ["PackageReleaseNotes"] = packageReleaseNotes,
+        ["GeneratePackageOnBuild"] = generatePackageOnBuild,
+        ["AssemblyOriginatorKeyFile"] = assemblyOriginatorKeyFile,
+      };
+      var project = ProjectCreator.Templates.SdkCsproj(
+        csprojPath.ToString(),
+        targetFramework: targetFramework,
+        outputType: outputType);
+      
+      foreach (var (key, value) in globalProperties)
+      {
+        project.Property(key, value);
+      }
+
+      using (new FileScope(project))
+      {
+        //WHEN
+        var csharpProjectDto = ReadCSharpProjectFrom(csprojPath);
+
+        //THEN
+        csharpProjectDto.Properties.Should().BeEquivalentTo(globalProperties
+          .Concat(new Dictionary<string, string>
+          {
+            ["OutputType"] = outputType,
+            ["TargetFramework"] = targetFramework,
+          }));
       }
     }
 
