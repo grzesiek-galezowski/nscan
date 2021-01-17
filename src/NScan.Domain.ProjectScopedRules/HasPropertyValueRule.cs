@@ -42,7 +42,7 @@ namespace NScan.ProjectScopedRules
       if (propertyValue != _expectedPropertyValue)
       {
         var projectScopedRuleViolation = _violationFactory.ProjectScopedRuleViolation(
-          _ruleDescription, $"Project {assemblyName} has {_propertyName} {propertyValue}");
+          _ruleDescription, $"Project {assemblyName} has {_propertyName}:{propertyValue}");
         report.Add(projectScopedRuleViolation);
       }
     }

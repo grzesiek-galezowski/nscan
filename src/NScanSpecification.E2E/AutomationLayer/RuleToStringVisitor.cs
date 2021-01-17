@@ -1,4 +1,5 @@
-using NScan.Lib.Union6;
+﻿using NScan.Lib.Union6;
+using NScan.Lib.Union7;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
@@ -13,6 +14,7 @@ namespace NScanSpecification.E2E.AutomationLayer
       NoUsingsRuleComplementDto, 
       HasAttributesOnRuleComplementDto, 
       HasTargetFrameworkRuleComplementDto, 
+      HasPropertyRuleComplementDto, 
       string>
   {
     public string Visit(NoCircularUsingsRuleComplementDto dto)
@@ -45,6 +47,11 @@ namespace NScanSpecification.E2E.AutomationLayer
     public string Visit(HasTargetFrameworkRuleComplementDto dto)
     {
       return $"{dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName} {dto.TargetFramework}";
+    }
+
+    public string Visit(HasPropertyRuleComplementDto dto)
+    {
+      throw new System.NotImplementedException();
     }
   }
 }

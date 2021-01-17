@@ -4,7 +4,7 @@ namespace NScanSpecification.Lib.AutomationLayer
 {
   public class HasTargetFrameworkReportedMessage : GenericReportedMessage<HasTargetFrameworkReportedMessage>
   {
-    public HasTargetFrameworkReportedMessage(string returnValue) : base(returnValue)
+    public HasTargetFrameworkReportedMessage(string text) : base(text)
     {
     }
 
@@ -20,7 +20,7 @@ namespace NScanSpecification.Lib.AutomationLayer
 
     public HasTargetFrameworkReportedMessage ProjectHasAnotherTargetFramework(string projectName, string actualTargetFramework)
     {
-      return NewInstance(this + NewLine + $"Project {projectName} has TargetFramework {actualTargetFramework}");
+      return NewInstance(this + NewLine + $"Project {projectName} has TargetFramework:{actualTargetFramework}");
     }
   }
 }

@@ -40,5 +40,14 @@ namespace NScanSpecification.Lib.AutomationLayer
     {
       return $"{projectAssemblyNamePattern} {HasTargetFrameworkRuleMetadata.HasTargetFramework} {frameworkId}";
     }
+
+    public static string FormatHasPropertyRule(
+      string projectAssemblyNamePattern, 
+      string propertyName, 
+      string propertyValue)
+    {
+      //bug refactor "hasProperty"
+      return $"{projectAssemblyNamePattern} hasProperty {propertyName} {propertyValue}";
+    }
   }
 }

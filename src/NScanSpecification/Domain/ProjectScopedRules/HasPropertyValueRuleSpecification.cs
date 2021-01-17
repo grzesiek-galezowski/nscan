@@ -71,7 +71,7 @@ namespace TddXt.NScan.Specification.Domain.ProjectScopedRules
         ruleDescription);
 
       violationFactory.ProjectScopedRuleViolation(
-        ruleDescription, $"Project {assemblyName} has {propertyName} {propertyValue}").Returns(violation);
+        ruleDescription, $"Project {assemblyName} has {propertyName}:{propertyValue}").Returns(violation);
 
       //WHEN
       rule.ApplyTo(assemblyName, properties, analysisReportInProgress);

@@ -1,4 +1,4 @@
-using NScan.SharedKernel.RuleDtos.ProjectScoped;
+﻿using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
 namespace NScan.ProjectScopedRules
 {
@@ -7,5 +7,6 @@ namespace NScan.ProjectScopedRules
     IProjectScopedRule CreateProjectScopedRuleFrom(CorrectNamespacesRuleComplementDto ruleDto);
     IProjectScopedRule CreateProjectScopedRuleFrom(HasAttributesOnRuleComplementDto ruleDto);
     IProjectScopedRule CreateProjectScopedRuleFrom(HasTargetFrameworkRuleComplementDto ruleDto);
+    IProjectScopedRule CreateProjectScopedRuleFrom(HasPropertyRuleComplementDto ruleDto);
   }
 }

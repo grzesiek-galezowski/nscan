@@ -1,7 +1,7 @@
 ﻿using System;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 
-namespace TddXt.NScan.Specification.ReadingRules.Adapters
+namespace NScan.Adapter.ReadingRulesSpecification
 {
   public class NoCircularUsingsRuleComplementDtoAssertion : RuleUnionDtoAssertion
   {

@@ -1,4 +1,4 @@
-using NScan.SharedKernel.RuleDtos.ProjectScoped;
+﻿using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
 namespace NScan.ProjectScopedRules
 {
@@ -7,7 +7,8 @@ namespace NScan.ProjectScopedRules
     private readonly IProjectScopedRuleFactory _projectScopedRuleFactory;
     private readonly IProjectScopedRuleSet _projectScopedRules;
 
-    public CreateProjectScopedRuleVisitor(IProjectScopedRuleFactory projectScopedRuleFactory,
+    public CreateProjectScopedRuleVisitor(
+      IProjectScopedRuleFactory projectScopedRuleFactory,
       IProjectScopedRuleSet projectScopedRules)
     {
       _projectScopedRuleFactory = projectScopedRuleFactory;
@@ -17,6 +18,12 @@ namespace NScan.ProjectScopedRules
     public void Visit(HasTargetFrameworkRuleComplementDto arg)
     {
       var rule = _projectScopedRuleFactory.CreateProjectScopedRuleFrom(arg);
+      _projectScopedRules.Add(rule);
+    }
+
+    public void Visit(HasPropertyRuleComplementDto dto)
+    {
+      var rule = _projectScopedRuleFactory.CreateProjectScopedRuleFrom(dto);
       _projectScopedRules.Add(rule);
     }
 

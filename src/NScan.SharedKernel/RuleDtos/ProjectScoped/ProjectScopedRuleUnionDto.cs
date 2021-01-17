@@ -1,17 +1,21 @@
-﻿using NScan.Lib.Union3;
+﻿
+using NScan.Lib.Union4;
 
 namespace NScan.SharedKernel.RuleDtos.ProjectScoped
 {
   public class ProjectScopedRuleUnionDto : Union<
     CorrectNamespacesRuleComplementDto,
     HasAttributesOnRuleComplementDto,
-    HasTargetFrameworkRuleComplementDto>
+    HasTargetFrameworkRuleComplementDto,
+    HasPropertyRuleComplementDto>
   {
     private readonly IUnionTransformingVisitor<
       CorrectNamespacesRuleComplementDto, 
       HasAttributesOnRuleComplementDto, 
       HasTargetFrameworkRuleComplementDto, 
-      string> _ruleNameExtractionVisitor = new ProjectScopedRuleNameExtractionVisitor();
+      HasPropertyRuleComplementDto, 
+      string> _ruleNameExtractionVisitor = 
+      new ProjectScopedRuleNameExtractionVisitor();
 
     public static ProjectScopedRuleUnionDto With(CorrectNamespacesRuleComplementDto dto)
     {
@@ -40,6 +44,15 @@ namespace NScan.SharedKernel.RuleDtos.ProjectScoped
 
     private ProjectScopedRuleUnionDto(HasTargetFrameworkRuleComplementDto dto) : base(dto)
     {
+    }
+
+    private ProjectScopedRuleUnionDto(HasPropertyRuleComplementDto dto) : base(dto)
+    {
+    }
+
+    public static ProjectScopedRuleUnionDto With(HasPropertyRuleComplementDto dto)
+    {
+      return new ProjectScopedRuleUnionDto(dto);
     }
   }
 }

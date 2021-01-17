@@ -1,7 +1,7 @@
 ﻿using System;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 
-namespace TddXt.NScan.Specification.ReadingRules.Adapters
+namespace NScan.Adapter.ReadingRulesSpecification
 {
   public class IndependentRuleComplementDtoAssertion : RuleUnionDtoAssertion
   {

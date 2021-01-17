@@ -1,4 +1,4 @@
-﻿using NScan.Lib.Union6;
+﻿using NScan.Lib.Union7;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
@@ -11,7 +11,8 @@ namespace NScanSpecification.Lib.AutomationLayer
     NoCircularUsingsRuleComplementDto,
     NoUsingsRuleComplementDto,
     HasAttributesOnRuleComplementDto,
-    HasTargetFrameworkRuleComplementDto>
+    HasTargetFrameworkRuleComplementDto,
+    HasPropertyRuleComplementDto>
   {
     public static RuleUnionDto With(CorrectNamespacesRuleComplementDto dto)
     {
@@ -65,6 +66,16 @@ namespace NScanSpecification.Lib.AutomationLayer
 
     private RuleUnionDto(HasTargetFrameworkRuleComplementDto dto) : base(dto)
     {
+    }
+
+    private RuleUnionDto(HasPropertyRuleComplementDto dto) : base(dto)
+    {
+      
+    }
+
+    public static RuleUnionDto With(HasPropertyRuleComplementDto hasPropertyComplement)
+    {
+      return new RuleUnionDto(hasPropertyComplement);
     }
   }
 

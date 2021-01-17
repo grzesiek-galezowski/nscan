@@ -2,7 +2,7 @@
 
 namespace NScan.SharedKernel.RuleDtos.ProjectScoped
 {
-  public class HasTargetFrameworkRuleComplementDto
+  public class HasTargetFrameworkRuleComplementDto //bug record?
   {
     public HasTargetFrameworkRuleComplementDto(Pattern dependingPattern, string targetFramework)
     {

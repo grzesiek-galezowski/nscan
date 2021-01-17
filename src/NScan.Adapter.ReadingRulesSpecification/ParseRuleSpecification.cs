@@ -13,7 +13,7 @@ using TddXt.AnyRoot.Strings;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace TddXt.NScan.Specification.ReadingRules.Adapters
+namespace NScan.Adapter.ReadingRulesSpecification
 {
   public class ParseRuleSpecification
   {
@@ -224,6 +224,33 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
         dto.TargetFramework.Should().Be(frameworkName);
       }));
       rule1Dto.RuleName.Should().Be(HasTargetFrameworkRuleMetadata.HasTargetFramework);
+    }
+    
+    [Fact]
+    public void ShouldParseHasPropertyDefinitionMultipleTimes()
+    {
+      //GIVEN
+      var propertyName = Any.String();
+      var depending = Any.String();
+      var propertyValue = Any.String();
+
+      //WHEN
+      var ruleUnionDtos = ParserRulePreface.Then(ParseProjectScopedRule.Complement).Many().Parse(
+        $"{depending} {HasPropertyRuleMetadata.HasProperty} {propertyName}:{propertyValue}{Environment.NewLine}" +
+        $"{depending} {HasPropertyRuleMetadata.HasProperty} {propertyName}:{propertyValue}{Environment.NewLine}"
+      ).WhereValueExist().ToList();
+
+      //THEN
+      ruleUnionDtos.Count.Should().Be(2);
+      var rule1Dto = ruleUnionDtos.First();
+      rule1Dto.Accept(new HasPropertyAssertion(dto =>
+      {
+        dto.RuleName.Should().Be(HasPropertyRuleMetadata.HasProperty);
+        dto.ProjectAssemblyNamePattern.Description().Should().Be(depending);
+        dto.PropertyName.Should().Be(propertyName);
+        dto.PropertyValue.Should().Be(propertyValue);
+      }));
+      rule1Dto.RuleName.Should().Be(HasPropertyRuleMetadata.HasProperty);
     }
   }
 }

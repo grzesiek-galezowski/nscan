@@ -4,7 +4,7 @@ namespace NScanSpecification.Lib.AutomationLayer
 {
   public class HasCorrectNamespacesMessage : GenericReportedMessage<HasCorrectNamespacesMessage>
   {
-    public HasCorrectNamespacesMessage(string returnValue) : base(returnValue)
+    public HasCorrectNamespacesMessage(string text) : base(text)
     {
     }
 

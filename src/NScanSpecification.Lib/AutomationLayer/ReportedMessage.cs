@@ -2,16 +2,16 @@
 {
   public abstract class ReportedMessage
   {
-    private readonly string _returnValue;
+    private readonly string _text;
 
     public override string ToString()
     {
-      return _returnValue;
+      return _text;
     }
 
-    protected ReportedMessage(string returnValue)
+    protected ReportedMessage(string text)
     {
-      _returnValue = returnValue;
+      _text = text;
     }
   }
 }

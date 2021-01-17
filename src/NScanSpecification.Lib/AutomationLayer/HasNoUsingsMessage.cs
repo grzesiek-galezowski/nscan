@@ -9,7 +9,7 @@ namespace NScanSpecification.Lib.AutomationLayer
       return new(TestRuleFormats.FormatNoUsingsRule(project, from, to));
     }
 
-    public HasNoUsingsMessage(string returnValue) : base(returnValue)
+    public HasNoUsingsMessage(string text) : base(text)
     {
     }
 

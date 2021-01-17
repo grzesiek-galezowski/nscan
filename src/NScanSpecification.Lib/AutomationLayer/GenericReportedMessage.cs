@@ -2,7 +2,7 @@
 {
   public abstract class GenericReportedMessage<T> : ReportedMessage
   {
-    protected GenericReportedMessage(string returnValue) : base(returnValue)
+    protected GenericReportedMessage(string text) : base(text)
     {
     }
 

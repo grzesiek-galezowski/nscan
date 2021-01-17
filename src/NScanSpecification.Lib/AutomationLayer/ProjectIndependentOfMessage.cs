@@ -5,7 +5,7 @@ namespace NScanSpecification.Lib.AutomationLayer
 {
   public class ProjectIndependentOfMessage : GenericReportedMessage<ProjectIndependentOfMessage>
   {
-    public ProjectIndependentOfMessage(string returnValue) : base(returnValue)
+    public ProjectIndependentOfMessage(string text) : base(text)
     {
     }
 

@@ -1,4 +1,4 @@
-using NScan.SharedKernel.NotifyingSupport.Ports;
+﻿using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
 namespace NScan.ProjectScopedRules
@@ -15,6 +15,11 @@ namespace NScan.ProjectScopedRules
     public void Visit(HasTargetFrameworkRuleComplementDto dto)
     {
       _support.Log(dto);
+    }
+
+    public void Visit(HasPropertyRuleComplementDto dto)
+    {
+      throw new System.NotImplementedException();
     }
 
     public void Visit(HasAttributesOnRuleComplementDto dto)

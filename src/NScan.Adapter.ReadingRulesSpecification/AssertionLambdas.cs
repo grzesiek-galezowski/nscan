@@ -1,7 +1,7 @@
 ﻿using System;
 using Xunit;
 
-namespace TddXt.NScan.Specification.ReadingRules.Adapters
+namespace NScan.Adapter.ReadingRulesSpecification
 {
   public static class AssertionLambdas
   {

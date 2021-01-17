@@ -36,4 +36,8 @@
     <ProjectReference Include="..\NScanSpecification.Lib\NScanSpecification.Lib.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ReadingRules\Adapters\" />
+  </ItemGroup>
+
 </Project>

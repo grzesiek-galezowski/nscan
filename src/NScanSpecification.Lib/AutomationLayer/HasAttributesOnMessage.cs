@@ -4,7 +4,7 @@ namespace NScanSpecification.Lib.AutomationLayer
 {
   public class HasAttributesOnMessage : GenericReportedMessage<HasAttributesOnMessage>
   {
-    private HasAttributesOnMessage(string returnValue) : base(returnValue)
+    private HasAttributesOnMessage(string text) : base(text)
     {
     }
 

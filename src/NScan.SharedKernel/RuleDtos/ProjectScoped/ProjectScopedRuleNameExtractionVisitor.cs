@@ -1,4 +1,4 @@
-﻿using NScan.Lib.Union3;
+﻿using NScan.Lib.Union4;
 
 namespace NScan.SharedKernel.RuleDtos.ProjectScoped
 {
@@ -7,9 +7,15 @@ namespace NScan.SharedKernel.RuleDtos.ProjectScoped
       CorrectNamespacesRuleComplementDto,
       HasAttributesOnRuleComplementDto,
       HasTargetFrameworkRuleComplementDto,
+      HasPropertyRuleComplementDto,
       string>
   {
     public string Visit(HasTargetFrameworkRuleComplementDto dto)
+    {
+      return dto.RuleName;
+    }
+
+    public string Visit(HasPropertyRuleComplementDto dto)
     {
       return dto.RuleName;
     }

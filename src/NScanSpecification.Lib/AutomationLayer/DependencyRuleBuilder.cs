@@ -22,6 +22,7 @@ namespace NScanSpecification.Lib.AutomationLayer
     IFullProjectScopedRuleConstructed HasDecoratedMethods(string classInclusionPattern, string methodInclusionPattern);
     IFullProjectScopedRuleConstructed HasTargetFramework(string targetFramework);
     IFullNamespaceBasedRuleConstructed HasNoUsings(string from, string to);
+    IFullProjectScopedRuleConstructed HasProperty(string propertyName, string propertyValue);
   }
 
   public interface IRuleDefinitionStart
@@ -31,19 +32,25 @@ namespace NScanSpecification.Lib.AutomationLayer
 
   public interface IFullDependencyPathRuleConstructed
   {
+    //bug replace with polymorphism!
     RuleUnionDto Build();
+
     DependencyPathBasedRuleUnionDto BuildDependencyPathBasedRule();
   }
 
   public interface IFullProjectScopedRuleConstructed
   {
+    //bug replace with polymorphism!
     RuleUnionDto Build();
+
     ProjectScopedRuleUnionDto BuildProjectScopedRule();
   }
   
   public interface IFullNamespaceBasedRuleConstructed
   {
+    //bug replace with polymorphism!
     RuleUnionDto Build();
+
     NamespaceBasedRuleUnionDto BuildNamespaceBasedRule();
   }
 
@@ -55,15 +62,11 @@ namespace NScanSpecification.Lib.AutomationLayer
     IProjectNameStated 
   {
     private string? _dependingPattern;
-    private string? _ruleName;
     private string? _exclusionPattern;
-    private string? _dependencyName;
-    private string? _dependencyType;
-    private string? _classInclusionPattern;
-    private string? _methodInclusionPattern;
-    private string? _targetFramework;
-    private string? _from;
-    private string? _to;
+    private RuleUnionDto? _ruleUnionDto;
+    private DependencyPathBasedRuleUnionDto? _dependencyPathRuleDto;
+    private ProjectScopedRuleUnionDto? _projectScopedRuleDto;
+    private NamespaceBasedRuleUnionDto? _namespaceBasedRuleDto;
 
     public IProjectNameStated Project(string dependingAssemblyName)
     {
@@ -74,26 +77,29 @@ namespace NScanSpecification.Lib.AutomationLayer
 
     public IFullDependencyPathRuleConstructed IndependentOfProject(string dependentAssemblyName)
     {
-      _dependencyName = dependentAssemblyName;
-      _dependencyType = "project";
-      _ruleName = IndependentRuleMetadata.IndependentOf;
+      var complementDto = IndependentRuleComplement("project", dependentAssemblyName);
+      _ruleUnionDto = RuleUnionDto.With(complementDto);
+      _dependencyPathRuleDto =
+        DependencyPathBasedRuleUnionDto.With(complementDto);
       return this;
     }
 
     public IFullDependencyPathRuleConstructed IndependentOfPackage(string packageName)
     {
-      _dependencyName = packageName;
-      _dependencyType = "package";
-      _ruleName = IndependentRuleMetadata.IndependentOf;
+      var complementDto = IndependentRuleComplement("package", packageName);
+      _ruleUnionDto = RuleUnionDto.With(complementDto);
+      _dependencyPathRuleDto =
+        DependencyPathBasedRuleUnionDto.With(complementDto);
       return this;
 
     }
 
     public IFullDependencyPathRuleConstructed IndependentOfAssembly(string assemblyName)
     {
-      _dependencyName = assemblyName;
-      _ruleName = IndependentRuleMetadata.IndependentOf;
-      _dependencyType = "assembly";
+      var complementDto = IndependentRuleComplement("assembly", assemblyName);
+      _ruleUnionDto = RuleUnionDto.With(complementDto);
+      _dependencyPathRuleDto =
+        DependencyPathBasedRuleUnionDto.With(complementDto);
       return this;
     }
 
@@ -105,116 +111,96 @@ namespace NScanSpecification.Lib.AutomationLayer
 
     public IFullProjectScopedRuleConstructed HasCorrectNamespaces()
     {
-      _ruleName = HasCorrectNamespacesRuleMetadata.HasCorrectNamespaces;
+      var complementDto = CorrectNamespacesRuleComplement();
+      _ruleUnionDto = RuleUnionDto.With(complementDto);
+      _projectScopedRuleDto = ProjectScopedRuleUnionDto.With(complementDto);
       return this;
     }
 
     public IFullNamespaceBasedRuleConstructed HasNoCircularUsings()
     {
-      _ruleName = HasNoCircularUsingsRuleMetadata.HasNoCircularUsings;
+      var complementDto = NoCircularUsingsRuleComplement();
+      _ruleUnionDto = RuleUnionDto.With(complementDto);
+      _namespaceBasedRuleDto = NamespaceBasedRuleUnionDto.With(complementDto);
       return this;
     }
 
     public IFullProjectScopedRuleConstructed HasDecoratedMethods(string classInclusionPattern, string methodInclusionPattern)
     {
-      _ruleName = HasAttributesOnRuleMetadata.HasAttributesOn;
-      _classInclusionPattern = classInclusionPattern;
-      _methodInclusionPattern = methodInclusionPattern;
+      var complementDto = HasAttributesOnRuleComplement(
+        classInclusionPattern, 
+        methodInclusionPattern);
+      _ruleUnionDto = RuleUnionDto.With(complementDto);
+      _projectScopedRuleDto = ProjectScopedRuleUnionDto.With(complementDto);
       return this;
     }
 
     public IFullProjectScopedRuleConstructed HasTargetFramework(string targetFramework)
     {
-      _ruleName = HasTargetFrameworkRuleMetadata.HasTargetFramework;
-      _targetFramework = targetFramework;
+      var complementDto = HasTargetFrameworkRuleComplement(targetFramework);
+      _ruleUnionDto = RuleUnionDto.With(complementDto);
+      _projectScopedRuleDto = ProjectScopedRuleUnionDto.With(complementDto);
       return this;
     }
 
     public IFullNamespaceBasedRuleConstructed HasNoUsings(string @from, string to)
     {
-      _ruleName = "hasNoUsings";
-      _from = from;
-      _to = to;
+      var complementDto = NoUsingsComplement(from, to);
+      _ruleUnionDto = RuleUnionDto.With(complementDto);
+      _namespaceBasedRuleDto = NamespaceBasedRuleUnionDto.With(complementDto);
       return this;
     }
 
-    //bug remove later
+    public IFullProjectScopedRuleConstructed HasProperty(string propertyName, string propertyValue)
+    {
+      var complementDto = HasPropertyComplement(propertyName, propertyValue);
+      _ruleUnionDto = RuleUnionDto.With(complementDto);
+      _projectScopedRuleDto = ProjectScopedRuleUnionDto.With(complementDto);
+      return this;
+    }
+
+    //bug remove this  later
     public RuleUnionDto Build()
     {
-      return RuleNames.Switch(
-        _ruleName.OrThrow(),
-        IndependentOf,
-        CorrectNamespaces,
-        NoCircularUsings,
-        NoUsings,
-        HasAttributesOnMethods,
-        HasTargetFramework);
+      return _ruleUnionDto.OrThrow();
     }
 
-    private RuleUnionDto HasTargetFramework()
+    private HasPropertyRuleComplementDto HasPropertyComplement(string propertyName, string propertyValue)
     {
-      return RuleUnionDto.With(HasTargetFrameworkRuleComplement());
-    }
-
-    private RuleUnionDto NoUsings()
-    {
-      return RuleUnionDto.With(NoUsingsComplement());
+      return new HasPropertyRuleComplementDto(
+        GetDependingPattern(), 
+        propertyName, 
+        propertyValue);
     }
 
     public DependencyPathBasedRuleUnionDto BuildDependencyPathBasedRule()
     {
-      return DependencyPathBasedRuleUnionDto.With(IndependentRuleComplement());
+      return _dependencyPathRuleDto.OrThrow();
     }
 
     public ProjectScopedRuleUnionDto BuildProjectScopedRule()
     {
-      return ProjectScopedRuleNames.Switch(
-        _ruleName.OrThrow(),
-        () => ProjectScopedRuleUnionDto.With(CorrectNamespacesRuleComplement()),
-        () => ProjectScopedRuleUnionDto.With(HasAttributesOnRuleComplement()),
-        () => ProjectScopedRuleUnionDto.With(HasTargetFrameworkRuleComplement())
-        );
+      return _projectScopedRuleDto.OrThrow();
     }
 
     public NamespaceBasedRuleUnionDto BuildNamespaceBasedRule()
     {
-      return NamespaceBasedRuleNames.Switch(_ruleName.OrThrow(),
-        () => NamespaceBasedRuleUnionDto.With(NoCircularUsingsRuleComplement()),
-        () => NamespaceBasedRuleUnionDto.With(NoUsingsComplement()));
+      return _namespaceBasedRuleDto.OrThrow();
     }
 
-    private RuleUnionDto HasAttributesOnMethods()
-    {
-      return RuleUnionDto.With(HasAttributesOnRuleComplement());
-    }
-
-    private RuleUnionDto NoCircularUsings()
-    {
-      return RuleUnionDto.With(NoCircularUsingsRuleComplement());
-    }
-
-    private RuleUnionDto CorrectNamespaces()
-    {
-      return RuleUnionDto.With(CorrectNamespacesRuleComplement());
-    }
-    private RuleUnionDto IndependentOf()
-    {
-      return RuleUnionDto.With(IndependentRuleComplement());
-    }
-
-    private HasTargetFrameworkRuleComplementDto HasTargetFrameworkRuleComplement()
+    private HasTargetFrameworkRuleComplementDto HasTargetFrameworkRuleComplement(string targetFramework)
     {
       return new HasTargetFrameworkRuleComplementDto(
         GetDependingPattern(), 
-        _targetFramework.OrThrow());
+        targetFramework);
     }
 
-    private NoUsingsRuleComplementDto NoUsingsComplement()
+    private NoUsingsRuleComplementDto NoUsingsComplement(string @from, string to)
     {
       return new(
         GetDependingPattern(),
-        Pattern.WithoutExclusion(_from.OrThrow(nameof(_from))),
-        Pattern.WithoutExclusion(_to.OrThrow(nameof(_to)))
+        Pattern.WithoutExclusion(@from),
+        Pattern.WithoutExclusion(to)
       );
     }
     
@@ -223,12 +209,12 @@ namespace NScanSpecification.Lib.AutomationLayer
       return new(GetDependingPattern());
     }
     
-    private HasAttributesOnRuleComplementDto HasAttributesOnRuleComplement()
+    private HasAttributesOnRuleComplementDto HasAttributesOnRuleComplement(string classInclusionPattern, string methodInclusionPattern)
     {
       return new(
         GetDependingPattern(),
-        Pattern.WithoutExclusion(_classInclusionPattern.OrThrow(nameof(_classInclusionPattern))),
-        Pattern.WithoutExclusion(_methodInclusionPattern.OrThrow(nameof(_methodInclusionPattern)))
+        Pattern.WithoutExclusion(classInclusionPattern),
+        Pattern.WithoutExclusion(methodInclusionPattern)
       );
     }
     
@@ -237,12 +223,12 @@ namespace NScanSpecification.Lib.AutomationLayer
       return new(GetDependingPattern());
     }
 
-    private IndependentRuleComplementDto IndependentRuleComplement()
+    private IndependentRuleComplementDto IndependentRuleComplement(string dependencyType, string dependencyName)
     {
       return new(
-        _dependencyType.OrThrow(), 
+        dependencyType, 
         GetDependingPattern(),
-        new Glob(_dependencyName));
+        new Glob(dependencyName));
     }
 
     public static IRuleDefinitionStart RuleDemandingThat()

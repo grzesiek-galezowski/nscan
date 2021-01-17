@@ -5,7 +5,7 @@ using TddXt.XFluentAssertRoot;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace TddXt.NScan.Specification.Domain.Root
+namespace NScan.ProjectScopedRulesSpecification
 {
   public class ProjectScopedRuleFactorySpecification
   {
@@ -60,6 +60,26 @@ namespace TddXt.NScan.Specification.Domain.Root
       projectScopedRule.Should().DependOn(ruleDto.ProjectAssemblyNamePattern);
       projectScopedRule.Should().DependOn(ruleDto.TargetFramework);
       projectScopedRule.Should().DependOn(ruleViolationFactory);
+    }
+
+    [Fact]
+    public void ShouldCreateHasPropertyRuleFromDto()
+    {
+      //GIVEN
+      var ruleViolationFactory = Any.Instance<IProjectScopedRuleViolationFactory>();
+      var ruleFactory = new ProjectScopedRuleFactory(ruleViolationFactory);
+      var ruleDto = Any.Instance<HasPropertyRuleComplementDto>();
+
+      //WHEN
+      var projectScopedRule = ruleFactory.CreateProjectScopedRuleFrom(ruleDto);
+
+      //THEN
+      projectScopedRule.Should().BeOfType<ProjectScopedRuleApplicableToMatchingProject>();
+      projectScopedRule.Should().DependOn(ruleDto.ProjectAssemblyNamePattern);
+      projectScopedRule.Should().DependOn(ruleDto.PropertyName);
+      projectScopedRule.Should().DependOn(ruleDto.PropertyValue);
+      projectScopedRule.Should().DependOn(ruleViolationFactory);
+      projectScopedRule.Should().DependOn<HasPropertyValueRule>();
     }
   }
 }

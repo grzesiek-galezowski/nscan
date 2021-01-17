@@ -20,19 +20,23 @@ namespace TddXt.NScan.Specification.Domain.Root
       var dto1 = Any.Instance<CorrectNamespacesRuleComplementDto>();
       var dto2 = Any.Instance<HasAttributesOnRuleComplementDto>();
       var dto3 = Any.Instance<HasTargetFrameworkRuleComplementDto>();
+      var dto4 = Any.Instance<HasPropertyRuleComplementDto>();
       var projectScopedRuleUnionDtos = new List<ProjectScopedRuleUnionDto>
       {
         ProjectScopedRuleUnionDto.With(dto1), 
         ProjectScopedRuleUnionDto.With(dto2), 
-        ProjectScopedRuleUnionDto.With(dto3)
+        ProjectScopedRuleUnionDto.With(dto3),
+        ProjectScopedRuleUnionDto.With(dto4)
       };
 
       var rule1 = Any.Instance<IProjectScopedRule>();
       var rule2 = Any.Instance<IProjectScopedRule>();
       var rule3 = Any.Instance<IProjectScopedRule>();
+      var rule4 = Any.Instance<IProjectScopedRule>();
       ruleFactory.CreateProjectScopedRuleFrom(dto1).Returns(rule1);
       ruleFactory.CreateProjectScopedRuleFrom(dto2).Returns(rule2);
       ruleFactory.CreateProjectScopedRuleFrom(dto3).Returns(rule3);
+      ruleFactory.CreateProjectScopedRuleFrom(dto4).Returns(rule4);
 
       //WHEN
       projectAnalysis.Add(projectScopedRuleUnionDtos);
@@ -43,6 +47,7 @@ namespace TddXt.NScan.Specification.Domain.Root
         ruleSet.Add(rule1);
         ruleSet.Add(rule2);
         ruleSet.Add(rule3);
+        ruleSet.Add(rule4);
       });
     }
     

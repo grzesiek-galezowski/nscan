@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NScan.Lib;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
 using Sprache;
@@ -9,19 +9,17 @@ namespace NScan.Adapter.ReadingRules
 	{
 		private static readonly Parser<string> TextUntilEol = Parse.AnyChar.Until(Parse.LineTerminator).Text().Token();
     private static readonly Parser<IEnumerable<char>> OptionalSpacesUntilEol = Parse.WhiteSpace.Until(Parse.LineTerminator);
+    private static readonly Parser<IEnumerable<char>> Spaces = Parse.WhiteSpace.AtLeastOnce();
+    private static readonly Parser<string> TextUntilWhitespace = Parse.AnyChar.Until(Spaces).Text();
 
 		public static Parser<ProjectScopedRuleUnionDto> Complement(
 			Pattern dependingPattern)
-		{
-			return HasCorrectNamespacesRuleComplement(dependingPattern)
+    {
+      return HasCorrectNamespacesRuleComplement(dependingPattern)
         .Or(HasAttributesOn(dependingPattern))
-					.Or(HasTargetFramework(dependingPattern));
-		}
-
-		private static Parser<string> TextUntil(char c)
-		{
-			return Parse.AnyChar.Until(Parse.Char(c)).Text().Token();
-		}
+        .Or(HasTargetFramework(dependingPattern))
+        .Or(HasProperty(dependingPattern));
+    }
 
     private static Parser<ProjectScopedRuleUnionDto>
       HasCorrectNamespacesRuleComplement(Pattern dependingPattern)
@@ -54,5 +52,21 @@ namespace NScan.Adapter.ReadingRules
 						new HasTargetFrameworkRuleComplementDto(
 							dependingPattern, targetFramework)));
 		}
+
+    private static Parser<ProjectScopedRuleUnionDto> HasProperty(Pattern dependingPattern)
+    {
+      return Parse.String(HasPropertyRuleMetadata.HasProperty)
+        .Then(_ =>
+          from propertyName in TextUntil(':')
+          from propertyValue in TextUntilEol
+          select ProjectScopedRuleUnionDto.With(
+            new HasPropertyRuleComplementDto(dependingPattern, propertyName, propertyValue)));
+
+    }
+
+    private static Parser<string> TextUntil(char c)
+    {
+      return Parse.AnyChar.Until(Parse.Char(c)).Text().Token();
+    }
 	}
 }

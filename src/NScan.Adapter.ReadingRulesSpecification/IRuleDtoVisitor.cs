@@ -1,8 +1,8 @@
-using NScan.DependencyPathBasedRules;
+﻿using NScan.DependencyPathBasedRules;
 using NScan.NamespaceBasedRules;
 using NScan.ProjectScopedRules;
 
-namespace TddXt.NScan.Specification.ReadingRules.Adapters
+namespace NScan.Adapter.ReadingRulesSpecification
 {
   public interface IRuleDtoVisitor :
     IPathBasedRuleDtoVisitor,

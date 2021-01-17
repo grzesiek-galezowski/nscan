@@ -4,7 +4,7 @@ namespace NScanSpecification.Lib.AutomationLayer
 {
   public class HasNoCircularUsingsMessage : GenericReportedMessage<HasNoCircularUsingsMessage>
   {
-    public HasNoCircularUsingsMessage(string returnValue) : base(returnValue)
+    public HasNoCircularUsingsMessage(string text) : base(text)
     {
     }
 

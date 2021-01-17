@@ -2,7 +2,7 @@
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
-namespace TddXt.NScan.Specification.ReadingRules.Adapters
+namespace NScan.Adapter.ReadingRulesSpecification
 {
   public class RuleUnionDtoAssertion : IRuleDtoVisitor
   {
@@ -34,6 +34,11 @@ namespace TddXt.NScan.Specification.ReadingRules.Adapters
     public virtual void Visit(HasTargetFrameworkRuleComplementDto dto)
     {
       AssertionLambdas.FailWhen<HasTargetFrameworkRuleComplementDto>()(dto);
+    }
+
+    public virtual void Visit(HasPropertyRuleComplementDto dto)
+    {
+      AssertionLambdas.FailWhen<HasPropertyRuleComplementDto>()(dto);
     }
   }
 }
