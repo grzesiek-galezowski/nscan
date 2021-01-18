@@ -26,7 +26,7 @@ namespace NScan.NamespaceBasedRules
           @namespace, 
           NamespaceDependencyPath.Empty());
       }
-      return cycles; //bug
+      return cycles;
     }
 
     public List<NamespaceDependencyPath> RetrievePathsBetween(Pattern fromPattern, Pattern toPattern)

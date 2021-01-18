@@ -4,7 +4,7 @@ using NScan.SharedKernel;
 
 namespace NScan.ProjectScopedRules
 {
-  public class ProjectScopedRuleTarget : IProjectScopedRuleTarget //bug move
+  public class ProjectScopedRuleTarget : IProjectScopedRuleTarget
   {
     private readonly string _assemblyName;
     private readonly IReadOnlyList<ISourceCodeFileInNamespace> _sourceCodeFiles;

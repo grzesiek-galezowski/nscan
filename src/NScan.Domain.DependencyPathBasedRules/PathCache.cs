@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NScan.SharedKernel;
 
 namespace NScan.DependencyPathBasedRules
@@ -19,7 +19,7 @@ namespace NScan.DependencyPathBasedRules
       _projectDependencyPaths.Add(projectDependencyPath);
     }
 
-    public void BuildStartingFrom(params IDependencyPathBasedRuleTarget[] rootProjects)
+    public void BuildStartingFrom(IEnumerable<IDependencyPathBasedRuleTarget> rootProjects)
     {
       foreach (var dotNetProject in rootProjects)
       {

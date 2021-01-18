@@ -55,7 +55,6 @@ namespace TddXt.NScan.Specification.Domain.ProjectScopedRules
       var propertyName = Any.String();
       var properties = new Dictionary<string, string>
       {
-        //bug redundancy in const declaration
         [propertyName] = propertyValue
       };
       var expectedPropertyValue = Any.String();

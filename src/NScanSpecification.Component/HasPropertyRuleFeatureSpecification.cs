@@ -30,57 +30,57 @@ namespace NScanSpecification.Component
         HasProperty("*MyProject*", "TargetFramework", "netcoreapp2.1").Ok());
     }
 
-    [Fact] //bug
-    public void ShouldReportErrorForProjectThatDoesNotHaveSpecifiedFramework()
-    {
-      //GIVEN
-      var context = new NScanDriver();
-      context.HasProject("MyProject").WithTargetFramework("netcoreapp3.1");
-
-      context.Add(RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netstandard2.1"));
-
-      //WHEN
-      context.PerformAnalysis();
-
-      //THEN
-      context.ReportShouldContain(HasFramework("*MyProject*", "netstandard2.1").Error()
-        .ProjectHasAnotherTargetFramework("MyProject", "netcoreapp3.1"));
-    }
-
-    [Fact] //bug
-    public void ShouldReportErrorForMultipleProjectsThatDoNotHaveSpecifiedFramework()
-    {
-      //GIVEN
-      var context = new NScanDriver();
-      context.HasProject("MyProject1").WithTargetFramework("netcoreapp3.1");
-      context.HasProject("MyProject2").WithTargetFramework("netcoreapp3.1");
-
-      context.Add(RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netstandard2.1"));
-
-      //WHEN
-      context.PerformAnalysis();
-
-      //THEN
-      context.ReportShouldContain(HasFramework("*MyProject*", "netstandard2.1").Error()
-        .ProjectHasAnotherTargetFramework("MyProject1", "netcoreapp3.1")
-        .ProjectHasAnotherTargetFramework("MyProject2", "netcoreapp3.1"));
-    }
-
-    [Fact] //bug
-    public void ShouldNotReportErrorForProjectsThatDoNotMatchTheNamePattern()
-    {
-      //GIVEN
-      var projectAssemblyNameThatDoesNotMatchRuleFilter = "Trolololo";
-      var context = new NScanDriver();
-
-      context.HasProject(projectAssemblyNameThatDoesNotMatchRuleFilter).WithTargetFramework("netcoreapp3.1");
-      context.Add(RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netstandard2.1"));
-
-      //WHEN
-      context.PerformAnalysis();
-
-      //THEN
-      context.ReportShouldNotContainText(projectAssemblyNameThatDoesNotMatchRuleFilter);
-    }
+    //[Fact] //bug this tests another feature
+    //public void ShouldReportErrorForProjectThatDoesNotHaveSpecifiedFramework()
+    //{
+    //  //GIVEN
+    //  var context = new NScanDriver();
+    //  context.HasProject("MyProject").WithTargetFramework("netcoreapp3.1");
+    //
+    //  context.Add(RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netstandard2.1"));
+    //
+    //  //WHEN
+    //  context.PerformAnalysis();
+    //
+    //  //THEN
+    //  context.ReportShouldContain(HasProperty("*MyProject*", "TargetFramework", "netstandard2.1").Error()
+    //    .ProjectHasAnotherPropertyValue("MyProject", "netcoreapp3.1"));
+    //}
+    //
+    //[Fact] //bug add this test
+    //public void ShouldReportErrorForMultipleProjectsThatDoNotHaveSpecifiedFramework()
+    //{
+    //  //GIVEN
+    //  var context = new NScanDriver();
+    //  context.HasProject("MyProject1").WithTargetFramework("netcoreapp3.1");
+    //  context.HasProject("MyProject2").WithTargetFramework("netcoreapp3.1");
+    //
+    //  context.Add(RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netstandard2.1"));
+    //
+    //  //WHEN
+    //  context.PerformAnalysis();
+    //
+    //  //THEN
+    //  context.ReportShouldContain(HasFramework("*MyProject*", "netstandard2.1").Error()
+    //    .ProjectHasAnotherTargetFramework("MyProject1", "netcoreapp3.1")
+    //    .ProjectHasAnotherTargetFramework("MyProject2", "netcoreapp3.1"));
+    //}
+    //
+    //[Fact] //bug add this test
+    //public void ShouldNotReportErrorForProjectsThatDoNotMatchTheNamePattern()
+    //{
+    //  //GIVEN
+    //  var projectAssemblyNameThatDoesNotMatchRuleFilter = "Trolololo";
+    //  var context = new NScanDriver();
+    //
+    //  context.HasProject(projectAssemblyNameThatDoesNotMatchRuleFilter).WithTargetFramework("netcoreapp3.1");
+    //  context.Add(RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netstandard2.1"));
+    //
+    //  //WHEN
+    //  context.PerformAnalysis();
+    //
+    //  //THEN
+    //  context.ReportShouldNotContainText(projectAssemblyNameThatDoesNotMatchRuleFilter);
+    //}
   }
 }

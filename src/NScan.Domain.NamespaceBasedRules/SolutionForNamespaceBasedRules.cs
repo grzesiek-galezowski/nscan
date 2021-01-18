@@ -1,9 +1,9 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NScan.SharedKernel;
 
 namespace NScan.NamespaceBasedRules
 {
-  public class SolutionForNamespaceBasedRules : ISolutionForNamespaceBasedRules //bug move
+  public class SolutionForNamespaceBasedRules : ISolutionForNamespaceBasedRules
   {
     private readonly IReadOnlyList<INamespaceBasedRuleTarget> _namespaceBasedRuleTargets;
 

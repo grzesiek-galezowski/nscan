@@ -59,12 +59,12 @@ namespace NScan.DependencyPathBasedRules
 
     public void Check(IPathRuleSet ruleSet, IAnalysisReportInProgress analysisReportInProgress)
     {
-      ruleSet.Check(_pathCache, analysisReportInProgress); //bug UT
+      ruleSet.Check(_pathCache, analysisReportInProgress);
     }
 
     public void BuildDependencyPathCache()
     {
-      _pathCache.BuildStartingFrom(RootProjects()); //bug pass as read-only collection
+      _pathCache.BuildStartingFrom(RootProjects());
     }
 
     private IDotNetProject[] RootProjects()

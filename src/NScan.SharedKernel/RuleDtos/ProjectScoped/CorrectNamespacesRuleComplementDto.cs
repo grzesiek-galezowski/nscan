@@ -2,14 +2,9 @@
 
 namespace NScan.SharedKernel.RuleDtos.ProjectScoped
 {
-  public class CorrectNamespacesRuleComplementDto
+  public record CorrectNamespacesRuleComplementDto(
+    Pattern ProjectAssemblyNamePattern)
   {
-    public CorrectNamespacesRuleComplementDto(Pattern projectAssemblyNamePattern)
-    {
-      ProjectAssemblyNamePattern = projectAssemblyNamePattern;
-    }
-
     public string RuleName { get; } = HasCorrectNamespacesRuleMetadata.HasCorrectNamespaces;
-    public Pattern ProjectAssemblyNamePattern { get; }
   }
 }

@@ -2,16 +2,10 @@
 
 namespace NScan.SharedKernel.RuleDtos.ProjectScoped
 {
-  public class HasTargetFrameworkRuleComplementDto //bug record?
+  public record HasTargetFrameworkRuleComplementDto(
+    Pattern ProjectAssemblyNamePattern, 
+    string TargetFramework)
   {
-    public HasTargetFrameworkRuleComplementDto(Pattern dependingPattern, string targetFramework)
-    {
-      ProjectAssemblyNamePattern = dependingPattern;
-      TargetFramework = targetFramework;
-    }
-
     public string RuleName { get; } = HasTargetFrameworkRuleMetadata.HasTargetFramework;
-    public Pattern ProjectAssemblyNamePattern { get; }
-    public string TargetFramework { get; }
   }
 }

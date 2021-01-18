@@ -11,7 +11,6 @@ namespace NScan.ProjectScopedRules
       IAnalysisReportInProgress report);
   }
 
-  //bug more generic name?
   public class HasPropertyValueRule : IProjectScopedRule, IPropertyCheck
   {
     private readonly string _expectedPropertyValue;

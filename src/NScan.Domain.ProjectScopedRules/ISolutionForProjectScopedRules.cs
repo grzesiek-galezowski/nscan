@@ -8,7 +8,7 @@ namespace NScan.ProjectScopedRules
     void Check(IProjectScopedRuleSet ruleSet, IAnalysisReportInProgress analysisReportInProgress);
   }
 
-  public class SolutionForProjectScopedRules : ISolutionForProjectScopedRules //bug move
+  public class SolutionForProjectScopedRules : ISolutionForProjectScopedRules
   {
     private readonly IReadOnlyList<IProjectScopedRuleTarget> _projectScopedRuleTargets;
 

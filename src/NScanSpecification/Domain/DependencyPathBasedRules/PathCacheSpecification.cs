@@ -27,7 +27,7 @@ namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
         dependencyStartingPath3);
 
       //WHEN
-      pathCache.BuildStartingFrom(project1, project2, project3);
+      pathCache.BuildStartingFrom(new [] {project1, project2, project3});
 
       //THEN
       project1.Received(1).FillAllBranchesOf(dependencyStartingPath1);

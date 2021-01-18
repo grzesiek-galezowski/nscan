@@ -4,27 +4,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using AtmaFileSystem;
 using NScanSpecification.Lib.AutomationLayer;
+using NSubstitute;
 
 namespace NScanSpecification.E2E.AutomationLayer
 {
   public class Rules
   {
-    private readonly List<RuleUnionDto> _rules = new List<RuleUnionDto>();
+    private readonly List<ITestedRuleDefinition> _rules = new();
 
     public Task SaveIn(AbsoluteFilePath fullRulesPath)
     {
-      var lines = _rules.Select(Name).ToList();
+      var lines = _rules.Select(r => r.Name()).ToList();
       return File.WriteAllLinesAsync(fullRulesPath.ToString(), lines);
     }
 
-    public void Add(RuleUnionDto ruleDto)
+    public void Add(ITestedRuleDefinition definition)
     {
-      _rules.Add(ruleDto);
-    }
-
-    private static string Name(RuleUnionDto dto)
-    {
-      return dto.Accept(new RuleToStringVisitor());
+      _rules.Add(definition);
     }
   }
 

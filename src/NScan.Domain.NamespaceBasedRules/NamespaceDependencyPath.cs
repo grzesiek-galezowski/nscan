@@ -52,11 +52,6 @@ namespace NScan.NamespaceBasedRules
     public NamespaceDependencyPath Plus(NamespaceName namespaceName) 
       => new(_elements.Add(namespaceName).ToImmutableList());
 
-    public List<NamespaceName> AsList() //bug remove in the end
-    {
-      return _elements.ToList();
-    }
-
     public bool HasElements()
     {
       return _elements.Count > 0;

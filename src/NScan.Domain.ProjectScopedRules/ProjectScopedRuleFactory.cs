@@ -2,7 +2,6 @@
 
 namespace NScan.ProjectScopedRules
 {
-  //bug move to specific project
   public class ProjectScopedRuleFactory : IProjectScopedRuleFactory
   {
     private readonly IProjectScopedRuleViolationFactory _ruleViolationFactory;

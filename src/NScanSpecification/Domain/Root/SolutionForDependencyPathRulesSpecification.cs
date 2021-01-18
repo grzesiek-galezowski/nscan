@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using FluentAssertions;
 using NScan.DependencyPathBasedRules;
@@ -107,7 +107,6 @@ namespace TddXt.NScan.Specification.Domain.Root
       ruleSet.Received(1).Check(pathCache, report);
     }
 
-
     [Fact]
     public void ShouldBuildPathsCacheWhenAskedToBuildCache()
     {
@@ -133,7 +132,12 @@ namespace TddXt.NScan.Specification.Domain.Root
       solution.BuildDependencyPathCache();
 
       //THEN
-      pathCache.Received(1).BuildStartingFrom(root1, root2);
+      pathCache.Received(1).BuildStartingFrom(ArrayConsistingOf(root1, root2));
+    }
+
+    private static IDependencyPathBasedRuleTarget[] ArrayConsistingOf(IDependencyPathBasedRuleTarget root1, IDotNetProject root2)
+    {
+      return Arg<IDependencyPathBasedRuleTarget[]>.That(a => a.Should().Equal(root1, root2));
     }
   }
 }
