@@ -57,20 +57,6 @@ namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
         typeof(XmlPropertyGroup),
         typeof(XmlItemGroup),
       });
-      serializer.UnknownAttribute += (sender, args) =>
-      {
-        System.Xml.XmlAttribute attr = args.Attr;
-        Console.WriteLine($"Unknown attribute {attr.Name}=\'{attr.Value}\'");
-      };
-      serializer.UnknownNode += (sender, args) => { Console.WriteLine($"Unknown Node:{args.Name}\t{args.Text}"); };
-      serializer.UnknownElement +=
-        (sender, args) =>
-          Console.WriteLine("Unknown Element:"
-                            + args.Element.Name + " " + args.Element.InnerXml);
-      serializer.UnreferencedObject +=
-        (sender, args) =>
-          Console.WriteLine("Unreferenced Object:"
-                            + args.UnreferencedId + " " + args.UnreferencedObject.ToString());
       return serializer;
     }
 
