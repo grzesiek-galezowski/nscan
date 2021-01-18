@@ -9,7 +9,7 @@ using TddXt.XNSubstitute;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace TddXt.NScan.Specification.Domain.NamespaceBasedRules
+namespace NScanSpecification.Domain.NamespaceBasedRules
 {
   public class NoUsingsRuleSpecification
   {

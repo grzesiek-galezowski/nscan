@@ -6,7 +6,7 @@ using TddXt.XFluentAssertRoot;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace TddXt.NScan.Specification.Domain.SharedKernel
+namespace NScanSpecification.Domain.SharedKernel
 {
   public class AnalysisReportInProgressSpecification
   {

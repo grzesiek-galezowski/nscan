@@ -7,7 +7,7 @@ using TddXt.AnyRoot.Strings;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace TddXt.NScan.Specification.Domain.ProjectScopedRules
+namespace NScan.ProjectScopedRulesSpecification
 {
   public class HasPropertyValueRuleSpecification
   {
@@ -48,7 +48,7 @@ namespace TddXt.NScan.Specification.Domain.ProjectScopedRules
     }
 
     [Fact]
-    public void ShouldReportNothingWhenProjectMatchesAssemblyNameAndTargetFramework()
+    public void ShouldReportViolationWhenPropertyValueDoesNotMatchExpectation()
     {
       //GIVEN
       var propertyValue = Any.String();
@@ -77,6 +77,40 @@ namespace TddXt.NScan.Specification.Domain.ProjectScopedRules
 
       //THEN
       analysisReportInProgress.Received(1).Add(violation);
+    }
+
+    [Fact]
+    public void ShouldReportViolationWhenExpectedPropertyDoesNotExist()
+    {
+      //GIVEN
+      var propertyValue = Any.String();
+      var propertyName = Any.String();
+      var properties = DictionaryNotContaining(propertyName);
+      var expectedPropertyValue = Any.String();
+      var violationFactory = Substitute.For<IProjectScopedRuleViolationFactory>();
+      var analysisReportInProgress = Substitute.For<IAnalysisReportInProgress>();
+      var ruleDescription = Any.String();
+      var assemblyName = Any.String();
+      var violation = Any.Instance<RuleViolation>();
+      var rule = new HasPropertyValueRule(
+        propertyName, 
+        expectedPropertyValue, 
+        violationFactory, 
+        ruleDescription);
+
+      violationFactory.ProjectScopedRuleViolation(
+        ruleDescription, $"Project {assemblyName} does not have {propertyName} set explicitly").Returns(violation);
+
+      //WHEN
+      rule.ApplyTo(assemblyName, properties, analysisReportInProgress);
+
+      //THEN
+      analysisReportInProgress.Received(1).Add(violation);
+    }
+
+    private static Dictionary<string, string> DictionaryNotContaining(string propertyName)
+    {
+      return new Dictionary<string, string>();
     }
   }
 }

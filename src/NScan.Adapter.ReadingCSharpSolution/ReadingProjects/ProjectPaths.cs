@@ -7,7 +7,6 @@ using AtmaFileSystem;
 using Buildalyzer;
 using Functional.Maybe;
 using Functional.Maybe.Just;
-using Microsoft.Build.Logging.StructuredLogger;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using static AtmaFileSystem.AtmaFileSystemPaths;

@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Reflection;
 using System.Xml.Serialization;
-using Functional.Maybe;
 
 namespace NScan.Adapter.ReadingCSharpSolution.ReadingProjects
 {

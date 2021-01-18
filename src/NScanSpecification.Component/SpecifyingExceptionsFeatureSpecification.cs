@@ -14,7 +14,7 @@ namespace NScanSpecification.Component
       context.HasProject("CompositionRoot");
       context.HasProject("CompositionRootSpecification").WithReferences("CompositionRoot");
 
-      context.Add(DependencyRuleBuilder.RuleDemandingThat()
+      context.Add(RuleBuilder.RuleDemandingThat()
         .Project("*")
         .Except("*Specification*")
         .IndependentOfProject("*CompositionRoot*"));
@@ -40,7 +40,7 @@ namespace NScanSpecification.Component
       context.HasProject("CompositionRootSpecification").WithReferences("CompositionRoot");
       context.HasProject("CompositionRootTests").WithReferences("CompositionRoot");
 
-      context.Add(DependencyRuleBuilder.RuleDemandingThat()
+      context.Add(RuleBuilder.RuleDemandingThat()
         .Project("*")
         .Except("*Tests*")
         .IndependentOfProject("*CompositionRoot*"));

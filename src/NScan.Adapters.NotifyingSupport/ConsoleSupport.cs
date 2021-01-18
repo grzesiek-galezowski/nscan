@@ -51,5 +51,10 @@ namespace NScan.Adapter.NotifyingSupport
     {
       Console.WriteLine($"{DiscoveredRule}{HasNoUsingsRuleMetadata.Format(dto)}");
     }
+
+    public void Log(HasPropertyRuleComplementDto dto)
+    {
+      Console.WriteLine($"{DiscoveredRule}{HasPropertyRuleMetadata.Format(dto)}");
+    }
   }
 }

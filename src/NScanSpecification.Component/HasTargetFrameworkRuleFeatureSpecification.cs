@@ -1,7 +1,7 @@
 ﻿using NScanSpecification.Component.AutomationLayer;
 using Xunit;
 using static NScanSpecification.Lib.AutomationLayer.HasTargetFrameworkReportedMessage;
-using static NScanSpecification.Lib.AutomationLayer.DependencyRuleBuilder;
+using static NScanSpecification.Lib.AutomationLayer.RuleBuilder;
 
 namespace NScanSpecification.Component
 {

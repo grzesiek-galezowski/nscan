@@ -4,7 +4,7 @@ using NSubstitute;
 using TddXt.XFluentAssertRoot;
 using Xunit;
 
-namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
+namespace NScanSpecification.Domain.DependencyPathBasedRules
 {
   public class DependencyPathFactorySpecification
   {

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
-using System.Text;
 using AtmaFileSystem;
 using FluentAssertions;
 using Microsoft.Build.Construction;
@@ -199,6 +198,11 @@ namespace NScan.Adapter.ReadingCSharpSolutionSpecification
 
     public void Log(NoUsingsRuleComplementDto dto)
     {
+    }
+
+    public void Log(HasPropertyRuleComplementDto dto)
+    {
+      
     }
   }
 

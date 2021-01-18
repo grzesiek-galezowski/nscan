@@ -1,10 +1,10 @@
-using NScan.DependencyPathBasedRules;
+﻿using NScan.DependencyPathBasedRules;
 using NScan.SharedKernel;
 using NSubstitute;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
+namespace NScanSpecification.Domain.DependencyPathBasedRules
 {
   public class PathRuleSetSpecification
   {

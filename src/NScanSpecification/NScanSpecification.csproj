@@ -3,8 +3,6 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <IsPackable>false</IsPackable>
-    <RootNamespace>TddXt.NScan.Specification</RootNamespace>
-    <AssemblyName>TddXt.NScan.Specification</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup>

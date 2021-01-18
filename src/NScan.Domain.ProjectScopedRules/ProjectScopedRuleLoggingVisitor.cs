@@ -19,7 +19,7 @@ namespace NScan.ProjectScopedRules
 
     public void Visit(HasPropertyRuleComplementDto dto)
     {
-      throw new System.NotImplementedException();
+      _support.Log(dto);
     }
 
     public void Visit(HasAttributesOnRuleComplementDto dto)

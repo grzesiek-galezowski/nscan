@@ -37,12 +37,19 @@ namespace NScan.ProjectScopedRules
 
     public void ApplyTo(string assemblyName, IReadOnlyDictionary<string, string> properties, IAnalysisReportInProgress report)
     {
-      var propertyValue = properties[_propertyName];
-      if (propertyValue != _expectedPropertyValue)
+      if (properties.ContainsKey(_propertyName))
       {
-        var projectScopedRuleViolation = _violationFactory.ProjectScopedRuleViolation(
-          _ruleDescription, $"Project {assemblyName} has {_propertyName}:{propertyValue}");
-        report.Add(projectScopedRuleViolation);
+        var propertyValue = properties[_propertyName];
+        if (propertyValue != _expectedPropertyValue)
+        {
+          report.Add(_violationFactory.ProjectScopedRuleViolation(
+            _ruleDescription, $"Project {assemblyName} has {_propertyName}:{propertyValue}"));
+        }
+      }
+      else
+      {
+        report.Add(_violationFactory.ProjectScopedRuleViolation(
+          _ruleDescription, $"Project {assemblyName} does not have {_propertyName} set explicitly"));
       }
     }
 

@@ -59,6 +59,11 @@ namespace Cake.NScan
       Log(HasNoUsingsRuleMetadata.Format(dto));
     }
 
+    public void Log(HasPropertyRuleComplementDto dto)
+    {
+      Log(HasPropertyRuleMetadata.Format(dto));
+    }
+
     private void Log(string ruleDescription)
     {
       _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, Discovered(ruleDescription));

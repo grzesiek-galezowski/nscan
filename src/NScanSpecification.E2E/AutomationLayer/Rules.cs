@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using AtmaFileSystem;
 using NScanSpecification.Lib.AutomationLayer;
-using NSubstitute;
 
 namespace NScanSpecification.E2E.AutomationLayer
 {

@@ -1,4 +1,4 @@
-﻿namespace TddXt.NScan.Specification.Domain.Root
+﻿namespace NScanSpecification.Domain.Root
 {
   public class DotNetStandardSolutionSpecification
   {

@@ -19,5 +19,6 @@ namespace NScan.SharedKernel.NotifyingSupport.Ports
     void Log(HasAttributesOnRuleComplementDto dto);
     void Log(HasTargetFrameworkRuleComplementDto dto);
     void Log(NoUsingsRuleComplementDto dto);
+    void Log(HasPropertyRuleComplementDto dto);
   }
 }

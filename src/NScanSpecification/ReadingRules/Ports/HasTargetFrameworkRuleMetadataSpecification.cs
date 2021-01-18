@@ -3,7 +3,7 @@ using NScan.SharedKernel.RuleDtos.ProjectScoped;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace TddXt.NScan.Specification.ReadingRules.Ports
+namespace NScanSpecification.ReadingRules.Ports
 {
   public class HasTargetFrameworkRuleMetadataSpecification
   {

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NScan.NamespaceBasedRules;
 using NScan.SharedKernel;
 using NSubstitute;
@@ -7,7 +7,7 @@ using TddXt.AnyRoot.Strings;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace TddXt.NScan.Specification.Domain.Root
+namespace NScanSpecification.Domain.Root
 {
   public class NamespaceBasedRuleTargetSpecification
   {

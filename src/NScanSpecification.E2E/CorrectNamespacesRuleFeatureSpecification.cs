@@ -3,7 +3,7 @@ using NScanSpecification.E2E.AutomationLayer;
 using NScanSpecification.Lib.AutomationLayer;
 using Xunit;
 using Xunit.Abstractions;
-using static NScanSpecification.Lib.AutomationLayer.DependencyRuleBuilder;
+using static NScanSpecification.Lib.AutomationLayer.RuleBuilder;
 using static NScanSpecification.Lib.AutomationLayer.SourceCodeFileDtoBuilder;
 
 namespace NScanSpecification.E2E

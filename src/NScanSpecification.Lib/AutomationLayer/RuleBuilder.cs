@@ -1,5 +1,4 @@
-﻿using System.Net.Http.Headers;
-using GlobExpressions;
+﻿using GlobExpressions;
 using NScan.Lib;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
@@ -49,7 +48,7 @@ namespace NScanSpecification.Lib.AutomationLayer
     NamespaceBasedRuleUnionDto BuildNamespaceBasedRule();
   }
 
-  public class DependencyRuleBuilder : 
+  public class RuleBuilder : 
     IRuleDefinitionStart, 
     IFullDependencyPathRuleConstructed, 
     IFullProjectScopedRuleConstructed, 
@@ -228,7 +227,7 @@ namespace NScanSpecification.Lib.AutomationLayer
 
     public static IRuleDefinitionStart RuleDemandingThat()
     {
-      return new DependencyRuleBuilder();
+      return new RuleBuilder();
     }
 
     private Pattern GetDependingPattern()

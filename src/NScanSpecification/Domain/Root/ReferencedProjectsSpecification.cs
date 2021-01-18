@@ -8,7 +8,7 @@ using TddXt.AnyRoot.Collections;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace TddXt.NScan.Specification.Domain.Root
+namespace NScanSpecification.Domain.Root
 {
   public class ReferencedProjectsSpecification
   {

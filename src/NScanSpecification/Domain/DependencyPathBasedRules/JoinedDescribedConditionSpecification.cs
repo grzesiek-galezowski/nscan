@@ -6,7 +6,7 @@ using TddXt.AnyRoot.Strings;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace TddXt.NScan.Specification.Domain.DependencyPathBasedRules
+namespace NScanSpecification.Domain.DependencyPathBasedRules
 {
   public class JoinedDescribedConditionSpecification
   {

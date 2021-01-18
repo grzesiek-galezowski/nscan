@@ -3,7 +3,7 @@ using NScan.SharedKernel.ReadingSolution.Ports;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace TddXt.NScan.Specification.Domain.SharedKernel
+namespace NScanSpecification.Domain.SharedKernel
 {
   public class PackageReferenceSpecification
   {
