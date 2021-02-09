@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -36,7 +36,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NScan.Adapters.NotifyingSupport\NScan.Adapter.NotifyingSupport.csproj" />
     <ProjectReference Include="..\NScan.Main\NScan.Main.csproj" />
     <ProjectReference Include="..\NScanSpecification.Lib\NScanSpecification.Lib.csproj" />
   </ItemGroup>

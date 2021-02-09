@@ -1,6 +1,7 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using NScan.SharedKernel.ReadingSolution.Ports;
+using NullableReferenceTypesExtensions;
 using static AtmaFileSystem.AtmaFileSystemPaths;
 
 namespace NScanSpecification.E2E.AutomationLayer
@@ -23,9 +24,10 @@ namespace NScanSpecification.E2E.AutomationLayer
         foreach (var sourceCodeFile in _filesByProject[projectName])
         {
           var fileInfo = _dir.PathToFileInProject(DirectoryName(projectName), sourceCodeFile);
-          if (!fileInfo.Directory.Exists)
+          var projectDirectoryInfo = fileInfo.Directory.OrThrow();
+          if (!projectDirectoryInfo.Exists)
           {
-            fileInfo.Directory.Create();
+            projectDirectoryInfo.Create();
           }
 
           var generateFrom = SourceCodeFileText.GenerateFrom(sourceCodeFile);

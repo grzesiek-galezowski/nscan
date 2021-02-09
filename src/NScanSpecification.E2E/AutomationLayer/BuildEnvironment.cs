@@ -73,12 +73,12 @@ namespace NScanSpecification.E2E.AutomationLayer
       {
         var executingAssemblyPath = new FileInfo(
           Assembly.GetExecutingAssembly().EscapedCodeBase.Split("file:///").ToArray()[1]).Directory;
-        while (!Directory.EnumerateDirectories(executingAssemblyPath.FullName).Any(s => s.EndsWith(".git")))
+        while (!Directory.EnumerateDirectories(executingAssemblyPath.OrThrow().FullName).Any(s => s.EndsWith(".git")))
         {
-          executingAssemblyPath = executingAssemblyPath.Parent;
+          executingAssemblyPath = executingAssemblyPath.OrThrow().Parent;
         }
 
-        return AbsoluteDirectoryPath(executingAssemblyPath.FullName);
+        return AbsoluteDirectoryPath(executingAssemblyPath.OrThrow().FullName);
       }
     }
 

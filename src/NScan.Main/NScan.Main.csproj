@@ -36,8 +36,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NScan.Adapter.ReadingCSharpSolution\NScan.Adapter.ReadingCSharpSolution.csproj" />
-    <ProjectReference Include="..\NScan.Adapter.ReadingRules\NScan.Adapter.ReadingRules.csproj" />
+    <ProjectReference Include="..\NScan.Adapters.Secondary\NScan.Adapters.Secondary.csproj" />
     <ProjectReference Include="..\NScan.Domain.DependencyPathBasedRules\NScan.DependencyPathBasedRules.csproj" />
     <ProjectReference Include="..\NScan.Domain.NamespaceBasedRules\NScan.NamespaceBasedRules.csproj" />
     <ProjectReference Include="..\NScan.Domain.ProjectScopedRules\NScan.ProjectScopedRules.csproj" />

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -28,8 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NScan.Adapter.ReadingCSharpSolution\NScan.Adapter.ReadingCSharpSolution.csproj" />
-    <ProjectReference Include="..\NScan.Adapter.ReadingRules\NScan.Adapter.ReadingRules.csproj" />
     <ProjectReference Include="..\NScan.Main\NScan.Main.csproj" />
     <ProjectReference Include="..\NScanSpecification.Lib\NScanSpecification.Lib.csproj" />
   </ItemGroup>

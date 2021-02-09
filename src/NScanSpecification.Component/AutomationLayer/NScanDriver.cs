@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
-using NScan.Adapter.NotifyingSupport;
+using NScan.Adapters.Secondary.NotifyingSupport;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
