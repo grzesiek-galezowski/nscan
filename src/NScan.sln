@@ -50,6 +50,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScan.Adapters.Secondary", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScan.Adapters.SecondarySpecification", "NScan.Adapters.SecondarySpecification\NScan.Adapters.SecondarySpecification.csproj", "{D5DB118F-70FA-48BE-982B-B6552E82B60C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScan.DependencyPathBasedRulesSpecification", "NScan.DependencyPathBasedRulesSpecification\NScan.DependencyPathBasedRulesSpecification.csproj", "{C4955C7F-D9FD-4696-8D6A-40821363BFDA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -120,6 +122,10 @@ Global
 		{D5DB118F-70FA-48BE-982B-B6552E82B60C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5DB118F-70FA-48BE-982B-B6552E82B60C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5DB118F-70FA-48BE-982B-B6552E82B60C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4955C7F-D9FD-4696-8D6A-40821363BFDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4955C7F-D9FD-4696-8D6A-40821363BFDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4955C7F-D9FD-4696-8D6A-40821363BFDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4955C7F-D9FD-4696-8D6A-40821363BFDA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

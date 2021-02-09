@@ -33,7 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ReadingRules\Adapters\" />
+    <Folder Include="Domain\DependencyPathBasedRules\" />
   </ItemGroup>
 
 </Project>

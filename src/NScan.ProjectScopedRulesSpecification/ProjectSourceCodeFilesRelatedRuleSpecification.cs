@@ -7,7 +7,7 @@ using TddXt.AnyRoot.Strings;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace NScanSpecification.Domain.ProjectScopedRules
+namespace NScan.ProjectScopedRulesSpecification
 {
   public class ProjectSourceCodeFilesRelatedRuleSpecification
   {
