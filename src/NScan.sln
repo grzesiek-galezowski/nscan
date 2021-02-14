@@ -46,11 +46,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScan.ProjectScopedRules", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScan.ProjectScopedRulesSpecification", "NScan.ProjectScopedRulesSpecification\NScan.ProjectScopedRulesSpecification.csproj", "{2514C254-22F1-465F-A833-55E37C6120D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScan.Adapters.Secondary", "NScan.Adapters.Secondary\NScan.Adapters.Secondary.csproj", "{656AF1DC-1CB2-46BA-8363-AD7209D95CB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScan.Adapters.Secondary", "NScan.Adapters.Secondary\NScan.Adapters.Secondary.csproj", "{656AF1DC-1CB2-46BA-8363-AD7209D95CB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScan.Adapters.SecondarySpecification", "NScan.Adapters.SecondarySpecification\NScan.Adapters.SecondarySpecification.csproj", "{D5DB118F-70FA-48BE-982B-B6552E82B60C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScan.Adapters.SecondarySpecification", "NScan.Adapters.SecondarySpecification\NScan.Adapters.SecondarySpecification.csproj", "{D5DB118F-70FA-48BE-982B-B6552E82B60C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScan.DependencyPathBasedRulesSpecification", "NScan.DependencyPathBasedRulesSpecification\NScan.DependencyPathBasedRulesSpecification.csproj", "{C4955C7F-D9FD-4696-8D6A-40821363BFDA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScan.DependencyPathBasedRulesSpecification", "NScan.DependencyPathBasedRulesSpecification\NScan.DependencyPathBasedRulesSpecification.csproj", "{C4955C7F-D9FD-4696-8D6A-40821363BFDA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScan.LibSpecification", "NScan.LibSpecification\NScan.LibSpecification.csproj", "{1D21BC20-9F06-40A0-B79E-E059B5FB53E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -126,6 +128,10 @@ Global
 		{C4955C7F-D9FD-4696-8D6A-40821363BFDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4955C7F-D9FD-4696-8D6A-40821363BFDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4955C7F-D9FD-4696-8D6A-40821363BFDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D21BC20-9F06-40A0-B79E-E059B5FB53E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D21BC20-9F06-40A0-B79E-E059B5FB53E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D21BC20-9F06-40A0-B79E-E059B5FB53E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D21BC20-9F06-40A0-B79E-E059B5FB53E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

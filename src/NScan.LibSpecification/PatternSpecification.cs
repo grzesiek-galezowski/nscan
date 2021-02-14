@@ -4,7 +4,7 @@ using TddXt.AnyRoot.Strings;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace NScanSpecification.ReadingRules.Ports
+namespace NScan.LibSpecification
 {
   public class PatternSpecification
   {

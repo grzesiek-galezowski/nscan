@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Any" Version="5.0.0" />
+    <PackageReference Include="Any" Version="5.1.0" />
     <PackageReference Include="AtmaFileSystem" Version="4.7.0" />
     <PackageReference Include="FluentAssertions" Version="5.10.3" />
     <PackageReference Include="Glob" Version="1.1.8" />
@@ -25,7 +25,7 @@
     <PackageReference Include="NSubstitute" Version="4.2.2" />
     <PackageReference Include="NSubstitute.Analyzers.CSharp" Version="1.0.14" />
     <PackageReference Include="RunProcessAsTask" Version="1.2.4" />
-    <PackageReference Include="TddXt.Any.Extensibility" Version="5.0.0" />
+    <PackageReference Include="TddXt.Any.Extensibility" Version="5.1.0" />
     <PackageReference Include="XFluentAssert" Version="3.2.0" />
     <PackageReference Include="XNSubstitute" Version="1.0.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
