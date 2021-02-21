@@ -6,7 +6,7 @@ using TddXt.AnyRoot;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace NScanSpecification.Domain.DependencyPathBasedRules
+namespace NScan.DependencyPathBasedRulesSpecification
 {
   public class HasAssemblyReferenceMatchingConditionSpecification
   {
