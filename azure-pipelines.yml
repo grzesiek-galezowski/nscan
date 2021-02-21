@@ -20,9 +20,15 @@ steps:
     inputs:
       version: '3.1.x'
       packageType: sdk
-  
+
+  - task: UseDotNet@2
+    displayName: ".NET Core 5.x"
+    inputs:
+      version: '5.x'
+      packageType: sdk
+
   - script: |
-      dotnet tool update --version 1.0.0-rc0001 -g Cake.Tool
+      dotnet tool update --version 1.0.0 -g Cake.Tool
       dotnet-cake --Target RunE2ETests
   
   - task: PublishTestResults@2
