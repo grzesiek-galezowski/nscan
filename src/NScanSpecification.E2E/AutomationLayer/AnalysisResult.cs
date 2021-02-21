@@ -1,52 +1,45 @@
-﻿using System;
-using System.Linq;
-using FluentAssertions;
+﻿using FluentAssertions;
 using NullableReferenceTypesExtensions;
-using RunProcessAsTask;
 
 namespace NScanSpecification.E2E.AutomationLayer
 {
   public class AnalysisResult
   {
-    private ProcessResults? _analysisResult;
+    private string? _output;
+    private int _returnCode = -100;
 
     private string ConsoleStandardOutput()
     {
-      return string.Join(Environment.NewLine, _analysisResult.OrThrow().StandardOutput);
-    }
-
-    private string ConsoleStandardOutputAndErrorString()
-    {
-      var analysisResult = _analysisResult.OrThrow();
-      return string.Join(Environment.NewLine, analysisResult.StandardOutput.Concat(analysisResult.StandardError));
+      return _output.OrThrow();
     }
 
     public void ReportShouldNotContainText(string text)
     {
       ConsoleStandardOutput().Should().NotContain(text,
-        ConsoleStandardOutputAndErrorString());
+        ConsoleStandardOutput());
     }
 
     public void ShouldIndicateSuccess()
     {
-      _analysisResult.OrThrow().ExitCode.Should().Be(0);
+      _returnCode.Should().Be(0);
     }
 
     public void ShouldIndicateFailure()
     {
-      _analysisResult!.ExitCode.Should().Be(-1);
+      _returnCode.Should().Be(-1);
     }
 
     public void ReportShouldContainText(string ruleText)
     {
       ConsoleStandardOutput().Should()
         .Contain(ruleText,
-          ConsoleStandardOutputAndErrorString());
+          ConsoleStandardOutput());
     }
 
-    public void Assign(ProcessResults analysisResultAnalysisResult)
+    public void Assign(int returnCode, string output)
     {
-      _analysisResult = analysisResultAnalysisResult;
+      _returnCode = returnCode;
+      _output = output;
     }
   }
 }

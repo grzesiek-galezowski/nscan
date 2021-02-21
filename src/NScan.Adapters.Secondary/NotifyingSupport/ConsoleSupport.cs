@@ -9,52 +9,64 @@ namespace NScan.Adapters.Secondary.NotifyingSupport
 {
   public class ConsoleSupport : INScanSupport
   {
+    public static ConsoleSupport CreateInstance()
+    {
+      return new ConsoleSupport(Console.WriteLine);
+    }
+
+    private readonly Action<object> _writeLine;
+
+    public ConsoleSupport(Action<object> writeLine)
+    {
+      _writeLine = writeLine;
+    }
+
     private const string DiscoveredRule = "Discovered rule: ";
 
     public void Report(Exception exceptionFromResolution)
     {
-      Console.WriteLine(exceptionFromResolution);
+      _writeLine(exceptionFromResolution);
     }
 
     public void SkippingProjectBecauseOfError(InvalidOperationException invalidOperationException,
       AbsoluteFilePath projectFilePath)
     {
-      Console.WriteLine("Invalid format - skipping " + projectFilePath + " because of " + invalidOperationException);
+      _writeLine("Invalid format - skipping " + projectFilePath + " because of " + invalidOperationException);
     }
 
     public void Log(IndependentRuleComplementDto dto)
     {
-      Console.WriteLine($"{DiscoveredRule}{IndependentRuleMetadata.Format(dto)}");
+      _writeLine($"{DiscoveredRule}{IndependentRuleMetadata.Format(dto)}");
     }
 
     public void Log(CorrectNamespacesRuleComplementDto dto)
     {
-      Console.WriteLine($"{DiscoveredRule}{HasCorrectNamespacesRuleMetadata.Format(dto)}");
+      _writeLine($"{DiscoveredRule}{HasCorrectNamespacesRuleMetadata.Format(dto)}");
     }
 
     public void Log(NoCircularUsingsRuleComplementDto dto)
     {
-      Console.WriteLine($"{DiscoveredRule}{HasNoCircularUsingsRuleMetadata.Format(dto)}");
+      _writeLine($"{DiscoveredRule}{HasNoCircularUsingsRuleMetadata.Format(dto)}");
     }
 
     public void Log(HasAttributesOnRuleComplementDto dto)
     {
-      Console.WriteLine($"{DiscoveredRule}{HasAttributesOnRuleMetadata.Format(dto)}");
+      _writeLine($"{DiscoveredRule}{HasAttributesOnRuleMetadata.Format(dto)}");
     }
 
     public void Log(HasTargetFrameworkRuleComplementDto dto)
     {
-      Console.WriteLine($"{DiscoveredRule}{HasTargetFrameworkRuleMetadata.Format(dto)}");
+      _writeLine($"{DiscoveredRule}{HasTargetFrameworkRuleMetadata.Format(dto)}");
     }
 
     public void Log(NoUsingsRuleComplementDto dto)
     {
-      Console.WriteLine($"{DiscoveredRule}{HasNoUsingsRuleMetadata.Format(dto)}");
+      _writeLine($"{DiscoveredRule}{HasNoUsingsRuleMetadata.Format(dto)}");
     }
 
     public void Log(HasPropertyRuleComplementDto dto)
     {
-      Console.WriteLine($"{DiscoveredRule}{HasPropertyRuleMetadata.Format(dto)}");
+      _writeLine($"{DiscoveredRule}{HasPropertyRuleMetadata.Format(dto)}");
     }
   }
 }

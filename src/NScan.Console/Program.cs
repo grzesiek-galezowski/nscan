@@ -1,20 +1,31 @@
-﻿using AtmaFileSystem;
+﻿using System;
+using AtmaFileSystem;
 using Fclp;
 using NScan.Adapters.Secondary.NotifyingSupport;
 using NScan.Adapters.Secondary.ReportingOfResults;
 
 namespace TddXt.NScan.Console
 {
-  public static class Program
+  public class Program
   {
+    public Action<object> WriteLine { init; get; } = System.Console.WriteLine;
+
     public static int Main(string[] args)
+    {
+      return new Program().ExecuteWith(args);
+    }
+
+    public int ExecuteWith(string[] args)
     {
       var cliOptions = new InputArgumentsDto();
       var parser = CreateCliParser(cliOptions);
       var commandLineParserResult = parser.Parse(args);
       if (!commandLineParserResult.HasErrors)
       {
-        return NScanMain.Run(cliOptions, new ConsoleOutput(), new ConsoleSupport());
+        return NScanMain.Run(
+          cliOptions, 
+          new ConsoleOutput(WriteLine), 
+          new ConsoleSupport(WriteLine));
       }
       else
       {
@@ -24,7 +35,7 @@ namespace TddXt.NScan.Console
       }
     }
 
-    private static FluentCommandLineParser CreateCliParser(InputArgumentsDto inputArguments)
+    private FluentCommandLineParser CreateCliParser(InputArgumentsDto inputArguments)
     {
       var p = new FluentCommandLineParser();
 
@@ -39,7 +50,7 @@ namespace TddXt.NScan.Console
         .Required();
 
       p.SetupHelp("?", "help")
-        .Callback(text => System.Console.WriteLine(text));
+        .Callback(text => WriteLine(text));
       return p;
     }
   }

@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Text;
 using System.Threading.Tasks;
 using AtmaFileSystem;
 using AtmaFileSystem.IO;
 using FluentAssertions;
 using NScanSpecification.Lib.AutomationLayer;
 using TddXt.AnyRoot.Strings;
+using TddXt.NScan.Console;
 using Xunit.Abstractions;
 using static AtmaFileSystem.AtmaFileSystemPaths;
-using static NScanSpecification.E2E.AutomationLayer.BuildEnvironment;
 using static TddXt.AnyRoot.Root;
 using AbsoluteFilePath = AtmaFileSystem.AbsoluteFilePath;
 
@@ -27,7 +28,6 @@ namespace NScanSpecification.E2E.AutomationLayer
     private readonly ProjectsCollection _projectsCollection;
     private readonly AnalysisResult _analysisResult;
     private readonly SolutionDir _fixtureSolutionDir;
-    private static readonly Lazy<Task> BuildNScanConsoleOnce = new Lazy<Task>(BuildNScanConsole);
 
     public NScanE2EDriver(ITestOutputHelper output)
     {
@@ -74,8 +74,7 @@ namespace NScanSpecification.E2E.AutomationLayer
       await _projectsCollection.AddToSolutionAsync(_solutionName);
       _projectFiles.AddFilesToProjects();
       await _rules.SaveIn(_fullFixtureRulesPath);
-      await BuildNScanConsoleOnce.Value;
-      await RunAnalysis();
+      RunAnalysis();
     }
 
     public void ReportShouldNotContainText(string text)
@@ -98,19 +97,21 @@ namespace NScanSpecification.E2E.AutomationLayer
       _fixtureSolutionDir.DeleteWithContent();
     }
 
-    private async Task RunAnalysis()
+    private void RunAnalysis()
     {
-      var nscanBinaryPath = BuildOutputDirectory().AddFileName("NScan.Console.dll");
-      
-      AssertFileExists(nscanBinaryPath);
       AssertFileExists(_fullFixtureSolutionPath);
       AssertFileExists(_fullFixtureRulesPath);
+      var output = new StringBuilder();
+      var resultCode = new Program
+      {
+        WriteLine = o => output.AppendLine(o.ToString())
+      }.ExecuteWith(
+        new[]{
+          "-p", $"\"{_fullFixtureSolutionPath}\"",
+          "-r", $"\"{_fullFixtureRulesPath}\""}
+      );
 
-      var analysisResultAnalysisResult = await _dotNetExe.RunWith(
-        $"{nscanBinaryPath} " +
-        $"-p \"{_fullFixtureSolutionPath}\" " +
-        $"-r \"{_fullFixtureRulesPath}\"");
-      _analysisResult.Assign(analysisResultAnalysisResult);
+      _analysisResult.Assign(resultCode, output.ToString());
     }
 
     private void AssertFileExists(AbsoluteFilePath filePath)
