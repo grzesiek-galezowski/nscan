@@ -120,16 +120,14 @@ namespace NScan.ProjectScopedRulesSpecification
         [propertyName] = actualPropertyValue
       };
       var analysisReportInProgress = Substitute.For<IAnalysisReportInProgress>();
-      var ruleDescription = Any.String();
-      var assemblyName = Any.String();
       var rule = new HasPropertyValueRule(
         propertyName, 
         expectedPattern, 
         Any.Instance<IProjectScopedRuleViolationFactory>(), 
-        ruleDescription);
+        Any.String());
 
       //WHEN
-      rule.ApplyTo(assemblyName, properties, analysisReportInProgress);
+      rule.ApplyTo(Any.String(), properties, analysisReportInProgress);
 
       //THEN
       analysisReportInProgress.DidNotReceiveWithAnyArgs().Add(default!);
