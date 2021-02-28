@@ -1,4 +1,4 @@
-using GlobExpressions;
+﻿using GlobExpressions;
 using NScan.Lib;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 
@@ -66,8 +66,12 @@ namespace NScan.DependencyPathBasedRules
       return new IndependentRule(
         new DescribedCondition(
           new HasPackageReferenceMatchingCondition(packageNamePattern), 
-          IndependentRuleMetadata.FormatIndependentRule(dependingAssemblyNamePattern, dependencyType, packageNamePattern)), 
-        dependingAssemblyNamePattern, _ruleViolationFactory);
+          IndependentRuleMetadata.FormatIndependentRule(
+            dependingAssemblyNamePattern,
+            dependencyType,
+            packageNamePattern)), 
+        dependingAssemblyNamePattern, 
+        _ruleViolationFactory);
     }
 
     private IDependencyRule CreateIndependentOfAssemblyRule(
@@ -75,7 +79,13 @@ namespace NScan.DependencyPathBasedRules
       Glob assemblyNamePattern,
       string dependencyType)
     {
-      return new IndependentRule(new DescribedCondition(new HasAssemblyReferenceMatchingCondition(assemblyNamePattern), IndependentRuleMetadata.FormatIndependentRule(dependingAssemblyNamePattern, dependencyType, assemblyNamePattern)), 
+      return new IndependentRule(
+        new DescribedCondition(
+          new HasAssemblyReferenceMatchingCondition(assemblyNamePattern), 
+          IndependentRuleMetadata.FormatIndependentRule(
+            dependingAssemblyNamePattern, 
+            dependencyType, 
+            assemblyNamePattern)), 
         dependingAssemblyNamePattern, _ruleViolationFactory);
     }
   }

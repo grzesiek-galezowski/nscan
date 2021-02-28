@@ -39,7 +39,7 @@ namespace TddXt.NScan.Domain
       return new(new AnalysisReportInProgress(), 
         DependencyAnalysis.PrepareFor(csharpProjectDtos, support), 
         ProjectAnalysis.PrepareFor(csharpProjectDtos), 
-        ProjectNamespacesAnalysis.PrepareFor2(csharpProjectDtos));
+        ProjectNamespacesAnalysis.PrepareFor(csharpProjectDtos));
     }
 
     public void Run()

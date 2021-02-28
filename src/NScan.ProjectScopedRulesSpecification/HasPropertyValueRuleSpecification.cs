@@ -3,6 +3,7 @@ using FluentAssertions;
 using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NSubstitute;
+using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
 using Xunit;
 using static TddXt.AnyRoot.Root;
@@ -57,7 +58,7 @@ namespace NScan.ProjectScopedRulesSpecification
       {
         [propertyName] = propertyValue
       };
-      var expectedPropertyValue = Any.String();
+      var expectedPropertyValue = Any.OtherThan(propertyValue);
       var violationFactory = Substitute.For<IProjectScopedRuleViolationFactory>();
       var analysisReportInProgress = Substitute.For<IAnalysisReportInProgress>();
       var ruleDescription = Any.String();
@@ -83,7 +84,6 @@ namespace NScan.ProjectScopedRulesSpecification
     public void ShouldReportViolationWhenExpectedPropertyDoesNotExist()
     {
       //GIVEN
-      var propertyValue = Any.String();
       var propertyName = Any.String();
       var properties = DictionaryNotContaining(propertyName);
       var expectedPropertyValue = Any.String();
@@ -106,6 +106,33 @@ namespace NScan.ProjectScopedRulesSpecification
 
       //THEN
       analysisReportInProgress.Received(1).Add(violation);
+    }
+
+    [Theory]
+    [InlineData("abc", "abc")]
+    [InlineData("abc", "ab*")]
+    public void ShouldNotReportViolationWhenPropertyHasExpectedValue(string actualPropertyValue, string expectedPattern)
+    {
+      //GIVEN
+      var propertyName = Any.String();
+      var properties = new Dictionary<string, string>
+      {
+        [propertyName] = actualPropertyValue
+      };
+      var analysisReportInProgress = Substitute.For<IAnalysisReportInProgress>();
+      var ruleDescription = Any.String();
+      var assemblyName = Any.String();
+      var rule = new HasPropertyValueRule(
+        propertyName, 
+        expectedPattern, 
+        Any.Instance<IProjectScopedRuleViolationFactory>(), 
+        ruleDescription);
+
+      //WHEN
+      rule.ApplyTo(assemblyName, properties, analysisReportInProgress);
+
+      //THEN
+      analysisReportInProgress.DidNotReceiveWithAnyArgs().Add(default!);
     }
 
     private static Dictionary<string, string> DictionaryNotContaining(string propertyName)

@@ -44,10 +44,12 @@ namespace NScan.DependencyPathBasedRules
     public static DependencyAnalysis PrepareFor(IEnumerable<CsharpProjectDto> csharpProjectDtos, INScanSupport support)
     {
       return new(
-        new SolutionForDependencyPathRules(new PathCache(
-          new DependencyPathFactory()), new DependencyPathBasedRuleTargetFactory(support)
-          .CreateDependencyPathRuleTargetsByIds(csharpProjectDtos)),
-        new PathRuleSet(), 
+        new SolutionForDependencyPathRules(
+          new PathCache(
+            new DependencyPathFactory()),
+          new DependencyPathBasedRuleTargetFactory(support)
+            .CreateDependencyPathRuleTargetsByIds(csharpProjectDtos)),
+        new PathRuleSet(),
         new DependencyPathRuleFactory(
           new DependencyPathRuleViolationFactory(
             new DependencyPathReportFragmentsFormat())));

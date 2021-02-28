@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using GlobExpressions;
+using NScan.Lib;
 using NScan.SharedKernel;
 
 namespace NScan.ProjectScopedRules
@@ -40,7 +42,7 @@ namespace NScan.ProjectScopedRules
       if (properties.ContainsKey(_propertyName))
       {
         var propertyValue = properties[_propertyName];
-        if (propertyValue != _expectedPropertyValue)
+        if (!Pattern.WithoutExclusion(_expectedPropertyValue).IsMatch(propertyValue))
         {
           report.Add(_violationFactory.ProjectScopedRuleViolation(
             _ruleDescription, $"Project {assemblyName} has {_propertyName}:{propertyValue}"));

@@ -16,12 +16,16 @@ namespace NScan.DependencyPathBasedRules
 
     public bool Exists() => true;
 
-    public IReadOnlyList<IDependencyPathBasedRuleTarget> SegmentEndingWith(IProjectSearchResult terminator, IEnumerable<IDependencyPathBasedRuleTarget> path)
+    public IReadOnlyList<IDependencyPathBasedRuleTarget> SegmentEndingWith(
+      IProjectSearchResult terminator, 
+      IEnumerable<IDependencyPathBasedRuleTarget> path)
     {
       return terminator.TerminatedSegmentStartingFrom(_occurenceIndex, path);
     }
 
-    public IReadOnlyList<IDependencyPathBasedRuleTarget> TerminatedSegmentStartingFrom(int index, IEnumerable<IDependencyPathBasedRuleTarget> path)
+    public IReadOnlyList<IDependencyPathBasedRuleTarget> TerminatedSegmentStartingFrom(
+      int index, 
+      IEnumerable<IDependencyPathBasedRuleTarget> path)
     {
       return path.ToList().GetRange(index, _occurenceIndex - index + 1);
     }
