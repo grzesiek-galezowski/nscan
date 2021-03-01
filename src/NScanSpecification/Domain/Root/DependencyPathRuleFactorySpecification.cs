@@ -31,9 +31,12 @@ namespace NScanSpecification.Domain.Root
       //THEN
       rule.GetType().Should().Be<IndependentRule>();
       rule.Should().DependOn(dependingId);
-      rule.Should().DependOnTypeChain(typeof(JoinedDescribedCondition), typeof(IsFollowingAssemblyCondition));
-      rule.Should()
-        .DependOnTypeChain(typeof(JoinedDescribedCondition), typeof(HasAssemblyNameMatchingPatternCondition));
+      rule.Should().DependOnTypeChain(
+        typeof(JoinedDescribedCondition), 
+        typeof(IsFollowingAssemblyCondition));
+      rule.Should().DependOnTypeChain(
+        typeof(JoinedDescribedCondition), 
+        typeof(HasAssemblyNameMatchingPatternCondition));
       rule.Should().DependOn(dependencyId);
       rule.Should().DependOn(ruleViolationFactory);
     }
