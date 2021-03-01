@@ -3,7 +3,7 @@ using GlobExpressions;
 using NScan.DependencyPathBasedRules;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NScanSpecification.Lib;
-using TddXt.XFluentAssertRoot;
+using TddXt.XFluentAssert.Api;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
@@ -31,9 +31,12 @@ namespace NScanSpecification.Domain.Root
       //THEN
       rule.GetType().Should().Be<IndependentRule>();
       rule.Should().DependOn(dependingId);
-      rule.Should().DependOnTypeChain(typeof(JoinedDescribedCondition), typeof(IsFollowingAssemblyCondition));
-      rule.Should()
-        .DependOnTypeChain(typeof(JoinedDescribedCondition), typeof(HasAssemblyNameMatchingPatternCondition));
+      rule.Should().DependOnTypeChain(
+        typeof(JoinedDescribedCondition), 
+        typeof(IsFollowingAssemblyCondition));
+      rule.Should().DependOnTypeChain(
+        typeof(JoinedDescribedCondition), 
+        typeof(HasAssemblyNameMatchingPatternCondition));
       rule.Should().DependOn(dependencyId);
       rule.Should().DependOn(ruleViolationFactory);
     }
