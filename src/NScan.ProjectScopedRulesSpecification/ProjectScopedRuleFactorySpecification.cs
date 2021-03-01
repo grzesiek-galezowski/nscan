@@ -1,7 +1,9 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
+using Functional.Maybe;
 using NScan.ProjectScopedRules;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
-using TddXt.XFluentAssertRoot;
+using TddXt.XFluentAssert.Api;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
@@ -56,10 +58,10 @@ namespace NScan.ProjectScopedRulesSpecification
 
       //THEN
       projectScopedRule.Should().BeOfType<ProjectScopedRuleApplicableToMatchingProject>();
-      projectScopedRule.Should().DependOn<HasPropertyValueRule>();
-      projectScopedRule.Should().DependOn(ruleDto.ProjectAssemblyNamePattern);
-      projectScopedRule.Should().DependOn(ruleDto.TargetFramework);
-      projectScopedRule.Should().DependOn(ruleViolationFactory);
+      projectScopedRule.Should().DependOn<HasPropertyValueRule>(SkipStringNothing);
+      projectScopedRule.Should().DependOn(ruleDto.ProjectAssemblyNamePattern, SkipStringNothing);
+      projectScopedRule.Should().DependOn(ruleDto.TargetFramework, SkipStringNothing);
+      projectScopedRule.Should().DependOn(ruleViolationFactory, SkipStringNothing);
     }
 
     [Fact]
@@ -75,11 +77,13 @@ namespace NScan.ProjectScopedRulesSpecification
 
       //THEN
       projectScopedRule.Should().BeOfType<ProjectScopedRuleApplicableToMatchingProject>();
-      projectScopedRule.Should().DependOn(ruleDto.ProjectAssemblyNamePattern);
-      projectScopedRule.Should().DependOn(ruleDto.PropertyName);
-      projectScopedRule.Should().DependOn(ruleDto.PropertyValue);
-      projectScopedRule.Should().DependOn(ruleViolationFactory);
-      projectScopedRule.Should().DependOn<HasPropertyValueRule>();
+      projectScopedRule.Should().DependOn(ruleDto.ProjectAssemblyNamePattern, SkipStringNothing);
+      projectScopedRule.Should().DependOn(ruleDto.PropertyName, SkipStringNothing);
+      projectScopedRule.Should().DependOn(ruleDto.PropertyValue, SkipStringNothing);
+      projectScopedRule.Should().DependOn(ruleViolationFactory, SkipStringNothing);
+      projectScopedRule.Should().DependOn<HasPropertyValueRule>(SkipStringNothing);
     }
+
+    private static Func<DependsOnAssertionsOptions, DependsOnAssertionsOptions> SkipStringNothing => options => options.Skip(Maybe<string>.Nothing);
   }
 }

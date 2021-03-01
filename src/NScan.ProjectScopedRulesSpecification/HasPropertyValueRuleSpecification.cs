@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
+using NScan.Lib;
 using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
+using NScanSpecification.Lib;
 using NSubstitute;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
@@ -16,9 +18,10 @@ namespace NScan.ProjectScopedRulesSpecification
     public void ShouldValidateProjectForTargetFrameworkWhenChecked()
     {
       //GIVEN
+      var expectedPropertyValue = Any.Pattern();
       var rule = new HasPropertyValueRule(
         Any.String(), 
-        Any.String(), 
+        expectedPropertyValue, 
         Any.Instance<IProjectScopedRuleViolationFactory>(), 
         Any.String());
       var project = Substitute.For<IProjectScopedRuleTarget>();
@@ -36,10 +39,12 @@ namespace NScan.ProjectScopedRulesSpecification
     {
       //GIVEN
       var ruleDescription = Any.String();
+      var expectedPropertyValue = Any.Pattern();
       var rule = new HasPropertyValueRule(
         Any.String(), 
-        Any.String(), 
-        Any.Instance<IProjectScopedRuleViolationFactory>(), ruleDescription);
+        expectedPropertyValue, 
+        Any.Instance<IProjectScopedRuleViolationFactory>(), 
+        ruleDescription);
 
       //WHEN
       var stringRepresentation = rule.ToString();
@@ -66,7 +71,7 @@ namespace NScan.ProjectScopedRulesSpecification
       var violation = Any.Instance<RuleViolation>();
       var rule = new HasPropertyValueRule(
         propertyName, 
-        expectedPropertyValue, 
+        Pattern.WithoutExclusion(expectedPropertyValue), 
         violationFactory, 
         ruleDescription);
 
@@ -86,7 +91,7 @@ namespace NScan.ProjectScopedRulesSpecification
       //GIVEN
       var propertyName = Any.String();
       var properties = DictionaryNotContaining(propertyName);
-      var expectedPropertyValue = Any.String();
+      var expectedPropertyValue = Any.Pattern();
       var violationFactory = Substitute.For<IProjectScopedRuleViolationFactory>();
       var analysisReportInProgress = Substitute.For<IAnalysisReportInProgress>();
       var ruleDescription = Any.String();
@@ -122,7 +127,7 @@ namespace NScan.ProjectScopedRulesSpecification
       var analysisReportInProgress = Substitute.For<IAnalysisReportInProgress>();
       var rule = new HasPropertyValueRule(
         propertyName, 
-        expectedPattern, 
+        Pattern.WithoutExclusion(expectedPattern), 
         Any.Instance<IProjectScopedRuleViolationFactory>(), 
         Any.String());
 
@@ -135,7 +140,7 @@ namespace NScan.ProjectScopedRulesSpecification
 
     private static Dictionary<string, string> DictionaryNotContaining(string propertyName)
     {
-      return new Dictionary<string, string>();
+      return new();
     }
   }
 }

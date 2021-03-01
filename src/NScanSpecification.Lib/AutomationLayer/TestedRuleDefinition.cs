@@ -62,7 +62,7 @@ namespace NScanSpecification.Lib.AutomationLayer
     public static ITestedRuleDefinition From(HasPropertyRuleComplementDto dto)
     {
       return new TestedRuleDefinition(
-        $"{dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName} {dto.PropertyName}:{dto.PropertyValue}");
+        $"{dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName} {dto.PropertyName}:{dto.PropertyValue.Description()}");
     }
   }
 

@@ -248,7 +248,7 @@ namespace NScan.Adapters.SecondarySpecification.ReadingRules
         dto.RuleName.Should().Be(HasPropertyRuleMetadata.HasProperty);
         dto.ProjectAssemblyNamePattern.Description().Should().Be(depending);
         dto.PropertyName.Should().Be(propertyName);
-        dto.PropertyValue.Should().Be(propertyValue);
+        dto.PropertyValue.Should().Be(Pattern.WithoutExclusion(propertyValue));
       }));
       rule1Dto.RuleName.Should().Be(HasPropertyRuleMetadata.HasProperty);
     }

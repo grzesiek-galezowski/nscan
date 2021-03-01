@@ -1,4 +1,4 @@
-namespace NScan.SharedKernel.RuleDtos.ProjectScoped
+﻿namespace NScan.SharedKernel.RuleDtos.ProjectScoped
 {
   public static class HasPropertyRuleMetadata
   {
@@ -6,7 +6,7 @@ namespace NScan.SharedKernel.RuleDtos.ProjectScoped
 
     public static string Format(HasPropertyRuleComplementDto dto)
     {
-      return $"{dto.ProjectAssemblyNamePattern.Description()} {HasProperty} {dto.PropertyName} {dto.PropertyValue}";
+      return $"{dto.ProjectAssemblyNamePattern.Description()} {HasProperty} {dto.PropertyName} {dto.PropertyValue.Description()}";
     }
   }
 }

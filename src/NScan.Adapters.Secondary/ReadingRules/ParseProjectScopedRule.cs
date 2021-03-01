@@ -60,7 +60,7 @@ namespace NScan.Adapters.Secondary.ReadingRules
           from propertyName in TextUntil(':')
           from propertyValue in TextUntilEol
           select ProjectScopedRuleUnionDto.With(
-            new HasPropertyRuleComplementDto(dependingPattern, propertyName, propertyValue)));
+            new HasPropertyRuleComplementDto(dependingPattern, propertyName, Pattern.WithoutExclusion(propertyValue))));
 
     }
 

@@ -164,7 +164,7 @@ namespace NScanSpecification.Lib.AutomationLayer
       return new HasPropertyRuleComplementDto(
         GetDependingPattern(), 
         propertyName, 
-        propertyValue);
+        Pattern.WithoutExclusion(propertyValue));
     }
 
     public DependencyPathBasedRuleUnionDto BuildDependencyPathBasedRule()

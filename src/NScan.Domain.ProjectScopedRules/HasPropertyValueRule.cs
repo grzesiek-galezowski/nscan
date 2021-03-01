@@ -18,18 +18,18 @@ namespace NScan.ProjectScopedRules
     private readonly IProjectScopedRuleViolationFactory _violationFactory;
     private readonly string _ruleDescription;
     private readonly string _propertyName;
-    private readonly Pattern _expectedPropertyPattern;
+    private readonly Pattern _expectedPropertyValuePattern;
 
     public HasPropertyValueRule(
-      string propertyName, 
-      string expectedPropertyValue,
+      string propertyName,
+      Pattern expectedPropertyValuePattern,
       IProjectScopedRuleViolationFactory violationFactory,
       string ruleDescription)
     {
       _violationFactory = violationFactory;
       _ruleDescription = ruleDescription;
       _propertyName = propertyName;
-      _expectedPropertyPattern = Pattern.WithoutExclusion(expectedPropertyValue);
+      _expectedPropertyValuePattern = expectedPropertyValuePattern;
     }
 
     public void Check(IProjectScopedRuleTarget project, IAnalysisReportInProgress report)
@@ -42,7 +42,7 @@ namespace NScan.ProjectScopedRules
       if (properties.ContainsKey(_propertyName))
       {
         var propertyValue = properties[_propertyName];
-        if (!_expectedPropertyPattern.IsMatch(propertyValue))
+        if (!_expectedPropertyValuePattern.IsMatch(propertyValue))
         {
           report.Add(_violationFactory.ProjectScopedRuleViolation(
             _ruleDescription, $"Project {assemblyName} has {_propertyName}:{propertyValue}"));

@@ -1,4 +1,5 @@
-﻿using NScan.SharedKernel.RuleDtos.ProjectScoped;
+﻿using NScan.Lib;
+using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
 namespace NScan.ProjectScopedRules
 {
@@ -28,12 +29,13 @@ namespace NScan.ProjectScopedRules
 
     public IProjectScopedRule CreateProjectScopedRuleFrom(HasTargetFrameworkRuleComplementDto ruleDto)
     {
+      Pattern expectedPropertyValue = Pattern.WithoutExclusion(ruleDto.TargetFramework);
       return 
         new ProjectScopedRuleApplicableToMatchingProject(
           ruleDto.ProjectAssemblyNamePattern,
           new HasPropertyValueRule(
             "TargetFramework", 
-            ruleDto.TargetFramework, 
+            expectedPropertyValue, 
             _ruleViolationFactory, 
             HasTargetFrameworkRuleMetadata.Format(ruleDto)));
     }
