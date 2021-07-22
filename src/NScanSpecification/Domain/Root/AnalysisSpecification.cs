@@ -32,7 +32,7 @@ namespace NScanSpecification.Domain.Root
 
     public Analysis Build()
     {
-      return new(ReportInProgress,
+      return new Analysis(ReportInProgress,
         DependencyAnalysis,
         ProjectAnalysis,
         NamespacesAnalysis);

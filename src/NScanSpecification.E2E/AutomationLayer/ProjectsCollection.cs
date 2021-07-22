@@ -10,7 +10,7 @@ namespace NScanSpecification.E2E.AutomationLayer
   public class ProjectsCollection
   {
     private readonly DotNetExe _dotNetExe;
-    private readonly List<ProjectDefinition> _projects = new List<ProjectDefinition>();
+    private readonly List<ProjectDefinition> _projects = new();
 
     public ProjectsCollection(DotNetExe dotNetExe)
     {

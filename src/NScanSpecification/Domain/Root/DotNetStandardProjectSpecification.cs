@@ -290,7 +290,7 @@ namespace NScanSpecification.Domain.Root
     {
       public DotNetStandardProject Build()
       {
-        return new(
+        return new DotNetStandardProject(
           AssemblyName,
           ProjectId,
           PackageReferences,

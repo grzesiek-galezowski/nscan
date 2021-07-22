@@ -15,7 +15,7 @@ namespace NScanSpecification.Lib.AutomationLayer
 
     public static MethodDeclarationBuilder Method(string name)
     {
-      return new(name);
+      return new MethodDeclarationBuilder(name);
     }
 
     public MethodDeclarationBuilder DecoratedWithAttribute(string attributeName)
@@ -26,7 +26,7 @@ namespace NScanSpecification.Lib.AutomationLayer
 
     public MethodDeclarationInfo Build()
     {
-      return new(_name, _attributes);
+      return new MethodDeclarationInfo(_name, _attributes);
     }
   }
 

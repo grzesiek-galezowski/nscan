@@ -7,7 +7,7 @@ namespace NScanSpecification.Lib.AutomationLayer
     public static HasPropertyReportedMessage HasProperty(
       string projectName, string name, string value)
     {
-      return new(TestRuleFormats.FormatHasPropertyRule(projectName, name, value));
+      return new HasPropertyReportedMessage(TestRuleFormats.FormatHasPropertyRule(projectName, name, value));
     }
 
     public HasPropertyReportedMessage(string text) : base(text)
@@ -16,7 +16,7 @@ namespace NScanSpecification.Lib.AutomationLayer
 
     protected override HasPropertyReportedMessage NewInstance(string str)
     {
-      return new(str);
+      return new HasPropertyReportedMessage(str);
     }
 
     public ReportedMessage ProjectHasAnotherPropertyValue(string projectName, string propertyName, string actualPropertyValue)

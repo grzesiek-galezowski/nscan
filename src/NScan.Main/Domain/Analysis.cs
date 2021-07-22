@@ -36,7 +36,7 @@ namespace TddXt.NScan.Domain
 
     public static Analysis PrepareFor(IEnumerable<CsharpProjectDto> csharpProjectDtos, INScanSupport support)
     {
-      return new(new AnalysisReportInProgress(), 
+      return new Analysis(new AnalysisReportInProgress(), 
         DependencyAnalysis.PrepareFor(csharpProjectDtos, support), 
         ProjectAnalysis.PrepareFor(csharpProjectDtos), 
         ProjectNamespacesAnalysis.PrepareFor(csharpProjectDtos));

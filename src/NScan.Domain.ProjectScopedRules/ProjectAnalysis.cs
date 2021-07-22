@@ -41,7 +41,7 @@ namespace NScan.ProjectScopedRules
 
     public static ProjectAnalysis PrepareFor(IEnumerable<CsharpProjectDto> csharpProjectDtos)
     {
-      return new(
+      return new ProjectAnalysis(
         new SolutionForProjectScopedRules(new ProjectScopedRuleTargetFactory(new ProjectScopedRuleViolationFactory())
           .ProjectScopedRuleTargets(csharpProjectDtos)),
         new ProjectScopedRuleSet(), 

@@ -71,7 +71,7 @@ namespace NScanSpecification.Domain.NamespaceBasedRules
 
     private static List<NamespaceDependencyPath> EmptyList()
     {
-      return new();
+      return new List<NamespaceDependencyPath>();
     }
   }
 }

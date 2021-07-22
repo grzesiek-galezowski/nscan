@@ -16,17 +16,17 @@ namespace NScanSpecification.Lib.AutomationLayer
 
     public static SourceCodeFileDtoBuilder FileWithNamespace(string fileName, string fileNamespace)
     {
-      return new(fileName, new List<string> { fileNamespace });
+      return new SourceCodeFileDtoBuilder(fileName, new List<string> { fileNamespace });
     }
 
     public static SourceCodeFileDtoBuilder EmptyFile(string fileName)
     {
-      return new(fileName, Enumerable.Empty<string>().ToList());
+      return new SourceCodeFileDtoBuilder(fileName, Enumerable.Empty<string>().ToList());
     }
 
     public static SourceCodeFileDtoBuilder FileWithNamespaces(string fileName, params string[] namespaces)
     {
-      return new(fileName, namespaces.ToList());
+      return new SourceCodeFileDtoBuilder(fileName, namespaces.ToList());
     }
 
     private SourceCodeFileDtoBuilder(string fileName, List<string> declaredNamespaces)
@@ -43,7 +43,7 @@ namespace NScanSpecification.Lib.AutomationLayer
 
     public SourceCodeFileDto BuildWith(string parentProjectAssemblyName, string parentProjectRootNamespace)
     {
-      return new(
+      return new SourceCodeFileDto(
         AtmaFileSystemPaths.RelativeFilePath(FileName), 
         DeclaredNamespaces, 
         parentProjectRootNamespace, 

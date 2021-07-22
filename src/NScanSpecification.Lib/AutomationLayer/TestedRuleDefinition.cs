@@ -13,7 +13,7 @@ namespace NScanSpecification.Lib.AutomationLayer
   {
     public static TestedRuleDefinition From(IndependentRuleComplementDto dto)
     {
-      return new($"{dto.DependingPattern.Description()} {dto.RuleName} {dto.DependencyType}:{dto.DependencyPattern.Pattern}");
+      return new TestedRuleDefinition($"{dto.DependingPattern.Description()} {dto.RuleName} {dto.DependencyType}:{dto.DependencyPattern.Pattern}");
     }
 
     private readonly string _name;

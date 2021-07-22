@@ -16,7 +16,7 @@ namespace NScanSpecification.Lib.AutomationLayer
 
     protected override HasAttributesOnMessage NewInstance(string str)
     {
-      return new(str);
+      return new HasAttributesOnMessage(str);
     }
 
     public static HasAttributesOnMessage HasMethodsNotDecoratedWithAttribute(
@@ -24,7 +24,7 @@ namespace NScanSpecification.Lib.AutomationLayer
       string classNamePattern,
       string methodNamesPattern)
     {
-      return new(
+      return new HasAttributesOnMessage(
         TestRuleFormats.FormatHasAttributesOnRule(projectName, classNamePattern,methodNamesPattern));
     }
   }

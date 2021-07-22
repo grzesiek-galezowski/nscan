@@ -140,7 +140,7 @@ namespace NScan.ProjectScopedRulesSpecification
 
     private static Dictionary<string, string> DictionaryNotContaining(string propertyName)
     {
-      return new();
+      return new Dictionary<string, string>();
     }
   }
 }

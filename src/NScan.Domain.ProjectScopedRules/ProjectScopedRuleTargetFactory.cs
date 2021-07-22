@@ -34,7 +34,7 @@ namespace NScan.ProjectScopedRules
 
     private SourceCodeFile ToSourceCodeFile(SourceCodeFileDto scf)
     {
-      return new(
+      return new SourceCodeFile(
         _ruleViolationFactory, 
         scf.DeclaredNamespaces, 
         scf.ParentProjectAssemblyName, 

@@ -42,7 +42,7 @@ namespace NScan.NamespaceBasedRules
 
     public static ProjectNamespacesAnalysis PrepareFor(IEnumerable<CsharpProjectDto> csharpProjectDtos)
     {
-      return new(
+      return new ProjectNamespacesAnalysis(
         new SolutionForNamespaceBasedRules(new NamespaceBasedRuleTargetFactory()
           .NamespaceBasedRuleTargets(csharpProjectDtos)),
         new NamespacesBasedRuleSet(), 

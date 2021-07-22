@@ -20,17 +20,17 @@ namespace NScanSpecification.Lib.AutomationLayer
 
     public static ClassDeclarationBuilder Class(string name)
     {
-      return new(name, new List<MethodDeclarationBuilder>(), string.Empty);
+      return new ClassDeclarationBuilder(name, new List<MethodDeclarationBuilder>(), string.Empty);
     }
 
     public ClassDeclarationBuilder With(params MethodDeclarationBuilder[] methodDeclarationBuilders)
     {
-      return new(_name, _methods.Concat(methodDeclarationBuilders), _namespaceName);
+      return new ClassDeclarationBuilder(_name, _methods.Concat(methodDeclarationBuilders), _namespaceName);
     }
     
     public ClassDeclarationBuilder WithNamespace(string namespaceName)
     {
-      return new(_name, _methods, namespaceName);
+      return new ClassDeclarationBuilder(_name, _methods, namespaceName);
     }
 
     public ClassDeclarationInfo Build()

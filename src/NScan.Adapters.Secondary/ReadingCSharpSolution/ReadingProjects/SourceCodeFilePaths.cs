@@ -52,7 +52,7 @@ namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects
       ICSharpFileSyntaxTree syntaxTree, 
       Dictionary<string, ClassDeclarationInfo> classDeclarationSignatures)
     {
-      return new(
+      return new SourceCodeFileDto(
         AtmaFileSystemPaths.RelativeFilePath(GetPathRelativeTo(projectDirectory, syntaxTree.FilePath)), 
         syntaxTree.GetAllUniqueNamespaces().ToList(), 
         projectAccess.RootNamespace(), 

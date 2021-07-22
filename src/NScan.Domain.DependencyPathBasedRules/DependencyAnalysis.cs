@@ -43,7 +43,7 @@ namespace NScan.DependencyPathBasedRules
 
     public static DependencyAnalysis PrepareFor(IEnumerable<CsharpProjectDto> csharpProjectDtos, INScanSupport support)
     {
-      return new(
+      return new DependencyAnalysis(
         new SolutionForDependencyPathRules(
           new PathCache(
             new DependencyPathFactory()),

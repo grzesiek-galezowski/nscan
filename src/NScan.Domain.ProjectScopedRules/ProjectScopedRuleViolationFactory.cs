@@ -6,7 +6,7 @@ namespace NScan.ProjectScopedRules
   {
     public RuleViolation ProjectScopedRuleViolation(string ruleDescription, string violationDescription)
     {
-      return new(ruleDescription, string.Empty, violationDescription);
+      return new RuleViolation(ruleDescription, string.Empty, violationDescription);
     }
   }
 }

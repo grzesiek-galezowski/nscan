@@ -14,7 +14,7 @@ namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingCSharpSourceCode
   {
     public static CSharpFileSyntaxTree ParseText(string sourceCode, string path)
     {
-      return new(CSharpSyntaxTree.ParseText(sourceCode, path: path));
+      return new CSharpFileSyntaxTree(CSharpSyntaxTree.ParseText(sourceCode, path: path));
     }
 
     private readonly SyntaxTree _syntaxTree;

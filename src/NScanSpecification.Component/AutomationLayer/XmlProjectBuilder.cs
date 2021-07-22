@@ -71,12 +71,12 @@ namespace NScanSpecification.Component.AutomationLayer
 
     public static XmlProjectBuilder WithAssemblyName(string assemblyName)
     {
-      return new(assemblyName);
+      return new XmlProjectBuilder(assemblyName);
     }
 
     public CsharpProjectDto BuildCsharpProjectDto()
     {
-      return new(_projectId,
+      return new CsharpProjectDto(_projectId,
         _assemblyName,
         _targetFramework,
         _sourceCodeFileBuilders

@@ -22,12 +22,12 @@ namespace NScanSpecification.Lib.AutomationLayer
 
     protected override HasNoCircularUsingsMessage NewInstance(string str)
     {
-      return new(str);
+      return new HasNoCircularUsingsMessage(str);
     }
 
     public static HasNoCircularUsingsMessage HasNoCircularUsings(string projectGlob)
     {
-      return new(TestRuleFormats.FormatNoCircularUsingsRule(projectGlob));
+      return new HasNoCircularUsingsMessage(TestRuleFormats.FormatNoCircularUsingsRule(projectGlob));
     }
   }
 }

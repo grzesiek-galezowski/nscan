@@ -59,7 +59,7 @@ namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects
 
     private ProjectId Id()
     {
-      return new(_xmlProject.AbsolutePath.ToString());
+      return new ProjectId(_xmlProject.AbsolutePath.ToString());
     }
 
     private ImmutableList<SourceCodeFileDto> SourceCodeFiles()
@@ -115,7 +115,7 @@ namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects
 
     public CsharpProjectDto BuildCsharpProjectDto()
     {
-      return new(
+      return new CsharpProjectDto(
         Id(), 
         DetermineAssemblyName(), 
         TargetFramework(), 

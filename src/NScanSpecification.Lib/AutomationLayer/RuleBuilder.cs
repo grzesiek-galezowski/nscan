@@ -191,7 +191,7 @@ namespace NScanSpecification.Lib.AutomationLayer
 
     private NoUsingsRuleComplementDto NoUsingsComplement(string @from, string to)
     {
-      return new(
+      return new NoUsingsRuleComplementDto(
         GetDependingPattern(),
         Pattern.WithoutExclusion(@from),
         Pattern.WithoutExclusion(to)
@@ -200,12 +200,12 @@ namespace NScanSpecification.Lib.AutomationLayer
     
     private NoCircularUsingsRuleComplementDto NoCircularUsingsRuleComplement()
     {
-      return new(GetDependingPattern());
+      return new NoCircularUsingsRuleComplementDto(GetDependingPattern());
     }
     
     private HasAttributesOnRuleComplementDto HasAttributesOnRuleComplement(string classInclusionPattern, string methodInclusionPattern)
     {
-      return new(
+      return new HasAttributesOnRuleComplementDto(
         GetDependingPattern(),
         Pattern.WithoutExclusion(classInclusionPattern),
         Pattern.WithoutExclusion(methodInclusionPattern)
@@ -214,12 +214,12 @@ namespace NScanSpecification.Lib.AutomationLayer
     
     private CorrectNamespacesRuleComplementDto CorrectNamespacesRuleComplement()
     {
-      return new(GetDependingPattern());
+      return new CorrectNamespacesRuleComplementDto(GetDependingPattern());
     }
 
     private IndependentRuleComplementDto IndependentRuleComplement(string dependencyType, string dependencyName)
     {
-      return new(
+      return new IndependentRuleComplementDto(
         dependencyType, 
         GetDependingPattern(),
         new Glob(dependencyName));

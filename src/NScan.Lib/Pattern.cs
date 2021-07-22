@@ -20,14 +20,14 @@ namespace NScan.Lib
 
     public static Pattern WithoutExclusion(string pattern)
     {
-      return new(
+      return new Pattern(
         pattern ?? throw new ArgumentNullException(nameof(pattern)), 
         Maybe<string>.Nothing);
     }
 
     public static Pattern WithExclusion(string inclusionPattern, string exclusionPattern)
     {
-      return new(
+      return new Pattern(
         inclusionPattern ?? throw new ArgumentNullException(nameof(inclusionPattern)),
         exclusionPattern.Just()
         );

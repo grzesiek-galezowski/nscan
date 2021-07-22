@@ -193,7 +193,7 @@ namespace NScanSpecification.Domain.Root
   {
     public SourceCodeFile Build()
     {
-      return new(RuleViolationFactory, DeclaredNamespaces,
+      return new SourceCodeFile(RuleViolationFactory, DeclaredNamespaces,
         ParentProjectAssemblyName, ParentProjectRootNamespace, PathRelativeToProjectRoot,
         Classes);
     }
@@ -216,7 +216,7 @@ namespace NScanSpecification.Domain.Root
   {
     public static List<T> AsList<T>(this T item)
     {
-      return new() { item };
+      return new List<T> { item };
     }
   }
 }

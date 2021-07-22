@@ -14,12 +14,12 @@ namespace NScan.SharedKernel.RuleDtos.NamespaceBased
 
     public static NamespaceBasedRuleUnionDto With(NoCircularUsingsRuleComplementDto dto)
     {
-      return new(dto);
+      return new NamespaceBasedRuleUnionDto(dto);
     }
 
     public static NamespaceBasedRuleUnionDto With(NoUsingsRuleComplementDto dto)
     {
-      return new(dto);
+      return new NamespaceBasedRuleUnionDto(dto);
     }
 
     public string RuleName => Accept(_ruleNameExtractionVisitor);
