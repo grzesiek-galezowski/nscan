@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using NScanSpecification.E2E.AutomationLayer;
 using NScanSpecification.Lib.AutomationLayer;
 using TddXt.AnyRoot.Strings;
@@ -10,23 +9,15 @@ using static NScanSpecification.Lib.AutomationLayer.RuleBuilder;
 
 namespace NScanSpecification.E2E
 {
-  [SuppressMessage("ReSharper", "TestFileNameWarning")]
-  public class IndependentOfProjectRuleFeatureSpecification
+  public record IndependentOfProjectRuleFeatureSpecification(ITestOutputHelper Output)
   {
-    private readonly ITestOutputHelper _output;
-
-    public IndependentOfProjectRuleFeatureSpecification(ITestOutputHelper output)
-    {
-      _output = output;
-    }
-
     [Fact]
     public async Task ShouldReportSuccessWhenNoProjectHasSpecifiedAssemblyReference()
     {
       //GIVEN
       var projectName = Any.String();
       var assemblyName = Any.String();
-      using var context = new NScanE2EDriver(_output);
+      using var context = new NScanE2EDriver(Output);
       context.HasProject(projectName);
 
       context.Add(RuleDemandingThat().Project(projectName).IndependentOfProject(assemblyName));
@@ -46,7 +37,7 @@ namespace NScanSpecification.E2E
       //GIVEN
       var projectName = Any.String();
       var dependencyProjectName = Any.String();
-      using var context = new NScanE2EDriver(_output);
+      using var context = new NScanE2EDriver(Output);
       context.HasProject(dependencyProjectName);
       context.HasProject(projectName).WithAssemblyReferences(dependencyProjectName);
 

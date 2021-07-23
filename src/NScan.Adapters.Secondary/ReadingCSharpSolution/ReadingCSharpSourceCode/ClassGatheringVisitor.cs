@@ -29,15 +29,19 @@ namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingCSharpSourceCode
       var className = node.Identifier.ValueText + GenericParameters(node);
       var currentNamespace = Maybe<string>.Nothing;
       var currentParent = (CSharpSyntaxNode)node.Parent.OrThrow();
-      while (!(currentParent is CompilationUnitSyntax))
+      while (currentParent is not CompilationUnitSyntax)
       {
-        if (currentParent is NamespaceDeclarationSyntax enclosingNamespace)
+        switch (currentParent)
         {
-          currentNamespace = currentNamespace.Select(n => enclosingNamespace.Name + "." + n).OrElse(() => enclosingNamespace.Name.ToString()).Just();
-        }
-        else if (currentParent is ClassDeclarationSyntax enclosingClass)
-        {
-          className = enclosingClass.Identifier.ValueText + "." + className;
+          case NamespaceDeclarationSyntax enclosingNamespace:
+            currentNamespace = currentNamespace
+              .Select<string, string>(n => enclosingNamespace.Name + "." + n)
+              .OrElse(() => enclosingNamespace.Name.ToString())
+              .Just();
+            break;
+          case ClassDeclarationSyntax enclosingClass:
+            className = enclosingClass.Identifier.ValueText + "." + className;
+            break;
         }
 
         currentParent = (CSharpSyntaxNode)currentParent.Parent.OrThrow();
