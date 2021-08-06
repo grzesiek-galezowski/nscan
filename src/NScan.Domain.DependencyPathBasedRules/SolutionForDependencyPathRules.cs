@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NScan.SharedKernel;
 
@@ -47,14 +48,19 @@ namespace NScan.DependencyPathBasedRules
       catch (KeyNotFoundException e)
       {
         throw new ReferencedProjectNotFoundInSolutionException(
-          CouldNotFindProjectFor(referencedProjectId), e);
+          CouldNotFindProjectFor(referencedProjectId, _projectsById), e);
       }
     }
 
-    private static string CouldNotFindProjectFor(ProjectId referencedProjectId)
+    private static string CouldNotFindProjectFor(ProjectId referencedProjectId,
+      IReadOnlyDictionary<ProjectId, IDotNetProject> projectsById)
     {
-      return $"Could not find referenced project {referencedProjectId} " +
-             "probably because it was in an incompatible format and was skipped during project collection phase.";
+      return
+        $"Could not find referenced project {referencedProjectId} " +
+        "probably because it was in an incompatible format " +
+        "and was skipped during project collection phase. " +
+        "Existing project keys: " +
+        $"{string.Join(Environment.NewLine + "* ", projectsById.Keys)}";
     }
 
     public void Check(IPathRuleSet ruleSet, IAnalysisReportInProgress analysisReportInProgress)
