@@ -22,29 +22,7 @@ namespace NScan.Adapters.SecondarySpecification.ReadingCSharpSolution
       var projectFilePath = AbsoluteFilePath.Value($"{PlatformSpecificRoot()}/A.csproj");
       var referenceToProjectB = "..\\A\\B.csproj";
       var dataAccess = XmlProjectDataAccess.From(projectFilePath, 
-        new XmlProject()
-        {
-          ItemGroups = new List<XmlItemGroup>()
-          {
-            Any.Instance<XmlItemGroup>()
-              with
-              {
-                ProjectReferences = new List<XmlProjectReference>()
-                {
-                  new XmlProjectReference()
-                  {
-                    Include = referenceToProjectB
-                  }
-                }
-              }
-          },
-          PropertyGroups = new List<XmlPropertyGroup>()
-          {
-            Any.Instance<XmlPropertyGroup>()
-          },
-          AbsolutePath = projectFilePath,
-          Sdk = "net"
-        }
+        XmlProjectWith(projectFilePath, referenceToProjectB)
       );
 
       //WHEN
@@ -55,6 +33,33 @@ namespace NScan.Adapters.SecondarySpecification.ReadingCSharpSolution
       dto.ReferencedProjectIds.Should().Equal(
         ImmutableList<ProjectId>.Empty.Add(
           new ProjectId($"{PlatformSpecificRoot()}{Path.DirectorySeparatorChar}A{Path.DirectorySeparatorChar}B.csproj")));
+    }
+
+    private static XmlProject XmlProjectWith(AbsoluteFilePath projectFilePath, string referenceToProjectB)
+    {
+      return new XmlProject()
+      {
+        ItemGroups = new List<XmlItemGroup>()
+        {
+          Any.Instance<XmlItemGroup>()
+            with
+            {
+              ProjectReferences = new List<XmlProjectReference>()
+              {
+                new XmlProjectReference()
+                {
+                  Include = referenceToProjectB
+                }
+              }
+            }
+        },
+        PropertyGroups = new List<XmlPropertyGroup>()
+        {
+          Any.Instance<XmlPropertyGroup>()
+        },
+        AbsolutePath = projectFilePath,
+        Sdk = "net"
+      };
     }
 
     private static string PlatformSpecificRoot()
