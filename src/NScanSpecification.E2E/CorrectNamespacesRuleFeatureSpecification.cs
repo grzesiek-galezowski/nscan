@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Immutable;
+using System.Threading.Tasks;
 using NScanSpecification.E2E.AutomationLayer;
 using NScanSpecification.Lib.AutomationLayer;
 using Xunit;
@@ -100,6 +102,5 @@ namespace NScanSpecification.E2E
         HasCorrectNamespacesMessage.HasCorrectNamespaces("*MyProject*").Ok());
       context.ReportShouldNotContainText("lol4");
     }
-
   }
 }

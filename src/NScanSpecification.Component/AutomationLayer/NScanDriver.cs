@@ -15,13 +15,13 @@ namespace NScanSpecification.Component.AutomationLayer
   public class NScanDriver
   {
     private readonly INScanSupport _consoleSupport = ConsoleSupport.CreateInstance();
-    private readonly List<XmlProjectBuilder> _xmlProjects = new();
+    private readonly List<CSharpProjectDtoBuilder> _xmlProjects = new();
     private Analysis? _analysis;
     private readonly List<IAnalysisRule> _rules = new();
 
-    public XmlProjectBuilder HasProject(string assemblyName)
+    public CSharpProjectDtoBuilder HasProject(string assemblyName)
     {
-      var xmlProjectDsl = XmlProjectBuilder.WithAssemblyName(assemblyName);
+      var xmlProjectDsl = CSharpProjectDtoBuilder.WithAssemblyName(assemblyName);
       _xmlProjects.Add(xmlProjectDsl);
       return xmlProjectDsl;
     }

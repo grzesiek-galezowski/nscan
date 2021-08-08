@@ -128,5 +128,13 @@ namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects
         ProjectReferences()
         .Select(dto => new ProjectId(dto.FullIncludePath.ToString())).ToImmutableList());
     }
+
+    public static XmlProjectDataAccess From(AbsoluteFilePath projectFilePath, XmlProject deserializeProjectFile)
+    {
+      var xmlProjectDataAccess = new XmlProjectDataAccess(deserializeProjectFile);
+      xmlProjectDataAccess.SetAbsolutePath(projectFilePath);
+      xmlProjectDataAccess.NormalizeProjectDependencyPaths(projectFilePath);
+      return xmlProjectDataAccess;
+    }
   }
 }

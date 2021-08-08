@@ -70,10 +70,10 @@ namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects
 
     private static XmlProjectDataAccess DeserializeProjectData(AbsoluteFilePath projectFilePath)
     {
-      var xmlProjectDataAccess = new XmlProjectDataAccess(
-        DeserializeProjectFile(projectFilePath));
-      xmlProjectDataAccess.SetAbsolutePath(projectFilePath);
-      xmlProjectDataAccess.NormalizeProjectDependencyPaths(projectFilePath);
+      var deserializeProjectFile = DeserializeProjectFile(projectFilePath);
+      var xmlProjectDataAccess = XmlProjectDataAccess.From(
+        projectFilePath, 
+        deserializeProjectFile);
       return xmlProjectDataAccess;
     }
 
