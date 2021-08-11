@@ -11,7 +11,7 @@ using static TddXt.AnyRoot.Root;
 
 namespace NScanSpecification.Component.AutomationLayer
 {
-  public class XmlProjectBuilder
+  public class CSharpProjectDtoBuilder
   {
     private readonly string _assemblyName;
     private string _targetFramework;
@@ -23,7 +23,7 @@ namespace NScanSpecification.Component.AutomationLayer
     private string _rootNamespace = "";
     private ImmutableDictionary<string, string> _properties = ImmutableDictionary<string, string>.Empty;
 
-    private XmlProjectBuilder(string assemblyName)
+    private CSharpProjectDtoBuilder(string assemblyName)
     {
       _assemblyName = assemblyName;
       _targetFramework = "netcore21";
@@ -45,19 +45,19 @@ namespace NScanSpecification.Component.AutomationLayer
       _assemblyReferences.AddRange(assemblyNames.Select(an => new AssemblyReference(an, Any.String())));
     }
 
-    public XmlProjectBuilder With(SourceCodeFileDtoBuilder sourceCodeFileDtoBuilder)
+    public CSharpProjectDtoBuilder With(SourceCodeFileDtoBuilder sourceCodeFileDtoBuilder)
     {
       _sourceCodeFileBuilders.Add(sourceCodeFileDtoBuilder);
       return this;
     }
 
-    public XmlProjectBuilder WithRootNamespace(string rootNamespace)
+    public CSharpProjectDtoBuilder WithRootNamespace(string rootNamespace)
     {
       _rootNamespace = rootNamespace;
       return this;
     }
 
-    public XmlProjectBuilder WithTargetFramework(string targetFramework)
+    public CSharpProjectDtoBuilder WithTargetFramework(string targetFramework)
     {
       _targetFramework = targetFramework;
       _properties = _properties.Add("TargetFramework", _targetFramework);
@@ -69,9 +69,9 @@ namespace NScanSpecification.Component.AutomationLayer
       return AbsoluteFilePath(@"C:\" + assemblyName + ".cs");
     }
 
-    public static XmlProjectBuilder WithAssemblyName(string assemblyName)
+    public static CSharpProjectDtoBuilder WithAssemblyName(string assemblyName)
     {
-      return new XmlProjectBuilder(assemblyName);
+      return new CSharpProjectDtoBuilder(assemblyName);
     }
 
     public CsharpProjectDto BuildCsharpProjectDto()

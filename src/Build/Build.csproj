@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <WarningsAsErrors>nullable</WarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AtmaFileSystem" Version="4.8.0" />
+    <PackageReference Include="Bullseye" Version="3.7.1" />
+    <PackageReference Include="FluentAssertions" Version="5.10.3" />
+    <PackageReference Include="NScan" Version="0.72.0" />
+    <PackageReference Include="NScan.Adapters.Secondary" Version="0.72.0" />
+    <PackageReference Include="SimpleExec" Version="8.0.0" />
+  </ItemGroup>
+
+</Project>
