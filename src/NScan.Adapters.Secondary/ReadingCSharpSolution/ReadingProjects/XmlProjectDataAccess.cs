@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.IO;
 using System.Linq;
 using AtmaFileSystem;
 using Functional.Maybe;
@@ -104,8 +105,14 @@ namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects
       foreach (var projectReference in ProjectReferences())
       {
         projectReference.FullIncludePath = 
-          projectFileAbsolutePath.ParentDirectory() + RelativeFilePath(projectReference.Include);
+          projectFileAbsolutePath.ParentDirectory() + RelativeFilePath(
+            TransformDirectorySeparatorsToPlatformSpecificOnes(projectReference.Include));
       }
+    }
+
+    private static string TransformDirectorySeparatorsToPlatformSpecificOnes(string projectReferenceInclude)
+    {
+      return projectReferenceInclude.Replace('\\', Path.DirectorySeparatorChar);
     }
 
     public void SetAbsolutePath(AbsoluteFilePath projectFilePath)
