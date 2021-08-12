@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.IO;
 using System.Linq;
 using AtmaFileSystem;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingSolution.Ports;
+using NScanSpecification.Lib;
 using NScanSpecification.Lib.AutomationLayer;
 using TddXt.AnyRoot.Strings;
 using static AtmaFileSystem.AtmaFileSystemPaths;
@@ -66,7 +68,11 @@ namespace NScanSpecification.Component.AutomationLayer
 
     private static AbsoluteFilePath AbsolutePathTo(string assemblyName)
     {
-      return AbsoluteFilePath(@"C:\" + assemblyName + ".cs");
+      return AbsoluteFilePath(
+        FileSystemRoot.PlatformSpecificValue() + 
+        Path.DirectorySeparatorChar + 
+        assemblyName + 
+        ".cs");
     }
 
     public static CSharpProjectDtoBuilder WithAssemblyName(string assemblyName)

@@ -8,6 +8,7 @@ using FluentAssertions;
 using NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingSolution.Ports;
+using NScanSpecification.Lib;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
@@ -20,7 +21,7 @@ namespace NScan.Adapters.SecondarySpecification.ReadingCSharpSolution
     {
       //GIVEN
       var projectFilePath = AbsoluteFilePath.Value(
-        $"{PlatformSpecificRoot()}{Path.DirectorySeparatorChar}A{Path.DirectorySeparatorChar}A.csproj");
+        $"{FileSystemRoot.PlatformSpecificValue()}{Path.DirectorySeparatorChar}A{Path.DirectorySeparatorChar}A.csproj");
       var referenceToProjectB = "..\\B\\B.csproj";
       var dataAccess = XmlProjectDataAccess.From(projectFilePath, 
         XmlProjectWith(projectFilePath, referenceToProjectB)
@@ -33,7 +34,7 @@ namespace NScan.Adapters.SecondarySpecification.ReadingCSharpSolution
       dto.ReferencedProjectIds.Should().HaveCount(1);
       dto.ReferencedProjectIds.Should().Equal(
         ImmutableList<ProjectId>.Empty.Add(
-          new ProjectId($"{PlatformSpecificRoot()}{Path.DirectorySeparatorChar}B{Path.DirectorySeparatorChar}B.csproj")));
+          new ProjectId($"{FileSystemRoot.PlatformSpecificValue()}{Path.DirectorySeparatorChar}B{Path.DirectorySeparatorChar}B.csproj")));
     }
 
     private static XmlProject XmlProjectWith(AbsoluteFilePath projectFilePath, string referenceToProjectB)
@@ -61,18 +62,6 @@ namespace NScan.Adapters.SecondarySpecification.ReadingCSharpSolution
         AbsolutePath = projectFilePath,
         Sdk = "net"
       };
-    }
-
-    private static string PlatformSpecificRoot()
-    {
-      if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-      {
-        return "C:";
-      }
-      else
-      {
-        return "/Root";
-      }
     }
   }
 }
