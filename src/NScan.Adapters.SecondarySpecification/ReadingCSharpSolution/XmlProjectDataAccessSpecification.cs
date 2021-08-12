@@ -19,8 +19,9 @@ namespace NScan.Adapters.SecondarySpecification.ReadingCSharpSolution
     public void ShouldCorrectlyResolveAbsolutePathsOfReferencedProjects()
     {
       //GIVEN
-      var projectFilePath = AbsoluteFilePath.Value($"{PlatformSpecificRoot()}/A.csproj");
-      var referenceToProjectB = "..\\A\\B.csproj";
+      var projectFilePath = AbsoluteFilePath.Value(
+        $"{PlatformSpecificRoot()}{Path.DirectorySeparatorChar}A{Path.DirectorySeparatorChar}A.csproj");
+      var referenceToProjectB = "..\\B\\B.csproj";
       var dataAccess = XmlProjectDataAccess.From(projectFilePath, 
         XmlProjectWith(projectFilePath, referenceToProjectB)
       );
@@ -32,7 +33,7 @@ namespace NScan.Adapters.SecondarySpecification.ReadingCSharpSolution
       dto.ReferencedProjectIds.Should().HaveCount(1);
       dto.ReferencedProjectIds.Should().Equal(
         ImmutableList<ProjectId>.Empty.Add(
-          new ProjectId($"{PlatformSpecificRoot()}{Path.DirectorySeparatorChar}A{Path.DirectorySeparatorChar}B.csproj")));
+          new ProjectId($"{PlatformSpecificRoot()}{Path.DirectorySeparatorChar}B{Path.DirectorySeparatorChar}B.csproj")));
     }
 
     private static XmlProject XmlProjectWith(AbsoluteFilePath projectFilePath, string referenceToProjectB)
