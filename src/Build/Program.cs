@@ -32,6 +32,26 @@ var nugetPath = root.AddDirectoryName("nuget");
 //////////////////////////////////////////////////////////////////////
 // HELPER FUNCTIONS
 //////////////////////////////////////////////////////////////////////
+void Build(AbsoluteDirectoryPath outputPath, DirectoryName workingDirectoryLastSegment)
+{
+  Run($"dotnet",
+    "build " +
+    $"-c {configuration} " +
+    $"-p:VersionPrefix={version}",
+    workingDirectory: (srcDir + workingDirectoryLastSegment).ToString());
+}
+
+void Test(AbsoluteDirectoryPath workingDirectory)
+{
+  Run($"dotnet",
+    "test" +
+    //$" --no-build" +
+    $" -c {configuration}" +
+    //$" -o {buildDir}" +
+    $" -p:VersionPrefix={version}",
+    workingDirectory: workingDirectory.ToString());
+}
+
 void Pack(AbsoluteDirectoryPath outputPath, AbsoluteDirectoryPath rootSourceDir, string projectName)
 {
   Run("dotnet",
@@ -102,27 +122,6 @@ Target("RunE2ETests", DependsOn("BuildNScanConsole", "RunNScanUnitTests"), () =>
 {
   Test(srcNetStandardDir.AddDirectoryName("NScanSpecification.E2E"));
 });
-
-void Build(AbsoluteDirectoryPath outputPath, DirectoryName workingDirectoryLastSegment)
-{
-  Run($"dotnet",
-    "build " +
-    $"-c {configuration} " +
-    $"-o {outputPath} " +
-    $"-p:VersionPrefix={version}",
-    workingDirectory: (srcDir + workingDirectoryLastSegment).ToString());
-}
-
-void Test(AbsoluteDirectoryPath workingDirectory)
-{
-  Run($"dotnet",
-    "test" +
-    $" --no-build" +
-    $" -c {configuration}" +
-    //$" -o {buildDir}" +
-    $" -p:VersionPrefix={version}",
-    workingDirectory: workingDirectory.ToString());
-}
 
 Target("PackNScan", DependsOn("BuildNScan", "RunE2ETests"), () =>
 {
