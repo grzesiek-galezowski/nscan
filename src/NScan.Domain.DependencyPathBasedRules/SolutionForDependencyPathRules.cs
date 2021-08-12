@@ -55,12 +55,13 @@ namespace NScan.DependencyPathBasedRules
     private static string CouldNotFindProjectFor(ProjectId referencedProjectId,
       IReadOnlyDictionary<ProjectId, IDotNetProject> projectsById)
     {
+      const string dotString = "* ";
       return
         $"Could not find referenced project {referencedProjectId} " +
         "probably because it was in an incompatible format " +
         "and was skipped during project collection phase. " +
         "Existing project keys: " +
-        $"{string.Join(Environment.NewLine + "* ", projectsById.Keys)}";
+        dotString + $"{string.Join(Environment.NewLine + dotString, projectsById.Keys)}";
     }
 
     public void Check(IPathRuleSet ruleSet, IAnalysisReportInProgress analysisReportInProgress)
