@@ -70,7 +70,7 @@ namespace NScan.Adapters.SecondarySpecification.ReadingCSharpSolution
       }
       else
       {
-        return "Root";
+        return "/Root";
       }
     }
   }
