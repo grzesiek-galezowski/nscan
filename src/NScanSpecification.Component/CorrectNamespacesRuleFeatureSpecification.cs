@@ -1,4 +1,5 @@
-﻿using NScanSpecification.Component.AutomationLayer;
+﻿using System.IO;
+using NScanSpecification.Component.AutomationLayer;
 using NScanSpecification.Lib.AutomationLayer;
 using Xunit;
 using static NScanSpecification.Lib.AutomationLayer.SourceCodeFileDtoBuilder;
@@ -112,8 +113,8 @@ namespace NScanSpecification.Component
       var context = new NScanDriver();
       context.HasProject("MyProject")
         .WithRootNamespace("MyProject")
-        .With(FileWithNamespace("Domain\\lol4.cs", "MyProject.Domain"))
-        .With(FileWithNamespace("Domain\\lol5.cs", "MyProject"));
+        .With(FileWithNamespace($"Domain{Path.DirectorySeparatorChar}lol4.cs", "MyProject.Domain"))
+        .With(FileWithNamespace($"Domain{Path.DirectorySeparatorChar}lol5.cs", "MyProject"));
       context.Add(RuleDemandingThat().Project("*MyProject*").HasCorrectNamespaces());
 
       //WHEN
@@ -123,7 +124,7 @@ namespace NScanSpecification.Component
       context.ReportShouldContain(HasCorrectNamespacesMessage
         .HasCorrectNamespaces("*MyProject*").Error()
         .ExpectedNamespace("MyProject", "MyProject")
-        .ButFoundIncorrectNamespaceFor("Domain\\lol5.cs", "MyProject"));
+        .ButFoundIncorrectNamespaceFor($"Domain{Path.DirectorySeparatorChar}lol5.cs", "MyProject"));
       context.ReportShouldNotContainText("lol4");
     }
 
