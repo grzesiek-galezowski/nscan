@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Immutable;
+﻿using System.IO;
 using System.Threading.Tasks;
 using NScanSpecification.E2E.AutomationLayer;
 using NScanSpecification.Lib.AutomationLayer;
@@ -10,20 +9,13 @@ using static NScanSpecification.Lib.AutomationLayer.SourceCodeFileDtoBuilder;
 
 namespace NScanSpecification.E2E
 {
-  public class CorrectNamespacesRuleFeatureSpecification
+  public record CorrectNamespacesRuleFeatureSpecification(ITestOutputHelper Output)
   {
-    private readonly ITestOutputHelper _output;
-
-    public CorrectNamespacesRuleFeatureSpecification(ITestOutputHelper output)
-    {
-      _output = output;
-    }
-
     [Fact]
     public async Task ShouldNotReportErrorWhenMultipleFilesOfSingleProjectAreInCorrectNamespace()
     {
       //GIVEN
-      using var context = new NScanE2EDriver(_output);
+      using var context = new NScanE2EDriver(Output);
       context.HasProject("MyProject")
         .WithRootNamespace("MyProject")
         .With(FileWithNamespace("lol1.cs", "MyProject"))
@@ -42,7 +34,7 @@ namespace NScanSpecification.E2E
       ShouldReportErrorWhenMultipleFilesOfSingleProjectAreInWrongNamespaceEvenThoughSomeAreInTheRightOne()
     {
       //GIVEN
-      using var context = new NScanE2EDriver(_output);
+      using var context = new NScanE2EDriver(Output);
       context.HasProject("MyProject")
         .WithRootNamespace("MyProject")
         .With(FileWithNamespace("lol1.cs", "WrongNamespace"))
@@ -66,11 +58,11 @@ namespace NScanSpecification.E2E
       ShouldReportErrorWhenMultipleNestedFilesOfSingleProjectAreInWrongNamespaceEvenThoughSomeAreInTheRightOne()
     {
       //GIVEN
-      using var context = new NScanE2EDriver(_output);
+      using var context = new NScanE2EDriver(Output);
       context.HasProject("MyProject")
         .WithRootNamespace("MyProject")
-        .With(FileWithNamespace("Domain\\lol4.cs", "MyProject.Domain"))
-        .With(FileWithNamespace("Domain\\lol5.cs", "MyProject"));
+        .With(FileWithNamespace($"Domain{Path.DirectorySeparatorChar}lol4.cs", "MyProject.Domain"))
+        .With(FileWithNamespace($"Domain{Path.DirectorySeparatorChar}lol5.cs", "MyProject"));
       context.Add(RuleDemandingThat().Project("*MyProject*").HasCorrectNamespaces());
 
       //WHEN
@@ -80,7 +72,7 @@ namespace NScanSpecification.E2E
       context.ReportShouldContain(
         HasCorrectNamespacesMessage.HasCorrectNamespaces("*MyProject*").Error()
           .ExpectedNamespace("MyProject", "MyProject")
-          .ButFoundIncorrectNamespaceFor("Domain\\lol5.cs", "MyProject"));
+          .ButFoundIncorrectNamespaceFor($"Domain{Path.DirectorySeparatorChar}lol5.cs", "MyProject"));
       context.ReportShouldNotContainText("lol4");
     }
 
@@ -88,10 +80,10 @@ namespace NScanSpecification.E2E
     public async Task ShouldIgnoreObjFolderWhenCheckingProjectScopedRule()
     {
       //GIVEN
-      using var context = new NScanE2EDriver(_output);
+      using var context = new NScanE2EDriver(Output);
       context.HasProject("MyProject")
         .WithRootNamespace("MyProject")
-        .With(FileWithNamespace("obj\\lol4.cs", "Trolololo"));
+        .With(FileWithNamespace($"obj{Path.DirectorySeparatorChar}lol4.cs", "Trolololo"));
       context.Add(RuleDemandingThat().Project("*MyProject*").HasCorrectNamespaces());
 
       //WHEN

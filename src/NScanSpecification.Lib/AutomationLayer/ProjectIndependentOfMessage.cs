@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using static System.Environment;
 
 namespace NScanSpecification.Lib.AutomationLayer
@@ -14,10 +15,9 @@ namespace NScanSpecification.Lib.AutomationLayer
       return NewInstance(this + NewLine + "Violating path: " + StringFrom(path));
     }
 
-    private static string StringFrom(string[] path)
+    private static string StringFrom(IEnumerable<string> path)
     {
-      return string.Join("->",
-        Enumerable.Select(path, c => $"[{c}]"));
+      return string.Join("->", path.Select(c => $"[{c}]"));
     }
 
     protected override ProjectIndependentOfMessage NewInstance(string str)

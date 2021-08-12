@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
-using System.Runtime.InteropServices;
 using AtmaFileSystem;
 using FluentAssertions;
 using NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects;
 using NScan.SharedKernel;
-using NScan.SharedKernel.ReadingSolution.Ports;
 using NScanSpecification.Lib;
 using Xunit;
 using static TddXt.AnyRoot.Root;
