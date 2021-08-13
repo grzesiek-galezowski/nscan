@@ -25,10 +25,10 @@ namespace NScanSpecification.E2E.AutomationLayer
 
     private async Task AddReferenceAsync((string dependent, string dependency) obj)
     {
-      ProcessAssertions.AssertSuccess(await _dotNetExe.RunWith("add " +
-                                                        $"{obj.dependent} " +
-                                                        "reference " +
-                                                        $"{obj.dependency}"));
+      await _dotNetExe.RunWith("add " +
+                               $"{obj.dependent} " +
+                               "reference " +
+                               $"{obj.dependency}");
     }
 
     public void AddToProjects()

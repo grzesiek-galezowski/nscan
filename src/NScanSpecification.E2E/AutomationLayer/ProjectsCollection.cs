@@ -24,9 +24,8 @@ namespace NScanSpecification.E2E.AutomationLayer
 
     public async Task AddToSolutionAsync(string solutionName)
     {
-      ProcessAssertions.AssertSuccess(
-        await _dotNetExe.RunWith(
-          $"sln {solutionName}.sln add {string.Join(" ", _projects.Select(p => p.ProjectName))}"));
+      await _dotNetExe.RunWith(
+          $"sln {solutionName}.sln add {string.Join(" ", _projects.Select(p => p.ProjectName))}");
     }
 
     public Task CreateOnDisk(SolutionDir solutionDir, DotNetExe dotNetExe)
@@ -41,8 +40,7 @@ namespace NScanSpecification.E2E.AutomationLayer
     private static async Task CreateProject(DotNetExe dotNetExe, string projectName, AbsoluteDirectoryPath projectDirPath,
       string targetFramework)
     {
-      ProcessAssertions.AssertSuccess(
-        await dotNetExe.RunWith($"new classlib --name {projectName} -f {targetFramework}"));
+      await dotNetExe.RunWith($"new classlib --name {projectName} -f {targetFramework}");
       RemoveDefaultFileCreatedByTemplate(projectDirPath);
     }
 

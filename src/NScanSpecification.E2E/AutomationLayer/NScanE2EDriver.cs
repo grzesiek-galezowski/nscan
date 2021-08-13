@@ -121,7 +121,7 @@ namespace NScanSpecification.E2E.AutomationLayer
 
     private async Task CreateSolution()
     {
-      ProcessAssertions.AssertSuccess(await _dotNetExe.RunWith($"new sln --name {_solutionName}"));
+      await _dotNetExe.RunWith($"new sln --name {_solutionName}");
     }
 
     public void ReportShouldContain(ReportedMessage reportedMessage)

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using AtmaFileSystem;
 using RunProcessAsTask;
+using SimpleExec;
 
 namespace NScanSpecification.E2E.AutomationLayer
 {
@@ -16,22 +17,16 @@ namespace NScanSpecification.E2E.AutomationLayer
       _testSupport = testSupport;
     }
 
-    public async Task<ProcessResults> RunWith(string arguments)
+    public async Task RunWith(string arguments)
     {
       _workingDirectory.AssertExists();
       _testSupport.RunningDotnetExeWith(arguments, _workingDirectory);
-      return await RunWith(arguments, _workingDirectory.FullName());
+      await RunWith(arguments, _workingDirectory.FullName());
     }
 
-    public static async Task<ProcessResults> RunWith(string arguments, AbsoluteDirectoryPath workingDirectory)
+    public static async Task RunWith(string arguments, AbsoluteDirectoryPath workingDirectory)
     {
-      var processInfo = await ProcessEx.RunAsync(
-        new ProcessStartInfo("dotnet.exe", arguments)
-        {
-          WorkingDirectory = workingDirectory.ToString(),
-        }).ConfigureAwait(false);
-
-      return processInfo;
+      await Command.RunAsync("dotnet.exe", arguments, workingDirectory: workingDirectory.ToString());
     }
   }
 }

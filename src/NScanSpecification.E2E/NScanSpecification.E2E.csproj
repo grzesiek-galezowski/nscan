@@ -25,6 +25,7 @@
     <PackageReference Include="NSubstitute" Version="4.2.2" />
     <PackageReference Include="NSubstitute.Analyzers.CSharp" Version="1.0.14" />
     <PackageReference Include="RunProcessAsTask" Version="1.2.4" />
+    <PackageReference Include="SimpleExec" Version="8.0.0" />
     <PackageReference Include="TddXt.Any.Extensibility" Version="6.3.1" />
     <PackageReference Include="XFluentAssert" Version="6.0.0" />
     <PackageReference Include="XNSubstitute" Version="1.1.0" />
