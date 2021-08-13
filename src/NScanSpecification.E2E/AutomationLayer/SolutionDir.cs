@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using AtmaFileSystem;
+using AtmaFileSystem.IO;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using static AtmaFileSystem.AtmaFileSystemPaths;
 using AbsoluteDirectoryPath = AtmaFileSystem.AbsoluteDirectoryPath;
@@ -50,6 +52,23 @@ namespace NScanSpecification.E2E.AutomationLayer
     public AbsoluteDirectoryPath PathToProject(string projectName)
     {
       return _absoluteSolutionDirectoryPath + DirectoryName(projectName);
+    }
+
+    public void AssertExists()
+    {
+      if (!_absoluteSolutionDirectoryPath.Exists())
+      {
+        throw new SolutionPathDoesNotExistException(_absoluteSolutionDirectoryPath);
+      }
+    }
+  }
+
+  public class SolutionPathDoesNotExistException : Exception
+  {
+    public SolutionPathDoesNotExistException(AbsoluteDirectoryPath absoluteSolutionDirectoryPath)
+    : base($"Solution path {absoluteSolutionDirectoryPath} does not exist")
+    {
+      
     }
   }
 }
