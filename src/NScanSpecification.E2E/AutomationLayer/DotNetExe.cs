@@ -26,7 +26,7 @@ namespace NScanSpecification.E2E.AutomationLayer
 
     public static async Task RunWith(string arguments, AbsoluteDirectoryPath workingDirectory)
     {
-      await Command.RunAsync("dotnet.exe", arguments, workingDirectory: workingDirectory.ToString());
+      await Command.RunAsync("dotnet", arguments, workingDirectory.ToString());
     }
   }
 }
