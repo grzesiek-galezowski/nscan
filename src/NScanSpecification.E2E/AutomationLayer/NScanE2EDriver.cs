@@ -5,6 +5,7 @@ using AtmaFileSystem;
 using AtmaFileSystem.IO;
 using FluentAssertions;
 using NScanSpecification.Lib.AutomationLayer;
+using SimpleExec;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Console;
 using Xunit.Abstractions;
@@ -31,6 +32,8 @@ namespace NScanSpecification.E2E.AutomationLayer
 
     public NScanE2EDriver(ITestOutputHelper output)
     {
+      Command.Run("dotnet", "--version");
+
       ITestSupport testSupport = new ConsoleXUnitTestSupport(output);
       _fixtureSolutionDir = RelevantPaths.CreateHomeForFixtureSolution(_solutionName);
       _fullFixtureSolutionPath = _fixtureSolutionDir.SolutionFilePath();
