@@ -64,8 +64,8 @@ namespace NScanSpecification.Domain.NamespaceBasedRules
     {
       //GIVEN
       var cache = new NamespacesDependenciesCache();
-      var namespace1 = Any.Instance<NamespaceName>();
-      var namespace2 = Any.Instance<NamespaceName>();
+      var namespace1 = new NamespaceName("a");
+      var namespace2 = new NamespaceName("b");
 
       cache.AddMapping(namespace1, namespace2);
       cache.AddMapping(namespace2, namespace1);

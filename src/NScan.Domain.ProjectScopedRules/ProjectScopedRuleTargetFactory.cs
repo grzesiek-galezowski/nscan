@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
 using NScan.SharedKernel.ReadingSolution.Ports;
@@ -27,9 +28,11 @@ namespace NScan.ProjectScopedRules
         .ToList();
     }
 
-    private List<SourceCodeFile> SourceCodeFiles(CsharpProjectDto projectDataAccess)
+    private IReadOnlyList<SourceCodeFile> SourceCodeFiles(CsharpProjectDto projectDataAccess)
     {
-      return projectDataAccess.SourceCodeFiles.Select(ToSourceCodeFile).ToList();
+      return projectDataAccess.SourceCodeFiles
+        .OrderBy(dto => dto.PathRelativeToProjectRoot)
+        .Select(ToSourceCodeFile).ToList();
     }
 
     private SourceCodeFile ToSourceCodeFile(SourceCodeFileDto scf)
