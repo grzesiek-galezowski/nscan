@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using AtmaFileSystem;
 using RunProcessAsTask;
@@ -26,7 +27,29 @@ namespace NScanSpecification.E2E.AutomationLayer
 
     public static async Task RunWith(string arguments, AbsoluteDirectoryPath workingDirectory)
     {
-      await Command.RunAsync("dotnet", arguments, workingDirectory.ToString());
+      try
+      {
+        await Command.RunAsync("dotnet", arguments, workingDirectory.ToString());
+      }
+      catch (ExitCodeException e)
+      {
+        throw new DotNetExeFailedException(arguments, workingDirectory, e.ExitCode, e);
+      }
+    }
+  }
+
+  public class DotNetExeFailedException : Exception
+  {
+    public DotNetExeFailedException(
+      string arguments, 
+      AbsoluteDirectoryPath workingDirectory, 
+      int exitCode, 
+      Exception innerException)
+    : base($"Running dotnet with arguments {arguments} " +
+           $"in directory {workingDirectory} " +
+           $"failed with code {exitCode}", innerException)
+    {
+      
     }
   }
 }
