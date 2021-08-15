@@ -13,7 +13,8 @@ namespace NScan.NamespaceBasedRules
       _reportFragmentsFormat = reportFragmentsFormat;
     }
 
-    public RuleViolation NoCyclesRuleViolation(string ruleDescription,
+    public RuleViolation NoCyclesRuleViolation(
+      string ruleDescription,
       string projectAssemblyName,
       IReadOnlyList<NamespaceDependencyPath> cycles)
     {

@@ -43,7 +43,6 @@ namespace NScanSpecification.Component
 
       //THEN
       context.ReportShouldContain(HasNoCircularUsingsMessage.HasNoCircularUsings("*MyProject*").Ok());
-
     }
 
     [Fact]

@@ -54,7 +54,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScan.DependencyPathBasedRu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScan.LibSpecification", "NScan.LibSpecification\NScan.LibSpecification.csproj", "{1D21BC20-9F06-40A0-B79E-E059B5FB53E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Build", "Build\Build.csproj", "{F4132AD9-EF24-4F60-9E88-7B9A1EF42800}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Build", "Build\Build.csproj", "{F4132AD9-EF24-4F60-9E88-7B9A1EF42800}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScan.NamespaceBasedRulesSpecification", "NScan.NamespaceBasedRulesSpecification\NScan.NamespaceBasedRulesSpecification.csproj", "{D8303673-3919-46DB-9CFB-3CE9DD880E37}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -138,6 +140,10 @@ Global
 		{F4132AD9-EF24-4F60-9E88-7B9A1EF42800}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4132AD9-EF24-4F60-9E88-7B9A1EF42800}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4132AD9-EF24-4F60-9E88-7B9A1EF42800}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8303673-3919-46DB-9CFB-3CE9DD880E37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8303673-3919-46DB-9CFB-3CE9DD880E37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8303673-3919-46DB-9CFB-3CE9DD880E37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8303673-3919-46DB-9CFB-3CE9DD880E37}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

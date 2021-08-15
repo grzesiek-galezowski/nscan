@@ -84,13 +84,13 @@ namespace NScanSpecification.Domain.NamespaceBasedRules
     }
 
     [Fact]
-    public void ShouldBeAbleToRetrieveSingleIndirectCycle()
+    public void ShouldBeAbleToRetrieveSingleIndirectCycleTakingOrderIntoAccount()
     {
       //GIVEN
       var cache = new NamespacesDependenciesCache();
-      var namespace1 = Any.Instance<NamespaceName>();
-      var namespace2 = Any.Instance<NamespaceName>();
-      var namespace3 = Any.Instance<NamespaceName>();
+      var namespace1 = new NamespaceName("a");
+      var namespace2 = new NamespaceName("b");
+      var namespace3 = new NamespaceName("c");
 
       cache.AddMapping(namespace1, namespace2);
       cache.AddMapping(namespace2, namespace3);
@@ -109,14 +109,14 @@ namespace NScanSpecification.Domain.NamespaceBasedRules
     }
 
     [Fact]
-    public void ShouldBeAbleToRetrieveMultipleIndirectCycle()
+    public void ShouldBeAbleToRetrieveMultipleIndirectCycleTakingOrderIntoAccount()
     {
       //GIVEN
       var cache = new NamespacesDependenciesCache();
-      var namespace1 = Any.Instance<NamespaceName>();
-      var namespace2 = Any.Instance<NamespaceName>();
-      var namespace3 = Any.Instance<NamespaceName>();
-      var namespace4 = Any.Instance<NamespaceName>();
+      var namespace1 = new NamespaceName("a");
+      var namespace2 = new NamespaceName("b");
+      var namespace3 = new NamespaceName("c");
+      var namespace4 = new NamespaceName("d");
 
       cache.AddMapping(namespace1, namespace2);
       cache.AddMapping(namespace2, namespace1);
@@ -130,14 +130,14 @@ namespace NScanSpecification.Domain.NamespaceBasedRules
 
       //THEN
       cycles[0].Should().Be(NamespaceDependencyPath.With(
-        namespace1,
-        namespace2,
-        namespace1
+      namespace1,
+      namespace2,
+      namespace1
       ));
       cycles[1].Should().Be(NamespaceDependencyPath.With(
-        namespace1, 
-        namespace3, 
-        namespace4, 
+        namespace1,
+        namespace3,
+        namespace4,
         namespace1
       ));
       cycles.Should().HaveCount(2);
