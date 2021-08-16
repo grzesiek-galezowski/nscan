@@ -63,14 +63,6 @@ namespace NScanSpecification.E2E.AutomationLayer
         throw new SolutionPathDoesNotExistException(_absoluteSolutionDirectoryPath);
       }
     }
-
-    public void PrintPermissions()
-    {
-      if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-      {
-        Command.Run("ls", "-alR " + _absoluteSolutionDirectoryPath);
-      }
-    }
   }
 
   public class SolutionPathDoesNotExistException : Exception

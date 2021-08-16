@@ -39,7 +39,7 @@ namespace NScanSpecification.E2E
     {
       //GIVEN
       using var context = new NScanE2EDriver(_output);
-      context.HasProject("MyProject").WithTargetFramework("netcoreapp3.1");
+      context.HasProject("MyProject").WithTargetFramework("net5.0");
 
       context.Add(RuleBuilder.RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netstandard2.1"));
 

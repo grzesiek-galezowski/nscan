@@ -21,7 +21,6 @@ namespace NScanSpecification.E2E.AutomationLayer
     public async Task RunWith(string arguments)
     {
       _workingDirectory.AssertExists();
-      _workingDirectory.PrintPermissions();
       _testSupport.RunningDotnetExeWith(arguments, _workingDirectory);
       await RunWith(arguments, _workingDirectory.FullName());
     }
