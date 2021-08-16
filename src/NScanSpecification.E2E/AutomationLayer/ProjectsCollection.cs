@@ -40,7 +40,7 @@ namespace NScanSpecification.E2E.AutomationLayer
     private static async Task CreateProject(DotNetExe dotNetExe, string projectName, AbsoluteDirectoryPath projectDirPath,
       string targetFramework)
     {
-      await dotNetExe.RunWith($"new classlib --name {projectName} -f {targetFramework}");
+      await dotNetExe.RunWith($"new classlib --name {projectName} -f {targetFramework} --no-restore");
       RemoveDefaultFileCreatedByTemplate(projectDirPath);
     }
 

@@ -84,9 +84,8 @@ namespace NScan.DependencyPathBasedRulesSpecification
       var segment = result.TerminatedSegmentStartingFrom(startIndex, projectPath);
 
       //THEN
-      segment.Should().BeEquivalentTo(project2, project3);
+      segment.Should().BeEquivalentTo(new []{ project2, project3 });
     }
-
 
     [Fact]
     public void ShouldNotBeAnotherProject()

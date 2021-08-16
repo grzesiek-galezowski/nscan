@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using AtmaFileSystem;
 using AtmaFileSystem.IO;
-using RunProcessAsTask;
 using SimpleExec;
 
 namespace NScanSpecification.E2E.AutomationLayer
@@ -23,6 +21,7 @@ namespace NScanSpecification.E2E.AutomationLayer
     public async Task RunWith(string arguments)
     {
       _workingDirectory.AssertExists();
+      _workingDirectory.PrintPermissions();
       _testSupport.RunningDotnetExeWith(arguments, _workingDirectory);
       await RunWith(arguments, _workingDirectory.FullName());
     }

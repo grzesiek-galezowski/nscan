@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using AtmaFileSystem;
 using AtmaFileSystem.IO;
 using NScan.SharedKernel.ReadingSolution.Ports;
+using SimpleExec;
 using static AtmaFileSystem.AtmaFileSystemPaths;
 using AbsoluteDirectoryPath = AtmaFileSystem.AbsoluteDirectoryPath;
 using DirectoryName = AtmaFileSystem.DirectoryName;
@@ -59,6 +61,14 @@ namespace NScanSpecification.E2E.AutomationLayer
       if (!_absoluteSolutionDirectoryPath.Exists())
       {
         throw new SolutionPathDoesNotExistException(_absoluteSolutionDirectoryPath);
+      }
+    }
+
+    public void PrintPermissions()
+    {
+      if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+      {
+        Command.Run("ls", "-al " + _absoluteSolutionDirectoryPath);
       }
     }
   }
