@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Text;
 using System.Threading.Tasks;
 using AtmaFileSystem;
+using AtmaFileSystem.IO;
 using RunProcessAsTask;
 using SimpleExec;
 
@@ -47,9 +49,34 @@ namespace NScanSpecification.E2E.AutomationLayer
       Exception innerException)
     : base($"Running dotnet with arguments {arguments} " +
            $"in directory {workingDirectory} " +
-           $"failed with code {exitCode}", innerException)
+           $"failed with code {exitCode}{Environment.NewLine}{ContentOf(workingDirectory)}", innerException)
     {
       
+    }
+
+    private static string ContentOf(AbsoluteDirectoryPath workingDirectory)
+    {
+      try
+      {
+        if (!workingDirectory.Exists())
+        {
+          return $"Directory {workingDirectory} does not exist";
+        }
+        else
+        {
+          var stringWithAllDirectoryEntries = new StringBuilder();
+          foreach (var entry in workingDirectory.EnumerateFileSystemEntries())
+          {
+            stringWithAllDirectoryEntries.AppendLine(entry.ToString());
+          }
+
+          return stringWithAllDirectoryEntries.ToString();
+        }
+      }
+      catch (Exception e)
+      {
+        return e.ToString();
+      }
     }
   }
 }
