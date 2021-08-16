@@ -68,7 +68,7 @@ namespace NScanSpecification.E2E.AutomationLayer
     {
       if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
       {
-        Command.Run("ls", "-al " + _absoluteSolutionDirectoryPath);
+        Command.Run("ls", "-alR " + _absoluteSolutionDirectoryPath);
       }
     }
   }
