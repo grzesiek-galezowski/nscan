@@ -21,9 +21,11 @@ namespace NScanSpecification.E2E
       //GIVEN
       using var context = new NScanE2EDriver(_output);
       context.HasProject("MyProject")
-        .WithTargetFramework("netcoreapp3.1");
+        .WithTargetFramework(TargetFramework.RecentDotNet);
           
-      context.Add(RuleBuilder.RuleDemandingThat().Project("*MyProject*").HasProperty("TargetFramework", "netcoreapp3.1"));
+      context.Add(RuleBuilder.RuleDemandingThat()
+        .Project("*MyProject*")
+        .HasProperty("TargetFramework", TargetFramework.RecentDotNet));
 
       //WHEN
       await context.PerformAnalysis();
@@ -31,7 +33,7 @@ namespace NScanSpecification.E2E
       //THEN
       context.ReportShouldContain(
         HasPropertyReportedMessage
-          .HasProperty("*MyProject*", "TargetFramework", "netcoreapp3.1").Ok());
+          .HasProperty("*MyProject*", "TargetFramework", TargetFramework.RecentDotNet).Ok());
     }
 
     [Fact]
@@ -39,7 +41,7 @@ namespace NScanSpecification.E2E
     {
       //GIVEN
       using var context = new NScanE2EDriver(_output);
-      context.HasProject("MyProject").WithTargetFramework("net5.0");
+      context.HasProject("MyProject").WithTargetFramework(TargetFramework.RecentDotNet);
 
       context.Add(RuleBuilder.RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netstandard2.1"));
 
@@ -49,7 +51,7 @@ namespace NScanSpecification.E2E
       //THEN
       context.ReportShouldContain(
         HasTargetFrameworkReportedMessage.HasFramework("*MyProject*", "netstandard2.1").Error()
-          .ProjectHasAnotherTargetFramework("MyProject", "netcoreapp3.1"));
+          .ProjectHasAnotherTargetFramework("MyProject", TargetFramework.RecentDotNet));
     }
   }
 }

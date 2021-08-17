@@ -14,18 +14,18 @@ namespace NScanSpecification.Component
       var context = new NScanDriver();
 
       context.HasProject("MyProject")
-        .WithTargetFramework("netcoreapp2.1");
+        .WithTargetFramework(TargetFramework.Default);
 
       context.Add(
         RuleDemandingThat().Project("*MyProject*")
-          .HasProperty("TargetFramework", "netcoreapp2.1"));
+          .HasProperty("TargetFramework", TargetFramework.Default));
 
       //WHEN
       context.PerformAnalysis();
 
       //THEN
       context.ReportShouldContain(
-        HasProperty("*MyProject*", "TargetFramework", "netcoreapp2.1").Ok());
+        HasProperty("*MyProject*", "TargetFramework", TargetFramework.Default).Ok());
     }
 
     [Fact]
@@ -33,7 +33,7 @@ namespace NScanSpecification.Component
     {
       //GIVEN
       var context = new NScanDriver();
-      context.HasProject("MyProject").WithTargetFramework("netcoreapp3.1");
+      context.HasProject("MyProject").WithTargetFramework(TargetFramework.Default);
     
       context.Add(RuleDemandingThat().Project("*MyProject*").HasProperty("TargetFramework", "netstandard2.1"));
     
@@ -42,7 +42,7 @@ namespace NScanSpecification.Component
     
       //THEN
       context.ReportShouldContain(HasProperty("*MyProject*", "TargetFramework", "netstandard2.1").Error()
-        .ProjectHasAnotherPropertyValue("MyProject", "TargetFramework", "netcoreapp3.1"));
+        .ProjectHasAnotherPropertyValue("MyProject", "TargetFramework", TargetFramework.Default));
     }
 
     [Fact]

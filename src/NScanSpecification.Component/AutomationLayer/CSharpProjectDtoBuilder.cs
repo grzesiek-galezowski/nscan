@@ -28,7 +28,7 @@ namespace NScanSpecification.Component.AutomationLayer
     private CSharpProjectDtoBuilder(string assemblyName)
     {
       _assemblyName = assemblyName;
-      _targetFramework = "netcore21";
+      _targetFramework = TargetFramework.Default;
       _projectId = new ProjectId(AbsolutePathTo(assemblyName).ToString());
     }
 
