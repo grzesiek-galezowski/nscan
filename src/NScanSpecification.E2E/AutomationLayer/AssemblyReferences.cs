@@ -31,9 +31,12 @@ namespace NScanSpecification.E2E.AutomationLayer
                                $"{obj.dependency}");
     }
 
-    public void AddToProjects()
+    public async Task AddToProjectsAsync() //bug add cancellationToken and remove Async suffix
     {
-      ReferencesByProjectName.ForEach(async tuple => await AddReferenceAsync(tuple));
+      foreach (var valueTuple in ReferencesByProjectName)
+      {
+        await AddReferenceAsync(valueTuple);
+      }
     }
   }
 }

@@ -32,8 +32,6 @@ namespace NScanSpecification.E2E.AutomationLayer
 
     public NScanE2EDriver(ITestOutputHelper output)
     {
-      Command.Run("dotnet", "--version");
-
       ITestSupport testSupport = new ConsoleXUnitTestSupport(output);
       _fixtureSolutionDir = RelevantPaths.CreateHomeForFixtureSolution(_solutionName);
       _fullFixtureSolutionPath = _fixtureSolutionDir.SolutionFilePath();
@@ -73,9 +71,9 @@ namespace NScanSpecification.E2E.AutomationLayer
     {
       await CreateSolution();
       await _projectsCollection.CreateOnDisk(_fixtureSolutionDir, _dotNetExe);
-      _references.AddToProjects();
+      await _references.AddToProjectsAsync();
       await _projectsCollection.AddToSolutionAsync(_solutionName);
-      _projectFiles.AddFilesToProjects();
+      await _projectFiles.AddFilesToProjectsAsync();
       await _rules.SaveIn(_fullFixtureRulesPath);
       RunAnalysis();
     }

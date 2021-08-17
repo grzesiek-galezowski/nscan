@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using NullableReferenceTypesExtensions;
 using static AtmaFileSystem.AtmaFileSystemPaths;
@@ -17,7 +18,7 @@ namespace NScanSpecification.E2E.AutomationLayer
       _filesByProject = new Dictionary<string, List<SourceCodeFileDto>>();
     }
 
-    public void AddFilesToProjects()
+    public async Task AddFilesToProjectsAsync()
     {
       foreach (var projectName in _filesByProject.Keys)
       {
@@ -31,7 +32,7 @@ namespace NScanSpecification.E2E.AutomationLayer
           }
 
           var generateFrom = SourceCodeFileText.GenerateFrom(sourceCodeFile);
-          File.WriteAllText(fileInfo.FullName, generateFrom);
+          await File.WriteAllTextAsync(fileInfo.FullName, generateFrom);
         }
       }
     }

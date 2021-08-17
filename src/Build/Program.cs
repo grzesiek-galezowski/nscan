@@ -26,7 +26,7 @@ var buildNScanConsoleDir = buildDir.AddDirectoryName(nscanConsole).AddDirectoryN
 var buildCakeNScanDir = buildDir.AddDirectoryName(cakeNscan).AddDirectoryName("netstandard2.1");
 var srcNetStandardDir = srcDir; //TODO inline
 var slnNetStandard = srcNetStandardDir.AddFileName(solutionName);
-var version = "0.72.0";
+var version = "0.74.0";
 var nugetPath = root.AddDirectoryName("nuget");
 
 //////////////////////////////////////////////////////////////////////
@@ -37,6 +37,7 @@ void Build(AbsoluteDirectoryPath outputPath, DirectoryName workingDirectoryLastS
   Run($"dotnet",
     "build " +
     $"-c {configuration} " +
+    //$" -o {buildDir} " +
     $"-p:VersionPrefix={version}",
     workingDirectory: (srcDir + workingDirectoryLastSegment).ToString());
 }
@@ -47,7 +48,7 @@ void Test(AbsoluteDirectoryPath workingDirectory)
     "test" +
     //$" --no-build" +
     $" -c {configuration}" +
-    //$" -o {buildDir}" +
+    //$" -o {buildDir} " +
     $" -p:VersionPrefix={version}",
     workingDirectory: workingDirectory.ToString());
 }
@@ -65,14 +66,19 @@ void Pack(AbsoluteDirectoryPath outputPath, AbsoluteDirectoryPath rootSourceDir,
     workingDirectory: rootSourceDir.AddDirectoryName(projectName).ToString());
 }
 
+if (!buildDir.Exists())
+{
+  buildDir.Create();
+}
+
 //////////////////////////////////////////////////////////////////////
 // TASKS
 //////////////////////////////////////////////////////////////////////
 
 Target("Clean", () =>
 {
-  buildDir.Delete(true);
-  nugetPath.Delete(true);
+  if(buildDir.Exists()) buildDir.Delete(true);
+  if(nugetPath.Exists()) nugetPath.Delete(true);
   Run($"dotnet",
     "clean " +
     $"-c {configuration} ",
@@ -123,6 +129,16 @@ Target("RunE2ETests", DependsOn("BuildNScanConsole", "RunNScanUnitTests"), () =>
   Test(srcNetStandardDir.AddDirectoryName("NScanSpecification.E2E"));
 });
 
+Target("PackNScanDependencies", DependsOn("BuildNScan", "RunE2ETests"), () =>
+{
+  Pack(nugetPath, srcNetStandardDir, "NScan.Domain.DependencyPathBasedRules");
+  Pack(nugetPath, srcNetStandardDir, "NScan.Domain.NamespaceBasedRules");
+  Pack(nugetPath, srcNetStandardDir, "NScan.Domain.ProjectScopedRules");
+  Pack(nugetPath, srcNetStandardDir, "NScan.SharedKernel");
+  Pack(nugetPath, srcNetStandardDir, "NScan.Adapters.Secondary");
+  Pack(nugetPath, srcNetStandardDir, "NScan.Lib");
+});
+
 Target("PackNScan", DependsOn("BuildNScan", "RunE2ETests"), () =>
 {
   Pack(nugetPath, srcNetStandardDir, "NScan.Main");
@@ -135,10 +151,15 @@ Target("PackNScanConsole", DependsOn("BuildNScanConsole", "RunE2ETests"), () =>
 
 Target("PackCakeNScan", DependsOn("BuildCakeNScan", "RunE2ETests"), () =>
 {
-  Pack(nugetPath, srcNetStandardDir, "NScan.Console");
+  Pack(nugetPath, srcNetStandardDir, "Cake.NScan");
 });
 
-Target("Push", DependsOn("Clean", "PackNScan", "PackNScanConsole", "PackCakeNScan"), () =>
+Target("Push", DependsOn(
+  "Clean", 
+  "PackNScanDependencies", 
+  "PackNScan", 
+  "PackNScanConsole", 
+  "PackCakeNScan"), () =>
 {
   foreach (var nupkgPath in nugetPath.GetFiles("*.nupkg"))
   {
