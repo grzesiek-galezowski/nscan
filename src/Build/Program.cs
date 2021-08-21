@@ -15,29 +15,27 @@ var nscanConsole = "nscan.console";
 var cakeNscan = "cake.nscan";
 var solutionName = "NScan.sln";
 
-// Define directories. (TODO: clean this up even more)
-var configuration = "Release";
+const string configuration = "Release";
+const string version = "0.74.0";
 var root = AbsoluteFilePath.OfThisFile().ParentDirectory(2).Value;
 var buildDir = root.AddDirectoryName("build").AddDirectoryName(configuration);
-var publishDir = root.AddDirectoryName("publish");
 var srcDir = root.AddDirectoryName("src");
-var buildNScanDir = buildDir.AddDirectoryName(nscan).AddDirectoryName("netstandard2.1");
-var buildNScanConsoleDir = buildDir.AddDirectoryName(nscanConsole).AddDirectoryName("netcoreapp3.1"); //bug
-var buildCakeNScanDir = buildDir.AddDirectoryName(cakeNscan).AddDirectoryName("netstandard2.1");
-var srcNetStandardDir = srcDir; //TODO inline
-var slnNetStandard = srcNetStandardDir.AddFileName(solutionName);
-var version = "0.74.0";
+var slnNetStandard = srcDir.AddFileName(solutionName);
 var nugetPath = root.AddDirectoryName("nuget");
+
+if (!buildDir.Exists())
+{
+  buildDir.Create();
+}
 
 //////////////////////////////////////////////////////////////////////
 // HELPER FUNCTIONS
 //////////////////////////////////////////////////////////////////////
-void Build(AbsoluteDirectoryPath outputPath, DirectoryName workingDirectoryLastSegment)
+void Build(DirectoryName workingDirectoryLastSegment)
 {
   Run($"dotnet",
     "build " +
     $"-c {configuration} " +
-    //$" -o {buildDir} " +
     $"-p:VersionPrefix={version}",
     workingDirectory: (srcDir + workingDirectoryLastSegment).ToString());
 }
@@ -46,9 +44,7 @@ void Test(AbsoluteDirectoryPath workingDirectory)
 {
   Run($"dotnet",
     "test" +
-    //$" --no-build" +
     $" -c {configuration}" +
-    //$" -o {buildDir} " +
     $" -p:VersionPrefix={version}",
     workingDirectory: workingDirectory.ToString());
 }
@@ -66,11 +62,6 @@ void Pack(AbsoluteDirectoryPath outputPath, AbsoluteDirectoryPath rootSourceDir,
     workingDirectory: rootSourceDir.AddDirectoryName(projectName).ToString());
 }
 
-if (!buildDir.Exists())
-{
-  buildDir.Create();
-}
-
 //////////////////////////////////////////////////////////////////////
 // TASKS
 //////////////////////////////////////////////////////////////////////
@@ -82,7 +73,7 @@ Target("Clean", () =>
   Run($"dotnet",
     "clean " +
     $"-c {configuration} ",
-    workingDirectory: srcNetStandardDir.ToString());
+    workingDirectory: srcDir.ToString());
 });
 
 Target("RunPreviousNScan", () =>
@@ -100,58 +91,58 @@ Target("RunPreviousNScan", () =>
 
 Target("BuildNScan", DependsOn("RunPreviousNScan"), () =>
 {
-  Build(buildNScanDir, DirectoryName.Value("NScan.Main"));
+  Build(DirectoryName.Value("NScan.Main"));
 });
 
 Target("BuildNScanConsole", () =>
 {
-  Build(buildNScanConsoleDir, DirectoryName.Value("NScan.Console"));
+  Build(DirectoryName.Value("NScan.Console"));
 });
 
 Target("BuildCakeNScan", () =>
 {
-  Build(buildCakeNScanDir, DirectoryName.Value("Cake.NScan"));
+  Build(DirectoryName.Value("Cake.NScan"));
 });
 
 Target("RunNScanUnitTests", DependsOn("BuildNScan"), () => //todo this runs integration tests as well
 {
-  var projectFiles = srcNetStandardDir.GetFiles("*Specification.csproj", SearchOption.AllDirectories);
+  var projectFiles = srcDir.GetFiles("*Specification.csproj", SearchOption.AllDirectories);
   foreach (var file in projectFiles)
   {
     Test(file.ParentDirectory());
   }
 
-  Test(srcNetStandardDir.AddDirectoryName("NScanSpecification.Component"));
+  Test(srcDir.AddDirectoryName("NScanSpecification.Component"));
 });
 
 Target("RunE2ETests", DependsOn("BuildNScanConsole", "RunNScanUnitTests"), () =>
 {
-  Test(srcNetStandardDir.AddDirectoryName("NScanSpecification.E2E"));
+  Test(srcDir.AddDirectoryName("NScanSpecification.E2E"));
 });
 
 Target("PackNScanDependencies", DependsOn("BuildNScan", "RunE2ETests"), () =>
 {
-  Pack(nugetPath, srcNetStandardDir, "NScan.Domain.DependencyPathBasedRules");
-  Pack(nugetPath, srcNetStandardDir, "NScan.Domain.NamespaceBasedRules");
-  Pack(nugetPath, srcNetStandardDir, "NScan.Domain.ProjectScopedRules");
-  Pack(nugetPath, srcNetStandardDir, "NScan.SharedKernel");
-  Pack(nugetPath, srcNetStandardDir, "NScan.Adapters.Secondary");
-  Pack(nugetPath, srcNetStandardDir, "NScan.Lib");
+  Pack(nugetPath, srcDir, "NScan.Domain.DependencyPathBasedRules");
+  Pack(nugetPath, srcDir, "NScan.Domain.NamespaceBasedRules");
+  Pack(nugetPath, srcDir, "NScan.Domain.ProjectScopedRules");
+  Pack(nugetPath, srcDir, "NScan.SharedKernel");
+  Pack(nugetPath, srcDir, "NScan.Adapters.Secondary");
+  Pack(nugetPath, srcDir, "NScan.Lib");
 });
 
 Target("PackNScan", DependsOn("BuildNScan", "RunE2ETests"), () =>
 {
-  Pack(nugetPath, srcNetStandardDir, "NScan.Main");
+  Pack(nugetPath, srcDir, "NScan.Main");
 });
 
 Target("PackNScanConsole", DependsOn("BuildNScanConsole", "RunE2ETests"), () =>
 {
-  Pack(nugetPath, srcNetStandardDir, "NScan.Console");
+  Pack(nugetPath, srcDir, "NScan.Console");
 });
 
 Target("PackCakeNScan", DependsOn("BuildCakeNScan", "RunE2ETests"), () =>
 {
-  Pack(nugetPath, srcNetStandardDir, "Cake.NScan");
+  Pack(nugetPath, srcDir, "Cake.NScan");
 });
 
 Target("Push", DependsOn(
@@ -191,19 +182,3 @@ public class ConsoleOutput : INScanOutput
     Console.WriteLine(coreVersion);
   }
 }
-
-///////////////////////////////////////////////////////////////
-
-//Task("DupFinder")
-//    .Description("Find duplicates in the code")
-//    .Does(() =>
-//{
-//    var settings = new DupFinderSettings() {
-//        ShowStats = true,
-//        ShowText = true,
-//        OutputFile = $"dupfinder.xml",
-//        ThrowExceptionOnFindingDuplicates = true,
-//		ExcludePattern = new string[] { "**/*Specification/**/*Specification.cs" }
-//    };
-//    DupFinder(slnNetStandard, settings);
-//});
