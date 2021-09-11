@@ -29,8 +29,7 @@ namespace NScanSpecification.Domain.Root
       var violation = factory.NoCyclesRuleViolation(description, projectAssemblyName, cycles);
 
       //THEN
-      violation.Should().Be(new RuleViolation(
-        description,
+      violation.Should().Be(RuleViolation.Create(description,
         $"Discovered cycle(s) in project {projectAssemblyName}:{Environment.NewLine}",
         cyclesString));
     }
@@ -52,8 +51,7 @@ namespace NScanSpecification.Domain.Root
       var violation = factory.NoUsingsRuleViolation(description, projectAssemblyName, paths);
 
       //THEN
-      violation.Should().Be(new RuleViolation(
-        description,
+      violation.Should().Be(RuleViolation.Create(description,
         $"Discovered violation(s) in project {projectAssemblyName}:{Environment.NewLine}",
         pathsString));
     }

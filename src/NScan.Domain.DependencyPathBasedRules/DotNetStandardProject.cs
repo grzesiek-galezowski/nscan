@@ -70,7 +70,7 @@ namespace NScan.DependencyPathBasedRules
     }
 
     public bool HasProjectAssemblyNameMatching(Pattern pattern) => 
-      pattern.IsMatch(_assemblyName);
+      pattern.IsMatchedBy(_assemblyName);
 
     public bool HasProjectAssemblyNameMatching(Glob glob) => glob.IsMatch(_assemblyName);
 

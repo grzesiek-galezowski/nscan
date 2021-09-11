@@ -37,15 +37,15 @@ namespace NScanSpecification.Domain.NamespaceBasedRules
         project1.Evaluate(rule1, report);
         project2.Evaluate(rule1, report);
         project3.Evaluate(rule1, report);
-        report.FinishedChecking(rule1Description);
+        report.FinishedEvaluatingRule(rule1Description);
         project1.Evaluate(rule2, report);
         project2.Evaluate(rule2, report);
         project3.Evaluate(rule2, report);
-        report.FinishedChecking(rule2Description);
+        report.FinishedEvaluatingRule(rule2Description);
         project1.Evaluate(rule3, report);
         project2.Evaluate(rule3, report);
         project3.Evaluate(rule3, report);
-        report.FinishedChecking(rule3Description);
+        report.FinishedEvaluatingRule(rule3Description);
       });
     }
   }

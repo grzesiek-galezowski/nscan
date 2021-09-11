@@ -104,5 +104,24 @@ namespace NScanSpecification.Domain.Root
       //THEN
       hasProject.Should().BeFalse();
     }
+    [Fact]
+    public void ShouldReportItsAssemblyNameToReportWhenAskedToReportThatItIsMatched()
+    {
+      //GIVEN
+      var report = Substitute.For<IAnalysisReportInProgress>();
+      var assemblyName = Any.String();
+      var project = new ProjectScopedRuleTarget(
+        assemblyName, 
+        Any.ReadOnlyList<ISourceCodeFileInNamespace>(),
+        Any.ReadOnlyDictionary<string, string>());
+
+      //WHEN
+      project.AddInfoAboutMatchingPatternTo(report);
+
+      //THEN
+      report.Received(1).StartedCheckingTarget(assemblyName);
+    }
+
+
   }
 }

@@ -34,7 +34,7 @@ namespace NScan.DependencyPathBasedRules
           report.Add(pathRuleViolation);
         }
       }
-      report.FinishedChecking(_condition.Description());
+      report.FinishedEvaluatingRule(_condition.Description());
     }
   }
 

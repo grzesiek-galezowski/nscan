@@ -39,7 +39,7 @@ namespace NScan.Lib
         .OrElse(() => _inclusionPattern);
     }
 
-    public bool IsMatch(string expected)
+    public bool IsMatchedBy(string expected)
     {
       return
         Glob.IsMatch(expected, _inclusionPattern)

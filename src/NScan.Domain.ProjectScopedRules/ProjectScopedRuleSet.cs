@@ -19,7 +19,7 @@ namespace NScan.ProjectScopedRules
         foreach (var rule in _rules)
         {
           rule.Check(target, report);
-          report.FinishedChecking(rule.ToString());
+          report.FinishedEvaluatingRule(rule.ToString());
         }
       }
     }

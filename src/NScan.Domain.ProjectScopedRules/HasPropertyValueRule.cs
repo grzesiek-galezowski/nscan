@@ -41,7 +41,7 @@ namespace NScan.ProjectScopedRules
       if (properties.ContainsKey(_propertyName))
       {
         var propertyValue = properties[_propertyName];
-        if (!_expectedPropertyValuePattern.IsMatch(propertyValue))
+        if (!_expectedPropertyValuePattern.IsMatchedBy(propertyValue))
         {
           report.Add(_violationFactory.ProjectScopedRuleViolation(
             _ruleDescription, $"Project {assemblyName} has {_propertyName}:{propertyValue}"));

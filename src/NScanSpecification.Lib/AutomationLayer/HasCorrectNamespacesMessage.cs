@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Environment;
 
 namespace NScanSpecification.Lib.AutomationLayer
 {
@@ -27,7 +28,7 @@ namespace NScanSpecification.Lib.AutomationLayer
 
     public HasCorrectNamespacesMessage ExpectedNamespace(string projectName, string rootNamespace)
     {
-      return NewInstance(ToString() + $"{Environment.NewLine}" + $"{projectName} has root namespace {rootNamespace}");
+      return NewInstance($"{ToString()}{NewLine}{projectName} has root namespace {rootNamespace}");
     }
 
     protected override HasCorrectNamespacesMessage NewInstance(string str)
@@ -40,5 +41,9 @@ namespace NScanSpecification.Lib.AutomationLayer
       return new HasCorrectNamespacesMessage(TestRuleFormats.FormatCorrectNamespacesRule(projectGlob));
     }
 
+    public HasCorrectNamespacesMessage NoProjectFoundMatching(string pattern)
+    {
+      return NewInstance($"{ToString()}{NewLine}No project found matching {pattern}");
+    }
   }
 }

@@ -3,5 +3,10 @@
     <HiddenComponentWarnings>
       <Value>CopyReferencedAssembliesToWorkspaceIsOn</Value>
     </HiddenComponentWarnings>
+    <IgnoredTests>
+      <NamedTestSelector>
+        <TestName>NScanSpecification.Component.CorrectNamespacesRuleFeatureSpecification.ShouldReportErrorWhenNoCsProjectMatchesTheWildcard</TestName>
+      </NamedTestSelector>
+    </IgnoredTests>
   </Settings>
 </ProjectConfiguration>

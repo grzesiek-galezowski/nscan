@@ -15,7 +15,7 @@ namespace NScan.LibSpecification
       var pattern = Pattern.WithoutExclusion("*a*");
 
       //WHEN
-      var result = pattern.IsMatch("abc");
+      var result = pattern.IsMatchedBy("abc");
 
       //THEN
       result.Should().BeTrue();
@@ -28,7 +28,7 @@ namespace NScan.LibSpecification
       var pattern = Pattern.WithoutExclusion("*a*");
 
       //WHEN
-      var result = pattern.IsMatch("bc");
+      var result = pattern.IsMatchedBy("bc");
 
       //THEN
       result.Should().BeFalse();
@@ -41,7 +41,7 @@ namespace NScan.LibSpecification
       var pattern = Pattern.WithExclusion("*", "*Specification*");
 
       //WHEN
-      var result = pattern.IsMatch("bc");
+      var result = pattern.IsMatchedBy("bc");
 
       //THEN
       result.Should().BeTrue();
@@ -54,7 +54,7 @@ namespace NScan.LibSpecification
       var pattern = Pattern.WithExclusion("*", "*Specification*");
 
       //WHEN
-      var result = pattern.IsMatch("WhateverSpecification");
+      var result = pattern.IsMatchedBy("WhateverSpecification");
 
       //THEN
       result.Should().BeFalse();

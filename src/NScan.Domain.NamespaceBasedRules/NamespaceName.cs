@@ -16,7 +16,7 @@ namespace NScan.NamespaceBasedRules
 
     public bool Matches(Pattern fromPattern)
     {
-      return fromPattern.IsMatch(_value);
+      return fromPattern.IsMatchedBy(_value);
     }
 
     public override string ToString()

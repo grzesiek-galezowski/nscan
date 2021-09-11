@@ -18,7 +18,7 @@ namespace NScan.ProjectScopedRules
 
     public bool NameMatches(Pattern namePattern)
     {
-      return namePattern.IsMatch(_classDeclarationInfo.Name);
+      return namePattern.IsMatchedBy(_classDeclarationInfo.Name);
     }
 
     public void EvaluateDecorationWithAttributes(

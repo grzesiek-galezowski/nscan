@@ -26,7 +26,7 @@ namespace NScan.ProjectScopedRules
 
     public bool HasProjectAssemblyNameMatching(Pattern pattern)
     {
-      return pattern.IsMatch(_assemblyName);
+      return pattern.IsMatchedBy(_assemblyName);
     }
 
     public void ValidateProperty(
@@ -37,6 +37,11 @@ namespace NScan.ProjectScopedRules
         _assemblyName, 
         _properties, 
         analysisReportInProgress);
+    }
+
+    public void AddInfoAboutMatchingPatternTo(IAnalysisReportInProgress report)
+    {
+      report.StartedCheckingTarget(_assemblyName);
     }
   }
 }

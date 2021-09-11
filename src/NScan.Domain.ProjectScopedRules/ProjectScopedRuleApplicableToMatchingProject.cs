@@ -20,6 +20,7 @@ namespace NScan.ProjectScopedRules
     {
       if (project.HasProjectAssemblyNameMatching(_projectAssemblyPattern))
       {
+        project.AddInfoAboutMatchingPatternTo(report);
         _innerRule.Check(project, report);
       }
     }

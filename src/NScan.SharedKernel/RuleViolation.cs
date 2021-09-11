@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using Value;
 
@@ -5,16 +6,21 @@ namespace NScan.SharedKernel
 {
   public class RuleViolation : ValueType<RuleViolation>
   {
-    public RuleViolation(string ruleDescription, string prefixPhrase, string violationDescription)
+    public RuleViolation(RuleDescription description, string prefixPhrase, string violationDescription)
     {
-      RuleDescription = ruleDescription;
+      RuleDescription = description;
       PrefixPhrase = prefixPhrase;
       ViolationDescription = violationDescription;
     }
 
-    public string RuleDescription { get; }
+    public static RuleViolation Create(string ruleDescription, string prefixPhrase, string violationDescription)
+    {
+      return new RuleViolation(new RuleDescription(ruleDescription), prefixPhrase, violationDescription);
+    }
+
     public string PrefixPhrase { get; }
     public string ViolationDescription { get; }
+    public RuleDescription RuleDescription { get; }
     
     protected override IEnumerable<object> GetAllAttributesToBeUsedForEquality()
     {
@@ -22,5 +28,16 @@ namespace NScan.SharedKernel
       yield return PrefixPhrase;
       yield return ViolationDescription;
     }
+
   }
+
+  //bug move elsewhere
+  public record RuleDescription(string Value)
+  {
+    public override string ToString()
+    {
+      return Value;
+    }
+  }
+
 }

@@ -167,6 +167,25 @@ namespace NScanSpecification.Component
         .ExpectedNamespace("MyProject", "MyProject")
         .ButHasMultipleNamespaces("lol.cs", "MyProject", "MyProject2"));
     }
+    
+    [Fact]
+    public void ShouldReportErrorWhenNoCsProjectMatchesTheWildcard()
+    {
+      //GIVEN
+      var context = new NScanDriver();
+      context.HasProject("MyProject")
+        .WithRootNamespace("MyProject")
+        .With(FileWithNamespaces("lol.cs", "MyProject", "MyProject2"));
+      context.Add(RuleDemandingThat().Project("*Trolololo*").HasCorrectNamespaces());
+
+      //WHEN
+      context.PerformAnalysis();
+
+      //THEN
+      context.ReportShouldContain(HasCorrectNamespacesMessage
+        .HasCorrectNamespaces("*Trolololo*").Error()
+        .NoProjectFoundMatching("*Trolololo*"));
+    }
 
 
     //backlog nested namespaces

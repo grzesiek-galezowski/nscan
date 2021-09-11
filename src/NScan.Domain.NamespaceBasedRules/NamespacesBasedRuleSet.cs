@@ -20,7 +20,7 @@ namespace NScan.NamespaceBasedRules
         {
           dotNetProject.Evaluate(rule, report);
         }
-        report.FinishedChecking(rule.Description());
+        report.FinishedEvaluatingRule(rule.Description());
       }
     }
   }

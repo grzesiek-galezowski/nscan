@@ -2,7 +2,8 @@
 {
   public interface IAnalysisReportInProgress
   {
-    void FinishedChecking(string ruleDescription);
+    void StartedCheckingTarget(string assemblyName);
+    void FinishedEvaluatingRule(string ruleDescription);
     string AsString();
     bool HasViolations();
     void Add(RuleViolation ruleViolation);

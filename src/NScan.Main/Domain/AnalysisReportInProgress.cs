@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using NScan.SharedKernel;
 
 namespace TddXt.NScan.Domain
 {
   public class AnalysisReportInProgress : IAnalysisReportInProgress
   {
-    private readonly List<string> _ruleNames = new();
+    private readonly List<RuleDescription> _ruleNames = new();
 
-    private readonly Dictionary<string, HashSet<string>> _violations
-      = new();
+    private readonly Dictionary<RuleDescription, HashSet<string>> _violations = new();
 
     public string AsString()
     {
@@ -24,11 +25,15 @@ namespace TddXt.NScan.Domain
     }
 
 
-    public void FinishedChecking(string ruleDescription)
+    public void StartedCheckingTarget(string assemblyName)
     {
-      AddRuleIfNotRegisteredYet(ruleDescription);
+      //bug throw new System.NotImplementedException();
     }
 
+    public void FinishedEvaluatingRule(string ruleDescription)
+    {
+      AddRuleIfNotRegisteredYet(new RuleDescription(ruleDescription));
+    }
 
     public bool HasViolations()
     {
@@ -38,7 +43,8 @@ namespace TddXt.NScan.Domain
     public void Add(RuleViolation ruleViolation)
     {
       InitializeForCollecting(ruleViolation.RuleDescription);
-      _violations[ruleViolation.RuleDescription].Add(ruleViolation.PrefixPhrase + ruleViolation.ViolationDescription);
+      _violations[new RuleDescription(ruleViolation.RuleDescription.Value /* bug */)]
+        .Add(ruleViolation.PrefixPhrase + ruleViolation.ViolationDescription);
     }
 
     private void AppendRuleResult(int index, ResultBuilder resultBuilder)
@@ -46,11 +52,11 @@ namespace TddXt.NScan.Domain
       var ruleDescription = _ruleNames[index];
       if (_violations.ContainsKey(ruleDescription))
       {
-        resultBuilder.AppendViolations(ruleDescription, _violations);
+        resultBuilder.AppendViolations(ruleDescription.Value, _violations.ToDictionary(p => p.Key.Value, p => p.Value));
       }
       else
       {
-        resultBuilder.AppendOk(ruleDescription);
+        resultBuilder.AppendOk(ruleDescription.Value);
       }
     }
 
@@ -62,25 +68,25 @@ namespace TddXt.NScan.Domain
       }
     }
 
-    private void InitializeForCollecting(string ruleDescription)
+    private void InitializeForCollecting(RuleDescription ruleName)
     {
-      AddRuleIfNotRegisteredYet(ruleDescription);
-      InitializeViolationsFor(ruleDescription);
+      AddRuleIfNotRegisteredYet(ruleName);
+      InitializeViolationsFor(ruleName);
     }
 
-    private void InitializeViolationsFor(string ruleDescription)
+    private void InitializeViolationsFor(RuleDescription ruleName)
     {
-      if (!_violations.ContainsKey(ruleDescription))
+      if (!_violations.ContainsKey(ruleName))
       {
-        _violations.Add(ruleDescription, new HashSet<string>());
+        _violations.Add(ruleName, new HashSet<string>());
       }
     }
 
-    private void AddRuleIfNotRegisteredYet(string ruleDescription)
+    private void AddRuleIfNotRegisteredYet(RuleDescription ruleName)
     {
-      if (!_ruleNames.Contains(ruleDescription))
+      if (!_ruleNames.Contains(ruleName))
       {
-        _ruleNames.Add(ruleDescription);
+        _ruleNames.Add(ruleName);
       }
     }
   }

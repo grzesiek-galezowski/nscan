@@ -19,9 +19,9 @@ namespace NScanSpecification.Domain.SharedKernel
       var anyDescription2 = Any.String();
       var anyDescription3 = Any.String();
 
-      report.FinishedChecking(anyDescription1);
-      report.FinishedChecking(anyDescription2);
-      report.FinishedChecking(anyDescription3);
+      report.FinishedEvaluatingRule(anyDescription1);
+      report.FinishedEvaluatingRule(anyDescription2);
+      report.FinishedEvaluatingRule(anyDescription3);
 
       //WHEN
       var output = report.AsString();
@@ -83,7 +83,7 @@ namespace NScanSpecification.Domain.SharedKernel
         var report = new AnalysisReportInProgress();
 
         var violation1 = Any.Instance<RuleViolation>();
-        var violation2 = new RuleViolation(violation1.RuleDescription, Any.String(), Any.String());
+        var violation2 = RuleViolation.Create(violation1.RuleDescription.Value /* bug */, Any.String(), Any.String());
 
         report.Add(violation1);
         report.Add(violation2);
@@ -106,8 +106,8 @@ namespace NScanSpecification.Domain.SharedKernel
         var report = new AnalysisReportInProgress();
 
         var violation1 = Any.Instance<RuleViolation>();
-        var violation2 = new RuleViolation(violation1.RuleDescription, violation1.PrefixPhrase, violation1.ViolationDescription);
-        var violation3 = new RuleViolation(violation1.RuleDescription, violation1.PrefixPhrase, violation1.ViolationDescription);
+        var violation2 = RuleViolation.Create(violation1.RuleDescription.Value, violation1.PrefixPhrase, violation1.ViolationDescription);
+        var violation3 = RuleViolation.Create(violation1.RuleDescription.Value, violation1.PrefixPhrase, violation1.ViolationDescription);
 
         report.Add(violation1);
         report.Add(violation2);
@@ -130,7 +130,7 @@ namespace NScanSpecification.Domain.SharedKernel
         var report = new AnalysisReportInProgress();
 
         report.Add(Any.Instance<RuleViolation>());
-        report.FinishedChecking(Any.String());
+        report.FinishedEvaluatingRule(Any.String());
 
         //WHEN
         var hasViolations = report.HasViolations();
@@ -140,9 +140,9 @@ namespace NScanSpecification.Domain.SharedKernel
       }
 
 
-      private static string ErrorHeaderWith(string anyDescription1)
+      private static string ErrorHeaderWith(RuleDescription ruleDescription)
       {
-        return $"{anyDescription1}: [ERROR]";
+        return $"{ruleDescription}: [ERROR]";
       }
   }
 }

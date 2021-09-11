@@ -15,7 +15,7 @@ namespace NScan.DependencyPathBasedRules
 
     public RuleViolation PathRuleViolation(string ruleDescription, IReadOnlyList<IDependencyPathBasedRuleTarget> violationPath)
     {
-      return new RuleViolation(ruleDescription, "Violating path: ", _reportFragmentsFormat.ApplyToPath(violationPath));
+      return RuleViolation.Create(ruleDescription, "Violating path: ", _reportFragmentsFormat.ApplyToPath(violationPath));
     }
   }
 }

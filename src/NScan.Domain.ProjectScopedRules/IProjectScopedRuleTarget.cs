@@ -9,6 +9,8 @@ namespace NScan.ProjectScopedRules
     bool HasProjectAssemblyNameMatching(Pattern pattern);
     void ValidateProperty(IPropertyCheck propertyCheck,
       IAnalysisReportInProgress analysisReportInProgress);
+
+    void AddInfoAboutMatchingPatternTo(IAnalysisReportInProgress report);
   }
 
 }

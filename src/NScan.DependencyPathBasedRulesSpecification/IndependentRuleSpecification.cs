@@ -29,7 +29,7 @@ namespace NScan.DependencyPathBasedRulesSpecification
       rule.Check(report, projectDependencyPath);
 
       //THEN
-      XReceived.Only(() => report.FinishedChecking(dependencyCondition.Description()));
+      XReceived.Only(() => report.FinishedEvaluatingRule(dependencyCondition.Description()));
     }
 
     [Fact]
@@ -66,7 +66,7 @@ namespace NScan.DependencyPathBasedRulesSpecification
       Received.InOrder(() =>
       {
         report.Add(violation);
-        report.FinishedChecking(conditionDescription);
+        report.FinishedEvaluatingRule(conditionDescription);
       });
       
     }
@@ -101,7 +101,7 @@ namespace NScan.DependencyPathBasedRulesSpecification
       //THEN
       XReceived.Only(() =>
       {
-        report.FinishedChecking(conditionDescription);
+        report.FinishedEvaluatingRule(conditionDescription);
       });
 
     }

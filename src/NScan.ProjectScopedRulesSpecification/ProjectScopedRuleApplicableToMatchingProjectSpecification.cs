@@ -28,7 +28,12 @@ namespace NScan.ProjectScopedRulesSpecification
       rule.Check(target, report);
 
       //THEN
-      innerRule.Received(1).Check(target, report);
+      Received.InOrder(() =>
+      {
+        target.AddInfoAboutMatchingPatternTo(report);
+        innerRule.Check(target, report);
+
+      });
     }
     
     [Fact]

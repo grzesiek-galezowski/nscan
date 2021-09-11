@@ -19,7 +19,7 @@ namespace NScan.ProjectScopedRules
 
     public bool NameMatches(Pattern methodNameInclusionPattern)
     {
-      return methodNameInclusionPattern.IsMatch(_methodDeclarationInfo.Name);
+      return methodNameInclusionPattern.IsMatchedBy(_methodDeclarationInfo.Name);
     }
 
     public void EvaluateMethodsHavingCorrectAttributes(IAnalysisReportInProgress report, string parentClassName,
