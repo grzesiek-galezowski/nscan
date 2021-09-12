@@ -14,11 +14,12 @@ namespace TddXt.NScan.Domain
 
     private StringBuilder Result { get; }
 
-    public void AppendViolations(RuleDescription ruleDescription,
-      Dictionary<RuleDescription, HashSet<string>> dictionary /* bug should be readonly */)
+    public void AppendViolations(
+      RuleDescription ruleDescription,
+      IReadOnlyDictionary<RuleDescription, HashSet<string>> violation)
     {
       Result.AppendLine(ruleDescription + ": [ERROR]");
-      Result.Append(string.Join(Environment.NewLine, dictionary[ruleDescription]));
+      Result.Append(string.Join(Environment.NewLine, violation[ruleDescription]));
     }
 
     public void AppendOk(RuleDescription ruleDescription)
