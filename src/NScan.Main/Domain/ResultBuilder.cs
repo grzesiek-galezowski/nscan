@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using NScan.SharedKernel;
+using NullableReferenceTypesExtensions;
 
 namespace TddXt.NScan.Domain
 {
@@ -15,10 +17,10 @@ namespace TddXt.NScan.Domain
     private StringBuilder Result { get; }
 
     public void AppendViolations(
-      RuleDescription ruleDescription, IEnumerable<string> violations)
+      RuleDescription ruleDescription, IEnumerable<RuleViolation> violations)
     {
       Result.AppendLine(ruleDescription + ": [ERROR]");
-      Result.Append(string.Join(Environment.NewLine, violations));
+      Result.Append(string.Join(Environment.NewLine, violations.Select(v => v.ToHumanReadableString())));
     }
 
     public void AppendOk(RuleDescription ruleDescription)

@@ -14,5 +14,10 @@
     {
       return Create(new RuleDescription(ruleDescription), prefixPhrase, violationDescription);
     }
+
+    public string ToHumanReadableString()
+    {
+      return PrefixPhrase + ViolationDescription;
+    }
   }
 }

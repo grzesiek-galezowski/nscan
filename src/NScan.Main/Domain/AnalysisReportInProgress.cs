@@ -8,7 +8,7 @@ namespace TddXt.NScan.Domain
 {
   public class AnalysisReportInProgress : IAnalysisReportInProgress
   {
-    private readonly Dictionary<RuleDescription, HashSet<string>> _violationsByRule = new();
+    private readonly Dictionary<RuleDescription, HashSet<RuleViolation>> _violationsByRule = new();
 
     public string AsString()
     {
@@ -54,7 +54,7 @@ namespace TddXt.NScan.Domain
     {
       InitializeForCollecting(ruleViolation.RuleDescription);
       _violationsByRule[ruleViolation.RuleDescription]
-        .Add(ruleViolation.PrefixPhrase + ruleViolation.ViolationDescription);
+        .Add(ruleViolation);
     }
 
     private void InitializeForCollecting(RuleDescription ruleName)
@@ -66,7 +66,7 @@ namespace TddXt.NScan.Domain
     {
       if (!_violationsByRule.Keys.Contains(ruleName))
       {
-        _violationsByRule[ruleName] = new HashSet<string>();
+        _violationsByRule[ruleName] = new HashSet<RuleViolation>();
       }
     }
   }

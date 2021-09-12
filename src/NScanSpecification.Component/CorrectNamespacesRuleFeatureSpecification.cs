@@ -168,7 +168,7 @@ namespace NScanSpecification.Component
         .ButHasMultipleNamespaces("lol.cs", "MyProject", "MyProject2"));
     }
     
-    [Fact]
+    [Fact(Skip = "In progress")] 
     public void ShouldReportErrorWhenNoCsProjectMatchesTheWildcard()
     {
       //GIVEN
