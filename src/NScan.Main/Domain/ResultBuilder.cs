@@ -15,11 +15,10 @@ namespace TddXt.NScan.Domain
     private StringBuilder Result { get; }
 
     public void AppendViolations(
-      RuleDescription ruleDescription,
-      IReadOnlyDictionary<RuleDescription, HashSet<string>> violation)
+      RuleDescription ruleDescription, IEnumerable<string> violations)
     {
       Result.AppendLine(ruleDescription + ": [ERROR]");
-      Result.Append(string.Join(Environment.NewLine, violation[ruleDescription]));
+      Result.Append(string.Join(Environment.NewLine, violations));
     }
 
     public void AppendOk(RuleDescription ruleDescription)

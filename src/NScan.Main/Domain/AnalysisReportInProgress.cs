@@ -8,17 +8,27 @@ namespace TddXt.NScan.Domain
 {
   public class AnalysisReportInProgress : IAnalysisReportInProgress
   {
-    private readonly List<RuleDescription> _ruleNames = new();
-
-    private readonly Dictionary<RuleDescription, HashSet<string>> _violations = new();
+    private readonly Dictionary<RuleDescription, HashSet<string>> _violationsByRule = new();
 
     public string AsString()
     {
       var resultBuilder = new ResultBuilder();
-      for (var index = 0; index < _ruleNames.Count; index++)
+      foreach (var kvp in _violationsByRule)
       {
-        AppendRuleResult(index, resultBuilder);
-        AppendNewLineIfNotLastRule(index, resultBuilder);
+        var (ruleDescription, violations) = kvp;
+        if (violations.Any())
+        {
+          resultBuilder.AppendViolations(ruleDescription, violations);
+        }
+        else
+        {
+          resultBuilder.AppendOk(ruleDescription);
+        }
+
+        if (!kvp.Equals(_violationsByRule.Last()))
+        {
+          resultBuilder.AppendRuleSeparator();
+        }
       }
 
       return resultBuilder.Text();
@@ -37,56 +47,26 @@ namespace TddXt.NScan.Domain
 
     public bool HasViolations()
     {
-      return _violations.Any();
+      return _violationsByRule.Any(v => v.Value.Any());
     }
 
     public void Add(RuleViolation ruleViolation)
     {
       InitializeForCollecting(ruleViolation.RuleDescription);
-      _violations[ruleViolation.RuleDescription]
+      _violationsByRule[ruleViolation.RuleDescription]
         .Add(ruleViolation.PrefixPhrase + ruleViolation.ViolationDescription);
-    }
-
-    private void AppendRuleResult(int index, ResultBuilder resultBuilder)
-    {
-      var ruleDescription = _ruleNames[index];
-      if (_violations.ContainsKey(ruleDescription))
-      {
-        resultBuilder.AppendViolations(ruleDescription, _violations);
-      }
-      else
-      {
-        resultBuilder.AppendOk(ruleDescription);
-      }
-    }
-
-    private void AppendNewLineIfNotLastRule(int index, ResultBuilder resultBuilder)
-    {
-      if (index != _ruleNames.Count - 1)
-      {
-        resultBuilder.AppendRuleSeparator();
-      }
     }
 
     private void InitializeForCollecting(RuleDescription ruleName)
     {
       AddRuleIfNotRegisteredYet(ruleName);
-      InitializeViolationsFor(ruleName);
-    }
-
-    private void InitializeViolationsFor(RuleDescription ruleName)
-    {
-      if (!_violations.ContainsKey(ruleName))
-      {
-        _violations.Add(ruleName, new HashSet<string>());
-      }
     }
 
     private void AddRuleIfNotRegisteredYet(RuleDescription ruleName)
     {
-      if (!_ruleNames.Contains(ruleName))
+      if (!_violationsByRule.Keys.Contains(ruleName))
       {
-        _ruleNames.Add(ruleName);
+        _violationsByRule[ruleName] = new HashSet<string>();
       }
     }
   }
