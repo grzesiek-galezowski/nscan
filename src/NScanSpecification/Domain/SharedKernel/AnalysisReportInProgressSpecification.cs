@@ -83,7 +83,7 @@ namespace NScanSpecification.Domain.SharedKernel
         var report = new AnalysisReportInProgress();
 
         var violation1 = Any.Instance<RuleViolation>();
-        var violation2 = RuleViolation.Create(violation1.RuleDescription.Value /* bug */, Any.String(), Any.String());
+        var violation2 = RuleViolation.Create(violation1.RuleDescription, Any.String(), Any.String());
 
         report.Add(violation1);
         report.Add(violation2);
@@ -106,8 +106,8 @@ namespace NScanSpecification.Domain.SharedKernel
         var report = new AnalysisReportInProgress();
 
         var violation1 = Any.Instance<RuleViolation>();
-        var violation2 = RuleViolation.Create(violation1.RuleDescription.Value, violation1.PrefixPhrase, violation1.ViolationDescription);
-        var violation3 = RuleViolation.Create(violation1.RuleDescription.Value, violation1.PrefixPhrase, violation1.ViolationDescription);
+        var violation2 = RuleViolation.Create(violation1.RuleDescription, violation1.PrefixPhrase, violation1.ViolationDescription);
+        var violation3 = RuleViolation.Create(violation1.RuleDescription, violation1.PrefixPhrase, violation1.ViolationDescription);
 
         report.Add(violation1);
         report.Add(violation2);

@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NScan.SharedKernel;
 
 namespace TddXt.NScan.Domain
 {
@@ -13,13 +14,14 @@ namespace TddXt.NScan.Domain
 
     private StringBuilder Result { get; }
 
-    public void AppendViolations(string ruleDescription, Dictionary<string, HashSet<string>> dictionary)
+    public void AppendViolations(RuleDescription ruleDescription,
+      Dictionary<RuleDescription, HashSet<string>> dictionary /* bug should be readonly */)
     {
       Result.AppendLine(ruleDescription + ": [ERROR]");
       Result.Append(string.Join(Environment.NewLine, dictionary[ruleDescription]));
     }
 
-    public void AppendOk(string ruleDescription)
+    public void AppendOk(RuleDescription ruleDescription)
     {
       Result.Append(ruleDescription + ": [OK]");
     }

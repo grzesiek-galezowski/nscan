@@ -43,7 +43,7 @@ namespace TddXt.NScan.Domain
     public void Add(RuleViolation ruleViolation)
     {
       InitializeForCollecting(ruleViolation.RuleDescription);
-      _violations[new RuleDescription(ruleViolation.RuleDescription.Value /* bug */)]
+      _violations[ruleViolation.RuleDescription]
         .Add(ruleViolation.PrefixPhrase + ruleViolation.ViolationDescription);
     }
 
@@ -52,11 +52,11 @@ namespace TddXt.NScan.Domain
       var ruleDescription = _ruleNames[index];
       if (_violations.ContainsKey(ruleDescription))
       {
-        resultBuilder.AppendViolations(ruleDescription.Value, _violations.ToDictionary(p => p.Key.Value, p => p.Value));
+        resultBuilder.AppendViolations(ruleDescription, _violations);
       }
       else
       {
-        resultBuilder.AppendOk(ruleDescription.Value);
+        resultBuilder.AppendOk(ruleDescription);
       }
     }
 
