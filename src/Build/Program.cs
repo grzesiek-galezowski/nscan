@@ -2,6 +2,7 @@
 using System.IO;
 using AtmaFileSystem;
 using AtmaFileSystem.IO;
+using Build;
 using FluentAssertions;
 using NScan.Adapters.Secondary.NotifyingSupport;
 using NScan.SharedKernel.WritingProgramOutput.Ports;
@@ -170,15 +171,18 @@ Target("default", DependsOn(
 
 RunTargetsAndExit(args);
 
-public class ConsoleOutput : INScanOutput
+namespace Build
 {
-  public void WriteAnalysisReport(string analysisReport)
+  public class ConsoleOutput : INScanOutput
   {
-    Console.WriteLine(analysisReport);
-  }
+    public void WriteAnalysisReport(string analysisReport)
+    {
+      Console.WriteLine(analysisReport);
+    }
 
-  public void WriteVersion(string coreVersion)
-  {
-    Console.WriteLine(coreVersion);
+    public void WriteVersion(string coreVersion)
+    {
+      Console.WriteLine(coreVersion);
+    }
   }
 }

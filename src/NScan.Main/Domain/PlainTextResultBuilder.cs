@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using NScan.SharedKernel;
-using NullableReferenceTypesExtensions;
 
 namespace TddXt.NScan.Domain
 {
-  public class ResultBuilder : IResultBuilder
+  public class PlainTextResultBuilder : IResultBuilder
   {
-    public ResultBuilder()
+    public PlainTextResultBuilder()
     {
       Result = new StringBuilder();
     }

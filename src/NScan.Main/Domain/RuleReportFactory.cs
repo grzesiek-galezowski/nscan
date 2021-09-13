@@ -7,7 +7,7 @@ namespace TddXt.NScan.Domain
     IRuleReport EmptyRuleReport();
   }
 
-  public class RuleReportFactory //bug move
+  public class RuleReportFactory
     : IRuleReportFactory
   {
     public IRuleReport EmptyRuleReport()

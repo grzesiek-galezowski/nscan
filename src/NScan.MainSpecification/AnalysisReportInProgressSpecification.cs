@@ -1,13 +1,11 @@
 ﻿using FluentAssertions;
 using NScan.SharedKernel;
 using NSubstitute;
-using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Domain;
-using TddXt.XFluentAssert.Api;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace NScanSpecification.Domain.SharedKernel
+namespace NScan.MainSpecification
 {
   public class AnalysisReportInProgressSpecification //bug replace builder with a mock
   {

@@ -11,7 +11,7 @@ namespace TddXt.NScan.Domain
   {
     public IResultBuilder NewResultBuilder()
     {
-      return new ResultBuilder();
+      return new PlainTextResultBuilder();
     }
   }
 }

@@ -1,24 +1,20 @@
 ﻿using FluentAssertions;
 using NScan.SharedKernel;
-using NSubstitute;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Domain;
-using TddXt.XFluentAssert.Api;
 using Xunit;
 using static System.Environment;
 using static TddXt.AnyRoot.Root;
 
-namespace NScanSpecification.Domain.SharedKernel
+namespace NScan.MainSpecification
 {
-  public class ResultBuilderSpecification 
+  public class PlainTextResultBuilderSpecification 
   {
-    //bug !!! nothing for AppendRuleSeparator
-    //These tests should tell exactly how the output looks like!
     [Fact]
     public void ShouldPrintAllOksInTheSameOrderTheyWereReceived()
     {
       //GIVEN
-      var report = new ResultBuilder();
+      var report = new PlainTextResultBuilder();
       var anyDescription1 = Any.Instance<RuleDescription>();
       var anyDescription2 = Any.Instance<RuleDescription>();
       var anyDescription3 = Any.Instance<RuleDescription>();
@@ -43,7 +39,7 @@ namespace NScanSpecification.Domain.SharedKernel
     public void ShouldPrintAllViolationsInTheSameOrderTheyWereReceived()
     {
       //GIVEN
-      var report = new ResultBuilder();
+      var report = new PlainTextResultBuilder();
       var ruleDescription1 = Any.Instance<RuleDescription>();
       var ruleDescription2 = Any.Instance<RuleDescription>();
       var ruleDescription3 = Any.Instance<RuleDescription>();

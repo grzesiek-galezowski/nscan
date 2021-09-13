@@ -9,10 +9,14 @@
 
   <ItemGroup>
     <PackageReference Include="AtmaFileSystem" Version="4.8.0" />
-    <PackageReference Include="Bullseye" Version="3.7.1" />
-    <PackageReference Include="FluentAssertions" Version="5.10.3" />
-    <PackageReference Include="NScan" Version="0.72.0" />
-    <PackageReference Include="NScan.Adapters.Secondary" Version="0.72.0" />
+    <PackageReference Include="Bullseye" Version="3.8.0" />
+    <PackageReference Include="FluentAssertions" Version="6.1.0" />
+    <PackageReference Include="IsExternalInit" Version="1.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="NScan" Version="0.74.0" />
+    <PackageReference Include="NScan.Adapters.Secondary" Version="0.74.0" />
     <PackageReference Include="SimpleExec" Version="8.0.0" />
   </ItemGroup>
 

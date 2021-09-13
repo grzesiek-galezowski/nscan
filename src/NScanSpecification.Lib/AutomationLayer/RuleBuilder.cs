@@ -233,7 +233,7 @@ namespace NScanSpecification.Lib.AutomationLayer
     private Pattern GetDependingPattern()
     {
       return _exclusionPattern
-        .Select(p => Pattern.WithExclusion(_dependingPattern.OrThrow(), p))
+        .SelectOrNull(p => Pattern.WithExclusion(_dependingPattern.OrThrow(), p))
         .OrElse(() => Pattern.WithoutExclusion(_dependingPattern.OrThrow()));
     }
   }
