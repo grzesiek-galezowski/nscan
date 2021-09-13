@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using NScan.SharedKernel;
+using NSubstitute;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Domain;
 using TddXt.XFluentAssert.Api;
@@ -8,142 +9,138 @@ using static TddXt.AnyRoot.Root;
 
 namespace NScanSpecification.Domain.SharedKernel
 {
-  public class AnalysisReportInProgressSpecification
+  public class AnalysisReportInProgressSpecification //bug replace builder with a mock
   {
     [Fact]
-    public void ShouldPrintAllOksInTheSameOrderTheyWereReceived()
+    public void ShouldPrintAllReportsInTheSameOrderTheyWereReceived()
     {
       //GIVEN
-      var report = new AnalysisReportInProgress();
-      var anyDescription1 = Any.String();
-      var anyDescription2 = Any.String();
-      var anyDescription3 = Any.String();
+      var ruleReportFactory = Substitute.For<IRuleReportFactory>();
+      var resultBuilder = Substitute.For<IResultBuilder>();
+      var ruleDescription1 = Any.Instance<RuleDescription>();
+      var ruleDescription2 = Any.Instance<RuleDescription>();
+      var ruleDescription3 = Any.Instance<RuleDescription>();
+      var report = new AnalysisReportInProgress(ruleReportFactory);
+      var ruleReport1 = Substitute.For<IRuleReport>();
+      var ruleReport2 = Substitute.For<IRuleReport>();
+      var ruleReport3 = Substitute.For<IRuleReport>();
 
-      report.FinishedEvaluatingRule(anyDescription1);
-      report.FinishedEvaluatingRule(anyDescription2);
-      report.FinishedEvaluatingRule(anyDescription3);
+      ruleReportFactory.EmptyRuleReport().Returns(ruleReport1, ruleReport2, ruleReport3);
+
+      report.FinishedEvaluatingRule(ruleDescription1);
+      report.FinishedEvaluatingRule(ruleDescription2);
+      report.FinishedEvaluatingRule(ruleDescription3);
 
       //WHEN
-      var output = report.AsString();
+      report.AsString(resultBuilder);
 
       //THEN
-      var indexOfDescription1 = output.IndexOf($"{anyDescription1}: [OK]");
-      var indexOfDescription2 = output.IndexOf($"{anyDescription2}: [OK]");
-      var indexOfDescription3 = output.IndexOf($"{anyDescription3}: [OK]");
-      indexOfDescription1.Should().BeGreaterThan(-1);
-      indexOfDescription2.Should().BeGreaterThan(indexOfDescription1);
-      indexOfDescription3.Should().BeGreaterThan(indexOfDescription2);
+      Received.InOrder(() =>
+      {
+        ruleReport1.AppendTo(resultBuilder, ruleDescription1);
+        resultBuilder.AppendRuleSeparator();
+        ruleReport2.AppendTo(resultBuilder, ruleDescription2);
+        resultBuilder.AppendRuleSeparator();
+        ruleReport3.AppendTo(resultBuilder, ruleDescription3);
+      });
     }
 
     [Fact]
-    public void ShouldRespondItHasNoViolationsWhenNoViolationsWereAddedToIt()
+    public void ShouldNotReportSuccessWhenAtLeastOneSingleRuleDoesNotReportSuccess()
     {
       //GIVEN
-      var report = new AnalysisReportInProgress();
+      var ruleFactory = Substitute.For<IRuleReportFactory>();
+      var report = new AnalysisReportInProgress(ruleFactory);
+      var ruleReport1 = SuccessfulRuleReport();
+      var ruleReport2 = FailedRuleReport();
+      var ruleReport3 = SuccessfulRuleReport();
+
+      ruleFactory.EmptyRuleReport().Returns(ruleReport1, ruleReport2, ruleReport3);
+
+      report.FinishedEvaluatingRule(Any.Instance<RuleDescription>());
+      report.FinishedEvaluatingRule(Any.Instance<RuleDescription>());
+      report.FinishedEvaluatingRule(Any.Instance<RuleDescription>());
 
       //WHEN
-      var hasViolations = report.HasViolations();
+      var isSuccessful = report.IsSuccessful();
 
       //THEN
-      hasViolations.Should().BeFalse();
+      isSuccessful.Should().BeFalse();
+    }
+    
+    [Fact]
+    public void ShouldAddViolationsForEachNewRuleToReportCreatedForThatRule()
+    {
+      //GIVEN
+      var ruleFactory = Substitute.For<IRuleReportFactory>();
+      var report = new AnalysisReportInProgress(ruleFactory);
+      var ruleReport1 = Substitute.For<IRuleReport>();
+      var ruleReport2 = Substitute.For<IRuleReport>();
+      var ruleReport3 = Substitute.For<IRuleReport>();
+      var rule1Description = Any.Instance<RuleDescription>();
+      var rule2Description = Any.Instance<RuleDescription>();
+      var rule3Description = Any.Instance<RuleDescription>();
+      var rule1Violation1 = Any.Instance<RuleViolation>() with {RuleDescription = rule1Description};
+      var rule1Violation2 = Any.Instance<RuleViolation>() with {RuleDescription = rule1Description};
+      var rule2Violation1 = Any.Instance<RuleViolation>() with {RuleDescription = rule2Description};
+      var rule2Violation2 = Any.Instance<RuleViolation>() with {RuleDescription = rule2Description};
+      var rule3Violation1 = Any.Instance<RuleViolation>() with {RuleDescription = rule3Description};
+      var rule3Violation2 = Any.Instance<RuleViolation>() with {RuleDescription = rule3Description};
+
+      ruleFactory.EmptyRuleReport().Returns(ruleReport1, ruleReport2, ruleReport3);
+
+      //WHEN
+      report.Add(rule1Violation1);
+      report.Add(rule1Violation2);
+      report.Add(rule2Violation1);
+      report.Add(rule2Violation2);
+      report.Add(rule3Violation1);
+      report.Add(rule3Violation2);
+
+      //THEN
+      ruleReport1.Received(1).AddViolation(rule1Violation1);
+      ruleReport1.Received(1).AddViolation(rule1Violation2);
+      ruleReport2.Received(1).AddViolation(rule2Violation1);
+      ruleReport2.Received(1).AddViolation(rule2Violation2);
+      ruleReport3.Received(1).AddViolation(rule3Violation1);
+      ruleReport3.Received(1).AddViolation(rule3Violation2);
     }
 
+    [Fact]
+    public void ShouldReportSuccessWhenAllSingleRuleReportsReportSuccess()
+    {
+      //GIVEN
+      var ruleFactory = Substitute.For<IRuleReportFactory>();
+      var report = new AnalysisReportInProgress(ruleFactory);
+      var report1 = SuccessfulRuleReport();
+      var report2 = SuccessfulRuleReport();
+      var report3 = SuccessfulRuleReport();
 
-      [Fact]
-      public void ShouldPrintAllPathViolationsInTheSameOrderTheyWereReceived()
-      {
-        //GIVEN
-        var report = new AnalysisReportInProgress();
-        var violation1 = Any.Instance<RuleViolation>();
-        var violation2 = Any.Instance<RuleViolation>();
-        var violation3 = Any.Instance<RuleViolation>();
+      ruleFactory.EmptyRuleReport().Returns(report1, report2, report3);
 
-        report.Add(violation1);
-        report.Add(violation2);
-        report.Add(violation3);
+      //WHEN
+      var isSuccessful = report.IsSuccessful();
 
-        //WHEN
-        var output = report.AsString();
+      //THEN
+      isSuccessful.Should().BeTrue();
+    }
 
-        //THEN
-        output.Should().ContainInOrder(
-          $"{violation1.RuleDescription}: [ERROR]",
-          violation1.ViolationDescription,
-          $"{violation2.RuleDescription}: [ERROR]",
-          violation2.ViolationDescription,
-          $"{violation3.RuleDescription}: [ERROR]",
-          violation3.ViolationDescription
-        );
-      }
+    //bug public void ShouldPrintAllPathViolationsInTheSameOrderTheyWereReceived()
+    //bug public void ShouldAllowSeveralViolationsForTheSameRule()
+    //bug public void ShouldPrintAViolationDescriptionOnlyOnceNoMatterHowManyTimesItWasReported()
 
-      [Fact]
-      public void ShouldAllowSeveralViolationsForTheSameRule()
-      {
-        //GIVEN
-        var report = new AnalysisReportInProgress();
+    private static IRuleReport SuccessfulRuleReport()
+    {
+      var report = Substitute.For<IRuleReport>();
+      report.IsSuccessful().Returns(true);
+      return report;
+    }
 
-        var violation1 = Any.Instance<RuleViolation>();
-        var violation2 = RuleViolation.Create(violation1.RuleDescription, Any.String(), Any.String());
-
-        report.Add(violation1);
-        report.Add(violation2);
-
-        //WHEN
-        var output = report.AsString();
-
-        //THEN
-        output.Should().ContainInOrder(ErrorHeaderWith(violation1.RuleDescription),
-          violation1.ViolationDescription,
-          violation2.ViolationDescription
-        );
-        output.Should().ContainExactlyOnce(ErrorHeaderWith(violation1.RuleDescription));
-      }
-
-      [Fact]
-      public void ShouldPrintAViolationDescriptionOnlyOnceNoMatterHowManyTimesItWasReported()
-      {
-        //GIVEN
-        var report = new AnalysisReportInProgress();
-
-        var violation1 = Any.Instance<RuleViolation>();
-        var violation2 = RuleViolation.Create(violation1.RuleDescription, violation1.PrefixPhrase, violation1.ViolationDescription);
-        var violation3 = RuleViolation.Create(violation1.RuleDescription, violation1.PrefixPhrase, violation1.ViolationDescription);
-
-        report.Add(violation1);
-        report.Add(violation2);
-        report.Add(violation3);
-
-        //WHEN
-        var output = report.AsString();
-
-        //THEN
-        output.Should().ContainInOrder(ErrorHeaderWith(violation1.RuleDescription),
-          violation1.ViolationDescription
-        );
-        output.Should().ContainExactlyOnce(violation1.ViolationDescription);
-      }
-
-      [Fact]
-      public void ShouldRespondItHasViolationsWhenAtLeastOneViolationWasAddedDespiteOtherOks()
-      {
-        //GIVEN
-        var report = new AnalysisReportInProgress();
-
-        report.Add(Any.Instance<RuleViolation>());
-        report.FinishedEvaluatingRule(Any.String());
-
-        //WHEN
-        var hasViolations = report.HasViolations();
-
-        //THEN
-        hasViolations.Should().BeTrue();
-      }
-
-
-      private static string ErrorHeaderWith(RuleDescription ruleDescription)
-      {
-        return $"{ruleDescription}: [ERROR]";
-      }
+    private static IRuleReport FailedRuleReport()
+    {
+      var report = Substitute.For<IRuleReport>();
+      report.IsSuccessful().Returns(false);
+      return report;
+    }
   }
 }
-

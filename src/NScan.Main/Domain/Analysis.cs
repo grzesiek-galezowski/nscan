@@ -19,27 +19,39 @@ namespace TddXt.NScan.Domain
     private readonly IDependencyAnalysis _dependencyAnalysis;
     private readonly IProjectAnalysis _projectAnalysis;
     private readonly IProjectNamespacesAnalysis  _projectNamespacesAnalysis;
+    private readonly IResultBuilderFactory _resultBuilderFactory;
 
     public Analysis(IAnalysisReportInProgress analysisReportInProgress,
       IDependencyAnalysis dependencyAnalysis,
       IProjectAnalysis projectAnalysis,
-      IProjectNamespacesAnalysis projectNamespacesAnalysis)
+      IProjectNamespacesAnalysis projectNamespacesAnalysis, 
+      IResultBuilderFactory resultBuilderFactory)
     {
       _analysisReportInProgress = analysisReportInProgress;
       _dependencyAnalysis = dependencyAnalysis;
       _projectAnalysis = projectAnalysis;
       _projectNamespacesAnalysis = projectNamespacesAnalysis;
+      _resultBuilderFactory = resultBuilderFactory;
     }
 
-    public string Report => _analysisReportInProgress.AsString();
-    public int ReturnCode => _analysisReportInProgress.HasViolations() ? -1 : 0; //bug UI implementation leak
+    public string Report
+    {
+      get
+      {
+        var resultBuilder = _resultBuilderFactory.NewResultBuilder();
+        _analysisReportInProgress.AsString(resultBuilder);
+        return resultBuilder.Text();
+      }
+    }
+
+    public int ReturnCode => _analysisReportInProgress.IsSuccessful() ? -1 : 0; //bug UI implementation leak
 
     public static Analysis PrepareFor(IEnumerable<CsharpProjectDto> csharpProjectDtos, INScanSupport support)
     {
-      return new Analysis(new AnalysisReportInProgress(), 
+      return new Analysis(new AnalysisReportInProgress(new RuleReportFactory()), 
         DependencyAnalysis.PrepareFor(csharpProjectDtos, support), 
         ProjectAnalysis.PrepareFor(csharpProjectDtos), 
-        ProjectNamespacesAnalysis.PrepareFor(csharpProjectDtos));
+        ProjectNamespacesAnalysis.PrepareFor(csharpProjectDtos), new ResultBuilderFactory());
     }
 
     public void Run()

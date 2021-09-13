@@ -1,60 +1,59 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using NScan.SharedKernel;
 
 namespace TddXt.NScan.Domain
 {
   public class AnalysisReportInProgress : IAnalysisReportInProgress
   {
-    private readonly Dictionary<RuleDescription, HashSet<RuleViolation>> _violationsByRule = new();
+    private readonly Dictionary<RuleDescription, IRuleReport> _reportsByRule = new();
+    private readonly IRuleReportFactory _ruleReportFactory;
 
-    public string AsString()
+    public AnalysisReportInProgress(IRuleReportFactory ruleReportFactory)
     {
-      var resultBuilder = new ResultBuilder();
-      foreach (var kvp in _violationsByRule)
-      {
-        var (ruleDescription, violations) = kvp;
-        if (violations.Any())
-        {
-          resultBuilder.AppendViolations(ruleDescription, violations);
-        }
-        else
-        {
-          resultBuilder.AppendOk(ruleDescription);
-        }
+      _ruleReportFactory = ruleReportFactory;
+    }
 
-        if (!kvp.Equals(_violationsByRule.Last()))
+    public void AsString(IResultBuilder resultBuilder)
+    {
+      foreach (var kvp in _reportsByRule)
+      {
+        var (ruleDescription, ruleReport) = kvp;
+        ruleReport.AppendTo(resultBuilder, ruleDescription);
+
+        if (!kvp.Equals(_reportsByRule.Last()))
         {
           resultBuilder.AppendRuleSeparator();
         }
       }
-
-      return resultBuilder.Text();
     }
-
 
     public void StartedCheckingTarget(string assemblyName)
     {
       //bug throw new System.NotImplementedException();
     }
 
+    [Obsolete("Use the version with RuleDescription argument")]
     public void FinishedEvaluatingRule(string ruleDescription)
     {
-      AddRuleIfNotRegisteredYet(new RuleDescription(ruleDescription));
+      FinishedEvaluatingRule(new RuleDescription(ruleDescription));
     }
 
-    public bool HasViolations()
+    public void FinishedEvaluatingRule(RuleDescription ruleDescription)
     {
-      return _violationsByRule.Any(v => v.Value.Any());
+      AddRuleIfNotRegisteredYet(ruleDescription);
+    }
+
+    public bool IsSuccessful()
+    {
+      return _reportsByRule.Values.All(ruleReport => ruleReport.IsSuccessful());
     }
 
     public void Add(RuleViolation ruleViolation)
     {
       InitializeForCollecting(ruleViolation.RuleDescription);
-      _violationsByRule[ruleViolation.RuleDescription]
-        .Add(ruleViolation);
+      _reportsByRule[ruleViolation.RuleDescription].AddViolation(ruleViolation);
     }
 
     private void InitializeForCollecting(RuleDescription ruleName)
@@ -64,9 +63,9 @@ namespace TddXt.NScan.Domain
 
     private void AddRuleIfNotRegisteredYet(RuleDescription ruleName)
     {
-      if (!_violationsByRule.Keys.Contains(ruleName))
+      if (!_reportsByRule.Keys.Contains(ruleName))
       {
-        _violationsByRule[ruleName] = new HashSet<RuleViolation>();
+        _reportsByRule[ruleName] = _ruleReportFactory.EmptyRuleReport();
       }
     }
   }

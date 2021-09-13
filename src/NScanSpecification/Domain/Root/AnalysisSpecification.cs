@@ -14,29 +14,34 @@ using static TddXt.AnyRoot.Root;
 
 namespace NScanSpecification.Domain.Root
 {
-  public class AnalysisBuilder
+  public record AnalysisBuilder
   {
-    public IAnalysisReportInProgress ReportInProgress { private get; set; } = Any.Instance<IAnalysisReportInProgress>();
-    public IDependencyAnalysis DependencyAnalysis { private get; set; } =
+    public IAnalysisReportInProgress ReportInProgress { private get; init; } = 
+      Any.Instance<IAnalysisReportInProgress>();
+    public IDependencyAnalysis DependencyAnalysis { private get; init; } = 
       Any.Instance<IDependencyAnalysis>();
-    public IProjectAnalysis ProjectAnalysis { private get; set; } =
+    public IProjectAnalysis ProjectAnalysis { private get; init; } =
       Any.Instance<IProjectAnalysis>();
-    public IProjectNamespacesAnalysis NamespacesAnalysis { private get; set; } =
+    public IProjectNamespacesAnalysis NamespacesAnalysis { private get; init; } =
       Any.Instance<IProjectNamespacesAnalysis>();
-    public ISolutionForDependencyPathBasedRules SolutionForDependencyPathBasedRules { get; set; } =
+    public ISolutionForDependencyPathBasedRules SolutionForDependencyPathBasedRules { get; init; } =
       Any.Instance<ISolutionForDependencyPathBasedRules>();
-    public ISolutionForProjectScopedRules SolutionForProjectScopedRules { get; set; } =
+    public ISolutionForProjectScopedRules SolutionForProjectScopedRules { get; init; } =
       Any.Instance<ISolutionForProjectScopedRules>();    
-    public ISolutionForNamespaceBasedRules SolutionForNamespaceBasedRules { get; set; } =
+    public ISolutionForNamespaceBasedRules SolutionForNamespaceBasedRules { get; init; } =
       Any.Instance<ISolutionForNamespaceBasedRules>();
+    public IResultBuilderFactory ResultBuilderFactory { get; init; } = Any.Instance<IResultBuilderFactory>();
 
     public Analysis Build()
     {
-      return new Analysis(ReportInProgress,
+      return new Analysis(
+        ReportInProgress,
         DependencyAnalysis,
         ProjectAnalysis,
-        NamespacesAnalysis);
+        NamespacesAnalysis, 
+        ResultBuilderFactory);
     }
+
   }
 
 
@@ -159,18 +164,23 @@ namespace NScanSpecification.Domain.Root
     {
       //GIVEN
       var analysisInProgressReport = Substitute.For<IAnalysisReportInProgress>();
+      var resultBuilderFactory = Substitute.For<IResultBuilderFactory>();
+      var resultBuilder = Substitute.For<IResultBuilder>();
       var analysis = new AnalysisBuilder
       {
-        ReportInProgress = analysisInProgressReport
+        ReportInProgress = analysisInProgressReport,
+        ResultBuilderFactory = resultBuilderFactory
       }.Build();
       var reportStringGeneratedFromInProgressReport = Any.String();
 
-      analysisInProgressReport.AsString().Returns(reportStringGeneratedFromInProgressReport);
+      resultBuilderFactory.NewResultBuilder().Returns(resultBuilder);
+      resultBuilder.Text().Returns(reportStringGeneratedFromInProgressReport);
 
       //WHEN
       var analysisReportString = analysis.Report;
 
       //THEN
+      analysisInProgressReport.Received(1).AsString(resultBuilder);
       analysisReportString.Should().Be(reportStringGeneratedFromInProgressReport);
     }
 
@@ -194,7 +204,7 @@ namespace NScanSpecification.Domain.Root
         ReportInProgress = reportInProgress
       }.Build();
 
-      reportInProgress.HasViolations().Returns(hasViolations);
+      reportInProgress.IsSuccessful().Returns(hasViolations);
 
       //WHEN
       var analysisReturnCode = analysis.ReturnCode;

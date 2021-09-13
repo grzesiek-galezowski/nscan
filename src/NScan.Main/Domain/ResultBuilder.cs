@@ -7,7 +7,7 @@ using NullableReferenceTypesExtensions;
 
 namespace TddXt.NScan.Domain
 {
-  public class ResultBuilder
+  public class ResultBuilder : IResultBuilder
   {
     public ResultBuilder()
     {
@@ -17,10 +17,10 @@ namespace TddXt.NScan.Domain
     private StringBuilder Result { get; }
 
     public void AppendViolations(
-      RuleDescription ruleDescription, IEnumerable<RuleViolation> violations)
+      RuleDescription ruleDescription, string violationsString)
     {
       Result.AppendLine(ruleDescription + ": [ERROR]");
-      Result.Append(string.Join(Environment.NewLine, violations.Select(v => v.ToHumanReadableString())));
+      Result.Append(violationsString);
     }
 
     public void AppendOk(RuleDescription ruleDescription)
