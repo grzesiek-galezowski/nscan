@@ -7,7 +7,7 @@ using static TddXt.AnyRoot.Root;
 
 namespace NScan.MainSpecification.Domain
 {
-  public class AnalysisReportInProgressSpecification //bug replace builder with a mock
+  public class AnalysisReportInProgressSpecification
   {
     [Fact]
     public void ShouldPrintAllReportsInTheSameOrderTheyWereReceived()

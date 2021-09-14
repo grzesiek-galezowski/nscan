@@ -5,7 +5,7 @@ using NScan.SharedKernel;
 
 namespace TddXt.NScan.Domain
 {
-  public class SingleRuleReport : ISingleRuleReport //bug UT (remember hashset)
+  public class SingleRuleReport : ISingleRuleReport
   {
     private readonly RuleDescription _ruleDescription;
     private readonly HashSet<RuleViolation> _violations = new();

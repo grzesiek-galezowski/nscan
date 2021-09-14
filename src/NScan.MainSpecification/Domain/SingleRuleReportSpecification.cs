@@ -117,9 +117,5 @@ namespace NScan.MainSpecification.Domain
         ruleDescription, 
         ruleViolation1.ToHumanReadableString());
     }
-
-
-    //bug more tests (AppendError etc.)
-    //bug public void ShouldPrintAViolationDescriptionOnlyOnceNoMatterHowManyTimesItWasReported()
   }
 }

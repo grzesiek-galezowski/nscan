@@ -85,7 +85,6 @@ namespace NScanSpecification.Lib.AutomationLayer
         DependencyPathBasedRuleUnionDto.With(complementDto);
       _testedRuleDefinition = TestedRuleDefinition.From(complementDto);
       return this;
-
     }
 
     public IFullDependencyPathRuleConstructed IndependentOfAssembly(string assemblyName)
@@ -153,7 +152,6 @@ namespace NScanSpecification.Lib.AutomationLayer
       return this;
     }
 
-    //bug remove this  later
     public ITestedRuleDefinition Build()
     {
       return _testedRuleDefinition.OrThrow();

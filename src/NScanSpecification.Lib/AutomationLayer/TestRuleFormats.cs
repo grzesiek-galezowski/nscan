@@ -46,7 +46,6 @@ namespace NScanSpecification.Lib.AutomationLayer
       string propertyName, 
       string propertyValue)
     {
-      //bug refactor "hasProperty"
       return $"{projectAssemblyNamePattern} hasProperty {propertyName} {propertyValue}";
     }
   }
