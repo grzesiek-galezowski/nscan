@@ -44,7 +44,7 @@ namespace TddXt.NScan.Domain
       }
     }
 
-    public int ReturnCode => _analysisReportInProgress.IsSuccessful() ? -1 : 0; //bug UI implementation leak
+    public int ReturnCode => _analysisReportInProgress.IsFailure() ? -1 : 0; //bug UI implementation leak
 
     public static Analysis PrepareFor(IEnumerable<CsharpProjectDto> csharpProjectDtos, INScanSupport support)
     {

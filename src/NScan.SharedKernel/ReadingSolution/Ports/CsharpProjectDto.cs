@@ -2,7 +2,7 @@
 
 namespace NScan.SharedKernel.ReadingSolution.Ports
 {
-  public record CsharpProjectDto(
+  public sealed record CsharpProjectDto(
     ProjectId Id,
     string AssemblyName,
     string TargetFramework,

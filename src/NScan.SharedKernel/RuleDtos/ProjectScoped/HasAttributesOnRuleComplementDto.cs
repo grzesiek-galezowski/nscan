@@ -2,21 +2,11 @@
 
 namespace NScan.SharedKernel.RuleDtos.ProjectScoped
 {
-  public class HasAttributesOnRuleComplementDto
+  public sealed record HasAttributesOnRuleComplementDto(
+      Pattern ProjectAssemblyNamePattern, 
+      Pattern ClassNameInclusionPattern, 
+      Pattern MethodNameInclusionPattern)
   {
-    public HasAttributesOnRuleComplementDto(
-      Pattern projectAssemblyNamePattern, 
-      Pattern classNameInclusionPattern, 
-      Pattern methodNameInclusionPattern)
-    {
-      ProjectAssemblyNamePattern = projectAssemblyNamePattern;
-      ClassNameInclusionPattern = classNameInclusionPattern;
-      MethodNameInclusionPattern = methodNameInclusionPattern;
-    }
-
     public string RuleName => HasAttributesOnRuleMetadata.HasAttributesOn;
-    public Pattern ProjectAssemblyNamePattern { get; }
-    public Pattern ClassNameInclusionPattern { get; }
-    public Pattern MethodNameInclusionPattern { get; }
   }
 }

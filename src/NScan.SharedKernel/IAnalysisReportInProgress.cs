@@ -5,7 +5,7 @@
     void StartedCheckingTarget(string assemblyName);
     void FinishedEvaluatingRule(string ruleDescription);
     void AsString(IResultBuilder resultBuilder); //bug make void
-    bool IsSuccessful();
+    bool IsFailure();
     void Add(RuleViolation ruleViolation);
   }
 
@@ -18,12 +18,11 @@
     string Text();
   }
 
-  public interface IRuleReport //bug
+  public interface ISingleRuleReport //bug
   {
-    string ViolationsString();
-    bool IsSuccessful();
-    void AddViolation(RuleViolation ruleViolation);
-    void AppendTo(IResultBuilder resultBuilder, RuleDescription ruleDescription);
+    bool IsFailed();
+    void Add(RuleViolation ruleViolation);
+    void AppendTo(IResultBuilder resultBuilder);
   }
 
 

@@ -2,18 +2,11 @@
 
 namespace NScan.SharedKernel.RuleDtos.NamespaceBased
 {
-  public class NoUsingsRuleComplementDto
+  public sealed record NoUsingsRuleComplementDto(
+    Pattern ProjectAssemblyNamePattern, 
+    Pattern FromPattern, 
+    Pattern ToPattern)
   {
-    public Pattern ProjectAssemblyNamePattern { get; }
-    public Pattern FromPattern { get; }
-    public Pattern ToPattern { get; }
     public string RuleName => HasNoUsingsRuleMetadata.HasNoUsings;
-
-    public NoUsingsRuleComplementDto(Pattern projectPattern, Pattern fromPattern, Pattern toPattern)
-    {
-      ProjectAssemblyNamePattern = projectPattern;
-      FromPattern = fromPattern;
-      ToPattern = toPattern;
-    }
   }
 }

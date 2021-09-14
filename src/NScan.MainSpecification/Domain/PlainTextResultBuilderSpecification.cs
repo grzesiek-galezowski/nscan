@@ -6,7 +6,7 @@ using Xunit;
 using static System.Environment;
 using static TddXt.AnyRoot.Root;
 
-namespace NScan.MainSpecification
+namespace NScan.MainSpecification.Domain
 {
   public class PlainTextResultBuilderSpecification 
   {

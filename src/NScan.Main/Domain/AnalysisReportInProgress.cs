@@ -7,7 +7,7 @@ namespace TddXt.NScan.Domain
 {
   public class AnalysisReportInProgress : IAnalysisReportInProgress
   {
-    private readonly Dictionary<RuleDescription, IRuleReport> _reportsByRule = new();
+    private readonly Dictionary<RuleDescription, ISingleRuleReport> _reportsByRule = new();
     private readonly IRuleReportFactory _ruleReportFactory;
 
     public AnalysisReportInProgress(IRuleReportFactory ruleReportFactory)
@@ -17,12 +17,11 @@ namespace TddXt.NScan.Domain
 
     public void AsString(IResultBuilder resultBuilder)
     {
-      foreach (var kvp in _reportsByRule)
+      foreach (var singleRuleReport in _reportsByRule.Values)
       {
-        var (ruleDescription, ruleReport) = kvp;
-        ruleReport.AppendTo(resultBuilder, ruleDescription);
+        singleRuleReport.AppendTo(resultBuilder);
 
-        if (!kvp.Equals(_reportsByRule.Last()))
+        if (!singleRuleReport.Equals(_reportsByRule.Values.Last()))
         {
           resultBuilder.AppendRuleSeparator();
         }
@@ -45,15 +44,15 @@ namespace TddXt.NScan.Domain
       AddRuleIfNotRegisteredYet(ruleDescription);
     }
 
-    public bool IsSuccessful()
+    public bool IsFailure()
     {
-      return _reportsByRule.Values.All(ruleReport => ruleReport.IsSuccessful());
+      return _reportsByRule.Values.Any(ruleReport => ruleReport.IsFailed());
     }
 
     public void Add(RuleViolation ruleViolation)
     {
       InitializeForCollecting(ruleViolation.RuleDescription);
-      _reportsByRule[ruleViolation.RuleDescription].AddViolation(ruleViolation);
+      _reportsByRule[ruleViolation.RuleDescription].Add(ruleViolation);
     }
 
     private void InitializeForCollecting(RuleDescription ruleName)
@@ -65,7 +64,7 @@ namespace TddXt.NScan.Domain
     {
       if (!_reportsByRule.Keys.Contains(ruleName))
       {
-        _reportsByRule[ruleName] = _ruleReportFactory.EmptyRuleReport();
+        _reportsByRule[ruleName] = _ruleReportFactory.EmptyReportFor(ruleName);
       }
     }
   }

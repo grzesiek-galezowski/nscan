@@ -204,7 +204,7 @@ namespace NScanSpecification.Domain.Root
         ReportInProgress = reportInProgress
       }.Build();
 
-      reportInProgress.IsSuccessful().Returns(hasViolations);
+      reportInProgress.IsFailure().Returns(hasViolations);
 
       //WHEN
       var analysisReturnCode = analysis.ReturnCode;

@@ -4,15 +4,15 @@ namespace TddXt.NScan.Domain
 {
   public interface IRuleReportFactory
   {
-    IRuleReport EmptyRuleReport();
+    ISingleRuleReport EmptyReportFor(RuleDescription ruleDescription);
   }
 
   public class RuleReportFactory
     : IRuleReportFactory
   {
-    public IRuleReport EmptyRuleReport()
+    public ISingleRuleReport EmptyReportFor(RuleDescription ruleDescription)
     {
-      return new RuleReport();
+      return new SingleRuleReport(ruleDescription);
     }
   }
 }
