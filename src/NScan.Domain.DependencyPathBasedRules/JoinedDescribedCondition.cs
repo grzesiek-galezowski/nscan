@@ -1,4 +1,6 @@
-﻿namespace NScan.DependencyPathBasedRules
+﻿using NScan.SharedKernel;
+
+namespace NScan.DependencyPathBasedRules
 {
   public interface IDependencyCondition
   {
@@ -7,19 +9,19 @@
 
   public interface IDescribedDependencyCondition : IDependencyCondition
   {
-    string Description();
+    public RuleDescription Description();
   }
 
   public class JoinedDescribedCondition : IDescribedDependencyCondition
   {
     private readonly IDependencyCondition _condition1;
     private readonly IDependencyCondition _condition2;
-    private readonly string _conditionDescription;
+    private readonly RuleDescription _conditionDescription;
 
     public JoinedDescribedCondition(
       IDependencyCondition condition1,
-      IDependencyCondition condition2,
-      string conditionDescription)
+      IDependencyCondition condition2, 
+      RuleDescription conditionDescription)
     {
       _condition1 = condition1;
       _condition2 = condition2;
@@ -35,9 +37,10 @@
       return false;
     }
 
-    public string Description()
+    public RuleDescription Description()
     {
       return _conditionDescription;
     }
+
   }
 }

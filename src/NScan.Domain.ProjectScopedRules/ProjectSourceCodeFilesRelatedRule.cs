@@ -27,7 +27,7 @@ namespace NScan.ProjectScopedRules
       {
         _fileContentCheck.ApplyTo(sourceCodeFile, _ruleDescription, report);
       }
-      report.FinishedEvaluatingRule(_ruleDescription);
+      report.FinishedEvaluatingRule(/* bug investigate */new RuleDescription(_ruleDescription));
     }
 
     public override string ToString()

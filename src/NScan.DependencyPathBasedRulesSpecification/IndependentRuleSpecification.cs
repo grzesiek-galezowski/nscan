@@ -3,7 +3,6 @@ using NScan.SharedKernel;
 using NScanSpecification.Lib;
 using NSubstitute;
 using TddXt.AnyRoot.Collections;
-using TddXt.AnyRoot.Strings;
 using TddXt.XNSubstitute;
 using Xunit;
 using static TddXt.AnyRoot.Root;
@@ -37,7 +36,7 @@ namespace NScan.DependencyPathBasedRulesSpecification
     {
       //GIVEN
       var dependencyCondition = Substitute.For<IDescribedDependencyCondition>();
-      var conditionDescription = Any.String();
+      var conditionDescription = Any.Instance<RuleDescription>();
       var dependingAssemblyNamePattern = Any.Pattern();
       var ruleViolationFactory = Substitute.For<IDependencyPathRuleViolationFactory>();
       var rule = new IndependentRule(dependencyCondition, dependingAssemblyNamePattern, ruleViolationFactory);
@@ -57,7 +56,7 @@ namespace NScan.DependencyPathBasedRulesSpecification
       dependencyAssembly.IsNotBefore(dependingAssembly).Returns(true);
 
       projectDependencyPath.SegmentBetween(dependingAssembly, dependencyAssembly).Returns(violatingPathSegment);
-      ruleViolationFactory.PathRuleViolation(conditionDescription, violatingPathSegment).Returns(violation);
+      ruleViolationFactory.PathRuleViolation(conditionDescription.Value, violatingPathSegment).Returns(violation);
 
       //WHEN
       rule.Check(report, projectDependencyPath);
@@ -76,7 +75,7 @@ namespace NScan.DependencyPathBasedRulesSpecification
     {
       //GIVEN
       var dependencyCondition = Substitute.For<IDescribedDependencyCondition>();
-      var conditionDescription = Any.String();
+      var conditionDescription = Any.Instance<RuleDescription>();
       var dependingAssemblyNamePattern = Any.Pattern();
       var rule = new IndependentRule(
         dependencyCondition, 

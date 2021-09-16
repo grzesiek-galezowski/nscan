@@ -1,3 +1,5 @@
+﻿using NScan.SharedKernel;
+
 namespace NScan.DependencyPathBasedRules
 {
   public class DescribedCondition : IDescribedDependencyCondition
@@ -16,9 +18,9 @@ namespace NScan.DependencyPathBasedRules
       return _dependencyCondition.Matches(depending, dependency);
     }
 
-    public string Description()
+    public RuleDescription Description()
     {
-      return _description;
+      return new RuleDescription(_description);
     }
   }
 }

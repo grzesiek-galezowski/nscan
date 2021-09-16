@@ -3,7 +3,6 @@ using FluentAssertions;
 using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NSubstitute;
-using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
 using Xunit;
 using static TddXt.AnyRoot.Root;
@@ -52,7 +51,7 @@ namespace NScan.ProjectScopedRulesSpecification
         fileContentCheck.ApplyTo(file1, ruleDescription, report);
         fileContentCheck.ApplyTo(file2, ruleDescription, report);
         fileContentCheck.ApplyTo(file3, ruleDescription, report);
-        report.FinishedEvaluatingRule(ruleDescription);
+        report.FinishedEvaluatingRule(/* bug investigate */new RuleDescription(ruleDescription));
       });
     }
 

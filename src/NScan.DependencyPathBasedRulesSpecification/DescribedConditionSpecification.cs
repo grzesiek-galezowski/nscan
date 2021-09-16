@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using NScan.DependencyPathBasedRules;
+using NScan.SharedKernel;
 using NSubstitute;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Strings;
@@ -37,10 +38,11 @@ namespace NScan.DependencyPathBasedRulesSpecification
       var condition = new DescribedCondition(Any.Instance<IDependencyCondition>(), initialDescription);
 
       //WHEN
-      var descriptionFromCondition = condition.Description();
+      //bug
+      var descriptionFromCondition = ((IDescribedDependencyCondition)condition).Description();
 
       //THEN
-      descriptionFromCondition.Should().Be(initialDescription);
+      descriptionFromCondition.Should().Be(new RuleDescription(initialDescription));
     }
   }
 }

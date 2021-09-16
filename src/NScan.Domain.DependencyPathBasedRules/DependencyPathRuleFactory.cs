@@ -1,5 +1,6 @@
 ﻿using GlobExpressions;
 using NScan.Lib;
+using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 
 namespace NScan.DependencyPathBasedRules
@@ -50,11 +51,12 @@ namespace NScan.DependencyPathBasedRules
       Glob dependencyNamePattern,
       string dependencyType)
     {
+      string conditionDescription = IndependentRuleMetadata.FormatIndependentRule(dependingNamePattern, 
+        dependencyType, dependencyNamePattern);
       return new IndependentRule(
         new JoinedDescribedCondition(new IsFollowingAssemblyCondition(),
           new HasAssemblyNameMatchingPatternCondition(
-            dependencyNamePattern), IndependentRuleMetadata.FormatIndependentRule(dependingNamePattern, 
-            dependencyType, dependencyNamePattern)), 
+            dependencyNamePattern), new RuleDescription(conditionDescription)), 
         dependingNamePattern, _ruleViolationFactory);
     }
 

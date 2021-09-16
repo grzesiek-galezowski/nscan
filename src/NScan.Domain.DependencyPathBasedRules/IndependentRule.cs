@@ -29,13 +29,14 @@ namespace NScan.DependencyPathBasedRules
         if (dependencyAssembly.IsNotBefore(dependingAssembly))
         {
           var pathRuleViolation = _ruleViolationFactory.PathRuleViolation(
-            _condition.Description(), 
+            _condition.Description().Value, //bug
             dependencyPath.SegmentBetween(dependingAssembly, dependencyAssembly));
           report.Add(pathRuleViolation);
         }
       }
       report.FinishedEvaluatingRule(_condition.Description());
     }
+
   }
 
 

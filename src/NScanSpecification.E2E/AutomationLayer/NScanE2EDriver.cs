@@ -5,7 +5,6 @@ using AtmaFileSystem;
 using AtmaFileSystem.IO;
 using FluentAssertions;
 using NScanSpecification.Lib.AutomationLayer;
-using SimpleExec;
 using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Console;
 using Xunit.Abstractions;

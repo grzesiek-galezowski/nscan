@@ -1,8 +1,8 @@
 ﻿using FluentAssertions;
 using NScan.DependencyPathBasedRules;
+using NScan.SharedKernel;
 using NSubstitute;
 using TddXt.AnyRoot;
-using TddXt.AnyRoot.Strings;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
@@ -10,7 +10,6 @@ namespace NScan.DependencyPathBasedRulesSpecification
 {
   public class JoinedDescribedConditionSpecification
   {
-    
     [Fact]
     public void ShouldReturnsMatchBasedOnInnerConditionsMatchLogicalProduct()
     {
@@ -22,7 +21,7 @@ namespace NScan.DependencyPathBasedRulesSpecification
       var condition1Result = Any.Boolean();
       var condition2Result = Any.Boolean();
 
-      var joinedCondition = new JoinedDescribedCondition(condition1, condition2, Any.String());
+      var joinedCondition = new JoinedDescribedCondition(condition1, condition2, Any.Instance<RuleDescription>());
       
       condition1.Matches(depending, dependency).Returns(condition1Result);
       condition2.Matches(depending, dependency).Returns(condition2Result);
@@ -38,17 +37,17 @@ namespace NScan.DependencyPathBasedRulesSpecification
     public void ShouldReturnsADescriptionItWasCreatedWith()
     {
       //GIVEN
-      var initialDescription = Any.String();
+      var conditionDescription = Any.Instance<RuleDescription>();
       var condition = new JoinedDescribedCondition(
         Any.Instance<IDependencyCondition>(), 
-        Any.Instance<IDependencyCondition>(),
-        initialDescription);
+        Any.Instance<IDependencyCondition>(), 
+        conditionDescription);
       
       //WHEN
       var description = condition.Description();
 
       //THEN
-      description.Should().Be(initialDescription);
+      description.Should().Be(description);
     }
   }
 }

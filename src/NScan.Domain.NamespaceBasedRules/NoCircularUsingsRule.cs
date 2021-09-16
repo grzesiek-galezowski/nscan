@@ -15,9 +15,9 @@ namespace NScan.NamespaceBasedRules
       _ruleViolationFactory = ruleViolationFactory;
     }
 
-    public string Description()
+    public RuleDescription Description() //bug
     {
-      return HasNoCircularUsingsRuleMetadata.Format(_ruleDto);
+      return new RuleDescription(HasNoCircularUsingsRuleMetadata.Format(_ruleDto));
     }
 
     public void Evaluate(
@@ -30,7 +30,7 @@ namespace NScan.NamespaceBasedRules
       {
         report.Add(
           _ruleViolationFactory.NoCyclesRuleViolation(
-            Description(), 
+            Description().Value, 
             projectAssemblyName, 
             cycles));
       }

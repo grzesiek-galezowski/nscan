@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using NScan.SharedKernel;
 
@@ -31,12 +30,6 @@ namespace TddXt.NScan.Domain
     public void StartedCheckingTarget(string assemblyName)
     {
       //bug throw new System.NotImplementedException();
-    }
-
-    [Obsolete("Use the version with RuleDescription argument")]
-    public void FinishedEvaluatingRule(string ruleDescription)
-    {
-      FinishedEvaluatingRule(new RuleDescription(ruleDescription));
     }
 
     public void FinishedEvaluatingRule(RuleDescription ruleDescription)
