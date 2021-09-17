@@ -15,7 +15,7 @@ namespace NScan.NamespaceBasedRules
       _ruleViolationFactory = ruleViolationFactory;
     }
 
-    public RuleDescription Description() //bug
+    public RuleDescription Description()
     {
       return HasNoCircularUsingsRuleMetadata.Format(_ruleDto);
     }

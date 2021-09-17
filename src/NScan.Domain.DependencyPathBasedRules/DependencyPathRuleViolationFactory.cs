@@ -13,10 +13,11 @@ namespace NScan.DependencyPathBasedRules
       _reportFragmentsFormat = reportFragmentsFormat;
     }
 
-    public RuleViolation PathRuleViolation(string ruleDescription, IReadOnlyList<IDependencyPathBasedRuleTarget> violationPath)
+    public RuleViolation PathRuleViolation(RuleDescription description,
+      IReadOnlyList<IDependencyPathBasedRuleTarget> violationPath)
     {
       return RuleViolation.Create(
-        new RuleDescription(ruleDescription), 
+        description, 
         "Violating path: ", 
         _reportFragmentsFormat.ApplyToPath(violationPath));
     }

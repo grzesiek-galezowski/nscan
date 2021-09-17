@@ -56,7 +56,7 @@ namespace NScan.DependencyPathBasedRulesSpecification
       dependencyAssembly.IsNotBefore(dependingAssembly).Returns(true);
 
       projectDependencyPath.SegmentBetween(dependingAssembly, dependencyAssembly).Returns(violatingPathSegment);
-      ruleViolationFactory.PathRuleViolation(conditionDescription.Value, violatingPathSegment).Returns(violation);
+      ruleViolationFactory.PathRuleViolation(conditionDescription, violatingPathSegment).Returns(violation);
 
       //WHEN
       rule.Check(report, projectDependencyPath);

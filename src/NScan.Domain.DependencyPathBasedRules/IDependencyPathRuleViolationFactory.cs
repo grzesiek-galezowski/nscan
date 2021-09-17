@@ -1,10 +1,12 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NScan.SharedKernel;
 
 namespace NScan.DependencyPathBasedRules
 {
   public interface IDependencyPathRuleViolationFactory
   {
-    RuleViolation PathRuleViolation(string ruleDescription, IReadOnlyList<IDependencyPathBasedRuleTarget> violationPath);
+    RuleViolation PathRuleViolation(
+      RuleDescription description,
+      IReadOnlyList<IDependencyPathBasedRuleTarget> violationPath);
   }
 }
