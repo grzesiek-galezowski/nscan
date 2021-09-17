@@ -5,15 +5,20 @@ namespace NScan.ProjectScopedRules
 {
   public class ProjectSourceCodeFilesRelatedRule : IProjectScopedRule, IProjectFilesetScopedRule
   {
-    private readonly string _ruleDescription;
     private readonly ISourceCodeFileContentCheck _fileContentCheck;
+    private readonly RuleDescription _ruleDescription;
 
     public ProjectSourceCodeFilesRelatedRule(
-      string ruleDescription,
+      RuleDescription description,
       ISourceCodeFileContentCheck fileContentCheck)
     {
-      _ruleDescription = ruleDescription;
       _fileContentCheck = fileContentCheck;
+      _ruleDescription = description;
+    }
+
+    public RuleDescription Description()
+    {
+      return _ruleDescription;
     }
 
     public void Check(IProjectScopedRuleTarget project, IAnalysisReportInProgress report)
@@ -27,12 +32,7 @@ namespace NScan.ProjectScopedRules
       {
         _fileContentCheck.ApplyTo(sourceCodeFile, _ruleDescription, report);
       }
-      report.FinishedEvaluatingRule(/* bug investigate */new RuleDescription(_ruleDescription));
-    }
-
-    public override string ToString()
-    {
-      return _ruleDescription;
+      report.FinishedEvaluatingRule(_ruleDescription);
     }
   }
 }

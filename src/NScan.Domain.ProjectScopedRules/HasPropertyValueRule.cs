@@ -15,20 +15,25 @@ namespace NScan.ProjectScopedRules
   public class HasPropertyValueRule : IProjectScopedRule, IPropertyCheck
   {
     private readonly IProjectScopedRuleViolationFactory _violationFactory;
-    private readonly string _ruleDescription;
     private readonly string _propertyName;
     private readonly Pattern _expectedPropertyValuePattern;
+    private readonly RuleDescription _ruleDescription;
 
     public HasPropertyValueRule(
       string propertyName,
       Pattern expectedPropertyValuePattern,
-      IProjectScopedRuleViolationFactory violationFactory,
-      string ruleDescription)
+      IProjectScopedRuleViolationFactory violationFactory, 
+      RuleDescription description)
     {
       _violationFactory = violationFactory;
-      _ruleDescription = ruleDescription;
       _propertyName = propertyName;
       _expectedPropertyValuePattern = expectedPropertyValuePattern;
+      _ruleDescription = description;
+    }
+
+    public RuleDescription Description()
+    {
+      return _ruleDescription;
     }
 
     public void Check(IProjectScopedRuleTarget project, IAnalysisReportInProgress report)
@@ -43,20 +48,13 @@ namespace NScan.ProjectScopedRules
         var propertyValue = properties[_propertyName];
         if (!_expectedPropertyValuePattern.IsMatchedBy(propertyValue))
         {
-          report.Add(_violationFactory.ProjectScopedRuleViolation(
-            _ruleDescription, $"Project {assemblyName} has {_propertyName}:{propertyValue}"));
+          report.Add(_violationFactory.ProjectScopedRuleViolation(_ruleDescription, $"Project {assemblyName} has {_propertyName}:{propertyValue}"));
         }
       }
       else
       {
-        report.Add(_violationFactory.ProjectScopedRuleViolation(
-          _ruleDescription, $"Project {assemblyName} does not have {_propertyName} set explicitly"));
+        report.Add(_violationFactory.ProjectScopedRuleViolation(_ruleDescription, $"Project {assemblyName} does not have {_propertyName} set explicitly"));
       }
-    }
-
-    public override string ToString()
-    {
-      return _ruleDescription;
     }
   }
 }

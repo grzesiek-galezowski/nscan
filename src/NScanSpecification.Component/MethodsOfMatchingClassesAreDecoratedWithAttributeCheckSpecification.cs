@@ -21,14 +21,13 @@ namespace NScanSpecification.Component
       var report = Any.Instance<IAnalysisReportInProgress>();
       
       //WHEN
-      check.ApplyTo(file, description, report);
+      check.ApplyTo(file, new RuleDescription(description), report);
 
       //THEN
       file.Received(1).CheckMethodsHavingCorrectAttributes(
         report, 
         dto.ClassNameInclusionPattern, 
-        dto.MethodNameInclusionPattern, 
-        description);
+        dto.MethodNameInclusionPattern, new RuleDescription(description));
     }
   }
 }

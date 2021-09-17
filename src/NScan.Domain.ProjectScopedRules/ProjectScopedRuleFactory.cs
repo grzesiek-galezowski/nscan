@@ -1,4 +1,5 @@
 ﻿using NScan.Lib;
+using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
 namespace NScan.ProjectScopedRules
@@ -15,7 +16,8 @@ namespace NScan.ProjectScopedRules
     public IProjectScopedRule CreateProjectScopedRuleFrom(CorrectNamespacesRuleComplementDto ruleDto)
     {
       return new ProjectScopedRuleApplicableToMatchingProject(ruleDto.ProjectAssemblyNamePattern, 
-        new ProjectSourceCodeFilesRelatedRule(HasCorrectNamespacesRuleMetadata.Format(ruleDto), 
+        new ProjectSourceCodeFilesRelatedRule(
+          HasCorrectNamespacesRuleMetadata.Format(ruleDto), 
           new CorrectNamespacesInFileCheck()));
     }
 
@@ -23,7 +25,8 @@ namespace NScan.ProjectScopedRules
     {
       return new ProjectScopedRuleApplicableToMatchingProject(
         ruleDto.ProjectAssemblyNamePattern,
-        new ProjectSourceCodeFilesRelatedRule(HasAttributesOnRuleMetadata.Format(ruleDto),
+        new ProjectSourceCodeFilesRelatedRule(
+          HasAttributesOnRuleMetadata.Format(ruleDto), 
           new MethodsOfMatchingClassesAreDecoratedWithAttributeCheck(ruleDto)));
     }
 

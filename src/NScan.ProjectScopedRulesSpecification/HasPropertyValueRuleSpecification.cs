@@ -19,11 +19,11 @@ namespace NScan.ProjectScopedRulesSpecification
     {
       //GIVEN
       var expectedPropertyValue = Any.Pattern();
+      string ruleDescription = Any.String();
       var rule = new HasPropertyValueRule(
         Any.String(), 
         expectedPropertyValue, 
-        Any.Instance<IProjectScopedRuleViolationFactory>(), 
-        Any.String());
+        Any.Instance<IProjectScopedRuleViolationFactory>(), new RuleDescription(ruleDescription));
       var project = Substitute.For<IProjectScopedRuleTarget>();
       var analysisReportInProgress = Substitute.For<IAnalysisReportInProgress>();
 
@@ -35,19 +35,18 @@ namespace NScan.ProjectScopedRulesSpecification
     }
 
     [Fact]
-    public void ShouldGiveItsDescriptionWhenConvertedToString()
+    public void ShouldAllowGettingItsDescription()
     {
       //GIVEN
-      var ruleDescription = Any.String();
+      var ruleDescription = Any.Instance<RuleDescription>();
       var expectedPropertyValue = Any.Pattern();
       var rule = new HasPropertyValueRule(
         Any.String(), 
         expectedPropertyValue, 
-        Any.Instance<IProjectScopedRuleViolationFactory>(), 
-        ruleDescription);
+        Any.Instance<IProjectScopedRuleViolationFactory>(), ruleDescription);
 
       //WHEN
-      var stringRepresentation = rule.ToString();
+      var stringRepresentation = rule.Description();
 
       //THEN
       stringRepresentation.Should().Be(ruleDescription);
@@ -72,11 +71,9 @@ namespace NScan.ProjectScopedRulesSpecification
       var rule = new HasPropertyValueRule(
         propertyName, 
         Pattern.WithoutExclusion(expectedPropertyValue), 
-        violationFactory, 
-        ruleDescription);
+        violationFactory, new RuleDescription(ruleDescription));
 
-      violationFactory.ProjectScopedRuleViolation(
-        ruleDescription, $"Project {assemblyName} has {propertyName}:{propertyValue}").Returns(violation);
+      violationFactory.ProjectScopedRuleViolation(new RuleDescription(ruleDescription), $"Project {assemblyName} has {propertyName}:{propertyValue}").Returns(violation);
 
       //WHEN
       rule.ApplyTo(assemblyName, properties, analysisReportInProgress);
@@ -100,11 +97,9 @@ namespace NScan.ProjectScopedRulesSpecification
       var rule = new HasPropertyValueRule(
         propertyName, 
         expectedPropertyValue, 
-        violationFactory, 
-        ruleDescription);
+        violationFactory, new RuleDescription(ruleDescription));
 
-      violationFactory.ProjectScopedRuleViolation(
-        ruleDescription, $"Project {assemblyName} does not have {propertyName} set explicitly").Returns(violation);
+      violationFactory.ProjectScopedRuleViolation(new RuleDescription(ruleDescription), $"Project {assemblyName} does not have {propertyName} set explicitly").Returns(violation);
 
       //WHEN
       rule.ApplyTo(assemblyName, properties, analysisReportInProgress);
@@ -125,11 +120,11 @@ namespace NScan.ProjectScopedRulesSpecification
         [propertyName] = actualPropertyValue
       };
       var analysisReportInProgress = Substitute.For<IAnalysisReportInProgress>();
+      string ruleDescription = Any.String();
       var rule = new HasPropertyValueRule(
         propertyName, 
         Pattern.WithoutExclusion(expectedPattern), 
-        Any.Instance<IProjectScopedRuleViolationFactory>(), 
-        Any.String());
+        Any.Instance<IProjectScopedRuleViolationFactory>(), new RuleDescription(ruleDescription));
 
       //WHEN
       rule.ApplyTo(Any.String(), properties, analysisReportInProgress);

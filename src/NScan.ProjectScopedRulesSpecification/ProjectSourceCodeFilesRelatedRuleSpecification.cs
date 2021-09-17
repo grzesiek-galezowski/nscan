@@ -15,7 +15,8 @@ namespace NScan.ProjectScopedRulesSpecification
     public void ShouldMakeProjectAnalyzeFilesWithItselfWhenChecked()
     {
       //GIVEN
-      var rule = new ProjectSourceCodeFilesRelatedRule(Any.String(), Any.Instance<ISourceCodeFileContentCheck>());
+      string ruleDescription = Any.String();
+      var rule = new ProjectSourceCodeFilesRelatedRule(new RuleDescription(ruleDescription), Any.Instance<ISourceCodeFileContentCheck>());
       var report = Any.Instance<IAnalysisReportInProgress>();
       var project = Substitute.For<IProjectScopedRuleTarget>();
 
@@ -32,7 +33,7 @@ namespace NScan.ProjectScopedRulesSpecification
       //GIVEN
       var fileContentCheck = Substitute.For<ISourceCodeFileContentCheck>();
       var ruleDescription = Any.String();
-      var rule = new ProjectSourceCodeFilesRelatedRule(ruleDescription, fileContentCheck);
+      var rule = new ProjectSourceCodeFilesRelatedRule(new RuleDescription(ruleDescription), fileContentCheck);
       var file1 = Substitute.For<ISourceCodeFileInNamespace>();
       var file2 = Substitute.For<ISourceCodeFileInNamespace>();
       var file3 = Substitute.For<ISourceCodeFileInNamespace>();
@@ -48,25 +49,27 @@ namespace NScan.ProjectScopedRulesSpecification
       //THEN
       Received.InOrder(() =>
       {
-        fileContentCheck.ApplyTo(file1, ruleDescription, report);
-        fileContentCheck.ApplyTo(file2, ruleDescription, report);
-        fileContentCheck.ApplyTo(file3, ruleDescription, report);
+        fileContentCheck.ApplyTo(file1, new RuleDescription(ruleDescription), report);
+        fileContentCheck.ApplyTo(file2, new RuleDescription(ruleDescription), report);
+        fileContentCheck.ApplyTo(file3, new RuleDescription(ruleDescription), report);
         report.FinishedEvaluatingRule(/* bug investigate */new RuleDescription(ruleDescription));
       });
     }
 
     [Fact]
-    public void ShouldReturnRuleDescriptionWhenConvertedToString()
+    public void ShouldAllowGettingItsDescription()
     {
       //GIVEN
-      var ruleDescription = Any.String();
-      var rule = new ProjectSourceCodeFilesRelatedRule(ruleDescription, Any.Instance<ISourceCodeFileContentCheck>());
+      var description = Any.Instance<RuleDescription>();
+      var rule = new ProjectSourceCodeFilesRelatedRule(
+        description, 
+        Any.Instance<ISourceCodeFileContentCheck>());
 
       //WHEN
-      var ruleAsString = rule.ToString();
+      var ruleAsString = rule.Description();
 
       //THEN
-      ruleAsString.Should().Be(ruleDescription);
+      ruleAsString.Should().Be(description);
     }
   }
 }

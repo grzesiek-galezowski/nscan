@@ -51,12 +51,13 @@ namespace NScan.DependencyPathBasedRules
       Glob dependencyNamePattern,
       string dependencyType)
     {
-      string conditionDescription = IndependentRuleMetadata.FormatIndependentRule(dependingNamePattern, 
-        dependencyType, dependencyNamePattern);
+      var ruleDescription = IndependentRuleMetadata.FormatIndependentRule(dependingNamePattern, dependencyType, dependencyNamePattern);
+
       return new IndependentRule(
         new JoinedDescribedCondition(new IsFollowingAssemblyCondition(),
           new HasAssemblyNameMatchingPatternCondition(
-            dependencyNamePattern), new RuleDescription(conditionDescription)), 
+            dependencyNamePattern), 
+          ruleDescription), 
         dependingNamePattern, _ruleViolationFactory);
     }
 
@@ -65,13 +66,13 @@ namespace NScan.DependencyPathBasedRules
       Glob packageNamePattern,
       string dependencyType)
     {
+      RuleDescription description = IndependentRuleMetadata.FormatIndependentRule(
+        dependingAssemblyNamePattern,
+        dependencyType,
+        packageNamePattern);
       return new IndependentRule(
         new DescribedCondition(
-          new HasPackageReferenceMatchingCondition(packageNamePattern), 
-          IndependentRuleMetadata.FormatIndependentRule(
-            dependingAssemblyNamePattern,
-            dependencyType,
-            packageNamePattern)), 
+          new HasPackageReferenceMatchingCondition(packageNamePattern), description), 
         dependingAssemblyNamePattern, 
         _ruleViolationFactory);
     }
@@ -81,13 +82,14 @@ namespace NScan.DependencyPathBasedRules
       Glob assemblyNamePattern,
       string dependencyType)
     {
+      RuleDescription description = IndependentRuleMetadata.FormatIndependentRule(
+        dependingAssemblyNamePattern, 
+        dependencyType, 
+        assemblyNamePattern);
       return new IndependentRule(
         new DescribedCondition(
           new HasAssemblyReferenceMatchingCondition(assemblyNamePattern), 
-          IndependentRuleMetadata.FormatIndependentRule(
-            dependingAssemblyNamePattern, 
-            dependencyType, 
-            assemblyNamePattern)), 
+          description), 
         dependingAssemblyNamePattern, _ruleViolationFactory);
     }
   }

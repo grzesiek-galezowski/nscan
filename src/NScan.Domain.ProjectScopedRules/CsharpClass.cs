@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using NScan.Lib;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
@@ -23,12 +23,11 @@ namespace NScan.ProjectScopedRules
 
     public void EvaluateDecorationWithAttributes(
       IAnalysisReportInProgress report, 
-      Pattern methodNameInclusionPattern,
-      string ruleDescription)
+      Pattern methodNameInclusionPattern, RuleDescription description)
     {
       foreach (var method in _methods.Where(m => m.NameMatches(methodNameInclusionPattern)))
       {
-        method.EvaluateMethodsHavingCorrectAttributes(report, _classDeclarationInfo.Name, ruleDescription);
+        method.EvaluateMethodsHavingCorrectAttributes(report, _classDeclarationInfo.Name, description);
       }
     }
   }

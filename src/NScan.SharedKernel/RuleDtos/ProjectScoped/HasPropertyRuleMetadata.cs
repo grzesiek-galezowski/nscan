@@ -4,9 +4,13 @@
   {
     public const string HasProperty = "hasProperty";
 
-    public static string Format(HasPropertyRuleComplementDto dto)
+    public static RuleDescription Format(HasPropertyRuleComplementDto ruleDto)
     {
-      return $"{dto.ProjectAssemblyNamePattern.Description()} {HasProperty} {dto.PropertyName} {dto.PropertyValue.Description()}";
+      return new RuleDescription(
+        $"{ruleDto.ProjectAssemblyNamePattern.Description()} " +
+        $"{HasProperty} " +
+        $"{ruleDto.PropertyName} " +
+        $"{ruleDto.PropertyValue.Description()}");
     }
   }
 }

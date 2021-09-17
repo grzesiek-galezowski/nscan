@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NScan.SharedKernel;
 
 namespace NScan.ProjectScopedRules
@@ -11,5 +11,7 @@ namespace NScan.ProjectScopedRules
   public interface IProjectScopedRule
   {
     void Check(IProjectScopedRuleTarget project, IAnalysisReportInProgress report);
+
+    public RuleDescription Description();
   }
 }

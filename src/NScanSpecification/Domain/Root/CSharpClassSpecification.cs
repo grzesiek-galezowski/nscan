@@ -50,12 +50,15 @@ namespace NScanSpecification.Domain.Root
       method3.NameMatches(methodNameInclusionPattern).Returns(true);
 
       //WHEN
-      @class.EvaluateDecorationWithAttributes(report, methodNameInclusionPattern, ruleDescription);
+      @class.EvaluateDecorationWithAttributes(report, methodNameInclusionPattern, new RuleDescription(ruleDescription));
 
       //THEN
-      method1.Received(1).EvaluateMethodsHavingCorrectAttributes(report, declaration.Name, ruleDescription);
-      method2.DidNotReceive().EvaluateMethodsHavingCorrectAttributes(Arg.Any<IAnalysisReportInProgress>(), Arg.Any<string>(), Arg.Any<string>());
-      method3.Received(1).EvaluateMethodsHavingCorrectAttributes(report, declaration.Name, ruleDescription);
+      method1.Received(1).EvaluateMethodsHavingCorrectAttributes(report, declaration.Name, new RuleDescription(ruleDescription));
+      method2.DidNotReceive().EvaluateMethodsHavingCorrectAttributes(
+        Arg.Any<IAnalysisReportInProgress>(), 
+        Arg.Any<string>(), 
+        Arg.Any<RuleDescription>());
+      method3.Received(1).EvaluateMethodsHavingCorrectAttributes(report, declaration.Name, new RuleDescription(ruleDescription));
     }
   }
 }

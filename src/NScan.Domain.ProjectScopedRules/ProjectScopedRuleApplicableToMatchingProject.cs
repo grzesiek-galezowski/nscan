@@ -16,6 +16,11 @@ namespace NScan.ProjectScopedRules
       _innerRule = innerRule;
     }
 
+    public RuleDescription Description()
+    {
+      return _innerRule.Description();
+    }
+
     public void Check(IProjectScopedRuleTarget project, IAnalysisReportInProgress report)
     {
       if (project.HasProjectAssemblyNameMatching(_projectAssemblyPattern))
@@ -23,11 +28,6 @@ namespace NScan.ProjectScopedRules
         project.AddInfoAboutMatchingPatternTo(report);
         _innerRule.Check(project, report);
       }
-    }
-
-    public override string ToString()
-    {
-      return _innerRule.ToString();
     }
   }
 }

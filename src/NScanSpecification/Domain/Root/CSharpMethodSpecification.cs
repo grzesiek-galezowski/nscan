@@ -43,10 +43,10 @@ namespace NScanSpecification.Domain.Root
       var ruleDescription = Any.String();
       var violation = Any.Instance<RuleViolation>();
 
-      violationFactory.ProjectScopedRuleViolation(ruleDescription, $"Method {declaration.Name} in class {parentClassName} does not have any attribute").Returns(violation);
+      violationFactory.ProjectScopedRuleViolation(new RuleDescription(ruleDescription), $"Method {declaration.Name} in class {parentClassName} does not have any attribute").Returns(violation);
 
       //WHEN
-      cSharpMethod.EvaluateMethodsHavingCorrectAttributes(report, parentClassName, ruleDescription);
+      cSharpMethod.EvaluateMethodsHavingCorrectAttributes(report, parentClassName, new RuleDescription(ruleDescription));
 
       //THEN
       report.Received(1).Add(violation);
@@ -64,11 +64,10 @@ namespace NScanSpecification.Domain.Root
       var ruleDescription = Any.String();
       var violation = Any.Instance<RuleViolation>();
 
-      violationFactory.ProjectScopedRuleViolation(ruleDescription, 
-        $"Method {declaration.Name} in class {parentClassName} does not have any attribute").Returns(violation);
+      violationFactory.ProjectScopedRuleViolation(new RuleDescription(ruleDescription), $"Method {declaration.Name} in class {parentClassName} does not have any attribute").Returns(violation);
 
       //WHEN
-      cSharpMethod.EvaluateMethodsHavingCorrectAttributes(report, parentClassName, ruleDescription);
+      cSharpMethod.EvaluateMethodsHavingCorrectAttributes(report, parentClassName, new RuleDescription(ruleDescription));
 
       //THEN
       report.DidNotReceive().Add(Arg.Any<RuleViolation>());

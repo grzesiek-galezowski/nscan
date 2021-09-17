@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using NScan.Lib;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
@@ -22,12 +22,11 @@ namespace NScan.ProjectScopedRules
       return methodNameInclusionPattern.IsMatchedBy(_methodDeclarationInfo.Name);
     }
 
-    public void EvaluateMethodsHavingCorrectAttributes(IAnalysisReportInProgress report, string parentClassName,
-      string ruleDescription)
+    public void EvaluateMethodsHavingCorrectAttributes(IAnalysisReportInProgress report, string parentClassName, RuleDescription description)
     {
       if (!_methodDeclarationInfo.Attributes.Any())
       {
-        report.Add(_violationFactory.ProjectScopedRuleViolation(ruleDescription, $"Method {_methodDeclarationInfo.Name} in class {parentClassName} does not have any attribute"));
+        report.Add(_violationFactory.ProjectScopedRuleViolation(description, $"Method {_methodDeclarationInfo.Name} in class {parentClassName} does not have any attribute"));
       }
     }
   }

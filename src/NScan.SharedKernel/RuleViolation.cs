@@ -10,11 +10,6 @@
       return new RuleViolation(description, prefixPhrase, violationDescription);
     }
 
-    public static RuleViolation Create(string ruleDescription, string prefixPhrase, string violationDescription)
-    {
-      return Create(new RuleDescription(ruleDescription), prefixPhrase, violationDescription);
-    }
-
     public string ToHumanReadableString()
     {
       return PrefixPhrase + ViolationDescription;

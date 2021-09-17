@@ -1,4 +1,4 @@
-using GlobExpressions;
+﻿using GlobExpressions;
 using NScan.Lib;
 
 namespace NScan.SharedKernel.RuleDtos.DependencyPathBased
@@ -12,17 +12,24 @@ namespace NScan.SharedKernel.RuleDtos.DependencyPathBased
       return FormatIndependentRule(dto.DependingPattern.Description(), dto.RuleName, dto.DependencyType, dto.DependencyPattern.Pattern);
     }
 
-    public static string FormatIndependentRule(
+    private static string FormatIndependentRule(string projectAssemblyNamePattern, string ruleName, string dependencyType, string dependencyPattern)
+    {
+      return $"{projectAssemblyNamePattern} {ruleName} {dependencyType}:{dependencyPattern}";
+    }
+
+    //bug rename
+    public static RuleDescription FormatIndependentRule(
       Pattern dependingNamePattern,
       string dependencyType, 
       Glob dependencyNamePattern)
     {
-      return FormatIndependentRule(dependingNamePattern.Description(), IndependentOf, dependencyType, dependencyNamePattern.Pattern);
-    }
-
-    private static string FormatIndependentRule(string projectAssemblyNamePattern, string ruleName, string dependencyType, string dependencyPattern)
-    {
-      return $"{projectAssemblyNamePattern} {ruleName} {dependencyType}:{dependencyPattern}";
+      var ruleDescription = new RuleDescription( //bug
+        FormatIndependentRule(
+          dependingNamePattern.Description(), 
+          IndependentOf, 
+          dependencyType, 
+          dependencyNamePattern.Pattern));
+      return ruleDescription;
     }
   }
 }

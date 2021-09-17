@@ -17,7 +17,7 @@ namespace NScan.NamespaceBasedRules
 
     public RuleDescription Description() //bug
     {
-      return new RuleDescription(HasNoCircularUsingsRuleMetadata.Format(_ruleDto));
+      return HasNoCircularUsingsRuleMetadata.Format(_ruleDto);
     }
 
     public void Evaluate(

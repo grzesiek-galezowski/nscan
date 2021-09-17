@@ -1,13 +1,12 @@
-namespace NScan.SharedKernel.RuleDtos.ProjectScoped
+﻿namespace NScan.SharedKernel.RuleDtos.ProjectScoped
 {
   public static class HasCorrectNamespacesRuleMetadata
   {
     public const string HasCorrectNamespaces = "hasCorrectNamespaces";
 
-    public static string Format(CorrectNamespacesRuleComplementDto dto)
+    public static RuleDescription Format(CorrectNamespacesRuleComplementDto ruleDto)
     {
-      return $"{dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName}";
+      return new RuleDescription($"{ruleDto.ProjectAssemblyNamePattern.Description()} {ruleDto.RuleName}");
     }
-
   }
 }

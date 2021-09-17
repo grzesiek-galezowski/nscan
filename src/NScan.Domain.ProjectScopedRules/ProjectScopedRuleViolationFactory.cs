@@ -4,9 +4,11 @@ namespace NScan.ProjectScopedRules
 {
   public class ProjectScopedRuleViolationFactory : IProjectScopedRuleViolationFactory
   {
-    public RuleViolation ProjectScopedRuleViolation(string ruleDescription, string violationDescription)
+    public RuleViolation ProjectScopedRuleViolation(
+      RuleDescription description, 
+      string violationDescription)
     {
-      return RuleViolation.Create(ruleDescription, string.Empty, violationDescription);
+      return RuleViolation.Create(description, string.Empty, violationDescription);
     }
   }
 }

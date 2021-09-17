@@ -56,17 +56,19 @@ namespace NScan.ProjectScopedRulesSpecification
     }
     
     [Fact]
-    public void ShouldReturnItsInnerRuleStringRepresentationWhenConvertedToString()
+    public void ShouldReturnItsInnerRuleDescriptionWhenAskedForOne()
     {
       //GIVEN
       var innerRule = Any.Instance<IProjectScopedRule>();
-      var rule = new ProjectScopedRuleApplicableToMatchingProject(Any.Instance<Pattern>(), innerRule);
+      var rule = new ProjectScopedRuleApplicableToMatchingProject(
+        Any.Instance<Pattern>(), 
+        innerRule);
 
       //WHEN
-      var stringRepresentation = rule.ToString();
+      var description = rule.Description();
 
       //THEN
-      stringRepresentation.Should().Be(innerRule.ToString());
+      description.Should().Be(innerRule.Description());
     }
   }
 }

@@ -4,9 +4,12 @@
   {
     public const string HasTargetFramework = "hasTargetFramework";
 
-    public static string Format(HasTargetFrameworkRuleComplementDto dto)
+    public static RuleDescription Format(HasTargetFrameworkRuleComplementDto ruleDto)
     {
-      return $"{dto.ProjectAssemblyNamePattern.Description()} {HasTargetFramework} {dto.TargetFramework}";
+      return new RuleDescription(
+        $"{ruleDto.ProjectAssemblyNamePattern.Description()} " +
+        $"{HasTargetFramework} " +
+        $"{ruleDto.TargetFramework}");
     }
   }
 }

@@ -18,7 +18,8 @@ namespace NScan.NamespaceBasedRules
       string projectAssemblyName,
       IReadOnlyList<NamespaceDependencyPath> cycles)
     {
-      return RuleViolation.Create(ruleDescription, 
+      return RuleViolation.Create(
+        new RuleDescription(ruleDescription), 
         $"Discovered cycle(s) in project {projectAssemblyName}:{Environment.NewLine}", 
         _reportFragmentsFormat.ApplyTo(cycles, "Cycle"));
     }
@@ -27,7 +28,8 @@ namespace NScan.NamespaceBasedRules
       string projectAssemblyName,
       IReadOnlyList<NamespaceDependencyPath> pathsFound)
     {
-      return RuleViolation.Create(ruleDescription, 
+      return RuleViolation.Create(
+        new RuleDescription(ruleDescription), 
         $"Discovered violation(s) in project {projectAssemblyName}:{Environment.NewLine}", 
         _reportFragmentsFormat.ApplyTo(pathsFound, "Violation"));
     }

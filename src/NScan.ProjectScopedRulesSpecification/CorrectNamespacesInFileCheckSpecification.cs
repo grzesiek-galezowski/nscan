@@ -19,10 +19,10 @@ namespace NScan.ProjectScopedRulesSpecification
       var report = Any.Instance<IAnalysisReportInProgress>();
       
       //WHEN
-      check.ApplyTo(file, description, report);
+      check.ApplyTo(file, new RuleDescription(description), report);
 
       //THEN
-      file.Received(1).CheckNamespacesCorrectness(report, description);
+      file.Received(1).CheckNamespacesCorrectness(report, new RuleDescription(description));
     }
   }
 }

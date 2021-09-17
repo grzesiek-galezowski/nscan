@@ -1,4 +1,4 @@
-using NScan.SharedKernel;
+﻿using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
 namespace NScan.ProjectScopedRules
@@ -12,13 +12,13 @@ namespace NScan.ProjectScopedRules
       _ruleDto = ruleDto;
     }
 
-    public void ApplyTo(ISourceCodeFileInNamespace sourceCodeFile, string ruleDescription, IAnalysisReportInProgress report)
+    public void ApplyTo(ISourceCodeFileInNamespace sourceCodeFile, RuleDescription description,
+      IAnalysisReportInProgress report)
     {
       sourceCodeFile.CheckMethodsHavingCorrectAttributes(
         report, 
         _ruleDto.ClassNameInclusionPattern, 
-        _ruleDto.MethodNameInclusionPattern, 
-        ruleDescription);
+        _ruleDto.MethodNameInclusionPattern, description);
     }
   }
 }

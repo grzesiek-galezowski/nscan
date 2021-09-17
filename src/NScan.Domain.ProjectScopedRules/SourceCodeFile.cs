@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using AtmaFileSystem;
@@ -32,24 +32,21 @@ namespace NScan.ProjectScopedRules
       _classes = classes;
     }
 
-    public void CheckNamespacesCorrectness(IAnalysisReportInProgress report, string ruleDescription)
+    public void CheckNamespacesCorrectness(IAnalysisReportInProgress report, RuleDescription description)
     {
       //bug get rid of this code here. Move this to rule as another interface
       if (_declaredNamespaces.Count == 0)
       {
-        report.Add(_ruleViolationFactory.ProjectScopedRuleViolation(ruleDescription, 
-          ViolationDescription("has no namespace declared"))
+        report.Add(_ruleViolationFactory.ProjectScopedRuleViolation(description, ViolationDescription("has no namespace declared"))
         );
       }
       else if (_declaredNamespaces.Count > 1)
       {
-        report.Add(_ruleViolationFactory.ProjectScopedRuleViolation(ruleDescription, 
-          ViolationDescription($"declares multiple namespaces: {NamespacesString()}")));
+        report.Add(_ruleViolationFactory.ProjectScopedRuleViolation(description, ViolationDescription($"declares multiple namespaces: {NamespacesString()}")));
       }
       else if (!_declaredNamespaces.Contains(CorrectNamespace()))
       {
-        report.Add(_ruleViolationFactory.ProjectScopedRuleViolation(ruleDescription, 
-          ViolationDescription($"has incorrect namespace {_declaredNamespaces.Single()}"))
+        report.Add(_ruleViolationFactory.ProjectScopedRuleViolation(description, ViolationDescription($"has incorrect namespace {_declaredNamespaces.Single()}"))
         );
       }
     }
@@ -58,13 +55,13 @@ namespace NScan.ProjectScopedRules
       IAnalysisReportInProgress report, 
       Pattern classNameInclusionPattern,
       Pattern methodNameInclusionPattern, 
-      string ruleDescription)
+      RuleDescription description)
     {
       foreach (var cSharpClass in _classes)
       {
         if (cSharpClass.NameMatches(classNameInclusionPattern))
         {
-          cSharpClass.EvaluateDecorationWithAttributes(report, methodNameInclusionPattern, ruleDescription);
+          cSharpClass.EvaluateDecorationWithAttributes(report, methodNameInclusionPattern, description);
         }
       }
     }

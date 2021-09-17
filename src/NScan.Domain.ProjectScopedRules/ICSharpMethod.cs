@@ -6,6 +6,6 @@ namespace NScan.ProjectScopedRules
   public interface ICSharpMethod
   {
     bool NameMatches(Pattern methodNameInclusionPattern);
-    void EvaluateMethodsHavingCorrectAttributes(IAnalysisReportInProgress report, string parentClassName, string ruleDescription);
+    void EvaluateMethodsHavingCorrectAttributes(IAnalysisReportInProgress report, string parentClassName, RuleDescription description);
   }
 }

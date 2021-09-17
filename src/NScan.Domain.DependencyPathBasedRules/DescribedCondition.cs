@@ -5,12 +5,12 @@ namespace NScan.DependencyPathBasedRules
   public class DescribedCondition : IDescribedDependencyCondition
   {
     private readonly IDependencyCondition _dependencyCondition;
-    private readonly string _description;
+    private readonly RuleDescription _description;
 
-    public DescribedCondition(IDependencyCondition dependencyCondition, string description)
+    public DescribedCondition(IDependencyCondition dependencyCondition, RuleDescription ruleDescription)
     {
       _dependencyCondition = dependencyCondition;
-      _description = description;
+      _description = ruleDescription;
     }
 
     public bool Matches(IProjectSearchResult depending, IDependencyPathBasedRuleTarget dependency)
@@ -20,7 +20,7 @@ namespace NScan.DependencyPathBasedRules
 
     public RuleDescription Description()
     {
-      return new RuleDescription(_description);
+      return _description;
     }
   }
 }

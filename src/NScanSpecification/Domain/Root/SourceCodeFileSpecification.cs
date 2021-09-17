@@ -40,15 +40,13 @@ namespace NScanSpecification.Domain.Root
       var ruleDescription = Any.String();
       var violation = Any.Instance<RuleViolation>();
 
-      ruleViolationFactory.ProjectScopedRuleViolation(
-        ruleDescription, 
-        parentProjectAssemblyName + " has root namespace " +
+      ruleViolationFactory.ProjectScopedRuleViolation(new RuleDescription(ruleDescription), parentProjectAssemblyName + " has root namespace " +
         parentProjectRootNamespace + " but the file " +
         pathRelativeToProjectRoot + " has incorrect namespace " +
         fileBuilder.DeclaredNamespaces.Single()).Returns(violation);
 
       //WHEN
-      file.CheckNamespacesCorrectness(report, ruleDescription);
+      file.CheckNamespacesCorrectness(report, new RuleDescription(ruleDescription));
 
       //THEN
       XReceived.Only(() => report.Add(violation));
@@ -75,13 +73,12 @@ namespace NScanSpecification.Domain.Root
       var ruleDescription = Any.String();
       var violation = Any.Instance<RuleViolation>();
 
-      ruleViolationFactory.ProjectScopedRuleViolation(ruleDescription,
-        parentProjectAssemblyName + " has root namespace " +
+      ruleViolationFactory.ProjectScopedRuleViolation(new RuleDescription(ruleDescription), parentProjectAssemblyName + " has root namespace " +
         parentProjectRootNamespace + " but the file " +
         pathRelativeToProjectRoot + " has no namespace declared").Returns(violation);
 
       //WHEN
-      file.CheckNamespacesCorrectness(report, ruleDescription);
+      file.CheckNamespacesCorrectness(report, new RuleDescription(ruleDescription));
 
       //THEN
       XReceived.Only(() => report.Add(violation));
@@ -110,14 +107,13 @@ namespace NScanSpecification.Domain.Root
         PathRelativeToProjectRoot = fileName
       }.Build();
 
-      ruleViolationFactory.ProjectScopedRuleViolation(ruleDescription,
-        $"{parentProjectAssemblyName} " +
+      ruleViolationFactory.ProjectScopedRuleViolation(new RuleDescription(ruleDescription), $"{parentProjectAssemblyName} " +
         $"has root namespace {projectRootNamespace} " +
         $"but the file {fileName} " +
         $"declares multiple namespaces: {namespace1}, {namespace2}").Returns(violation);
 
       //WHEN
-      file.CheckNamespacesCorrectness(report, ruleDescription);
+      file.CheckNamespacesCorrectness(report, new RuleDescription(ruleDescription));
 
       //THEN
       XReceived.Only(() => report.Add(violation));
@@ -133,7 +129,8 @@ namespace NScanSpecification.Domain.Root
       var report = Substitute.For<IAnalysisReportInProgress>();
 
       //WHEN
-      file.CheckNamespacesCorrectness(report, Any.String());
+      string ruleDescription = Any.String();
+      file.CheckNamespacesCorrectness(report, new RuleDescription(ruleDescription));
 
       //THEN
       report.ReceivedNothing();
@@ -178,13 +175,16 @@ namespace NScanSpecification.Domain.Root
       class3.NameMatches(classNameInclusionPattern).Returns(true);
 
       //WHEN
-      sourceCodeFile.CheckMethodsHavingCorrectAttributes(report, classNameInclusionPattern, methodNameInclusionPattern, ruleDescription);
+      sourceCodeFile.CheckMethodsHavingCorrectAttributes(report, classNameInclusionPattern, methodNameInclusionPattern, new RuleDescription(ruleDescription));
 
       //THEN
-      class1.Received(1).EvaluateDecorationWithAttributes(report, methodNameInclusionPattern, ruleDescription);
+      class1.Received(1).EvaluateDecorationWithAttributes(report, methodNameInclusionPattern, new RuleDescription(ruleDescription));
       class2.DidNotReceive()
-        .EvaluateDecorationWithAttributes(Arg.Any<IAnalysisReportInProgress>(), Arg.Any<Pattern>(), Arg.Any<string>());
-      class3.Received(1).EvaluateDecorationWithAttributes(report, methodNameInclusionPattern, ruleDescription);
+        .EvaluateDecorationWithAttributes(
+          Arg.Any<IAnalysisReportInProgress>(), 
+          Arg.Any<Pattern>(), 
+          Arg.Any<RuleDescription>());
+      class3.Received(1).EvaluateDecorationWithAttributes(report, methodNameInclusionPattern, new RuleDescription(ruleDescription));
     }
 
   }

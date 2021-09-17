@@ -36,22 +36,22 @@ namespace Cake.NScan
 
     public void Log(CorrectNamespacesRuleComplementDto dto)
     {
-      Log(HasCorrectNamespacesRuleMetadata.Format(dto));
+      Log(HasCorrectNamespacesRuleMetadata.Format(dto).Value);
     }
 
     public void Log(NoCircularUsingsRuleComplementDto dto)
     {
-      Log(HasNoCircularUsingsRuleMetadata.Format(dto));
+      Log(HasNoCircularUsingsRuleMetadata.Format(dto).Value);
     }
 
     public void Log(HasAttributesOnRuleComplementDto dto)
     {
-      Log(HasAttributesOnRuleMetadata.Format(dto));
+      Log(HasAttributesOnRuleMetadata.Format(dto).Value);
     }
 
     public void Log(HasTargetFrameworkRuleComplementDto dto)
     {
-      Log(HasTargetFrameworkRuleMetadata.Format(dto));
+      Log(HasTargetFrameworkRuleMetadata.Format(dto).Value);
     }
 
     public void Log(NoUsingsRuleComplementDto dto)
@@ -61,7 +61,7 @@ namespace Cake.NScan
 
     public void Log(HasPropertyRuleComplementDto dto)
     {
-      Log(HasPropertyRuleMetadata.Format(dto));
+      Log(HasPropertyRuleMetadata.Format(dto).Value);
     }
 
     private void Log(string ruleDescription)
