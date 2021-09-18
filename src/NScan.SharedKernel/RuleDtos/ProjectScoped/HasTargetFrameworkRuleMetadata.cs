@@ -7,7 +7,7 @@
     public static RuleDescription Format(HasTargetFrameworkRuleComplementDto ruleDto)
     {
       return new RuleDescription(
-        $"{ruleDto.ProjectAssemblyNamePattern.Description()} " +
+        $"{ruleDto.ProjectAssemblyNamePattern.Text()} " +
         $"{HasTargetFramework} " +
         $"{ruleDto.TargetFramework}");
     }

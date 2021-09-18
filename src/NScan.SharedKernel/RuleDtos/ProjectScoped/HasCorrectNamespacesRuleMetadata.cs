@@ -6,7 +6,7 @@
 
     public static RuleDescription Format(CorrectNamespacesRuleComplementDto ruleDto)
     {
-      return new RuleDescription($"{ruleDto.ProjectAssemblyNamePattern.Description()} {ruleDto.RuleName}");
+      return new RuleDescription($"{ruleDto.ProjectAssemblyNamePattern.Text()} {ruleDto.RuleName}");
     }
   }
 }

@@ -41,12 +41,12 @@ namespace NScan.Adapters.Secondary.NotifyingSupport
 
     public void Log(CorrectNamespacesRuleComplementDto dto)
     {
-      _writeLine($"{DiscoveredRule}{HasCorrectNamespacesRuleMetadata.Format(dto).Value}");
+      _writeLine($"{DiscoveredRule}{HasCorrectNamespacesRuleMetadata.Format(dto)}");
     }
 
     public void Log(NoCircularUsingsRuleComplementDto dto)
     {
-      _writeLine($"{DiscoveredRule}{HasNoCircularUsingsRuleMetadata.Format(dto).Value}");
+      _writeLine($"{DiscoveredRule}{HasNoCircularUsingsRuleMetadata.Format(dto)}");
     }
 
     public void Log(HasAttributesOnRuleComplementDto dto)
@@ -66,7 +66,7 @@ namespace NScan.Adapters.Secondary.NotifyingSupport
 
     public void Log(HasPropertyRuleComplementDto dto)
     {
-      _writeLine($"{DiscoveredRule}{HasPropertyRuleMetadata.Format(dto).Value}");
+      _writeLine($"{DiscoveredRule}{HasPropertyRuleMetadata.Format(dto)}");
     }
   }
 }

@@ -4,10 +4,13 @@
   {
     public const string HasNoUsings = "hasNoUsings";
 
-    public static string Format(NoUsingsRuleComplementDto dto)
+    public static RuleDescription Format(NoUsingsRuleComplementDto noUsingsRuleComplementDto)
     {
-      return $"{dto.ProjectAssemblyNamePattern.Description()} " +
-             $"{dto.RuleName} from {dto.FromPattern.Description()} to {dto.ToPattern.Description()}";
+      return new RuleDescription(
+        $"{noUsingsRuleComplementDto.ProjectAssemblyNamePattern.Text()} " +
+        $"{noUsingsRuleComplementDto.RuleName} " +
+        $"from {noUsingsRuleComplementDto.FromPattern.Text()} " +
+        $"to {noUsingsRuleComplementDto.ToPattern.Text()}");
     }
   }
 }

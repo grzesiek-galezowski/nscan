@@ -1,6 +1,7 @@
 ﻿using System;
 using AtmaFileSystem;
 using Cake.Core.Diagnostics;
+using NScan.SharedKernel;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
@@ -36,22 +37,22 @@ namespace Cake.NScan
 
     public void Log(CorrectNamespacesRuleComplementDto dto)
     {
-      Log(HasCorrectNamespacesRuleMetadata.Format(dto).Value);
+      Log(HasCorrectNamespacesRuleMetadata.Format(dto));
     }
 
     public void Log(NoCircularUsingsRuleComplementDto dto)
     {
-      Log(HasNoCircularUsingsRuleMetadata.Format(dto).Value);
+      Log(HasNoCircularUsingsRuleMetadata.Format(dto));
     }
 
     public void Log(HasAttributesOnRuleComplementDto dto)
     {
-      Log(HasAttributesOnRuleMetadata.Format(dto).Value);
+      Log(HasAttributesOnRuleMetadata.Format(dto));
     }
 
     public void Log(HasTargetFrameworkRuleComplementDto dto)
     {
-      Log(HasTargetFrameworkRuleMetadata.Format(dto).Value);
+      Log(HasTargetFrameworkRuleMetadata.Format(dto));
     }
 
     public void Log(NoUsingsRuleComplementDto dto)
@@ -61,15 +62,15 @@ namespace Cake.NScan
 
     public void Log(HasPropertyRuleComplementDto dto)
     {
-      Log(HasPropertyRuleMetadata.Format(dto).Value);
+      Log(HasPropertyRuleMetadata.Format(dto));
     }
 
-    private void Log(string ruleDescription)
+    private void Log(RuleDescription ruleDescription)
     {
       _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, Discovered(ruleDescription));
     }
 
-    private static string Discovered(string ruleDescription)
+    private static string Discovered(RuleDescription ruleDescription)
     {
       return $"Discovered rule: {ruleDescription}";
     }

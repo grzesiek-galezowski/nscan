@@ -194,9 +194,9 @@ namespace NScan.Adapters.SecondarySpecification.ReadingRules
       rule1Dto.Accept(new HasAttributesOnRuleComplementAssertion(dto =>
       {
         dto.RuleName.Should().Be(HasAttributesOnRuleMetadata.HasAttributesOn);
-        dto.ClassNameInclusionPattern.Description().Should().Be(classPattern);
-        dto.MethodNameInclusionPattern.Description().Should().Be(methodPattern);
-        dto.ProjectAssemblyNamePattern.Description().Should().Be(depending);
+        dto.ClassNameInclusionPattern.Text().Should().Be(classPattern);
+        dto.MethodNameInclusionPattern.Text().Should().Be(methodPattern);
+        dto.ProjectAssemblyNamePattern.Text().Should().Be(depending);
       }));
       rule1Dto.RuleName.Should().Be(HasAttributesOnRuleMetadata.HasAttributesOn);
     }
@@ -220,7 +220,7 @@ namespace NScan.Adapters.SecondarySpecification.ReadingRules
       rule1Dto.Accept(new HasTargetFrameworkAssertion(dto =>
       {
         dto.RuleName.Should().Be(HasTargetFrameworkRuleMetadata.HasTargetFramework);
-        dto.ProjectAssemblyNamePattern.Description().Should().Be(depending);
+        dto.ProjectAssemblyNamePattern.Text().Should().Be(depending);
         dto.TargetFramework.Should().Be(frameworkName);
       }));
       rule1Dto.RuleName.Should().Be(HasTargetFrameworkRuleMetadata.HasTargetFramework);
@@ -246,7 +246,7 @@ namespace NScan.Adapters.SecondarySpecification.ReadingRules
       rule1Dto.Accept(new HasPropertyAssertion(dto =>
       {
         dto.RuleName.Should().Be(HasPropertyRuleMetadata.HasProperty);
-        dto.ProjectAssemblyNamePattern.Description().Should().Be(depending);
+        dto.ProjectAssemblyNamePattern.Text().Should().Be(depending);
         dto.PropertyName.Should().Be(propertyName);
         dto.PropertyValue.Should().Be(Pattern.WithoutExclusion(propertyValue));
       }));

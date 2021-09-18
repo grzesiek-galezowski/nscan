@@ -26,7 +26,7 @@ namespace NScanSpecification.Domain.NamespaceBasedRules
 
       //THEN
       description.Should().Be(
-        new RuleDescription($"{dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName}"));
+        new RuleDescription($"{dto.ProjectAssemblyNamePattern.Text()} {dto.RuleName}"));
     }
 
     [Fact]
@@ -43,7 +43,9 @@ namespace NScanSpecification.Domain.NamespaceBasedRules
 
       cache.RetrieveCycles().Returns(cycles);
       ruleViolationFactory.NoCyclesRuleViolation(
-        rule.Description().Value, projectAssemblyName, cycles).Returns(violation);
+        rule.Description(), 
+        projectAssemblyName, 
+        cycles).Returns(violation);
 
       //WHEN
       rule.Evaluate(projectAssemblyName, cache, report);

@@ -7,14 +7,18 @@ namespace NScan.SharedKernel.RuleDtos.DependencyPathBased
   {
     public const string IndependentOf = "independentOf";
 
-    public static string Format(IndependentRuleComplementDto dto)
+    public static RuleDescription Format(IndependentRuleComplementDto dto)
     {
-      return FormatIndependentRule(dto.DependingPattern.Description(), dto.RuleName, dto.DependencyType, dto.DependencyPattern.Pattern);
+      return FormatIndependentRule(
+        dto.DependingPattern.Text(), 
+        dto.RuleName, 
+        dto.DependencyType, 
+        dto.DependencyPattern.Pattern);
     }
 
-    private static string FormatIndependentRule(string projectAssemblyNamePattern, string ruleName, string dependencyType, string dependencyPattern)
+    private static RuleDescription FormatIndependentRule(string projectAssemblyNamePattern, string ruleName, string dependencyType, string dependencyPattern)
     {
-      return $"{projectAssemblyNamePattern} {ruleName} {dependencyType}:{dependencyPattern}";
+      return new RuleDescription($"{projectAssemblyNamePattern} {ruleName} {dependencyType}:{dependencyPattern}");
     }
 
     //bug rename
@@ -23,12 +27,12 @@ namespace NScan.SharedKernel.RuleDtos.DependencyPathBased
       string dependencyType, 
       Glob dependencyNamePattern)
     {
-      var ruleDescription = new RuleDescription( //bug
+      var ruleDescription =  //bug
         FormatIndependentRule(
-          dependingNamePattern.Description(), 
+          dependingNamePattern.Text(), 
           IndependentOf, 
           dependencyType, 
-          dependencyNamePattern.Pattern));
+          dependencyNamePattern.Pattern);
       return ruleDescription;
     }
   }

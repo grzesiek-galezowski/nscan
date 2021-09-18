@@ -5,9 +5,13 @@ namespace NScan.NamespaceBasedRules
 {
   public interface INamespaceBasedRuleViolationFactory
   {
-    RuleViolation NoCyclesRuleViolation(string ruleDescription, string projectAssemblyName,
+    RuleViolation NoCyclesRuleViolation(
+      RuleDescription description, 
+      string projectAssemblyName,
       IReadOnlyList<NamespaceDependencyPath> cycles);
-    RuleViolation NoUsingsRuleViolation(string ruleDescription, string projectAssemblyName,
+    RuleViolation NoUsingsRuleViolation(
+      RuleDescription description, 
+      string projectAssemblyName,
       IReadOnlyList<NamespaceDependencyPath> pathsFound);
   }
 }

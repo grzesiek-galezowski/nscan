@@ -37,7 +37,7 @@ namespace NScanSpecification.Domain.Root
       //GIVEN
       var report = Any.Instance<IAnalysisReportInProgress>();
       var methodNameInclusionPattern = Any.Pattern();
-      var ruleDescription = Any.String();
+      var description = Any.Instance<RuleDescription>();
       var method1 = Substitute.For<ICSharpMethod>();
       var method2 = Substitute.For<ICSharpMethod>();
       var method3 = Substitute.For<ICSharpMethod>();
@@ -50,15 +50,15 @@ namespace NScanSpecification.Domain.Root
       method3.NameMatches(methodNameInclusionPattern).Returns(true);
 
       //WHEN
-      @class.EvaluateDecorationWithAttributes(report, methodNameInclusionPattern, new RuleDescription(ruleDescription));
+      @class.EvaluateDecorationWithAttributes(report, methodNameInclusionPattern, description);
 
       //THEN
-      method1.Received(1).EvaluateMethodsHavingCorrectAttributes(report, declaration.Name, new RuleDescription(ruleDescription));
+      method1.Received(1).EvaluateMethodsHavingCorrectAttributes(report, declaration.Name, description);
       method2.DidNotReceive().EvaluateMethodsHavingCorrectAttributes(
         Arg.Any<IAnalysisReportInProgress>(), 
         Arg.Any<string>(), 
         Arg.Any<RuleDescription>());
-      method3.Received(1).EvaluateMethodsHavingCorrectAttributes(report, declaration.Name, new RuleDescription(ruleDescription));
+      method3.Received(1).EvaluateMethodsHavingCorrectAttributes(report, declaration.Name, description);
     }
   }
 }

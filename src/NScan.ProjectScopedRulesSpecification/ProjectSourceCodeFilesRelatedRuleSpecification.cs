@@ -15,8 +15,9 @@ namespace NScan.ProjectScopedRulesSpecification
     public void ShouldMakeProjectAnalyzeFilesWithItselfWhenChecked()
     {
       //GIVEN
-      string ruleDescription = Any.String();
-      var rule = new ProjectSourceCodeFilesRelatedRule(new RuleDescription(ruleDescription), Any.Instance<ISourceCodeFileContentCheck>());
+      var rule = new ProjectSourceCodeFilesRelatedRule(
+        Any.Instance<RuleDescription>(), 
+        Any.Instance<ISourceCodeFileContentCheck>());
       var report = Any.Instance<IAnalysisReportInProgress>();
       var project = Substitute.For<IProjectScopedRuleTarget>();
 
@@ -32,8 +33,8 @@ namespace NScan.ProjectScopedRulesSpecification
     {
       //GIVEN
       var fileContentCheck = Substitute.For<ISourceCodeFileContentCheck>();
-      var ruleDescription = Any.String();
-      var rule = new ProjectSourceCodeFilesRelatedRule(new RuleDescription(ruleDescription), fileContentCheck);
+      var description = Any.Instance<RuleDescription>();
+      var rule = new ProjectSourceCodeFilesRelatedRule(description, fileContentCheck);
       var file1 = Substitute.For<ISourceCodeFileInNamespace>();
       var file2 = Substitute.For<ISourceCodeFileInNamespace>();
       var file3 = Substitute.For<ISourceCodeFileInNamespace>();
@@ -49,10 +50,10 @@ namespace NScan.ProjectScopedRulesSpecification
       //THEN
       Received.InOrder(() =>
       {
-        fileContentCheck.ApplyTo(file1, new RuleDescription(ruleDescription), report);
-        fileContentCheck.ApplyTo(file2, new RuleDescription(ruleDescription), report);
-        fileContentCheck.ApplyTo(file3, new RuleDescription(ruleDescription), report);
-        report.FinishedEvaluatingRule(/* bug investigate */new RuleDescription(ruleDescription));
+        fileContentCheck.ApplyTo(file1, description, report);
+        fileContentCheck.ApplyTo(file2, description, report);
+        fileContentCheck.ApplyTo(file3, description, report);
+        report.FinishedEvaluatingRule(description);
       });
     }
 

@@ -67,7 +67,7 @@ namespace NScan.LibSpecification
       var inclusionPattern = Any.String();
       var pattern = Pattern.WithoutExclusion(inclusionPattern);
       //WHEN
-      var description = pattern.Description();
+      var description = pattern.Text();
       //THEN
       description.Should().Be(inclusionPattern);
     }
@@ -80,7 +80,7 @@ namespace NScan.LibSpecification
       var exclusionPattern = Any.String();
       var pattern = Pattern.WithExclusion(inclusionPattern, exclusionPattern);
       //WHEN
-      var description = pattern.Description();
+      var description = pattern.Text();
       
       //THEN
       description.Should().Be(inclusionPattern + " except " + exclusionPattern);

@@ -19,7 +19,7 @@ namespace NScanSpecification.Domain.Root
       var fragments = Substitute.For<INamespaceBasedReportFragmentsFormat>();
       var factory = new NamespaceBasedRuleViolationFactory(fragments);
       var cyclesString = Any.String();
-      var description = Any.String();
+      var description = Any.Instance<RuleDescription>();
       var projectAssemblyName = Any.String();
       var cycles = Any.ReadOnlyList<NamespaceDependencyPath>();
 
@@ -29,7 +29,7 @@ namespace NScanSpecification.Domain.Root
       var violation = factory.NoCyclesRuleViolation(description, projectAssemblyName, cycles);
 
       //THEN
-      violation.Should().Be(RuleViolation.Create(new RuleDescription(description),
+      violation.Should().Be(RuleViolation.Create(description,
         $"Discovered cycle(s) in project {projectAssemblyName}:{Environment.NewLine}",
         cyclesString));
     }
@@ -41,7 +41,7 @@ namespace NScanSpecification.Domain.Root
       var fragments = Substitute.For<INamespaceBasedReportFragmentsFormat>();
       var factory = new NamespaceBasedRuleViolationFactory(fragments);
       var pathsString = Any.String();
-      var description = Any.String();
+      var description = Any.Instance<RuleDescription>();
       var projectAssemblyName = Any.String();
       var paths = Any.ReadOnlyList<NamespaceDependencyPath>();
 
@@ -51,7 +51,7 @@ namespace NScanSpecification.Domain.Root
       var violation = factory.NoUsingsRuleViolation(description, projectAssemblyName, paths);
 
       //THEN
-      violation.Should().Be(RuleViolation.Create(new RuleDescription(description),
+      violation.Should().Be(RuleViolation.Create(description,
         $"Discovered violation(s) in project {projectAssemblyName}:{Environment.NewLine}",
         pathsString));
     }

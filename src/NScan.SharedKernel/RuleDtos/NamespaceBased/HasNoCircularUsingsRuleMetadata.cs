@@ -7,7 +7,7 @@
     public static RuleDescription Format(NoCircularUsingsRuleComplementDto noCircularUsingsRuleComplementDto)
     {
       return new RuleDescription(
-        $"{noCircularUsingsRuleComplementDto.ProjectAssemblyNamePattern.Description()} " +
+        $"{noCircularUsingsRuleComplementDto.ProjectAssemblyNamePattern.Text()} " +
         $"{noCircularUsingsRuleComplementDto.RuleName}");
     }
   }

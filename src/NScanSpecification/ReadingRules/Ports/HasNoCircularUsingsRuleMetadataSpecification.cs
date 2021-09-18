@@ -24,7 +24,7 @@ namespace NScanSpecification.ReadingRules.Ports
 
       //THEN
       text.Should().Be(
-        new RuleDescription($"{dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName}"));
+        new RuleDescription($"{dto.ProjectAssemblyNamePattern.Text()} {dto.RuleName}"));
     }
   }
 }

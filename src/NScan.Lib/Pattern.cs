@@ -33,7 +33,7 @@ namespace NScan.Lib
         );
     }
 
-    public string Description()
+    public string Text()
     {
       return _exclusionPattern.Select(exclusionPattern => _inclusionPattern + " except " + exclusionPattern)
         .OrElse(() => _inclusionPattern);

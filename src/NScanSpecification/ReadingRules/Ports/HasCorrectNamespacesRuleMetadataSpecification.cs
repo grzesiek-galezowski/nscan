@@ -24,7 +24,7 @@ namespace NScanSpecification.ReadingRules.Ports
       var text = HasCorrectNamespacesRuleMetadata.Format(dto);
 
       //THEN
-      text.Should().Be(new RuleDescription($"{dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName}"));
+      text.Should().Be(new RuleDescription($"{dto.ProjectAssemblyNamePattern.Text()} {dto.RuleName}"));
     }
   }
 }

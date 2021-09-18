@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using Xunit;
 using static TddXt.AnyRoot.Root;
@@ -23,9 +24,9 @@ namespace NScanSpecification.ReadingRules.Ports
       var text = IndependentRuleMetadata.Format(dto);
 
       //THEN
-      text.Should()
-        .Be(
-          $"{dto.DependingPattern.Description()} {IndependentRuleMetadata.IndependentOf} {dto.DependencyType}:{dto.DependencyPattern.Pattern}");
+      text.Should().Be(new RuleDescription(
+          $"{dto.DependingPattern.Text()} {IndependentRuleMetadata.IndependentOf} {dto.DependencyType}:{dto.DependencyPattern.Pattern}"
+          ));
     }
 
   }

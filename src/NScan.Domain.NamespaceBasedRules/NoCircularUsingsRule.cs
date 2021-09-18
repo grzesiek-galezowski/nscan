@@ -29,10 +29,7 @@ namespace NScan.NamespaceBasedRules
       if (cycles.Any())
       {
         report.Add(
-          _ruleViolationFactory.NoCyclesRuleViolation(
-            Description().Value, 
-            projectAssemblyName, 
-            cycles));
+          _ruleViolationFactory.NoCyclesRuleViolation(Description(), projectAssemblyName, cycles));
       }
     }
   }

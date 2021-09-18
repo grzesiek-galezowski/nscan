@@ -7,10 +7,10 @@
     public static RuleDescription Format(HasPropertyRuleComplementDto ruleDto)
     {
       return new RuleDescription(
-        $"{ruleDto.ProjectAssemblyNamePattern.Description()} " +
+        $"{ruleDto.ProjectAssemblyNamePattern.Text()} " +
         $"{HasProperty} " +
         $"{ruleDto.PropertyName} " +
-        $"{ruleDto.PropertyValue.Description()}");
+        $"{ruleDto.PropertyValue.Text()}");
     }
   }
 }

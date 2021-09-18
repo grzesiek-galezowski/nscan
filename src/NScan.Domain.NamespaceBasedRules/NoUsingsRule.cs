@@ -17,7 +17,7 @@ namespace NScan.NamespaceBasedRules
 
     public RuleDescription Description()
     {
-      return new RuleDescription(HasNoUsingsRuleMetadata.Format(_dto));
+      return HasNoUsingsRuleMetadata.Format(_dto);
     }
 
     public void Evaluate(
@@ -29,9 +29,7 @@ namespace NScan.NamespaceBasedRules
       if (paths.Any())
       {
         report.Add(
-          _ruleViolationFactory.NoUsingsRuleViolation(
-            Description().Value, 
-            projectAssemblyName, paths));
+          _ruleViolationFactory.NoUsingsRuleViolation(Description(), projectAssemblyName, paths));
       }
     }
   }

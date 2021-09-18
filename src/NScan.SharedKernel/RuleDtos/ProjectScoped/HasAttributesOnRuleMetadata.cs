@@ -6,9 +6,9 @@
 
     public static RuleDescription Format(HasAttributesOnRuleComplementDto ruleDto)
     {
-      var projectAssemblyName = ruleDto.ProjectAssemblyNamePattern.Description();
-      var classNameInclusionPattern = ruleDto.ClassNameInclusionPattern.Description();
-      var methodNameInclusionPattern = ruleDto.MethodNameInclusionPattern.Description();
+      var projectAssemblyName = ruleDto.ProjectAssemblyNamePattern.Text();
+      var classNameInclusionPattern = ruleDto.ClassNameInclusionPattern.Text();
+      var methodNameInclusionPattern = ruleDto.MethodNameInclusionPattern.Text();
       return new RuleDescription($"{projectAssemblyName} {ruleDto.RuleName} {classNameInclusionPattern}:{methodNameInclusionPattern}");
     }
   }

@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using Xunit;
 using static TddXt.AnyRoot.Root;
@@ -23,7 +24,8 @@ namespace NScanSpecification.ReadingRules.Ports
       var text = HasNoUsingsRuleMetadata.Format(dto);
 
       //THEN
-      text.Should().Be($"{dto.ProjectAssemblyNamePattern.Description()} {HasNoUsingsRuleMetadata.HasNoUsings} from {dto.FromPattern.Description()} to {dto.ToPattern.Description()}");
+      text.Should().Be(new RuleDescription(
+        $"{dto.ProjectAssemblyNamePattern.Text()} {HasNoUsingsRuleMetadata.HasNoUsings} from {dto.FromPattern.Text()} to {dto.ToPattern.Text()}"));
     }
   }
 }

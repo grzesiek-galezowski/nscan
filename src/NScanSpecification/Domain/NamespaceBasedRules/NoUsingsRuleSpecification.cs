@@ -24,7 +24,7 @@ namespace NScanSpecification.Domain.NamespaceBasedRules
       var description = rule.Description();
 
       //THEN
-      description.Should().Be(new RuleDescription(HasNoUsingsRuleMetadata.Format(dto)));
+      description.Should().Be(HasNoUsingsRuleMetadata.Format(dto));
     }
 
     [Fact]
@@ -65,10 +65,7 @@ namespace NScanSpecification.Domain.NamespaceBasedRules
       };
       var rule = new NoUsingsRule(dto, ruleViolationFactory);
 
-      ruleViolationFactory.NoUsingsRuleViolation(
-          rule.Description().Value, 
-          assemblyName, 
-          pathsFound)
+      ruleViolationFactory.NoUsingsRuleViolation(rule.Description(), assemblyName, pathsFound)
         .Returns(violation);
       namespacesCache.RetrievePathsBetween(dto.FromPattern, dto.ToPattern).Returns(pathsFound);
 

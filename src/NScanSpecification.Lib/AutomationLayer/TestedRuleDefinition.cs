@@ -13,7 +13,7 @@ namespace NScanSpecification.Lib.AutomationLayer
   {
     public static TestedRuleDefinition From(IndependentRuleComplementDto dto)
     {
-      return new TestedRuleDefinition($"{dto.DependingPattern.Description()} {dto.RuleName} {dto.DependencyType}:{dto.DependencyPattern.Pattern}");
+      return new TestedRuleDefinition($"{dto.DependingPattern.Text()} {dto.RuleName} {dto.DependencyType}:{dto.DependencyPattern.Pattern}");
     }
 
     private readonly string _name;
@@ -31,38 +31,38 @@ namespace NScanSpecification.Lib.AutomationLayer
     public static ITestedRuleDefinition From(CorrectNamespacesRuleComplementDto dto)
     {
       return new TestedRuleDefinition(
-        $"{dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName}");
+        $"{dto.ProjectAssemblyNamePattern.Text()} {dto.RuleName}");
     }
 
     public static ITestedRuleDefinition From(NoCircularUsingsRuleComplementDto dto)
     {
       return new TestedRuleDefinition(
-        $"{dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName}");
+        $"{dto.ProjectAssemblyNamePattern.Text()} {dto.RuleName}");
     }
 
     public static ITestedRuleDefinition From(HasAttributesOnRuleComplementDto dto)
     {
       return new TestedRuleDefinition(
-        $"{dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName} {dto.ClassNameInclusionPattern.Description()}:{dto.MethodNameInclusionPattern.Description()}");
+        $"{dto.ProjectAssemblyNamePattern.Text()} {dto.RuleName} {dto.ClassNameInclusionPattern.Text()}:{dto.MethodNameInclusionPattern.Text()}");
     }
 
     public static ITestedRuleDefinition From(HasTargetFrameworkRuleComplementDto dto)
     {
       return new TestedRuleDefinition(
-        $"{dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName} {dto.TargetFramework}");
+        $"{dto.ProjectAssemblyNamePattern.Text()} {dto.RuleName} {dto.TargetFramework}");
     }
 
     public static ITestedRuleDefinition From(NoUsingsRuleComplementDto complementDto)
     {
       return new TestedRuleDefinition(
-        $"{complementDto.ProjectAssemblyNamePattern.Description()} {complementDto.RuleName} " +
-        $"from {complementDto.FromPattern.Description()} to {complementDto.ToPattern.Description()}");
+        $"{complementDto.ProjectAssemblyNamePattern.Text()} {complementDto.RuleName} " +
+        $"from {complementDto.FromPattern.Text()} to {complementDto.ToPattern.Text()}");
     }
 
     public static ITestedRuleDefinition From(HasPropertyRuleComplementDto dto)
     {
       return new TestedRuleDefinition(
-        $"{dto.ProjectAssemblyNamePattern.Description()} {dto.RuleName} {dto.PropertyName}:{dto.PropertyValue.Description()}");
+        $"{dto.ProjectAssemblyNamePattern.Text()} {dto.RuleName} {dto.PropertyName}:{dto.PropertyValue.Text()}");
     }
   }
 

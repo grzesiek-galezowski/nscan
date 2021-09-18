@@ -40,13 +40,13 @@ namespace NScanSpecification.Domain.Root
       var cSharpMethod = new CSharpMethod(declaration, violationFactory);
       var report = Substitute.For<IAnalysisReportInProgress>();
       var parentClassName = Any.String();
-      var ruleDescription = Any.String();
+      var description = Any.Instance<RuleDescription>();
       var violation = Any.Instance<RuleViolation>();
 
-      violationFactory.ProjectScopedRuleViolation(new RuleDescription(ruleDescription), $"Method {declaration.Name} in class {parentClassName} does not have any attribute").Returns(violation);
+      violationFactory.ProjectScopedRuleViolation(description, $"Method {declaration.Name} in class {parentClassName} does not have any attribute").Returns(violation);
 
       //WHEN
-      cSharpMethod.EvaluateMethodsHavingCorrectAttributes(report, parentClassName, new RuleDescription(ruleDescription));
+      cSharpMethod.EvaluateMethodsHavingCorrectAttributes(report, parentClassName, description);
 
       //THEN
       report.Received(1).Add(violation);
@@ -56,18 +56,22 @@ namespace NScanSpecification.Domain.Root
     public void ShouldNotReportErrorFromDecorationEvaluationWhenIsDecorated()
     {
       //GIVEN
-      var declaration = new MethodDeclarationInfo(Any.String(), new List<string> {Any.String()});
+      var declaration = new MethodDeclarationInfo(Any.String(), new List<string> { Any.String() });
       var violationFactory = Substitute.For<IProjectScopedRuleViolationFactory>();
-      var cSharpMethod = new CSharpMethod(declaration, violationFactory);
       var report = Substitute.For<IAnalysisReportInProgress>();
       var parentClassName = Any.String();
-      var ruleDescription = Any.String();
+      var description = Any.Instance<RuleDescription>();
       var violation = Any.Instance<RuleViolation>();
 
-      violationFactory.ProjectScopedRuleViolation(new RuleDescription(ruleDescription), $"Method {declaration.Name} in class {parentClassName} does not have any attribute").Returns(violation);
+      var cSharpMethod = new CSharpMethod(declaration, violationFactory);
+
+      violationFactory.ProjectScopedRuleViolation(
+        description, 
+        $"Method {declaration.Name} in class {parentClassName} does not have any attribute")
+        .Returns(violation);
 
       //WHEN
-      cSharpMethod.EvaluateMethodsHavingCorrectAttributes(report, parentClassName, new RuleDescription(ruleDescription));
+      cSharpMethod.EvaluateMethodsHavingCorrectAttributes(report, parentClassName, description);
 
       //THEN
       report.DidNotReceive().Add(Arg.Any<RuleViolation>());

@@ -17,8 +17,7 @@ namespace NScan.DependencyPathBasedRulesSpecification
       //GIVEN
       var innerCondition = Substitute.For<IDependencyCondition>();
       var innerMatching = Any.Boolean();
-      string description = Any.String();
-      var condition = new DescribedCondition(innerCondition, new RuleDescription(description));
+      var condition = new DescribedCondition(innerCondition, Any.Instance<RuleDescription>());
       var depending = Any.Instance<IProjectSearchResult>();
       var dependency = Any.Instance<IDependencyPathBasedRuleTarget>();
 
@@ -35,14 +34,14 @@ namespace NScan.DependencyPathBasedRulesSpecification
     public void ShouldReturnTheDescriptionItWasCreatedWith()
     {
       //GIVEN
-      var initialDescription = Any.String();
-      var condition = new DescribedCondition(Any.Instance<IDependencyCondition>(), new RuleDescription(initialDescription));
+      var initialDescription = Any.Instance<RuleDescription>();
+      var condition = new DescribedCondition(Any.Instance<IDependencyCondition>(), initialDescription);
 
       //WHEN
       var descriptionFromCondition = condition.Description();
 
       //THEN
-      descriptionFromCondition.Should().Be(new RuleDescription(initialDescription));
+      descriptionFromCondition.Should().Be(initialDescription);
     }
   }
 }

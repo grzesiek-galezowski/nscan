@@ -31,22 +31,24 @@ namespace NScanSpecification.Domain.Root
         RuleViolationFactory = ruleViolationFactory,
         ParentProjectAssemblyName = parentProjectAssemblyName,
         PathRelativeToProjectRoot = pathRelativeToProjectRoot,
-        ParentProjectRootNamespace = parentProjectRootNamespace
+        ParentProjectRootNamespace = parentProjectRootNamespace,
+        DeclaredNamespaces = Any.OtherThan(parentProjectRootNamespace).AsList()
       };
-      fileBuilder.DeclaredNamespaces = Any.OtherThan(fileBuilder.ParentProjectRootNamespace).AsList();
+
       var file = fileBuilder.Build();  
 
       var report = Substitute.For<IAnalysisReportInProgress>();
-      var ruleDescription = Any.String();
+      var description = Any.Instance<RuleDescription>();
       var violation = Any.Instance<RuleViolation>();
 
-      ruleViolationFactory.ProjectScopedRuleViolation(new RuleDescription(ruleDescription), parentProjectAssemblyName + " has root namespace " +
+      ruleViolationFactory.ProjectScopedRuleViolation(description, 
+        parentProjectAssemblyName + " has root namespace " +
         parentProjectRootNamespace + " but the file " +
         pathRelativeToProjectRoot + " has incorrect namespace " +
         fileBuilder.DeclaredNamespaces.Single()).Returns(violation);
 
       //WHEN
-      file.CheckNamespacesCorrectness(report, new RuleDescription(ruleDescription));
+      file.CheckNamespacesCorrectness(report, description);
 
       //THEN
       XReceived.Only(() => report.Add(violation));
@@ -70,15 +72,16 @@ namespace NScanSpecification.Domain.Root
       };
       var file = fileBuilder.Build();
       var report = Substitute.For<IAnalysisReportInProgress>();
-      var ruleDescription = Any.String();
+      var description = Any.Instance<RuleDescription>();
       var violation = Any.Instance<RuleViolation>();
 
-      ruleViolationFactory.ProjectScopedRuleViolation(new RuleDescription(ruleDescription), parentProjectAssemblyName + " has root namespace " +
+      ruleViolationFactory.ProjectScopedRuleViolation(description, 
+        parentProjectAssemblyName + " has root namespace " +
         parentProjectRootNamespace + " but the file " +
         pathRelativeToProjectRoot + " has no namespace declared").Returns(violation);
 
       //WHEN
-      file.CheckNamespacesCorrectness(report, new RuleDescription(ruleDescription));
+      file.CheckNamespacesCorrectness(report, description);
 
       //THEN
       XReceived.Only(() => report.Add(violation));
@@ -93,7 +96,7 @@ namespace NScanSpecification.Domain.Root
       var ruleViolationFactory = Substitute.For<IProjectScopedRuleViolationFactory>();
       var parentProjectAssemblyName = Any.String();
       var report = Substitute.For<IAnalysisReportInProgress>();
-      var ruleDescription = Any.String();
+      var description = Any.Instance<RuleDescription>();
       var violation = Any.Instance<RuleViolation>();
       var projectRootNamespace = Any.String();
       var fileName = Any.Instance<RelativeFilePath>();
@@ -107,13 +110,14 @@ namespace NScanSpecification.Domain.Root
         PathRelativeToProjectRoot = fileName
       }.Build();
 
-      ruleViolationFactory.ProjectScopedRuleViolation(new RuleDescription(ruleDescription), $"{parentProjectAssemblyName} " +
-        $"has root namespace {projectRootNamespace} " +
-        $"but the file {fileName} " +
-        $"declares multiple namespaces: {namespace1}, {namespace2}").Returns(violation);
+      ruleViolationFactory.ProjectScopedRuleViolation(
+        description, $"{parentProjectAssemblyName} " +
+                     $"has root namespace {projectRootNamespace} " +
+                     $"but the file {fileName} " +
+                     $"declares multiple namespaces: {namespace1}, {namespace2}").Returns(violation);
 
       //WHEN
-      file.CheckNamespacesCorrectness(report, new RuleDescription(ruleDescription));
+      file.CheckNamespacesCorrectness(report, description);
 
       //THEN
       XReceived.Only(() => report.Add(violation));
@@ -124,13 +128,14 @@ namespace NScanSpecification.Domain.Root
     {
       //GIVEN
       var fileBuilder = new SourceCodeFileBuilder();
-      fileBuilder.DeclaredNamespaces = fileBuilder.ParentProjectRootNamespace.AsList();
-      var file = fileBuilder.Build();
+      var file = (fileBuilder with
+      {
+        DeclaredNamespaces = fileBuilder.ParentProjectRootNamespace.AsList()
+      }).Build();
       var report = Substitute.For<IAnalysisReportInProgress>();
 
       //WHEN
-      string ruleDescription = Any.String();
-      file.CheckNamespacesCorrectness(report, new RuleDescription(ruleDescription));
+      file.CheckNamespacesCorrectness(report, Any.Instance<RuleDescription>());
 
       //THEN
       report.ReceivedNothing();
@@ -153,7 +158,6 @@ namespace NScanSpecification.Domain.Root
       stringRepresentation.Should().Be(pathRelativeToProjectRoot.ToString());
     }
 
-
     [Fact]
     public void ShouldNotReportAnythingWhenThereAreNoClasses()
     {
@@ -164,7 +168,7 @@ namespace NScanSpecification.Domain.Root
       var class3 = Substitute.For<ICSharpClass>();
       var classNameInclusionPattern = Any.Pattern();
       var methodNameInclusionPattern = Any.Pattern();
-      var ruleDescription = Any.String();
+      var description = Any.Instance<RuleDescription>();
       var sourceCodeFile = new SourceCodeFileBuilder
       {
         Classes = new [] {class1, class2, class3}
@@ -175,41 +179,45 @@ namespace NScanSpecification.Domain.Root
       class3.NameMatches(classNameInclusionPattern).Returns(true);
 
       //WHEN
-      sourceCodeFile.CheckMethodsHavingCorrectAttributes(report, classNameInclusionPattern, methodNameInclusionPattern, new RuleDescription(ruleDescription));
+      sourceCodeFile.CheckMethodsHavingCorrectAttributes(report, classNameInclusionPattern, methodNameInclusionPattern, description);
 
       //THEN
-      class1.Received(1).EvaluateDecorationWithAttributes(report, methodNameInclusionPattern, new RuleDescription(ruleDescription));
+      class1.Received(1).EvaluateDecorationWithAttributes(report, methodNameInclusionPattern, description);
       class2.DidNotReceive()
         .EvaluateDecorationWithAttributes(
           Arg.Any<IAnalysisReportInProgress>(), 
           Arg.Any<Pattern>(), 
           Arg.Any<RuleDescription>());
-      class3.Received(1).EvaluateDecorationWithAttributes(report, methodNameInclusionPattern, new RuleDescription(ruleDescription));
+      class3.Received(1).EvaluateDecorationWithAttributes(report, methodNameInclusionPattern, description);
     }
 
   }
 
-  public class SourceCodeFileBuilder
+  public record SourceCodeFileBuilder
   {
     public SourceCodeFile Build()
     {
-      return new SourceCodeFile(RuleViolationFactory, DeclaredNamespaces,
-        ParentProjectAssemblyName, ParentProjectRootNamespace, PathRelativeToProjectRoot,
+      return new SourceCodeFile(
+        RuleViolationFactory, 
+        DeclaredNamespaces,
+        ParentProjectAssemblyName, 
+        ParentProjectRootNamespace, 
+        PathRelativeToProjectRoot,
         Classes);
     }
 
-    public IReadOnlyList<string> Usings { get; set; } = Any.Instance<IReadOnlyList<string>>();
+    public IReadOnlyList<string> Usings { get; init; } = Any.Instance<IReadOnlyList<string>>();
 
-    public RelativeFilePath PathRelativeToProjectRoot { get; set; } = Any.Instance<RelativeFilePath>();
+    public RelativeFilePath PathRelativeToProjectRoot { get; init; } = Any.Instance<RelativeFilePath>();
 
-    public string ParentProjectRootNamespace { get; set; } = Any.Instance<string>();
+    public string ParentProjectRootNamespace { get; init; } = Any.Instance<string>();
 
-    public string ParentProjectAssemblyName { get; set; } = Any.Instance<string>();
+    public string ParentProjectAssemblyName { get; init; } = Any.Instance<string>();
 
-    public IReadOnlyList<string> DeclaredNamespaces { get; set; } = Any.Instance<IReadOnlyList<string>>();
+    public IReadOnlyList<string> DeclaredNamespaces { get; init; } = Any.Instance<IReadOnlyList<string>>();
 
-    public IProjectScopedRuleViolationFactory RuleViolationFactory { get; set; } = Any.Instance<IProjectScopedRuleViolationFactory>();
-    public ICSharpClass[] Classes { get; set; } = Any.Array<ICSharpClass>();
+    public IProjectScopedRuleViolationFactory RuleViolationFactory { get; init; } = Any.Instance<IProjectScopedRuleViolationFactory>();
+    public ICSharpClass[] Classes { get; init; } = Any.Array<ICSharpClass>();
   }
 
   public static class ToCollectionExtensions

@@ -17,17 +17,17 @@ namespace NScanSpecification.Component
       var dto = Any.Instance<HasAttributesOnRuleComplementDto>();
       var check = new MethodsOfMatchingClassesAreDecoratedWithAttributeCheck(dto);
       var file = Substitute.For<ISourceCodeFileInNamespace>();
-      var description = Any.String();
+      var ruleDescription = Any.Instance<RuleDescription>();
       var report = Any.Instance<IAnalysisReportInProgress>();
       
       //WHEN
-      check.ApplyTo(file, new RuleDescription(description), report);
+      check.ApplyTo(file, ruleDescription, report);
 
       //THEN
       file.Received(1).CheckMethodsHavingCorrectAttributes(
         report, 
         dto.ClassNameInclusionPattern, 
-        dto.MethodNameInclusionPattern, new RuleDescription(description));
+        dto.MethodNameInclusionPattern, ruleDescription);
     }
   }
 }
