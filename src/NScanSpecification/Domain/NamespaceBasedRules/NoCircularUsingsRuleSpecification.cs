@@ -39,13 +39,11 @@ namespace NScanSpecification.Domain.NamespaceBasedRules
       var report = Substitute.For<IAnalysisReportInProgress>();
       var cycles = Any.ReadOnlyList<NamespaceDependencyPath>();
       var violation = Any.Instance<RuleViolation>();
-      var projectAssemblyName = Any.String();
+      var projectAssemblyName = Any.Instance<AssemblyName>();
 
       cache.RetrieveCycles().Returns(cycles);
       ruleViolationFactory.NoCyclesRuleViolation(
-        rule.Description(), 
-        projectAssemblyName, 
-        cycles).Returns(violation);
+        rule.Description(), projectAssemblyName, cycles).Returns(violation);
 
       //WHEN
       rule.Evaluate(projectAssemblyName, cache, report);
@@ -67,7 +65,7 @@ namespace NScanSpecification.Domain.NamespaceBasedRules
       cache.RetrieveCycles().Returns(EmptyList());
 
       //WHEN
-      rule.Evaluate(Any.String(), cache, report);
+      rule.Evaluate(Any.Instance<AssemblyName>(), cache, report);
 
       //THEN
       report.ReceivedNothing();

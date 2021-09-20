@@ -6,7 +6,9 @@ namespace NScan.NamespaceBasedRules
   {
     public RuleDescription Description();
 
-    void Evaluate(string projectAssemblyName, INamespacesDependenciesCache namespacesCache,
+    void Evaluate(
+      AssemblyName projectAssemblyName,
+      INamespacesDependenciesCache namespacesCache,
       IAnalysisReportInProgress report);
   }
 }

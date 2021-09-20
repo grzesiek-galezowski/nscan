@@ -6,9 +6,8 @@ namespace NScan.ProjectScopedRules
 {
   public interface IPropertyCheck
   {
-    void ApplyTo(
-      string assemblyName, 
-      IReadOnlyDictionary<string, string> properties, 
+    void ApplyTo(AssemblyName name,
+      IReadOnlyDictionary<string, string> properties,
       IAnalysisReportInProgress report);
   }
 
@@ -41,19 +40,22 @@ namespace NScan.ProjectScopedRules
       project.ValidateProperty(this, report);
     }
 
-    public void ApplyTo(string assemblyName, IReadOnlyDictionary<string, string> properties, IAnalysisReportInProgress report)
+    public void ApplyTo(
+      AssemblyName name, 
+      IReadOnlyDictionary<string, string> properties,
+      IAnalysisReportInProgress report)
     {
       if (properties.ContainsKey(_propertyName))
       {
         var propertyValue = properties[_propertyName];
         if (!_expectedPropertyValuePattern.IsMatchedBy(propertyValue))
         {
-          report.Add(_violationFactory.ProjectScopedRuleViolation(_ruleDescription, $"Project {assemblyName} has {_propertyName}:{propertyValue}"));
+          report.Add(_violationFactory.ProjectScopedRuleViolation(_ruleDescription, $"Project {name} has {_propertyName}:{propertyValue}"));
         }
       }
       else
       {
-        report.Add(_violationFactory.ProjectScopedRuleViolation(_ruleDescription, $"Project {assemblyName} does not have {_propertyName} set explicitly"));
+        report.Add(_violationFactory.ProjectScopedRuleViolation(_ruleDescription, $"Project {name} does not have {_propertyName} set explicitly"));
       }
     }
   }

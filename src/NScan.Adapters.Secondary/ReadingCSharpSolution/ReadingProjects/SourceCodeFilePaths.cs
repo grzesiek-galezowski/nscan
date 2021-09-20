@@ -45,7 +45,6 @@ namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects
       return file.ToString().Replace(projectDirectory.ToString() + Path.DirectorySeparatorChar, "");
     }
 
-
     private static SourceCodeFileDto CreateXmlSourceCodeFile(
       XmlProjectDataAccess projectAccess, 
       AbsoluteDirectoryPath projectDirectory, 

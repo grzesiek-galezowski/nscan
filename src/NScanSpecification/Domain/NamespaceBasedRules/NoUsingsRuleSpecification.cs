@@ -33,18 +33,22 @@ namespace NScanSpecification.Domain.NamespaceBasedRules
       //GIVEN
       var dto = Any.Instance<NoUsingsRuleComplementDto>();
       var rule = new NoUsingsRule(dto, Any.Instance<INamespaceBasedRuleViolationFactory>());
-      var assemblyName = Any.String();
       var namespacesCache = Substitute.For<INamespacesDependenciesCache>();
       var report = Substitute.For<IAnalysisReportInProgress>();
 
       namespacesCache.RetrievePathsBetween(dto.FromPattern, dto.ToPattern)
-        .Returns(new List<NamespaceDependencyPath>());
+        .Returns(NoPaths());
 
       //WHEN
-      rule.Evaluate(assemblyName, namespacesCache, report);
+      rule.Evaluate(Any.Instance<AssemblyName>(), namespacesCache, report);
 
       //THEN
       report.ReceivedNothing();
+    }
+
+    private static List<NamespaceDependencyPath> NoPaths()
+    {
+      return new List<NamespaceDependencyPath>();
     }
 
     [Fact]
@@ -53,7 +57,7 @@ namespace NScanSpecification.Domain.NamespaceBasedRules
       //GIVEN
       var dto = Any.Instance<NoUsingsRuleComplementDto>();
       var ruleViolationFactory = Substitute.For<INamespaceBasedRuleViolationFactory>();
-      var assemblyName = Any.String();
+      var assemblyName = Any.Instance<AssemblyName>();
       var namespacesCache = Substitute.For<INamespacesDependenciesCache>();
       var report = Substitute.For<IAnalysisReportInProgress>();
       var violation = Any.Instance<RuleViolation>();

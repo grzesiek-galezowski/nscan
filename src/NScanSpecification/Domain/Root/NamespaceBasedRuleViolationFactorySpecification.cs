@@ -20,7 +20,7 @@ namespace NScanSpecification.Domain.Root
       var factory = new NamespaceBasedRuleViolationFactory(fragments);
       var cyclesString = Any.String();
       var description = Any.Instance<RuleDescription>();
-      var projectAssemblyName = Any.String();
+      var projectAssemblyName = Any.Instance<AssemblyName>();
       var cycles = Any.ReadOnlyList<NamespaceDependencyPath>();
 
       fragments.ApplyTo(cycles, "Cycle").Returns(cyclesString);
@@ -42,7 +42,7 @@ namespace NScanSpecification.Domain.Root
       var factory = new NamespaceBasedRuleViolationFactory(fragments);
       var pathsString = Any.String();
       var description = Any.Instance<RuleDescription>();
-      var projectAssemblyName = Any.String();
+      var projectAssemblyName = Any.Instance<AssemblyName>();
       var paths = Any.ReadOnlyList<NamespaceDependencyPath>();
 
       fragments.ApplyTo(paths, "Violation").Returns(pathsString);

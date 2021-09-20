@@ -21,19 +21,16 @@ namespace NScan.SharedKernel.RuleDtos.DependencyPathBased
       return new RuleDescription($"{projectAssemblyNamePattern} {ruleName} {dependencyType}:{dependencyPattern}");
     }
 
-    //bug rename
     public static RuleDescription FormatIndependentRule(
       Pattern dependingNamePattern,
       string dependencyType, 
       Glob dependencyNamePattern)
     {
-      var ruleDescription =  //bug
-        FormatIndependentRule(
-          dependingNamePattern.Text(), 
-          IndependentOf, 
-          dependencyType, 
-          dependencyNamePattern.Pattern);
-      return ruleDescription;
+      return FormatIndependentRule(
+        dependingNamePattern.Text(), 
+        IndependentOf, 
+        dependencyType, 
+        dependencyNamePattern.Pattern);
     }
   }
 }

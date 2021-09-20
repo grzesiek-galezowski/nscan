@@ -6,17 +6,18 @@ namespace NScan.ProjectScopedRules
 {
   public class ProjectScopedRuleTarget : IProjectScopedRuleTarget
   {
-    private readonly string _assemblyName;
     private readonly IReadOnlyList<ISourceCodeFileInNamespace> _sourceCodeFiles;
     private readonly IReadOnlyDictionary<string, string> _properties;
+    private readonly AssemblyName _assemblyName;
 
-    public ProjectScopedRuleTarget(string assemblyName,
-      IReadOnlyList<ISourceCodeFileInNamespace> sourceCodeFiles, 
+    public ProjectScopedRuleTarget(
+      AssemblyName name, 
+      IReadOnlyList<ISourceCodeFileInNamespace> sourceCodeFiles,
       IReadOnlyDictionary<string, string> properties)
     {
-      _assemblyName = assemblyName;
       _sourceCodeFiles = sourceCodeFiles;
       _properties = properties;
+      _assemblyName = name;
     }
 
     public void AnalyzeFiles(IProjectFilesetScopedRule rule, IAnalysisReportInProgress report)
@@ -26,17 +27,14 @@ namespace NScan.ProjectScopedRules
 
     public bool HasProjectAssemblyNameMatching(Pattern pattern)
     {
-      return pattern.IsMatchedBy(_assemblyName);
+      return _assemblyName.Matches(pattern);
     }
 
     public void ValidateProperty(
       IPropertyCheck propertyCheck,
       IAnalysisReportInProgress analysisReportInProgress)
     {
-      propertyCheck.ApplyTo(
-        _assemblyName, 
-        _properties, 
-        analysisReportInProgress);
+      propertyCheck.ApplyTo(_assemblyName, _properties, analysisReportInProgress);
     }
 
     public void AddInfoAboutMatchingPatternTo(IAnalysisReportInProgress report)

@@ -4,6 +4,7 @@ using NScan.SharedKernel;
 
 namespace TddXt.NScan.Domain
 {
+
   public class AnalysisReportInProgress : IAnalysisReportInProgress
   {
     private readonly Dictionary<RuleDescription, ISingleRuleReport> _reportsByRule = new();
@@ -27,7 +28,7 @@ namespace TddXt.NScan.Domain
       }
     }
 
-    public void StartedCheckingTarget(string assemblyName)
+    public void StartedCheckingTarget(AssemblyName assemblyName)
     {
       //bug throw new System.NotImplementedException();
     }

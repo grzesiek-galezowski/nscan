@@ -18,7 +18,7 @@ namespace NScanSpecification.Domain.Root
       var namespacesCache = Any.Instance<INamespacesDependenciesCache>();
       var rule = Substitute.For<INamespacesBasedRule>();
       var report = Any.Instance<IAnalysisReportInProgress>();
-      var projectAssemblyName = Any.String();
+      var projectAssemblyName = Any.Instance<AssemblyName>();
       var project = new NamespaceBasedRuleTarget(
         projectAssemblyName,
         Any.ReadOnlyList<ISourceCodeFileUsingNamespaces>(),
@@ -44,7 +44,7 @@ namespace NScanSpecification.Domain.Root
       };
       var namespacesCache = Any.Instance<INamespacesDependenciesCache>();
       var project = new NamespaceBasedRuleTarget(
-        Any.String(),
+        Any.Instance<AssemblyName>(),
         files,
         namespacesCache);
 

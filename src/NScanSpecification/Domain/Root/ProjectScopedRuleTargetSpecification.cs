@@ -6,6 +6,7 @@ using NSubstitute;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
 using TddXt.AnyRoot.Strings;
+using TddXt.NScan.Domain;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
@@ -18,12 +19,9 @@ namespace NScanSpecification.Domain.Root
     {
       //GIVEN
       var propertyCheck = Substitute.For<IPropertyCheck>();
-      var assemblyName = Any.String();
+      var assemblyName = Any.Instance<AssemblyName>();
       var properties = Any.ReadOnlyDictionary<string, string>();
-      var project = new ProjectScopedRuleTarget(
-        assemblyName, 
-        Any.ReadOnlyList<ISourceCodeFileInNamespace>(),
-        properties);
+      var project = new ProjectScopedRuleTarget(assemblyName, Any.ReadOnlyList<ISourceCodeFileInNamespace>(), properties);
       var report = Any.Instance<IAnalysisReportInProgress>();
 
       //WHEN
@@ -38,10 +36,7 @@ namespace NScanSpecification.Domain.Root
     {
       //GIVEN
       var files = Any.ReadOnlyList<ISourceCodeFileInNamespace>();
-      var project = new ProjectScopedRuleTarget(
-        Any.String(), 
-        files,
-        Any.ReadOnlyDictionary<string, string>());
+      var project = new ProjectScopedRuleTarget(Any.Instance<AssemblyName>(), files, Any.ReadOnlyDictionary<string, string>());
       var rule = Substitute.For<IProjectFilesetScopedRule>();
       var report = Any.Instance<IAnalysisReportInProgress>();
 
@@ -56,14 +51,12 @@ namespace NScanSpecification.Domain.Root
     public void ShouldSayItHasProjectIdMatchingTheOneItWasCreatedWith()
     {
       //GIVEN
-      var assemblyName = Any.String();
-      var project = new ProjectScopedRuleTarget(
-        assemblyName, 
-        Any.ReadOnlyList<ISourceCodeFileInNamespace>(),
-        Any.ReadOnlyDictionary<string, string>());
+      var assemblyName = Any.Instance<AssemblyName>();
+      var project = new ProjectScopedRuleTarget(assemblyName, Any.ReadOnlyList<ISourceCodeFileInNamespace>(), Any.ReadOnlyDictionary<string, string>());
 
       //WHEN
-      var hasProject = project.HasProjectAssemblyNameMatching(Pattern.WithoutExclusion(assemblyName));
+      var hasProject = project.HasProjectAssemblyNameMatching(
+        Pattern.WithoutExclusion(assemblyName.Value));
 
       //THEN
       hasProject.Should().BeTrue();
@@ -74,10 +67,9 @@ namespace NScanSpecification.Domain.Root
     {
       //GIVEN
       var assemblySuffix = Any.String();
-      var assemblyName = Any.String() + "." + assemblySuffix;
       var project = new ProjectScopedRuleTarget(
-        assemblyName, 
-        Any.ReadOnlyList<ISourceCodeFileInNamespace>(),
+        new AssemblyName($"{Any.String()}.{assemblySuffix}"), 
+        Any.ReadOnlyList<ISourceCodeFileInNamespace>(), 
         Any.ReadOnlyDictionary<string, string>());
       string assemblyNamePattern = "*." + assemblySuffix;
 
@@ -92,24 +84,26 @@ namespace NScanSpecification.Domain.Root
     public void ShouldSayItDoesNotHaveMatchingProjectAssemblyNameWhenItWasNotCreatedWithMatchingOne()
     {
       //GIVEN
-      var searchedAssemblyName = Any.String();
+      var searchedAssemblyName = Any.Instance<AssemblyName>();
       var project = new ProjectScopedRuleTarget(
-        Any.OtherThan(searchedAssemblyName), 
+        Any.OtherThan(searchedAssemblyName),
         Any.ReadOnlyList<ISourceCodeFileInNamespace>(),
         Any.ReadOnlyDictionary<string, string>());
 
       //WHEN
-      var hasProject = project.HasProjectAssemblyNameMatching(Pattern.WithoutExclusion(searchedAssemblyName));
+      var hasProject = project.HasProjectAssemblyNameMatching(
+        Pattern.WithoutExclusion(searchedAssemblyName.Value));
 
       //THEN
       hasProject.Should().BeFalse();
     }
+
     [Fact]
     public void ShouldReportItsAssemblyNameToReportWhenAskedToReportThatItIsMatched()
     {
       //GIVEN
       var report = Substitute.For<IAnalysisReportInProgress>();
-      var assemblyName = Any.String();
+      var assemblyName = Any.Instance<AssemblyName>();
       var project = new ProjectScopedRuleTarget(
         assemblyName, 
         Any.ReadOnlyList<ISourceCodeFileInNamespace>(),

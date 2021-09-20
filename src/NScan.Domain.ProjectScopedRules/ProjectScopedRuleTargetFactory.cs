@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
 using NScan.SharedKernel.ReadingSolution.Ports;
 
@@ -20,8 +21,8 @@ namespace NScan.ProjectScopedRules
       return csharpProjectDtos
         .Select(dataAccess => 
           new ProjectScopedRuleTarget(
-            dataAccess.AssemblyName, 
-            SourceCodeFiles(dataAccess),
+            new AssemblyName(dataAccess.AssemblyName), 
+            SourceCodeFiles(dataAccess), 
             dataAccess.Properties))
         .Cast<IProjectScopedRuleTarget>()
         .ToList();

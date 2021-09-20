@@ -3,23 +3,11 @@ using Value;
 
 namespace NScan.SharedKernel
 {
-  public class ProjectId : ValueType<ProjectId>
+  public sealed record ProjectId(string AbsolutePath)
   {
-    private readonly string _absolutePath;
-
-    public ProjectId(string absolutePath)
-    {
-      _absolutePath = absolutePath;
-    }
-
     public override string ToString()
     {
-      return _absolutePath;
-    }
-
-    protected override IEnumerable<object> GetAllAttributesToBeUsedForEquality()
-    {
-      yield return _absolutePath;
+      return AbsolutePath;
     }
   }
 }

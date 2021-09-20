@@ -20,8 +20,7 @@ namespace NScan.NamespaceBasedRules
       return HasNoUsingsRuleMetadata.Format(_dto);
     }
 
-    public void Evaluate(
-      string projectAssemblyName,
+    public void Evaluate(AssemblyName projectAssemblyName,
       INamespacesDependenciesCache namespacesCache,
       IAnalysisReportInProgress report)
     {

@@ -2,7 +2,7 @@
 {
   public interface IAnalysisReportInProgress
   {
-    void StartedCheckingTarget(string assemblyName);
+    void StartedCheckingTarget(AssemblyName assemblyName);
     void AsString(IResultBuilder resultBuilder);
     bool IsFailure();
     void Add(RuleViolation ruleViolation);

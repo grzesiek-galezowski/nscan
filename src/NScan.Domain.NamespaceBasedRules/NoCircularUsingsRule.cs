@@ -20,8 +20,7 @@ namespace NScan.NamespaceBasedRules
       return HasNoCircularUsingsRuleMetadata.Format(_ruleDto);
     }
 
-    public void Evaluate(
-      string projectAssemblyName, 
+    public void Evaluate(AssemblyName projectAssemblyName,
       INamespacesDependenciesCache namespacesCache,
       IAnalysisReportInProgress report)
     {

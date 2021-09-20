@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingSolution.Ports;
 
 namespace NScan.NamespaceBasedRules
@@ -10,7 +11,7 @@ namespace NScan.NamespaceBasedRules
     {
       return csharpProjectDtos.Select(dataAccess =>
           new NamespaceBasedRuleTarget(
-            dataAccess.AssemblyName,
+            new AssemblyName(dataAccess.AssemblyName),
             SourceCodeFilesUsingNamespaces(dataAccess),
             new NamespacesDependenciesCache()))
         .ToList<INamespaceBasedRuleTarget>();

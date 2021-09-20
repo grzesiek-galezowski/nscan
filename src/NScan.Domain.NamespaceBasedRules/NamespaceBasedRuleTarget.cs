@@ -5,18 +5,18 @@ namespace NScan.NamespaceBasedRules
 {
   public class NamespaceBasedRuleTarget : INamespaceBasedRuleTarget
   {
-    private readonly string _assemblyName;
     private readonly IReadOnlyList<ISourceCodeFileUsingNamespaces> _sourceCodeFiles;
     private readonly INamespacesDependenciesCache _namespacesDependenciesCache;
+    private readonly AssemblyName _projectAssemblyName;
 
     public NamespaceBasedRuleTarget(
-      string assemblyName, 
+      AssemblyName assemblyName,
       IReadOnlyList<ISourceCodeFileUsingNamespaces> sourceCodeFiles,
       INamespacesDependenciesCache namespacesDependenciesCache)
     {
-      _assemblyName = assemblyName;
       _sourceCodeFiles = sourceCodeFiles;
       _namespacesDependenciesCache = namespacesDependenciesCache;
+      _projectAssemblyName = assemblyName;
     }
 
     public void RefreshNamespacesCache()
@@ -29,7 +29,7 @@ namespace NScan.NamespaceBasedRules
 
     public void Evaluate(INamespacesBasedRule rule, IAnalysisReportInProgress report)
     {
-      rule.Evaluate(_assemblyName, _namespacesDependenciesCache, report);
+      rule.Evaluate(_projectAssemblyName, _namespacesDependenciesCache, report);
     }
   }
 }

@@ -65,7 +65,7 @@ namespace NScan.ProjectScopedRulesSpecification
       var expectedPropertyValue = Any.OtherThan(propertyValue);
       var violationFactory = Substitute.For<IProjectScopedRuleViolationFactory>();
       var analysisReportInProgress = Substitute.For<IAnalysisReportInProgress>();
-      var assemblyName = Any.String();
+      var assemblyName = Any.Instance<AssemblyName>();
       var violation = Any.Instance<RuleViolation>();
       var description = Any.Instance<RuleDescription>();
       var rule = new HasPropertyValueRule(
@@ -91,7 +91,7 @@ namespace NScan.ProjectScopedRulesSpecification
       var expectedPropertyValue = Any.Pattern();
       var violationFactory = Substitute.For<IProjectScopedRuleViolationFactory>();
       var analysisReportInProgress = Substitute.For<IAnalysisReportInProgress>();
-      var assemblyName = Any.String();
+      var assemblyName = Any.Instance<AssemblyName>();
       var violation = Any.Instance<RuleViolation>();
       var description = Any.Instance<RuleDescription>();
       var rule = new HasPropertyValueRule(
@@ -129,7 +129,7 @@ namespace NScan.ProjectScopedRulesSpecification
         description);
 
       //WHEN
-      rule.ApplyTo(Any.String(), properties, analysisReportInProgress);
+      rule.ApplyTo(Any.Instance<AssemblyName>(), properties, analysisReportInProgress);
 
       //THEN
       analysisReportInProgress.DidNotReceiveWithAnyArgs().Add(default!);
