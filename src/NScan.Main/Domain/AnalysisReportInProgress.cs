@@ -15,7 +15,7 @@ namespace TddXt.NScan.Domain
       _ruleReportFactory = ruleReportFactory;
     }
 
-    public void AsString(IResultBuilder resultBuilder)
+    public void PutContentInto(IResultBuilder resultBuilder)
     {
       foreach (var singleRuleReport in _reportsByRule.Values)
       {

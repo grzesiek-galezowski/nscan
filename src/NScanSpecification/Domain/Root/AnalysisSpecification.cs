@@ -180,7 +180,7 @@ namespace NScanSpecification.Domain.Root
       var analysisReportString = analysis.Report;
 
       //THEN
-      analysisInProgressReport.Received(1).AsString(resultBuilder);
+      analysisInProgressReport.Received(1).PutContentInto(resultBuilder);
       analysisReportString.Should().Be(reportStringGeneratedFromInProgressReport);
     }
 

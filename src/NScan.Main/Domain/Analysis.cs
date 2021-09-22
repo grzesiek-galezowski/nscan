@@ -39,7 +39,7 @@ namespace TddXt.NScan.Domain
       get
       {
         var resultBuilder = _resultBuilderFactory.NewResultBuilder();
-        _analysisReportInProgress.AsString(resultBuilder);
+        _analysisReportInProgress.PutContentInto(resultBuilder);
         return resultBuilder.Text();
       }
     }

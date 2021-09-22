@@ -32,7 +32,7 @@ namespace NScan.MainSpecification.Domain
       report.FinishedEvaluatingRule(ruleDescription3);
 
       //WHEN
-      report.AsString(resultBuilder);
+      report.PutContentInto(resultBuilder);
 
       //THEN
       Received.InOrder(() =>
