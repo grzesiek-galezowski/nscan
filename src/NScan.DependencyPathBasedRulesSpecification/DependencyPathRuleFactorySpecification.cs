@@ -7,7 +7,7 @@ using TddXt.XFluentAssert.Api;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace NScanSpecification.Domain.Root
+namespace NScan.DependencyPathBasedRulesSpecification
 {
   public class DependencyPathRuleFactorySpecification
   {
