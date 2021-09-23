@@ -4,7 +4,7 @@ using NScan.SharedKernel.RuleDtos.ProjectScoped;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace NScanSpecification.ReadingRules.Ports
+namespace NScan.SharedKernelSpecification.RuleDtos.ProjectScoped
 {
   public class HasTargetFrameworkRuleMetadataSpecification
   {

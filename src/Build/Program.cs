@@ -10,12 +10,7 @@ using TddXt.NScan;
 using static Bullseye.Targets;
 using static SimpleExec.Command;
 
-
-var nscan = "nscan";
-var nscanConsole = "nscan.console";
-var cakeNscan = "cake.nscan";
-var solutionName = "NScan.sln";
-
+const string solutionName = "NScan.sln";
 const string configuration = "Release";
 const string version = "0.74.0";
 var root = AbsoluteFilePath.OfThisFile().ParentDirectory(2).Value;

@@ -3,11 +3,10 @@ using NScan.SharedKernel.ReadingSolution.Ports;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace NScanSpecification.Domain.SharedKernel
+namespace NScan.SharedKernelSpecification.ReadingSolution.Ports
 {
   public class PackageReferenceSpecification
   {
-
     [Fact]
     public void ShouldGiveNameAndVersionWhenConvertedToString()
     {

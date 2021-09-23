@@ -4,7 +4,7 @@ using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace NScanSpecification.ReadingRules.Ports
+namespace NScan.SharedKernelSpecification.RuleDtos.NamespaceBased
 {
   public class HasNoUsingsRuleMetadataSpecification
   {

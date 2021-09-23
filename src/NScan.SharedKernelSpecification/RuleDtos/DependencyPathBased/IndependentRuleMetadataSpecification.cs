@@ -4,7 +4,7 @@ using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace NScanSpecification.ReadingRules.Ports
+namespace NScan.SharedKernelSpecification.RuleDtos.DependencyPathBased
 {
   public class IndependentRuleMetadataSpecification
   {

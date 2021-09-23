@@ -6,11 +6,10 @@ using NSubstitute;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
 using TddXt.AnyRoot.Strings;
-using TddXt.NScan.Domain;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace NScanSpecification.Domain.Root
+namespace NScan.ProjectScopedRulesSpecification
 {
   public class ProjectScopedRuleTargetSpecification
   {

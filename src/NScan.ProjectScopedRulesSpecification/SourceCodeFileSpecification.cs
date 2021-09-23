@@ -14,7 +14,7 @@ using TddXt.XNSubstitute;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace NScanSpecification.Domain.Root
+namespace NScan.ProjectScopedRulesSpecification
 {
   public class SourceCodeFileSpecification
   {
