@@ -5,7 +5,7 @@ using TddXt.XFluentAssert.Api;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace NScanSpecification.Domain.Root
+namespace NScan.NamespaceBasedRulesSpecification
 {
   public class NamespaceBasedRuleFactorySpecification
   {

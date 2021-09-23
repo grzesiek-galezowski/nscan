@@ -14,37 +14,6 @@ using static TddXt.AnyRoot.Root;
 
 namespace NScanSpecification.Domain.Root
 {
-  public record AnalysisBuilder
-  {
-    public IAnalysisReportInProgress ReportInProgress { private get; init; } = 
-      Any.Instance<IAnalysisReportInProgress>();
-    public IDependencyAnalysis DependencyAnalysis { private get; init; } = 
-      Any.Instance<IDependencyAnalysis>();
-    public IProjectAnalysis ProjectAnalysis { private get; init; } =
-      Any.Instance<IProjectAnalysis>();
-    public IProjectNamespacesAnalysis NamespacesAnalysis { private get; init; } =
-      Any.Instance<IProjectNamespacesAnalysis>();
-    public ISolutionForDependencyPathBasedRules SolutionForDependencyPathBasedRules { get; init; } =
-      Any.Instance<ISolutionForDependencyPathBasedRules>();
-    public ISolutionForProjectScopedRules SolutionForProjectScopedRules { get; init; } =
-      Any.Instance<ISolutionForProjectScopedRules>();    
-    public ISolutionForNamespaceBasedRules SolutionForNamespaceBasedRules { get; init; } =
-      Any.Instance<ISolutionForNamespaceBasedRules>();
-    public IResultBuilderFactory ResultBuilderFactory { get; init; } = Any.Instance<IResultBuilderFactory>();
-
-    public Analysis Build()
-    {
-      return new Analysis(
-        ReportInProgress,
-        DependencyAnalysis,
-        ProjectAnalysis,
-        NamespacesAnalysis, 
-        ResultBuilderFactory);
-    }
-
-  }
-
-
   public class AnalysisSpecification
   {
     [Fact]
@@ -213,4 +182,34 @@ namespace NScanSpecification.Domain.Root
       analysisReturnCode.Should().Be(expectedCode);
     }
   }
+
+  public record AnalysisBuilder
+  {
+    public IAnalysisReportInProgress ReportInProgress { private get; init; } = 
+      Any.Instance<IAnalysisReportInProgress>();
+    public IDependencyAnalysis DependencyAnalysis { private get; init; } = 
+      Any.Instance<IDependencyAnalysis>();
+    public IProjectAnalysis ProjectAnalysis { private get; init; } =
+      Any.Instance<IProjectAnalysis>();
+    public IProjectNamespacesAnalysis NamespacesAnalysis { private get; init; } =
+      Any.Instance<IProjectNamespacesAnalysis>();
+    public ISolutionForDependencyPathBasedRules SolutionForDependencyPathBasedRules { get; init; } =
+      Any.Instance<ISolutionForDependencyPathBasedRules>();
+    public ISolutionForProjectScopedRules SolutionForProjectScopedRules { get; init; } =
+      Any.Instance<ISolutionForProjectScopedRules>();    
+    public ISolutionForNamespaceBasedRules SolutionForNamespaceBasedRules { get; init; } =
+      Any.Instance<ISolutionForNamespaceBasedRules>();
+    public IResultBuilderFactory ResultBuilderFactory { get; init; } = Any.Instance<IResultBuilderFactory>();
+
+    public Analysis Build()
+    {
+      return new Analysis(
+        ReportInProgress,
+        DependencyAnalysis,
+        ProjectAnalysis,
+        NamespacesAnalysis, 
+        ResultBuilderFactory);
+    }
+  }
+
 }

@@ -6,7 +6,7 @@ using TddXt.AnyRoot.Collections;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace NScanSpecification.Domain.Root
+namespace NScan.NamespaceBasedRulesSpecification
 {
   public class SolutionForNamespaceBasedRulesSpecification
   {

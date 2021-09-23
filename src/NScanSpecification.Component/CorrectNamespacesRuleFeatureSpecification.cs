@@ -168,8 +168,8 @@ namespace NScanSpecification.Component
         .ButHasMultipleNamespaces("lol.cs", "MyProject", "MyProject2"));
     }
     
-    [Fact(Skip = "In progress")] 
-    public void ShouldReportErrorWhenNoCsProjectMatchesTheWildcard()
+    [Fact] 
+    public void ShouldReportErrorWhenNoCsProjectMatchesThePattern()
     {
       //GIVEN
       var context = new NScanDriver();
