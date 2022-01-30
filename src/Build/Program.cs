@@ -12,7 +12,7 @@ using static SimpleExec.Command;
 
 const string solutionName = "NScan.sln";
 const string configuration = "Release";
-const string version = "0.74.0";
+const string version = "0.75.0";
 var root = AbsoluteFilePath.OfThisFile().ParentDirectory(2).Value;
 var buildDir = root.AddDirectoryName("build").AddDirectoryName(configuration);
 var srcDir = root.AddDirectoryName("src");

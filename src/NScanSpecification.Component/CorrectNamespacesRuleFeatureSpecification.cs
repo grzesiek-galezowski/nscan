@@ -171,6 +171,7 @@ namespace NScanSpecification.Component
     [Fact] 
     public void ShouldReportErrorWhenNoCsProjectMatchesThePattern()
     {
+      //bug implement this behavior!
       //GIVEN
       var context = new NScanDriver();
       context.HasProject("MyProject")
