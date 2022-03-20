@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Functional.Maybe;
-using Functional.Maybe.Just;
+using Core.Maybe;
 using GlobExpressions;
 using Value;
 

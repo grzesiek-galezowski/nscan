@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Functional.Maybe;
-using Functional.Maybe.Just;
+using Core.Maybe;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
-using NullableReferenceTypesExtensions;
+using Core.NullableReferenceTypesExtensions;
 
 namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingCSharpSourceCode
 {
@@ -89,7 +88,7 @@ namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingCSharpSourceCode
         }
       }
 
-      _classes.Last().Methods.Add(new MethodDeclarationInfo(node.Identifier.Value.OrThrow().ToString(), attributes));
+      _classes.Last().Methods.Add(new MethodDeclarationInfo(node.Identifier.Value.OrThrow().ToString().OrThrow(), attributes));
     }
     
     private static string GenericTypeListWithRemovedWhitespaces(TypeParameterListSyntax typeParameterList)

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using System.Xml.Serialization;
+using Core.NullableReferenceTypesExtensions;
 
 namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects
 {
@@ -98,8 +99,8 @@ namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects
           BindingFlags.Public | BindingFlags.Instance)
         .Where(p => p.IsDefined(typeof(XmlElementAttribute)))
         .Where(p => p.GetValue(this) != null)
-        .Select(p => (name : p.Name, value : p.GetValue(this)))
-        .ToImmutableDictionary(p => p.name, p => p.value.ToString());
+        .Select(p => (name : p.Name, value : p.GetValue(this).OrThrow()))
+        .ToImmutableDictionary(p => p.name, p => p.value.OrThrow().ToString().OrThrow());
       return propertyInfos;
     }
   }

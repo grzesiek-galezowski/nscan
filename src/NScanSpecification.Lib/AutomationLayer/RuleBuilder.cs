@@ -1,9 +1,10 @@
-﻿using GlobExpressions;
+﻿using Core.Maybe;
+using GlobExpressions;
 using NScan.Lib;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
-using NullableReferenceTypesExtensions;
+using Core.NullableReferenceTypesExtensions;
 
 namespace NScanSpecification.Lib.AutomationLayer
 {
@@ -230,8 +231,8 @@ namespace NScanSpecification.Lib.AutomationLayer
 
     private Pattern GetDependingPattern()
     {
-      return _exclusionPattern
-        .SelectOrNull(p => Pattern.WithExclusion(_dependingPattern.OrThrow(), p))
+      return _exclusionPattern.ToMaybe()
+        .Select(p => Pattern.WithExclusion(_dependingPattern.OrThrow(), p))
         .OrElse(() => Pattern.WithoutExclusion(_dependingPattern.OrThrow()));
     }
   }

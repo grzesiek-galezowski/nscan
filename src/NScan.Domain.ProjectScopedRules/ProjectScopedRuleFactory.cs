@@ -1,5 +1,4 @@
 ﻿using NScan.Lib;
-using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
 namespace NScan.ProjectScopedRules

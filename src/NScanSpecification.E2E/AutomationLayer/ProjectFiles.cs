@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using NScan.SharedKernel.ReadingSolution.Ports;
-using NullableReferenceTypesExtensions;
+using Core.NullableReferenceTypesExtensions;
 using static AtmaFileSystem.AtmaFileSystemPaths;
 
 namespace NScanSpecification.E2E.AutomationLayer

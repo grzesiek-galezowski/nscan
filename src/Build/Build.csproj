@@ -2,22 +2,22 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <WarningsAsErrors>nullable</WarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AtmaFileSystem" Version="4.8.0" />
-    <PackageReference Include="Bullseye" Version="3.8.0" />
-    <PackageReference Include="FluentAssertions" Version="6.4.0" />
+    <PackageReference Include="AtmaFileSystem" Version="5.0.0" />
+    <PackageReference Include="Bullseye" Version="4.0.0" />
+    <PackageReference Include="FluentAssertions" Version="6.5.1" />
     <PackageReference Include="IsExternalInit" Version="1.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="NScan" Version="0.74.0" />
     <PackageReference Include="NScan.Adapters.Secondary" Version="0.74.0" />
-    <PackageReference Include="SimpleExec" Version="8.0.0" />
+    <PackageReference Include="SimpleExec" Version="9.1.0" />
   </ItemGroup>
 
 </Project>

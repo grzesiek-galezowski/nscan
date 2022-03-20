@@ -5,8 +5,8 @@ using System.Linq;
 using System.Xml.Serialization;
 using AtmaFileSystem;
 using Buildalyzer;
-using Functional.Maybe;
-using Functional.Maybe.Just;
+using Core.Maybe;
+using Core.NullableReferenceTypesExtensions;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using static AtmaFileSystem.AtmaFileSystemPaths;
@@ -28,7 +28,7 @@ namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects
     {
       var projectDtos = _projectFilePaths.Select(LoadXmlProjectFromPath())
         .Where(maybeProject => maybeProject.HasValue)
-        .Select(maybeProject => maybeProject.Value).ToList();
+        .Select(maybeProject => maybeProject.Value()).ToList();
       return projectDtos;
     }
 
@@ -46,7 +46,7 @@ namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects
     {
       var serializer = CreateXmlSerializer();
       using var fileStream = new FileStream(projectFilePath.ToString(), FileMode.Open);
-      XmlProject result = (XmlProject) serializer.Deserialize(fileStream);
+      XmlProject result = (XmlProject) serializer.Deserialize(fileStream).OrThrow();
       return result;
     }
 

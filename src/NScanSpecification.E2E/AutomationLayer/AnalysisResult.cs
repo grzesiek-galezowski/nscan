@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using NullableReferenceTypesExtensions;
+using Core.NullableReferenceTypesExtensions;
 
 namespace NScanSpecification.E2E.AutomationLayer
 {

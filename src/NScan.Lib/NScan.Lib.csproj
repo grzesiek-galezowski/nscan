@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -21,8 +21,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Functional.Maybe" Version="2.0.20" />
-    <PackageReference Include="Functional.Maybe.Just" Version="2.0.0" />
+    <PackageReference Include="Core.Maybe" Version="2.4.1" />
     <PackageReference Include="Glob" Version="1.1.9" />
     <PackageReference Include="IsExternalInit" Version="1.0.2">
       <PrivateAssets>all</PrivateAssets>

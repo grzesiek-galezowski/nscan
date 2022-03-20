@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Authors>Grzegorz Galezowski</Authors>
     <Product>NScan</Product>
     <Description></Description>
@@ -22,7 +22,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AtmaFileSystem" Version="4.8.0" />
+    <PackageReference Include="AtmaFileSystem" Version="5.0.0" />
     <PackageReference Include="Glob" Version="1.1.9" />
     <PackageReference Include="IsExternalInit" Version="1.0.2">
       <PrivateAssets>all</PrivateAssets>

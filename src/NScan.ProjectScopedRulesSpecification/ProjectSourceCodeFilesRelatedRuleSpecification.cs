@@ -3,7 +3,6 @@ using FluentAssertions;
 using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NSubstitute;
-using TddXt.AnyRoot.Strings;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 

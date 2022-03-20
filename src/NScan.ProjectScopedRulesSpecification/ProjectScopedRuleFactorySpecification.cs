@@ -1,6 +1,6 @@
 ﻿using System;
 using FluentAssertions;
-using Functional.Maybe;
+using Core.Maybe;
 using NScan.ProjectScopedRules;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
 using TddXt.XFluentAssert.Api;

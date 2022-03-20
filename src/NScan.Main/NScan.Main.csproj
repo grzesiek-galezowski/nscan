@@ -29,7 +29,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>TddXt.NScan</AssemblyName>
     <RootNamespace>TddXt.NScan</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>

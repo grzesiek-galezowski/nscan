@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <TargetFramework>netstandard2.1</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
         <Authors>Grzegorz Galezowski</Authors>
         <Product>NScan</Product>
         <Description></Description>
@@ -32,12 +32,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Buildalyzer" Version="3.2.8" />
+        <PackageReference Include="Buildalyzer" Version="4.1.3" />
         <PackageReference Include="IsExternalInit" Version="1.0.2">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.1" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.1.0" />
         <PackageReference Include="Sprache" Version="2.3.1" />
     </ItemGroup>
 

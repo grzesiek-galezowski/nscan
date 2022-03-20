@@ -3,10 +3,10 @@ using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using AtmaFileSystem;
-using Functional.Maybe;
+using Core.Maybe;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingSolution.Ports;
-using NullableReferenceTypesExtensions;
+using Core.NullableReferenceTypesExtensions;
 using static AtmaFileSystem.AtmaFileSystemPaths;
 
 namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects

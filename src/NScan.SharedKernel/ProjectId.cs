@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Value;
-
-namespace NScan.SharedKernel
+﻿namespace NScan.SharedKernel
 {
   public sealed record ProjectId(string AbsolutePath)
   {

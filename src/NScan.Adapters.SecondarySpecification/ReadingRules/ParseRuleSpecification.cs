@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
-using Functional.Maybe;
+using Core.Maybe;
 using NScan.Adapters.Secondary.ReadingRules;
 using NScan.Lib;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
@@ -27,7 +27,7 @@ namespace NScan.Adapters.SecondarySpecification.ReadingRules
 
       //WHEN
       var ruleUnionDto = ParserRulePreface.Then(ParseDependencyPathBasedRule.Complement)
-        .Parse($"{depending} {IndependentRuleMetadata.IndependentOf} {dependencyType}:{dependency}{Environment.NewLine}").Value;
+        .Parse($"{depending} {IndependentRuleMetadata.IndependentOf} {dependencyType}:{dependency}{Environment.NewLine}").Value();
 
       //THEN
       ruleUnionDto.Accept(new IndependentRuleComplementDtoAssertion(independentRule =>
@@ -51,8 +51,8 @@ namespace NScan.Adapters.SecondarySpecification.ReadingRules
 
       //WHEN
       var ruleUnionDto = ParserRulePreface.Then(ParseDependencyPathBasedRule.Complement)
-				.Parse(
-          $"{depending} except {dependingException} {IndependentRuleMetadata.IndependentOf} {dependencyType}:{dependency}{Environment.NewLine}").Value;
+        .Parse(
+          $"{depending} except {dependingException} {IndependentRuleMetadata.IndependentOf} {dependencyType}:{dependency}{Environment.NewLine}").Value();
 
       //THEN
       ruleUnionDto.Accept(new IndependentRuleComplementDtoAssertion(independentRule =>
@@ -75,7 +75,7 @@ namespace NScan.Adapters.SecondarySpecification.ReadingRules
 
       //WHEN
       var ruleUnionDto = ParserRulePreface.Then(ParseDependencyPathBasedRule.Complement)
-				.Parse($"{depending}  {IndependentRuleMetadata.IndependentOf}  {dependencyType}:{dependency}{Environment.NewLine}").Value;
+        .Parse($"{depending}  {IndependentRuleMetadata.IndependentOf}  {dependencyType}:{dependency}{Environment.NewLine}").Value();
 
       //THEN
       ruleUnionDto.Accept(new IndependentRuleComplementDtoAssertion(independentRule =>
@@ -96,7 +96,7 @@ namespace NScan.Adapters.SecondarySpecification.ReadingRules
 
       //WHEN
       var ruleUnionDto = ParserRulePreface.Then(ParseProjectScopedRule.Complement).Parse(
-	      $"{depending}  {HasCorrectNamespacesRuleMetadata.HasCorrectNamespaces}").Value;
+        $"{depending}  {HasCorrectNamespacesRuleMetadata.HasCorrectNamespaces}").Value();
 
       //THEN
 
@@ -116,7 +116,7 @@ namespace NScan.Adapters.SecondarySpecification.ReadingRules
 
       //WHEN
       var ruleUnionDto = ParserRulePreface.Then(ParseNamespaceBasedRule.Complement)
-        .Parse($"{depending} {HasNoCircularUsingsRuleMetadata.HasNoCircularUsings}").Value;
+        .Parse($"{depending} {HasNoCircularUsingsRuleMetadata.HasNoCircularUsings}").Value();
 
       //THEN
       ruleUnionDto.Accept(new NoCircularUsingsRuleComplementDtoAssertion(dto =>
@@ -160,7 +160,7 @@ namespace NScan.Adapters.SecondarySpecification.ReadingRules
       var from = Any.String();
       var to = Any.String();
       var ruleUnionDto = ParserRulePreface.Then(ParseNamespaceBasedRule.Complement)
-        .Parse(TestRuleFormats.FormatNoUsingsRule(depending, from, to)).Value;
+        .Parse(TestRuleFormats.FormatNoUsingsRule(depending, from, to)).Value();
 
       //THEN
       ruleUnionDto.Accept(new NoUsingsRuleComplementDtoAssertion(dto =>

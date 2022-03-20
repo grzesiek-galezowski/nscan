@@ -29,9 +29,9 @@ namespace NScan.NamespaceBasedRules
       yield return _value;
     }
 
-    public int CompareTo(NamespaceName other)
+    public int CompareTo(NamespaceName? other)
     {
-      return string.Compare(_value, other._value, StringComparison.Ordinal);
+      return string.Compare(_value, other?._value, StringComparison.Ordinal);
     }
   }
 }
