@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using AtmaFileSystem;
+using Core.NullableReferenceTypesExtensions;
 using FluentAssertions;
 using Microsoft.Build.Construction;
+using Microsoft.Build.Evaluation;
+using Microsoft.Build.Logging.StructuredLogger;
 using Microsoft.Build.Utilities.ProjectCreation;
 using NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects;
 using NScan.SharedKernel;
@@ -17,6 +22,7 @@ using NScan.SharedKernel.RuleDtos.ProjectScoped;
 using TddXt.AnyRoot.Strings;
 using Xunit;
 using static TddXt.AnyRoot.Root;
+using Project = Microsoft.Build.Evaluation.Project;
 
 namespace NScan.Adapters.SecondarySpecification.ReadingCSharpSolution
 {
@@ -220,5 +226,82 @@ namespace NScan.Adapters.SecondarySpecification.ReadingCSharpSolution
     {
       File.Delete(_project.FullPath);
     }
+  }
+
+  public class MsBuildPlayground
+  {
+    [Fact]
+    public void Lol()
+    {
+      SetMsBuildExePath();
+      var projectRootElement = ProjectRootElement.Open("C:\\Users\\HYPERBOOK\\Documents\\GitHub\\cabs-refactored-csharp\\src\\CabsTests\\CabsTests.csproj");
+      
+      var project = new Project(projectRootElement);
+      //bug foreach (var projectAllEvaluatedProperty in project.AllEvaluatedProperties)
+      //bug {
+      //bug   if (projectAllEvaluatedProperty is { } p)
+      //bug   {
+      //bug     Console.WriteLine(p.Name + " " + p.EvaluatedValue);
+      //bug   }
+      //bug }
+      Console.WriteLine("============ FILES ==========");
+      foreach (var projectItem in project.Items.Where(item => item.ItemType == "Compile"))
+      {
+        Console.WriteLine(projectItem.GetType() + " " + projectItem.Xml.ItemType +" " + projectItem.EvaluatedInclude + " " + MetadataString(projectItem));
+      }
+
+      Console.WriteLine("============ PACKAGE REFERENCES ==========");
+      foreach (var projectItem in project.Items.Where(item => item.ItemType == "PackageReference"))
+      {
+        Console.WriteLine(projectItem.GetType() + " " + projectItem.Xml.ItemType +" " + projectItem.EvaluatedInclude + " " + MetadataString(projectItem));
+      }
+
+      Console.WriteLine("============ PROJECT REFERENCES ==========");
+      foreach (var projectItem in project.Items.Where(item => item.ItemType == "ProjectReference"))
+      {
+        Console.WriteLine(projectItem.GetType() + " " + projectItem.Xml.ItemType +" " + projectItem.EvaluatedInclude + " " + MetadataString(projectItem));
+      }
+
+      Console.WriteLine("============ PROJECT REFERENCES ==========");
+      foreach (var projectItem in project.Items.Where(item => item.ItemType == "AssemblyReference"))
+      {
+        Console.WriteLine(projectItem.GetType() + " " + projectItem.Xml.ItemType +" " + projectItem.EvaluatedInclude + " " + MetadataString(projectItem));
+      }
+
+      Console.WriteLine("============ PROJECT PROPERTIES ==========");
+      foreach (var projectItem in project.Properties)
+      {
+        Console.WriteLine(projectItem.GetType() + " " + projectItem.Name +" " + projectItem.EvaluatedValue);
+      }
+    }
+
+    private string MetadataString(ProjectItem projectItem)
+    {
+      return string.Join('|', projectItem.DirectMetadata.Select(md => md.Name + ":" + md.EvaluatedValue));
+    }
+
+    private static void SetMsBuildExePath()
+    {
+      try
+      {
+        var startInfo = new ProcessStartInfo("dotnet", "--list-sdks") { RedirectStandardOutput = true };
+      
+
+      var process = Process.Start(startInfo).OrThrow();
+      process.WaitForExit(1000);
+
+      var output = process.StandardOutput.ReadToEnd();
+      var sdkPaths = Regex.Matches(output, "([0-9]+.[0-9]+.[0-9]+) \\[(.*)\\]")
+        .OfType<Match>()
+        .Select(m => System.IO.Path.Combine(m.Groups[2].Value, m.Groups[1].Value, "MSBuild.dll"));
+
+      var sdkPath = sdkPaths.Last();
+      Environment.SetEnvironmentVariable("MSBUILD_EXE_PATH", sdkPath, EnvironmentVariableTarget.Process);
+    }
+    catch (Exception exception)
+    {
+      Console.WriteLine("Could not set MSBUILD_EXE_PATH: " + exception);
+    }
+  }
   }
 }
