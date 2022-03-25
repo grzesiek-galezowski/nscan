@@ -10,7 +10,6 @@ using Core.NullableReferenceTypesExtensions;
 using FluentAssertions;
 using Microsoft.Build.Construction;
 using Microsoft.Build.Evaluation;
-using Microsoft.Build.Logging.StructuredLogger;
 using Microsoft.Build.Utilities.ProjectCreation;
 using NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects;
 using NScan.SharedKernel;
