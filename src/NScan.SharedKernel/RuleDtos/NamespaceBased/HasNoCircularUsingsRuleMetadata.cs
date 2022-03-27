@@ -1,14 +1,13 @@
-﻿namespace NScan.SharedKernel.RuleDtos.NamespaceBased
-{
-  public static class HasNoCircularUsingsRuleMetadata
-  {
-    public const string HasNoCircularUsings = "hasNoCircularUsings";
+﻿namespace NScan.SharedKernel.RuleDtos.NamespaceBased;
 
-    public static RuleDescription Format(NoCircularUsingsRuleComplementDto noCircularUsingsRuleComplementDto)
-    {
-      return new RuleDescription(
-        $"{noCircularUsingsRuleComplementDto.ProjectAssemblyNamePattern.Text()} " +
-        $"{noCircularUsingsRuleComplementDto.RuleName}");
-    }
+public static class HasNoCircularUsingsRuleMetadata
+{
+  public const string HasNoCircularUsings = "hasNoCircularUsings";
+
+  public static RuleDescription Format(NoCircularUsingsRuleComplementDto noCircularUsingsRuleComplementDto)
+  {
+    return new RuleDescription(
+      $"{noCircularUsingsRuleComplementDto.ProjectAssemblyNamePattern.Text()} " +
+      $"{noCircularUsingsRuleComplementDto.RuleName}");
   }
 }

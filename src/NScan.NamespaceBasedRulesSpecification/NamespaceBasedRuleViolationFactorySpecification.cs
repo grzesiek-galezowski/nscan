@@ -8,52 +8,51 @@ using TddXt.AnyRoot.Strings;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace NScan.NamespaceBasedRulesSpecification
+namespace NScan.NamespaceBasedRulesSpecification;
+
+public class NamespaceBasedRuleViolationFactorySpecification
 {
-  public class NamespaceBasedRuleViolationFactorySpecification
+  [Fact]
+  public void ShouldCreateAViolationForNoCyclesRuleContainingCyclesDescription()
   {
-    [Fact]
-    public void ShouldCreateAViolationForNoCyclesRuleContainingCyclesDescription()
-    {
-      //GIVEN
-      var fragments = Substitute.For<INamespaceBasedReportFragmentsFormat>();
-      var factory = new NamespaceBasedRuleViolationFactory(fragments);
-      var cyclesString = Any.String();
-      var description = Any.Instance<RuleDescription>();
-      var projectAssemblyName = Any.Instance<AssemblyName>();
-      var cycles = Any.ReadOnlyList<NamespaceDependencyPath>();
+    //GIVEN
+    var fragments = Substitute.For<INamespaceBasedReportFragmentsFormat>();
+    var factory = new NamespaceBasedRuleViolationFactory(fragments);
+    var cyclesString = Any.String();
+    var description = Any.Instance<RuleDescription>();
+    var projectAssemblyName = Any.Instance<AssemblyName>();
+    var cycles = Any.ReadOnlyList<NamespaceDependencyPath>();
 
-      fragments.ApplyTo(cycles, "Cycle").Returns(cyclesString);
+    fragments.ApplyTo(cycles, "Cycle").Returns(cyclesString);
       
-      //WHEN
-      var violation = factory.NoCyclesRuleViolation(description, projectAssemblyName, cycles);
+    //WHEN
+    var violation = factory.NoCyclesRuleViolation(description, projectAssemblyName, cycles);
 
-      //THEN
-      violation.Should().Be(RuleViolation.Create(description,
-        $"Discovered cycle(s) in project {projectAssemblyName}:{Environment.NewLine}",
-        cyclesString));
-    }
+    //THEN
+    violation.Should().Be(RuleViolation.Create(description,
+      $"Discovered cycle(s) in project {projectAssemblyName}:{Environment.NewLine}",
+      cyclesString));
+  }
     
-    [Fact]
-    public void ShouldCreateAViolationForNoUsingsRuleContainingPathsDescription()
-    {
-      //GIVEN
-      var fragments = Substitute.For<INamespaceBasedReportFragmentsFormat>();
-      var factory = new NamespaceBasedRuleViolationFactory(fragments);
-      var pathsString = Any.String();
-      var description = Any.Instance<RuleDescription>();
-      var projectAssemblyName = Any.Instance<AssemblyName>();
-      var paths = Any.ReadOnlyList<NamespaceDependencyPath>();
+  [Fact]
+  public void ShouldCreateAViolationForNoUsingsRuleContainingPathsDescription()
+  {
+    //GIVEN
+    var fragments = Substitute.For<INamespaceBasedReportFragmentsFormat>();
+    var factory = new NamespaceBasedRuleViolationFactory(fragments);
+    var pathsString = Any.String();
+    var description = Any.Instance<RuleDescription>();
+    var projectAssemblyName = Any.Instance<AssemblyName>();
+    var paths = Any.ReadOnlyList<NamespaceDependencyPath>();
 
-      fragments.ApplyTo(paths, "Violation").Returns(pathsString);
+    fragments.ApplyTo(paths, "Violation").Returns(pathsString);
       
-      //WHEN
-      var violation = factory.NoUsingsRuleViolation(description, projectAssemblyName, paths);
+    //WHEN
+    var violation = factory.NoUsingsRuleViolation(description, projectAssemblyName, paths);
 
-      //THEN
-      violation.Should().Be(RuleViolation.Create(description,
-        $"Discovered violation(s) in project {projectAssemblyName}:{Environment.NewLine}",
-        pathsString));
-    }
+    //THEN
+    violation.Should().Be(RuleViolation.Create(description,
+      $"Discovered violation(s) in project {projectAssemblyName}:{Environment.NewLine}",
+      pathsString));
   }
 }

@@ -4,21 +4,20 @@ using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
-namespace NScan.SharedKernel.NotifyingSupport.Ports
+namespace NScan.SharedKernel.NotifyingSupport.Ports;
+
+public interface INScanSupport
 {
-  public interface INScanSupport
-  {
-    void Report(Exception exceptionFromResolution);
+  void Report(Exception exceptionFromResolution);
 
-    void SkippingProjectBecauseOfError(InvalidOperationException invalidOperationException,
-      AbsoluteFilePath projectFilePath);
+  void SkippingProjectBecauseOfError(InvalidOperationException invalidOperationException,
+    AbsoluteFilePath projectFilePath);
 
-    void Log(IndependentRuleComplementDto dto);
-    void Log(CorrectNamespacesRuleComplementDto dto);
-    void Log(NoCircularUsingsRuleComplementDto dto);
-    void Log(HasAttributesOnRuleComplementDto dto);
-    void Log(HasTargetFrameworkRuleComplementDto dto);
-    void Log(NoUsingsRuleComplementDto dto);
-    void Log(HasPropertyRuleComplementDto dto);
-  }
+  void Log(IndependentRuleComplementDto dto);
+  void Log(CorrectNamespacesRuleComplementDto dto);
+  void Log(NoCircularUsingsRuleComplementDto dto);
+  void Log(HasAttributesOnRuleComplementDto dto);
+  void Log(HasTargetFrameworkRuleComplementDto dto);
+  void Log(NoUsingsRuleComplementDto dto);
+  void Log(HasPropertyRuleComplementDto dto);
 }

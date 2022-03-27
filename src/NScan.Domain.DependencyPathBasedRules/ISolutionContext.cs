@@ -1,9 +1,8 @@
 ﻿using NScan.SharedKernel;
 
-namespace NScan.DependencyPathBasedRules
+namespace NScan.DependencyPathBasedRules;
+
+public interface ISolutionContext
 {
-  public interface ISolutionContext
-  {
-    void ResolveReferenceFrom(IReferencingProject referencingProject, ProjectId referencedProjectId);
-  }
+  void ResolveReferenceFrom(IReferencingProject referencingProject, ProjectId referencedProjectId);
 }

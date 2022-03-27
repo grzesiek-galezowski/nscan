@@ -1,7 +1,6 @@
-﻿namespace NScan.Lib.Union1
+﻿namespace NScan.Lib.Union1;
+
+public interface IUnionVisitor<in T1>
 {
-  public interface IUnionVisitor<in T1>
-  {
-    void Visit(T1 arg);
-  }
+  void Visit(T1 arg);
 }

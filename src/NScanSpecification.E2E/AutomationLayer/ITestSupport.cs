@@ -1,7 +1,6 @@
-﻿namespace NScanSpecification.E2E.AutomationLayer
+﻿namespace NScanSpecification.E2E.AutomationLayer;
+
+public interface ITestSupport
 {
-  public interface ITestSupport
-  {
-    void RunningDotnetExeWith(string arguments, SolutionDir workingDirectory);
-  }
+  void RunningDotnetExeWith(string arguments, SolutionDir workingDirectory);
 }

@@ -4,28 +4,27 @@ using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace NScan.SharedKernelSpecification.RuleDtos.NamespaceBased
+namespace NScan.SharedKernelSpecification.RuleDtos.NamespaceBased;
+
+public class HasNoUsingsRuleMetadataSpecification
 {
-  public class HasNoUsingsRuleMetadataSpecification
+  [Fact]
+  public void ShouldAllowGettingRuleName()
   {
-    [Fact]
-    public void ShouldAllowGettingRuleName()
-    {
-      HasNoUsingsRuleMetadata.HasNoUsings.Should().Be("hasNoUsings");
-    }
+    HasNoUsingsRuleMetadata.HasNoUsings.Should().Be("hasNoUsings");
+  }
 
-    [Fact]
-    public static void ShouldProvideFormattedDescriptionOfIndependentRuleDto()
-    {
-      //GIVEN
-      var dto = Any.Instance<NoUsingsRuleComplementDto>();
+  [Fact]
+  public static void ShouldProvideFormattedDescriptionOfIndependentRuleDto()
+  {
+    //GIVEN
+    var dto = Any.Instance<NoUsingsRuleComplementDto>();
       
-      //WHEN
-      var text = HasNoUsingsRuleMetadata.Format(dto);
+    //WHEN
+    var text = HasNoUsingsRuleMetadata.Format(dto);
 
-      //THEN
-      text.Should().Be(new RuleDescription(
-        $"{dto.ProjectAssemblyNamePattern.Text()} {HasNoUsingsRuleMetadata.HasNoUsings} from {dto.FromPattern.Text()} to {dto.ToPattern.Text()}"));
-    }
+    //THEN
+    text.Should().Be(new RuleDescription(
+      $"{dto.ProjectAssemblyNamePattern.Text()} {HasNoUsingsRuleMetadata.HasNoUsings} from {dto.FromPattern.Text()} to {dto.ToPattern.Text()}"));
   }
 }

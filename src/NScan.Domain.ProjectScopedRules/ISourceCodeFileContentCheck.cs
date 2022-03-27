@@ -1,12 +1,11 @@
 ﻿using NScan.SharedKernel;
 
-namespace NScan.ProjectScopedRules
+namespace NScan.ProjectScopedRules;
+
+public interface ISourceCodeFileContentCheck
 {
-  public interface ISourceCodeFileContentCheck
-  {
-    void ApplyTo(
-      ISourceCodeFileInNamespace sourceCodeFile, 
-      RuleDescription description,
-      IAnalysisReportInProgress report);
-  }
+  void ApplyTo(
+    ISourceCodeFileInNamespace sourceCodeFile, 
+    RuleDescription description,
+    IAnalysisReportInProgress report);
 }

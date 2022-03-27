@@ -1,24 +1,23 @@
 ﻿using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
-namespace NScan.ProjectScopedRules
+namespace NScan.ProjectScopedRules;
+
+public class MethodsOfMatchingClassesAreDecoratedWithAttributeCheck : ISourceCodeFileContentCheck
 {
-  public class MethodsOfMatchingClassesAreDecoratedWithAttributeCheck : ISourceCodeFileContentCheck
+  private readonly HasAttributesOnRuleComplementDto _ruleDto;
+
+  public MethodsOfMatchingClassesAreDecoratedWithAttributeCheck(HasAttributesOnRuleComplementDto ruleDto)
   {
-    private readonly HasAttributesOnRuleComplementDto _ruleDto;
+    _ruleDto = ruleDto;
+  }
 
-    public MethodsOfMatchingClassesAreDecoratedWithAttributeCheck(HasAttributesOnRuleComplementDto ruleDto)
-    {
-      _ruleDto = ruleDto;
-    }
-
-    public void ApplyTo(ISourceCodeFileInNamespace sourceCodeFile, RuleDescription description,
-      IAnalysisReportInProgress report)
-    {
-      sourceCodeFile.CheckMethodsHavingCorrectAttributes(
-        report, 
-        _ruleDto.ClassNameInclusionPattern, 
-        _ruleDto.MethodNameInclusionPattern, description);
-    }
+  public void ApplyTo(ISourceCodeFileInNamespace sourceCodeFile, RuleDescription description,
+    IAnalysisReportInProgress report)
+  {
+    sourceCodeFile.CheckMethodsHavingCorrectAttributes(
+      report, 
+      _ruleDto.ClassNameInclusionPattern, 
+      _ruleDto.MethodNameInclusionPattern, description);
   }
 }

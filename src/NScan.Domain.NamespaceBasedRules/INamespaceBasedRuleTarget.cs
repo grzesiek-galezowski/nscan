@@ -1,10 +1,9 @@
 ﻿using NScan.SharedKernel;
 
-namespace NScan.NamespaceBasedRules
+namespace NScan.NamespaceBasedRules;
+
+public interface INamespaceBasedRuleTarget
 {
-  public interface INamespaceBasedRuleTarget
-  {
-    void RefreshNamespacesCache();
-    void Evaluate(INamespacesBasedRule rule, IAnalysisReportInProgress report);
-  }
+  void RefreshNamespacesCache();
+  void Evaluate(INamespacesBasedRule rule, IAnalysisReportInProgress report);
 }

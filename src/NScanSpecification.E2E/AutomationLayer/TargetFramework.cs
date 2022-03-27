@@ -1,7 +1,6 @@
-﻿namespace NScanSpecification.E2E.AutomationLayer
+﻿namespace NScanSpecification.E2E.AutomationLayer;
+
+public static class TargetFramework
 {
-  public static class TargetFramework
-  {
-    public static string RecentDotNet = "net5.0";
-  }
+  public static string RecentDotNet = "net5.0";
 }

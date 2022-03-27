@@ -5,49 +5,48 @@ using NScan.SharedKernel.ReadingSolution.Ports;
 using Core.NullableReferenceTypesExtensions;
 using static AtmaFileSystem.AtmaFileSystemPaths;
 
-namespace NScanSpecification.E2E.AutomationLayer
+namespace NScanSpecification.E2E.AutomationLayer;
+
+public class ProjectFiles
 {
-  public class ProjectFiles
+  private readonly SolutionDir _dir;
+  private readonly Dictionary<string, List<SourceCodeFileDto>> _filesByProject;
+
+  public ProjectFiles(SolutionDir dir)
   {
-    private readonly SolutionDir _dir;
-    private readonly Dictionary<string, List<SourceCodeFileDto>> _filesByProject;
+    _dir = dir;
+    _filesByProject = new Dictionary<string, List<SourceCodeFileDto>>();
+  }
 
-    public ProjectFiles(SolutionDir dir)
+  public async Task AddFilesToProjectsAsync()
+  {
+    foreach (var projectName in _filesByProject.Keys)
     {
-      _dir = dir;
-      _filesByProject = new Dictionary<string, List<SourceCodeFileDto>>();
-    }
-
-    public async Task AddFilesToProjectsAsync()
-    {
-      foreach (var projectName in _filesByProject.Keys)
+      foreach (var sourceCodeFile in _filesByProject[projectName])
       {
-        foreach (var sourceCodeFile in _filesByProject[projectName])
+        var fileInfo = _dir.PathToFileInProject(DirectoryName(projectName), sourceCodeFile);
+        var projectDirectoryInfo = fileInfo.Directory.OrThrow();
+        if (!projectDirectoryInfo.Exists)
         {
-          var fileInfo = _dir.PathToFileInProject(DirectoryName(projectName), sourceCodeFile);
-          var projectDirectoryInfo = fileInfo.Directory.OrThrow();
-          if (!projectDirectoryInfo.Exists)
-          {
-            projectDirectoryInfo.Create();
-          }
-
-          var generateFrom = SourceCodeFileText.GenerateFrom(sourceCodeFile);
-          await File.WriteAllTextAsync(fileInfo.FullName, generateFrom);
+          projectDirectoryInfo.Create();
         }
+
+        var generateFrom = SourceCodeFileText.GenerateFrom(sourceCodeFile);
+        await File.WriteAllTextAsync(fileInfo.FullName, generateFrom);
       }
     }
+  }
 
-    public void InitializeForProject(string projectName)
+  public void InitializeForProject(string projectName)
+  {
+    if (!_filesByProject.ContainsKey(projectName))
     {
-      if (!_filesByProject.ContainsKey(projectName))
-      {
-        _filesByProject[projectName] = new List<SourceCodeFileDto>();
-      }
+      _filesByProject[projectName] = new List<SourceCodeFileDto>();
     }
+  }
 
-    public void Add(string projectName, SourceCodeFileDto xmlSourceCodeFile)
-    {
-      _filesByProject[projectName].Add(xmlSourceCodeFile);
-    }
+  public void Add(string projectName, SourceCodeFileDto xmlSourceCodeFile)
+  {
+    _filesByProject[projectName].Add(xmlSourceCodeFile);
   }
 }

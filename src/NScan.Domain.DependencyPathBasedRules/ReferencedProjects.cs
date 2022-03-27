@@ -3,72 +3,71 @@ using System.Linq;
 using NScan.SharedKernel;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 
-namespace NScan.DependencyPathBasedRules
+namespace NScan.DependencyPathBasedRules;
+
+public interface IReferencedProjects
 {
-  public interface IReferencedProjects
+  void Add(ProjectId projectId, IReferencedProject referencedProject);
+  void Print(int nestingLevel);
+  void FillAllBranchesOf(IDependencyPathInProgress dependencyPathInProgress, IDependencyPathBasedRuleTarget owner);
+  void ResolveFrom(IReferencingProject referencingProject, ISolutionContext solution);
+}
+
+public class ReferencedProjects : IReferencedProjects
+{
+  private readonly IDictionary<ProjectId, IReferencedProject> _referencedProjects 
+    = new Dictionary<ProjectId, IReferencedProject>();
+
+  private readonly IReadOnlyList<ProjectId> _referencedProjectsIds;
+  private readonly INScanSupport _support;
+
+  public ReferencedProjects(
+    IReadOnlyList<ProjectId> referencedProjectsIds, 
+    INScanSupport support)
   {
-    void Add(ProjectId projectId, IReferencedProject referencedProject);
-    void Print(int nestingLevel);
-    void FillAllBranchesOf(IDependencyPathInProgress dependencyPathInProgress, IDependencyPathBasedRuleTarget owner);
-    void ResolveFrom(IReferencingProject referencingProject, ISolutionContext solution);
+    _referencedProjectsIds = referencedProjectsIds;
+    _support = support;
   }
 
-  public class ReferencedProjects : IReferencedProjects
+  public void Add(ProjectId projectId, IReferencedProject referencedProject)
   {
-    private readonly IDictionary<ProjectId, IReferencedProject> _referencedProjects 
-      = new Dictionary<ProjectId, IReferencedProject>();
+    _referencedProjects.Add(projectId, referencedProject);
+  }
 
-    private readonly IReadOnlyList<ProjectId> _referencedProjectsIds;
-    private readonly INScanSupport _support;
-
-    public ReferencedProjects(
-      IReadOnlyList<ProjectId> referencedProjectsIds, 
-      INScanSupport support)
+  public void Print(int nestingLevel)
+  {
+    foreach (var referencedProjectsValue in _referencedProjects.Values)
     {
-      _referencedProjectsIds = referencedProjectsIds;
-      _support = support;
+      referencedProjectsValue.Print(nestingLevel + 1);
     }
+  }
 
-    public void Add(ProjectId projectId, IReferencedProject referencedProject)
+  public void FillAllBranchesOf(IDependencyPathInProgress dependencyPathInProgress, IDependencyPathBasedRuleTarget owner)
+  {
+    if (_referencedProjects.Any())
     {
-      _referencedProjects.Add(projectId, referencedProject);
-    }
-
-    public void Print(int nestingLevel)
-    {
-      foreach (var referencedProjectsValue in _referencedProjects.Values)
+      foreach (var reference in _referencedProjects.Values)
       {
-        referencedProjectsValue.Print(nestingLevel + 1);
+        reference.FillAllBranchesOf(dependencyPathInProgress.CloneWith(owner));
       }
     }
-
-    public void FillAllBranchesOf(IDependencyPathInProgress dependencyPathInProgress, IDependencyPathBasedRuleTarget owner)
+    else
     {
-      if (_referencedProjects.Any())
-      {
-        foreach (var reference in _referencedProjects.Values)
-        {
-          reference.FillAllBranchesOf(dependencyPathInProgress.CloneWith(owner));
-        }
-      }
-      else
-      {
-        dependencyPathInProgress.FinalizeWith(owner);
-      }
+      dependencyPathInProgress.FinalizeWith(owner);
     }
+  }
 
-    public void ResolveFrom(IReferencingProject referencingProject, ISolutionContext solution)
+  public void ResolveFrom(IReferencingProject referencingProject, ISolutionContext solution)
+  {
+    foreach (var projectId in _referencedProjectsIds)
     {
-      foreach (var projectId in _referencedProjectsIds)
+      try
       {
-        try
-        {
-          solution.ResolveReferenceFrom(referencingProject, projectId);
-        }
-        catch (ReferencedProjectNotFoundInSolutionException e)
-        {
-          _support.Report(e);
-        }
+        solution.ResolveReferenceFrom(referencingProject, projectId);
+      }
+      catch (ReferencedProjectNotFoundInSolutionException e)
+      {
+        _support.Report(e);
       }
     }
   }

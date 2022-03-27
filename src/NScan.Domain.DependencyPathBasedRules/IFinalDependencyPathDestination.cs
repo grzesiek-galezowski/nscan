@@ -1,7 +1,6 @@
-﻿namespace NScan.DependencyPathBasedRules
+﻿namespace NScan.DependencyPathBasedRules;
+
+public interface IFinalDependencyPathDestination
 {
-  public interface IFinalDependencyPathDestination
-  {
-    void Add(IProjectDependencyPath projectDependencyPath);
-  }
+  void Add(IProjectDependencyPath projectDependencyPath);
 }

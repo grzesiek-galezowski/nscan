@@ -1,12 +1,11 @@
 ﻿using NScan.SharedKernel;
 
-namespace NScan.DependencyPathBasedRules
+namespace NScan.DependencyPathBasedRules;
+
+public interface IReferencingProject
 {
-  public interface IReferencingProject
-  {
-    void AddReferencedProject(ProjectId projectId, IReferencedProject referencedProject);
-    void ResolveReferencesFrom(ISolutionContext solution);
-    bool IsRoot();
-    void ResolveAsReferencing(IReferencedProject project);
-  }
+  void AddReferencedProject(ProjectId projectId, IReferencedProject referencedProject);
+  void ResolveReferencesFrom(ISolutionContext solution);
+  bool IsRoot();
+  void ResolveAsReferencing(IReferencedProject project);
 }

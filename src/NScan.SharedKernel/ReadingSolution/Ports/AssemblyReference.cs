@@ -1,24 +1,23 @@
 using System.Collections.Generic;
 using Value;
 
-namespace NScan.SharedKernel.ReadingSolution.Ports
+namespace NScan.SharedKernel.ReadingSolution.Ports;
+
+public sealed class AssemblyReference : ValueType<AssemblyReference>
 {
-  public sealed class AssemblyReference : ValueType<AssemblyReference>
+  private readonly string _hintPath;
+
+  public AssemblyReference(string assemblyReferenceName, string hintPath)
   {
-    private readonly string _hintPath;
+    Name = assemblyReferenceName;
+    _hintPath = hintPath;
+  }
 
-    public AssemblyReference(string assemblyReferenceName, string hintPath)
-    {
-      Name = assemblyReferenceName;
-      _hintPath = hintPath;
-    }
+  public string Name { get; }
 
-    public string Name { get; }
-
-    protected override IEnumerable<object> GetAllAttributesToBeUsedForEquality()
-    {
-      yield return _hintPath;
-      yield return Name;
-    }
+  protected override IEnumerable<object> GetAllAttributesToBeUsedForEquality()
+  {
+    yield return _hintPath;
+    yield return Name;
   }
 }

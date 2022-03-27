@@ -4,15 +4,15 @@ using NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingCSharpSourceCode;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
 using Xunit;
 
-namespace NScan.Adapters.SecondarySpecification.ReadingCSharpSolution.Integration
+namespace NScan.Adapters.SecondarySpecification.ReadingCSharpSolution.Integration;
+
+public class RoslynMethodCollectionPlayground
 {
-  public class RoslynMethodCollectionPlayground
+  [Fact]
+  public void ShouldGatherMethodsWithAttributesFromSourceCode()
   {
-    [Fact]
-    public void ShouldGatherMethodsWithAttributesFromSourceCode()
-    {
-      //GIVEN
-      var dictionary = CSharpFileSyntaxTree.ParseText(@"
+    //GIVEN
+    var dictionary = CSharpFileSyntaxTree.ParseText(@"
 namespace Namespace1.Namespace2
 {
   class Class1
@@ -29,13 +29,12 @@ namespace Namespace1.Namespace2
 }
 ", "").GetClassDeclarationSignatures();
 
-      dictionary["Namespace1.Namespace2.Class1.Class2"].Methods.Should().BeEquivalentTo(
-        new List<MethodDeclarationInfo>
-        { 
-          new("Lol1", new List<string>()),
-          new("Lol2", new List<string> {"Test1", "Test2", "Test3", "Test4"}),
-          new("Lol3", new List<string>())
-        });
-    }
+    dictionary["Namespace1.Namespace2.Class1.Class2"].Methods.Should().BeEquivalentTo(
+      new List<MethodDeclarationInfo>
+      { 
+        new("Lol1", new List<string>()),
+        new("Lol2", new List<string> {"Test1", "Test2", "Test3", "Test4"}),
+        new("Lol3", new List<string>())
+      });
   }
 }

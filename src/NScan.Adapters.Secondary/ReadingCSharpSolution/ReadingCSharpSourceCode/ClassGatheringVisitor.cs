@@ -7,93 +7,92 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
 using Core.NullableReferenceTypesExtensions;
 
-namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingCSharpSourceCode
+namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingCSharpSourceCode;
+
+public class ClassGatheringVisitor : CSharpSyntaxVisitor
 {
-  public class ClassGatheringVisitor : CSharpSyntaxVisitor
+  private readonly List<ClassDeclarationInfo> _classes = new();
+
+  public override void VisitCompilationUnit(CompilationUnitSyntax node)
   {
-    private readonly List<ClassDeclarationInfo> _classes = new();
+    VisitChildrenOf(node);
+  }
 
-    public override void VisitCompilationUnit(CompilationUnitSyntax node)
-    {
-      VisitChildrenOf(node);
-    }
+  public override void VisitNamespaceDeclaration(NamespaceDeclarationSyntax node)
+  {
+    VisitChildrenOf(node);
+  }
 
-    public override void VisitNamespaceDeclaration(NamespaceDeclarationSyntax node)
+  public override void VisitClassDeclaration(ClassDeclarationSyntax node)
+  {
+    var className = node.Identifier.ValueText + GenericParameters(node);
+    var currentNamespace = Maybe<string>.Nothing;
+    var currentParent = (CSharpSyntaxNode)node.Parent.OrThrow();
+    while (currentParent is not CompilationUnitSyntax)
     {
-      VisitChildrenOf(node);
-    }
-
-    public override void VisitClassDeclaration(ClassDeclarationSyntax node)
-    {
-      var className = node.Identifier.ValueText + GenericParameters(node);
-      var currentNamespace = Maybe<string>.Nothing;
-      var currentParent = (CSharpSyntaxNode)node.Parent.OrThrow();
-      while (currentParent is not CompilationUnitSyntax)
+      switch (currentParent)
       {
-        switch (currentParent)
-        {
-          case NamespaceDeclarationSyntax enclosingNamespace:
-            currentNamespace = currentNamespace
-              .Select<string, string>(n => enclosingNamespace.Name + "." + n)
-              .OrElse(() => enclosingNamespace.Name.ToString())
-              .Just();
-            break;
-          case ClassDeclarationSyntax enclosingClass:
-            className = enclosingClass.Identifier.ValueText + "." + className;
-            break;
-        }
-
-        currentParent = (CSharpSyntaxNode)currentParent.Parent.OrThrow();
+        case NamespaceDeclarationSyntax enclosingNamespace:
+          currentNamespace = currentNamespace
+            .Select<string, string>(n => enclosingNamespace.Name + "." + n)
+            .OrElse(() => enclosingNamespace.Name.ToString())
+            .Just();
+          break;
+        case ClassDeclarationSyntax enclosingClass:
+          className = enclosingClass.Identifier.ValueText + "." + className;
+          break;
       }
 
-      _classes.Add(
-        new ClassDeclarationInfo(className, currentNamespace.OrElse(() => string.Empty) ));
-      VisitChildrenOf(node);
+      currentParent = (CSharpSyntaxNode)currentParent.Parent.OrThrow();
     }
 
-    private string GenericParameters(ClassDeclarationSyntax node)
-    {
-      if (node.TypeParameterList == null)
-      {
-        return string.Empty;
-      }
-      else
-      {
-        return $"<{GenericTypeListWithRemovedWhitespaces(node.TypeParameterList)}>";
-      }
-    }
+    _classes.Add(
+      new ClassDeclarationInfo(className, currentNamespace.OrElse(() => string.Empty) ));
+    VisitChildrenOf(node);
+  }
 
-    public Dictionary<string, ClassDeclarationInfo> ToDictionary()
+  private string GenericParameters(ClassDeclarationSyntax node)
+  {
+    if (node.TypeParameterList == null)
     {
-      return _classes.ToDictionary(info => info.FullName);
+      return string.Empty;
     }
-
-    private void VisitChildrenOf(SyntaxNode node)
+    else
     {
-      foreach (var child in node.ChildNodes().Cast<CSharpSyntaxNode>())
-      {
-        child.Accept(this);
-      }
+      return $"<{GenericTypeListWithRemovedWhitespaces(node.TypeParameterList)}>";
     }
+  }
 
-    public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
+  public Dictionary<string, ClassDeclarationInfo> ToDictionary()
+  {
+    return _classes.ToDictionary(info => info.FullName);
+  }
+
+  private void VisitChildrenOf(SyntaxNode node)
+  {
+    foreach (var child in node.ChildNodes().Cast<CSharpSyntaxNode>())
     {
-      var attributes = new List<string>();
+      child.Accept(this);
+    }
+  }
+
+  public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
+  {
+    var attributes = new List<string>();
       
-      foreach (var attributeListSyntax in node.AttributeLists)
-      {
-        foreach (var attributeSyntax in attributeListSyntax.Attributes)
-        {
-          attributes.Add(attributeSyntax.Name.ToFullString());
-        }
-      }
-
-      _classes.Last().Methods.Add(new MethodDeclarationInfo(node.Identifier.Value.OrThrow().ToString().OrThrow(), attributes));
-    }
-    
-    private static string GenericTypeListWithRemovedWhitespaces(TypeParameterListSyntax typeParameterList)
+    foreach (var attributeListSyntax in node.AttributeLists)
     {
-      return TypeFormatting.StripWhitespace(typeParameterList.Parameters.ToFullString());
+      foreach (var attributeSyntax in attributeListSyntax.Attributes)
+      {
+        attributes.Add(attributeSyntax.Name.ToFullString());
+      }
     }
+
+    _classes.Last().Methods.Add(new MethodDeclarationInfo(node.Identifier.Value.OrThrow().ToString().OrThrow(), attributes));
+  }
+    
+  private static string GenericTypeListWithRemovedWhitespaces(TypeParameterListSyntax typeParameterList)
+  {
+    return TypeFormatting.StripWhitespace(typeParameterList.Parameters.ToFullString());
   }
 }

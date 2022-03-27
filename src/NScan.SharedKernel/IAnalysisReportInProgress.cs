@@ -1,11 +1,10 @@
-﻿namespace NScan.SharedKernel
+﻿namespace NScan.SharedKernel;
+
+public interface IAnalysisReportInProgress
 {
-  public interface IAnalysisReportInProgress
-  {
-    void StartedCheckingTarget(AssemblyName assemblyName);
-    void PutContentInto(IResultBuilder resultBuilder);
-    bool IsFailure();
-    void Add(RuleViolation ruleViolation);
-    void FinishedEvaluatingRule(RuleDescription ruleDescription);
-  }
+  void StartedCheckingTarget(AssemblyName assemblyName);
+  void PutContentInto(IResultBuilder resultBuilder);
+  bool IsFailure();
+  void Add(RuleViolation ruleViolation);
+  void FinishedEvaluatingRule(RuleDescription ruleDescription);
 }

@@ -1,9 +1,8 @@
 ﻿using NScan.SharedKernel;
 
-namespace NScan.DependencyPathBasedRules
+namespace NScan.DependencyPathBasedRules;
+
+public interface IDependencyRule
 {
-  public interface IDependencyRule
-  {
-    void Check(IAnalysisReportInProgress report, IProjectDependencyPath dependencyPath);
-  }
+  void Check(IAnalysisReportInProgress report, IProjectDependencyPath dependencyPath);
 }

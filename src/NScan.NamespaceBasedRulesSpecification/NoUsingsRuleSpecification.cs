@@ -8,75 +8,74 @@ using TddXt.XNSubstitute;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace NScan.NamespaceBasedRulesSpecification
+namespace NScan.NamespaceBasedRulesSpecification;
+
+public class NoUsingsRuleSpecification
 {
-  public class NoUsingsRuleSpecification
+  [Fact]
+  public void ShouldReturnDescriptionBasedOnDto()
   {
-    [Fact]
-    public void ShouldReturnDescriptionBasedOnDto()
+    //GIVEN
+    var dto = Any.Instance<NoUsingsRuleComplementDto>();
+    var rule = new NoUsingsRule(dto, Any.Instance<INamespaceBasedRuleViolationFactory>());
+
+    //WHEN
+    var description = rule.Description();
+
+    //THEN
+    description.Should().Be(HasNoUsingsRuleMetadata.Format(dto));
+  }
+
+  [Fact]
+  public void ShouldNotReportAnythingWhenThereIsNoDependency()
+  {
+    //GIVEN
+    var dto = Any.Instance<NoUsingsRuleComplementDto>();
+    var rule = new NoUsingsRule(dto, Any.Instance<INamespaceBasedRuleViolationFactory>());
+    var namespacesCache = Substitute.For<INamespacesDependenciesCache>();
+    var report = Substitute.For<IAnalysisReportInProgress>();
+
+    namespacesCache.RetrievePathsBetween(dto.FromPattern, dto.ToPattern)
+      .Returns(NoPaths());
+
+    //WHEN
+    rule.Evaluate(Any.Instance<AssemblyName>(), namespacesCache, report);
+
+    //THEN
+    report.ReceivedNothing();
+  }
+
+  private static List<NamespaceDependencyPath> NoPaths()
+  {
+    return new List<NamespaceDependencyPath>();
+  }
+
+  [Fact]
+  public void ShouldReportErrorWhenThereIsADependency()
+  {
+    //GIVEN
+    var dto = Any.Instance<NoUsingsRuleComplementDto>();
+    var ruleViolationFactory = Substitute.For<INamespaceBasedRuleViolationFactory>();
+    var assemblyName = Any.Instance<AssemblyName>();
+    var namespacesCache = Substitute.For<INamespacesDependenciesCache>();
+    var report = Substitute.For<IAnalysisReportInProgress>();
+    var violation = Any.Instance<RuleViolation>();
+    var pathsFound = new List<NamespaceDependencyPath>
     {
-      //GIVEN
-      var dto = Any.Instance<NoUsingsRuleComplementDto>();
-      var rule = new NoUsingsRule(dto, Any.Instance<INamespaceBasedRuleViolationFactory>());
+      Any.Instance<NamespaceDependencyPath>(),
+      Any.Instance<NamespaceDependencyPath>(),
+      Any.Instance<NamespaceDependencyPath>(),
+    };
+    var rule = new NoUsingsRule(dto, ruleViolationFactory);
 
-      //WHEN
-      var description = rule.Description();
+    ruleViolationFactory.NoUsingsRuleViolation(rule.Description(), assemblyName, pathsFound)
+      .Returns(violation);
+    namespacesCache.RetrievePathsBetween(dto.FromPattern, dto.ToPattern).Returns(pathsFound);
 
-      //THEN
-      description.Should().Be(HasNoUsingsRuleMetadata.Format(dto));
-    }
+    //WHEN
+    rule.Evaluate(assemblyName, namespacesCache, report);
 
-    [Fact]
-    public void ShouldNotReportAnythingWhenThereIsNoDependency()
-    {
-      //GIVEN
-      var dto = Any.Instance<NoUsingsRuleComplementDto>();
-      var rule = new NoUsingsRule(dto, Any.Instance<INamespaceBasedRuleViolationFactory>());
-      var namespacesCache = Substitute.For<INamespacesDependenciesCache>();
-      var report = Substitute.For<IAnalysisReportInProgress>();
-
-      namespacesCache.RetrievePathsBetween(dto.FromPattern, dto.ToPattern)
-        .Returns(NoPaths());
-
-      //WHEN
-      rule.Evaluate(Any.Instance<AssemblyName>(), namespacesCache, report);
-
-      //THEN
-      report.ReceivedNothing();
-    }
-
-    private static List<NamespaceDependencyPath> NoPaths()
-    {
-      return new List<NamespaceDependencyPath>();
-    }
-
-    [Fact]
-    public void ShouldReportErrorWhenThereIsADependency()
-    {
-      //GIVEN
-      var dto = Any.Instance<NoUsingsRuleComplementDto>();
-      var ruleViolationFactory = Substitute.For<INamespaceBasedRuleViolationFactory>();
-      var assemblyName = Any.Instance<AssemblyName>();
-      var namespacesCache = Substitute.For<INamespacesDependenciesCache>();
-      var report = Substitute.For<IAnalysisReportInProgress>();
-      var violation = Any.Instance<RuleViolation>();
-      var pathsFound = new List<NamespaceDependencyPath>
-      {
-        Any.Instance<NamespaceDependencyPath>(),
-        Any.Instance<NamespaceDependencyPath>(),
-        Any.Instance<NamespaceDependencyPath>(),
-      };
-      var rule = new NoUsingsRule(dto, ruleViolationFactory);
-
-      ruleViolationFactory.NoUsingsRuleViolation(rule.Description(), assemblyName, pathsFound)
-        .Returns(violation);
-      namespacesCache.RetrievePathsBetween(dto.FromPattern, dto.ToPattern).Returns(pathsFound);
-
-      //WHEN
-      rule.Evaluate(assemblyName, namespacesCache, report);
-
-      //THEN
-      report.Received(1).Add(violation);
-    }
+    //THEN
+    report.Received(1).Add(violation);
   }
 }

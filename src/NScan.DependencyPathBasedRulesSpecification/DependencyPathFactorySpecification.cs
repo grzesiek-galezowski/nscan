@@ -4,23 +4,22 @@ using NSubstitute;
 using TddXt.XFluentAssert.Api;
 using Xunit;
 
-namespace NScan.DependencyPathBasedRulesSpecification
+namespace NScan.DependencyPathBasedRulesSpecification;
+
+public class DependencyPathFactorySpecification
 {
-  public class DependencyPathFactorySpecification
+  [Fact]
+  public void ShouldCreateDependencyPathInProgressHoldingThePassedDestination()
   {
-    [Fact]
-    public void ShouldCreateDependencyPathInProgressHoldingThePassedDestination()
-    {
-      //GIVEN
-      var factory = new DependencyPathFactory();
-      var destination = Substitute.For<IFinalDependencyPathDestination>();
+    //GIVEN
+    var factory = new DependencyPathFactory();
+    var destination = Substitute.For<IFinalDependencyPathDestination>();
 
-      //WHEN
-      var dependencyPathInProgress = factory.NewDependencyPathFor(destination);
+    //WHEN
+    var dependencyPathInProgress = factory.NewDependencyPathFor(destination);
 
-      //THEN
-      dependencyPathInProgress.GetType().Should().Be<DependencyPathInProgress>();
-      dependencyPathInProgress.Should().DependOn(destination);
-    }
+    //THEN
+    dependencyPathInProgress.GetType().Should().Be<DependencyPathInProgress>();
+    dependencyPathInProgress.Should().DependOn(destination);
   }
 }

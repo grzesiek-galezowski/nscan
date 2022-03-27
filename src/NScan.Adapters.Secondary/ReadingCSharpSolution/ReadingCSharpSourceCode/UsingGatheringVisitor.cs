@@ -3,46 +3,45 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
 
-namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingCSharpSourceCode
+namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingCSharpSourceCode;
+
+public class UsingGatheringVisitor : CSharpSyntaxVisitor
 {
-  public class UsingGatheringVisitor : CSharpSyntaxVisitor
+  private readonly IReadOnlyDictionary<string, ClassDeclarationInfo> _classDeclarationInfos;
+  private readonly List<string> _usingNames = new();
+
+  public UsingGatheringVisitor(IReadOnlyDictionary<string, ClassDeclarationInfo> classDeclarationInfos)
   {
-    private readonly IReadOnlyDictionary<string, ClassDeclarationInfo> _classDeclarationInfos;
-    private readonly List<string> _usingNames = new();
+    _classDeclarationInfos = classDeclarationInfos;
+  }
 
-    public UsingGatheringVisitor(IReadOnlyDictionary<string, ClassDeclarationInfo> classDeclarationInfos)
+  public override void VisitUsingDirective(UsingDirectiveSyntax node)
+  {
+    var usingSubject = TypeFormatting.StripWhitespace(node.Name.ToString());
+    if (node.StaticKeyword.Value == null)
     {
-      _classDeclarationInfos = classDeclarationInfos;
+      _usingNames.Add(usingSubject);
     }
+    else if(_classDeclarationInfos.TryGetValue(usingSubject, out var classDeclaration))
+    {
+      _usingNames.Add(classDeclaration.Namespace);
+    }
+  }
 
-    public override void VisitUsingDirective(UsingDirectiveSyntax node)
-    {
-      var usingSubject = TypeFormatting.StripWhitespace(node.Name.ToString());
-      if (node.StaticKeyword.Value == null)
-      {
-        _usingNames.Add(usingSubject);
-      }
-      else if(_classDeclarationInfos.TryGetValue(usingSubject, out var classDeclaration))
-      {
-        _usingNames.Add(classDeclaration.Namespace);
-      }
-    }
+  public override void VisitNamespaceDeclaration(NamespaceDeclarationSyntax node)
+  {
+    foreach(var u in node.Usings) {u.Accept(this);}
+    foreach(var u in node.Members) {u.Accept(this);}
+  }
 
-    public override void VisitNamespaceDeclaration(NamespaceDeclarationSyntax node)
-    {
-      foreach(var u in node.Usings) {u.Accept(this);}
-      foreach(var u in node.Members) {u.Accept(this);}
-    }
+  public override void VisitCompilationUnit(CompilationUnitSyntax node)
+  {
+    foreach(var u in node.Usings) {u.Accept(this);}
+    foreach(var u in node.Members) {u.Accept(this);}
+  }
 
-    public override void VisitCompilationUnit(CompilationUnitSyntax node)
-    {
-      foreach(var u in node.Usings) {u.Accept(this);}
-      foreach(var u in node.Members) {u.Accept(this);}
-    }
-
-    public IReadOnlyList<string> ToList()
-    {
-      return _usingNames;
-    }
+  public IReadOnlyList<string> ToList()
+  {
+    return _usingNames;
   }
 }

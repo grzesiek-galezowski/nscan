@@ -1,23 +1,22 @@
 using System.Collections.Generic;
 using NScan.SharedKernel;
 
-namespace NScan.DependencyPathBasedRules
+namespace NScan.DependencyPathBasedRules;
+
+public class PathRuleSet : IPathRuleSet
 {
-  public class PathRuleSet : IPathRuleSet
+  private readonly IList<IDependencyRule> _rules = new List<IDependencyRule>();
+
+  public void Add(IDependencyRule rule)
   {
-    private readonly IList<IDependencyRule> _rules = new List<IDependencyRule>();
+    _rules.Add(rule);
+  }
 
-    public void Add(IDependencyRule rule)
+  public void Check(IPathCache cache, IAnalysisReportInProgress report)
+  {
+    foreach (var dependencyRule in _rules)
     {
-      _rules.Add(rule);
-    }
-
-    public void Check(IPathCache cache, IAnalysisReportInProgress report)
-    {
-      foreach (var dependencyRule in _rules)
-      {
-        cache.Check(dependencyRule, report);
-      }
+      cache.Check(dependencyRule, report);
     }
   }
 }

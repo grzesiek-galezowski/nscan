@@ -2,34 +2,33 @@
 using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 
-namespace NScan.NamespaceBasedRules
+namespace NScan.NamespaceBasedRules;
+
+public class NoCircularUsingsRule : INamespacesBasedRule
 {
-  public class NoCircularUsingsRule : INamespacesBasedRule
+  private readonly NoCircularUsingsRuleComplementDto _ruleDto;
+  private readonly INamespaceBasedRuleViolationFactory _ruleViolationFactory;
+
+  public NoCircularUsingsRule(NoCircularUsingsRuleComplementDto ruleDto, INamespaceBasedRuleViolationFactory ruleViolationFactory)
   {
-    private readonly NoCircularUsingsRuleComplementDto _ruleDto;
-    private readonly INamespaceBasedRuleViolationFactory _ruleViolationFactory;
+    _ruleDto = ruleDto;
+    _ruleViolationFactory = ruleViolationFactory;
+  }
 
-    public NoCircularUsingsRule(NoCircularUsingsRuleComplementDto ruleDto, INamespaceBasedRuleViolationFactory ruleViolationFactory)
-    {
-      _ruleDto = ruleDto;
-      _ruleViolationFactory = ruleViolationFactory;
-    }
+  public RuleDescription Description()
+  {
+    return HasNoCircularUsingsRuleMetadata.Format(_ruleDto);
+  }
 
-    public RuleDescription Description()
+  public void Evaluate(AssemblyName projectAssemblyName,
+    INamespacesDependenciesCache namespacesCache,
+    IAnalysisReportInProgress report)
+  {
+    var cycles = namespacesCache.RetrieveCycles();
+    if (cycles.Any())
     {
-      return HasNoCircularUsingsRuleMetadata.Format(_ruleDto);
-    }
-
-    public void Evaluate(AssemblyName projectAssemblyName,
-      INamespacesDependenciesCache namespacesCache,
-      IAnalysisReportInProgress report)
-    {
-      var cycles = namespacesCache.RetrieveCycles();
-      if (cycles.Any())
-      {
-        report.Add(
-          _ruleViolationFactory.NoCyclesRuleViolation(Description(), projectAssemblyName, cycles));
-      }
+      report.Add(
+        _ruleViolationFactory.NoCyclesRuleViolation(Description(), projectAssemblyName, cycles));
     }
   }
 }

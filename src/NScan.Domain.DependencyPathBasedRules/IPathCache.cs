@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using NScan.SharedKernel;
 
-namespace NScan.DependencyPathBasedRules
+namespace NScan.DependencyPathBasedRules;
+
+public interface IPathCache
 {
-  public interface IPathCache
-  {
-    void BuildStartingFrom(IEnumerable<IDependencyPathBasedRuleTarget> rootProjects);
-    void Check(IDependencyRule rule, IAnalysisReportInProgress report);
-  }
+  void BuildStartingFrom(IEnumerable<IDependencyPathBasedRuleTarget> rootProjects);
+  void Check(IDependencyRule rule, IAnalysisReportInProgress report);
 }

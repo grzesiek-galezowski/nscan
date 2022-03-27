@@ -9,56 +9,55 @@ using NScanSpecification.Lib;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace NScan.Adapters.SecondarySpecification.ReadingCSharpSolution
+namespace NScan.Adapters.SecondarySpecification.ReadingCSharpSolution;
+
+public class XmlProjectDataAccessSpecification
 {
-  public class XmlProjectDataAccessSpecification
+  [Fact]
+  public void ShouldCorrectlyResolveAbsolutePathsOfReferencedProjects()
   {
-    [Fact]
-    public void ShouldCorrectlyResolveAbsolutePathsOfReferencedProjects()
+    //GIVEN
+    var projectFilePath = AbsoluteFilePath.Value(
+      $"{FileSystemRoot.PlatformSpecificValue()}{Path.DirectorySeparatorChar}A{Path.DirectorySeparatorChar}A.csproj");
+    var referenceToProjectB = "..\\B\\B.csproj";
+    var dataAccess = XmlProjectDataAccess.From(projectFilePath, 
+      XmlProjectWith(projectFilePath, referenceToProjectB)
+    );
+
+    //WHEN
+    var dto = dataAccess.BuildCsharpProjectDto();
+
+    //THEN
+    dto.ReferencedProjectIds.Should().HaveCount(1);
+    dto.ReferencedProjectIds.Should().Equal(
+      ImmutableList<ProjectId>.Empty.Add(
+        new ProjectId($"{FileSystemRoot.PlatformSpecificValue()}{Path.DirectorySeparatorChar}B{Path.DirectorySeparatorChar}B.csproj")));
+  }
+
+  private static XmlProject XmlProjectWith(AbsoluteFilePath projectFilePath, string referenceToProjectB)
+  {
+    return new XmlProject()
     {
-      //GIVEN
-      var projectFilePath = AbsoluteFilePath.Value(
-        $"{FileSystemRoot.PlatformSpecificValue()}{Path.DirectorySeparatorChar}A{Path.DirectorySeparatorChar}A.csproj");
-      var referenceToProjectB = "..\\B\\B.csproj";
-      var dataAccess = XmlProjectDataAccess.From(projectFilePath, 
-        XmlProjectWith(projectFilePath, referenceToProjectB)
-      );
-
-      //WHEN
-      var dto = dataAccess.BuildCsharpProjectDto();
-
-      //THEN
-      dto.ReferencedProjectIds.Should().HaveCount(1);
-      dto.ReferencedProjectIds.Should().Equal(
-        ImmutableList<ProjectId>.Empty.Add(
-          new ProjectId($"{FileSystemRoot.PlatformSpecificValue()}{Path.DirectorySeparatorChar}B{Path.DirectorySeparatorChar}B.csproj")));
-    }
-
-    private static XmlProject XmlProjectWith(AbsoluteFilePath projectFilePath, string referenceToProjectB)
-    {
-      return new XmlProject()
+      ItemGroups = new List<XmlItemGroup>()
       {
-        ItemGroups = new List<XmlItemGroup>()
-        {
-          Any.Instance<XmlItemGroup>()
-            with
+        Any.Instance<XmlItemGroup>()
+          with
+          {
+            ProjectReferences = new List<XmlProjectReference>()
             {
-              ProjectReferences = new List<XmlProjectReference>()
+              new XmlProjectReference()
               {
-                new XmlProjectReference()
-                {
-                  Include = referenceToProjectB
-                }
+                Include = referenceToProjectB
               }
             }
-        },
-        PropertyGroups = new List<XmlPropertyGroup>()
-        {
-          Any.Instance<XmlPropertyGroup>()
-        },
-        AbsolutePath = projectFilePath,
-        Sdk = "net"
-      };
-    }
+          }
+      },
+      PropertyGroups = new List<XmlPropertyGroup>()
+      {
+        Any.Instance<XmlPropertyGroup>()
+      },
+      AbsolutePath = projectFilePath,
+      Sdk = "net"
+    };
   }
 }

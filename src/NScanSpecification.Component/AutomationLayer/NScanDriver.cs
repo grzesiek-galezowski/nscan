@@ -10,113 +10,112 @@ using NScanSpecification.Lib.AutomationLayer;
 using Core.NullableReferenceTypesExtensions;
 using TddXt.NScan.Domain;
 
-namespace NScanSpecification.Component.AutomationLayer
+namespace NScanSpecification.Component.AutomationLayer;
+
+public class NScanDriver
 {
-  public class NScanDriver
+  private readonly INScanSupport _consoleSupport = ConsoleSupport.CreateInstance();
+  private readonly List<CSharpProjectDtoBuilder> _xmlProjects = new();
+  private Analysis? _analysis;
+  private readonly List<IAnalysisRule> _rules = new();
+
+  public CSharpProjectDtoBuilder HasProject(string assemblyName)
   {
-    private readonly INScanSupport _consoleSupport = ConsoleSupport.CreateInstance();
-    private readonly List<CSharpProjectDtoBuilder> _xmlProjects = new();
-    private Analysis? _analysis;
-    private readonly List<IAnalysisRule> _rules = new();
+    var xmlProjectDsl = CSharpProjectDtoBuilder.WithAssemblyName(assemblyName);
+    _xmlProjects.Add(xmlProjectDsl);
+    return xmlProjectDsl;
+  }
 
-    public CSharpProjectDtoBuilder HasProject(string assemblyName)
-    {
-      var xmlProjectDsl = CSharpProjectDtoBuilder.WithAssemblyName(assemblyName);
-      _xmlProjects.Add(xmlProjectDsl);
-      return xmlProjectDsl;
-    }
-
-    public void Add(IFullDependencyPathRuleConstructed ruleDefinition)
-    {
-      _rules.Add(new DependencyPathAnalysisRule(ruleDefinition.BuildDependencyPathBasedRule()));
-    }
+  public void Add(IFullDependencyPathRuleConstructed ruleDefinition)
+  {
+    _rules.Add(new DependencyPathAnalysisRule(ruleDefinition.BuildDependencyPathBasedRule()));
+  }
     
-    public void Add(IFullProjectScopedRuleConstructed ruleDefinition)
-    {
-      _rules.Add(new ProjectScopedAnalysisRule(ruleDefinition.BuildProjectScopedRule()));
-    }
-
-    public void Add(IFullNamespaceBasedRuleConstructed ruleDefinition)
-    {
-      _rules.Add(new NamespaceBasedAnalysisRule(ruleDefinition.BuildNamespaceBasedRule()));
-    }
-
-    public void PerformAnalysis()
-    {
-      var xmlProjects = _xmlProjects.Select(p => p.BuildCsharpProjectDto()).ToList();
-      _analysis = Analysis.PrepareFor(xmlProjects, _consoleSupport);
-      _rules.ForEach(r => r.AddTo(_analysis!));
-      _analysis.Run();
-    }
-
-    public void ShouldIndicateSuccess()
-    {
-      _analysis.OrThrow().ReturnCode.Should().Be(0);
-    }
-
-    public void ShouldIndicateFailure()
-    {
-      _analysis.OrThrow().ReturnCode.Should().Be(-1);
-    }
-
-    public void ReportShouldNotContainText(string text)
-    {
-      _analysis.OrThrow().Report.Should().NotContain(text);
-    }
-
-    public void ReportShouldContain(ReportedMessage message)
-    {
-      _analysis.OrThrow().Report.Should().Contain(message.ToString());
-    }
-  }
-
-  public class DependencyPathAnalysisRule : IAnalysisRule
+  public void Add(IFullProjectScopedRuleConstructed ruleDefinition)
   {
-    private readonly DependencyPathBasedRuleUnionDto _dto;
-
-    public DependencyPathAnalysisRule(DependencyPathBasedRuleUnionDto dto)
-    {
-      _dto = dto;
-    }
-
-    public void AddTo(Analysis analysis)
-    {
-      analysis.AddDependencyPathRules(new [] {_dto});
-    }
+    _rules.Add(new ProjectScopedAnalysisRule(ruleDefinition.BuildProjectScopedRule()));
   }
 
-  public class ProjectScopedAnalysisRule : IAnalysisRule
+  public void Add(IFullNamespaceBasedRuleConstructed ruleDefinition)
   {
-    private readonly ProjectScopedRuleUnionDto _dto;
-
-    public ProjectScopedAnalysisRule(ProjectScopedRuleUnionDto dto)
-    {
-      _dto = dto;
-    }
-
-    public void AddTo(Analysis analysis)
-    {
-      analysis.AddProjectScopedRules(new [] {_dto});
-    }
+    _rules.Add(new NamespaceBasedAnalysisRule(ruleDefinition.BuildNamespaceBasedRule()));
   }
 
-  public class NamespaceBasedAnalysisRule : IAnalysisRule
+  public void PerformAnalysis()
   {
-    private readonly NamespaceBasedRuleUnionDto _dto;
-
-    public NamespaceBasedAnalysisRule(NamespaceBasedRuleUnionDto dto)
-    {
-      _dto = dto;
-    }
-
-    public void AddTo(Analysis analysis)
-    {
-      analysis.AddNamespaceBasedRules(new [] {_dto});
-    }
+    var xmlProjects = _xmlProjects.Select(p => p.BuildCsharpProjectDto()).ToList();
+    _analysis = Analysis.PrepareFor(xmlProjects, _consoleSupport);
+    _rules.ForEach(r => r.AddTo(_analysis!));
+    _analysis.Run();
   }
 
-  internal interface IAnalysisRule
+  public void ShouldIndicateSuccess()
   {
-    void AddTo(Analysis analysis);
+    _analysis.OrThrow().ReturnCode.Should().Be(0);
   }
+
+  public void ShouldIndicateFailure()
+  {
+    _analysis.OrThrow().ReturnCode.Should().Be(-1);
+  }
+
+  public void ReportShouldNotContainText(string text)
+  {
+    _analysis.OrThrow().Report.Should().NotContain(text);
+  }
+
+  public void ReportShouldContain(ReportedMessage message)
+  {
+    _analysis.OrThrow().Report.Should().Contain(message.ToString());
+  }
+}
+
+public class DependencyPathAnalysisRule : IAnalysisRule
+{
+  private readonly DependencyPathBasedRuleUnionDto _dto;
+
+  public DependencyPathAnalysisRule(DependencyPathBasedRuleUnionDto dto)
+  {
+    _dto = dto;
+  }
+
+  public void AddTo(Analysis analysis)
+  {
+    analysis.AddDependencyPathRules(new [] {_dto});
+  }
+}
+
+public class ProjectScopedAnalysisRule : IAnalysisRule
+{
+  private readonly ProjectScopedRuleUnionDto _dto;
+
+  public ProjectScopedAnalysisRule(ProjectScopedRuleUnionDto dto)
+  {
+    _dto = dto;
+  }
+
+  public void AddTo(Analysis analysis)
+  {
+    analysis.AddProjectScopedRules(new [] {_dto});
+  }
+}
+
+public class NamespaceBasedAnalysisRule : IAnalysisRule
+{
+  private readonly NamespaceBasedRuleUnionDto _dto;
+
+  public NamespaceBasedAnalysisRule(NamespaceBasedRuleUnionDto dto)
+  {
+    _dto = dto;
+  }
+
+  public void AddTo(Analysis analysis)
+  {
+    analysis.AddNamespaceBasedRules(new [] {_dto});
+  }
+}
+
+internal interface IAnalysisRule
+{
+  void AddTo(Analysis analysis);
 }

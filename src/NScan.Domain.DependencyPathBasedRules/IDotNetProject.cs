@@ -1,8 +1,7 @@
-﻿namespace NScan.DependencyPathBasedRules
-{
-  public interface IDotNetProject : 
-    IReferencedProject,
-    IReferencingProject, 
-    IDependencyPathBasedRuleTarget
-  {}
-}
+﻿namespace NScan.DependencyPathBasedRules;
+
+public interface IDotNetProject : 
+  IReferencedProject,
+  IReferencingProject, 
+  IDependencyPathBasedRuleTarget
+{}

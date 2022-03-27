@@ -1,32 +1,31 @@
 ﻿using System.Collections.Generic;
 
-namespace NScan.NamespaceBasedRules
+namespace NScan.NamespaceBasedRules;
+
+public class SourceCodeFileUsingNamespaces : ISourceCodeFileUsingNamespaces
 {
-  public class SourceCodeFileUsingNamespaces : ISourceCodeFileUsingNamespaces
+  private readonly IReadOnlyList<NamespaceName> _usings;
+  private readonly IReadOnlyList<NamespaceName> _declaredNamespaces;
+
+  public SourceCodeFileUsingNamespaces(
+    IReadOnlyList<NamespaceName> usings,
+    IReadOnlyList<NamespaceName> declaredNamespaces
+  )
   {
-    private readonly IReadOnlyList<NamespaceName> _usings;
-    private readonly IReadOnlyList<NamespaceName> _declaredNamespaces;
+    _usings = usings;
+    _declaredNamespaces = declaredNamespaces;
+  }
 
-    public SourceCodeFileUsingNamespaces(
-      IReadOnlyList<NamespaceName> usings,
-      IReadOnlyList<NamespaceName> declaredNamespaces
-    )
+  public void AddNamespaceMappingTo(INamespacesDependenciesCache namespacesDependenciesCache)
+  {
+    foreach (var declaredNamespace in _declaredNamespaces)
     {
-      _usings = usings;
-      _declaredNamespaces = declaredNamespaces;
-    }
-
-    public void AddNamespaceMappingTo(INamespacesDependenciesCache namespacesDependenciesCache)
-    {
-      foreach (var declaredNamespace in _declaredNamespaces)
+      foreach (var @using in _usings)
       {
-        foreach (var @using in _usings)
-        {
-          namespacesDependenciesCache
-            .AddMapping(declaredNamespace, @using);
-        }
+        namespacesDependenciesCache
+          .AddMapping(declaredNamespace, @using);
       }
-
     }
+
   }
 }

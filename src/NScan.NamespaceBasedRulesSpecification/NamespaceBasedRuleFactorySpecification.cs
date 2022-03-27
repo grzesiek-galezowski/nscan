@@ -5,42 +5,41 @@ using TddXt.XFluentAssert.Api;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace NScan.NamespaceBasedRulesSpecification
+namespace NScan.NamespaceBasedRulesSpecification;
+
+public class NamespaceBasedRuleFactorySpecification
 {
-  public class NamespaceBasedRuleFactorySpecification
+  [Fact]
+  public void ShouldCreateNoCircularDependenciesRule()
   {
-    [Fact]
-    public void ShouldCreateNoCircularDependenciesRule()
-    {
-      //GIVEN
-      var violationFactory = Any.Instance<INamespaceBasedRuleViolationFactory>();
-      var ruleFactory = new NamespaceBasedRuleFactory(violationFactory);
-      var ruleDto = Any.Instance<NoCircularUsingsRuleComplementDto>();
+    //GIVEN
+    var violationFactory = Any.Instance<INamespaceBasedRuleViolationFactory>();
+    var ruleFactory = new NamespaceBasedRuleFactory(violationFactory);
+    var ruleDto = Any.Instance<NoCircularUsingsRuleComplementDto>();
 
-      //WHEN
-      var rule = ruleFactory.CreateNamespacesBasedRuleFrom(ruleDto);
+    //WHEN
+    var rule = ruleFactory.CreateNamespacesBasedRuleFrom(ruleDto);
 
-      //THEN
-      rule.Should().BeOfType<NoCircularUsingsRule>();
-      rule.Should().DependOn(ruleDto);
-      rule.Should().DependOn(violationFactory);
-    }
+    //THEN
+    rule.Should().BeOfType<NoCircularUsingsRule>();
+    rule.Should().DependOn(ruleDto);
+    rule.Should().DependOn(violationFactory);
+  }
     
-    [Fact]
-    public void ShouldCreateNoUsingsRule()
-    {
-      //GIVEN
-      var violationFactory = Any.Instance<INamespaceBasedRuleViolationFactory>();
-      var ruleFactory = new NamespaceBasedRuleFactory(violationFactory);
-      var ruleDto = Any.Instance<NoUsingsRuleComplementDto>();
+  [Fact]
+  public void ShouldCreateNoUsingsRule()
+  {
+    //GIVEN
+    var violationFactory = Any.Instance<INamespaceBasedRuleViolationFactory>();
+    var ruleFactory = new NamespaceBasedRuleFactory(violationFactory);
+    var ruleDto = Any.Instance<NoUsingsRuleComplementDto>();
 
-      //WHEN
-      var rule = ruleFactory.CreateNamespacesBasedRuleFrom(ruleDto);
+    //WHEN
+    var rule = ruleFactory.CreateNamespacesBasedRuleFrom(ruleDto);
 
-      //THEN
-      rule.Should().BeOfType<NoUsingsRule>();
-      rule.Should().DependOn(ruleDto);
-      rule.Should().DependOn(violationFactory);
-    }
+    //THEN
+    rule.Should().BeOfType<NoUsingsRule>();
+    rule.Should().DependOn(ruleDto);
+    rule.Should().DependOn(violationFactory);
   }
 }

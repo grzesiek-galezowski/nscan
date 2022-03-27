@@ -1,7 +1,6 @@
-﻿namespace NScanSpecification.Component
+﻿namespace NScanSpecification.Component;
+
+internal static class TargetFramework
 {
-  internal static class TargetFramework
-  {
-    public static string Default => "net5.0";
-  }
+  public static string Default => "net5.0";
 }

@@ -5,64 +5,63 @@ using TddXt.AnyRoot;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace NScan.DependencyPathBasedRulesSpecification
+namespace NScan.DependencyPathBasedRulesSpecification;
+
+public class ReferencingProjectsSpecification
 {
-  public class ReferencingProjectsSpecification
+  [Fact]
+  public void ShouldSayItIsEmptyWhenItHasNoReferencingProjects()
   {
-    [Fact]
-    public void ShouldSayItIsEmptyWhenItHasNoReferencingProjects()
-    {
-      //GIVEN
-      var projects = new ReferencingProjects();
+    //GIVEN
+    var projects = new ReferencingProjects();
 
-      //WHEN
-      var areEmpty = projects.AreEmpty();
+    //WHEN
+    var areEmpty = projects.AreEmpty();
 
-      //THEN
-      areEmpty.Should().BeTrue();
-    }
+    //THEN
+    areEmpty.Should().BeTrue();
+  }
 
-    [Fact]
-    public void ShouldSayItIsNotEmptyWhenItHasAtLeastOneReferencingProject()
-    {
-      //GIVEN
-      var projects = new ReferencingProjects();
-      projects.Put(Any.ProjectId(), Any.Instance<IDependencyPathBasedRuleTarget>());
+  [Fact]
+  public void ShouldSayItIsNotEmptyWhenItHasAtLeastOneReferencingProject()
+  {
+    //GIVEN
+    var projects = new ReferencingProjects();
+    projects.Put(Any.ProjectId(), Any.Instance<IDependencyPathBasedRuleTarget>());
 
-      //WHEN
-      var areEmpty = projects.AreEmpty();
+    //WHEN
+    var areEmpty = projects.AreEmpty();
 
-      //THEN
-      areEmpty.Should().BeFalse();
-    }
+    //THEN
+    areEmpty.Should().BeFalse();
+  }
 
-    [Fact]
-    public void ShouldAllowAddingTheSameProjectTwice()
-    {
-      //GIVEN
-      var projects = new ReferencingProjects();
-      var projectId = Any.ProjectId();
-      var dependencyPathBasedRuleTarget = Any.Instance<IDependencyPathBasedRuleTarget>();
-      projects.Put(projectId, dependencyPathBasedRuleTarget);
+  [Fact]
+  public void ShouldAllowAddingTheSameProjectTwice()
+  {
+    //GIVEN
+    var projects = new ReferencingProjects();
+    var projectId = Any.ProjectId();
+    var dependencyPathBasedRuleTarget = Any.Instance<IDependencyPathBasedRuleTarget>();
+    projects.Put(projectId, dependencyPathBasedRuleTarget);
 
-      //WHEN - THEN
-      projects.Invoking(p => p.Put(projectId, dependencyPathBasedRuleTarget)).Should().NotThrow();
-    }
+    //WHEN - THEN
+    projects.Invoking(p => p.Put(projectId, dependencyPathBasedRuleTarget)).Should().NotThrow();
+  }
 
-    [Fact]
-    public void ShouldNotAllowAddingAnotherProjectUsingTheSameId()
-    {
-      //GIVEN
-      var projects = new ReferencingProjects();
-      var projectId = Any.ProjectId();
-      var dependencyPathBasedRuleTarget = Any.Instance<IDependencyPathBasedRuleTarget>();
-      projects.Put(projectId, dependencyPathBasedRuleTarget);
+  [Fact]
+  public void ShouldNotAllowAddingAnotherProjectUsingTheSameId()
+  {
+    //GIVEN
+    var projects = new ReferencingProjects();
+    var projectId = Any.ProjectId();
+    var dependencyPathBasedRuleTarget = Any.Instance<IDependencyPathBasedRuleTarget>();
+    projects.Put(projectId, dependencyPathBasedRuleTarget);
 
-      //WHEN - THEN
-      projects.Invoking(p => p.Put(projectId, Any.OtherThan(dependencyPathBasedRuleTarget)))
-        .Should().ThrowExactly<ProjectShadowingException>();
-    }
+    //WHEN - THEN
+    projects.Invoking(p => p.Put(projectId, Any.OtherThan(dependencyPathBasedRuleTarget)))
+      .Should().ThrowExactly<ProjectShadowingException>();
+  }
 
     
-  }
 }

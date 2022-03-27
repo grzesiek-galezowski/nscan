@@ -1,10 +1,9 @@
-﻿namespace NScan.SharedKernel
+﻿namespace NScan.SharedKernel;
+
+public sealed record ProjectId(string AbsolutePath)
 {
-  public sealed record ProjectId(string AbsolutePath)
+  public override string ToString()
   {
-    public override string ToString()
-    {
-      return AbsolutePath;
-    }
+    return AbsolutePath;
   }
 }

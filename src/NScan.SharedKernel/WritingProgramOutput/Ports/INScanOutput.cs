@@ -1,8 +1,7 @@
-namespace NScan.SharedKernel.WritingProgramOutput.Ports
+namespace NScan.SharedKernel.WritingProgramOutput.Ports;
+
+public interface INScanOutput
 {
-  public interface INScanOutput
-  {
-    void WriteAnalysisReport(string analysisReport);
-    void WriteVersion(string coreVersion);
-  }
+  void WriteAnalysisReport(string analysisReport);
+  void WriteVersion(string coreVersion);
 }

@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace NScan.NamespaceBasedRules
+namespace NScan.NamespaceBasedRules;
+
+public interface INamespaceBasedReportFragmentsFormat
 {
-  public interface INamespaceBasedReportFragmentsFormat
-  {
-    string ApplyTo(IReadOnlyList<NamespaceDependencyPath> paths, string header);
-  }
+  string ApplyTo(IReadOnlyList<NamespaceDependencyPath> paths, string header);
 }

@@ -1,7 +1,6 @@
-namespace NScan.NamespaceBasedRules
+namespace NScan.NamespaceBasedRules;
+
+public interface ISourceCodeFileUsingNamespaces
 {
-  public interface ISourceCodeFileUsingNamespaces
-  {
-    void AddNamespaceMappingTo(INamespacesDependenciesCache namespacesDependenciesCache);
-  }
+  void AddNamespaceMappingTo(INamespacesDependenciesCache namespacesDependenciesCache);
 }

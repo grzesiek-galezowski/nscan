@@ -7,57 +7,56 @@ using NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingCSharpSourceCode;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
 using NScan.SharedKernel.ReadingSolution.Ports;
 
-namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects
+namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects;
+
+public static class SourceCodeFilePaths
 {
-  public static class SourceCodeFilePaths
+  public static IEnumerable<AbsoluteFilePath> SourceCodeFilesIn(AbsoluteDirectoryPath projectDirectory)
   {
-    public static IEnumerable<AbsoluteFilePath> SourceCodeFilesIn(AbsoluteDirectoryPath projectDirectory)
+    return Directory.EnumerateFiles(
+        projectDirectory.ToString(), "*.cs", SearchOption.AllDirectories)
+      .Select(AtmaFileSystemPaths.AbsoluteFilePath)
+      .Where(IsNotInDirectory(projectDirectory, "obj"));
+  }
+
+  public static void LoadFilesInto(XmlProjectDataAccess projectAccess)
+  {
+    var projectDirectory = projectAccess.GetParentDirectoryName();
+
+    var syntaxTrees = SourceCodeFilesIn(projectDirectory).Select(CSharpFileSyntaxTree.ParseFile).ToArray();
+
+    var classDeclarationSignatures
+      = CSharpFileSyntaxTree.GetClassDeclarationSignaturesFromFiles(syntaxTrees);
+
+    foreach (var dotNetProject 
+             in syntaxTrees.Select(tree => CreateXmlSourceCodeFile(projectAccess, projectDirectory, tree, classDeclarationSignatures)))
     {
-      return Directory.EnumerateFiles(
-          projectDirectory.ToString(), "*.cs", SearchOption.AllDirectories)
-        .Select(AtmaFileSystemPaths.AbsoluteFilePath)
-        .Where(IsNotInDirectory(projectDirectory, "obj"));
+      projectAccess.AddFile(dotNetProject);
     }
+  }
 
-    public static void LoadFilesInto(XmlProjectDataAccess projectAccess)
-    {
-      var projectDirectory = projectAccess.GetParentDirectoryName();
+  private static Func<AbsoluteFilePath, bool> IsNotInDirectory(AbsoluteDirectoryPath projectDirectory, string dirName)
+  {
+    return f => !GetPathRelativeTo(projectDirectory, f).StartsWith(dirName + Path.DirectorySeparatorChar);
+  }
 
-      var syntaxTrees = SourceCodeFilesIn(projectDirectory).Select(CSharpFileSyntaxTree.ParseFile).ToArray();
+  private static string GetPathRelativeTo(AbsoluteDirectoryPath projectDirectory, AbsoluteFilePath file)
+  {
+    return file.ToString().Replace(projectDirectory.ToString() + Path.DirectorySeparatorChar, "");
+  }
 
-      var classDeclarationSignatures
-        = CSharpFileSyntaxTree.GetClassDeclarationSignaturesFromFiles(syntaxTrees);
-
-      foreach (var dotNetProject 
-        in syntaxTrees.Select(tree => CreateXmlSourceCodeFile(projectAccess, projectDirectory, tree, classDeclarationSignatures)))
-      {
-        projectAccess.AddFile(dotNetProject);
-      }
-    }
-
-    private static Func<AbsoluteFilePath, bool> IsNotInDirectory(AbsoluteDirectoryPath projectDirectory, string dirName)
-    {
-      return f => !GetPathRelativeTo(projectDirectory, f).StartsWith(dirName + Path.DirectorySeparatorChar);
-    }
-
-    private static string GetPathRelativeTo(AbsoluteDirectoryPath projectDirectory, AbsoluteFilePath file)
-    {
-      return file.ToString().Replace(projectDirectory.ToString() + Path.DirectorySeparatorChar, "");
-    }
-
-    private static SourceCodeFileDto CreateXmlSourceCodeFile(
-      XmlProjectDataAccess projectAccess, 
-      AbsoluteDirectoryPath projectDirectory, 
-      ICSharpFileSyntaxTree syntaxTree, 
-      Dictionary<string, ClassDeclarationInfo> classDeclarationSignatures)
-    {
-      return new SourceCodeFileDto(
-        AtmaFileSystemPaths.RelativeFilePath(GetPathRelativeTo(projectDirectory, syntaxTree.FilePath)), 
-        syntaxTree.GetAllUniqueNamespaces().ToList(), 
-        projectAccess.RootNamespace(), 
-        projectAccess.DetermineAssemblyName(), 
-        syntaxTree.GetAllUsingsFrom(classDeclarationSignatures),
-        classDeclarationSignatures.Values.ToList());
-    }
+  private static SourceCodeFileDto CreateXmlSourceCodeFile(
+    XmlProjectDataAccess projectAccess, 
+    AbsoluteDirectoryPath projectDirectory, 
+    ICSharpFileSyntaxTree syntaxTree, 
+    Dictionary<string, ClassDeclarationInfo> classDeclarationSignatures)
+  {
+    return new SourceCodeFileDto(
+      AtmaFileSystemPaths.RelativeFilePath(GetPathRelativeTo(projectDirectory, syntaxTree.FilePath)), 
+      syntaxTree.GetAllUniqueNamespaces().ToList(), 
+      projectAccess.RootNamespace(), 
+      projectAccess.DetermineAssemblyName(), 
+      syntaxTree.GetAllUsingsFrom(classDeclarationSignatures),
+      classDeclarationSignatures.Values.ToList());
   }
 }

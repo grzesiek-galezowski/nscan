@@ -5,23 +5,20 @@ using System.Threading.Tasks;
 using AtmaFileSystem;
 using NScanSpecification.Lib.AutomationLayer;
 
-namespace NScanSpecification.E2E.AutomationLayer
+namespace NScanSpecification.E2E.AutomationLayer;
+
+public class Rules
 {
-  public class Rules
+  private readonly List<ITestedRuleDefinition> _rules = new();
+
+  public Task SaveIn(AbsoluteFilePath fullRulesPath)
   {
-    private readonly List<ITestedRuleDefinition> _rules = new();
-
-    public Task SaveIn(AbsoluteFilePath fullRulesPath)
-    {
-      var lines = _rules.Select(r => r.Name()).ToList();
-      return File.WriteAllLinesAsync(fullRulesPath.ToString(), lines);
-    }
-
-    public void Add(ITestedRuleDefinition definition)
-    {
-      _rules.Add(definition);
-    }
+    var lines = _rules.Select(r => r.Name()).ToList();
+    return File.WriteAllLinesAsync(fullRulesPath.ToString(), lines);
   }
 
-
+  public void Add(ITestedRuleDefinition definition)
+  {
+    _rules.Add(definition);
+  }
 }

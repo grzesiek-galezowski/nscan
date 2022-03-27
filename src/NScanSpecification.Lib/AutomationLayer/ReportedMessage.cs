@@ -1,17 +1,16 @@
-﻿namespace NScanSpecification.Lib.AutomationLayer
+﻿namespace NScanSpecification.Lib.AutomationLayer;
+
+public abstract class ReportedMessage
 {
-  public abstract class ReportedMessage
+  private readonly string _text;
+
+  public override string ToString()
   {
-    private readonly string _text;
+    return _text;
+  }
 
-    public override string ToString()
-    {
-      return _text;
-    }
-
-    protected ReportedMessage(string text)
-    {
-      _text = text;
-    }
+  protected ReportedMessage(string text)
+  {
+    _text = text;
   }
 }

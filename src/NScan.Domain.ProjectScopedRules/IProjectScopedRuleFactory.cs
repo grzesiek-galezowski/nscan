@@ -1,12 +1,11 @@
 ﻿using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
-namespace NScan.ProjectScopedRules
+namespace NScan.ProjectScopedRules;
+
+public interface IProjectScopedRuleFactory
 {
-  public interface IProjectScopedRuleFactory
-  {
-    IProjectScopedRule CreateProjectScopedRuleFrom(CorrectNamespacesRuleComplementDto ruleDto);
-    IProjectScopedRule CreateProjectScopedRuleFrom(HasAttributesOnRuleComplementDto ruleDto);
-    IProjectScopedRule CreateProjectScopedRuleFrom(HasTargetFrameworkRuleComplementDto ruleDto);
-    IProjectScopedRule CreateProjectScopedRuleFrom(HasPropertyRuleComplementDto ruleDto);
-  }
+  IProjectScopedRule CreateProjectScopedRuleFrom(CorrectNamespacesRuleComplementDto ruleDto);
+  IProjectScopedRule CreateProjectScopedRuleFrom(HasAttributesOnRuleComplementDto ruleDto);
+  IProjectScopedRule CreateProjectScopedRuleFrom(HasTargetFrameworkRuleComplementDto ruleDto);
+  IProjectScopedRule CreateProjectScopedRuleFrom(HasPropertyRuleComplementDto ruleDto);
 }

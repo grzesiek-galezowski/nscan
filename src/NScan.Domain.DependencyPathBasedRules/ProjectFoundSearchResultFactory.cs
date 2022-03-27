@@ -1,21 +1,20 @@
-namespace NScan.DependencyPathBasedRules
+namespace NScan.DependencyPathBasedRules;
+
+public interface IProjectFoundSearchResultFactory
 {
-  public interface IProjectFoundSearchResultFactory
+  IProjectSearchResult ItemFound(IDependencyPathBasedRuleTarget foundProject, int position);
+  IProjectSearchResult ItemNotFound();
+}
+
+public class ProjectFoundSearchResultFactory : IProjectFoundSearchResultFactory
+{
+  public IProjectSearchResult ItemFound(IDependencyPathBasedRuleTarget foundProject, int position)
   {
-    IProjectSearchResult ItemFound(IDependencyPathBasedRuleTarget foundProject, int position);
-    IProjectSearchResult ItemNotFound();
+    return new ProjectFoundSearchResult(foundProject, position);
   }
 
-  public class ProjectFoundSearchResultFactory : IProjectFoundSearchResultFactory
+  public IProjectSearchResult ItemNotFound()
   {
-    public IProjectSearchResult ItemFound(IDependencyPathBasedRuleTarget foundProject, int position)
-    {
-      return new ProjectFoundSearchResult(foundProject, position);
-    }
-
-    public IProjectSearchResult ItemNotFound()
-    {
-      return new ProjectNotFoundSearchResult();
-    }
+    return new ProjectNotFoundSearchResult();
   }
 }

@@ -3,40 +3,39 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using NScan.SharedKernel;
 
-namespace NScan.DependencyPathBasedRules
+namespace NScan.DependencyPathBasedRules;
+
+public interface IReferencingProjects
 {
-  public interface IReferencingProjects
+  void Put(ProjectId projectId, IDependencyPathBasedRuleTarget referencingProject);
+  bool AreEmpty();
+}
+
+public class ReferencingProjects : IReferencingProjects
+{
+  private readonly IDictionary<ProjectId, IDependencyPathBasedRuleTarget> _referencingProjects 
+    = new Dictionary<ProjectId, IDependencyPathBasedRuleTarget>();
+
+  public void Put(ProjectId projectId, IDependencyPathBasedRuleTarget referencingProject)
   {
-    void Put(ProjectId projectId, IDependencyPathBasedRuleTarget referencingProject);
-    bool AreEmpty();
+    AssertThisIsAddingTheSameReferenceNotShadowing(projectId, referencingProject);
+    _referencingProjects[projectId] = referencingProject;
   }
 
-  public class ReferencingProjects : IReferencingProjects
+  public bool AreEmpty()
   {
-    private readonly IDictionary<ProjectId, IDependencyPathBasedRuleTarget> _referencingProjects 
-      = new Dictionary<ProjectId, IDependencyPathBasedRuleTarget>();
+    return !_referencingProjects.Any();
+  }
 
-    public void Put(ProjectId projectId, IDependencyPathBasedRuleTarget referencingProject)
+  [SuppressMessage("ReSharper", "ParameterOnlyUsedForPreconditionCheck.Local")]
+  private void AssertThisIsAddingTheSameReferenceNotShadowing(
+    ProjectId referencingProjectId,
+    IDependencyPathBasedRuleTarget referencingProject)
+  {
+    if (_referencingProjects.ContainsKey(referencingProjectId)
+        && !_referencingProjects[referencingProjectId].Equals(referencingProject))
     {
-      AssertThisIsAddingTheSameReferenceNotShadowing(projectId, referencingProject);
-      _referencingProjects[projectId] = referencingProject;
-    }
-
-    public bool AreEmpty()
-    {
-      return !_referencingProjects.Any();
-    }
-
-    [SuppressMessage("ReSharper", "ParameterOnlyUsedForPreconditionCheck.Local")]
-    private void AssertThisIsAddingTheSameReferenceNotShadowing(
-      ProjectId referencingProjectId,
-      IDependencyPathBasedRuleTarget referencingProject)
-    {
-      if (_referencingProjects.ContainsKey(referencingProjectId)
-          && !_referencingProjects[referencingProjectId].Equals(referencingProject))
-      {
-        throw new ProjectShadowingException(_referencingProjects[referencingProjectId], referencingProject);
-      }
+      throw new ProjectShadowingException(_referencingProjects[referencingProjectId], referencingProject);
     }
   }
 }

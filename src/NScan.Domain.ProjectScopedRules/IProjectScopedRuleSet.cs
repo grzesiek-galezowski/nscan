@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using NScan.SharedKernel;
 
-namespace NScan.ProjectScopedRules
+namespace NScan.ProjectScopedRules;
+
+public interface IProjectScopedRuleSet
 {
-  public interface IProjectScopedRuleSet
-  {
-    void Add(IProjectScopedRule rule);
-    void Check(IReadOnlyList<IProjectScopedRuleTarget> dotNetProjects, IAnalysisReportInProgress report);
-  }
+  void Add(IProjectScopedRule rule);
+  void Check(IReadOnlyList<IProjectScopedRuleTarget> dotNetProjects, IAnalysisReportInProgress report);
 }

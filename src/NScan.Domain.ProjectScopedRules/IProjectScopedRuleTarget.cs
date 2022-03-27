@@ -1,16 +1,14 @@
 ﻿using NScan.Lib;
 using NScan.SharedKernel;
 
-namespace NScan.ProjectScopedRules
+namespace NScan.ProjectScopedRules;
+
+public interface IProjectScopedRuleTarget
 {
-  public interface IProjectScopedRuleTarget
-  {
-    void AnalyzeFiles(IProjectFilesetScopedRule rule, IAnalysisReportInProgress report);
-    bool HasProjectAssemblyNameMatching(Pattern pattern);
-    void ValidateProperty(IPropertyCheck propertyCheck,
-      IAnalysisReportInProgress analysisReportInProgress);
+  void AnalyzeFiles(IProjectFilesetScopedRule rule, IAnalysisReportInProgress report);
+  bool HasProjectAssemblyNameMatching(Pattern pattern);
+  void ValidateProperty(IPropertyCheck propertyCheck,
+    IAnalysisReportInProgress analysisReportInProgress);
 
-    void AddInfoAboutMatchingPatternTo(IAnalysisReportInProgress report);
-  }
-
+  void AddInfoAboutMatchingPatternTo(IAnalysisReportInProgress report);
 }

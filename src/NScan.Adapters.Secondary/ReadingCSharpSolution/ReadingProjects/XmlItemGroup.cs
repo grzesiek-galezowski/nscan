@@ -1,19 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects
-{
+namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects;
 #nullable disable
-  [XmlRoot(ElementName = "ItemGroup")]
-  public record XmlItemGroup
-  {
-    [XmlElement(ElementName = "PackageReference")]
-    public List<XmlPackageReference> PackageReferences { get; init; }
+[XmlRoot(ElementName = "ItemGroup")]
+public record XmlItemGroup
+{
+  [XmlElement(ElementName = "PackageReference")]
+  public List<XmlPackageReference> PackageReferences { get; init; }
 
-    [XmlElement(ElementName = "ProjectReference")]
-    public List<XmlProjectReference> ProjectReferences { get; init; }
+  [XmlElement(ElementName = "ProjectReference")]
+  public List<XmlProjectReference> ProjectReferences { get; init; }
 
-    [XmlElement(ElementName = "Reference")]
-    public List<XmlAssemblyReference> AssemblyReferences { get; init; }
-  }
+  [XmlElement(ElementName = "Reference")]
+  public List<XmlAssemblyReference> AssemblyReferences { get; init; }
 }

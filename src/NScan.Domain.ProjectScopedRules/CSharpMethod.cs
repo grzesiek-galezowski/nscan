@@ -3,31 +3,30 @@ using NScan.Lib;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
 
-namespace NScan.ProjectScopedRules
+namespace NScan.ProjectScopedRules;
+
+public class CSharpMethod : ICSharpMethod
 {
-  public class CSharpMethod : ICSharpMethod
+  private readonly MethodDeclarationInfo _methodDeclarationInfo;
+  private readonly IProjectScopedRuleViolationFactory _violationFactory;
+
+  public CSharpMethod(MethodDeclarationInfo methodDeclarationInfo,
+    IProjectScopedRuleViolationFactory violationFactory)
   {
-    private readonly MethodDeclarationInfo _methodDeclarationInfo;
-    private readonly IProjectScopedRuleViolationFactory _violationFactory;
+    _methodDeclarationInfo = methodDeclarationInfo;
+    _violationFactory = violationFactory;
+  }
 
-    public CSharpMethod(MethodDeclarationInfo methodDeclarationInfo,
-      IProjectScopedRuleViolationFactory violationFactory)
-    {
-      _methodDeclarationInfo = methodDeclarationInfo;
-      _violationFactory = violationFactory;
-    }
+  public bool NameMatches(Pattern methodNameInclusionPattern)
+  {
+    return methodNameInclusionPattern.IsMatchedBy(_methodDeclarationInfo.Name);
+  }
 
-    public bool NameMatches(Pattern methodNameInclusionPattern)
+  public void EvaluateMethodsHavingCorrectAttributes(IAnalysisReportInProgress report, string parentClassName, RuleDescription description)
+  {
+    if (!_methodDeclarationInfo.Attributes.Any())
     {
-      return methodNameInclusionPattern.IsMatchedBy(_methodDeclarationInfo.Name);
-    }
-
-    public void EvaluateMethodsHavingCorrectAttributes(IAnalysisReportInProgress report, string parentClassName, RuleDescription description)
-    {
-      if (!_methodDeclarationInfo.Attributes.Any())
-      {
-        report.Add(_violationFactory.ProjectScopedRuleViolation(description, $"Method {_methodDeclarationInfo.Name} in class {parentClassName} does not have any attribute"));
-      }
+      report.Add(_violationFactory.ProjectScopedRuleViolation(description, $"Method {_methodDeclarationInfo.Name} in class {parentClassName} does not have any attribute"));
     }
   }
 }

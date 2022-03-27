@@ -3,23 +3,22 @@ using NScan.SharedKernel.ReadingSolution.Ports;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace NScan.SharedKernelSpecification.ReadingSolution.Ports
-{
-  public class PackageReferenceSpecification
-  {
-    [Fact]
-    public void ShouldGiveNameAndVersionWhenConvertedToString()
-    {
-      //GIVEN
-      var name = Any.Instance<string>();
-      var version = Any.Instance<string>();
-      var packageReference = new PackageReference(name, version);
-      
-      //WHEN
-      var stringRepresentation = packageReference.ToString();
+namespace NScan.SharedKernelSpecification.ReadingSolution.Ports;
 
-      //THEN
-      stringRepresentation.Should().Be($"{name}, Version {version}");
-    }
+public class PackageReferenceSpecification
+{
+  [Fact]
+  public void ShouldGiveNameAndVersionWhenConvertedToString()
+  {
+    //GIVEN
+    var name = Any.Instance<string>();
+    var version = Any.Instance<string>();
+    var packageReference = new PackageReference(name, version);
+      
+    //WHEN
+    var stringRepresentation = packageReference.ToString();
+
+    //THEN
+    stringRepresentation.Should().Be($"{name}, Version {version}");
   }
 }

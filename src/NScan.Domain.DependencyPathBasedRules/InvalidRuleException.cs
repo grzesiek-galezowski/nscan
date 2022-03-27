@@ -1,12 +1,11 @@
 using System;
 
-namespace NScan.DependencyPathBasedRules
+namespace NScan.DependencyPathBasedRules;
+
+public class InvalidRuleException : Exception
 {
-  public class InvalidRuleException : Exception
+  public InvalidRuleException(string ruleType) : base("Invalid rule: " + ruleType)
   {
-    public InvalidRuleException(string ruleType) : base("Invalid rule: " + ruleType)
-    {
       
-    }
   }
 }

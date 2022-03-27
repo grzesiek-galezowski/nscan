@@ -1,9 +1,8 @@
 ﻿using NScan.SharedKernel;
 
-namespace NScan.ProjectScopedRules
+namespace NScan.ProjectScopedRules;
+
+public interface IProjectScopedRuleViolationFactory
 {
-  public interface IProjectScopedRuleViolationFactory
-  {
-    RuleViolation ProjectScopedRuleViolation(RuleDescription description, string violationDescription);
-  }
+  RuleViolation ProjectScopedRuleViolation(RuleDescription description, string violationDescription);
 }

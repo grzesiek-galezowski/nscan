@@ -1,10 +1,9 @@
 ﻿using NScan.SharedKernel;
 
-namespace NScan.DependencyPathBasedRules
+namespace NScan.DependencyPathBasedRules;
+
+public interface IPathRuleSet
 {
-  public interface IPathRuleSet
-  {
-    void Add(IDependencyRule rule);
-    void Check(IPathCache cache, IAnalysisReportInProgress report);
-  }
+  void Add(IDependencyRule rule);
+  void Check(IPathCache cache, IAnalysisReportInProgress report);
 }

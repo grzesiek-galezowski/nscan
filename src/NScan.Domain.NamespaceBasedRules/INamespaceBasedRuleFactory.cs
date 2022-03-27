@@ -1,10 +1,9 @@
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 
-namespace NScan.NamespaceBasedRules
+namespace NScan.NamespaceBasedRules;
+
+public interface INamespaceBasedRuleFactory
 {
-  public interface INamespaceBasedRuleFactory
-  {
-    INamespacesBasedRule CreateNamespacesBasedRuleFrom(NoCircularUsingsRuleComplementDto ruleDto);
-    INamespacesBasedRule CreateNamespacesBasedRuleFrom(NoUsingsRuleComplementDto ruleDto);
-  }
+  INamespacesBasedRule CreateNamespacesBasedRuleFrom(NoCircularUsingsRuleComplementDto ruleDto);
+  INamespacesBasedRule CreateNamespacesBasedRuleFrom(NoUsingsRuleComplementDto ruleDto);
 }

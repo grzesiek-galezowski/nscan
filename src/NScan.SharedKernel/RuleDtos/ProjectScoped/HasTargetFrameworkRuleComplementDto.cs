@@ -1,11 +1,10 @@
 ﻿using NScan.Lib;
 
-namespace NScan.SharedKernel.RuleDtos.ProjectScoped
+namespace NScan.SharedKernel.RuleDtos.ProjectScoped;
+
+public sealed record HasTargetFrameworkRuleComplementDto(
+  Pattern ProjectAssemblyNamePattern, 
+  string TargetFramework)
 {
-  public sealed record HasTargetFrameworkRuleComplementDto(
-    Pattern ProjectAssemblyNamePattern, 
-    string TargetFramework)
-  {
-    public string RuleName => HasTargetFrameworkRuleMetadata.HasTargetFramework;
-  }
+  public string RuleName => HasTargetFrameworkRuleMetadata.HasTargetFramework;
 }

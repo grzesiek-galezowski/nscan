@@ -2,32 +2,31 @@ using System.Collections.Generic;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingCSharpSourceCode
+namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingCSharpSourceCode;
+
+public class NamespaceGatheringVisitor : CSharpSyntaxVisitor
 {
-  public class NamespaceGatheringVisitor : CSharpSyntaxVisitor
+  private readonly ISet<string> _resultSet = new HashSet<string>();
+
+  public override void VisitCompilationUnit(CompilationUnitSyntax node)
   {
-    private readonly ISet<string> _resultSet = new HashSet<string>();
-
-    public override void VisitCompilationUnit(CompilationUnitSyntax node)
+    foreach (var memberDeclarationSyntax in node.Members)
     {
-      foreach (var memberDeclarationSyntax in node.Members)
-      {
-        memberDeclarationSyntax.Accept(this);
-      }
+      memberDeclarationSyntax.Accept(this);
     }
+  }
 
-    public override void VisitNamespaceDeclaration(NamespaceDeclarationSyntax node)
+  public override void VisitNamespaceDeclaration(NamespaceDeclarationSyntax node)
+  {
+    _resultSet.Add(node.Name.ToString());
+    foreach (var member in node.Members)
     {
-      _resultSet.Add(node.Name.ToString());
-      foreach (var member in node.Members)
-      {
-        member.Accept(this);
-      }
+      member.Accept(this);
     }
+  }
 
-    public ISet<string> ToSet()
-    {
-      return _resultSet;
-    }
+  public ISet<string> ToSet()
+  {
+    return _resultSet;
   }
 }

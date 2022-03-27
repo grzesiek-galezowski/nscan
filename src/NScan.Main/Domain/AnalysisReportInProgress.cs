@@ -2,64 +2,62 @@
 using System.Linq;
 using NScan.SharedKernel;
 
-namespace TddXt.NScan.Domain
+namespace TddXt.NScan.Domain;
+
+public class AnalysisReportInProgress : IAnalysisReportInProgress
 {
+  private readonly Dictionary<RuleDescription, ISingleRuleReport> _reportsByRule = new();
+  private readonly IRuleReportFactory _ruleReportFactory;
 
-  public class AnalysisReportInProgress : IAnalysisReportInProgress
+  public AnalysisReportInProgress(IRuleReportFactory ruleReportFactory)
   {
-    private readonly Dictionary<RuleDescription, ISingleRuleReport> _reportsByRule = new();
-    private readonly IRuleReportFactory _ruleReportFactory;
+    _ruleReportFactory = ruleReportFactory;
+  }
 
-    public AnalysisReportInProgress(IRuleReportFactory ruleReportFactory)
+  public void PutContentInto(IResultBuilder resultBuilder)
+  {
+    foreach (var singleRuleReport in _reportsByRule.Values)
     {
-      _ruleReportFactory = ruleReportFactory;
-    }
+      singleRuleReport.AppendTo(resultBuilder);
 
-    public void PutContentInto(IResultBuilder resultBuilder)
-    {
-      foreach (var singleRuleReport in _reportsByRule.Values)
+      if (!singleRuleReport.Equals(_reportsByRule.Values.Last()))
       {
-        singleRuleReport.AppendTo(resultBuilder);
-
-        if (!singleRuleReport.Equals(_reportsByRule.Values.Last()))
-        {
-          resultBuilder.AppendRuleSeparator();
-        }
+        resultBuilder.AppendRuleSeparator();
       }
     }
+  }
 
-    public void StartedCheckingTarget(AssemblyName assemblyName)
-    {
-      //bug throw new System.NotImplementedException();
-    }
+  public void StartedCheckingTarget(AssemblyName assemblyName)
+  {
+    //bug throw new System.NotImplementedException();
+  }
 
-    public void FinishedEvaluatingRule(RuleDescription ruleDescription)
-    {
-      AddRuleIfNotRegisteredYet(ruleDescription);
-    }
+  public void FinishedEvaluatingRule(RuleDescription ruleDescription)
+  {
+    AddRuleIfNotRegisteredYet(ruleDescription);
+  }
 
-    public bool IsFailure()
-    {
-      return _reportsByRule.Values.Any(ruleReport => ruleReport.IsFailed());
-    }
+  public bool IsFailure()
+  {
+    return _reportsByRule.Values.Any(ruleReport => ruleReport.IsFailed());
+  }
 
-    public void Add(RuleViolation ruleViolation)
-    {
-      InitializeForCollecting(ruleViolation.RuleDescription);
-      _reportsByRule[ruleViolation.RuleDescription].Add(ruleViolation);
-    }
+  public void Add(RuleViolation ruleViolation)
+  {
+    InitializeForCollecting(ruleViolation.RuleDescription);
+    _reportsByRule[ruleViolation.RuleDescription].Add(ruleViolation);
+  }
 
-    private void InitializeForCollecting(RuleDescription ruleName)
-    {
-      AddRuleIfNotRegisteredYet(ruleName);
-    }
+  private void InitializeForCollecting(RuleDescription ruleName)
+  {
+    AddRuleIfNotRegisteredYet(ruleName);
+  }
 
-    private void AddRuleIfNotRegisteredYet(RuleDescription ruleName)
+  private void AddRuleIfNotRegisteredYet(RuleDescription ruleName)
+  {
+    if (!_reportsByRule.Keys.Contains(ruleName))
     {
-      if (!_reportsByRule.Keys.Contains(ruleName))
-      {
-        _reportsByRule[ruleName] = _ruleReportFactory.EmptyReportFor(ruleName);
-      }
+      _reportsByRule[ruleName] = _ruleReportFactory.EmptyReportFor(ruleName);
     }
   }
 }

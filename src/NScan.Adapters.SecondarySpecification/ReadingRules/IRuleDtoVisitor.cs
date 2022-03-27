@@ -2,12 +2,11 @@
 using NScan.NamespaceBasedRules;
 using NScan.ProjectScopedRules;
 
-namespace NScan.Adapters.SecondarySpecification.ReadingRules
+namespace NScan.Adapters.SecondarySpecification.ReadingRules;
+
+public interface IRuleDtoVisitor :
+  IPathBasedRuleDtoVisitor,
+  INamespaceBasedRuleDtoVisitor,
+  IProjectScopedRuleDtoVisitor
 {
-  public interface IRuleDtoVisitor :
-    IPathBasedRuleDtoVisitor,
-    INamespaceBasedRuleDtoVisitor,
-    IProjectScopedRuleDtoVisitor
-  {
-  }
 }

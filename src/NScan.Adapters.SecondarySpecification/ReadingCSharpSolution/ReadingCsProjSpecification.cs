@@ -23,268 +23,273 @@ using Xunit;
 using static TddXt.AnyRoot.Root;
 using Project = Microsoft.Build.Evaluation.Project;
 
-namespace NScan.Adapters.SecondarySpecification.ReadingCSharpSolution
+namespace NScan.Adapters.SecondarySpecification.ReadingCSharpSolution;
+
+public class ReadingCsProjSpecification : INScanSupport
 {
-  public class ReadingCsProjSpecification : INScanSupport
+  [Fact]
+  public void ShouldBeAbleToCreateDtoFromSdkCsprojDefaultTemplate()
   {
-    [Fact]
-    public void ShouldBeAbleToCreateDtoFromSdkCsprojDefaultTemplate()
+    //GIVEN
+    var csprojName = Any.String();
+    var csprojPath = CsProjPathTo(csprojName);
+    var project = ProjectCreator.Templates.SdkCsproj(csprojPath.ToString());
+
+    using (new FileScope(project))
     {
-      //GIVEN
-      var csprojName = Any.String();
-      var csprojPath = CsProjPathTo(csprojName);
-      var project = ProjectCreator.Templates.SdkCsproj(csprojPath.ToString());
+      //WHEN
+      var csharpProjectDto = ReadCSharpProjectFrom(csprojPath);
 
-      using (new FileScope(project))
-      {
-        //WHEN
-        var csharpProjectDto = ReadCSharpProjectFrom(csprojPath);
-
-        //THEN
-        csharpProjectDto.Should().BeEquivalentTo(
-          new CsharpProjectDto(new ProjectId(csprojPath.ToString()),
-            csprojName,
-            "netstandard2.0",
-            ImmutableList<SourceCodeFileDto>.Empty, 
-            ImmutableDictionary<string, string>.Empty, 
-            ImmutableList<PackageReference>.Empty, 
-            ImmutableList<AssemblyReference>.Empty, 
-            ImmutableList<ProjectId>.Empty), 
-          options => options
-            .WithTracing()
-            .ComparingByMembers<CsharpProjectDto>()
-            .Excluding(dto => dto.Properties));
-      }
-    }
-
-    [Fact]
-    public void ShouldBeAbleToReadTargetFrameworkWhateverItIs()
-    {
-      //GIVEN
-      var csprojName = Any.String();
-      var csprojPath = CsProjPathTo(csprojName);
-      var targetFramework = Any.String("TargetFramework");
-      var project = ProjectCreator.Templates.SdkCsproj(
-        csprojPath.ToString(),
-        targetFramework: targetFramework);
-
-      using (new FileScope(project))
-      {
-        //WHEN
-        var csharpProjectDto = ReadCSharpProjectFrom(csprojPath);
-
-        //THEN
-        csharpProjectDto.TargetFramework.Should().Be(targetFramework);
-      }
-    }
-
-    [Fact]
-    public void ShouldExposePropertiesAsDictionary()
-    {
-      //GIVEN
-      var csprojName = Any.String();
-      var csprojPath = CsProjPathTo(csprojName);
-      var targetFramework = Any.String("TargetFramework");
-      var outputType = Any.String();
-
-      var outputPath = Any.String();
-      var assemblyName = Any.String();
-      var rootNamespace = Any.String();
-      var packAsTool = Any.String();
-      var toolCommandName = Any.String();
-      var langVersion = Any.String();
-      var nullable = Any.String();
-      var warningsAsErrors = Any.String();
-      var packageRequiresLicenseAcceptance = Any.String();
-      var packageId = Any.String();
-      var authors = Any.String();
-      var product = Any.String();
-      var description = Any.String();
-      var packageLicenseFile = Any.String();
-      var packageProjectUrl = Any.String();
-      var packageIconUrl = Any.String();
-      var repositoryUrl = Any.String();
-      var repositoryType = Any.String();
-      var packageTags = Any.String();
-      var packageReleaseNotes = Any.String();
-      var generatePackageOnBuild = Any.String();
-      var assemblyOriginatorKeyFile = Any.String();
-
-      var globalProperties = new Dictionary<string, string>()
-      {
-        ["AssemblyName"] = assemblyName,
-        ["RootNamespace"] = rootNamespace,
-        ["PackAsTool"] = packAsTool,
-        ["ToolCommandName"] = toolCommandName,
-        ["LangVersion"] = langVersion,
-        ["Nullable"] = nullable,
-        ["WarningsAsErrors"] = warningsAsErrors,
-        ["PackageRequireLicenseAcceptance"] = packageRequiresLicenseAcceptance,
-        ["PackageId"] = packageId,
-        ["Authors"] = authors,
-        ["Product"] = product,
-        ["Description"] = description,
-        ["OutputPath"] = outputPath,
-        ["PackageLicenseFile"] = packageLicenseFile,
-        ["PackageProjectUrl"] = packageProjectUrl,
-        ["PackageIconUrl"] = packageIconUrl,
-        ["RepositoryUrl"] = repositoryUrl,
-        ["RepositoryType"] = repositoryType,
-        ["PackageTags"] = packageTags,
-        ["PackageReleaseNotes"] = packageReleaseNotes,
-        ["GeneratePackageOnBuild"] = generatePackageOnBuild,
-        ["AssemblyOriginatorKeyFile"] = assemblyOriginatorKeyFile,
-      };
-      var project = ProjectCreator.Templates.SdkCsproj(
-        csprojPath.ToString(),
-        targetFramework: targetFramework,
-        outputType: outputType);
-      
-      foreach (var (key, value) in globalProperties)
-      {
-        project.Property(key, value);
-      }
-
-      using (new FileScope(project))
-      {
-        //WHEN
-        var csharpProjectDto = ReadCSharpProjectFrom(csprojPath);
-
-        //THEN
-        csharpProjectDto.Properties.Should().BeEquivalentTo(globalProperties
-          .Concat(new Dictionary<string, string>
-          {
-            ["OutputType"] = outputType,
-            ["TargetFramework"] = targetFramework,
-          }));
-      }
-    }
-
-    //bug tests for missing fields
-
-    private static AbsoluteFilePath CsProjPathTo(string csprojName)
-    {
-      return AbsoluteFilePath.Value(Path.GetFullPath(csprojName+".csproj"));
-    }
-
-    private CsharpProjectDto ReadCSharpProjectFrom(AbsoluteFilePath absoluteFilePath)
-    {
-      return new ProjectPaths(new[] {absoluteFilePath,}, this).LoadXmlProjects().Single();
-    }
-
-    public void Report(Exception exceptionFromResolution)
-    {
-    }
-
-    public void SkippingProjectBecauseOfError(InvalidOperationException invalidOperationException,
-      AbsoluteFilePath projectFilePath)
-    {
-    }
-
-    public void Log(IndependentRuleComplementDto dto)
-    {
-    }
-
-    public void Log(CorrectNamespacesRuleComplementDto dto)
-    {
-    }
-
-    public void Log(NoCircularUsingsRuleComplementDto dto)
-    {
-    }
-
-    public void Log(HasAttributesOnRuleComplementDto dto)
-    {
-    }
-
-    public void Log(HasTargetFrameworkRuleComplementDto dto)
-    {
-    }
-
-    public void Log(NoUsingsRuleComplementDto dto)
-    {
-    }
-
-    public void Log(HasPropertyRuleComplementDto dto)
-    {
-      
+      //THEN
+      csharpProjectDto.Should().BeEquivalentTo(
+        new CsharpProjectDto(new ProjectId(csprojPath.ToString()),
+          csprojName,
+          "netstandard2.0",
+          ImmutableList<SourceCodeFileDto>.Empty,
+          ImmutableDictionary<string, string>.Empty,
+          ImmutableList<PackageReference>.Empty,
+          ImmutableList<AssemblyReference>.Empty,
+          ImmutableList<ProjectId>.Empty),
+        options => options
+          .WithTracing()
+          .ComparingByMembers<CsharpProjectDto>()
+          .Excluding(dto => dto.Properties));
     }
   }
 
-  public class FileScope : IDisposable
+  [Fact]
+  public void ShouldBeAbleToReadTargetFrameworkWhateverItIs()
   {
-    private readonly ProjectRootElement _project;
+    //GIVEN
+    var csprojName = Any.String();
+    var csprojPath = CsProjPathTo(csprojName);
+    var targetFramework = Any.String("TargetFramework");
+    var project = ProjectCreator.Templates.SdkCsproj(
+      csprojPath.ToString(),
+      targetFramework: targetFramework);
 
-    public FileScope(ProjectRootElement project)
+    using (new FileScope(project))
     {
-      _project = project;
-      _project.Save();
-    }
+      //WHEN
+      var csharpProjectDto = ReadCSharpProjectFrom(csprojPath);
 
-    public void Dispose()
-    {
-      File.Delete(_project.FullPath);
+      //THEN
+      csharpProjectDto.TargetFramework.Should().Be(targetFramework);
     }
   }
 
-  public class MsBuildPlayground
+  [Fact]
+  public void ShouldExposePropertiesAsDictionary()
   {
-    [Fact]
-    public void Lol()
+    //GIVEN
+    var csprojName = Any.String();
+    var csprojPath = CsProjPathTo(csprojName);
+    var targetFramework = Any.String("TargetFramework");
+    var outputType = Any.String();
+
+    var outputPath = Any.String();
+    var assemblyName = Any.String();
+    var rootNamespace = Any.String();
+    var packAsTool = Any.String();
+    var toolCommandName = Any.String();
+    var langVersion = Any.String();
+    var nullable = Any.String();
+    var warningsAsErrors = Any.String();
+    var packageRequiresLicenseAcceptance = Any.String();
+    var packageId = Any.String();
+    var authors = Any.String();
+    var product = Any.String();
+    var description = Any.String();
+    var packageLicenseFile = Any.String();
+    var packageProjectUrl = Any.String();
+    var packageIconUrl = Any.String();
+    var repositoryUrl = Any.String();
+    var repositoryType = Any.String();
+    var packageTags = Any.String();
+    var packageReleaseNotes = Any.String();
+    var generatePackageOnBuild = Any.String();
+    var assemblyOriginatorKeyFile = Any.String();
+
+    var globalProperties = new Dictionary<string, string>()
     {
-      SetMsBuildExePath();
-      var projectRootElement = ProjectRootElement.Open("C:\\Users\\HYPERBOOK\\Documents\\GitHub\\cabs-refactored-csharp\\src\\CabsTests\\CabsTests.csproj");
-      
-      var project = new Project(projectRootElement);
-      //bug foreach (var projectAllEvaluatedProperty in project.AllEvaluatedProperties)
-      //bug {
-      //bug   if (projectAllEvaluatedProperty is { } p)
-      //bug   {
-      //bug     Console.WriteLine(p.Name + " " + p.EvaluatedValue);
-      //bug   }
-      //bug }
-      Console.WriteLine("============ FILES ==========");
-      foreach (var projectItem in project.Items.Where(item => item.ItemType == "Compile"))
-      {
-        Console.WriteLine(projectItem.GetType() + " " + projectItem.Xml.ItemType +" " + projectItem.EvaluatedInclude + " " + MetadataString(projectItem));
-      }
+      ["AssemblyName"] = assemblyName,
+      ["RootNamespace"] = rootNamespace,
+      ["PackAsTool"] = packAsTool,
+      ["ToolCommandName"] = toolCommandName,
+      ["LangVersion"] = langVersion,
+      ["Nullable"] = nullable,
+      ["WarningsAsErrors"] = warningsAsErrors,
+      ["PackageRequireLicenseAcceptance"] = packageRequiresLicenseAcceptance,
+      ["PackageId"] = packageId,
+      ["Authors"] = authors,
+      ["Product"] = product,
+      ["Description"] = description,
+      ["OutputPath"] = outputPath,
+      ["PackageLicenseFile"] = packageLicenseFile,
+      ["PackageProjectUrl"] = packageProjectUrl,
+      ["PackageIconUrl"] = packageIconUrl,
+      ["RepositoryUrl"] = repositoryUrl,
+      ["RepositoryType"] = repositoryType,
+      ["PackageTags"] = packageTags,
+      ["PackageReleaseNotes"] = packageReleaseNotes,
+      ["GeneratePackageOnBuild"] = generatePackageOnBuild,
+      ["AssemblyOriginatorKeyFile"] = assemblyOriginatorKeyFile,
+    };
+    var project = ProjectCreator.Templates.SdkCsproj(
+      csprojPath.ToString(),
+      targetFramework: targetFramework,
+      outputType: outputType);
 
-      Console.WriteLine("============ PACKAGE REFERENCES ==========");
-      foreach (var projectItem in project.Items.Where(item => item.ItemType == "PackageReference"))
-      {
-        Console.WriteLine(projectItem.GetType() + " " + projectItem.Xml.ItemType +" " + projectItem.EvaluatedInclude + " " + MetadataString(projectItem));
-      }
-
-      Console.WriteLine("============ PROJECT REFERENCES ==========");
-      foreach (var projectItem in project.Items.Where(item => item.ItemType == "ProjectReference"))
-      {
-        Console.WriteLine(projectItem.GetType() + " " + projectItem.Xml.ItemType +" " + projectItem.EvaluatedInclude + " " + MetadataString(projectItem));
-      }
-
-      Console.WriteLine("============ PROJECT REFERENCES ==========");
-      foreach (var projectItem in project.Items.Where(item => item.ItemType == "AssemblyReference"))
-      {
-        Console.WriteLine(projectItem.GetType() + " " + projectItem.Xml.ItemType +" " + projectItem.EvaluatedInclude + " " + MetadataString(projectItem));
-      }
-
-      Console.WriteLine("============ PROJECT PROPERTIES ==========");
-      foreach (var projectItem in project.Properties)
-      {
-        Console.WriteLine(projectItem.GetType() + " " + projectItem.Name +" " + projectItem.EvaluatedValue);
-      }
+    foreach (var (key, value) in globalProperties)
+    {
+      project.Property(key, value);
     }
 
-    private string MetadataString(ProjectItem projectItem)
+    using (new FileScope(project))
     {
-      return string.Join('|', projectItem.DirectMetadata.Select(md => md.Name + ":" + md.EvaluatedValue));
+      //WHEN
+      var csharpProjectDto = ReadCSharpProjectFrom(csprojPath);
+
+      //THEN
+      csharpProjectDto.Properties.Should().BeEquivalentTo(globalProperties
+        .Concat(new Dictionary<string, string>
+        {
+          ["OutputType"] = outputType, ["TargetFramework"] = targetFramework,
+        }));
+    }
+  }
+
+  //bug tests for missing fields
+
+  private static AbsoluteFilePath CsProjPathTo(string csprojName)
+  {
+    return AbsoluteFilePath.Value(Path.GetFullPath(csprojName + ".csproj"));
+  }
+
+  private CsharpProjectDto ReadCSharpProjectFrom(AbsoluteFilePath absoluteFilePath)
+  {
+    return new ProjectPaths(new[] { absoluteFilePath, }, this).LoadXmlProjects().Single();
+  }
+
+  public void Report(Exception exceptionFromResolution)
+  {
+  }
+
+  public void SkippingProjectBecauseOfError(InvalidOperationException invalidOperationException,
+    AbsoluteFilePath projectFilePath)
+  {
+  }
+
+  public void Log(IndependentRuleComplementDto dto)
+  {
+  }
+
+  public void Log(CorrectNamespacesRuleComplementDto dto)
+  {
+  }
+
+  public void Log(NoCircularUsingsRuleComplementDto dto)
+  {
+  }
+
+  public void Log(HasAttributesOnRuleComplementDto dto)
+  {
+  }
+
+  public void Log(HasTargetFrameworkRuleComplementDto dto)
+  {
+  }
+
+  public void Log(NoUsingsRuleComplementDto dto)
+  {
+  }
+
+  public void Log(HasPropertyRuleComplementDto dto)
+  {
+
+  }
+}
+
+public class FileScope : IDisposable
+{
+  private readonly ProjectRootElement _project;
+
+  public FileScope(ProjectRootElement project)
+  {
+    _project = project;
+    _project.Save();
+  }
+
+  public void Dispose()
+  {
+    File.Delete(_project.FullPath);
+  }
+}
+
+public class MsBuildPlayground
+{
+  [Fact]
+  public void Lol()
+  {
+    SetMsBuildExePath();
+    var projectRootElement =
+      ProjectRootElement.Open(
+        "C:\\Users\\HYPERBOOK\\Documents\\GitHub\\cabs-refactored-csharp\\src\\CabsTests\\CabsTests.csproj");
+
+    var project = new Project(projectRootElement);
+    //bug foreach (var projectAllEvaluatedProperty in project.AllEvaluatedProperties)
+    //bug {
+    //bug   if (projectAllEvaluatedProperty is { } p)
+    //bug   {
+    //bug     Console.WriteLine(p.Name + " " + p.EvaluatedValue);
+    //bug   }
+    //bug }
+    Console.WriteLine("============ FILES ==========");
+    foreach (var projectItem in project.Items.Where(item => item.ItemType == "Compile"))
+    {
+      Console.WriteLine(projectItem.GetType() + " " + projectItem.Xml.ItemType + " " + projectItem.EvaluatedInclude +
+                        " " + MetadataString(projectItem));
     }
 
-    private static void SetMsBuildExePath()
+    Console.WriteLine("============ PACKAGE REFERENCES ==========");
+    foreach (var projectItem in project.Items.Where(item => item.ItemType == "PackageReference"))
     {
-      try
-      {
-        var startInfo = new ProcessStartInfo("dotnet", "--list-sdks") { RedirectStandardOutput = true };
-      
+      Console.WriteLine(projectItem.GetType() + " " + projectItem.Xml.ItemType + " " + projectItem.EvaluatedInclude +
+                        " " + MetadataString(projectItem));
+    }
+
+    Console.WriteLine("============ PROJECT REFERENCES ==========");
+    foreach (var projectItem in project.Items.Where(item => item.ItemType == "ProjectReference"))
+    {
+      Console.WriteLine(projectItem.GetType() + " " + projectItem.Xml.ItemType + " " + projectItem.EvaluatedInclude +
+                        " " + MetadataString(projectItem));
+    }
+
+    Console.WriteLine("============ PROJECT REFERENCES ==========");
+    foreach (var projectItem in project.Items.Where(item => item.ItemType == "AssemblyReference"))
+    {
+      Console.WriteLine(projectItem.GetType() + " " + projectItem.Xml.ItemType + " " + projectItem.EvaluatedInclude +
+                        " " + MetadataString(projectItem));
+    }
+
+    Console.WriteLine("============ PROJECT PROPERTIES ==========");
+    foreach (var projectItem in project.Properties)
+    {
+      Console.WriteLine(projectItem.GetType() + " " + projectItem.Name + " " + projectItem.EvaluatedValue);
+    }
+  }
+
+  private string MetadataString(ProjectItem projectItem)
+  {
+    return string.Join('|', projectItem.DirectMetadata.Select(md => md.Name + ":" + md.EvaluatedValue));
+  }
+
+  private static void SetMsBuildExePath()
+  {
+    try
+    {
+      var startInfo = new ProcessStartInfo("dotnet", "--list-sdks") { RedirectStandardOutput = true };
+
 
       var process = Process.Start(startInfo).OrThrow();
       process.WaitForExit(1000);
@@ -301,6 +306,5 @@ namespace NScan.Adapters.SecondarySpecification.ReadingCSharpSolution
     {
       Console.WriteLine("Could not set MSBUILD_EXE_PATH: " + exception);
     }
-  }
   }
 }

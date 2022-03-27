@@ -1,38 +1,37 @@
 ﻿using System.Collections.Generic;
 using NScan.SharedKernel;
 
-namespace NScan.DependencyPathBasedRules
+namespace NScan.DependencyPathBasedRules;
+
+public class PathCache : IPathCache, IFinalDependencyPathDestination
 {
-  public class PathCache : IPathCache, IFinalDependencyPathDestination
+  private readonly IDependencyPathFactory _dependencyPathFactory;
+  private readonly List<IProjectDependencyPath> _projectDependencyPaths;
+
+  public PathCache(IDependencyPathFactory dependencyPathFactory)
   {
-    private readonly IDependencyPathFactory _dependencyPathFactory;
-    private readonly List<IProjectDependencyPath> _projectDependencyPaths;
+    _dependencyPathFactory = dependencyPathFactory;
+    _projectDependencyPaths = new List<IProjectDependencyPath>();
+  }
 
-    public PathCache(IDependencyPathFactory dependencyPathFactory)
+  public void Add(IProjectDependencyPath projectDependencyPath)
+  {
+    _projectDependencyPaths.Add(projectDependencyPath);
+  }
+
+  public void BuildStartingFrom(IEnumerable<IDependencyPathBasedRuleTarget> rootProjects)
+  {
+    foreach (var dotNetProject in rootProjects)
     {
-      _dependencyPathFactory = dependencyPathFactory;
-      _projectDependencyPaths = new List<IProjectDependencyPath>();
+      dotNetProject.FillAllBranchesOf(_dependencyPathFactory.NewDependencyPathFor(this));
     }
+  }
 
-    public void Add(IProjectDependencyPath projectDependencyPath)
+  public void Check(IDependencyRule rule, IAnalysisReportInProgress report)
+  {
+    foreach (var path in _projectDependencyPaths)
     {
-      _projectDependencyPaths.Add(projectDependencyPath);
-    }
-
-    public void BuildStartingFrom(IEnumerable<IDependencyPathBasedRuleTarget> rootProjects)
-    {
-      foreach (var dotNetProject in rootProjects)
-      {
-        dotNetProject.FillAllBranchesOf(_dependencyPathFactory.NewDependencyPathFor(this));
-      }
-    }
-
-    public void Check(IDependencyRule rule, IAnalysisReportInProgress report)
-    {
-      foreach (var path in _projectDependencyPaths)
-      {
-        rule.Check(report, path);
-      }
+      rule.Check(report, path);
     }
   }
 }

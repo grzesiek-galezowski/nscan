@@ -1,27 +1,26 @@
 ﻿using System.Collections.Generic;
 using NScan.SharedKernel;
 
-namespace NScan.NamespaceBasedRules
+namespace NScan.NamespaceBasedRules;
+
+public class NamespacesBasedRuleSet : INamespacesBasedRuleSet
 {
-  public class NamespacesBasedRuleSet : INamespacesBasedRuleSet
+  private readonly List<INamespacesBasedRule> _rules = new();
+
+  public void Add(INamespacesBasedRule rule)
   {
-    private readonly List<INamespacesBasedRule> _rules = new();
+    _rules.Add(rule);
+  }
 
-    public void Add(INamespacesBasedRule rule)
+  public void Check(IReadOnlyList<INamespaceBasedRuleTarget> dotNetProjects, IAnalysisReportInProgress report)
+  {
+    foreach (var rule in _rules)
     {
-      _rules.Add(rule);
-    }
-
-    public void Check(IReadOnlyList<INamespaceBasedRuleTarget> dotNetProjects, IAnalysisReportInProgress report)
-    {
-      foreach (var rule in _rules)
+      foreach (var dotNetProject in dotNetProjects)
       {
-        foreach (var dotNetProject in dotNetProjects)
-        {
-          dotNetProject.Evaluate(rule, report);
-        }
-        report.FinishedEvaluatingRule(rule.Description());
+        dotNetProject.Evaluate(rule, report);
       }
+      report.FinishedEvaluatingRule(rule.Description());
     }
   }
 }

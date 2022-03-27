@@ -1,14 +1,13 @@
 ﻿using NScan.SharedKernel;
 
-namespace NScan.ProjectScopedRules
+namespace NScan.ProjectScopedRules;
+
+public class ProjectScopedRuleViolationFactory : IProjectScopedRuleViolationFactory
 {
-  public class ProjectScopedRuleViolationFactory : IProjectScopedRuleViolationFactory
+  public RuleViolation ProjectScopedRuleViolation(
+    RuleDescription description, 
+    string violationDescription)
   {
-    public RuleViolation ProjectScopedRuleViolation(
-      RuleDescription description, 
-      string violationDescription)
-    {
-      return RuleViolation.Create(description, string.Empty, violationDescription);
-    }
+    return RuleViolation.Create(description, string.Empty, violationDescription);
   }
 }

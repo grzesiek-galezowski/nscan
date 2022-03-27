@@ -3,63 +3,62 @@ using Xunit;
 using static NScanSpecification.Lib.AutomationLayer.HasPropertyReportedMessage;
 using static NScanSpecification.Lib.AutomationLayer.RuleBuilder;
 
-namespace NScanSpecification.Component
+namespace NScanSpecification.Component;
+
+public class HasPropertyRuleFeatureSpecification
 {
-  public class HasPropertyRuleFeatureSpecification
+  [Fact]
+  public void ShouldReportSuccessWhenAllProjectsHaveSpecifiedFramework()
   {
-    [Fact]
-    public void ShouldReportSuccessWhenAllProjectsHaveSpecifiedFramework()
-    {
-      //GIVEN
-      var context = new NScanDriver();
+    //GIVEN
+    var context = new NScanDriver();
 
-      context.HasProject("MyProject")
-        .WithTargetFramework(TargetFramework.Default);
+    context.HasProject("MyProject")
+      .WithTargetFramework(TargetFramework.Default);
 
-      context.Add(
-        RuleDemandingThat().Project("*MyProject*")
-          .HasProperty("TargetFramework", TargetFramework.Default));
+    context.Add(
+      RuleDemandingThat().Project("*MyProject*")
+        .HasProperty("TargetFramework", TargetFramework.Default));
 
-      //WHEN
-      context.PerformAnalysis();
+    //WHEN
+    context.PerformAnalysis();
 
-      //THEN
-      context.ReportShouldContain(
-        HasProperty("*MyProject*", "TargetFramework", TargetFramework.Default).Ok());
-    }
+    //THEN
+    context.ReportShouldContain(
+      HasProperty("*MyProject*", "TargetFramework", TargetFramework.Default).Ok());
+  }
 
-    [Fact]
-    public void ShouldReportErrorForProjectThatDoesNotHaveSpecifiedFramework()
-    {
-      //GIVEN
-      var context = new NScanDriver();
-      context.HasProject("MyProject").WithTargetFramework(TargetFramework.Default);
+  [Fact]
+  public void ShouldReportErrorForProjectThatDoesNotHaveSpecifiedFramework()
+  {
+    //GIVEN
+    var context = new NScanDriver();
+    context.HasProject("MyProject").WithTargetFramework(TargetFramework.Default);
     
-      context.Add(RuleDemandingThat().Project("*MyProject*").HasProperty("TargetFramework", "netstandard2.1"));
+    context.Add(RuleDemandingThat().Project("*MyProject*").HasProperty("TargetFramework", "netstandard2.1"));
     
-      //WHEN
-      context.PerformAnalysis();
+    //WHEN
+    context.PerformAnalysis();
     
-      //THEN
-      context.ReportShouldContain(HasProperty("*MyProject*", "TargetFramework", "netstandard2.1").Error()
-        .ProjectHasAnotherPropertyValue("MyProject", "TargetFramework", TargetFramework.Default));
-    }
+    //THEN
+    context.ReportShouldContain(HasProperty("*MyProject*", "TargetFramework", "netstandard2.1").Error()
+      .ProjectHasAnotherPropertyValue("MyProject", "TargetFramework", TargetFramework.Default));
+  }
 
-    [Fact]
-    public void ShouldReportErrorForProjectThatDoesNotHaveSpecifiedAttribute()
-    {
-      //GIVEN
-      var context = new NScanDriver();
-      context.HasProject("MyProject");
+  [Fact]
+  public void ShouldReportErrorForProjectThatDoesNotHaveSpecifiedAttribute()
+  {
+    //GIVEN
+    var context = new NScanDriver();
+    context.HasProject("MyProject");
     
-      context.Add(RuleDemandingThat().Project("*MyProject*").HasProperty("Trolololo", "lol2"));
+    context.Add(RuleDemandingThat().Project("*MyProject*").HasProperty("Trolololo", "lol2"));
     
-      //WHEN
-      context.PerformAnalysis();
+    //WHEN
+    context.PerformAnalysis();
     
-      //THEN
-      context.ReportShouldContain(HasProperty("*MyProject*", "Trolololo", "lol2").Error()
-        .ProjectDoesNotHavePropertySetExplicitly("MyProject", "Trolololo"));
-    }
+    //THEN
+    context.ReportShouldContain(HasProperty("*MyProject*", "Trolololo", "lol2").Error()
+      .ProjectDoesNotHavePropertySetExplicitly("MyProject", "Trolololo"));
   }
 }

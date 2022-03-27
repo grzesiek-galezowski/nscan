@@ -4,86 +4,85 @@ using TddXt.AnyRoot.Strings;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace NScan.LibSpecification
+namespace NScan.LibSpecification;
+
+public class PatternSpecification
 {
-  public class PatternSpecification
+  [Fact]
+  public void ShouldMatchStringsWithoutExclusion()
   {
-    [Fact]
-    public void ShouldMatchStringsWithoutExclusion()
-    {
-      //GIVEN
-      var pattern = Pattern.WithoutExclusion("*a*");
+    //GIVEN
+    var pattern = Pattern.WithoutExclusion("*a*");
 
-      //WHEN
-      var result = pattern.IsMatchedBy("abc");
+    //WHEN
+    var result = pattern.IsMatchedBy("abc");
 
-      //THEN
-      result.Should().BeTrue();
-    }
+    //THEN
+    result.Should().BeTrue();
+  }
 
-    [Fact]
-    public void ShouldNotMatchStringsWithoutExclusion()
-    {
-      //GIVEN
-      var pattern = Pattern.WithoutExclusion("*a*");
+  [Fact]
+  public void ShouldNotMatchStringsWithoutExclusion()
+  {
+    //GIVEN
+    var pattern = Pattern.WithoutExclusion("*a*");
 
-      //WHEN
-      var result = pattern.IsMatchedBy("bc");
+    //WHEN
+    var result = pattern.IsMatchedBy("bc");
 
-      //THEN
-      result.Should().BeFalse();
-    }
+    //THEN
+    result.Should().BeFalse();
+  }
 
-    [Fact]
-    public void ShouldReportMatchWhenMainPatternMatchesAndExclusionDoesNot()
-    {
-      //GIVEN
-      var pattern = Pattern.WithExclusion("*", "*Specification*");
+  [Fact]
+  public void ShouldReportMatchWhenMainPatternMatchesAndExclusionDoesNot()
+  {
+    //GIVEN
+    var pattern = Pattern.WithExclusion("*", "*Specification*");
 
-      //WHEN
-      var result = pattern.IsMatchedBy("bc");
+    //WHEN
+    var result = pattern.IsMatchedBy("bc");
 
-      //THEN
-      result.Should().BeTrue();
-    }
+    //THEN
+    result.Should().BeTrue();
+  }
 
-    [Fact]
-    public void ShouldNotReportMatchWhenMainPatternMatchesAndExclusionAsWell()
-    {
-      //GIVEN
-      var pattern = Pattern.WithExclusion("*", "*Specification*");
+  [Fact]
+  public void ShouldNotReportMatchWhenMainPatternMatchesAndExclusionAsWell()
+  {
+    //GIVEN
+    var pattern = Pattern.WithExclusion("*", "*Specification*");
 
-      //WHEN
-      var result = pattern.IsMatchedBy("WhateverSpecification");
+    //WHEN
+    var result = pattern.IsMatchedBy("WhateverSpecification");
 
-      //THEN
-      result.Should().BeFalse();
-    }
+    //THEN
+    result.Should().BeFalse();
+  }
 
-    [Fact]
-    public void ShouldDescribeOnlyInclusionPatternWhenThereIsNoExclusionPattern()
-    {
-      //GIVEN
-      var inclusionPattern = Any.String();
-      var pattern = Pattern.WithoutExclusion(inclusionPattern);
-      //WHEN
-      var description = pattern.Text();
-      //THEN
-      description.Should().Be(inclusionPattern);
-    }
+  [Fact]
+  public void ShouldDescribeOnlyInclusionPatternWhenThereIsNoExclusionPattern()
+  {
+    //GIVEN
+    var inclusionPattern = Any.String();
+    var pattern = Pattern.WithoutExclusion(inclusionPattern);
+    //WHEN
+    var description = pattern.Text();
+    //THEN
+    description.Should().Be(inclusionPattern);
+  }
 
-    [Fact]
-    public void ShouldDescribeBothInclusionAndExclusionPatternsWhenBothArePresent()
-    {
-      //GIVEN
-      var inclusionPattern = Any.String();
-      var exclusionPattern = Any.String();
-      var pattern = Pattern.WithExclusion(inclusionPattern, exclusionPattern);
-      //WHEN
-      var description = pattern.Text();
+  [Fact]
+  public void ShouldDescribeBothInclusionAndExclusionPatternsWhenBothArePresent()
+  {
+    //GIVEN
+    var inclusionPattern = Any.String();
+    var exclusionPattern = Any.String();
+    var pattern = Pattern.WithExclusion(inclusionPattern, exclusionPattern);
+    //WHEN
+    var description = pattern.Text();
       
-      //THEN
-      description.Should().Be(inclusionPattern + " except " + exclusionPattern);
-    }
+    //THEN
+    description.Should().Be(inclusionPattern + " except " + exclusionPattern);
   }
 }

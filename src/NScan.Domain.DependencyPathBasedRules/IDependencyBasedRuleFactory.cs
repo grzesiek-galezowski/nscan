@@ -1,9 +1,8 @@
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 
-namespace NScan.DependencyPathBasedRules
+namespace NScan.DependencyPathBasedRules;
+
+public interface IDependencyBasedRuleFactory
 {
-  public interface IDependencyBasedRuleFactory
-  {
-    IDependencyRule CreateDependencyRuleFrom(IndependentRuleComplementDto independentRuleComplementDto);
-  }
+  IDependencyRule CreateDependencyRuleFrom(IndependentRuleComplementDto independentRuleComplementDto);
 }

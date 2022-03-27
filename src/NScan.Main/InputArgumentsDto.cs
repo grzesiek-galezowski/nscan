@@ -1,10 +1,9 @@
 ﻿using AtmaFileSystem;
 
-namespace TddXt.NScan
+namespace TddXt.NScan;
+
+public class InputArgumentsDto
 {
-  public class InputArgumentsDto
-  {
-    public AnyFilePath? SolutionPath { get; set; }
-    public AnyFilePath? RulesFilePath { get; set; }
-  }
+  public AnyFilePath? SolutionPath { get; set; }
+  public AnyFilePath? RulesFilePath { get; set; }
 }

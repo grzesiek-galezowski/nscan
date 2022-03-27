@@ -1,7 +1,6 @@
-﻿namespace NScan.DependencyPathBasedRules
+﻿namespace NScan.DependencyPathBasedRules;
+
+public interface IDependencyPathFactory
 {
-  public interface IDependencyPathFactory
-  {
-    IDependencyPathInProgress NewDependencyPathFor(IFinalDependencyPathDestination destination);
-  }
+  IDependencyPathInProgress NewDependencyPathFor(IFinalDependencyPathDestination destination);
 }

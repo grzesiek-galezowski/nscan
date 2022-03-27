@@ -4,27 +4,26 @@ using NScan.SharedKernel.RuleDtos.ProjectScoped;
 using Xunit;
 using static TddXt.AnyRoot.Root;
 
-namespace NScan.SharedKernelSpecification.RuleDtos.ProjectScoped
+namespace NScan.SharedKernelSpecification.RuleDtos.ProjectScoped;
+
+public class HasCorrectNamespacesRuleMetadataSpecification
 {
-  public class HasCorrectNamespacesRuleMetadataSpecification
+  [Fact]
+  public void ShouldAllowGettingRuleName()
   {
-    [Fact]
-    public void ShouldAllowGettingRuleName()
-    {
-      HasCorrectNamespacesRuleMetadata.HasCorrectNamespaces.Should().Be("hasCorrectNamespaces");
-    }
+    HasCorrectNamespacesRuleMetadata.HasCorrectNamespaces.Should().Be("hasCorrectNamespaces");
+  }
 
-    [Fact]
-    public static void ShouldProvideFormattedDescriptionOfCorrectNamespacesDto()
-    {
-      //GIVEN
-      var dto = Any.Instance<CorrectNamespacesRuleComplementDto>();
+  [Fact]
+  public static void ShouldProvideFormattedDescriptionOfCorrectNamespacesDto()
+  {
+    //GIVEN
+    var dto = Any.Instance<CorrectNamespacesRuleComplementDto>();
       
-      //WHEN
-      var text = HasCorrectNamespacesRuleMetadata.Format(dto);
+    //WHEN
+    var text = HasCorrectNamespacesRuleMetadata.Format(dto);
 
-      //THEN
-      text.Should().Be(new RuleDescription($"{dto.ProjectAssemblyNamePattern.Text()} {dto.RuleName}"));
-    }
+    //THEN
+    text.Should().Be(new RuleDescription($"{dto.ProjectAssemblyNamePattern.Text()} {dto.RuleName}"));
   }
 }
