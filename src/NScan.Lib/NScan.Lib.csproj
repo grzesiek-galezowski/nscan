@@ -21,7 +21,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Core.Maybe" Version="2.4.1" />
+    <PackageReference Include="Core.Maybe" Version="3.0.0" />
     <PackageReference Include="Glob" Version="1.1.9" />
     <PackageReference Include="IsExternalInit" Version="1.0.2">
       <PrivateAssets>all</PrivateAssets>

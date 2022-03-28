@@ -92,8 +92,7 @@ public class ReadingCsProjSpecification : INScanSupport
     var csprojPath = CsProjPathTo(csprojName);
     var targetFramework = Any.String("TargetFramework");
     var outputType = Any.String();
-
-    var outputPath = Any.String();
+    var outputPath = Any.AlphaString() + "\\";
     var assemblyName = Any.String();
     var rootNamespace = Any.String();
     var packAsTool = Any.String();
@@ -145,7 +144,7 @@ public class ReadingCsProjSpecification : INScanSupport
       csprojPath.ToString(),
       targetFramework: targetFramework,
       outputType: outputType);
-
+    
     foreach (var (key, value) in globalProperties)
     {
       project.Property(key, value);
@@ -157,15 +156,14 @@ public class ReadingCsProjSpecification : INScanSupport
       var csharpProjectDto = ReadCSharpProjectFrom(csprojPath);
 
       //THEN
-      csharpProjectDto.Properties.Should().ContainEquivalentOf(globalProperties
+      csharpProjectDto.Properties.Should().Contain(globalProperties
         .Concat(new Dictionary<string, string>
         {
-          ["OutputType"] = outputType, ["TargetFramework"] = targetFramework,
+          ["OutputType"] = outputType, 
+          ["TargetFramework"] = targetFramework,
         }));
     }
   }
-
-  //bug tests for missing fields
 
   private static AbsoluteFilePath CsProjPathTo(string csprojName)
   {

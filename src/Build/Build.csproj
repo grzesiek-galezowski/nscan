@@ -15,9 +15,9 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="NScan" Version="0.74.0" />
-    <PackageReference Include="NScan.Adapters.Secondary" Version="0.74.0" />
-    <PackageReference Include="SimpleExec" Version="9.1.0" />
+    <PackageReference Include="NScan" Version="0.90.1" />
+    <PackageReference Include="NScan.Adapters.Secondary" Version="0.90.1" />
+    <PackageReference Include="SimpleExec" Version="10.0.0" />
   </ItemGroup>
 
 </Project>

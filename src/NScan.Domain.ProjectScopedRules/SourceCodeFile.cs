@@ -86,7 +86,7 @@ public class SourceCodeFile : ISourceCodeFileInNamespace
     }
     else
     {
-      var fileLocationRelativeToProjectDir = _pathRelativeToProjectRoot.ParentDirectory();
+      var fileLocationRelativeToProjectDir = _pathRelativeToProjectRoot.ParentDirectory().Value();
       return
         $"{_parentProjectRootNamespace}.{fileLocationRelativeToProjectDir.ToString().Replace(Path.DirectorySeparatorChar, '.')}";
     }
