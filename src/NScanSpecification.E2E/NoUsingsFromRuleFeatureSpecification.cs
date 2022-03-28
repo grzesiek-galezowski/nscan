@@ -2,6 +2,7 @@
 using NScanSpecification.E2E.AutomationLayer;
 using Xunit;
 using Xunit.Abstractions;
+using static NScanSpecification.Lib.AutomationLayer.HasNoCircularUsingsMessage;
 using static NScanSpecification.Lib.AutomationLayer.RuleBuilder;
 using static NScanSpecification.Lib.AutomationLayer.HasNoUsingsMessage;
 using static NScanSpecification.Lib.AutomationLayer.SourceCodeFileDtoBuilder;
@@ -55,28 +56,4 @@ public class NoUsingsFromRuleFeatureSpecification
     context.ReportShouldContain(HasNoUsings("*MyProject*", "MyProject.Ports*", "MyProject.Adapters*").Error()
       .UsingsPathFound("MyProject", "MyProject.Ports", "MyProject.Adapters"));
   }
-
-  /*
-  [Fact]
-  public void ShouldReportErrorWhenACycleIsDiscovered()
-  {
-    //GIVEN
-    using (var context = new NScanE2EDriver())
-    {
-      context.HasProject("MyProject")
-        .WithRootNamespace("MyProject")
-        .With(FileWithNamespace("lol1.cs", "MyProject").Using("MyProject.Util"))
-        .With(FileWithNamespace("lol2.cs", "MyProject.Util").Using("MyProject"));
-      context.Add(RuleDemandingThat().Project("*MyProject*").HasNoCircularUsings());
-
-      //WHEN
-      context.PerformAnalysis();
-
-      //THEN
-      context.ReportShouldContain(HasNoCircularUsings("*MyProject*").Error()
-        .CycleFound("MyProject", "MyProject", "MyProject.Util", "MyProject"));
-    }
-  }
-  */
-
 }

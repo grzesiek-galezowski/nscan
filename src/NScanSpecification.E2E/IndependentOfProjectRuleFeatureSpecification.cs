@@ -32,6 +32,7 @@ public record IndependentOfProjectRuleFeatureSpecification(ITestOutputHelper Out
   }
 
   [Fact]
+  //bug dotnet.exe doesn't support assembly references
   public async Task ShouldReportFailureWhenProjectsHasSpecifiedAssemblyReferenceDirectly()
   {
     //GIVEN

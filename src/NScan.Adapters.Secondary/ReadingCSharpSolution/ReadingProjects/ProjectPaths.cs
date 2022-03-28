@@ -48,6 +48,7 @@ public class ProjectPaths
     //bug refactor this
     MsBuild.ExePathAsEnvironmentVariable();
     var project = new Project(ProjectRootElement.Open(projectFilePath.ToString()));
+    //bug throw new NotImplementedException("missing assembly references!");
     return new CsharpProjectDto(
       new ProjectId(project.FullPath),
       project.Properties.Single(p => p.Name == "AssemblyName").EvaluatedValue,
@@ -60,8 +61,11 @@ public class ProjectPaths
         .Select(item =>
           new PackageReference(item.EvaluatedInclude, item.Metadata.Single(m => m.Name == "Version").EvaluatedValue))
         .ToImmutableList(),
-      ImmutableList<AssemblyReference>.Empty, //bug assembly references
-      project.Items.Where(item => item.ItemType == "ProjectReference").Select(item => new ProjectId((projectFilePath.ParentDirectory() + RelativeDirectoryPath(item.EvaluatedInclude)).ToString()))
+      project.Items.Where(item => item.ItemType == "AssemblyReference")
+        .Select(item => new AssemblyReference(item.EvaluatedInclude, item.GetMetadata("HintPath").EvaluatedValue))
+        .ToImmutableList(),
+      project.Items.Where(item => item.ItemType == "ProjectReference")
+        .Select(item => new ProjectId((projectFilePath.ParentDirectory() + RelativeDirectoryPath(item.EvaluatedInclude)).ToString()))
         .ToImmutableList()
     );
   }
