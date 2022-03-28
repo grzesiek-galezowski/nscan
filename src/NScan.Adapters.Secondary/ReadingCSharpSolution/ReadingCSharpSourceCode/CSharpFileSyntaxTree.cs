@@ -56,6 +56,6 @@ public class CSharpFileSyntaxTree : ICSharpFileSyntaxTree
 
   public static CSharpFileSyntaxTree ParseFile(AbsoluteFilePath path)
   {
-    return CSharpFileSyntaxTree.ParseText(File.ReadAllText(path.ToString()), path.ToString());
+    return ParseText(File.ReadAllText(path.ToString()), path.ToString());
   }
 }

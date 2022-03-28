@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 using AtmaFileSystem;
 using Buildalyzer;
 using Core.Maybe;
 using Core.NullableReferenceTypesExtensions;
+using Microsoft.Build.Construction;
+using Microsoft.Build.Evaluation;
+using NScan.SharedKernel;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using static AtmaFileSystem.AtmaFileSystemPaths;
@@ -62,10 +68,27 @@ public class ProjectPaths
 
   private static CsharpProjectDto LoadXmlProject(AbsoluteFilePath projectFilePath)
   {
-    var xmlProjectData = DeserializeProjectData(projectFilePath);
+    SetMsBuildExePath();
+    var project = new Project(ProjectRootElement.Open(projectFilePath.ToString()));
+    return new CsharpProjectDto(
+      new ProjectId(project.FullPath),
+      project.Properties.Single(p => p.Name == "AssemblyName").EvaluatedValue,
+      project.Properties.Single(p => p.Name == "TargetFramework").EvaluatedValue,
+      SourceCodeFilePaths.LoadFiles(project, projectFilePath.ParentDirectory()),
+      project.Properties.ToDictionary(p => p.Name, p => p.EvaluatedValue).ToImmutableDictionary(),
+      project.Items.Where(item => item.ItemType == "PackageReference")
+        .Select(item =>
+          new PackageReference(item.EvaluatedInclude, item.Metadata.Single(m => m.Name == "Version").EvaluatedValue))
+        .ToImmutableList(),
+      ImmutableList<AssemblyReference>.Empty, //bug assembly references
+      project.Items.Where(item => item.ItemType == "ProjectReference").Select(item => new ProjectId((projectFilePath.ParentDirectory() + RelativeDirectoryPath(item.EvaluatedInclude)).ToString()))
+        .ToImmutableList()
+    );
 
-    SourceCodeFilePaths.LoadFilesInto(xmlProjectData);
-    return xmlProjectData.BuildCsharpProjectDto();
+    //bug var xmlProjectData = DeserializeProjectData(projectFilePath);
+    //bug 
+    //bug SourceCodeFilePaths.LoadFilesInto(xmlProjectData);
+    //bug return xmlProjectData.BuildCsharpProjectDto();
   }
 
   private static XmlProjectDataAccess DeserializeProjectData(AbsoluteFilePath projectFilePath)
@@ -91,5 +114,21 @@ public class ProjectPaths
         return Maybe<CsharpProjectDto>.Nothing;
       }
     };
+  }
+
+  private static void SetMsBuildExePath()
+  {
+    var startInfo = new ProcessStartInfo("dotnet", "--list-sdks") { RedirectStandardOutput = true };
+
+    var process = Process.Start(startInfo).OrThrow();
+    process.WaitForExit(1000);
+
+    var output = process.StandardOutput.ReadToEnd();
+    var sdkPaths = Regex.Matches(output, "([0-9]+.[0-9]+.[0-9]+) \\[(.*)\\]")
+      .OfType<Match>()
+      .Select(m => Path.Combine(m.Groups[2].Value, m.Groups[1].Value, "MSBuild.dll"));
+
+    var sdkPath = sdkPaths.Last();
+    Environment.SetEnvironmentVariable("MSBUILD_EXE_PATH", sdkPath, EnvironmentVariableTarget.Process);
   }
 }
