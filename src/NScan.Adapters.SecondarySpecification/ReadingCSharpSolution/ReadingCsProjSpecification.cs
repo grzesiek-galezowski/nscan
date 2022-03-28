@@ -27,6 +27,11 @@ namespace NScan.Adapters.SecondarySpecification.ReadingCSharpSolution;
 
 public class ReadingCsProjSpecification : INScanSupport
 {
+  public ReadingCsProjSpecification()
+  {
+    MsBuild.ExePathAsEnvironmentVariable();
+  }
+
   [Fact]
   public void ShouldBeAbleToCreateDtoFromSdkCsprojDefaultTemplate()
   {
@@ -152,7 +157,7 @@ public class ReadingCsProjSpecification : INScanSupport
       var csharpProjectDto = ReadCSharpProjectFrom(csprojPath);
 
       //THEN
-      csharpProjectDto.Properties.Should().BeEquivalentTo(globalProperties
+      csharpProjectDto.Properties.Should().ContainEquivalentOf(globalProperties
         .Concat(new Dictionary<string, string>
         {
           ["OutputType"] = outputType, ["TargetFramework"] = targetFramework,

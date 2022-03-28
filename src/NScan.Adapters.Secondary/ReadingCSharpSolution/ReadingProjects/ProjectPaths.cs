@@ -68,7 +68,7 @@ public class ProjectPaths
 
   private static CsharpProjectDto LoadXmlProject(AbsoluteFilePath projectFilePath)
   {
-    SetMsBuildExePath();
+    MsBuild.ExePathAsEnvironmentVariable();
     var project = new Project(ProjectRootElement.Open(projectFilePath.ToString()));
     return new CsharpProjectDto(
       new ProjectId(project.FullPath),
@@ -76,7 +76,9 @@ public class ProjectPaths
       project.Properties.Single(p => p.Name == "TargetFramework").EvaluatedValue,
       SourceCodeFilePaths.LoadFiles(project, projectFilePath.ParentDirectory()),
       project.Properties.ToDictionary(p => p.Name, p => p.EvaluatedValue).ToImmutableDictionary(),
-      project.Items.Where(item => item.ItemType == "PackageReference")
+      project.Items
+        .Where(item => item.ItemType == "PackageReference")
+        .Where(item => item.Metadata.Single(m => m.Name == "IsImplicitlyDefined").EvaluatedValue == "false") //to filter out .net sdk dependency
         .Select(item =>
           new PackageReference(item.EvaluatedInclude, item.Metadata.Single(m => m.Name == "Version").EvaluatedValue))
         .ToImmutableList(),
@@ -114,21 +116,5 @@ public class ProjectPaths
         return Maybe<CsharpProjectDto>.Nothing;
       }
     };
-  }
-
-  private static void SetMsBuildExePath()
-  {
-    var startInfo = new ProcessStartInfo("dotnet", "--list-sdks") { RedirectStandardOutput = true };
-
-    var process = Process.Start(startInfo).OrThrow();
-    process.WaitForExit(1000);
-
-    var output = process.StandardOutput.ReadToEnd();
-    var sdkPaths = Regex.Matches(output, "([0-9]+.[0-9]+.[0-9]+) \\[(.*)\\]")
-      .OfType<Match>()
-      .Select(m => Path.Combine(m.Groups[2].Value, m.Groups[1].Value, "MSBuild.dll"));
-
-    var sdkPath = sdkPaths.Last();
-    Environment.SetEnvironmentVariable("MSBUILD_EXE_PATH", sdkPath, EnvironmentVariableTarget.Process);
   }
 }
