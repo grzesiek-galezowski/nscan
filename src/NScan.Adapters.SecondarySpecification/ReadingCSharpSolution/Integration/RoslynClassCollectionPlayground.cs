@@ -39,6 +39,26 @@ namespace Namespace1.Namespace2
     dictionary["GlobalClass.GlobalNestedClass"].Namespace.Should().Be("");
     dictionary["GlobalClass.GlobalNestedClass"].Name.Should().Be("GlobalClass.GlobalNestedClass");
   }
+  
+  [Fact]
+  public void ShouldGatherClassesWithTheirFileScopedNamespaces()
+  {
+    var dictionary = CSharpFileSyntaxTree.ParseText(@"
+namespace Namespace1.Namespace2;
+
+class Class1
+{
+  class Class2
+  {
+  }
+}
+", "").GetClassDeclarationSignatures();
+
+    dictionary["Namespace1.Namespace2.Class1"].Namespace.Should().Be("Namespace1.Namespace2");
+    dictionary["Namespace1.Namespace2.Class1"].Name.Should().Be("Class1");
+    dictionary["Namespace1.Namespace2.Class1.Class2"].Namespace.Should().Be("Namespace1.Namespace2");
+    dictionary["Namespace1.Namespace2.Class1.Class2"].Name.Should().Be("Class1.Class2");
+  }
     
   [Fact]
   public void ShouldGatherBeAbleToDistinguishBetweenNonGenericClassAndGenericClassWithTheSameName()

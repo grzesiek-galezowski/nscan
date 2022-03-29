@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -13,6 +13,15 @@ public class NamespaceGatheringVisitor : CSharpSyntaxVisitor
     foreach (var memberDeclarationSyntax in node.Members)
     {
       memberDeclarationSyntax.Accept(this);
+    }
+  }
+
+  public override void VisitFileScopedNamespaceDeclaration(FileScopedNamespaceDeclarationSyntax node)
+  {
+    _resultSet.Add(node.Name.ToString());
+    foreach (var member in node.Members)
+    {
+      member.Accept(this); //bug needed?
     }
   }
 

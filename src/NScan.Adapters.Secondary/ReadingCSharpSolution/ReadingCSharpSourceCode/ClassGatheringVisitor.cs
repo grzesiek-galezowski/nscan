@@ -23,6 +23,11 @@ public class ClassGatheringVisitor : CSharpSyntaxVisitor
     VisitChildrenOf(node);
   }
 
+  public override void VisitFileScopedNamespaceDeclaration(FileScopedNamespaceDeclarationSyntax node)
+  {
+    VisitChildrenOf(node);
+  }
+
   public override void VisitClassDeclaration(ClassDeclarationSyntax node)
   {
     var className = node.Identifier.ValueText + GenericParameters(node);
@@ -32,6 +37,9 @@ public class ClassGatheringVisitor : CSharpSyntaxVisitor
     {
       switch (currentParent)
       {
+        case FileScopedNamespaceDeclarationSyntax fileScopedNamespace:
+          currentNamespace = fileScopedNamespace.Name.ToString().Just();
+          break;
         case NamespaceDeclarationSyntax enclosingNamespace:
           currentNamespace = currentNamespace
             .Select<string, string>(n => enclosingNamespace.Name + "." + n)

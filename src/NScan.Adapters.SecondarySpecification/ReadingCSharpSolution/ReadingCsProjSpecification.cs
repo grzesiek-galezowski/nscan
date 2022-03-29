@@ -241,7 +241,11 @@ public class MsBuildPlayground
     SetMsBuildExePath();
     var projectRootElement =
       ProjectRootElement.Open(
-        "C:\\Users\\HYPERBOOK\\Documents\\GitHub\\cabs-refactored-csharp\\src\\CabsTests\\CabsTests.csproj");
+        AbsoluteFilePath.OfThisFile()
+          .ParentDirectory()
+          .ParentDirectory().Value()
+          .AddFileName("NScan.Adapters.SecondarySpecification.csproj")
+          .ToString());
 
     var project = new Project(projectRootElement);
     //bug foreach (var projectAllEvaluatedProperty in project.AllEvaluatedProperties)
