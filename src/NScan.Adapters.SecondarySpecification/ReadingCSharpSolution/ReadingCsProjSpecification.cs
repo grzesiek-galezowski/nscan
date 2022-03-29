@@ -93,7 +93,6 @@ public class ReadingCsProjSpecification : INScanSupport
     var targetFramework = Any.String("TargetFramework");
     var outputType = Any.String();
     var outputPath = Any.AlphaString() + "\\";
-    var assemblyHintPath = Any.AlphaString();
     var assemblyName = Any.String();
     var rootNamespace = Any.String();
     var packAsTool = Any.String();
@@ -145,8 +144,6 @@ public class ReadingCsProjSpecification : INScanSupport
       csprojPath.ToString(),
       targetFramework: targetFramework,
       outputType: outputType);
-    project.ItemInclude("AssemblyReference", "MyAssembly",
-      metadata: new Dictionary<string, string>() { ["HintPath"] = assemblyHintPath });
     foreach (var (key, value) in globalProperties)
     {
       project.Property(key, value);
@@ -164,7 +161,38 @@ public class ReadingCsProjSpecification : INScanSupport
           ["OutputType"] = outputType, 
           ["TargetFramework"] = targetFramework,
         }));
-      csharpProjectDto.AssemblyReferences.Should().Equal(new AssemblyReference("MyAssembly", assemblyHintPath));
+    }
+  }
+  
+  [Fact]
+  public void ShouldReadReferences()
+  {
+    //GIVEN
+    var csprojName = Any.String();
+    var csprojPath = CsProjPathTo(csprojName);
+    var targetFramework = Any.String("TargetFramework");
+    var outputType = Any.String();
+    var packageName = Any.AlphaString();
+    var packageVersion = Any.String();
+    var assemblyHintPath = Any.AlphaString();
+
+    var project = ProjectCreator.Templates.SdkCsproj(
+      csprojPath.ToString(),
+      targetFramework: targetFramework,
+      outputType: outputType);
+    project.ItemInclude("AssemblyReference", "MyAssembly",
+      metadata: new Dictionary<string, string>() { ["HintPath"] = assemblyHintPath });
+    project.ItemInclude("PackageReference", packageName,
+      metadata: new Dictionary<string, string>() { ["Version"] = packageVersion });
+
+    using (new FileScope(project))
+    {
+      //WHEN
+      var csharpProjectDto = ReadCSharpProjectFrom(csprojPath);
+
+      //THEN
+      csharpProjectDto.AssemblyReferences.Should().Equal(
+        new AssemblyReference("MyAssembly", assemblyHintPath));
     }
   }
 

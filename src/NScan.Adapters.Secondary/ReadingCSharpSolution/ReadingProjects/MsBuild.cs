@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Core.NullableReferenceTypesExtensions;
 
+namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects;
+
 public static class MsBuild
 {
   public static void ExePathAsEnvironmentVariable()
