@@ -32,15 +32,14 @@ public record IndependentOfProjectRuleFeatureSpecification(ITestOutputHelper Out
   }
 
   [Fact]
-  //bug dotnet.exe doesn't support assembly references
-  public async Task ShouldReportFailureWhenProjectsHasSpecifiedAssemblyReferenceDirectly()
+  public async Task ShouldReportFailureWhenProjectsHasSpecifiedProjectReferenceDirectly()
   {
     //GIVEN
     var projectName = Any.String();
     var dependencyProjectName = Any.String();
     using var context = new NScanE2EDriver(Output);
     context.HasProject(dependencyProjectName);
-    context.HasProject(projectName).WithAssemblyReferences(dependencyProjectName);
+    context.HasProject(projectName).WithReferences(dependencyProjectName);
 
     context.Add(RuleDemandingThat().Project(projectName).IndependentOfProject(dependencyProjectName));
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using AtmaFileSystem;
 using static AtmaFileSystem.AtmaFileSystemPaths;
@@ -22,25 +23,25 @@ public class ProjectsCollection
     _projects.Add(projectDefinition);
   }
 
-  public async Task AddToSolutionAsync(string solutionName)
+  public async Task AddToSolution(string solutionName, CancellationToken cancellationToken)
   {
     await _dotNetExe.RunWith(
-      $"sln {solutionName}.sln add {string.Join(" ", _projects.Select(p => p.ProjectName))}");
+      $"sln {solutionName}.sln add {string.Join(" ", _projects.Select(p => p.ProjectName))}", cancellationToken);
   }
 
-  public Task CreateOnDisk(SolutionDir solutionDir, DotNetExe dotNetExe)
+  public Task CreateOnDisk(SolutionDir solutionDir, DotNetExe dotNetExe, CancellationToken cancellationToken)
   {
     return Task.WhenAll(_projects.Select(p =>
     {
       var absoluteDirectoryPath = solutionDir.PathToProject(p.ProjectName);
-      return CreateProject(dotNetExe, p.ProjectName, absoluteDirectoryPath, p.TargetFramework);
+      return CreateProject(dotNetExe, p.ProjectName, absoluteDirectoryPath, p.TargetFramework, cancellationToken);
     }));
   }
 
   private static async Task CreateProject(DotNetExe dotNetExe, string projectName, AbsoluteDirectoryPath projectDirPath,
-    string targetFramework)
+    string targetFramework, CancellationToken cancellationToken)
   {
-    await dotNetExe.RunWith($"new classlib --name {projectName} -f {targetFramework} --no-restore");
+    await dotNetExe.RunWith($"new classlib --name {projectName} -f {targetFramework} --no-restore", cancellationToken);
     RemoveDefaultFileCreatedByTemplate(projectDirPath);
   }
 

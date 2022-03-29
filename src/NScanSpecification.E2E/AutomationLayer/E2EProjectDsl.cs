@@ -7,23 +7,23 @@ public class E2EProjectDsl
   private readonly string _projectName;
   private readonly ProjectFiles _projectFiles;
   private string _rootNamespace = "WhateverNamespace";
-  private readonly AssemblyReferences _assemblyReferences;
+  private readonly ProjectReferences _projectReferences;
   private readonly ProjectDefinition _projectDefinition;
 
   public E2EProjectDsl(string projectName,
     ProjectFiles projectFiles,
-    AssemblyReferences assemblyReferences, 
+    ProjectReferences projectReferences, 
     ProjectDefinition projectDefinition)
   {
     _projectName = projectName;
     _projectFiles = projectFiles;
-    _assemblyReferences = assemblyReferences;
+    _projectReferences = projectReferences;
     _projectDefinition = projectDefinition;
   }
 
-  public E2EProjectDsl WithAssemblyReferences(params string[] assemblyNames)
+  public E2EProjectDsl WithReferences(params string[] assemblyNames)
   {
-    _assemblyReferences.Add(_projectName, assemblyNames);
+    _projectReferences.Add(_projectName, assemblyNames);
 
     return this;
   }

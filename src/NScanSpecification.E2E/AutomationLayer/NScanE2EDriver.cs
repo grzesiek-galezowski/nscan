@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using AtmaFileSystem;
 using AtmaFileSystem.IO;
@@ -22,12 +23,13 @@ public sealed class NScanE2EDriver : IDisposable
   private readonly AbsoluteFilePath _fullFixtureRulesPath;
   private static readonly FileName RulesFileName = FileName("rules.config");
   private readonly ProjectFiles _projectFiles;
-  private readonly AssemblyReferences _references;
+  private readonly ProjectReferences _references;
   private readonly DotNetExe _dotNetExe;
   private readonly Rules _rules;
   private readonly ProjectsCollection _projectsCollection;
   private readonly AnalysisResult _analysisResult;
   private readonly SolutionDir _fixtureSolutionDir;
+  private readonly CancellationTokenSource _cts = new CancellationTokenSource();
 
   public NScanE2EDriver(ITestOutputHelper output)
   {
@@ -37,7 +39,7 @@ public sealed class NScanE2EDriver : IDisposable
     _fullFixtureRulesPath = _fixtureSolutionDir.PathToFile(RulesFileName);
     _projectFiles = new ProjectFiles(_fixtureSolutionDir);
     _dotNetExe = new DotNetExe(_fixtureSolutionDir, testSupport);
-    _references = new AssemblyReferences(_dotNetExe);
+    _references = new ProjectReferences(_dotNetExe);
     _rules = new Rules();
     _projectsCollection = new ProjectsCollection(_dotNetExe);
     _analysisResult = new AnalysisResult();
@@ -69,10 +71,10 @@ public sealed class NScanE2EDriver : IDisposable
   public async Task PerformAnalysis()
   {
     await CreateSolution();
-    await _projectsCollection.CreateOnDisk(_fixtureSolutionDir, _dotNetExe);
-    await _references.AddToProjectsAsync();
-    await _projectsCollection.AddToSolutionAsync(_solutionName);
-    await _projectFiles.AddFilesToProjectsAsync();
+    await _projectsCollection.CreateOnDisk(_fixtureSolutionDir, _dotNetExe, _cts.Token);
+    await _references.AddToProjects(_cts.Token);
+    await _projectsCollection.AddToSolution(_solutionName, _cts.Token);
+    await _projectFiles.AddFilesToProjects(_cts.Token);
     await _rules.SaveIn(_fullFixtureRulesPath);
     RunAnalysis();
   }
@@ -95,6 +97,7 @@ public sealed class NScanE2EDriver : IDisposable
   public void Dispose()
   {
     _fixtureSolutionDir.DeleteWithContent();
+    _cts.Cancel();
   }
 
   private void RunAnalysis()
@@ -121,7 +124,7 @@ public sealed class NScanE2EDriver : IDisposable
 
   private async Task CreateSolution()
   {
-    await _dotNetExe.RunWith($"new sln --name {_solutionName}");
+    await _dotNetExe.RunWith($"new sln --name {_solutionName}", _cts.Token);
   }
 
   public void ReportShouldContain(ReportedMessage reportedMessage)

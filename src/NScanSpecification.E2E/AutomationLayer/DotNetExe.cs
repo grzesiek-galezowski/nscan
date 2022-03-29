@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using AtmaFileSystem;
 using AtmaFileSystem.IO;
@@ -18,18 +19,19 @@ public class DotNetExe
     _testSupport = testSupport;
   }
 
-  public async Task RunWith(string arguments)
+  public async Task RunWith(string arguments, CancellationToken cancellationToken)
   {
     _workingDirectory.AssertExists();
     _testSupport.RunningDotnetExeWith(arguments, _workingDirectory);
-    await RunWith(arguments, _workingDirectory.FullName());
+    await RunWith(arguments, _workingDirectory.FullName(), cancellationToken);
   }
 
-  public static async Task RunWith(string arguments, AbsoluteDirectoryPath workingDirectory)
+  public static async Task RunWith(string arguments, AbsoluteDirectoryPath workingDirectory,
+    CancellationToken cancellationToken)
   {
     try
     {
-      await Command.RunAsync("dotnet", arguments, workingDirectory.ToString());
+      await Command.RunAsync("dotnet", arguments, workingDirectory.ToString(), cancellationToken: cancellationToken);
     }
     catch (ExitCodeException e)
     {

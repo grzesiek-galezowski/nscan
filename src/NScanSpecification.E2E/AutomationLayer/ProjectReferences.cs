@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NScanSpecification.E2E.AutomationLayer;
 
-public class AssemblyReferences
+public class ProjectReferences
 {
   private readonly DotNetExe _dotNetExe;
 
-  public AssemblyReferences(DotNetExe dotNetExe)
+  public ProjectReferences(DotNetExe dotNetExe)
   {
     _dotNetExe = dotNetExe;
     ReferencesByProjectName = new List<(string, string)>();
@@ -23,19 +24,19 @@ public class AssemblyReferences
     }
   }
 
-  private async Task AddReferenceAsync((string dependent, string dependency) obj)
+  private async Task AddReference((string dependent, string dependency) obj, CancellationToken cancellationToken)
   {
     await _dotNetExe.RunWith("add " +
                              $"{obj.dependent} " +
                              "reference " +
-                             $"{obj.dependency}");
+                             $"{obj.dependency}", cancellationToken);
   }
 
-  public async Task AddToProjectsAsync() //bug add cancellationToken and remove Async suffix
+  public async Task AddToProjects(CancellationToken cancellationToken)
   {
     foreach (var valueTuple in ReferencesByProjectName)
     {
-      await AddReferenceAsync(valueTuple);
+      await AddReference(valueTuple, cancellationToken);
     }
   }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using Core.NullableReferenceTypesExtensions;
@@ -18,7 +19,7 @@ public class ProjectFiles
     _filesByProject = new Dictionary<string, List<SourceCodeFileDto>>();
   }
 
-  public async Task AddFilesToProjectsAsync()
+  public async Task AddFilesToProjects(CancellationToken cancellationToken)
   {
     foreach (var projectName in _filesByProject.Keys)
     {
@@ -32,7 +33,7 @@ public class ProjectFiles
         }
 
         var generateFrom = SourceCodeFileText.GenerateFrom(sourceCodeFile);
-        await File.WriteAllTextAsync(fileInfo.FullName, generateFrom);
+        await File.WriteAllTextAsync(fileInfo.FullName, generateFrom, cancellationToken: cancellationToken);
       }
     }
   }

@@ -2,13 +2,17 @@
 using System.IO;
 using AtmaFileSystem;
 using AtmaFileSystem.IO;
+using FluentAssertions;
+using NScan.Adapters.Secondary.NotifyingSupport;
+using NScan.Adapters.Secondary.ReportingOfResults;
 using NScan.SharedKernel.WritingProgramOutput.Ports;
+using TddXt.NScan;
 using static Bullseye.Targets;
 using static SimpleExec.Command;
 
 const string solutionName = "NScan.sln";
 const string configuration = "Release";
-const string version = "0.100.0";
+const string version = "0.100.1";
 var root = AbsoluteFilePath.OfThisFile().ParentDirectory(2).Value();
 var buildDir = root.AddDirectoryName("build").AddDirectoryName(configuration);
 var srcDir = root.AddDirectoryName("src");
@@ -70,15 +74,15 @@ Target("Clean", () =>
 
 Target("RunPreviousNScan", () =>
 {
-  //bug NScanMain.Run(
-  //bug   new InputArgumentsDto
-  //bug   {
-  //bug     RulesFilePath = AbsoluteDirectoryPath.OfThisFile().AddFileName("nscan.config").AsAnyFilePath(),
-  //bug     SolutionPath = slnNetStandard.AsAnyFilePath()
-  //bug   },
-  //bug   new ConsoleOutput(Console.WriteLine),
-  //bug   new ConsoleSupport(Console.WriteLine)
-  //bug ).Should().Be(0);
+  NScanMain.Run(
+    new InputArgumentsDto
+    {
+      RulesFilePath = AbsoluteDirectoryPath.OfThisFile().AddFileName("nscan.config").AsAnyFilePath(),
+      SolutionPath = slnNetStandard.AsAnyFilePath()
+    },
+    new ConsoleOutput(Console.WriteLine),
+    new ConsoleSupport(Console.WriteLine)
+  ).Should().Be(0);
 });
 
 Target("BuildNScan", DependsOn("RunPreviousNScan"), () =>
