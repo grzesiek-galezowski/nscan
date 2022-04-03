@@ -21,7 +21,9 @@ public class ProjectScopedRuleApplicableToMatchingProject : IProjectScopedRule
     return _innerRule.Description();
   }
 
-  public void Check(IProjectScopedRuleTarget project, IAnalysisReportInProgress report)
+  public void Check(
+    IProjectScopedRuleTarget project, 
+    IAnalysisReportInProgress report)
   {
     if (project.HasProjectAssemblyNameMatching(_projectAssemblyPattern))
     {

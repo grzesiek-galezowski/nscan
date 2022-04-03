@@ -23,6 +23,7 @@ public class MethodsOfMatchingClassesAreDecoratedWithAttributeCheckSpecification
     file.Received(1).CheckMethodsHavingCorrectAttributes(
       report, 
       dto.ClassNameInclusionPattern, 
-      dto.MethodNameInclusionPattern, ruleDescription);
+      dto.MethodNameInclusionPattern, 
+      ruleDescription);
   }
 }

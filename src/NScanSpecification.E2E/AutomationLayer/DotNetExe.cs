@@ -1,9 +1,6 @@
-﻿using System;
-using System.Text;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using AtmaFileSystem;
-using AtmaFileSystem.IO;
 using SimpleExec;
 
 namespace NScanSpecification.E2E.AutomationLayer;
@@ -26,7 +23,7 @@ public class DotNetExe
     await RunWith(arguments, _workingDirectory.FullName(), cancellationToken);
   }
 
-  public static async Task RunWith(string arguments, AbsoluteDirectoryPath workingDirectory,
+  private static async Task RunWith(string arguments, AbsoluteDirectoryPath workingDirectory,
     CancellationToken cancellationToken)
   {
     try
@@ -36,46 +33,6 @@ public class DotNetExe
     catch (ExitCodeException e)
     {
       throw new DotNetExeFailedException(arguments, workingDirectory, e.ExitCode, e);
-    }
-  }
-}
-
-public class DotNetExeFailedException : Exception
-{
-  public DotNetExeFailedException(
-    string arguments, 
-    AbsoluteDirectoryPath workingDirectory, 
-    int exitCode, 
-    Exception innerException)
-    : base($"Running dotnet with arguments {arguments} " +
-           $"in directory {workingDirectory} " +
-           $"failed with code {exitCode}{Environment.NewLine}{ContentOf(workingDirectory)}", innerException)
-  {
-      
-  }
-
-  private static string ContentOf(AbsoluteDirectoryPath workingDirectory)
-  {
-    try
-    {
-      if (!workingDirectory.Exists())
-      {
-        return $"Directory {workingDirectory} does not exist";
-      }
-      else
-      {
-        var stringWithAllDirectoryEntries = new StringBuilder();
-        foreach (var entry in workingDirectory.EnumerateFileSystemEntries())
-        {
-          stringWithAllDirectoryEntries.AppendLine(entry.ToString());
-        }
-
-        return stringWithAllDirectoryEntries.ToString();
-      }
-    }
-    catch (Exception e)
-    {
-      return e.ToString();
     }
   }
 }

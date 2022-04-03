@@ -3,21 +3,26 @@ using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
 namespace NScan.ProjectScopedRules;
 
-public class MethodsOfMatchingClassesAreDecoratedWithAttributeCheck : ISourceCodeFileContentCheck
+public class MethodsOfMatchingClassesAreDecoratedWithAttributeCheck 
+  : ISourceCodeFileContentCheck
 {
   private readonly HasAttributesOnRuleComplementDto _ruleDto;
 
-  public MethodsOfMatchingClassesAreDecoratedWithAttributeCheck(HasAttributesOnRuleComplementDto ruleDto)
+  public MethodsOfMatchingClassesAreDecoratedWithAttributeCheck(
+    HasAttributesOnRuleComplementDto ruleDto)
   {
     _ruleDto = ruleDto;
   }
 
-  public void ApplyTo(ISourceCodeFileInNamespace sourceCodeFile, RuleDescription description,
+  public void ApplyTo(
+    ISourceCodeFileInNamespace sourceCodeFile,
+    RuleDescription description,
     IAnalysisReportInProgress report)
   {
     sourceCodeFile.CheckMethodsHavingCorrectAttributes(
       report, 
       _ruleDto.ClassNameInclusionPattern, 
-      _ruleDto.MethodNameInclusionPattern, description);
+      _ruleDto.MethodNameInclusionPattern, 
+      description);
   }
 }
