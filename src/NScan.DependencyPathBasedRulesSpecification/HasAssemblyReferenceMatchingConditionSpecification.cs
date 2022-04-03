@@ -1,10 +1,5 @@
-﻿using FluentAssertions;
-using GlobExpressions;
+﻿using GlobExpressions;
 using NScan.DependencyPathBasedRules;
-using NSubstitute;
-using TddXt.AnyRoot;
-using Xunit;
-using static TddXt.AnyRoot.Root;
 
 namespace NScan.DependencyPathBasedRulesSpecification;
 

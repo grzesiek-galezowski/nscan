@@ -5,12 +5,8 @@ using System.Threading.Tasks;
 using AtmaFileSystem;
 using AtmaFileSystem.IO;
 using FluentAssertions;
-using NScanSpecification.Lib.AutomationLayer;
-using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Console;
-using Xunit.Abstractions;
 using static AtmaFileSystem.AtmaFileSystemPaths;
-using static TddXt.AnyRoot.Root;
 using AbsoluteFilePath = AtmaFileSystem.AbsoluteFilePath;
 
 namespace NScanSpecification.E2E.AutomationLayer;

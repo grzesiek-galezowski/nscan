@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using Core.Maybe;
 using NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects;
@@ -46,15 +47,15 @@ public static class NScanMain
 
       var rulesString = ReadRulesTextFrom(inputArguments);
         
-      var dependencyPathDtos = ParserRulePreface.Then(ParseDependencyPathBasedRule.Complement).Many().Parse(rulesString).WhereValueExist();
+      var dependencyPathDtos = ParserRulePreface.Then(ParseDependencyPathBasedRule.Complement).Many().Parse(rulesString).WhereValueExist().ToList();
       LogDependencyPathRules(dependencyPathDtos, support);
       analysis.AddDependencyPathRules(dependencyPathDtos);
         
-      var projectScopedDtos = ParserRulePreface.Then(ParseProjectScopedRule.Complement).Many().Parse(rulesString).WhereValueExist();
+      var projectScopedDtos = ParserRulePreface.Then(ParseProjectScopedRule.Complement).Many().Parse(rulesString).WhereValueExist().ToList();
       analysis.AddProjectScopedRules(projectScopedDtos);
       LogProjectScopedRules(projectScopedDtos, support);
 
-      var namespaceBasedDtos = ParserRulePreface.Then(ParseNamespaceBasedRule.Complement).Many().Parse(rulesString).WhereValueExist();
+      var namespaceBasedDtos = ParserRulePreface.Then(ParseNamespaceBasedRule.Complement).Many().Parse(rulesString).WhereValueExist().ToList();
       LogNamespaceBasedRules(namespaceBasedDtos, support);
       analysis.AddNamespaceBasedRules(namespaceBasedDtos);
 
@@ -71,10 +72,10 @@ public static class NScanMain
 
   private static IEnumerable<CsharpProjectDto> ReadCsharpProjects(InputArgumentsDto inputArguments, INScanSupport support)
   {
-    var paths = ProjectPaths.From(
-      inputArguments.SolutionPath.OrThrow().ToString(),
+    var msBuildSolution = MsBuildSolution.From(
+      inputArguments.SolutionPath.OrThrow(),
       support);
-    return paths.LoadXmlProjects();
+    return msBuildSolution.LoadCsharpProjects();
   }
 
   private static string ReadRulesTextFrom(InputArgumentsDto inputArguments)

@@ -3,10 +3,6 @@ using NScan.DependencyPathBasedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScanSpecification.Lib;
-using NSubstitute;
-using TddXt.AnyRoot.Collections;
-using Xunit;
-using static TddXt.AnyRoot.Root;
 
 namespace NScan.DependencyPathBasedRulesSpecification;
 

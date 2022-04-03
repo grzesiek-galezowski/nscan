@@ -1,8 +1,4 @@
 ﻿using System.Threading.Tasks;
-using NScanSpecification.E2E.AutomationLayer;
-using NScanSpecification.Lib.AutomationLayer;
-using Xunit;
-using Xunit.Abstractions;
 
 namespace NScanSpecification.E2E;
 

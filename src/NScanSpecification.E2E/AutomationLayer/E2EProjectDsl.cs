@@ -1,6 +1,4 @@
-﻿using NScanSpecification.Lib.AutomationLayer;
-
-namespace NScanSpecification.E2E.AutomationLayer;
+﻿namespace NScanSpecification.E2E.AutomationLayer;
 
 public class E2EProjectDsl
 {

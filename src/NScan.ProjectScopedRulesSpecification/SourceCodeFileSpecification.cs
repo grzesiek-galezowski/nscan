@@ -1,18 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using AtmaFileSystem;
-using FluentAssertions;
 using NScan.Lib;
 using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NScanSpecification.Lib;
-using NSubstitute;
-using TddXt.AnyRoot;
-using TddXt.AnyRoot.Collections;
-using TddXt.AnyRoot.Strings;
-using TddXt.XNSubstitute;
-using Xunit;
-using static TddXt.AnyRoot.Root;
 
 namespace NScan.ProjectScopedRulesSpecification;
 

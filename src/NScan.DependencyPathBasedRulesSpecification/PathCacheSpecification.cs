@@ -1,8 +1,5 @@
 ﻿using NScan.DependencyPathBasedRules;
 using NScan.SharedKernel;
-using NSubstitute;
-using Xunit;
-using static TddXt.AnyRoot.Root;
 
 namespace NScan.DependencyPathBasedRulesSpecification;
 

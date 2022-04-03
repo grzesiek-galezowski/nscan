@@ -1,14 +1,7 @@
-﻿using System.Collections.Generic;
-using FluentAssertions;
-using NScan.Lib;
+﻿using NScan.Lib;
 using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
-using NSubstitute;
-using TddXt.AnyRoot.Collections;
-using TddXt.AnyRoot.Strings;
-using Xunit;
-using static TddXt.AnyRoot.Root;
 
 namespace NScan.ProjectScopedRulesSpecification;
 

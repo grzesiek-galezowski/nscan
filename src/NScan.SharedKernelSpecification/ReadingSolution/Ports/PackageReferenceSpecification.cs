@@ -1,7 +1,4 @@
-﻿using FluentAssertions;
-using NScan.SharedKernel.ReadingSolution.Ports;
-using Xunit;
-using static TddXt.AnyRoot.Root;
+﻿using NScan.SharedKernel.ReadingSolution.Ports;
 
 namespace NScan.SharedKernelSpecification.ReadingSolution.Ports;
 

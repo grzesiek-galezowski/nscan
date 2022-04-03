@@ -1,11 +1,7 @@
 ﻿using System;
-using FluentAssertions;
 using Core.Maybe;
 using NScan.ProjectScopedRules;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
-using TddXt.XFluentAssert.Api;
-using Xunit;
-using static TddXt.AnyRoot.Root;
 
 namespace NScan.ProjectScopedRulesSpecification;
 

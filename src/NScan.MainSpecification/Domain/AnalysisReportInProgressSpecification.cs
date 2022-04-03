@@ -1,9 +1,5 @@
-﻿using FluentAssertions;
-using NScan.SharedKernel;
-using NSubstitute;
+﻿using NScan.SharedKernel;
 using TddXt.NScan.Domain;
-using Xunit;
-using static TddXt.AnyRoot.Root;
 
 namespace NScan.MainSpecification.Domain;
 

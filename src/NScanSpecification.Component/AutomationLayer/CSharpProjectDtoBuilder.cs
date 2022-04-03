@@ -6,10 +6,7 @@ using AtmaFileSystem;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using NScanSpecification.Lib;
-using NScanSpecification.Lib.AutomationLayer;
-using TddXt.AnyRoot.Strings;
 using static AtmaFileSystem.AtmaFileSystemPaths;
-using static TddXt.AnyRoot.Root;
 
 namespace NScanSpecification.Component.AutomationLayer;
 

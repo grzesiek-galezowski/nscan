@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using FluentAssertions;
-using NScan.DependencyPathBasedRules;
+﻿using NScan.DependencyPathBasedRules;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.ReadingSolution.Ports;
-using Xunit;
-using static TddXt.AnyRoot.Root;
 
 namespace NScan.DependencyPathBasedRulesSpecification;
 

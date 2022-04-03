@@ -1,5 +1,4 @@
-﻿using System;
-using NScan.SharedKernel.RuleDtos.ProjectScoped;
+﻿using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
 namespace NScan.Adapters.SecondarySpecification.ReadingRules;
 

@@ -1,12 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using FluentAssertions;
+﻿using System.Linq;
 using NScan.DependencyPathBasedRules;
-using NSubstitute;
-using TddXt.AnyRoot.Collections;
-using TddXt.XNSubstitute;
-using Xunit;
-using static TddXt.AnyRoot.Root;
 
 namespace NScan.DependencyPathBasedRulesSpecification;
 

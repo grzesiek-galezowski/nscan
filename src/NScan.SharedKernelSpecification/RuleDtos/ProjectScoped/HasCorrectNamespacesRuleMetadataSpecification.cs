@@ -1,8 +1,5 @@
-﻿using FluentAssertions;
-using NScan.SharedKernel;
+﻿using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
-using Xunit;
-using static TddXt.AnyRoot.Root;
 
 namespace NScan.SharedKernelSpecification.RuleDtos.ProjectScoped;
 

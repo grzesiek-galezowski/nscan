@@ -5,7 +5,6 @@ namespace NScan.DependencyPathBasedRules;
 
 public class DependencyPathRuleViolationFactory : IDependencyPathRuleViolationFactory
 {
-  //bug UT
   private readonly IDependencyPathReportFragmentsFormat _reportFragmentsFormat;
 
   public DependencyPathRuleViolationFactory(IDependencyPathReportFragmentsFormat reportFragmentsFormat)

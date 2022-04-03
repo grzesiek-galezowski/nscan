@@ -14,7 +14,7 @@ public class NamespaceBasedRuleViolationFactory : INamespaceBasedRuleViolationFa
   }
 
   public RuleViolation NoCyclesRuleViolation(
-    RuleDescription description, //bug remove
+    RuleDescription description,
     AssemblyName projectAssemblyName,
     IReadOnlyList<NamespaceDependencyPath> cycles)
   {

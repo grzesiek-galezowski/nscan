@@ -1,9 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using NScanSpecification.Component.AutomationLayer;
-using NScanSpecification.Lib.AutomationLayer;
-using TddXt.AnyRoot.Strings;
-using Xunit;
-using static TddXt.AnyRoot.Root;
 using static NScanSpecification.Lib.AutomationLayer.RuleBuilder;
 
 namespace NScanSpecification.Component;

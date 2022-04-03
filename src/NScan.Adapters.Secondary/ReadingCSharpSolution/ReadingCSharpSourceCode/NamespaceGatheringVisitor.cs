@@ -21,7 +21,7 @@ public class NamespaceGatheringVisitor : CSharpSyntaxVisitor
     _resultSet.Add(node.Name.ToString());
     foreach (var member in node.Members)
     {
-      member.Accept(this); //bug needed?
+      member.Accept(this);
     }
   }
 

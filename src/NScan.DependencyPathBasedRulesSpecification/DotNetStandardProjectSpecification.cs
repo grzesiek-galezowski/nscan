@@ -1,17 +1,9 @@
-﻿using System.Collections.Generic;
-using FluentAssertions;
-using GlobExpressions;
+﻿using GlobExpressions;
 using NScan.DependencyPathBasedRules;
 using NScan.Lib;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using NScanSpecification.Lib;
-using NSubstitute;
-using TddXt.AnyRoot;
-using TddXt.AnyRoot.Collections;
-using TddXt.AnyRoot.Strings;
-using Xunit;
-using static TddXt.AnyRoot.Root;
 
 namespace NScan.DependencyPathBasedRulesSpecification;
 

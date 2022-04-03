@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using FluentAssertions;
+﻿using System.Linq;
 using Core.Maybe;
 using NScan.Adapters.Secondary.ReadingRules;
 using NScan.Lib;
@@ -9,9 +7,6 @@ using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
 using NScanSpecification.Lib.AutomationLayer;
 using Sprache;
-using TddXt.AnyRoot.Strings;
-using Xunit;
-using static TddXt.AnyRoot.Root;
 
 namespace NScan.Adapters.SecondarySpecification.ReadingRules;
 

@@ -1,8 +1,5 @@
-﻿using FluentAssertions;
-using NScan.DependencyPathBasedRules;
-using NSubstitute;
+﻿using NScan.DependencyPathBasedRules;
 using TddXt.XFluentAssert.Api;
-using Xunit;
 
 namespace NScan.DependencyPathBasedRulesSpecification;
 

@@ -1,10 +1,4 @@
 ﻿using System.Threading.Tasks;
-using NScanSpecification.E2E.AutomationLayer;
-using NScanSpecification.Lib.AutomationLayer;
-using TddXt.AnyRoot.Strings;
-using Xunit;
-using Xunit.Abstractions;
-using static TddXt.AnyRoot.Root;
 using static NScanSpecification.Lib.AutomationLayer.RuleBuilder;
 
 namespace NScanSpecification.E2E;

@@ -1,5 +1,4 @@
-﻿using System;
-using NScan.SharedKernel.RuleDtos.NamespaceBased;
+﻿using NScan.SharedKernel.RuleDtos.NamespaceBased;
 
 namespace NScan.Adapters.SecondarySpecification.ReadingRules;
 

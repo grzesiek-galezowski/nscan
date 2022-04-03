@@ -1,8 +1,5 @@
-﻿using FluentAssertions;
-using NScan.SharedKernel;
+﻿using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
-using Xunit;
-using static TddXt.AnyRoot.Root;
 
 namespace NScan.SharedKernelSpecification.RuleDtos.DependencyPathBased;
 

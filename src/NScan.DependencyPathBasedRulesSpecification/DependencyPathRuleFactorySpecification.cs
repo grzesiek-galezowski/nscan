@@ -1,11 +1,8 @@
-﻿using FluentAssertions;
-using GlobExpressions;
+﻿using GlobExpressions;
 using NScan.DependencyPathBasedRules;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NScanSpecification.Lib;
 using TddXt.XFluentAssert.Api;
-using Xunit;
-using static TddXt.AnyRoot.Root;
 
 namespace NScan.DependencyPathBasedRulesSpecification;
 

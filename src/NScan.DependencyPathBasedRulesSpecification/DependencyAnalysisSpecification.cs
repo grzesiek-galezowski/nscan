@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using NScan.DependencyPathBasedRules;
+﻿using NScan.DependencyPathBasedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
-using NSubstitute;
-using Xunit;
-using static TddXt.AnyRoot.Root;
 
 namespace NScan.DependencyPathBasedRulesSpecification;
 

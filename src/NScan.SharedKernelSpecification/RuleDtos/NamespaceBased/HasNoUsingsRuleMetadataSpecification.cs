@@ -1,8 +1,5 @@
-﻿using FluentAssertions;
-using NScan.SharedKernel;
+﻿using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
-using Xunit;
-using static TddXt.AnyRoot.Root;
 
 namespace NScan.SharedKernelSpecification.RuleDtos.NamespaceBased;
 

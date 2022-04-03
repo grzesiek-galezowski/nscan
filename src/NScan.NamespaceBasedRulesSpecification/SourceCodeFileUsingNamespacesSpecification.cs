@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using NScan.NamespaceBasedRules;
-using NSubstitute;
-using Xunit;
-using static TddXt.AnyRoot.Root;
+﻿using NScan.NamespaceBasedRules;
 
 namespace NScan.NamespaceBasedRulesSpecification;
 

@@ -1,7 +1,4 @@
 ﻿using System.Threading.Tasks;
-using NScanSpecification.E2E.AutomationLayer;
-using Xunit;
-using Xunit.Abstractions;
 using static NScanSpecification.Lib.AutomationLayer.HasTargetFrameworkReportedMessage;
 using static NScanSpecification.Lib.AutomationLayer.RuleBuilder;
 

@@ -1,6 +1,4 @@
-﻿using Xunit.Abstractions;
-
-namespace NScanSpecification.E2E.AutomationLayer;
+﻿namespace NScanSpecification.E2E.AutomationLayer;
 
 internal class ConsoleXUnitTestSupport : ITestSupport
 {

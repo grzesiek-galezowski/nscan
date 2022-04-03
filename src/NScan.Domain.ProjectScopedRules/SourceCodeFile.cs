@@ -34,11 +34,10 @@ public class SourceCodeFile : ISourceCodeFileInNamespace
 
   public void CheckNamespacesCorrectness(IAnalysisReportInProgress report, RuleDescription description)
   {
-    //bug get rid of this code here. Move this to rule as another interface
     if (_declaredNamespaces.Count == 0)
     {
-      report.Add(_ruleViolationFactory.ProjectScopedRuleViolation(description, ViolationDescription("has no namespace declared"))
-      );
+      report.Add(_ruleViolationFactory.ProjectScopedRuleViolation(
+        description, ViolationDescription("has no namespace declared")));
     }
     else if (_declaredNamespaces.Count > 1)
     {

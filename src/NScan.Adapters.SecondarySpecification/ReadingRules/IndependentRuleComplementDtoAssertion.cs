@@ -1,5 +1,4 @@
-﻿using System;
-using NScan.SharedKernel.RuleDtos.DependencyPathBased;
+﻿using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 
 namespace NScan.Adapters.SecondarySpecification.ReadingRules;
 

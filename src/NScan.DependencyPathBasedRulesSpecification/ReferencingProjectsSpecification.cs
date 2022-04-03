@@ -1,9 +1,5 @@
-﻿using FluentAssertions;
-using NScan.DependencyPathBasedRules;
+﻿using NScan.DependencyPathBasedRules;
 using NScanSpecification.Lib;
-using TddXt.AnyRoot;
-using Xunit;
-using static TddXt.AnyRoot.Root;
 
 namespace NScan.DependencyPathBasedRulesSpecification;
 

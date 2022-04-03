@@ -1,8 +1,4 @@
-﻿using NScanSpecification.Component.AutomationLayer;
-using TddXt.AnyRoot.Strings;
-using Xunit;
-using static TddXt.AnyRoot.Root;
-using static NScanSpecification.Lib.AutomationLayer.HasAttributesOnMessage;
+﻿using static NScanSpecification.Lib.AutomationLayer.HasAttributesOnMessage;
 using static NScanSpecification.Lib.AutomationLayer.SourceCodeFileDtoBuilder;
 using static NScanSpecification.Lib.AutomationLayer.RuleBuilder;
 using static NScanSpecification.Lib.AutomationLayer.ClassDeclarationBuilder;

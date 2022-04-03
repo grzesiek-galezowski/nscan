@@ -1,8 +1,5 @@
-﻿using FluentAssertions;
-using NScan.SharedKernel;
+﻿using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
-using Xunit;
-using static TddXt.AnyRoot.Root;
 
 namespace NScan.SharedKernelSpecification.RuleDtos.ProjectScoped;
 
@@ -19,6 +16,7 @@ public class HasTargetFrameworkRuleMetadataSpecification
   {
     //GIVEN
     var dto = Any.Instance<HasTargetFrameworkRuleComplementDto>();
+    
     //WHEN
     var text = HasTargetFrameworkRuleMetadata.Format(dto);
 

@@ -1,6 +1,4 @@
-﻿using FluentAssertions;
-using NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingCSharpSourceCode;
-using Xunit;
+﻿using NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingCSharpSourceCode;
 
 namespace NScan.Adapters.SecondarySpecification.ReadingCSharpSolution.Integration;
 

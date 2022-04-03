@@ -1,9 +1,6 @@
 ﻿using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
-using NSubstitute;
-using Xunit;
-using static TddXt.AnyRoot.Root;
 
 namespace NScanSpecification.Component;
 

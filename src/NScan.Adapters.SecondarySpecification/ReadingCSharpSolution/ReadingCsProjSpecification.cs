@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using AtmaFileSystem;
-using Core.NullableReferenceTypesExtensions;
-using FluentAssertions;
 using Microsoft.Build.Construction;
-using Microsoft.Build.Evaluation;
 using Microsoft.Build.Utilities.ProjectCreation;
 using NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects;
 using NScan.SharedKernel;
@@ -18,10 +12,6 @@ using NScan.SharedKernel.ReadingSolution.Ports;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
-using TddXt.AnyRoot.Strings;
-using Xunit;
-using static TddXt.AnyRoot.Root;
-using Project = Microsoft.Build.Evaluation.Project;
 
 namespace NScan.Adapters.SecondarySpecification.ReadingCSharpSolution;
 
@@ -203,7 +193,7 @@ public class ReadingCsProjSpecification : INScanSupport
 
   private CsharpProjectDto ReadCSharpProjectFrom(AbsoluteFilePath absoluteFilePath)
   {
-    return new ProjectPaths(new[] { absoluteFilePath, }, this).LoadXmlProjects().Single();
+    return new MsBuildSolution(new[] { absoluteFilePath, }, this).LoadCsharpProjects().Single();
   }
 
   public void Report(Exception exceptionFromResolution)
@@ -258,84 +248,5 @@ public class FileScope : IDisposable
   public void Dispose()
   {
     File.Delete(_project.FullPath);
-  }
-}
-
-public class MsBuildPlayground
-{
-  [Fact]
-  public void Lol()
-  {
-    SetMsBuildExePath();
-    var projectRootElement =
-      ProjectRootElement.Open(
-        AbsoluteFilePath.OfThisFile()
-          .ParentDirectory()
-          .ParentDirectory().Value()
-          .AddFileName("NScan.Adapters.SecondarySpecification.csproj")
-          .ToString());
-
-    var project = new Project(projectRootElement);
-    //bug foreach (var projectAllEvaluatedProperty in project.AllEvaluatedProperties)
-    //bug {
-    //bug   if (projectAllEvaluatedProperty is { } p)
-    //bug   {
-    //bug     Console.WriteLine(p.Name + " " + p.EvaluatedValue);
-    //bug   }
-    //bug }
-    Console.WriteLine("============ FILES ==========");
-    foreach (var projectItem in project.Items.Where(item => item.ItemType == "Compile"))
-    {
-      Console.WriteLine(projectItem.GetType() + " " + projectItem.Xml.ItemType + " " + projectItem.EvaluatedInclude +
-                        " " + MetadataString(projectItem));
-    }
-
-    Console.WriteLine("============ PACKAGE REFERENCES ==========");
-    foreach (var projectItem in project.Items.Where(item => item.ItemType == "PackageReference"))
-    {
-      Console.WriteLine(projectItem.GetType() + " " + projectItem.Xml.ItemType + " " + projectItem.EvaluatedInclude +
-                        " " + MetadataString(projectItem));
-    }
-
-    Console.WriteLine("============ PROJECT REFERENCES ==========");
-    foreach (var projectItem in project.Items.Where(item => item.ItemType == "ProjectReference"))
-    {
-      Console.WriteLine(projectItem.GetType() + " " + projectItem.Xml.ItemType + " " + projectItem.EvaluatedInclude +
-                        " " + MetadataString(projectItem));
-    }
-
-    Console.WriteLine("============ ASSEMBLY REFERENCES ==========");
-    foreach (var projectItem in project.Items.Where(item => item.ItemType == "AssemblyReference"))
-    {
-      Console.WriteLine(projectItem.GetType() + " " + projectItem.Xml.ItemType + " " + projectItem.EvaluatedInclude +
-                        " " + MetadataString(projectItem));
-    }
-
-    Console.WriteLine("============ PROJECT PROPERTIES ==========");
-    foreach (var projectItem in project.Properties)
-    {
-      Console.WriteLine(projectItem.GetType() + " " + projectItem.Name + " " + projectItem.EvaluatedValue);
-    }
-  }
-
-  private string MetadataString(ProjectItem projectItem)
-  {
-    return string.Join('|', projectItem.DirectMetadata.Select(md => md.Name + ":" + md.EvaluatedValue));
-  }
-
-  private static void SetMsBuildExePath()
-  {
-    var startInfo = new ProcessStartInfo("dotnet", "--list-sdks") { RedirectStandardOutput = true };
-
-    var process = Process.Start(startInfo).OrThrow();
-    process.WaitForExit(1000);
-
-    var output = process.StandardOutput.ReadToEnd();
-    var sdkPaths = Regex.Matches(output, "([0-9]+.[0-9]+.[0-9]+) \\[(.*)\\]")
-      .OfType<Match>()
-      .Select(m => Path.Combine(m.Groups[2].Value, m.Groups[1].Value, "MSBuild.dll"));
-
-    var sdkPath = sdkPaths.Last();
-    Environment.SetEnvironmentVariable("MSBUILD_EXE_PATH", sdkPath, EnvironmentVariableTarget.Process);
   }
 }

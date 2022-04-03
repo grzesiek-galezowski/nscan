@@ -1,7 +1,4 @@
 ﻿using System.IO;
-using NScanSpecification.Component.AutomationLayer;
-using NScanSpecification.Lib.AutomationLayer;
-using Xunit;
 using static NScanSpecification.Lib.AutomationLayer.SourceCodeFileDtoBuilder;
 using static NScanSpecification.Lib.AutomationLayer.RuleBuilder;
 
@@ -169,24 +166,24 @@ public class CorrectNamespacesRuleFeatureSpecification
   }
     
   //bug [Fact] 
-  //bug public void ShouldReportErrorWhenNoCsProjectMatchesThePattern()
-  //bug {
-  //bug   //bug implement this behavior!
-  //bug   //GIVEN
-  //bug   var context = new NScanDriver();
-  //bug   context.HasProject("MyProject")
-  //bug     .WithRootNamespace("MyProject")
-  //bug     .With(FileWithNamespaces("lol.cs", "MyProject", "MyProject2"));
-  //bug   context.Add(RuleDemandingThat().Project("*Trolololo*").HasCorrectNamespaces());
-  //bug 
-  //bug   //WHEN
-  //bug   context.PerformAnalysis();
-  //bug 
-  //bug   //THEN
-  //bug   context.ReportShouldContain(HasCorrectNamespacesMessage
-  //bug     .HasCorrectNamespaces("*Trolololo*").Error()
-  //bug     .NoProjectFoundMatching("*Trolololo*"));
-  //bug }
+  //public void ShouldReportErrorWhenNoCsProjectMatchesThePattern()
+  //{
+  //  //bug implement this behavior!
+  //  //GIVEN
+  //  var context = new NScanDriver();
+  //  context.HasProject("MyProject")
+  //    .WithRootNamespace("MyProject")
+  //    .With(FileWithNamespaces("lol.cs", "MyProject", "MyProject2"));
+  //  context.Add(RuleDemandingThat().Project("*Trolololo*").HasCorrectNamespaces());
+  //
+  //  //WHEN
+  //  context.PerformAnalysis();
+  //
+  //  //THEN
+  //  context.ReportShouldContain(HasCorrectNamespacesMessage
+  //    .HasCorrectNamespaces("*Trolololo*").Error()
+  //    .NoProjectFoundMatching("*Trolololo*"));
+  //}
 
 
   //bug backlog nested namespaces

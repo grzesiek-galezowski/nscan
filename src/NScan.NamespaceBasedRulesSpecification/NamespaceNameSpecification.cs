@@ -1,11 +1,4 @@
-﻿using System;
-using FluentAssertions;
-using NScan.NamespaceBasedRules;
-using TddXt.AnyRoot;
-using TddXt.AnyRoot.Strings;
-using TddXt.XFluentAssert.Api;
-using Xunit;
-using static TddXt.AnyRoot.Root;
+﻿using NScan.NamespaceBasedRules;
 
 namespace NScan.NamespaceBasedRulesSpecification;
 

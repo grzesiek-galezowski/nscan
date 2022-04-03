@@ -1,9 +1,5 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
-using NScanSpecification.E2E.AutomationLayer;
-using NScanSpecification.Lib.AutomationLayer;
-using Xunit;
-using Xunit.Abstractions;
 using static NScanSpecification.Lib.AutomationLayer.RuleBuilder;
 using static NScanSpecification.Lib.AutomationLayer.SourceCodeFileDtoBuilder;
 

@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AtmaFileSystem;
-using NScanSpecification.Lib.AutomationLayer;
 
 namespace NScanSpecification.E2E.AutomationLayer;
 

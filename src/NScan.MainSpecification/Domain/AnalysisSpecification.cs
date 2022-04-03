@@ -1,16 +1,11 @@
-﻿using FluentAssertions;
-using NScan.DependencyPathBasedRules;
+﻿using NScan.DependencyPathBasedRules;
 using NScan.NamespaceBasedRules;
 using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
-using NSubstitute;
-using TddXt.AnyRoot.Strings;
 using TddXt.NScan.Domain;
-using Xunit;
-using static TddXt.AnyRoot.Root;
 
 namespace NScan.MainSpecification.Domain;
 

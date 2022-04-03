@@ -1,12 +1,5 @@
-﻿using System.Collections.Generic;
-using FluentAssertions;
-using NScan.DependencyPathBasedRules;
+﻿using NScan.DependencyPathBasedRules;
 using NScanSpecification.Lib;
-using NSubstitute;
-using TddXt.AnyRoot;
-using TddXt.AnyRoot.Collections;
-using Xunit;
-using static TddXt.AnyRoot.Root;
 
 namespace NScan.DependencyPathBasedRulesSpecification;
 

@@ -1,8 +1,4 @@
 ﻿using System.Threading.Tasks;
-using NScanSpecification.E2E.AutomationLayer;
-using Xunit;
-using Xunit.Abstractions;
-using static NScanSpecification.Lib.AutomationLayer.HasNoCircularUsingsMessage;
 using static NScanSpecification.Lib.AutomationLayer.RuleBuilder;
 using static NScanSpecification.Lib.AutomationLayer.HasNoUsingsMessage;
 using static NScanSpecification.Lib.AutomationLayer.SourceCodeFileDtoBuilder;

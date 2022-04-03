@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using FluentAssertions;
 using NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingCSharpSourceCode;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
-using Xunit;
 
 namespace NScan.Adapters.SecondarySpecification.ReadingCSharpSolution.Integration;
 

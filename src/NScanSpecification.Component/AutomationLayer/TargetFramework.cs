@@ -1,4 +1,4 @@
-﻿namespace NScanSpecification.Component;
+﻿namespace NScanSpecification.Component.AutomationLayer;
 
 internal static class TargetFramework
 {

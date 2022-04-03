@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using FluentAssertions;
-using NScan.DependencyPathBasedRules;
-using Xunit;
-using static TddXt.AnyRoot.Root;
+﻿using NScan.DependencyPathBasedRules;
 
 namespace NScan.DependencyPathBasedRulesSpecification;
 

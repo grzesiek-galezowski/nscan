@@ -1,8 +1,4 @@
-﻿using NScanSpecification.Component.AutomationLayer;
-using NScanSpecification.Lib.AutomationLayer;
-using Xunit;
-
-namespace NScanSpecification.Component;
+﻿namespace NScanSpecification.Component;
 
 public class SpecifyingExceptionsFeatureSpecification
 {

@@ -1,7 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using NScanSpecification.Component.AutomationLayer;
-using NScanSpecification.Lib.AutomationLayer;
-using Xunit;
 using static NScanSpecification.Lib.AutomationLayer.RuleBuilder;
 
 namespace NScanSpecification.Component;

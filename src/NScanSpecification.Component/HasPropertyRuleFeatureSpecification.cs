@@ -1,6 +1,4 @@
-﻿using NScanSpecification.Component.AutomationLayer;
-using Xunit;
-using static NScanSpecification.Lib.AutomationLayer.HasPropertyReportedMessage;
+﻿using static NScanSpecification.Lib.AutomationLayer.HasPropertyReportedMessage;
 using static NScanSpecification.Lib.AutomationLayer.RuleBuilder;
 
 namespace NScanSpecification.Component;

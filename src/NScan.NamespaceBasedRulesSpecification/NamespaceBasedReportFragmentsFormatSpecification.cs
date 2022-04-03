@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using FluentAssertions;
-using NScan.NamespaceBasedRules;
-using TddXt.AnyRoot.Strings;
-using Xunit;
-using static TddXt.AnyRoot.Root;
+﻿using NScan.NamespaceBasedRules;
 
 namespace NScan.NamespaceBasedRulesSpecification;
 

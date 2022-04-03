@@ -1,11 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 using System.Linq;
-using FluentAssertions;
 using NScan.Lib;
 using NScan.NamespaceBasedRules;
-using Xunit;
-using static TddXt.AnyRoot.Root;
 
 namespace NScan.NamespaceBasedRulesSpecification;
 
