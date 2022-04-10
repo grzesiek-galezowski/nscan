@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using Core.Maybe;
 using GlobExpressions;
-using Value;
 
 namespace NScan.Lib;
 
-public sealed class Pattern : ValueType<Pattern>
+public sealed record Pattern
 {
   private readonly Maybe<string> _exclusionPattern;
   private readonly string _inclusionPattern;
@@ -45,11 +43,5 @@ public sealed class Pattern : ValueType<Pattern>
       && _exclusionPattern.Select(
           exclusion => !Glob.IsMatch(expected, exclusion))
         .OrElse(() => true);
-  }
-
-  protected override IEnumerable<object> GetAllAttributesToBeUsedForEquality()
-  {
-    yield return _exclusionPattern;
-    yield return _inclusionPattern;
   }
 }

@@ -1,27 +1,10 @@
-using System.Collections.Generic;
-using Value;
+﻿namespace NScan.SharedKernel.ReadingSolution.Ports;
 
-namespace NScan.SharedKernel.ReadingSolution.Ports;
-
-public sealed class PackageReference : ValueType<PackageReference>
+public sealed record PackageReference(string Name, string Version)
 {
-  public string Name { get; }
-  private readonly string _version;
-
-  public PackageReference(string name, string version)
-  {
-    Name = name;
-    _version = version;
-  }
-
-  protected override IEnumerable<object> GetAllAttributesToBeUsedForEquality()
-  {
-    yield return Name;
-    yield return _version;
-  }
-
+  private string Version { get; init; } = Version;
   public override string ToString()
   {
-    return $"{Name}, Version {_version}";
+    return $"{Name}, Version {Version}";
   }
 }

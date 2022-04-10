@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using NScan.Lib;
-using Value;
 
 namespace NScan.NamespaceBasedRules;
 
-public sealed class NamespaceName : ValueType<NamespaceName>, IComparable<NamespaceName>
+public sealed record NamespaceName : IComparable<NamespaceName>
 {
   private readonly string _value;
 
@@ -22,11 +20,6 @@ public sealed class NamespaceName : ValueType<NamespaceName>, IComparable<Namesp
   public override string ToString()
   {
     return _value;
-  }
-
-  protected override IEnumerable<object> GetAllAttributesToBeUsedForEquality()
-  {
-    yield return _value;
   }
 
   public int CompareTo(NamespaceName? other)
