@@ -2,6 +2,8 @@
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
+using System.Xml;
+using System.Xml.Linq;
 using AtmaFileSystem;
 using Microsoft.Build.Construction;
 using Microsoft.Build.Utilities.ProjectCreation;
@@ -165,6 +167,7 @@ public class ReadingCsProjSpecification : INScanSupport
     var packageName = Any.AlphaString();
     var packageVersion = Any.String();
     var assemblyHintPath = Any.AlphaString();
+    var projectDependencyName = Any.String();
 
     var project = ProjectCreator.Templates.SdkCsproj(
       csprojPath.ToString(),
@@ -174,6 +177,7 @@ public class ReadingCsProjSpecification : INScanSupport
       metadata: new Dictionary<string, string>() { ["HintPath"] = assemblyHintPath });
     project.ItemInclude("PackageReference", packageName,
       metadata: new Dictionary<string, string>() { ["Version"] = packageVersion });
+    project.ItemInclude("ProjectReference", projectDependencyName);
 
     using (new FileScope(project))
     {
@@ -183,6 +187,42 @@ public class ReadingCsProjSpecification : INScanSupport
       //THEN
       csharpProjectDto.AssemblyReferences.Should().Equal(
         new AssemblyReference("MyAssembly", assemblyHintPath));
+      csharpProjectDto.PackageReferences.Should().Equal(
+        new PackageReference(packageName, packageVersion));
+      csharpProjectDto.ReferencedProjectIds.Should().Equal(
+        new ProjectId(csprojPath.ParentDirectory().AddFileName(projectDependencyName).ToString()));
+    }
+  }
+  
+  [Fact]
+  public void ShouldReadOneSpecificFileThatWasCausingIssuesInE2eTests()
+  {
+    //GIVEN
+    var csprojName = Any.String();
+    var csprojPath = CsProjPathTo(csprojName);
+
+    using var xmlTextReader = new XmlTextReader(new StringReader(new XElement("Project", new XAttribute("Sdk", "Microsoft.NET.Sdk"),
+      new XElement("ItemGroup",
+        new XElement("ProjectReference",
+          new XAttribute("Include",
+            "..\\0acc9ee5-560e-45a8-baee-0e5d5d42b2ca\\0acc9ee5-560e-45a8-baee-0e5d5d42b2ca.csproj"))),
+      new XElement("PropertyGroup", new XElement("TargetFramework", "netstandard2.1"))).ToString()));
+
+    var projectRootElement = ProjectRootElement.Create(xmlTextReader);
+    projectRootElement.FullPath = csprojPath.ToString();
+    using (new FileScope(projectRootElement))
+    {
+      //WHEN
+      var csharpProjectDto = ReadCSharpProjectFrom(csprojPath);
+
+      //THEN
+      csharpProjectDto.ReferencedProjectIds.Should().Equal(
+        new ProjectId(
+          csprojPath
+            .ParentDirectory()
+            .ParentDirectory().Value()
+            .AddDirectoryName("0acc9ee5-560e-45a8-baee-0e5d5d42b2ca")
+            .AddFileName("0acc9ee5-560e-45a8-baee-0e5d5d42b2ca.csproj").ToString()));
     }
   }
 

@@ -27,7 +27,7 @@ public class MsBuildProject
 
   public ImmutableList<ProjectId> ProjectReferences()
   {
-    return _project.Items.Where(item => item.ItemType == "ProjectReference")
+    return _project.AllEvaluatedItems.Where(item => item.ItemType == "ProjectReference")
       .Select(item => new ProjectId((FullPath.ParentDirectory() + AtmaFileSystemPaths.RelativeDirectoryPath(item.EvaluatedInclude)).ToString()))
       .ToImmutableList();
   }

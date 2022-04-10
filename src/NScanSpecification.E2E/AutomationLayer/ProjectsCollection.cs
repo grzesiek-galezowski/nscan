@@ -38,9 +38,17 @@ public class ProjectsCollection
     }));
   }
 
-  private static async Task CreateProject(DotNetExe dotNetExe, string projectName, AbsoluteDirectoryPath projectDirPath,
+  private async Task CreateProject(DotNetExe dotNetExe, string projectName, AbsoluteDirectoryPath projectDirPath,
     string targetFramework, CancellationToken cancellationToken)
   {
+    //bug!! fails the test
+    //bug add logging
+    //bug MsBuild.ExePathAsEnvironmentVariable();
+    //bug ProjectCreator.Templates.SdkCsproj(
+    //bug   projectDirPath.AddFileName(projectName + ".csproj").ToString(),
+    //bug   targetFramework: targetFramework
+    //bug ).Save();
+
     await dotNetExe.RunWith($"new classlib --name {projectName} -f {targetFramework} --no-restore", cancellationToken);
     RemoveDefaultFileCreatedByTemplate(projectDirPath);
   }
