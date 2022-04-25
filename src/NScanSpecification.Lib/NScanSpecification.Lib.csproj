@@ -11,9 +11,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Any" Version="6.8.0" />
-    <PackageReference Include="AtmaFileSystem" Version="5.0.0" />
-    <PackageReference Include="FluentAssertions" Version="6.5.1" />
+    <PackageReference Include="Any" Version="7.0.0" />
+    <PackageReference Include="AtmaFileSystem" Version="6.0.0" />
+    <PackageReference Include="FluentAssertions" Version="6.6.0" />
     <PackageReference Include="Glob" Version="1.1.9" />
     <PackageReference Include="IsExternalInit" Version="1.0.2">
       <PrivateAssets>all</PrivateAssets>
@@ -26,8 +26,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="XFluentAssert" Version="7.2.0" />
-    <PackageReference Include="XNSubstitute" Version="2.1.0" />
+    <PackageReference Include="XFluentAssert" Version="8.0.0" />
+    <PackageReference Include="XNSubstitute" Version="3.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
   </ItemGroup>
 

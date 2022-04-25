@@ -174,9 +174,9 @@ public class ReadingCsProjSpecification : INScanSupport
       targetFramework: targetFramework,
       outputType: outputType);
     project.ItemInclude("AssemblyReference", "MyAssembly",
-      metadata: new Dictionary<string, string>() { ["HintPath"] = assemblyHintPath });
+      metadata: new Dictionary<string, string?>() { ["HintPath"] = assemblyHintPath });
     project.ItemInclude("PackageReference", packageName,
-      metadata: new Dictionary<string, string>() { ["Version"] = packageVersion });
+      metadata: new Dictionary<string, string?>() { ["Version"] = packageVersion });
     project.ItemInclude("ProjectReference", projectDependencyName);
 
     using (new FileScope(project))

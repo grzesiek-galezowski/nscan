@@ -29,9 +29,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cake.Core" Version="2.1.0" PrivateAssets="All" />
-    <PackageReference Include="AtmaFileSystem" Version="5.0.0" />
-    <PackageReference Include="Core.Maybe" Version="3.0.0" />
+    <PackageReference Include="Cake.Core" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="AtmaFileSystem" Version="6.0.0" />
+    <PackageReference Include="Core.Maybe" Version="4.0.0" />
     <PackageReference Include="IsExternalInit" Version="1.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
