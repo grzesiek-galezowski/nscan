@@ -28,7 +28,8 @@ public class ConsoleSupport : INScanSupport
     _writeLine(exceptionFromResolution);
   }
 
-  public void SkippingProjectBecauseOfError(InvalidOperationException invalidOperationException,
+  public void SkippingProjectBecauseOfError(
+    InvalidOperationException invalidOperationException,
     AbsoluteFilePath projectFilePath)
   {
     _writeLine("Invalid format - skipping " + projectFilePath + " because of " + invalidOperationException);

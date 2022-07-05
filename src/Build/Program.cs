@@ -100,7 +100,12 @@ Target("BuildCakeNScan", () =>
   Build(DirectoryName.Value("Cake.NScan"));
 });
 
-Target("RunNScanUnitTests", DependsOn("BuildNScan"), () => //todo this runs integration tests as well
+Target("InstallCoverageTool", () => //todo this runs integration tests as well
+{
+  Run("dotnet", "tool update --global dotnet-coverage");
+});
+
+Target("RunNScanUnitTests", DependsOn("BuildNScan", "InstallCoverageTool"), () => //todo this runs integration tests as well
 {
   var projectFiles = srcDir.GetFiles("*Specification.csproj", SearchOption.AllDirectories);
   foreach (var file in projectFiles)
