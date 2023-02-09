@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AtmaFileSystem;
+using Microsoft.Build.Utilities.ProjectCreation;
+using NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects;
 using static AtmaFileSystem.AtmaFileSystemPaths;
 
 namespace NScanSpecification.E2E.AutomationLayer;
@@ -34,22 +36,19 @@ public class ProjectsCollection
     return Task.WhenAll(_projects.Select(p =>
     {
       var absoluteDirectoryPath = solutionDir.PathToProject(p.ProjectName);
-      return CreateProject(dotNetExe, p.ProjectName, absoluteDirectoryPath, p.TargetFramework, cancellationToken);
+      return CreateProject(p.ProjectName, absoluteDirectoryPath, p.TargetFramework);
     }));
   }
 
-  private async Task CreateProject(DotNetExe dotNetExe, string projectName, AbsoluteDirectoryPath projectDirPath,
-    string targetFramework, CancellationToken cancellationToken)
+  private async Task CreateProject(string projectName, AbsoluteDirectoryPath projectDirPath,
+    string targetFramework)
   {
-    //bug!! fails the test
     //bug add logging
-    //bug MsBuild.ExePathAsEnvironmentVariable();
-    //bug ProjectCreator.Templates.SdkCsproj(
-    //bug   projectDirPath.AddFileName(projectName + ".csproj").ToString(),
-    //bug   targetFramework: targetFramework
-    //bug ).Save();
+    MsBuild.ExePathAsEnvironmentVariable();
+    ProjectCreator.Templates.SdkCsproj(
+      targetFramework: targetFramework
+    ).Save(projectDirPath.AddFileName(projectName + ".csproj").ToString());
 
-    await dotNetExe.RunWith($"new classlib --name {projectName} -f {targetFramework} --no-restore", cancellationToken);
     RemoveDefaultFileCreatedByTemplate(projectDirPath);
   }
 

@@ -6,7 +6,7 @@ public class ProjectDefinition
   public ProjectDefinition(string projectName)
   {
     ProjectName = projectName;
-    TargetFramework = "netstandard2.1";
+    TargetFramework = "net6.0";
   }
 
   public string ProjectName { get; }

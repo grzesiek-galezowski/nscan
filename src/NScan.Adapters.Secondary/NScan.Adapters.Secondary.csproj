@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
         <WarningsAsErrors>nullable</WarningsAsErrors>
     </PropertyGroup>
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
         <Authors>Grzegorz Galezowski</Authors>
         <Product>NScan</Product>
         <Description></Description>
@@ -32,12 +32,13 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Buildalyzer" Version="4.1.5" />
+        <PackageReference Include="Buildalyzer" Version="5.0.0" />
         <PackageReference Include="IsExternalInit" Version="1.0.3">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.1" />
+        <PackageReference Include="Microsoft.Build.Locator" Version="1.5.5" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" />
         <PackageReference Include="Sprache" Version="2.3.1" />
     </ItemGroup>
 

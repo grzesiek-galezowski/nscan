@@ -23,12 +23,27 @@ public class DotNetExe
     await RunWith(arguments, _workingDirectory.FullName(), cancellationToken);
   }
 
-  private static async Task RunWith(string arguments, AbsoluteDirectoryPath workingDirectory,
+  private async Task RunWith(string arguments, AbsoluteDirectoryPath workingDirectory,
     CancellationToken cancellationToken)
   {
     try
     {
-      await Command.RunAsync("dotnet", arguments, workingDirectory.ToString(), cancellationToken: cancellationToken);
+      var exitCode = 0;
+      string standardError = "";
+      string standardOutput = "";
+      do
+      {
+        (standardOutput, standardError) = await Command.ReadAsync("dotnet", arguments, workingDirectory.ToString(), cancellationToken: cancellationToken, handleExitCode: i =>
+        {
+          exitCode = i;
+          return true;
+        });
+        _testSupport.DotnetExeFinished(exitCode, standardOutput, standardError);
+      } while (standardError.Contains("because it is being used by another process."));
+      if (exitCode != 0)
+      {
+        throw new ExitCodeException(exitCode);
+      }
     }
     catch (ExitCodeException e)
     {
