@@ -2,5 +2,5 @@
 
 public static class TargetFramework
 {
-  public static string RecentDotNet = "net5.0";
+  public static string RecentDotNet = "net6.0";
 }

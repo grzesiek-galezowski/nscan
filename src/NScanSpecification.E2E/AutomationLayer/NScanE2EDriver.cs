@@ -66,9 +66,9 @@ public sealed class NScanE2EDriver : IDisposable
 
   public async Task PerformAnalysis()
   {
-    await CreateSolution();
-    await _projectsCollection.CreateOnDisk(_fixtureSolutionDir, _dotNetExe, _cts.Token);
-    await _references.AddToProjects(_cts.Token);
+    await SaveNewSolutionOnDisk();
+    _references.AddTo(_projectsCollection);
+    await _projectsCollection.SaveIn(_fixtureSolutionDir, _cts.Token);
     await _projectsCollection.AddToSolution(_solutionName, _cts.Token);
     await _projectFiles.AddFilesToProjects(_cts.Token);
     await _rules.SaveIn(_fullFixtureRulesPath);
@@ -118,7 +118,7 @@ public sealed class NScanE2EDriver : IDisposable
     filePath.Exists().Should().BeTrue(filePath + " should exist");
   }
 
-  private async Task CreateSolution()
+  private async Task SaveNewSolutionOnDisk()
   {
     await _dotNetExe.RunWith($"new sln --name {_solutionName}", _cts.Token);
   }

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Threading;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace NScanSpecification.E2E.AutomationLayer;
@@ -24,19 +24,11 @@ public class ProjectReferences
     }
   }
 
-  private async Task AddReference((string dependent, string dependency) obj, CancellationToken cancellationToken)
-  {
-    await _dotNetExe.RunWith("add " +
-                             $"{obj.dependent} " +
-                             "reference " +
-                             $"{obj.dependency}", cancellationToken);
-  }
-
-  public async Task AddToProjects(CancellationToken cancellationToken)
+  public void AddTo(ProjectsCollection projectsCollection)
   {
     foreach (var valueTuple in ReferencesByProjectName)
     {
-      await AddReference(valueTuple, cancellationToken);
+      projectsCollection.AddProjectReference(valueTuple.Item1, valueTuple.Item2);
     }
   }
 }

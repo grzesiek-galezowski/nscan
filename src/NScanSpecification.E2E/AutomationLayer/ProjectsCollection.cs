@@ -13,43 +13,49 @@ namespace NScanSpecification.E2E.AutomationLayer;
 public class ProjectsCollection
 {
   private readonly DotNetExe _dotNetExe;
-  private readonly List<ProjectDefinition> _projects = new();
+  private readonly Dictionary<string, ProjectCreator> _projects = new();
 
   public ProjectsCollection(DotNetExe dotNetExe)
   {
+    MsBuild.ExePathAsEnvironmentVariable();
     _dotNetExe = dotNetExe;
   }
 
   public void Add(ProjectDefinition projectDefinition)
   {
-    _projects.Add(projectDefinition);
+    _projects[projectDefinition.ProjectName] =
+      ProjectCreator.Templates.SdkCsproj(
+        targetFramework: projectDefinition.TargetFramework,
+        outputType: Any.String()
+      );
   }
 
   public async Task AddToSolution(string solutionName, CancellationToken cancellationToken)
   {
     await _dotNetExe.RunWith(
-      $"sln {solutionName}.sln add {string.Join(" ", _projects.Select(p => p.ProjectName))}", cancellationToken);
+      $"sln {solutionName}.sln add {string.Join(" ", _projects.Select(p => p.Key))}", cancellationToken);
   }
 
-  public Task CreateOnDisk(SolutionDir solutionDir, DotNetExe dotNetExe, CancellationToken cancellationToken)
+  public Task SaveIn(SolutionDir solutionDir, CancellationToken cancellationToken)
   {
     return Task.WhenAll(_projects.Select(p =>
     {
-      var absoluteDirectoryPath = solutionDir.PathToProject(p.ProjectName);
-      return CreateProject(p.ProjectName, absoluteDirectoryPath, p.TargetFramework);
+      var absoluteDirectoryPath = solutionDir.PathToProject(p.Key);
+      return CreateProject(p.Key, absoluteDirectoryPath, p.Value, cancellationToken);
     }));
   }
 
-  private async Task CreateProject(string projectName, AbsoluteDirectoryPath projectDirPath,
-    string targetFramework)
+  private async Task CreateProject(
+    string projectName, AbsoluteDirectoryPath projectDirPath,
+    ProjectCreator projectCreator, 
+    CancellationToken cancellationToken)
   {
     //bug add logging
-    MsBuild.ExePathAsEnvironmentVariable();
-    ProjectCreator.Templates.SdkCsproj(
-      targetFramework: targetFramework
-    ).Save(projectDirPath.AddFileName(projectName + ".csproj").ToString());
-
-    RemoveDefaultFileCreatedByTemplate(projectDirPath);
+    await Task.Run(() =>
+    {
+      projectCreator.Save(projectDirPath.AddFileName(projectName + ".csproj").ToString());
+      RemoveDefaultFileCreatedByTemplate(projectDirPath);
+    }, cancellationToken);
   }
 
   private static void RemoveDefaultFileCreatedByTemplate(AbsoluteDirectoryPath projectDirPath)
@@ -57,4 +63,8 @@ public class ProjectsCollection
     File.Delete((projectDirPath + FileName("Class1.cs")).ToString());
   }
 
+  public void AddProjectReference(string projectName, string referenceName)
+  {
+    _projects[projectName].ItemInclude("ProjectReference", $"..\\{referenceName}\\{referenceName}.csproj");
+  }
 }
