@@ -79,15 +79,16 @@ public class CSharpProjectDtoBuilder
 
   public CsharpProjectDto BuildCsharpProjectDto()
   {
-    return new CsharpProjectDto(_projectId,
+    return new CsharpProjectDto(
+      _projectId,
       _assemblyName,
-      _targetFramework,
       _sourceCodeFileBuilders
         .Select(
           b => b.BuildWith(_assemblyName, _rootNamespace)).ToImmutableList(), 
       _properties, 
       _packageReferences.ToImmutableList(), 
       _assemblyReferences.ToImmutableList(), 
-      _referencedProjectIds.ToImmutableList());
+      _referencedProjectIds.ToImmutableList(),
+      ImmutableList<string>.Empty.Add(_targetFramework));
   }
 }

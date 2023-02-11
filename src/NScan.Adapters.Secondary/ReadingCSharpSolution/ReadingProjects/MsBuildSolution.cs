@@ -48,12 +48,12 @@ public class MsBuildSolution
     return new CsharpProjectDto(
       msBuildProject.Id(),
       msBuildProject.AssemblyName(), 
-      msBuildProject.TargetFramework(),
       msBuildProject.LoadSourceCodeFiles(),
       msBuildProject.Properties(), 
       msBuildProject.PackageReferences(), 
       msBuildProject.AssemblyReferences(), 
-      msBuildProject.ProjectReferences()
+      msBuildProject.ProjectReferences(),
+      msBuildProject.TargetFrameworks()
     );
   }
 

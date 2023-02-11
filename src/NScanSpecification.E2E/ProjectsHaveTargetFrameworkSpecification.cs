@@ -20,7 +20,7 @@ public class ProjectsHaveTargetFrameworkSpecification
     using var context = new NScanE2EDriver(_output);
     context.HasProject("MyProject")
       .WithTargetFramework(TargetFramework.RecentDotNet);
-          
+
     context.Add(RuleDemandingThat().Project("*MyProject*").HasTargetFramework(TargetFramework.RecentDotNet));
 
     //WHEN

@@ -42,12 +42,12 @@ public class ReadingCsProjSpecification : INScanSupport
       csharpProjectDto.Should().BeEquivalentTo(
         new CsharpProjectDto(new ProjectId(csprojPath.ToString()),
           csprojName,
-          "netstandard2.0",
           ImmutableList<SourceCodeFileDto>.Empty,
           ImmutableDictionary<string, string>.Empty,
           ImmutableList<PackageReference>.Empty,
           ImmutableList<AssemblyReference>.Empty,
-          ImmutableList<ProjectId>.Empty),
+          ImmutableList<ProjectId>.Empty,
+          ImmutableList<string>.Empty.Add("netstandard2.0")),
         options => options
           .WithTracing()
           .ComparingByMembers<CsharpProjectDto>()
@@ -72,7 +72,7 @@ public class ReadingCsProjSpecification : INScanSupport
       var csharpProjectDto = ReadCSharpProjectFrom(csprojPath);
 
       //THEN
-      csharpProjectDto.TargetFramework.Should().Be(targetFramework);
+      csharpProjectDto.TargetFrameworks.Single().Should().Be(targetFramework);
     }
   }
 
@@ -107,7 +107,7 @@ public class ReadingCsProjSpecification : INScanSupport
     var generatePackageOnBuild = Any.String();
     var assemblyOriginatorKeyFile = Any.String();
 
-    var globalProperties = new Dictionary<string, string>()
+    var globalProperties = new Dictionary<string, string>
     {
       ["AssemblyName"] = assemblyName,
       ["RootNamespace"] = rootNamespace,
@@ -157,6 +157,42 @@ public class ReadingCsProjSpecification : INScanSupport
   }
   
   [Fact]
+  public void ShouldSupportMultipleTargetFrameworks()
+  {
+    //GIVEN
+    var csprojName = Any.String();
+    var csprojPath = CsProjPathTo(csprojName);
+    var targetFramework1 = Any.String("TargetFramework");
+    var targetFramework2 = Any.String("TargetFramework");
+    var targetFrameworksString = $"{targetFramework1};{targetFramework2}";
+
+    var globalProperties = new Dictionary<string, string>
+    {
+      ["TargetFrameworks"] = targetFrameworksString
+    };
+    var project = ProjectCreator.Templates.SdkCsproj(csprojPath.ToString());
+    foreach (var (key, value) in globalProperties)
+    {
+      project.Property(key, value);
+    }
+
+    using (new FileScope(project))
+    {
+      //WHEN
+      var csharpProjectDto = ReadCSharpProjectFrom(csprojPath);
+
+      //THEN
+      csharpProjectDto.Properties.Should().Contain(globalProperties
+        .Concat(new Dictionary<string, string>
+        {
+          ["TargetFrameworks"] = targetFrameworksString,
+        }));
+      csharpProjectDto.TargetFrameworks.Should().Equal(targetFramework1, targetFramework2);
+
+    }
+  }
+
+  [Fact]
   public void ShouldReadReferences()
   {
     //GIVEN
@@ -174,9 +210,9 @@ public class ReadingCsProjSpecification : INScanSupport
       targetFramework: targetFramework,
       outputType: outputType);
     project.ItemInclude("AssemblyReference", "MyAssembly",
-      metadata: new Dictionary<string, string?>() { ["HintPath"] = assemblyHintPath });
+      metadata: new Dictionary<string, string?> { ["HintPath"] = assemblyHintPath });
     project.ItemInclude("PackageReference", packageName,
-      metadata: new Dictionary<string, string?>() { ["Version"] = packageVersion });
+      metadata: new Dictionary<string, string?> { ["Version"] = packageVersion });
     project.ItemInclude("ProjectReference", projectDependencyName);
 
     using (new FileScope(project))

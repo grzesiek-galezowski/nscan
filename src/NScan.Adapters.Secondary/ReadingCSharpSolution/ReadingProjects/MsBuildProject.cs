@@ -45,7 +45,7 @@ public class MsBuildProject
       .Where(item => item.ItemType == "PackageReference")
       .Where(item => (!item.HasMetadata("IsImplicitlyDefined")) || (item.GetMetadataValue("IsImplicitlyDefined") == "false")) //to filter out .net sdk dependency
       .Select(item =>
-        new PackageReference(item.EvaluatedInclude, item.Metadata.Single(m => m.Name == "Version").EvaluatedValue))
+        new PackageReference(item.EvaluatedInclude, item.GetMetadataValue("Version")))
       .ToImmutableList();
   }
 
@@ -54,9 +54,11 @@ public class MsBuildProject
     return _project.Properties.ToDictionary(p => p.Name, p => p.EvaluatedValue).ToImmutableDictionary();
   }
 
-  public string TargetFramework()
+  public ImmutableList<string> TargetFrameworks()
   {
-    return _project.Properties.Single(p => p.Name == "TargetFramework").EvaluatedValue;
+    var value = (_project.Properties.FirstOrDefault(p => p.Name == "TargetFrameworks") ??
+     _project.Properties.Single(p => p.Name == "TargetFramework")).EvaluatedValue;
+    return value.Split(";").ToImmutableList();
   }
 
   public string AssemblyName()

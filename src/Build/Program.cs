@@ -2,17 +2,13 @@
 using System.IO;
 using AtmaFileSystem;
 using AtmaFileSystem.IO;
-using FluentAssertions;
-using NScan.Adapters.Secondary.NotifyingSupport;
-using NScan.Adapters.Secondary.ReportingOfResults;
 using NScan.SharedKernel.WritingProgramOutput.Ports;
-using TddXt.NScan;
 using static Bullseye.Targets;
 using static SimpleExec.Command;
 
 const string solutionName = "NScan.sln";
 const string configuration = "Release";
-const string version = "0.101.0";
+const string version = "0.110.0";
 var root = AbsoluteFilePath.OfThisFile().ParentDirectory(2).Value();
 var buildDir = root.AddDirectoryName("build").AddDirectoryName(configuration);
 var srcDir = root.AddDirectoryName("src");
