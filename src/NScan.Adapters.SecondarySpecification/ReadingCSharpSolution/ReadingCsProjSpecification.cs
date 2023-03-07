@@ -268,6 +268,7 @@ public class ReadingCsProjSpecification : INScanSupport
     return new MsBuildSolution(new[] { absoluteFilePath, }, this).LoadCsharpProjects().Single();
   }
 
+#pragma warning disable xUnit1013
   public void Report(Exception exceptionFromResolution)
   {
   }
@@ -305,6 +306,7 @@ public class ReadingCsProjSpecification : INScanSupport
   {
 
   }
+#pragma warning restore xUnit1013
 }
 
 public class FileScope : IDisposable

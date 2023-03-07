@@ -2,12 +2,16 @@
 using AtmaFileSystem;
 using Microsoft.Build.Construction;
 using Microsoft.Build.Evaluation;
-using Microsoft.Build.Locator;
 
 namespace NScan.Adapters.SecondarySpecification.ReadingCSharpSolution;
 
-public record MsBuildPlayground(ITestOutputHelper Output)
+public class MsBuildPlayground
 {
+  public MsBuildPlayground(ITestOutputHelper output)
+  {
+    this.Output = output;
+  }
+
   [Fact]
   public void Lol()
   {
@@ -67,4 +71,6 @@ public record MsBuildPlayground(ITestOutputHelper Output)
   {
     return string.Join('|', projectItem.DirectMetadata.Select(md => md.Name + ":" + md.EvaluatedValue));
   }
+
+  public ITestOutputHelper Output { get; init; }
 }
