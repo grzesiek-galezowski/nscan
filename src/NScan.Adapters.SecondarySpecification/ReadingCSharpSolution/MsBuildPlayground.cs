@@ -9,7 +9,7 @@ public class MsBuildPlayground
 {
   public MsBuildPlayground(ITestOutputHelper output)
   {
-    this.Output = output;
+    Output = output;
   }
 
   [Fact]
@@ -72,5 +72,5 @@ public class MsBuildPlayground
     return string.Join('|', projectItem.DirectMetadata.Select(md => md.Name + ":" + md.EvaluatedValue));
   }
 
-  public ITestOutputHelper Output { get; init; }
+  private ITestOutputHelper Output { get; init; }
 }
