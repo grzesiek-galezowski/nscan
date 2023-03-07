@@ -19,10 +19,6 @@ namespace NScan.Adapters.SecondarySpecification.ReadingCSharpSolution;
 
 public class ReadingCsProjSpecification : INScanSupport
 {
-  public ReadingCsProjSpecification()
-  {
-    MsBuild.ExePathAsEnvironmentVariable();
-  }
 
   [Fact]
   public void ShouldBeAbleToCreateDtoFromSdkCsprojDefaultTemplate()

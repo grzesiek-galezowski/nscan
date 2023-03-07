@@ -19,7 +19,6 @@ public class MsBuildSolution
     AnyFilePath solutionFilePath, 
     INScanSupport consoleSupport)
   {
-    MsBuild.ExePathAsEnvironmentVariable();
     var analyzerManager = new AnalyzerManager(solutionFilePath.ToString());
     var projectFilePaths = analyzerManager.Projects
       .Select(p => p.Value.ProjectFile.Path)

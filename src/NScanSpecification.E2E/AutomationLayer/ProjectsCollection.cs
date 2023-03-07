@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using AtmaFileSystem;
 using Microsoft.Build.Utilities.ProjectCreation;
-using NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects;
 using static AtmaFileSystem.AtmaFileSystemPaths;
 
 namespace NScanSpecification.E2E.AutomationLayer;
@@ -17,7 +16,6 @@ public class ProjectsCollection
 
   public ProjectsCollection(DotNetExe dotNetExe)
   {
-    MsBuild.ExePathAsEnvironmentVariable();
     _dotNetExe = dotNetExe;
   }
 

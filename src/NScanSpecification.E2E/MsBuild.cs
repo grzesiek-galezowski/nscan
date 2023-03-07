@@ -1,7 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using Microsoft.Build.Locator;
 
-namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects;
+namespace NScanSpecification.E2E;
 
 public static class MsBuild
 {

@@ -18,6 +18,7 @@ public class AllMethodsDecoratedWithAttributesFeatureSpecification
   [Fact]
   public async Task ShouldRaiseErrorWhenMethodsMatchingPatternAreNotDecoratedWithAttributes()
   {
+
     //GIVEN
     const string projectName = "MyProject";
     const string classInclusionPattern = "*Specification";
