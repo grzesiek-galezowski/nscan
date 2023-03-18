@@ -1,5 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
-using Microsoft.Build.Locator;
+using NScan.Lib;
 
 namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects;
 
@@ -10,9 +10,6 @@ public static class MsBuild
 #pragma warning restore CA2255
   internal static void LoadMsBuild()
   {
-    if (MSBuildLocator.CanRegister)
-    {
-      MSBuildLocator.RegisterDefaults();
-    }
+    MsBuildPreconditions.RegisterMsBuild();
   }
 }
