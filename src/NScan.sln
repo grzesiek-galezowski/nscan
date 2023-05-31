@@ -9,7 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		..\azure-pipelines.yml = ..\azure-pipelines.yml
-		..\build.cake = ..\build.cake
 		..\nscan.config = ..\nscan.config
 		..\NScan.nuspec = ..\NScan.nuspec
 	EndProjectSection
@@ -58,7 +57,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScan.NamespaceBasedRulesSp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScan.MainSpecification", "NScan.MainSpecification\NScan.MainSpecification.csproj", "{3E1BF2FC-23CB-4EC4-9D90-E8414CF946FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NScan.SharedKernelSpecification", "NScan.SharedKernelSpecification\NScan.SharedKernelSpecification.csproj", "{54ADFCDA-72D4-447B-ABA4-7F2BC063848A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NScan.SharedKernelSpecification", "NScan.SharedKernelSpecification\NScan.SharedKernelSpecification.csproj", "{54ADFCDA-72D4-447B-ABA4-7F2BC063848A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
