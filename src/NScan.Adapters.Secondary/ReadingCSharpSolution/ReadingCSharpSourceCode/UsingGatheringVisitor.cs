@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Core.NullableReferenceTypesExtensions;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
@@ -17,7 +18,7 @@ public class UsingGatheringVisitor : CSharpSyntaxVisitor
 
   public override void VisitUsingDirective(UsingDirectiveSyntax node)
   {
-    var usingSubject = TypeFormatting.StripWhitespace(node.Name.ToString());
+    var usingSubject = TypeFormatting.StripWhitespace(node.Name.OrThrow().ToString());
     if (node.StaticKeyword.Value == null)
     {
       _usingNames.Add(usingSubject);

@@ -21,13 +21,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Core.Maybe" Version="4.0.0" />
+    <PackageReference Include="Core.Maybe" Version="6.0.0" />
     <PackageReference Include="Glob" Version="1.1.9" />
     <PackageReference Include="IsExternalInit" Version="1.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Build.Locator" Version="1.5.5" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.6.0" />
     <PackageReference Include="Value" Version="1.1.0.1" />
   </ItemGroup>
   
