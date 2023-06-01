@@ -1,4 +1,4 @@
-// Global using directives
+﻿// Global using directives
 
 global using NScanSpecification.E2E.AutomationLayer;
 global using NScanSpecification.Lib;
@@ -7,3 +7,5 @@ global using TddXt.AnyRoot.Strings;
 global using Xunit;
 global using Xunit.Abstractions;
 global using static TddXt.AnyRoot.Root;
+
+[assembly: CollectionBehavior(MaxParallelThreads = 16)]
