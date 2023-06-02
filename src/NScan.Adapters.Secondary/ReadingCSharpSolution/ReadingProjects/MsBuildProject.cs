@@ -1,4 +1,5 @@
 ﻿using System.Collections.Immutable;
+using System.IO;
 using System.Linq;
 using AtmaFileSystem;
 using Microsoft.Build.Construction;
@@ -98,7 +99,13 @@ public class MsBuildProject
 
   private CSharpFileSyntaxTree[] AllCompiledFilesPaths(AbsoluteDirectoryPath csprojRoot)
   {
-    return _project.Items.Where(item => item.ItemType == "Compile")
+    return _project.Items
+      .Where(item => item.ItemType == "Compile")
+ 
+      //some file paths, e.g. added by external nuget packages, are outside the project,
+      //and so should not be analyzed, e.g.
+      //C:\Users\<USER>\.nuget\packages\isexternalinit\1.0.3\contentFiles\cs\net5.0\IsExternalInit\IsExternalInit.cs
+      .Where(p => !Path.IsPathFullyQualified(p.EvaluatedInclude))
       .Select(p => csprojRoot + AtmaFileSystemPaths.RelativeFilePath(p.EvaluatedInclude))
       .Select(CSharpFileSyntaxTree.ParseFile).ToArray();
   }
