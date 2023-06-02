@@ -14,14 +14,14 @@
   
   <ItemGroup>
     <PackageReference Include="Any" Version="9.2.1" />
-    <PackageReference Include="AtmaFileSystem" Version="6.0.0" />
+    <PackageReference Include="AtmaFileSystem" Version="6.1.0" />
     <PackageReference Include="FluentAssertions" Version="6.11.0" />
     <PackageReference Include="Glob" Version="1.1.9" />
     <PackageReference Include="IsExternalInit" Version="1.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.1" />
     <PackageReference Include="MSBuild.ProjectCreation" Version="10.0.0" />
     <PackageReference Include="NSubstitute" Version="5.0.0" />
     <PackageReference Include="NSubstitute.Analyzers.CSharp" Version="1.0.16">
