@@ -74,15 +74,15 @@ Target("Clean", () =>
 
 Target("RunPreviousNScan", () =>
 {
-  //NScanMain.Run(
-  //  new InputArgumentsDto
-  //  {
-  //    RulesFilePath = AbsoluteDirectoryPath.OfThisFile().AddFileName("nscan.config").AsAnyFilePath(),
-  //    SolutionPath = slnNetStandard.AsAnyFilePath()
-  //  },
-  //  new ConsoleOutput(Console.WriteLine),
-  //  new ConsoleSupport(Console.WriteLine)
-  //).Should().Be(0);
+  NScanMain.Run(
+    new InputArgumentsDto
+    {
+      RulesFilePath = AbsoluteDirectoryPath.OfThisFile().AddFileName("nscan.config").AsAnyFilePath(),
+      SolutionPath = slnNetStandard.AsAnyFilePath()
+    },
+    new ConsoleOutput(Console.WriteLine),
+    new ConsoleSupport(Console.WriteLine)
+  ).Should().Be(0);
 });
 
 Target("BuildNScan", DependsOn("RunPreviousNScan"), () =>
