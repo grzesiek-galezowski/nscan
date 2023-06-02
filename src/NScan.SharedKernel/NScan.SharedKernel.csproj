@@ -24,10 +24,6 @@
   <ItemGroup>
     <PackageReference Include="AtmaFileSystem" Version="6.1.0" />
     <PackageReference Include="Glob" Version="1.1.9" />
-    <PackageReference Include="IsExternalInit" Version="1.0.3">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Value" Version="1.1.0.1" />
   </ItemGroup>
 

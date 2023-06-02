@@ -49,12 +49,5 @@
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="IsExternalInit" Version="1.0.3">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
 
 </Project>
