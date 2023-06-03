@@ -81,4 +81,15 @@ public class PatternSpecification
     //THEN
     description.Should().Be(inclusionPattern + " except " + exclusionPattern);
   }
+
+  [Fact]
+  //Because it's nice to be able to see this info in the debugger
+  public void ShouldBeConvertibleToStringWhichContainsTheSameInformationAsItsText()
+  {
+    //GIVEN
+    var pattern = Any.Instance<Pattern>();
+      
+    //THEN
+    pattern.ToString().Should().Be(pattern.Text());
+  }
 }

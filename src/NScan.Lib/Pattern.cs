@@ -36,6 +36,11 @@ public sealed record Pattern
       .OrElse(() => _inclusionPattern);
   }
 
+  public override string ToString()
+  {
+    return Text();
+  }
+
   public bool IsMatchedBy(string expected)
   {
     return
