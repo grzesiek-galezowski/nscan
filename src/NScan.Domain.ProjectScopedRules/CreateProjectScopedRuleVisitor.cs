@@ -2,40 +2,32 @@
 
 namespace NScan.ProjectScopedRules;
 
-public class CreateProjectScopedRuleVisitor : IProjectScopedRuleDtoVisitor
+public class CreateProjectScopedRuleVisitor(
+  IProjectScopedRuleFactory projectScopedRuleFactory,
+  IProjectScopedRuleSet projectScopedRules)
+  : IProjectScopedRuleDtoVisitor
 {
-  private readonly IProjectScopedRuleFactory _projectScopedRuleFactory;
-  private readonly IProjectScopedRuleSet _projectScopedRules;
-
-  public CreateProjectScopedRuleVisitor(
-    IProjectScopedRuleFactory projectScopedRuleFactory,
-    IProjectScopedRuleSet projectScopedRules)
-  {
-    _projectScopedRuleFactory = projectScopedRuleFactory;
-    _projectScopedRules = projectScopedRules;
-  }
-
   public void Visit(HasTargetFrameworkRuleComplementDto arg)
   {
-    var rule = _projectScopedRuleFactory.CreateProjectScopedRuleFrom(arg);
-    _projectScopedRules.Add(rule);
+    var rule = projectScopedRuleFactory.CreateProjectScopedRuleFrom(arg);
+    projectScopedRules.Add(rule);
   }
 
   public void Visit(HasPropertyRuleComplementDto dto)
   {
-    var rule = _projectScopedRuleFactory.CreateProjectScopedRuleFrom(dto);
-    _projectScopedRules.Add(rule);
+    var rule = projectScopedRuleFactory.CreateProjectScopedRuleFrom(dto);
+    projectScopedRules.Add(rule);
   }
 
   public void Visit(HasAttributesOnRuleComplementDto dto)
   {
-    var rule = _projectScopedRuleFactory.CreateProjectScopedRuleFrom(dto);
-    _projectScopedRules.Add(rule);
+    var rule = projectScopedRuleFactory.CreateProjectScopedRuleFrom(dto);
+    projectScopedRules.Add(rule);
   }
 
   public void Visit(CorrectNamespacesRuleComplementDto dto)
   {
-    var rule = _projectScopedRuleFactory.CreateProjectScopedRuleFrom(dto);
-    _projectScopedRules.Add(rule);
+    var rule = projectScopedRuleFactory.CreateProjectScopedRuleFrom(dto);
+    projectScopedRules.Add(rule);
   }
 }

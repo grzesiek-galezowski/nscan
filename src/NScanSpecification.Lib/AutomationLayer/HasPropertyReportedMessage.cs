@@ -2,16 +2,12 @@
 
 namespace NScanSpecification.Lib.AutomationLayer;
 
-public class HasPropertyReportedMessage : GenericReportedMessage<HasPropertyReportedMessage>
+public class HasPropertyReportedMessage(string text) : GenericReportedMessage<HasPropertyReportedMessage>(text)
 {
   public static HasPropertyReportedMessage HasProperty(
     string projectName, string name, string value)
   {
     return new HasPropertyReportedMessage(TestRuleFormats.FormatHasPropertyRule(projectName, name, value));
-  }
-
-  public HasPropertyReportedMessage(string text) : base(text)
-  {
   }
 
   protected override HasPropertyReportedMessage NewInstance(string str)

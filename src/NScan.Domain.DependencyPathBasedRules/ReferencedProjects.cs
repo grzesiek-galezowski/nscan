@@ -13,21 +13,13 @@ public interface IReferencedProjects
   void ResolveFrom(IReferencingProject referencingProject, ISolutionContext solution);
 }
 
-public class ReferencedProjects : IReferencedProjects
+public class ReferencedProjects(
+  IReadOnlyList<ProjectId> referencedProjectsIds,
+  INScanSupport support)
+  : IReferencedProjects
 {
   private readonly IDictionary<ProjectId, IReferencedProject> _referencedProjects 
     = new Dictionary<ProjectId, IReferencedProject>();
-
-  private readonly IReadOnlyList<ProjectId> _referencedProjectsIds;
-  private readonly INScanSupport _support;
-
-  public ReferencedProjects(
-    IReadOnlyList<ProjectId> referencedProjectsIds, 
-    INScanSupport support)
-  {
-    _referencedProjectsIds = referencedProjectsIds;
-    _support = support;
-  }
 
   public void Add(ProjectId projectId, IReferencedProject referencedProject)
   {
@@ -59,7 +51,7 @@ public class ReferencedProjects : IReferencedProjects
 
   public void ResolveFrom(IReferencingProject referencingProject, ISolutionContext solution)
   {
-    foreach (var projectId in _referencedProjectsIds)
+    foreach (var projectId in referencedProjectsIds)
     {
       try
       {
@@ -67,7 +59,7 @@ public class ReferencedProjects : IReferencedProjects
       }
       catch (ReferencedProjectNotFoundInSolutionException e)
       {
-        _support.Report(e);
+        support.Report(e);
       }
     }
   }

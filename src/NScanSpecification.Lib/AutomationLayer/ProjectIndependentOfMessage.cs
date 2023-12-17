@@ -4,12 +4,8 @@ using static System.Environment;
 
 namespace NScanSpecification.Lib.AutomationLayer;
 
-public class ProjectIndependentOfMessage : GenericReportedMessage<ProjectIndependentOfMessage>
+public class ProjectIndependentOfMessage(string text) : GenericReportedMessage<ProjectIndependentOfMessage>(text)
 {
-  public ProjectIndependentOfMessage(string text) : base(text)
-  {
-  }
-
   public ProjectIndependentOfMessage ViolationPath(params string[] path)
   {
     return NewInstance(this + NewLine + "Violating path: " + StringFrom(path));

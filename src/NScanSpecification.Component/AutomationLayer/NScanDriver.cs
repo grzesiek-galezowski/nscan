@@ -69,48 +69,27 @@ public class NScanDriver
   }
 }
 
-public class DependencyPathAnalysisRule : IAnalysisRule
+public class DependencyPathAnalysisRule(DependencyPathBasedRuleUnionDto dto) : IAnalysisRule
 {
-  private readonly DependencyPathBasedRuleUnionDto _dto;
-
-  public DependencyPathAnalysisRule(DependencyPathBasedRuleUnionDto dto)
-  {
-    _dto = dto;
-  }
-
   public void AddTo(Analysis analysis)
   {
-    analysis.AddDependencyPathRules(new [] {_dto});
+    analysis.AddDependencyPathRules(new [] {dto});
   }
 }
 
-public class ProjectScopedAnalysisRule : IAnalysisRule
+public class ProjectScopedAnalysisRule(ProjectScopedRuleUnionDto dto) : IAnalysisRule
 {
-  private readonly ProjectScopedRuleUnionDto _dto;
-
-  public ProjectScopedAnalysisRule(ProjectScopedRuleUnionDto dto)
-  {
-    _dto = dto;
-  }
-
   public void AddTo(Analysis analysis)
   {
-    analysis.AddProjectScopedRules(new [] {_dto});
+    analysis.AddProjectScopedRules(new [] {dto});
   }
 }
 
-public class NamespaceBasedAnalysisRule : IAnalysisRule
+public class NamespaceBasedAnalysisRule(NamespaceBasedRuleUnionDto dto) : IAnalysisRule
 {
-  private readonly NamespaceBasedRuleUnionDto _dto;
-
-  public NamespaceBasedAnalysisRule(NamespaceBasedRuleUnionDto dto)
-  {
-    _dto = dto;
-  }
-
   public void AddTo(Analysis analysis)
   {
-    analysis.AddNamespaceBasedRules(new [] {_dto});
+    analysis.AddNamespaceBasedRules(new [] {dto});
   }
 }
 

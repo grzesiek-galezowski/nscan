@@ -5,20 +5,15 @@ using AtmaFileSystem.IO;
 
 namespace NScanSpecification.E2E.AutomationLayer;
 
-public class DotNetExeFailedException : Exception
+public class DotNetExeFailedException(
+  string arguments,
+  AbsoluteDirectoryPath workingDirectory,
+  int exitCode,
+  Exception innerException)
+  : Exception($"Running dotnet with arguments {arguments} " +
+              $"in directory {workingDirectory} " +
+              $"failed with code {exitCode}{Environment.NewLine}{ContentOf(workingDirectory)}", innerException)
 {
-  public DotNetExeFailedException(
-    string arguments, 
-    AbsoluteDirectoryPath workingDirectory, 
-    int exitCode, 
-    Exception innerException)
-    : base($"Running dotnet with arguments {arguments} " +
-           $"in directory {workingDirectory} " +
-           $"failed with code {exitCode}{Environment.NewLine}{ContentOf(workingDirectory)}", innerException)
-  {
-      
-  }
-
   private static string ContentOf(AbsoluteDirectoryPath workingDirectory)
   {
     try

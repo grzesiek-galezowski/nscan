@@ -3,15 +3,9 @@ using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
 namespace NScan.ProjectScopedRules;
 
-public class ProjectScopedRuleFactory : IProjectScopedRuleFactory
+public class ProjectScopedRuleFactory(IProjectScopedRuleViolationFactory ruleViolationFactory)
+  : IProjectScopedRuleFactory
 {
-  private readonly IProjectScopedRuleViolationFactory _ruleViolationFactory;
-
-  public ProjectScopedRuleFactory(IProjectScopedRuleViolationFactory ruleViolationFactory)
-  {
-    _ruleViolationFactory = ruleViolationFactory;
-  }
-
   public IProjectScopedRule CreateProjectScopedRuleFrom(CorrectNamespacesRuleComplementDto ruleDto)
   {
     return new ProjectScopedRuleApplicableToMatchingProject(ruleDto.ProjectAssemblyNamePattern, 
@@ -38,7 +32,7 @@ public class ProjectScopedRuleFactory : IProjectScopedRuleFactory
         new HasPropertyValueRule(
           "TargetFramework", 
           expectedPropertyValue, 
-          _ruleViolationFactory, 
+          ruleViolationFactory, 
           HasTargetFrameworkRuleMetadata.Format(ruleDto)));
   }
 
@@ -50,7 +44,7 @@ public class ProjectScopedRuleFactory : IProjectScopedRuleFactory
         new HasPropertyValueRule(
           ruleDto.PropertyName, 
           ruleDto.PropertyValue, 
-          _ruleViolationFactory, 
+          ruleViolationFactory, 
           HasPropertyRuleMetadata.Format(ruleDto)));
   }
 }

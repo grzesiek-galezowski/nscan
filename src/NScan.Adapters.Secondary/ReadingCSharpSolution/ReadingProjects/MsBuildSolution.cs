@@ -10,11 +10,8 @@ using static AtmaFileSystem.AtmaFileSystemPaths;
 
 namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects;
 
-public class MsBuildSolution
+public class MsBuildSolution(IEnumerable<AbsoluteFilePath> projectFilePaths, INScanSupport support)
 {
-  private readonly IEnumerable<AbsoluteFilePath> _projectFilePaths;
-  private readonly INScanSupport _support;
-
   public static MsBuildSolution From(
     AnyFilePath solutionFilePath, 
     INScanSupport consoleSupport)
@@ -27,15 +24,9 @@ public class MsBuildSolution
     return paths;
   }
 
-  public MsBuildSolution(IEnumerable<AbsoluteFilePath> projectFilePaths, INScanSupport support)
-  {
-    _projectFilePaths = projectFilePaths;
-    _support = support;
-  }
-
   public List<CsharpProjectDto> LoadCsharpProjects()
   {
-    var projectDtos = _projectFilePaths.Select(LoadCsharpProjectFromPath())
+    var projectDtos = projectFilePaths.Select(LoadCsharpProjectFromPath())
       .Where(maybeProject => maybeProject.HasValue)
       .Select(maybeProject => maybeProject.Value()).ToList();
     return projectDtos;
@@ -66,7 +57,7 @@ public class MsBuildSolution
       }
       catch (InvalidOperationException e)
       {
-        _support.SkippingProjectBecauseOfError(e, path);
+        support.SkippingProjectBecauseOfError(e, path);
         return Maybe<CsharpProjectDto>.Nothing;
       }
     };

@@ -2,12 +2,8 @@
 
 namespace NScanSpecification.Lib.AutomationLayer;
 
-public class HasNoCircularUsingsMessage : GenericReportedMessage<HasNoCircularUsingsMessage>
+public class HasNoCircularUsingsMessage(string text) : GenericReportedMessage<HasNoCircularUsingsMessage>(text)
 {
-  public HasNoCircularUsingsMessage(string text) : base(text)
-  {
-  }
-
   public HasNoCircularUsingsMessage CycleFound(string projectName, params string[] cyclePath)
   {
     return NewInstance(this + Environment.NewLine +

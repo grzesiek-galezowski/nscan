@@ -1,23 +1,17 @@
-using NScan.SharedKernel.RuleDtos.NamespaceBased;
+﻿using NScan.SharedKernel.RuleDtos.NamespaceBased;
 
 namespace NScan.NamespaceBasedRules;
 
-public class NamespaceBasedRuleFactory : INamespaceBasedRuleFactory
+public class NamespaceBasedRuleFactory(INamespaceBasedRuleViolationFactory ruleViolationFactory)
+  : INamespaceBasedRuleFactory
 {
-  private readonly INamespaceBasedRuleViolationFactory _ruleViolationFactory;
-
-  public NamespaceBasedRuleFactory(INamespaceBasedRuleViolationFactory ruleViolationFactory)
-  {
-    _ruleViolationFactory = ruleViolationFactory;
-  }
-
   public INamespacesBasedRule CreateNamespacesBasedRuleFrom(NoCircularUsingsRuleComplementDto ruleDto)
   {
-    return new NoCircularUsingsRule(ruleDto, _ruleViolationFactory);
+    return new NoCircularUsingsRule(ruleDto, ruleViolationFactory);
   }
 
   public INamespacesBasedRule CreateNamespacesBasedRuleFrom(NoUsingsRuleComplementDto ruleDto)
   {
-    return new NoUsingsRule(ruleDto, _ruleViolationFactory);
+    return new NoUsingsRule(ruleDto, ruleViolationFactory);
   }
 }

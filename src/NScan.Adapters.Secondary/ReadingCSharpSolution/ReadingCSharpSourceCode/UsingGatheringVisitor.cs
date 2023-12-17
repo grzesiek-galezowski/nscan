@@ -6,15 +6,10 @@ using NScan.SharedKernel.ReadingCSharpSourceCode;
 
 namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingCSharpSourceCode;
 
-public class UsingGatheringVisitor : CSharpSyntaxVisitor
+public class UsingGatheringVisitor(IReadOnlyDictionary<string, ClassDeclarationInfo> classDeclarationInfos)
+  : CSharpSyntaxVisitor
 {
-  private readonly IReadOnlyDictionary<string, ClassDeclarationInfo> _classDeclarationInfos;
   private readonly List<string> _usingNames = new();
-
-  public UsingGatheringVisitor(IReadOnlyDictionary<string, ClassDeclarationInfo> classDeclarationInfos)
-  {
-    _classDeclarationInfos = classDeclarationInfos;
-  }
 
   public override void VisitUsingDirective(UsingDirectiveSyntax node)
   {
@@ -23,7 +18,7 @@ public class UsingGatheringVisitor : CSharpSyntaxVisitor
     {
       _usingNames.Add(usingSubject);
     }
-    else if(_classDeclarationInfos.TryGetValue(usingSubject, out var classDeclaration))
+    else if(classDeclarationInfos.TryGetValue(usingSubject, out var classDeclaration))
     {
       _usingNames.Add(classDeclaration.Namespace);
     }

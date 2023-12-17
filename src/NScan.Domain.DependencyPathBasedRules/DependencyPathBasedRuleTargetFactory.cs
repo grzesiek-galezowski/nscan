@@ -1,19 +1,12 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NScan.SharedKernel;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.ReadingSolution.Ports;
 
 namespace NScan.DependencyPathBasedRules;
 
-public class DependencyPathBasedRuleTargetFactory
+public class DependencyPathBasedRuleTargetFactory(INScanSupport support)
 {
-  private readonly INScanSupport _support;
-
-  public DependencyPathBasedRuleTargetFactory(INScanSupport support)
-  {
-    _support = support;
-  }
-
   public Dictionary<ProjectId, IDotNetProject> CreateDependencyPathRuleTargetsByIds(
     IEnumerable<CsharpProjectDto> xmlProjectDataAccesses)
   {
@@ -37,7 +30,7 @@ public class DependencyPathBasedRuleTargetFactory
       projectDataAccess.AssemblyReferences, 
       new ReferencedProjects(
         projectDataAccess.ReferencedProjectIds, 
-        _support), 
+        support), 
       new ReferencingProjects());
     return (projectDataAccess.Id, dotNetStandardProject);
   }

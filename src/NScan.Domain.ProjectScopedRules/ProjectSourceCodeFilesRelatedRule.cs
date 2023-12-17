@@ -3,22 +3,14 @@ using NScan.SharedKernel;
 
 namespace NScan.ProjectScopedRules;
 
-public class ProjectSourceCodeFilesRelatedRule : IProjectScopedRule, IProjectFilesetScopedRule
+public class ProjectSourceCodeFilesRelatedRule(
+  RuleDescription description,
+  ISourceCodeFileContentCheck fileContentCheck)
+  : IProjectScopedRule, IProjectFilesetScopedRule
 {
-  private readonly ISourceCodeFileContentCheck _fileContentCheck;
-  private readonly RuleDescription _ruleDescription;
-
-  public ProjectSourceCodeFilesRelatedRule(
-    RuleDescription description,
-    ISourceCodeFileContentCheck fileContentCheck)
-  {
-    _fileContentCheck = fileContentCheck;
-    _ruleDescription = description;
-  }
-
   public RuleDescription Description()
   {
-    return _ruleDescription;
+    return description;
   }
 
   public void Check(IProjectScopedRuleTarget project, IAnalysisReportInProgress report)
@@ -30,8 +22,8 @@ public class ProjectSourceCodeFilesRelatedRule : IProjectScopedRule, IProjectFil
   {
     foreach (var sourceCodeFile in sourceCodeFiles)
     {
-      _fileContentCheck.ApplyTo(sourceCodeFile, _ruleDescription, report);
+      fileContentCheck.ApplyTo(sourceCodeFile, description, report);
     }
-    report.FinishedEvaluatingRule(_ruleDescription);
+    report.FinishedEvaluatingRule(description);
   }
 }

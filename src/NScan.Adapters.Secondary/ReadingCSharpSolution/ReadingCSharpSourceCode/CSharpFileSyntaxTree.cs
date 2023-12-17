@@ -10,40 +10,33 @@ using static AtmaFileSystem.AtmaFileSystemPaths;
 
 namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingCSharpSourceCode;
 
-public class CSharpFileSyntaxTree : ICSharpFileSyntaxTree
+public class CSharpFileSyntaxTree(SyntaxTree syntaxTree) : ICSharpFileSyntaxTree
 {
   public static CSharpFileSyntaxTree ParseText(string sourceCode, string path)
   {
     return new CSharpFileSyntaxTree(CSharpSyntaxTree.ParseText(sourceCode, path: path));
   }
 
-  private readonly SyntaxTree _syntaxTree;
-
-  public CSharpFileSyntaxTree(SyntaxTree syntaxTree)
-  {
-    _syntaxTree = syntaxTree;
-  }
-
-  public AbsoluteFilePath FilePath => AbsoluteFilePath(_syntaxTree.FilePath);
+  public AbsoluteFilePath FilePath => AbsoluteFilePath(syntaxTree.FilePath);
 
   public IEnumerable<string> GetAllUniqueNamespaces()
   {
     var gatheringVisitor = new NamespaceGatheringVisitor();
-    _syntaxTree.GetCompilationUnitRoot().Accept(gatheringVisitor);
+    syntaxTree.GetCompilationUnitRoot().Accept(gatheringVisitor);
     return gatheringVisitor.ToSet();
   }
 
   public IReadOnlyList<string> GetAllUsingsFrom(IReadOnlyDictionary<string, ClassDeclarationInfo> classDeclarationInfos)
   {
     var usingGatheringVisitor = new UsingGatheringVisitor(classDeclarationInfos);
-    _syntaxTree.GetCompilationUnitRoot(CancellationToken.None).Accept(usingGatheringVisitor);
+    syntaxTree.GetCompilationUnitRoot(CancellationToken.None).Accept(usingGatheringVisitor);
     return usingGatheringVisitor.ToList();
   }
 
   public IReadOnlyDictionary<string, ClassDeclarationInfo> GetClassDeclarationSignatures()
   {
     var usingGatheringVisitor = new ClassGatheringVisitor();
-    _syntaxTree.GetCompilationUnitRoot(CancellationToken.None).Accept(usingGatheringVisitor);
+    syntaxTree.GetCompilationUnitRoot(CancellationToken.None).Accept(usingGatheringVisitor);
     var classDeclarationsByFullName = usingGatheringVisitor.ToDictionary();
     return classDeclarationsByFullName;
   }

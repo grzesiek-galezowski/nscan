@@ -1,18 +1,11 @@
-using GlobExpressions;
+﻿using GlobExpressions;
 
 namespace NScan.DependencyPathBasedRules;
 
-public class HasAssemblyNameMatchingPatternCondition : IDependencyCondition
+public class HasAssemblyNameMatchingPatternCondition(Glob dependencyAssemblyNamePattern) : IDependencyCondition
 {
-  private readonly Glob _dependencyAssemblyNamePattern;
-
-  public HasAssemblyNameMatchingPatternCondition(Glob dependencyAssemblyNamePattern)
-  {
-    _dependencyAssemblyNamePattern = dependencyAssemblyNamePattern;
-  }
-
   public bool Matches(IProjectSearchResult depending, IDependencyPathBasedRuleTarget dependency)
   {
-    return dependency.HasProjectAssemblyNameMatching(_dependencyAssemblyNamePattern);
+    return dependency.HasProjectAssemblyNameMatching(dependencyAssemblyNamePattern);
   }
 }

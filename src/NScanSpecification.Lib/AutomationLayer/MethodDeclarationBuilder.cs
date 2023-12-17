@@ -3,15 +3,9 @@ using NScan.SharedKernel.ReadingCSharpSourceCode;
 
 namespace NScanSpecification.Lib.AutomationLayer;
 
-public class MethodDeclarationBuilder
+public class MethodDeclarationBuilder(string name)
 {
-  private readonly string _name;
   private readonly List<string> _attributes = new();
-
-  public MethodDeclarationBuilder(string name)
-  {
-    _name = name;
-  }
 
   public static MethodDeclarationBuilder Method(string name)
   {
@@ -26,6 +20,6 @@ public class MethodDeclarationBuilder
 
   public MethodDeclarationInfo Build()
   {
-    return new MethodDeclarationInfo(_name, _attributes);
+    return new MethodDeclarationInfo(name, _attributes);
   }
 }

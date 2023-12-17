@@ -2,17 +2,10 @@
 
 namespace NScan.Adapters.SecondarySpecification.ReadingRules;
 
-public class NoUsingsRuleComplementDtoAssertion : RuleUnionDtoAssertion
+public class NoUsingsRuleComplementDtoAssertion(Action<NoUsingsRuleComplementDto> action) : RuleUnionDtoAssertion
 {
-  private readonly Action<NoUsingsRuleComplementDto> _action;
-
-  public NoUsingsRuleComplementDtoAssertion(Action<NoUsingsRuleComplementDto> action)
-  {
-    _action = action;
-  }
-
   public override void Visit(NoUsingsRuleComplementDto dto)
   {
-    _action(dto);
+    action(dto);
   }
 }

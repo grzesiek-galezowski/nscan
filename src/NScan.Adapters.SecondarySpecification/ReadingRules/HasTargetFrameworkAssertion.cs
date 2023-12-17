@@ -2,14 +2,7 @@
 
 namespace NScan.Adapters.SecondarySpecification.ReadingRules;
 
-public class HasTargetFrameworkAssertion : RuleUnionDtoAssertion
+public class HasTargetFrameworkAssertion(Action<HasTargetFrameworkRuleComplementDto> action) : RuleUnionDtoAssertion
 {
-  private readonly Action<HasTargetFrameworkRuleComplementDto> _action;
-
-  public HasTargetFrameworkAssertion(Action<HasTargetFrameworkRuleComplementDto> action)
-  {
-    _action = action;
-  }
-
-  public override void Visit(HasTargetFrameworkRuleComplementDto dto) => _action(dto);
+  public override void Visit(HasTargetFrameworkRuleComplementDto dto) => action(dto);
 }

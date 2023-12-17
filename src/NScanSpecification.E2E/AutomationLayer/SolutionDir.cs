@@ -63,11 +63,5 @@ public class SolutionDir
   }
 }
 
-public class SolutionPathDoesNotExistException : Exception
-{
-  public SolutionPathDoesNotExistException(AbsoluteDirectoryPath absoluteSolutionDirectoryPath)
-    : base($"Solution path {absoluteSolutionDirectoryPath} does not exist")
-  {
-      
-  }
-}
+public class SolutionPathDoesNotExistException(AbsoluteDirectoryPath absoluteSolutionDirectoryPath)
+  : Exception($"Solution path {absoluteSolutionDirectoryPath} does not exist");

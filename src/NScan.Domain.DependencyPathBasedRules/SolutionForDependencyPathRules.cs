@@ -5,24 +5,15 @@ using NScan.SharedKernel;
 
 namespace NScan.DependencyPathBasedRules;
 
-public class SolutionForDependencyPathRules 
+public class SolutionForDependencyPathRules(
+  IPathCache pathCache,
+  IReadOnlyDictionary<ProjectId, IDotNetProject> projectsById)
   : ISolutionForDependencyPathBasedRules, ISolutionContext
 {
-  private readonly IPathCache _pathCache;
-  private readonly IReadOnlyDictionary<ProjectId, IDotNetProject> _projectsById;
-
-  public SolutionForDependencyPathRules(
-    IPathCache pathCache,
-    IReadOnlyDictionary<ProjectId, IDotNetProject> projectsById)
-  {
-    _pathCache = pathCache;
-    _projectsById = projectsById;
-  }
-
   public void ResolveAllProjectsReferences()
   {
     //backlog use the analysis report to write what projects are skipped - write a separate acceptance test for that
-    foreach (var referencingProject in _projectsById.Values)
+    foreach (var referencingProject in projectsById.Values)
     {
       referencingProject.ResolveReferencesFrom(this);
     }
@@ -30,7 +21,7 @@ public class SolutionForDependencyPathRules
 
   public void PrintDebugInfo()
   {
-    foreach (var project in _projectsById.Values.Where(v => v.IsRoot()))
+    foreach (var project in projectsById.Values.Where(v => v.IsRoot()))
     {
       project.Print(0);
     }
@@ -40,7 +31,7 @@ public class SolutionForDependencyPathRules
   {
     try
     {
-      var referencedProject = _projectsById[referencedProjectId];
+      var referencedProject = projectsById[referencedProjectId];
 
       referencingProject.ResolveAsReferencing(referencedProject);
       referencedProject.ResolveAsReferenceOf(referencingProject);
@@ -48,7 +39,7 @@ public class SolutionForDependencyPathRules
     catch (KeyNotFoundException e)
     {
       throw new ReferencedProjectNotFoundInSolutionException(
-        CouldNotFindProjectFor(referencedProjectId, _projectsById), e);
+        CouldNotFindProjectFor(referencedProjectId, projectsById), e);
     }
   }
 
@@ -66,12 +57,12 @@ public class SolutionForDependencyPathRules
 
   public void Check(IPathRuleSet ruleSet, IAnalysisReportInProgress analysisReportInProgress)
   {
-    ruleSet.Check(_pathCache, analysisReportInProgress);
+    ruleSet.Check(pathCache, analysisReportInProgress);
   }
 
   public void BuildDependencyPathCache()
   {
-    _pathCache.BuildStartingFrom(RootProjects());
+    pathCache.BuildStartingFrom(RootProjects());
   }
 
   private IDotNetProject[] RootProjects()
@@ -81,7 +72,7 @@ public class SolutionForDependencyPathRules
 
   private IReadOnlyList<IDotNetProject> Projects()
   {
-    return _projectsById.Values.ToList();
+    return projectsById.Values.ToList();
   }
 
 }

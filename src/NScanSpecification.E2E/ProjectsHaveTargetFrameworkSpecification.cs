@@ -5,20 +5,13 @@ using static NScanSpecification.Lib.AutomationLayer.RuleBuilder;
 
 namespace NScanSpecification.E2E;
 
-public class ProjectsHaveTargetFrameworkSpecification
+public class ProjectsHaveTargetFrameworkSpecification(ITestOutputHelper output)
 {
-  private readonly ITestOutputHelper _output;
-
-  public ProjectsHaveTargetFrameworkSpecification(ITestOutputHelper output)
-  {
-    _output = output;
-  }
-
   [Fact]
   public async Task ShouldReportSuccessWhenAllProjectsHaveSpecifiedFramework()
   {
     //GIVEN
-    using var context = new NScanE2EDriver(_output);
+    using var context = new NScanE2EDriver(output);
     context.HasProject("MyProject")
       .WithTargetFramework(TargetFramework.RecentDotNet);
 
@@ -35,7 +28,7 @@ public class ProjectsHaveTargetFrameworkSpecification
   public async Task ShouldReportErrorForProjectsThatDoNotHaveSpecifiedFramework()
   {
     //GIVEN
-    using var context = new NScanE2EDriver(_output);
+    using var context = new NScanE2EDriver(output);
     context.HasProject("MyProject").WithTargetFramework(TargetFramework.RecentDotNet);
 
     context.Add(RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netstandard2.1"));

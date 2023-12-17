@@ -3,16 +3,9 @@ using NScan.SharedKernel;
 
 namespace NScan.DependencyPathBasedRules;
 
-public class PathCache : IPathCache, IFinalDependencyPathDestination
+public class PathCache(IDependencyPathFactory dependencyPathFactory) : IPathCache, IFinalDependencyPathDestination
 {
-  private readonly IDependencyPathFactory _dependencyPathFactory;
-  private readonly List<IProjectDependencyPath> _projectDependencyPaths;
-
-  public PathCache(IDependencyPathFactory dependencyPathFactory)
-  {
-    _dependencyPathFactory = dependencyPathFactory;
-    _projectDependencyPaths = new List<IProjectDependencyPath>();
-  }
+  private readonly List<IProjectDependencyPath> _projectDependencyPaths = new();
 
   public void Add(IProjectDependencyPath projectDependencyPath)
   {
@@ -23,7 +16,7 @@ public class PathCache : IPathCache, IFinalDependencyPathDestination
   {
     foreach (var dotNetProject in rootProjects)
     {
-      dotNetProject.FillAllBranchesOf(_dependencyPathFactory.NewDependencyPathFor(this));
+      dotNetProject.FillAllBranchesOf(dependencyPathFactory.NewDependencyPathFor(this));
     }
   }
 

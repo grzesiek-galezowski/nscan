@@ -5,13 +5,8 @@ using Microsoft.Build.Evaluation;
 
 namespace NScan.Adapters.SecondarySpecification.ReadingCSharpSolution;
 
-public class MsBuildPlayground
+public class MsBuildPlayground(ITestOutputHelper output)
 {
-  public MsBuildPlayground(ITestOutputHelper output)
-  {
-    Output = output;
-  }
-
   [Fact]
   public void Lol()
   {
@@ -72,5 +67,5 @@ public class MsBuildPlayground
     return string.Join('|', projectItem.DirectMetadata.Select(md => md.Name + ":" + md.EvaluatedValue));
   }
 
-  private ITestOutputHelper Output { get; init; }
+  private ITestOutputHelper Output { get; init; } = output;
 }

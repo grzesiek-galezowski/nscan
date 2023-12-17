@@ -1,18 +1,11 @@
-using GlobExpressions;
+﻿using GlobExpressions;
 
 namespace NScan.DependencyPathBasedRules;
 
-public class HasPackageReferenceMatchingCondition : IDependencyCondition
+public class HasPackageReferenceMatchingCondition(Glob packagePattern) : IDependencyCondition
 {
-  private readonly Glob _packagePattern;
-
-  public HasPackageReferenceMatchingCondition(Glob packagePattern)
-  {
-    _packagePattern = packagePattern;
-  }
-
   public bool Matches(IProjectSearchResult depending, IDependencyPathBasedRuleTarget dependency)
   {
-    return dependency.HasPackageReferenceMatching(_packagePattern);
+    return dependency.HasPackageReferenceMatching(packagePattern);
   }
 }

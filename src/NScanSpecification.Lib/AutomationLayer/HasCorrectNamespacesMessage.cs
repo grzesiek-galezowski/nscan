@@ -3,12 +3,8 @@ using static System.Environment;
 
 namespace NScanSpecification.Lib.AutomationLayer;
 
-public class HasCorrectNamespacesMessage : GenericReportedMessage<HasCorrectNamespacesMessage>
+public class HasCorrectNamespacesMessage(string text) : GenericReportedMessage<HasCorrectNamespacesMessage>(text)
 {
-  public HasCorrectNamespacesMessage(string text) : base(text)
-  {
-  }
-
   public HasCorrectNamespacesMessage ButFoundIncorrectNamespaceFor(string fileName, string actualNamespace)
   {
     return NewInstance(ToString() +

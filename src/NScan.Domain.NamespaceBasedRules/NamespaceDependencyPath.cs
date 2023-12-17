@@ -11,22 +11,16 @@ public interface INamespaceDependencyPathFormat
   string ElementIndentation(int elementIndex);
 }
 
-public class NamespaceDependencyPath : ValueType<NamespaceDependencyPath>
+public class NamespaceDependencyPath(ImmutableList<NamespaceName> elements) : ValueType<NamespaceDependencyPath>
 {
-  private readonly ImmutableList<NamespaceName> _elements;
   private static readonly SimpleDependencyPathFormat DefaultFormat = new();
-
-  public NamespaceDependencyPath(ImmutableList<NamespaceName> elements)
-  {
-    _elements = elements;
-  }
 
   public static NamespaceDependencyPath Empty() => new(ImmutableList<NamespaceName>.Empty);
   public static NamespaceDependencyPath With(params NamespaceName[] args) => new(args.ToImmutableList());
 
   protected override IEnumerable<object> GetAllAttributesToBeUsedForEquality()
   {
-    yield return new ListByValue<NamespaceName>(_elements);
+    yield return new ListByValue<NamespaceName>(elements);
   }
 
   public override string ToString()
@@ -36,12 +30,12 @@ public class NamespaceDependencyPath : ValueType<NamespaceDependencyPath>
 
   public bool IsPathToItself()
   {
-    return _elements.Count == 2 && BeginsAndEndsWithTheSameElement();
+    return elements.Count == 2 && BeginsAndEndsWithTheSameElement();
   }
 
   public bool FormsACycleFromFirstElement()
   {
-    return _elements.Count > 2 && BeginsAndEndsWithTheSameElement();
+    return elements.Count > 2 && BeginsAndEndsWithTheSameElement();
   }
 
   public bool ContainsACycleButNotFromFirstElement()
@@ -50,11 +44,11 @@ public class NamespaceDependencyPath : ValueType<NamespaceDependencyPath>
   }
 
   public NamespaceDependencyPath Plus(NamespaceName namespaceName) 
-    => new(_elements.Add(namespaceName).ToImmutableList());
+    => new(elements.Add(namespaceName).ToImmutableList());
 
   public bool HasElements()
   {
-    return _elements.Count > 0;
+    return elements.Count > 0;
   }
 
   private bool IsEquivalentTo(NamespaceDependencyPath other)
@@ -66,19 +60,19 @@ public class NamespaceDependencyPath : ValueType<NamespaceDependencyPath>
   }
   private IOrderedEnumerable<NamespaceName> ElementsOrderedForEquivalencyComparison()
   {
-    return _elements
+    return elements
       .Distinct()
       .OrderBy(s => s.ToString());
   }
 
   private bool BeginsAndEndsWithTheSameElement()
   {
-    return _elements[0] == _elements[^1];
+    return elements[0] == elements[^1];
   }
 
   private bool ContainsANamespaceTwice()
   {
-    return _elements.GroupBy(_ => _).Where(_ => _.Count() > 1).Sum(_ => _.Count()) > 0;
+    return elements.GroupBy(_ => _).Where(_ => _.Count() > 1).Sum(_ => _.Count()) > 0;
   }
 
   public bool IsEquivalentToAnyOf(IEnumerable<NamespaceDependencyPath> cycles)
@@ -89,9 +83,9 @@ public class NamespaceDependencyPath : ValueType<NamespaceDependencyPath>
   public string ToStringFormatted(INamespaceDependencyPathFormat format)
   {
     string result = string.Empty;
-    for (var cycleElementIndex = 0; cycleElementIndex < _elements.Count; cycleElementIndex++)
+    for (var cycleElementIndex = 0; cycleElementIndex < elements.Count; cycleElementIndex++)
     {
-      var segment = _elements[cycleElementIndex].ToString();
+      var segment = elements[cycleElementIndex].ToString();
       result += format.ElementIndentation(cycleElementIndex) + segment + format.ElementTerminator();
     }
 

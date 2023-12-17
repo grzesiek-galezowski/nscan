@@ -2,17 +2,11 @@
 
 namespace NScanSpecification.E2E.AutomationLayer;
 
-public class ProjectReferences
+public class ProjectReferences(DotNetExe dotNetExe)
 {
-  private readonly DotNetExe _dotNetExe;
+  private readonly DotNetExe _dotNetExe = dotNetExe;
 
-  public ProjectReferences(DotNetExe dotNetExe)
-  {
-    _dotNetExe = dotNetExe;
-    ReferencesByProjectName = new List<(string, string)>();
-  }
-
-  private List<(string, string)> ReferencesByProjectName { get; } 
+  private List<(string, string)> ReferencesByProjectName { get; } = new();
 
   public void Add(string projectName, string[] assemblyNames)
   {

@@ -3,17 +3,10 @@ using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 
 namespace NScan.DependencyPathBasedRules;
 
-public class PathBasedRuleLoggingVisitor : IPathBasedRuleDtoVisitor
+public class PathBasedRuleLoggingVisitor(INScanSupport support) : IPathBasedRuleDtoVisitor
 {
-  private readonly INScanSupport _support;
-
-  public PathBasedRuleLoggingVisitor(INScanSupport support)
-  {
-    _support = support;
-  }
-
   public void Visit(IndependentRuleComplementDto dto)
   {
-    _support.Log(dto);
+    support.Log(dto);
   }
 }

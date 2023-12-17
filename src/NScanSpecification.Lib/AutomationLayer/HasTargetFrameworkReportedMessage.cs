@@ -2,12 +2,9 @@
 
 namespace NScanSpecification.Lib.AutomationLayer;
 
-public class HasTargetFrameworkReportedMessage : GenericReportedMessage<HasTargetFrameworkReportedMessage>
+public class HasTargetFrameworkReportedMessage(string text)
+  : GenericReportedMessage<HasTargetFrameworkReportedMessage>(text)
 {
-  public HasTargetFrameworkReportedMessage(string text) : base(text)
-  {
-  }
-
   protected override HasTargetFrameworkReportedMessage NewInstance(string str)
   {
     return new HasTargetFrameworkReportedMessage(str);

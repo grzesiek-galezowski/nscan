@@ -11,31 +11,22 @@ public interface IProjectAnalysis
   void Add(IEnumerable<ProjectScopedRuleUnionDto> rules);
 }
 
-public class ProjectAnalysis : IProjectAnalysis
+public class ProjectAnalysis(
+  ISolutionForProjectScopedRules solution,
+  IProjectScopedRuleSet projectScopedRuleSet,
+  IProjectScopedRuleFactory projectScopedRuleFactory)
+  : IProjectAnalysis
 {
-  private readonly ISolutionForProjectScopedRules _solution;
-  private readonly IProjectScopedRuleSet _projectScopedRuleSet;
-  private readonly IProjectScopedRuleFactory _projectScopedRuleFactory;
-
-  public ProjectAnalysis(ISolutionForProjectScopedRules solution,
-    IProjectScopedRuleSet projectScopedRuleSet,
-    IProjectScopedRuleFactory projectScopedRuleFactory)
-  {
-    _solution = solution;
-    _projectScopedRuleSet = projectScopedRuleSet;
-    _projectScopedRuleFactory = projectScopedRuleFactory;
-  }
-
   public void Perform(IAnalysisReportInProgress analysisReportInProgress)
   {
-    _solution.Check(_projectScopedRuleSet, analysisReportInProgress);
+    solution.Check(projectScopedRuleSet, analysisReportInProgress);
   }
 
   public void Add(IEnumerable<ProjectScopedRuleUnionDto> rules)
   {
     foreach (var ruleUnionDto in rules)
     {
-      ruleUnionDto.Accept(new CreateProjectScopedRuleVisitor(_projectScopedRuleFactory, _projectScopedRuleSet));
+      ruleUnionDto.Accept(new CreateProjectScopedRuleVisitor(projectScopedRuleFactory, projectScopedRuleSet));
     }
   }
 

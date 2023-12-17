@@ -2,20 +2,13 @@
 
 namespace NScanSpecification.E2E;
 
-public class ProjectsHavePropertySpecification
+public class ProjectsHavePropertySpecification(ITestOutputHelper output)
 {
-  private readonly ITestOutputHelper _output;
-
-  public ProjectsHavePropertySpecification(ITestOutputHelper output)
-  {
-    _output = output;
-  }
-
   [Fact]
   public async Task ShouldReportSuccessWhenAllProjectsHaveSpecifiedProperty()
   {
     //GIVEN
-    using var context = new NScanE2EDriver(_output);
+    using var context = new NScanE2EDriver(output);
     context.HasProject("MyProject")
       .WithTargetFramework(TargetFramework.RecentDotNet);
           
@@ -36,7 +29,7 @@ public class ProjectsHavePropertySpecification
   public async Task ShouldReportErrorForProjectsThatDoNotHaveSpecifiedFramework()
   {
     //GIVEN
-    using var context = new NScanE2EDriver(_output);
+    using var context = new NScanE2EDriver(output);
     context.HasProject("MyProject").WithTargetFramework(TargetFramework.RecentDotNet);
 
     context.Add(RuleBuilder.RuleDemandingThat().Project("*MyProject*").HasTargetFramework("netstandard2.1"));

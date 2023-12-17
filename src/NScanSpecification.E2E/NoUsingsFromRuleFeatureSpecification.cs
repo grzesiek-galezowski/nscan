@@ -5,20 +5,13 @@ using static NScanSpecification.Lib.AutomationLayer.SourceCodeFileDtoBuilder;
 
 namespace NScanSpecification.E2E;
 
-public class NoUsingsFromRuleFeatureSpecification
+public class NoUsingsFromRuleFeatureSpecification(ITestOutputHelper output)
 {
-  private readonly ITestOutputHelper _output;
-
-  public NoUsingsFromRuleFeatureSpecification(ITestOutputHelper output)
-  {
-    _output = output;
-  }
-
   [Fact]
   public async Task ShouldReportSuccessWhenThereAreNoCircularDependenciesBetweenNamespaces()
   {
     //GIVEN
-    using var context = new NScanE2EDriver(_output);
+    using var context = new NScanE2EDriver(output);
     context.HasProject("MyProject")
       .WithRootNamespace("MyProject")
       .With(FileWithNamespace("Port.cs", "MyProject.Ports"))
@@ -37,7 +30,7 @@ public class NoUsingsFromRuleFeatureSpecification
   public async Task ShouldReportFailureWhenThereAreForbiddenUsingDependenciesBetweenNamespaces()
   {
     //GIVEN
-    using var context = new NScanE2EDriver(_output);
+    using var context = new NScanE2EDriver(output);
     context.HasProject("MyProject")
       .WithRootNamespace("MyProject")
       .With(FileWithNamespace("Port.cs", "MyProject.Ports").Using("MyProject.Adapters"))

@@ -5,15 +5,9 @@ using NScan.SharedKernel;
 
 namespace TddXt.NScan.Domain;
 
-public class SingleRuleReport : ISingleRuleReport
+public class SingleRuleReport(RuleDescription ruleDescription) : ISingleRuleReport
 {
-  private readonly RuleDescription _ruleDescription;
   private readonly HashSet<RuleViolation> _violations = new();
-
-  public SingleRuleReport(RuleDescription ruleDescription)
-  {
-    _ruleDescription = ruleDescription;
-  }
 
   public bool IsFailed()
   {
@@ -29,11 +23,11 @@ public class SingleRuleReport : ISingleRuleReport
   {
     if (_violations.Any())
     {
-      resultBuilder.AppendViolations(_ruleDescription, ViolationsString());
+      resultBuilder.AppendViolations(ruleDescription, ViolationsString());
     }
     else
     {
-      resultBuilder.AppendOk(_ruleDescription);
+      resultBuilder.AppendOk(ruleDescription);
     }
   }
 

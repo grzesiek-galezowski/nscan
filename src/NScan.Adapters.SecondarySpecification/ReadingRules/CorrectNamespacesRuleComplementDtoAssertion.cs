@@ -2,14 +2,8 @@
 
 namespace NScan.Adapters.SecondarySpecification.ReadingRules;
 
-public class CorrectNamespacesRuleComplementDtoAssertion : RuleUnionDtoAssertion
+public class CorrectNamespacesRuleComplementDtoAssertion(Action<CorrectNamespacesRuleComplementDto> action)
+  : RuleUnionDtoAssertion
 {
-  private readonly Action<CorrectNamespacesRuleComplementDto> _action;
-
-  public CorrectNamespacesRuleComplementDtoAssertion(Action<CorrectNamespacesRuleComplementDto> action)
-  {
-    _action = action;
-  }
-
-  public override void Visit(CorrectNamespacesRuleComplementDto dto) => _action(dto);
+  public override void Visit(CorrectNamespacesRuleComplementDto dto) => action(dto);
 }

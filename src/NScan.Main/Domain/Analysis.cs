@@ -11,40 +11,27 @@ using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
 namespace TddXt.NScan.Domain;
 
-public class Analysis
+public class Analysis(
+  IAnalysisReportInProgress analysisReportInProgress,
+  IDependencyAnalysis dependencyAnalysis,
+  IProjectAnalysis projectAnalysis,
+  IProjectNamespacesAnalysis projectNamespacesAnalysis,
+  IResultBuilderFactory resultBuilderFactory)
 {
   public const int ReturnCodeOk = 0;
   public const int ReturnCodeAnalysisFailed = -1;
-  private readonly IAnalysisReportInProgress _analysisReportInProgress;
-  private readonly IDependencyAnalysis _dependencyAnalysis;
-  private readonly IProjectAnalysis _projectAnalysis;
-  private readonly IProjectNamespacesAnalysis  _projectNamespacesAnalysis;
-  private readonly IResultBuilderFactory _resultBuilderFactory;
-
-  public Analysis(IAnalysisReportInProgress analysisReportInProgress,
-    IDependencyAnalysis dependencyAnalysis,
-    IProjectAnalysis projectAnalysis,
-    IProjectNamespacesAnalysis projectNamespacesAnalysis, 
-    IResultBuilderFactory resultBuilderFactory)
-  {
-    _analysisReportInProgress = analysisReportInProgress;
-    _dependencyAnalysis = dependencyAnalysis;
-    _projectAnalysis = projectAnalysis;
-    _projectNamespacesAnalysis = projectNamespacesAnalysis;
-    _resultBuilderFactory = resultBuilderFactory;
-  }
 
   public string Report
   {
     get
     {
-      var resultBuilder = _resultBuilderFactory.NewResultBuilder();
-      _analysisReportInProgress.PutContentInto(resultBuilder);
+      var resultBuilder = resultBuilderFactory.NewResultBuilder();
+      analysisReportInProgress.PutContentInto(resultBuilder);
       return resultBuilder.Text();
     }
   }
 
-  public int ReturnCode => _analysisReportInProgress.IsFailure() ? -1 : 0; //bug UI implementation leak
+  public int ReturnCode => analysisReportInProgress.IsFailure() ? -1 : 0; //bug UI implementation leak
 
   public static Analysis PrepareFor(IEnumerable<CsharpProjectDto> csharpProjectDtos, INScanSupport support)
   {
@@ -57,23 +44,23 @@ public class Analysis
   public void Run()
   {
     //_solution.PrintDebugInfo();
-    _dependencyAnalysis.Perform(_analysisReportInProgress);
-    _projectAnalysis.Perform(_analysisReportInProgress);
-    _projectNamespacesAnalysis.PerformOn(_analysisReportInProgress);
+    dependencyAnalysis.Perform(analysisReportInProgress);
+    projectAnalysis.Perform(analysisReportInProgress);
+    projectNamespacesAnalysis.PerformOn(analysisReportInProgress);
   }
 
   public void AddDependencyPathRules(IEnumerable<DependencyPathBasedRuleUnionDto> rules)
   {
-    _dependencyAnalysis.Add(rules);
+    dependencyAnalysis.Add(rules);
   }
 
   public void AddProjectScopedRules(IEnumerable<ProjectScopedRuleUnionDto> rules)
   {
-    _projectAnalysis.Add(rules);
+    projectAnalysis.Add(rules);
   }
 
   public void AddNamespaceBasedRules(IEnumerable<NamespaceBasedRuleUnionDto> rules)
   {
-    _projectNamespacesAnalysis.Add(rules);
+    projectNamespacesAnalysis.Add(rules);
   }
 }

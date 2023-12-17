@@ -6,15 +6,8 @@ using static NScanSpecification.Lib.AutomationLayer.MethodDeclarationBuilder;
 
 namespace NScanSpecification.E2E;
 
-public class AllMethodsDecoratedWithAttributesFeatureSpecification
+public class AllMethodsDecoratedWithAttributesFeatureSpecification(ITestOutputHelper output)
 {
-  private readonly ITestOutputHelper _output;
-
-  public AllMethodsDecoratedWithAttributesFeatureSpecification(ITestOutputHelper output)
-  {
-    _output = output;
-  }
-
   [Fact]
   public async Task ShouldRaiseErrorWhenMethodsMatchingPatternAreNotDecoratedWithAttributes()
   {
@@ -28,7 +21,7 @@ public class AllMethodsDecoratedWithAttributesFeatureSpecification
     const string matchingMethod2Name = "ShouldB";
     const string className = "MySpecification";
 
-    using var context = new NScanE2EDriver(_output);
+    using var context = new NScanE2EDriver(output);
     context.HasProject(projectName)
       .With(File(Any.CSharpFileName()).Containing(
         Class(className).With(

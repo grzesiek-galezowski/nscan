@@ -58,13 +58,7 @@ public static class NScan
 
 }
 
-public class NScanFailedException : Exception
-{
-  public NScanFailedException(int result) : base($"NScan failed with result: {result}")
-  {
-
-  }
-}
+public class NScanFailedException(int result) : Exception($"NScan failed with result: {result}");
 
 public class NScanSettings
 {

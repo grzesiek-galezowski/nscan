@@ -2,15 +2,8 @@
 
 namespace NScan.SharedKernel.ReadingCSharpSourceCode;
 
-public class MethodDeclarationInfo
+public class MethodDeclarationInfo(string name, IReadOnlyList<string> attributes)
 {
-  public string Name { get; }
-  public IReadOnlyList<string> Attributes { get; }
-
-  public MethodDeclarationInfo(string name, IReadOnlyList<string> attributes)
-  {
-    Name = name;
-    Attributes = attributes;
-  }
-
+  public string Name { get; } = name;
+  public IReadOnlyList<string> Attributes { get; } = attributes;
 }

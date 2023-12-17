@@ -11,28 +11,16 @@ public interface IPropertyCheck
     IAnalysisReportInProgress report);
 }
 
-public class HasPropertyValueRule : IProjectScopedRule, IPropertyCheck
+public class HasPropertyValueRule(
+  string propertyName,
+  Pattern expectedPropertyValuePattern,
+  IProjectScopedRuleViolationFactory violationFactory,
+  RuleDescription description)
+  : IProjectScopedRule, IPropertyCheck
 {
-  private readonly IProjectScopedRuleViolationFactory _violationFactory;
-  private readonly string _propertyName;
-  private readonly Pattern _expectedPropertyValuePattern;
-  private readonly RuleDescription _ruleDescription;
-
-  public HasPropertyValueRule(
-    string propertyName,
-    Pattern expectedPropertyValuePattern,
-    IProjectScopedRuleViolationFactory violationFactory, 
-    RuleDescription description)
-  {
-    _violationFactory = violationFactory;
-    _propertyName = propertyName;
-    _expectedPropertyValuePattern = expectedPropertyValuePattern;
-    _ruleDescription = description;
-  }
-
   public RuleDescription Description()
   {
-    return _ruleDescription;
+    return description;
   }
 
   public void Check(IProjectScopedRuleTarget project, IAnalysisReportInProgress report)
@@ -45,17 +33,17 @@ public class HasPropertyValueRule : IProjectScopedRule, IPropertyCheck
     IReadOnlyDictionary<string, string> properties,
     IAnalysisReportInProgress report)
   {
-    if (properties.ContainsKey(_propertyName))
+    if (properties.ContainsKey(propertyName))
     {
-      var propertyValue = properties[_propertyName];
-      if (!_expectedPropertyValuePattern.IsMatchedBy(propertyValue))
+      var propertyValue = properties[propertyName];
+      if (!expectedPropertyValuePattern.IsMatchedBy(propertyValue))
       {
-        report.Add(_violationFactory.ProjectScopedRuleViolation(_ruleDescription, $"Project {name} has {_propertyName}:{propertyValue}"));
+        report.Add(violationFactory.ProjectScopedRuleViolation(description, $"Project {name} has {propertyName}:{propertyValue}"));
       }
     }
     else
     {
-      report.Add(_violationFactory.ProjectScopedRuleViolation(_ruleDescription, $"Project {name} does not have {_propertyName} set explicitly"));
+      report.Add(violationFactory.ProjectScopedRuleViolation(description, $"Project {name} does not have {propertyName} set explicitly"));
     }
   }
 }

@@ -17,59 +17,50 @@ public interface IProjectDependencyPath
     IProjectSearchResult dependency);
 }
 
-public class ProjectDependencyPath : IProjectDependencyPath
+public class ProjectDependencyPath(
+  IReadOnlyList<IDependencyPathBasedRuleTarget> path,
+  IProjectFoundSearchResultFactory projectFoundSearchResultFactory)
+  : IProjectDependencyPath
 {
-  private readonly IReadOnlyList<IDependencyPathBasedRuleTarget> _path;
-  private readonly IProjectFoundSearchResultFactory _projectFoundSearchResultFactory;
-
-  public ProjectDependencyPath(
-    IReadOnlyList<IDependencyPathBasedRuleTarget> path,
-    IProjectFoundSearchResultFactory projectFoundSearchResultFactory)
-  {
-    _path = path;
-    _projectFoundSearchResultFactory = projectFoundSearchResultFactory;
-  }
-
-
   public IProjectSearchResult AssemblyMatching(IDescribedDependencyCondition condition,
     IProjectSearchResult depending)
   {
-    if (_path.Any(Predicates.ProjectMeets(condition, depending)))
+    if (path.Any(Predicates.ProjectMeets(condition, depending)))
     {
       var (projectFound, indexFound) = FindWithIndexWhere(Predicates.ProjectMeets(condition, depending));
-      return _projectFoundSearchResultFactory.ItemFound(projectFound, indexFound);
+      return projectFoundSearchResultFactory.ItemFound(projectFound, indexFound);
     }
     else
     {
-      return _projectFoundSearchResultFactory.ItemNotFound();
+      return projectFoundSearchResultFactory.ItemNotFound();
     }
   }
 
 
   public IProjectSearchResult AssemblyWithNameMatching(Pattern pattern)
   {
-    if (_path.Any(Predicates.AssemblyNameMatches(pattern)))
+    if (path.Any(Predicates.AssemblyNameMatches(pattern)))
     {
       var (foundProject, occurenceIndex)
         = FindWithIndexWhere(Predicates.AssemblyNameMatches(pattern));
-      return _projectFoundSearchResultFactory.ItemFound(foundProject, occurenceIndex);
+      return projectFoundSearchResultFactory.ItemFound(foundProject, occurenceIndex);
     }
     else
 
     {
-      return _projectFoundSearchResultFactory.ItemNotFound();
+      return projectFoundSearchResultFactory.ItemNotFound();
     }
   }
 
   public IReadOnlyList<IDependencyPathBasedRuleTarget> SegmentBetween(IProjectSearchResult dependingProjectSearchResult,
     IProjectSearchResult dependency)
   {
-    return dependingProjectSearchResult.SegmentEndingWith(dependency, _path);
+    return dependingProjectSearchResult.SegmentEndingWith(dependency, path);
   }
 
   private (IDependencyPathBasedRuleTarget, int) FindWithIndexWhere(Func<IDependencyPathBasedRuleTarget, bool> assemblyNameMatches)
   {
-    return _path
+    return path
       .Select((project, i) => (project, i))
       .First(tuple => assemblyNameMatches(tuple.Item1));
   }

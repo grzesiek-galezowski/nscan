@@ -9,15 +9,9 @@ using static AtmaFileSystem.AtmaFileSystemPaths;
 
 namespace NScanSpecification.E2E.AutomationLayer;
 
-public class ProjectsCollection
+public class ProjectsCollection(DotNetExe dotNetExe)
 {
-  private readonly DotNetExe _dotNetExe;
   private readonly Dictionary<string, ProjectCreator> _projects = new();
-
-  public ProjectsCollection(DotNetExe dotNetExe)
-  {
-    _dotNetExe = dotNetExe;
-  }
 
   public void Add(ProjectDefinition projectDefinition)
   {
@@ -30,7 +24,7 @@ public class ProjectsCollection
 
   public async Task AddToSolution(string solutionName, CancellationToken cancellationToken)
   {
-    await _dotNetExe.RunWith(
+    await dotNetExe.RunWith(
       $"sln {solutionName}.sln add {string.Join(" ", _projects.Select(p => p.Key))}", cancellationToken);
   }
 

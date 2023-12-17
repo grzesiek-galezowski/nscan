@@ -5,17 +5,12 @@ using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 
 namespace NScan.DependencyPathBasedRules;
 
-public class DependencyPathRuleFactory : IDependencyBasedRuleFactory
+public class DependencyPathRuleFactory(IDependencyPathRuleViolationFactory ruleViolationFactory)
+  : IDependencyBasedRuleFactory
 {
   public const string ProjectDependencyType = "project";
   public const string PackageDependencyType = "package";
   public const string AssemblyDependencyType = "assembly";
-  private readonly IDependencyPathRuleViolationFactory _ruleViolationFactory;
-
-  public DependencyPathRuleFactory(IDependencyPathRuleViolationFactory ruleViolationFactory)
-  {
-    _ruleViolationFactory = ruleViolationFactory;
-  }
 
   public IDependencyRule CreateDependencyRuleFrom(IndependentRuleComplementDto independentRuleComplementDto)
   {
@@ -58,7 +53,7 @@ public class DependencyPathRuleFactory : IDependencyBasedRuleFactory
         new HasAssemblyNameMatchingPatternCondition(
           dependencyNamePattern), 
         ruleDescription), 
-      dependingNamePattern, _ruleViolationFactory);
+      dependingNamePattern, ruleViolationFactory);
   }
 
   private IDependencyRule CreateIndependentOfPackageRule(
@@ -74,7 +69,7 @@ public class DependencyPathRuleFactory : IDependencyBasedRuleFactory
       new DescribedCondition(
         new HasPackageReferenceMatchingCondition(packageNamePattern), description), 
       dependingAssemblyNamePattern, 
-      _ruleViolationFactory);
+      ruleViolationFactory);
   }
 
   private IDependencyRule CreateIndependentOfAssemblyRule(
@@ -90,6 +85,6 @@ public class DependencyPathRuleFactory : IDependencyBasedRuleFactory
       new DescribedCondition(
         new HasAssemblyReferenceMatchingCondition(assemblyNamePattern), 
         description), 
-      dependingAssemblyNamePattern, _ruleViolationFactory);
+      dependingAssemblyNamePattern, ruleViolationFactory);
   }
 }

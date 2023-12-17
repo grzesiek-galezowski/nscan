@@ -3,45 +3,37 @@ using System.Linq;
 
 namespace NScan.DependencyPathBasedRules;
 
-public class ProjectFoundSearchResult : IProjectSearchResult
+public class ProjectFoundSearchResult(IDependencyPathBasedRuleTarget foundProject, int occurenceIndex)
+  : IProjectSearchResult
 {
-  private readonly IDependencyPathBasedRuleTarget _foundProject;
-  private readonly int _occurenceIndex;
-
-  public ProjectFoundSearchResult(IDependencyPathBasedRuleTarget foundProject, int occurenceIndex)
-  {
-    _foundProject = foundProject;
-    _occurenceIndex = occurenceIndex;
-  }
-
   public bool Exists() => true;
 
   public IReadOnlyList<IDependencyPathBasedRuleTarget> SegmentEndingWith(
     IProjectSearchResult terminator, 
     IEnumerable<IDependencyPathBasedRuleTarget> path)
   {
-    return terminator.TerminatedSegmentStartingFrom(_occurenceIndex, path);
+    return terminator.TerminatedSegmentStartingFrom(occurenceIndex, path);
   }
 
   public IReadOnlyList<IDependencyPathBasedRuleTarget> TerminatedSegmentStartingFrom(
     int index, 
     IEnumerable<IDependencyPathBasedRuleTarget> path)
   {
-    return path.ToList().GetRange(index, _occurenceIndex - index + 1);
+    return path.ToList().GetRange(index, occurenceIndex - index + 1);
   }
 
   public bool  IsNot(IDependencyPathBasedRuleTarget e)
   {
-    return !_foundProject.Equals(e);
+    return !foundProject.Equals(e);
   }
 
   public bool IsNotBefore(IProjectSearchResult dependingProjectSearchResult)
   {
-    return dependingProjectSearchResult.IsNotAfter(_occurenceIndex);
+    return dependingProjectSearchResult.IsNotAfter(occurenceIndex);
   }
 
-  public bool IsNotAfter(int occurenceIndex)
+  public bool IsNotAfter(int index)
   {
-    return occurenceIndex >= _occurenceIndex;
+    return index >= occurenceIndex;
   }
 }

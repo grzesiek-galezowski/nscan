@@ -1,11 +1,7 @@
 ﻿namespace NScanSpecification.Lib.AutomationLayer;
 
-public abstract class GenericReportedMessage<T> : ReportedMessage
+public abstract class GenericReportedMessage<T>(string text) : ReportedMessage(text)
 {
-  protected GenericReportedMessage(string text) : base(text)
-  {
-  }
-
   public T Error()
   {
     return NewInstance(ToString() + ": [ERROR]");

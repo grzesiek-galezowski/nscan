@@ -2,17 +2,11 @@
 
 namespace NScan.Adapters.SecondarySpecification.ReadingRules;
 
-public class NoCircularUsingsRuleComplementDtoAssertion : RuleUnionDtoAssertion
+public class NoCircularUsingsRuleComplementDtoAssertion(Action<NoCircularUsingsRuleComplementDto> action)
+  : RuleUnionDtoAssertion
 {
-  private readonly Action<NoCircularUsingsRuleComplementDto> _action;
-
-  public NoCircularUsingsRuleComplementDtoAssertion(Action<NoCircularUsingsRuleComplementDto> action)
-  {
-    _action = action;
-  }
-
   public override void Visit(NoCircularUsingsRuleComplementDto dto)
   {
-    _action(dto);
+    action(dto);
   }
 }

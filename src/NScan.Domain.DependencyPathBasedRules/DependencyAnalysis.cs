@@ -12,32 +12,24 @@ public interface IDependencyAnalysis
   void Add(IEnumerable<DependencyPathBasedRuleUnionDto> rules);
 }
 
-public class DependencyAnalysis : IDependencyAnalysis
+public class DependencyAnalysis(
+  ISolutionForDependencyPathBasedRules solution,
+  IPathRuleSet pathRuleSet,
+  IDependencyBasedRuleFactory dependencyBasedRuleFactory)
+  : IDependencyAnalysis
 {
-  private readonly ISolutionForDependencyPathBasedRules _solution;
-  private readonly IPathRuleSet _pathRuleSet;
-  private readonly IDependencyBasedRuleFactory _dependencyBasedRuleFactory;
-
-  public DependencyAnalysis(ISolutionForDependencyPathBasedRules solution,
-    IPathRuleSet pathRuleSet, IDependencyBasedRuleFactory dependencyBasedRuleFactory)
-  {
-    _solution = solution;
-    _pathRuleSet = pathRuleSet;
-    _dependencyBasedRuleFactory = dependencyBasedRuleFactory;
-  }
-
   public void Perform(IAnalysisReportInProgress analysisReportInProgress)
   {
-    _solution.ResolveAllProjectsReferences();
-    _solution.BuildDependencyPathCache();
-    _solution.Check(_pathRuleSet, analysisReportInProgress);
+    solution.ResolveAllProjectsReferences();
+    solution.BuildDependencyPathCache();
+    solution.Check(pathRuleSet, analysisReportInProgress);
   }
 
   public void Add(IEnumerable<DependencyPathBasedRuleUnionDto> rules)
   {
     foreach (var ruleUnionDto in rules)
     {
-      ruleUnionDto.Accept(new CreateDependencyBasedRuleVisitor(_dependencyBasedRuleFactory, _pathRuleSet));
+      ruleUnionDto.Accept(new CreateDependencyBasedRuleVisitor(dependencyBasedRuleFactory, pathRuleSet));
     }
   }
 

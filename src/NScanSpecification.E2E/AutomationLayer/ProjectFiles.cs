@@ -8,16 +8,9 @@ using static AtmaFileSystem.AtmaFileSystemPaths;
 
 namespace NScanSpecification.E2E.AutomationLayer;
 
-public class ProjectFiles
+public class ProjectFiles(SolutionDir dir)
 {
-  private readonly SolutionDir _dir;
-  private readonly Dictionary<string, List<SourceCodeFileDto>> _filesByProject;
-
-  public ProjectFiles(SolutionDir dir)
-  {
-    _dir = dir;
-    _filesByProject = new Dictionary<string, List<SourceCodeFileDto>>();
-  }
+  private readonly Dictionary<string, List<SourceCodeFileDto>> _filesByProject = new();
 
   public async Task AddFilesToProjects(CancellationToken cancellationToken)
   {
@@ -25,7 +18,7 @@ public class ProjectFiles
     {
       foreach (var sourceCodeFile in _filesByProject[projectName])
       {
-        var fileInfo = _dir.PathToFileInProject(DirectoryName(projectName), sourceCodeFile);
+        var fileInfo = dir.PathToFileInProject(DirectoryName(projectName), sourceCodeFile);
         var projectDirectoryInfo = fileInfo.Directory.OrThrow();
         if (!projectDirectoryInfo.Exists)
         {

@@ -4,15 +4,9 @@ using NScan.SharedKernel;
 
 namespace NScan.NamespaceBasedRules;
 
-public class NamespaceBasedRuleViolationFactory : INamespaceBasedRuleViolationFactory
+public class NamespaceBasedRuleViolationFactory(INamespaceBasedReportFragmentsFormat reportFragmentsFormat)
+  : INamespaceBasedRuleViolationFactory
 {
-  private readonly INamespaceBasedReportFragmentsFormat _reportFragmentsFormat;
-
-  public NamespaceBasedRuleViolationFactory(INamespaceBasedReportFragmentsFormat reportFragmentsFormat)
-  {
-    _reportFragmentsFormat = reportFragmentsFormat;
-  }
-
   public RuleViolation NoCyclesRuleViolation(
     RuleDescription description,
     AssemblyName projectAssemblyName,
@@ -21,7 +15,7 @@ public class NamespaceBasedRuleViolationFactory : INamespaceBasedRuleViolationFa
     return RuleViolation.Create(
       description, 
       $"Discovered cycle(s) in project {projectAssemblyName}:{Environment.NewLine}", 
-      _reportFragmentsFormat.ApplyTo(cycles, "Cycle"));
+      reportFragmentsFormat.ApplyTo(cycles, "Cycle"));
   }
 
   public RuleViolation NoUsingsRuleViolation(
@@ -32,6 +26,6 @@ public class NamespaceBasedRuleViolationFactory : INamespaceBasedRuleViolationFa
     return RuleViolation.Create(
       description, 
       $"Discovered violation(s) in project {projectAssemblyName}:{Environment.NewLine}", 
-      _reportFragmentsFormat.ApplyTo(pathsFound, "Violation"));
+      reportFragmentsFormat.ApplyTo(pathsFound, "Violation"));
   }
 }

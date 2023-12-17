@@ -3,32 +3,22 @@ using NScan.SharedKernel;
 
 namespace NScan.NamespaceBasedRules;
 
-public class NamespaceBasedRuleTarget : INamespaceBasedRuleTarget
+public class NamespaceBasedRuleTarget(
+  AssemblyName assemblyName,
+  IReadOnlyList<ISourceCodeFileUsingNamespaces> sourceCodeFiles,
+  INamespacesDependenciesCache namespacesDependenciesCache)
+  : INamespaceBasedRuleTarget
 {
-  private readonly IReadOnlyList<ISourceCodeFileUsingNamespaces> _sourceCodeFiles;
-  private readonly INamespacesDependenciesCache _namespacesDependenciesCache;
-  private readonly AssemblyName _projectAssemblyName;
-
-  public NamespaceBasedRuleTarget(
-    AssemblyName assemblyName,
-    IReadOnlyList<ISourceCodeFileUsingNamespaces> sourceCodeFiles,
-    INamespacesDependenciesCache namespacesDependenciesCache)
-  {
-    _sourceCodeFiles = sourceCodeFiles;
-    _namespacesDependenciesCache = namespacesDependenciesCache;
-    _projectAssemblyName = assemblyName;
-  }
-
   public void RefreshNamespacesCache()
   {
-    foreach (var sourceCodeFile in _sourceCodeFiles)
+    foreach (var sourceCodeFile in sourceCodeFiles)
     {
-      sourceCodeFile.AddNamespaceMappingTo(_namespacesDependenciesCache);
+      sourceCodeFile.AddNamespaceMappingTo(namespacesDependenciesCache);
     }
   }
 
   public void Evaluate(INamespacesBasedRule rule, IAnalysisReportInProgress report)
   {
-    rule.Evaluate(_projectAssemblyName, _namespacesDependenciesCache, report);
+    rule.Evaluate(assemblyName, namespacesDependenciesCache, report);
   }
 }

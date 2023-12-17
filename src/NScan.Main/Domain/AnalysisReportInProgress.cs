@@ -4,15 +4,9 @@ using NScan.SharedKernel;
 
 namespace TddXt.NScan.Domain;
 
-public class AnalysisReportInProgress : IAnalysisReportInProgress
+public class AnalysisReportInProgress(IRuleReportFactory ruleReportFactory) : IAnalysisReportInProgress
 {
   private readonly Dictionary<RuleDescription, ISingleRuleReport> _reportsByRule = new();
-  private readonly IRuleReportFactory _ruleReportFactory;
-
-  public AnalysisReportInProgress(IRuleReportFactory ruleReportFactory)
-  {
-    _ruleReportFactory = ruleReportFactory;
-  }
 
   public void PutContentInto(IResultBuilder resultBuilder)
   {
@@ -57,7 +51,7 @@ public class AnalysisReportInProgress : IAnalysisReportInProgress
   {
     if (!_reportsByRule.Keys.Contains(ruleName))
     {
-      _reportsByRule[ruleName] = _ruleReportFactory.EmptyReportFor(ruleName);
+      _reportsByRule[ruleName] = ruleReportFactory.EmptyReportFor(ruleName);
     }
   }
 }

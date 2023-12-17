@@ -4,20 +4,14 @@ using NScan.SharedKernel.RuleDtos.NamespaceBased;
 
 namespace NScan.NamespaceBasedRules;
 
-public class NoCircularUsingsRule : INamespacesBasedRule
+public class NoCircularUsingsRule(
+  NoCircularUsingsRuleComplementDto ruleDto,
+  INamespaceBasedRuleViolationFactory ruleViolationFactory)
+  : INamespacesBasedRule
 {
-  private readonly NoCircularUsingsRuleComplementDto _ruleDto;
-  private readonly INamespaceBasedRuleViolationFactory _ruleViolationFactory;
-
-  public NoCircularUsingsRule(NoCircularUsingsRuleComplementDto ruleDto, INamespaceBasedRuleViolationFactory ruleViolationFactory)
-  {
-    _ruleDto = ruleDto;
-    _ruleViolationFactory = ruleViolationFactory;
-  }
-
   public RuleDescription Description()
   {
-    return HasNoCircularUsingsRuleMetadata.Format(_ruleDto);
+    return HasNoCircularUsingsRuleMetadata.Format(ruleDto);
   }
 
   public void Evaluate(AssemblyName projectAssemblyName,
@@ -28,7 +22,7 @@ public class NoCircularUsingsRule : INamespacesBasedRule
     if (cycles.Any())
     {
       report.Add(
-        _ruleViolationFactory.NoCyclesRuleViolation(Description(), projectAssemblyName, cycles));
+        ruleViolationFactory.NoCyclesRuleViolation(Description(), projectAssemblyName, cycles));
     }
   }
 }

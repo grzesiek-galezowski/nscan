@@ -7,45 +7,29 @@ using NScan.SharedKernel;
 
 namespace NScan.ProjectScopedRules;
 
-public class SourceCodeFile : ISourceCodeFileInNamespace
+public class SourceCodeFile(
+  IProjectScopedRuleViolationFactory ruleViolationFactory,
+  IReadOnlyList<string> declaredNamespaces,
+  string parentProjectAssemblyName,
+  string parentProjectRootNamespace,
+  RelativeFilePath pathRelativeToProjectRoot,
+  ICSharpClass[] classes)
+  : ISourceCodeFileInNamespace
 {
-  private readonly IProjectScopedRuleViolationFactory _ruleViolationFactory;
-  private readonly IReadOnlyList<string> _declaredNamespaces;
-  private readonly string _parentProjectAssemblyName;
-  private readonly string _parentProjectRootNamespace;
-  private readonly RelativeFilePath _pathRelativeToProjectRoot;
-  private readonly ICSharpClass[] _classes;
-
-  public SourceCodeFile(
-    IProjectScopedRuleViolationFactory ruleViolationFactory,
-    IReadOnlyList<string> declaredNamespaces,
-    string parentProjectAssemblyName,
-    string parentProjectRootNamespace,
-    RelativeFilePath pathRelativeToProjectRoot, 
-    ICSharpClass[] classes)
-  {
-    _ruleViolationFactory = ruleViolationFactory;
-    _declaredNamespaces = declaredNamespaces;
-    _parentProjectAssemblyName = parentProjectAssemblyName;
-    _parentProjectRootNamespace = parentProjectRootNamespace;
-    _pathRelativeToProjectRoot = pathRelativeToProjectRoot;
-    _classes = classes;
-  }
-
   public void CheckNamespacesCorrectness(IAnalysisReportInProgress report, RuleDescription description)
   {
-    if (_declaredNamespaces.Count == 0)
+    if (declaredNamespaces.Count == 0)
     {
-      report.Add(_ruleViolationFactory.ProjectScopedRuleViolation(
+      report.Add(ruleViolationFactory.ProjectScopedRuleViolation(
         description, ViolationDescription("has no namespace declared")));
     }
-    else if (_declaredNamespaces.Count > 1)
+    else if (declaredNamespaces.Count > 1)
     {
-      report.Add(_ruleViolationFactory.ProjectScopedRuleViolation(description, ViolationDescription($"declares multiple namespaces: {NamespacesString()}")));
+      report.Add(ruleViolationFactory.ProjectScopedRuleViolation(description, ViolationDescription($"declares multiple namespaces: {NamespacesString()}")));
     }
-    else if (!_declaredNamespaces.Contains(CorrectNamespace()))
+    else if (!declaredNamespaces.Contains(CorrectNamespace()))
     {
-      report.Add(_ruleViolationFactory.ProjectScopedRuleViolation(description, ViolationDescription($"has incorrect namespace {_declaredNamespaces.Single()}"))
+      report.Add(ruleViolationFactory.ProjectScopedRuleViolation(description, ViolationDescription($"has incorrect namespace {declaredNamespaces.Single()}"))
       );
     }
   }
@@ -56,7 +40,7 @@ public class SourceCodeFile : ISourceCodeFileInNamespace
     Pattern methodNameInclusionPattern, 
     RuleDescription description)
   {
-    foreach (var cSharpClass in _classes)
+    foreach (var cSharpClass in classes)
     {
       if (cSharpClass.NameMatches(classNameInclusionPattern))
       {
@@ -67,32 +51,32 @@ public class SourceCodeFile : ISourceCodeFileInNamespace
 
   private string NamespacesString()
   {
-    return string.Join(", ", _declaredNamespaces);
+    return string.Join(", ", declaredNamespaces);
   }
 
   private string ViolationDescription(string reason)
   {
-    return _parentProjectAssemblyName + " has root namespace " +
-           _parentProjectRootNamespace + " but the file "
-           + _pathRelativeToProjectRoot + " " + reason;
+    return parentProjectAssemblyName + " has root namespace " +
+           parentProjectRootNamespace + " but the file "
+           + pathRelativeToProjectRoot + " " + reason;
   }
 
   private string CorrectNamespace()
   {
-    if (!_pathRelativeToProjectRoot.ParentDirectory().HasValue)
+    if (!pathRelativeToProjectRoot.ParentDirectory().HasValue)
     {
-      return _parentProjectRootNamespace;
+      return parentProjectRootNamespace;
     }
     else
     {
-      var fileLocationRelativeToProjectDir = _pathRelativeToProjectRoot.ParentDirectory().Value();
+      var fileLocationRelativeToProjectDir = pathRelativeToProjectRoot.ParentDirectory().Value();
       return
-        $"{_parentProjectRootNamespace}.{fileLocationRelativeToProjectDir.ToString().Replace(Path.DirectorySeparatorChar, '.')}";
+        $"{parentProjectRootNamespace}.{fileLocationRelativeToProjectDir.ToString().Replace(Path.DirectorySeparatorChar, '.')}";
     }
   }
 
   public override string ToString()
   {
-    return _pathRelativeToProjectRoot.ToString();
+    return pathRelativeToProjectRoot.ToString();
   }
 }

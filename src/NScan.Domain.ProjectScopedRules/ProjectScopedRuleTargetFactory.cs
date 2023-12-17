@@ -7,15 +7,8 @@ using NScan.SharedKernel.ReadingSolution.Ports;
 
 namespace NScan.ProjectScopedRules;
 
-public class ProjectScopedRuleTargetFactory
+public class ProjectScopedRuleTargetFactory(IProjectScopedRuleViolationFactory ruleViolationFactory)
 {
-  private readonly IProjectScopedRuleViolationFactory _ruleViolationFactory;
-
-  public ProjectScopedRuleTargetFactory(IProjectScopedRuleViolationFactory ruleViolationFactory)
-  {
-    _ruleViolationFactory = ruleViolationFactory;
-  }
-
   public IReadOnlyList<IProjectScopedRuleTarget> ProjectScopedRuleTargets(IEnumerable<CsharpProjectDto> csharpProjectDtos)
   {
     return csharpProjectDtos
@@ -38,14 +31,14 @@ public class ProjectScopedRuleTargetFactory
   private SourceCodeFile ToSourceCodeFile(SourceCodeFileDto scf)
   {
     return new SourceCodeFile(
-      _ruleViolationFactory, 
+      ruleViolationFactory, 
       scf.DeclaredNamespaces, 
       scf.ParentProjectAssemblyName, 
       scf.ParentProjectRootNamespace, 
       scf.PathRelativeToProjectRoot, 
       ToClasses(scf.Classes, 
         methodDeclarationInfos => 
-          ToMethods(methodDeclarationInfos, _ruleViolationFactory)));
+          ToMethods(methodDeclarationInfos, ruleViolationFactory)));
   }
 
   private static ICSharpClass[] ToClasses(

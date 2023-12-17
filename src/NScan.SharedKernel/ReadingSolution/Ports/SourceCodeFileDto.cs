@@ -5,28 +5,18 @@ using NScan.SharedKernel.ReadingCSharpSourceCode;
 
 namespace NScan.SharedKernel.ReadingSolution.Ports;
 
-public class SourceCodeFileDto
+public class SourceCodeFileDto(
+  RelativeFilePath filePathRelativeToProjectRoot,
+  List<string> declaredNamespaces,
+  string parentProjectRootNamespace,
+  string parentProjectAssemblyName,
+  IReadOnlyList<string> usings,
+  IReadOnlyList<ClassDeclarationInfo> classes)
 {
-
-  public SourceCodeFileDto(RelativeFilePath filePathRelativeToProjectRoot,
-    List<string> declaredNamespaces,
-    string parentProjectRootNamespace,
-    string parentProjectAssemblyName,
-    IReadOnlyList<string> usings, 
-    IReadOnlyList<ClassDeclarationInfo> classes)
-  {
-    Classes = classes ?? throw new ArgumentException(nameof(classes));
-    Usings = usings ?? throw new ArgumentException(nameof(usings));
-    PathRelativeToProjectRoot = filePathRelativeToProjectRoot;
-    DeclaredNamespaces = declaredNamespaces ?? throw new ArgumentException(nameof(declaredNamespaces));
-    ParentProjectRootNamespace = parentProjectRootNamespace ?? throw new ArgumentNullException(nameof(parentProjectRootNamespace));
-    ParentProjectAssemblyName = parentProjectAssemblyName ?? throw new ArgumentNullException(nameof(parentProjectAssemblyName));
-  }
-
-  public IReadOnlyList<ClassDeclarationInfo> Classes { get; }
-  public IReadOnlyList<string> Usings { get; }
-  public string ParentProjectAssemblyName { get; }
-  public string ParentProjectRootNamespace { get; }
-  public RelativeFilePath PathRelativeToProjectRoot { get; }
-  public IReadOnlyList<string> DeclaredNamespaces { get; }
+  public IReadOnlyList<ClassDeclarationInfo> Classes { get; } = classes ?? throw new ArgumentException(nameof(classes));
+  public IReadOnlyList<string> Usings { get; } = usings ?? throw new ArgumentException(nameof(usings));
+  public string ParentProjectAssemblyName { get; } = parentProjectAssemblyName ?? throw new ArgumentNullException(nameof(parentProjectAssemblyName));
+  public string ParentProjectRootNamespace { get; } = parentProjectRootNamespace ?? throw new ArgumentNullException(nameof(parentProjectRootNamespace));
+  public RelativeFilePath PathRelativeToProjectRoot { get; } = filePathRelativeToProjectRoot;
+  public IReadOnlyList<string> DeclaredNamespaces { get; } = declaredNamespaces ?? throw new ArgumentException(nameof(declaredNamespaces));
 }

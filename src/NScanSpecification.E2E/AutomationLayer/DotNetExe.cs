@@ -5,22 +5,13 @@ using SimpleExec;
 
 namespace NScanSpecification.E2E.AutomationLayer;
 
-public class DotNetExe
+public class DotNetExe(SolutionDir workingDirectory, ITestSupport testSupport)
 {
-  private readonly SolutionDir _workingDirectory;
-  private readonly ITestSupport _testSupport;
-
-  public DotNetExe(SolutionDir workingDirectory, ITestSupport testSupport)
-  {
-    _workingDirectory = workingDirectory;
-    _testSupport = testSupport;
-  }
-
   public async Task RunWith(string arguments, CancellationToken cancellationToken)
   {
-    _workingDirectory.AssertExists();
-    _testSupport.RunningDotnetExeWith(arguments, _workingDirectory);
-    await RunWith(arguments, _workingDirectory.FullName(), cancellationToken);
+    workingDirectory.AssertExists();
+    testSupport.RunningDotnetExeWith(arguments, workingDirectory);
+    await RunWith(arguments, workingDirectory.FullName(), cancellationToken);
   }
 
   private async Task RunWith(string arguments, AbsoluteDirectoryPath workingDirectory,
@@ -38,7 +29,7 @@ public class DotNetExe
           exitCode = i;
           return true;
         });
-        _testSupport.DotnetExeFinished(exitCode, standardOutput, standardError);
+        testSupport.DotnetExeFinished(exitCode, standardOutput, standardError);
       } while (standardError.Contains("because it is being used by another process."));
       if (exitCode != 0)
       {

@@ -11,32 +11,23 @@ public interface IProjectNamespacesAnalysis
   void Add(IEnumerable<NamespaceBasedRuleUnionDto> rules);
 }
 
-public class ProjectNamespacesAnalysis : IProjectNamespacesAnalysis
+public class ProjectNamespacesAnalysis(
+  ISolutionForNamespaceBasedRules solution,
+  INamespacesBasedRuleSet namespacesBasedRuleSet,
+  INamespaceBasedRuleFactory namespaceBasedRuleFactory)
+  : IProjectNamespacesAnalysis
 {
-  private readonly ISolutionForNamespaceBasedRules _solution;
-  private readonly INamespacesBasedRuleSet _namespacesBasedRuleSet;
-  private readonly INamespaceBasedRuleFactory _namespaceBasedRuleFactory;
-
-  public ProjectNamespacesAnalysis(ISolutionForNamespaceBasedRules solution,
-    INamespacesBasedRuleSet namespacesBasedRuleSet,
-    INamespaceBasedRuleFactory namespaceBasedRuleFactory)
-  {
-    _solution = solution;
-    _namespacesBasedRuleSet = namespacesBasedRuleSet;
-    _namespaceBasedRuleFactory = namespaceBasedRuleFactory;
-  }
-
   public void PerformOn(IAnalysisReportInProgress analysisReportInProgress)
   {
-    _solution.BuildNamespacesCache();
-    _solution.Check(_namespacesBasedRuleSet, analysisReportInProgress);
+    solution.BuildNamespacesCache();
+    solution.Check(namespacesBasedRuleSet, analysisReportInProgress);
   }
 
   public void Add(IEnumerable<NamespaceBasedRuleUnionDto> rules)
   {
     foreach (var ruleUnionDto in rules)
     {
-      ruleUnionDto.Accept(new CreateNamespaceBasedRuleVisitor(_namespaceBasedRuleFactory, _namespacesBasedRuleSet));
+      ruleUnionDto.Accept(new CreateNamespaceBasedRuleVisitor(namespaceBasedRuleFactory, namespacesBasedRuleSet));
     }
   }
 

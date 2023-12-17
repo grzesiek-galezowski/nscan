@@ -2,14 +2,7 @@
 
 namespace NScan.Adapters.SecondarySpecification.ReadingRules;
 
-public class HasPropertyAssertion : RuleUnionDtoAssertion
+public class HasPropertyAssertion(Action<HasPropertyRuleComplementDto> action) : RuleUnionDtoAssertion
 {
-  private readonly Action<HasPropertyRuleComplementDto> _action;
-
-  public HasPropertyAssertion(Action<HasPropertyRuleComplementDto> action)
-  {
-    _action = action;
-  }
-
-  public override void Visit(HasPropertyRuleComplementDto dto) => _action(dto);
+  public override void Visit(HasPropertyRuleComplementDto dto) => action(dto);
 }

@@ -3,17 +3,9 @@ using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
 namespace NScan.ProjectScopedRules;
 
-public class MethodsOfMatchingClassesAreDecoratedWithAttributeCheck 
+public class MethodsOfMatchingClassesAreDecoratedWithAttributeCheck(HasAttributesOnRuleComplementDto ruleDto)
   : ISourceCodeFileContentCheck
 {
-  private readonly HasAttributesOnRuleComplementDto _ruleDto;
-
-  public MethodsOfMatchingClassesAreDecoratedWithAttributeCheck(
-    HasAttributesOnRuleComplementDto ruleDto)
-  {
-    _ruleDto = ruleDto;
-  }
-
   public void ApplyTo(
     ISourceCodeFileInNamespace sourceCodeFile,
     RuleDescription description,
@@ -21,8 +13,8 @@ public class MethodsOfMatchingClassesAreDecoratedWithAttributeCheck
   {
     sourceCodeFile.CheckMethodsHavingCorrectAttributes(
       report, 
-      _ruleDto.ClassNameInclusionPattern, 
-      _ruleDto.MethodNameInclusionPattern, 
+      ruleDto.ClassNameInclusionPattern, 
+      ruleDto.MethodNameInclusionPattern, 
       description);
   }
 }

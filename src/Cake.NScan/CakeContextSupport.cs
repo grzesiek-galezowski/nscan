@@ -9,24 +9,17 @@ using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
 namespace Cake.NScan;
 
-public class CakeContextSupport : INScanSupport
+public class CakeContextSupport(ICakeLog contextLog) : INScanSupport
 {
-  private readonly ICakeLog _contextLog;
-
-  public CakeContextSupport(ICakeLog contextLog)
-  {
-    _contextLog = contextLog;
-  }
-
   public void Report(Exception exceptionFromResolution)
   {
-    _contextLog.Write(Verbosity.Minimal, LogLevel.Error, exceptionFromResolution.ToString());
+    contextLog.Write(Verbosity.Minimal, LogLevel.Error, exceptionFromResolution.ToString());
   }
 
   public void SkippingProjectBecauseOfError(InvalidOperationException invalidOperationException,
     AbsoluteFilePath projectFilePath)
   {
-    _contextLog.Write(Verbosity.Minimal, LogLevel.Warning,
+    contextLog.Write(Verbosity.Minimal, LogLevel.Warning,
       $"Invalid format - skipping {projectFilePath} because of {invalidOperationException}");
   }
 
@@ -67,7 +60,7 @@ public class CakeContextSupport : INScanSupport
 
   private void Log(RuleDescription ruleDescription)
   {
-    _contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, Discovered(ruleDescription));
+    contextLog.Write(Verbosity.Diagnostic, LogLevel.Debug, Discovered(ruleDescription));
   }
 
   private static string Discovered(RuleDescription ruleDescription)
