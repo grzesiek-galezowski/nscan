@@ -52,8 +52,8 @@ public static class NScanMain
       analysis.AddDependencyPathRules(dependencyPathDtos);
         
       var projectScopedDtos = ParserRulePreface.Then(ParseProjectScopedRule.Complement).Many().Parse(rulesString).WhereValueExist().ToList();
-      analysis.AddProjectScopedRules(projectScopedDtos);
       LogProjectScopedRules(projectScopedDtos, support);
+      analysis.AddProjectScopedRules(projectScopedDtos);
 
       var namespaceBasedDtos = ParserRulePreface.Then(ParseNamespaceBasedRule.Complement).Many().Parse(rulesString).WhereValueExist().ToList();
       LogNamespaceBasedRules(namespaceBasedDtos, support);
