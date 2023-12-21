@@ -9,15 +9,13 @@ public class NamespaceNameSpecification
   {
     var value = Any.String().ToUpperInvariant();
     ObjectsOfType<NamespaceName>.ShouldHaveValueSemantics(
-      new Func<NamespaceName>[]
-      {
-        () => new NamespaceName(value),
-      },
-      new Func<NamespaceName>[]
-      {
+      [
+        () => new NamespaceName(value)
+      ],
+      [
         () => new NamespaceName(value.ToLowerInvariant()),
         () => new NamespaceName(Any.OtherThan(value))
-      });
+      ]);
   }
     
   [Fact]

@@ -162,7 +162,7 @@ public class SourceCodeFileSpecification
     var description = Any.Instance<RuleDescription>();
     var sourceCodeFile = new SourceCodeFileBuilder
     {
-      Classes = new [] {class1, class2, class3}
+      Classes = [class1, class2, class3]
     }.Build();
 
     class1.NameMatches(classNameInclusionPattern).Returns(true);
@@ -215,6 +215,6 @@ public static class ToCollectionExtensions
 {
   public static List<T> AsList<T>(this T item)
   {
-    return new List<T> { item };
+    return [item];
   }
 }

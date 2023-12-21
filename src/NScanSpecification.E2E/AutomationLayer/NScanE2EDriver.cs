@@ -105,9 +105,10 @@ public sealed class NScanE2EDriver : IDisposable
     {
       WriteLine = o => output.AppendLine(o.ToString())
     }.ExecuteWith(
-      new[]{
+      [
         "-p", $"\"{_fullFixtureSolutionPath}\"",
-        "-r", $"\"{_fullFixtureRulesPath}\""}
+        "-r", $"\"{_fullFixtureRulesPath}\""
+      ]
     );
 
     _analysisResult.Assign(resultCode, output.ToString());

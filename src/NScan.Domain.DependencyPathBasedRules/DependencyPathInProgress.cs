@@ -16,13 +16,14 @@ public class DependencyPathInProgress(
     return new DependencyPathInProgress(
       destination,
       pathFactory,
-      referencedProjects.Concat(new [] {project}).ToList()
+      referencedProjects.Concat([project]).ToList()
     );
   }
 
   public void FinalizeWith(IDependencyPathBasedRuleTarget finalProject)
   {
-    IReadOnlyList<IDependencyPathBasedRuleTarget> finalPath = referencedProjects.Concat(new [] { finalProject}).ToList();
+    IReadOnlyList<IDependencyPathBasedRuleTarget> finalPath 
+      = referencedProjects.Concat([finalProject]).ToList();
     destination.Add(pathFactory(finalPath));
   }
 }

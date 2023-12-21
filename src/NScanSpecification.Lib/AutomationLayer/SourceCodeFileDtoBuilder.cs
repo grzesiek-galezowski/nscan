@@ -7,14 +7,14 @@ namespace NScanSpecification.Lib.AutomationLayer;
 
 public class SourceCodeFileDtoBuilder
 {
-  private readonly List<ClassDeclarationBuilder> _classes = new();
+  private readonly List<ClassDeclarationBuilder> _classes = [];
   private List<string> DeclaredNamespaces { get; }
   private string FileName { get; set; }
-  private List<string> Usings { get; } = new();
+  private List<string> Usings { get; } = [];
 
   public static SourceCodeFileDtoBuilder FileWithNamespace(string fileName, string fileNamespace)
   {
-    return new SourceCodeFileDtoBuilder(fileName, new List<string> { fileNamespace });
+    return new SourceCodeFileDtoBuilder(fileName, [fileNamespace]);
   }
 
   public static SourceCodeFileDtoBuilder EmptyFile(string fileName)

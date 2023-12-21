@@ -23,7 +23,7 @@ public class ProjectScopedRuleSetSpecification
     ruleSet.Add(rule3);
 
     //WHEN
-    ruleSet.Check(new [] { project1, project2, project3 }, report);
+    ruleSet.Check([project1, project2, project3], report);
       
     //THEN
     rule1.Received(1).Check(project1, report);

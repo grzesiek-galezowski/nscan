@@ -18,13 +18,13 @@ public class PathCacheSpecification
     var dependencyStartingPath2 = Any.Instance<IDependencyPathInProgress>();
     var dependencyStartingPath3 = Any.Instance<IDependencyPathInProgress>();
 
-    dependencyPathFactory.NewDependencyPathFor((IFinalDependencyPathDestination)pathCache).Returns(
+    dependencyPathFactory.NewDependencyPathFor(pathCache).Returns(
       dependencyStartingPath1,
       dependencyStartingPath2,
       dependencyStartingPath3);
 
     //WHEN
-    pathCache.BuildStartingFrom(new [] {project1, project2, project3});
+    pathCache.BuildStartingFrom([project1, project2, project3]);
 
     //THEN
     project1.Received(1).FillAllBranchesOf(dependencyStartingPath1);
