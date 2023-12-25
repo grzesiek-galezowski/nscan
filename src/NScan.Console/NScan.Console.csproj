@@ -1,16 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFrameworks>net8.0</TargetFrameworks>
+      <OutputType>Exe</OutputType>
     <AssemblyName>NScan.Console</AssemblyName>
     <RootNamespace>TddXt.NScan.Console</RootNamespace>
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>NScan</ToolCommandName>
-  </PropertyGroup>
-  <PropertyGroup>
-    <LangVersion>latest</LangVersion>
-    <Nullable>enable</Nullable>
-    <WarningsAsErrors>nullable</WarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>

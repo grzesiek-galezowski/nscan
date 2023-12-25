@@ -260,7 +260,8 @@ public class ReadingCsProjSpecification : INScanSupport
 
   private static AbsoluteFilePath CsProjPathTo(string csprojName)
   {
-    return AbsoluteFilePath.Value(Path.GetFullPath(csprojName + ".csproj"));
+    return AbsoluteDirectoryPath.Value(Path.GetTempPath()).AddDirectoryName(Guid.NewGuid().ToString("N"))
+      .AddFileName(csprojName + ".csproj");
   }
 
   private CsharpProjectDto ReadCSharpProjectFrom(AbsoluteFilePath absoluteFilePath)

@@ -1,20 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net8.0</TargetFrameworks>
-  </PropertyGroup>
-  <PropertyGroup>
-    <LangVersion>latest</LangVersion>
-    <Nullable>enable</Nullable>
-    <WarningsAsErrors>nullable</WarningsAsErrors>
-    <Authors>Grzegorz Galezowski</Authors>
-    <Product>NScan</Product>
-    <Description></Description>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageProjectUrl>https://grzesiek-galezowski.github.io/nscan/</PackageProjectUrl>
-    <PackageIconUrl>https://github.com/grzesiek-galezowski/nscan/raw/master/NScan.png</PackageIconUrl>
-    <RepositoryUrl>https://github.com/grzesiek-galezowski/nscan</RepositoryUrl>
-    <RepositoryType>github</RepositoryType>
-    <PackageTags>static analysis, quality gate, dependency management</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>

@@ -1,13 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFrameworks>net8.0</TargetFrameworks>
-  </PropertyGroup>
-  <PropertyGroup>
-    <LangVersion>latest</LangVersion>
-    <Nullable>enable</Nullable>
-    <WarningsAsErrors>nullable</WarningsAsErrors>
-  </PropertyGroup>
-  <ItemGroup>
+    <ItemGroup>
     <PackageReference Include="Any" />
     <PackageReference Include="AtmaFileSystem" />
     <PackageReference Include="FluentAssertions" />

@@ -77,7 +77,6 @@ public class PatternSpecification
     var pattern = Pattern.WithExclusion(inclusionPattern, exclusionPattern);
     //WHEN
     var description = pattern.Text();
-      
     //THEN
     description.Should().Be(inclusionPattern + " except " + exclusionPattern);
   }

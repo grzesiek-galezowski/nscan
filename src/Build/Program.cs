@@ -12,7 +12,7 @@ using static SimpleExec.Command;
 
 const string solutionName = "NScan.sln";
 const string configuration = "Release";
-const string version = "0.130.0";
+const string version = "0.200.0";
 var root = AbsoluteFilePath.OfThisFile().ParentDirectory(2).Value();
 var buildDir = root.AddDirectoryName("build").AddDirectoryName(configuration);
 var srcDir = root.AddDirectoryName("src");
@@ -146,12 +146,16 @@ Target("PackCakeNScan", DependsOn("BuildCakeNScan", "RunE2ETests"), () =>
   Pack(nugetPath, srcDir, "Cake.NScan");
 });
 
-Target("Push", DependsOn(
-  "Clean", 
-  "PackNScanDependencies", 
-  "PackNScan", 
-  "PackNScanConsole", 
+Target("Pack", DependsOn(
+  "Clean",
+  "PackNScanDependencies",
+  "PackNScan",
+  "PackNScanConsole",
   "PackCakeNScan"), () =>
+{
+});
+
+Target("Push", DependsOn("Pack"), () =>
 {
   foreach (var nupkgPath in nugetPath.GetFiles("*.nupkg"))
   {
@@ -165,9 +169,7 @@ Target("default", DependsOn(
   "BuildNScanConsole", 
   "BuildCakeNScan", 
   "RunNScanUnitTests", 
-  "PackNScan", 
-  "PackNScanConsole", 
-  "PackCakeNScan"));
+  "Pack"));
 
 await RunTargetsAndExitAsync(args);
 
