@@ -1,34 +1,29 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFrameworks>net8.0</TargetFrameworks>
   </PropertyGroup>
-
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <WarningsAsErrors>nullable</WarningsAsErrors>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="Any" Version="9.3.0" />
-    <PackageReference Include="AtmaFileSystem" Version="6.1.0" />
-    <PackageReference Include="FluentAssertions" Version="6.12.0" />
-    <PackageReference Include="Glob" Version="1.1.9" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" />
-    <PackageReference Include="NSubstitute" Version="5.1.0" />
-    <PackageReference Include="NSubstitute.Analyzers.CSharp" Version="1.0.16">
+    <PackageReference Include="Any" />
+    <PackageReference Include="AtmaFileSystem" />
+    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="Glob" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
+    <PackageReference Include="NSubstitute" />
+    <PackageReference Include="NSubstitute.Analyzers.CSharp">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="XFluentAssert" Version="8.0.0" />
-    <PackageReference Include="XNSubstitute" Version="3.2.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="XFluentAssert" />
+    <PackageReference Include="XNSubstitute" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\NScan.Lib\NScan.Lib.csproj" />
     <ProjectReference Include="..\NScan.SharedKernel\NScan.SharedKernel.csproj" />
   </ItemGroup>
-
 </Project>

@@ -1,11 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <WarningsAsErrors>nullable</WarningsAsErrors>
   </PropertyGroup>
-
   <PropertyGroup>
     <TargetFrameworks>net8.0</TargetFrameworks>
     <Authors>Grzegorz Galezowski</Authors>
@@ -18,29 +16,23 @@
     <RepositoryType>github</RepositoryType>
     <PackageTags>static analysis, quality gate, dependency management</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="AtmaFileSystem" Version="6.1.0" />
-    <PackageReference Include="Glob" Version="1.1.9" />
-    <PackageReference Include="Value" Version="1.1.0.1" />
+    <PackageReference Include="AtmaFileSystem" />
+    <PackageReference Include="Glob" />
+    <PackageReference Include="Value" />
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="NotifyingSupport\Ports\" />
     <Folder Include="WritingProgramOutput\Ports\" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\NScan.Lib\NScan.Lib.csproj" />
   </ItemGroup>
-  
   <ItemGroup>
     <None Include="..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
-
 </Project>

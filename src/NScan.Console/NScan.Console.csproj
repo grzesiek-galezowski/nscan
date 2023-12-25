@@ -1,21 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFrameworks>net8.0</TargetFrameworks>
     <AssemblyName>NScan.Console</AssemblyName>
     <RootNamespace>TddXt.NScan.Console</RootNamespace>
-
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>NScan</ToolCommandName>
   </PropertyGroup>
-  
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <WarningsAsErrors>nullable</WarningsAsErrors>
   </PropertyGroup>
-
   <PropertyGroup>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageId>NScan.Console</PackageId>
@@ -31,29 +27,24 @@
     <PackageReleaseNotes>Added printing version number on run</PackageReleaseNotes>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="FluentCommandLineParser-netstandard" Version="1.4.3.13" />
-    <PackageReference Include="AtmaFileSystem" Version="6.1.0" />
-    <PackageReference Include="Core.Maybe" Version="6.0.0" />
+    <PackageReference Include="FluentCommandLineParser-netstandard" />
+    <PackageReference Include="AtmaFileSystem" />
+    <PackageReference Include="Core.Maybe" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\NScan.Adapters.Secondary\NScan.Adapters.Secondary.csproj" />
     <ProjectReference Include="..\NScan.Main\NScan.Main.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <None Update="nscan.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
   <ItemGroup>
     <None Include="..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
-
 </Project>

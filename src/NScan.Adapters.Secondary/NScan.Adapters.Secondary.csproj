@@ -1,40 +1,34 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-    <PropertyGroup>
-        <TargetFrameworks>net8.0</TargetFrameworks>
-        <LangVersion>latest</LangVersion>
-        <Nullable>enable</Nullable>
-        <WarningsAsErrors>nullable</WarningsAsErrors>
-    </PropertyGroup>
-
-    <PropertyGroup>
-        <Authors>Grzegorz Galezowski</Authors>
-        <Product>NScan</Product>
-        <Description></Description>
-        <PackageLicenseFile>LICENSE</PackageLicenseFile>
-        <PackageProjectUrl>https://grzesiek-galezowski.github.io/nscan/</PackageProjectUrl>
-        <PackageIconUrl>https://github.com/grzesiek-galezowski/nscan/raw/master/NScan.png</PackageIconUrl>
-        <RepositoryUrl>https://github.com/grzesiek-galezowski/nscan</RepositoryUrl>
-        <RepositoryType>github</RepositoryType>
-        <PackageTags>static analysis, quality gate, dependency management</PackageTags>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\NScan.SharedKernel\NScan.SharedKernel.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Include="..\..\LICENSE">
-            <Pack>True</Pack>
-            <PackagePath></PackagePath>
-        </None>
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Buildalyzer" Version="6.0.3" />
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" />
-        <PackageReference Include="Sprache" Version="2.3.1" />
-    </ItemGroup>
-
+  <PropertyGroup>
+    <TargetFrameworks>net8.0</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <WarningsAsErrors>nullable</WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Authors>Grzegorz Galezowski</Authors>
+    <Product>NScan</Product>
+    <Description></Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://grzesiek-galezowski.github.io/nscan/</PackageProjectUrl>
+    <PackageIconUrl>https://github.com/grzesiek-galezowski/nscan/raw/master/NScan.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/grzesiek-galezowski/nscan</RepositoryUrl>
+    <RepositoryType>github</RepositoryType>
+    <PackageTags>static analysis, quality gate, dependency management</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NScan.SharedKernel\NScan.SharedKernel.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Buildalyzer" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
+    <PackageReference Include="Sprache" />
+  </ItemGroup>
 </Project>

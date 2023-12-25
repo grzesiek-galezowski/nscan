@@ -1,19 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <WarningsAsErrors>nullable</WarningsAsErrors>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="AtmaFileSystem" Version="6.1.0" />
-    <PackageReference Include="Bullseye" Version="4.2.1" />
-    <PackageReference Include="FluentAssertions" Version="6.12.0" />
-    <PackageReference Include="NScan" Version="0.130.0" />
-    <PackageReference Include="NScan.Adapters.Secondary" Version="0.130.0" />
-    <PackageReference Include="SimpleExec" Version="11.0.0" />
+    <PackageReference Include="AtmaFileSystem" />
+    <PackageReference Include="Bullseye" />
+    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="NScan" />
+    <PackageReference Include="NScan.Adapters.Secondary" />
+    <PackageReference Include="SimpleExec" />
   </ItemGroup>
-
 </Project>

@@ -1,40 +1,35 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-    <PropertyGroup>
-        <TargetFrameworks>net8.0</TargetFrameworks>
-
-        <IsPackable>false</IsPackable>
-        <Nullable>enable</Nullable>
-        <WarningsAsErrors>nullable</WarningsAsErrors>
-        <LangVersion>latest</LangVersion>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Any" Version="9.3.0" />
-        <PackageReference Include="FluentAssertions" Version="6.12.0" />
-        <PackageReference Include="FluentAssertions.Analyzers" Version="0.27.0">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
-        <PackageReference Include="MSBuild.ProjectCreation" Version="11.0.1" />
-        <PackageReference Include="xunit" Version="2.6.4" />
-        <PackageReference Include="xunit.runner.visualstudio" Version="2.5.6">
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-            <PrivateAssets>all</PrivateAssets>
-        </PackageReference>
-        <PackageReference Include="coverlet.collector" Version="6.0.0">
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-            <PrivateAssets>all</PrivateAssets>
-        </PackageReference>
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\NScan.Adapters.Secondary\NScan.Adapters.Secondary.csproj" />
-        <ProjectReference Include="..\NScan.Domain.DependencyPathBasedRules\NScan.DependencyPathBasedRules.csproj" />
-        <ProjectReference Include="..\NScan.Domain.NamespaceBasedRules\NScan.NamespaceBasedRules.csproj" />
-        <ProjectReference Include="..\NScan.Domain.ProjectScopedRules\NScan.ProjectScopedRules.csproj" />
-        <ProjectReference Include="..\NScanSpecification.Lib\NScanSpecification.Lib.csproj" />
-    </ItemGroup>
-
+  <PropertyGroup>
+    <TargetFrameworks>net8.0</TargetFrameworks>
+    <IsPackable>false</IsPackable>
+    <Nullable>enable</Nullable>
+    <WarningsAsErrors>nullable</WarningsAsErrors>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Any" />
+    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="FluentAssertions.Analyzers">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="MSBuild.ProjectCreation" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NScan.Adapters.Secondary\NScan.Adapters.Secondary.csproj" />
+    <ProjectReference Include="..\NScan.Domain.DependencyPathBasedRules\NScan.DependencyPathBasedRules.csproj" />
+    <ProjectReference Include="..\NScan.Domain.NamespaceBasedRules\NScan.NamespaceBasedRules.csproj" />
+    <ProjectReference Include="..\NScan.Domain.ProjectScopedRules\NScan.ProjectScopedRules.csproj" />
+    <ProjectReference Include="..\NScanSpecification.Lib\NScanSpecification.Lib.csproj" />
+  </ItemGroup>
 </Project>

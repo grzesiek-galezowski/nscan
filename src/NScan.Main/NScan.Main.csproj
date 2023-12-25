@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageId>NScan</PackageId>
@@ -14,27 +13,23 @@
     <PackageTags>static analysis, quality gate, dependency management</PackageTags>
     <PackageReleaseNotes>Added printing version number on run</PackageReleaseNotes>
   </PropertyGroup>
-
   <ItemGroup>
     <None Include="..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
-
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <WarningsAsErrors>nullable</WarningsAsErrors>
   </PropertyGroup>
-
   <PropertyGroup>
     <TargetFrameworks>net8.0</TargetFrameworks>
     <AssemblyName>TddXt.NScan</AssemblyName>
     <RootNamespace>TddXt.NScan</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\NScan.Adapters.Secondary\NScan.Adapters.Secondary.csproj" />
     <ProjectReference Include="..\NScan.Domain.DependencyPathBasedRules\NScan.DependencyPathBasedRules.csproj" />
@@ -42,12 +37,10 @@
     <ProjectReference Include="..\NScan.Domain.ProjectScopedRules\NScan.ProjectScopedRules.csproj" />
     <ProjectReference Include="..\NScan.SharedKernel\NScan.SharedKernel.csproj" />
   </ItemGroup>
-  
   <ItemGroup>
     <None Include="..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
-
 </Project>

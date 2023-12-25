@@ -1,18 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFrameworks>net8.0</TargetFrameworks>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <AssemblyName>Cake.NScan</AssemblyName>
     <RootNamespace>Cake.NScan</RootNamespace>
   </PropertyGroup>
-
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <WarningsAsErrors>nullable</WarningsAsErrors>
   </PropertyGroup>
-
   <PropertyGroup>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageId>Cake.NScan</PackageId>
@@ -27,22 +24,18 @@
     <PackageTags>static analysis, quality gate, dependency management</PackageTags>
     <PackageReleaseNotes>Added printing version number on run</PackageReleaseNotes>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="Cake.Core" Version="4.0.0" PrivateAssets="All" />
-    <PackageReference Include="AtmaFileSystem" Version="6.1.0" />
-    <PackageReference Include="Core.Maybe" Version="6.0.0" />
+    <PackageReference Include="Cake.Core" PrivateAssets="All" />
+    <PackageReference Include="AtmaFileSystem" />
+    <PackageReference Include="Core.Maybe" />
   </ItemGroup>
-
   <ItemGroup>
     <None Include="..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\NScan.Main\NScan.Main.csproj" />
   </ItemGroup>
-
 </Project>

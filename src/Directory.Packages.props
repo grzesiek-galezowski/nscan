@@ -1,0 +1,34 @@
+﻿<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="AtmaFileSystem" Version="6.1.0" />
+    <PackageVersion Include="Bullseye" Version="4.2.1" />
+    <PackageVersion Include="FluentAssertions" Version="6.12.0" />
+    <PackageVersion Include="NScan" Version="0.130.0" />
+    <PackageVersion Include="NScan.Adapters.Secondary" Version="0.130.0" />
+    <PackageVersion Include="SimpleExec" Version="11.0.0" />
+    <PackageVersion Include="Cake.Core" Version="4.0.0" />
+    <PackageVersion Include="Core.Maybe" Version="6.0.0" />
+    <PackageVersion Include="Buildalyzer" Version="6.0.3" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" />
+    <PackageVersion Include="Sprache" Version="2.3.1" />
+    <PackageVersion Include="Any" Version="9.3.0" />
+    <PackageVersion Include="FluentAssertions.Analyzers" Version="0.27.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageVersion Include="MSBuild.ProjectCreation" Version="11.0.1" />
+    <PackageVersion Include="xunit" Version="2.6.4" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.6" />
+    <PackageVersion Include="coverlet.collector" Version="6.0.0" />
+    <PackageVersion Include="FluentCommandLineParser-netstandard" Version="1.4.3.13" />
+    <PackageVersion Include="Glob" Version="1.1.9" />
+    <PackageVersion Include="NSubstitute" Version="5.1.0" />
+    <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.16" />
+    <PackageVersion Include="XFluentAssert" Version="8.0.0" />
+    <PackageVersion Include="XNSubstitute" Version="3.2.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.8.0" />
+    <PackageVersion Include="Value" Version="1.1.0.1" />
+    <PackageVersion Include="RunProcessAsTask" Version="1.2.4" />
+  </ItemGroup>
+</Project>
