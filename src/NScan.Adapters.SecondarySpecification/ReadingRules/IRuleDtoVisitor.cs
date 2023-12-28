@@ -7,6 +7,4 @@ namespace NScan.Adapters.SecondarySpecification.ReadingRules;
 public interface IRuleDtoVisitor :
   IPathBasedRuleDtoVisitor,
   INamespaceBasedRuleDtoVisitor,
-  IProjectScopedRuleDtoVisitor
-{
-}
+  IProjectScopedRuleDtoVisitor;

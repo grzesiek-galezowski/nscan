@@ -3,5 +3,4 @@
 public interface IDotNetProject : 
   IReferencedProject,
   IReferencingProject, 
-  IDependencyPathBasedRuleTarget
-{}
+  IDependencyPathBasedRuleTarget;

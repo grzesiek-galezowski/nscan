@@ -1,5 +1,3 @@
-namespace NScanSpecification.E2E.AutomationLayer;
+﻿namespace NScanSpecification.E2E.AutomationLayer;
 
-public static class RuleStrings
-{
-}
+public static class RuleStrings;

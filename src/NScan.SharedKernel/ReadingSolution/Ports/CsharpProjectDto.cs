@@ -10,7 +10,4 @@ public sealed record CsharpProjectDto(
   ImmutableList<PackageReference> PackageReferences,
   ImmutableList<AssemblyReference> AssemblyReferences,
   ImmutableList<ProjectId> ReferencedProjectIds,
-  ImmutableList<string> TargetFrameworks)
-{
-  
-}
+  ImmutableList<string> TargetFrameworks);

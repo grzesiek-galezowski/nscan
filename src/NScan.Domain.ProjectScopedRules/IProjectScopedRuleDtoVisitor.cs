@@ -9,6 +9,4 @@ public interface IProjectScopedRuleDtoVisitor :
     HasAttributesOnRuleComplementDto,
     HasTargetFrameworkRuleComplementDto,
     HasPropertyRuleComplementDto
-  >
-{
-}
+  >;

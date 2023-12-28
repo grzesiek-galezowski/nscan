@@ -60,6 +60,4 @@ public static class NScan
 
 public class NScanFailedException(int result) : Exception($"NScan failed with result: {result}");
 
-public class NScanSettings
-{
-}
+public class NScanSettings;

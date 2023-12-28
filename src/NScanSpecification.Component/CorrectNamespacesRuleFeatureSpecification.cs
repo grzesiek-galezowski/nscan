@@ -165,25 +165,30 @@ public class CorrectNamespacesRuleFeatureSpecification
       .ButHasMultipleNamespaces("lol.cs", "MyProject", "MyProject2"));
   }
     
-  //bug [Fact] 
-  //public void ShouldReportErrorWhenNoCsProjectMatchesThePattern()
-  //{
-  //  //bug implement this behavior!
-  //  //GIVEN
-  //  var context = new NScanDriver();
-  //  context.HasProject("MyProject")
-  //    .WithRootNamespace("MyProject")
-  //    .With(FileWithNamespaces("lol.cs", "MyProject", "MyProject2"));
-  //  context.Add(RuleDemandingThat().Project("*Trolololo*").HasCorrectNamespaces());
-  //
-  //  //WHEN
-  //  context.PerformAnalysis();
-  //
-  //  //THEN
-  //  context.ReportShouldContain(HasCorrectNamespacesMessage
-  //    .HasCorrectNamespaces("*Trolololo*").Error()
-  //    .NoProjectFoundMatching("*Trolololo*"));
-  //}
+  [Fact(Skip = "Still not sure how I want to address this. " +
+               "Maybe it would be better to add a check for " +
+               "every rule to write warnings if no csproj matches? " +
+               "For example somebody could make a rule /for future/ " +
+               "and patterns not matching csprojs could be OK. " +
+               "Maybe implement this with a switch between error/warning?")]
+  public void ShouldReportErrorWhenNoCsProjectMatchesThePattern()
+  {
+    //bug implement this behavior!
+    //GIVEN
+    var context = new NScanDriver();
+    context.HasProject("MyProject")
+      .WithRootNamespace("MyProject")
+      .With(FileWithNamespaces("lol.cs", "MyProject", "MyProject2"));
+    context.Add(RuleDemandingThat().Project("*Trolololo*").HasCorrectNamespaces());
+  
+    //WHEN
+    context.PerformAnalysis();
+  
+    //THEN
+    context.ReportShouldContain(HasCorrectNamespacesMessage
+      .HasCorrectNamespaces("*Trolololo*").Error()
+      .NoProjectFoundMatching("*Trolololo*"));
+  }
 
 
   //bug backlog nested namespaces
