@@ -5,6 +5,7 @@
   <ItemGroup>
     <PackageReference Include="AtmaFileSystem" />
     <PackageReference Include="Glob" />
+    <PackageReference Include="LanguageExt.Core" />
     <PackageReference Include="Value" />
   </ItemGroup>
   <ItemGroup>

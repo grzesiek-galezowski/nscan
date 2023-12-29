@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LanguageExt;
 using NScan.Lib;
 using NScan.SharedKernel;
 
@@ -6,8 +7,9 @@ namespace NScan.ProjectScopedRules;
 
 public interface IPropertyCheck
 {
-  void ApplyTo(AssemblyName name,
-    IReadOnlyDictionary<string, string> properties,
+  void ApplyTo(
+    AssemblyName name,
+    Map<string, string> properties,
     IAnalysisReportInProgress report);
 }
 
@@ -29,8 +31,8 @@ public class HasPropertyValueRule(
   }
 
   public void ApplyTo(
-    AssemblyName name, 
-    IReadOnlyDictionary<string, string> properties,
+    AssemblyName name,
+    Map<string, string> properties,
     IAnalysisReportInProgress report)
   {
     if (properties.ContainsKey(propertyName))

@@ -43,12 +43,12 @@ public class ProjectScopedRuleTargetFactory(IProjectScopedRuleViolationFactory r
 
   private static ICSharpClass[] ToClasses(
     IEnumerable<ClassDeclarationInfo> classDeclarationInfos, 
-    Func<List<MethodDeclarationInfo>, ICSharpMethod[]> methodFactory)
+    Func<IEnumerable<MethodDeclarationInfo>, ICSharpMethod[]> methodFactory)
   { 
     return classDeclarationInfos.Select(c => new CSharpClass(c, methodFactory(c.Methods))).ToArray<ICSharpClass>();
   }
 
-  private static ICSharpMethod[] ToMethods(List<MethodDeclarationInfo> methodDeclarationInfos,
+  private static ICSharpMethod[] ToMethods(IEnumerable<MethodDeclarationInfo> methodDeclarationInfos,
     IProjectScopedRuleViolationFactory violationFactory)
   {
     return methodDeclarationInfos.Select(m => new CSharpMethod(m, violationFactory)).ToArray<ICSharpMethod>();

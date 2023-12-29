@@ -3,6 +3,7 @@ using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using AtmaFileSystem;
+using LanguageExt;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using NScanSpecification.Lib;
@@ -10,17 +11,17 @@ using static AtmaFileSystem.AtmaFileSystemPaths;
 
 namespace NScanSpecification.Component.AutomationLayer;
 
-public class CSharpProjectDtoBuilder
+public class CSharpProjectDtoBuilder //bug make this a record
 {
   private readonly string _assemblyName;
   private string _targetFramework;
-  private readonly List<SourceCodeFileDtoBuilder> _sourceCodeFileBuilders = new();
+  private Lst<SourceCodeFileDtoBuilder> _sourceCodeFileBuilders;
   private readonly ProjectId _projectId;
-  private readonly List<PackageReference> _packageReferences = new();
-  private readonly List<AssemblyReference> _assemblyReferences = new();
-  private readonly List<ProjectId> _referencedProjectIds = new();
+  private Lst<PackageReference> _packageReferences;
+  private Lst<AssemblyReference> _assemblyReferences;
+  private Lst<ProjectId> _referencedProjectIds;
   private string _rootNamespace = "";
-  private ImmutableDictionary<string, string> _properties = ImmutableDictionary<string, string>.Empty;
+  private Map<string, string> _properties = Map<string, string>.Empty;
 
   private CSharpProjectDtoBuilder(string assemblyName)
   {
@@ -31,22 +32,22 @@ public class CSharpProjectDtoBuilder
 
   public void WithReferences(params string[] names)
   {
-    _referencedProjectIds.AddRange(names.Select(n => new ProjectId(AbsolutePathTo(n).ToString())));
+    _referencedProjectIds = _referencedProjectIds.AddRange(names.Select(n => new ProjectId(AbsolutePathTo(n).ToString())));
   }
 
   public void WithPackages(params string[] packageNames)
   {
-    _packageReferences.AddRange(packageNames.Select(pn => new PackageReference(pn, "1.0.0")));
+    _packageReferences = _packageReferences.AddRange(packageNames.Select(pn => new PackageReference(pn, "1.0.0")));
   }
 
   public void WithAssemblyReferences(params string[] assemblyNames)
   {
-    _assemblyReferences.AddRange(assemblyNames.Select(an => new AssemblyReference(an, Any.String())));
+    _assemblyReferences = _assemblyReferences.AddRange(assemblyNames.Select(an => new AssemblyReference(an, Any.String())));
   }
 
   public CSharpProjectDtoBuilder With(SourceCodeFileDtoBuilder sourceCodeFileDtoBuilder)
   {
-    _sourceCodeFileBuilders.Add(sourceCodeFileDtoBuilder);
+    _sourceCodeFileBuilders = _sourceCodeFileBuilders.Add(sourceCodeFileDtoBuilder);
     return this;
   }
 
@@ -84,11 +85,11 @@ public class CSharpProjectDtoBuilder
       _assemblyName,
       _sourceCodeFileBuilders
         .Select(
-          b => b.BuildWith(_assemblyName, _rootNamespace)).ToImmutableList(), 
+          b => b.BuildWith(_assemblyName, _rootNamespace)).ToArr(), 
       _properties, 
-      _packageReferences.ToImmutableList(), 
-      _assemblyReferences.ToImmutableList(), 
-      _referencedProjectIds.ToImmutableList(),
-      ImmutableList<string>.Empty.Add(_targetFramework));
+      _packageReferences.ToArr(), 
+      _assemblyReferences.ToArr(), 
+      _referencedProjectIds.ToArr(),
+      Arr.create(_targetFramework));
   }
 }

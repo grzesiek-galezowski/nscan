@@ -27,7 +27,7 @@ namespace Namespace1.Namespace2
 }
 ", "").GetClassDeclarationSignatures();
 
-    dictionary["Namespace1.Namespace2.Class1.Class2"].Methods.Should().BeEquivalentTo(
+    dictionary["Namespace1.Namespace2.Class1.Class2"].Methods.ToList().Should().BeEquivalentTo(
       new List<MethodDeclarationInfo>
       { 
         new("Lol1", new List<string>()),

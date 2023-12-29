@@ -1,5 +1,4 @@
-﻿using System.Collections.Immutable;
-using System.Linq;
+﻿using System.Linq;
 using NScan.Lib;
 using NScan.NamespaceBasedRules;
 
@@ -71,12 +70,11 @@ public class NamespacesDependenciesCacheSpecification
 
     //THEN
     cycles.Single().Should().Be(new NamespaceDependencyPath(
-      new List<NamespaceName>
-      {
+      [
         namespace1, 
         namespace2, 
         namespace1
-      }.ToImmutableList()));
+      ]));
   }
 
   [Fact]

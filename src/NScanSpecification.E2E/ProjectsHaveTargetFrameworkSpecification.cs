@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using static NScanSpecification.Lib.AutomationLayer.HasTargetFrameworkReportedMessage;
 using static NScanSpecification.Lib.AutomationLayer.RuleBuilder;
 

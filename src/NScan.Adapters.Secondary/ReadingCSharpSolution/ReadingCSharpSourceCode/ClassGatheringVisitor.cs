@@ -96,7 +96,7 @@ public class ClassGatheringVisitor : CSharpSyntaxVisitor
       }
     }
 
-    _classes.Last().Methods.Add(new MethodDeclarationInfo(node.Identifier.Value.OrThrow().ToString().OrThrow(), attributes));
+    _classes.Last().AddMethodDeclaration(new MethodDeclarationInfo(node.Identifier.Value.OrThrow().ToString().OrThrow(), attributes));
   }
     
   private static string GenericTypeListWithRemovedWhitespaces(TypeParameterListSyntax typeParameterList)

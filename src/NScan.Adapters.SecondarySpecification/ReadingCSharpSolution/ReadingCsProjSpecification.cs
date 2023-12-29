@@ -5,6 +5,7 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 using AtmaFileSystem;
+using LanguageExt;
 using Microsoft.Build.Construction;
 using Microsoft.Build.Utilities.ProjectCreation;
 using NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects;
@@ -38,12 +39,12 @@ public class ReadingCsProjSpecification : INScanSupport
       csharpProjectDto.Should().BeEquivalentTo(
         new CsharpProjectDto(new ProjectId(csprojPath.ToString()),
           csprojName,
-          ImmutableList<SourceCodeFileDto>.Empty,
-          ImmutableDictionary<string, string>.Empty,
-          ImmutableList<PackageReference>.Empty,
-          ImmutableList<AssemblyReference>.Empty,
-          ImmutableList<ProjectId>.Empty,
-          ImmutableList<string>.Empty.Add("netstandard2.0")),
+          Arr<SourceCodeFileDto>.Empty,
+          Map<string, string>.Empty,
+          Arr<PackageReference>.Empty, 
+          Arr<AssemblyReference>.Empty,
+          Arr<ProjectId>.Empty,
+          Arr.create("netstandard2.0")),
         options => options
           .WithTracing()
           .ComparingByMembers<CsharpProjectDto>()
@@ -143,7 +144,7 @@ public class ReadingCsProjSpecification : INScanSupport
       var csharpProjectDto = ReadCSharpProjectFrom(csprojPath);
 
       //THEN
-      csharpProjectDto.Properties.Should().Contain(globalProperties
+      csharpProjectDto.Properties.ToDictionary().Should().Contain(globalProperties
         .Concat(new Dictionary<string, string>
         {
           ["OutputType"] = outputType, 
@@ -178,12 +179,12 @@ public class ReadingCsProjSpecification : INScanSupport
       var csharpProjectDto = ReadCSharpProjectFrom(csprojPath);
 
       //THEN
-      csharpProjectDto.Properties.Should().Contain(globalProperties
+      csharpProjectDto.Properties.ToDictionary().Should().Contain(globalProperties
         .Concat(new Dictionary<string, string>
         {
           ["TargetFrameworks"] = targetFrameworksString,
         }));
-      csharpProjectDto.TargetFrameworks.Should().Equal(targetFramework1, targetFramework2);
+      csharpProjectDto.TargetFrameworks.ToList().Should().Equal(targetFramework1, targetFramework2);
 
     }
   }
@@ -217,11 +218,11 @@ public class ReadingCsProjSpecification : INScanSupport
       var csharpProjectDto = ReadCSharpProjectFrom(csprojPath);
 
       //THEN
-      csharpProjectDto.AssemblyReferences.Should().Equal(
+      csharpProjectDto.AssemblyReferences.ToList().Should().Equal(
         new AssemblyReference("MyAssembly", assemblyHintPath));
-      csharpProjectDto.PackageReferences.Should().Equal(
+      csharpProjectDto.PackageReferences.ToList().Should().Equal(
         new PackageReference(packageName, packageVersion));
-      csharpProjectDto.ReferencedProjectIds.Should().Equal(
+      csharpProjectDto.ReferencedProjectIds.ToList().Should().Equal(
         new ProjectId(csprojPath.ParentDirectory().AddFileName(projectDependencyName).ToString()));
     }
   }
@@ -248,7 +249,7 @@ public class ReadingCsProjSpecification : INScanSupport
       var csharpProjectDto = ReadCSharpProjectFrom(csprojPath);
 
       //THEN
-      csharpProjectDto.ReferencedProjectIds.Should().Equal(
+      csharpProjectDto.ReferencedProjectIds.ToList().Should().Equal(
         new ProjectId(
           csprojPath
             .ParentDirectory()

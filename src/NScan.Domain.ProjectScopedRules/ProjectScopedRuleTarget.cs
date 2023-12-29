@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LanguageExt;
 using NScan.Lib;
 using NScan.SharedKernel;
 
@@ -7,7 +8,7 @@ namespace NScan.ProjectScopedRules;
 public class ProjectScopedRuleTarget(
   AssemblyName name,
   IReadOnlyList<ISourceCodeFileInNamespace> sourceCodeFiles,
-  IReadOnlyDictionary<string, string> properties)
+  Map<string, string> properties)
   : IProjectScopedRuleTarget
 {
   public void AnalyzeFiles(IProjectFilesetScopedRule rule, IAnalysisReportInProgress report)

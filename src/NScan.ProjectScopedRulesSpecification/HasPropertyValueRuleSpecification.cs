@@ -1,4 +1,5 @@
-﻿using NScan.Lib;
+﻿using LanguageExt;
+using NScan.Lib;
 using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NScanSpecification.Lib;
@@ -54,7 +55,7 @@ public class HasPropertyValueRuleSpecification
     var properties = new Dictionary<string, string>
     {
       [propertyName] = propertyValue
-    };
+    }.ToMap();
     var expectedPropertyValue = Any.OtherThan(propertyValue);
     var violationFactory = Substitute.For<IProjectScopedRuleViolationFactory>();
     var analysisReportInProgress = Substitute.For<IAnalysisReportInProgress>();
@@ -112,7 +113,7 @@ public class HasPropertyValueRuleSpecification
     var properties = new Dictionary<string, string>
     {
       [propertyName] = actualPropertyValue
-    };
+    }.ToMap();
     var analysisReportInProgress = Substitute.For<IAnalysisReportInProgress>();
     var description = Any.Instance<RuleDescription>();
     var rule = new HasPropertyValueRule(
@@ -128,8 +129,8 @@ public class HasPropertyValueRuleSpecification
     analysisReportInProgress.DidNotReceiveWithAnyArgs().Add(default!);
   }
 
-  private static Dictionary<string, string> DictionaryNotContaining(string propertyName)
+  private static Map<string, string> DictionaryNotContaining(string propertyName)
   {
-    return new Dictionary<string, string>();
+    return new Dictionary<string, string>().ToMap();
   }
 }

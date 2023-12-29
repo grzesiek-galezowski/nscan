@@ -1,13 +1,14 @@
 ﻿using System.Collections.Immutable;
+using LanguageExt;
 
 namespace NScan.SharedKernel.ReadingSolution.Ports;
 
 public sealed record CsharpProjectDto(
   ProjectId Id,
   string AssemblyName,
-  ImmutableList<SourceCodeFileDto> SourceCodeFiles,
-  ImmutableDictionary<string, string> Properties,
-  ImmutableList<PackageReference> PackageReferences,
-  ImmutableList<AssemblyReference> AssemblyReferences,
-  ImmutableList<ProjectId> ReferencedProjectIds,
-  ImmutableList<string> TargetFrameworks);
+  Arr<SourceCodeFileDto> SourceCodeFiles,
+  Map<string, string> Properties,
+  Arr<PackageReference> PackageReferences,
+  Arr<AssemblyReference> AssemblyReferences,
+  Arr<ProjectId> ReferencedProjectIds,
+  Arr<string> TargetFrameworks);
