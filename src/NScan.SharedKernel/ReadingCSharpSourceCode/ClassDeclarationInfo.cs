@@ -4,12 +4,12 @@ namespace NScan.SharedKernel.ReadingCSharpSourceCode;
 
 public class ClassDeclarationInfo(string className, string @namespace)
 {
-  private Lst<MethodDeclarationInfo> _methods;
+  private Seq<MethodDeclarationInfo> _methods;
   public string FullName => NamespacePrefix() + Name;
   public string Namespace { get; } = @namespace;
   public string Name { get; } = className;
 
-  public Lst<MethodDeclarationInfo> Methods => _methods;
+  public Seq<MethodDeclarationInfo> Methods => _methods;
 
   private string NamespacePrefix()
   {
@@ -23,6 +23,6 @@ public class ClassDeclarationInfo(string className, string @namespace)
 
   public void AddMethodDeclarations(Seq<MethodDeclarationInfo> methodDeclarationInfos)
   {
-    _methods = _methods.AddRange(methodDeclarationInfos);
+    _methods = _methods.Concat(methodDeclarationInfos);
   }
 }

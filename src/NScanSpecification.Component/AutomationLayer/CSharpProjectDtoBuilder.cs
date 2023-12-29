@@ -15,11 +15,11 @@ public class CSharpProjectDtoBuilder //bug make this a record
 {
   private readonly string _assemblyName;
   private string _targetFramework;
-  private Lst<SourceCodeFileDtoBuilder> _sourceCodeFileBuilders;
+  private Seq<SourceCodeFileDtoBuilder> _sourceCodeFileBuilders;
   private readonly ProjectId _projectId;
-  private Lst<PackageReference> _packageReferences;
-  private Lst<AssemblyReference> _assemblyReferences;
-  private Lst<ProjectId> _referencedProjectIds;
+  private Seq<PackageReference> _packageReferences;
+  private Seq<AssemblyReference> _assemblyReferences;
+  private Seq<ProjectId> _referencedProjectIds;
   private string _rootNamespace = "";
   private Map<string, string> _properties = Map<string, string>.Empty;
 
@@ -32,17 +32,17 @@ public class CSharpProjectDtoBuilder //bug make this a record
 
   public void WithReferences(params string[] names)
   {
-    _referencedProjectIds = _referencedProjectIds.AddRange(names.Select(n => new ProjectId(AbsolutePathTo(n).ToString())));
+    _referencedProjectIds = _referencedProjectIds.Concat(names.Select(n => new ProjectId(AbsolutePathTo(n).ToString())));
   }
 
   public void WithPackages(params string[] packageNames)
   {
-    _packageReferences = _packageReferences.AddRange(packageNames.Select(pn => new PackageReference(pn, "1.0.0")));
+    _packageReferences = _packageReferences.Concat(packageNames.Select(pn => new PackageReference(pn, "1.0.0")));
   }
 
   public void WithAssemblyReferences(params string[] assemblyNames)
   {
-    _assemblyReferences = _assemblyReferences.AddRange(assemblyNames.Select(an => new AssemblyReference(an, Any.String())));
+    _assemblyReferences = _assemblyReferences.Concat(assemblyNames.Select(an => new AssemblyReference(an, Any.String())));
   }
 
   public CSharpProjectDtoBuilder With(SourceCodeFileDtoBuilder sourceCodeFileDtoBuilder)
