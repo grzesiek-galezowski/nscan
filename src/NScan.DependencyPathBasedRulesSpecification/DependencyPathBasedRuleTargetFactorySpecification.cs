@@ -1,4 +1,5 @@
-﻿using NScan.DependencyPathBasedRules;
+﻿using LanguageExt;
+using NScan.DependencyPathBasedRules;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.ReadingSolution.Ports;
 
@@ -14,8 +15,7 @@ public class DependencyPathBasedRuleTargetFactorySpecification
       Any.Instance<INScanSupport>());
 
     //WHEN
-    IReadOnlyList<CsharpProjectDto> xmlProjects = new List<CsharpProjectDto>();
-    var projectDictionary = csharpWorkspaceModel.CreateDependencyPathRuleTargetsByIds(xmlProjects);
+    var projectDictionary = csharpWorkspaceModel.CreateDependencyPathRuleTargetsByIds(Seq<CsharpProjectDto>.Empty);
 
     //THEN
     projectDictionary.Should().BeEmpty();
@@ -32,12 +32,7 @@ public class DependencyPathBasedRuleTargetFactorySpecification
     var xmlProject3 = Any.Instance<CsharpProjectDto>();
 
     //WHEN
-    IEnumerable<CsharpProjectDto> xmlProjects = new List<CsharpProjectDto>
-    {
-      xmlProject1,
-      xmlProject2,
-      xmlProject3
-    };
+    var xmlProjects = Seq.create(xmlProject1, xmlProject2, xmlProject3);
     var projectDictionary = csharpWorkspaceModel.CreateDependencyPathRuleTargetsByIds(
       xmlProjects);
 

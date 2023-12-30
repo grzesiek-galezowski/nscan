@@ -7,6 +7,7 @@ using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
 using Core.NullableReferenceTypesExtensions;
+using LanguageExt;
 using TddXt.NScan.Domain;
 
 namespace NScanSpecification.Component.AutomationLayer;
@@ -14,14 +15,14 @@ namespace NScanSpecification.Component.AutomationLayer;
 public class NScanDriver
 {
   private readonly INScanSupport _consoleSupport = ConsoleSupport.CreateInstance();
-  private readonly List<CSharpProjectDtoBuilder> _csharpProjects = new();
+  private Seq<CSharpProjectDtoBuilder> _csharpProjects = Seq<CSharpProjectDtoBuilder>.Empty;
   private Analysis? _analysis;
   private readonly List<IAnalysisRule> _rules = new();
 
   public CSharpProjectDtoBuilder HasProject(string assemblyName)
   {
     var xmlProjectDsl = CSharpProjectDtoBuilder.WithAssemblyName(assemblyName);
-    _csharpProjects.Add(xmlProjectDsl);
+    _csharpProjects = _csharpProjects.Add(xmlProjectDsl);
     return xmlProjectDsl;
   }
 
@@ -42,7 +43,7 @@ public class NScanDriver
 
   public void PerformAnalysis()
   {
-    var xmlProjects = _csharpProjects.Select(p => p.BuildCsharpProjectDto()).ToList();
+    var xmlProjects = _csharpProjects.Select(p => p.BuildCsharpProjectDto());
     _analysis = Analysis.PrepareFor(xmlProjects, _consoleSupport);
     _rules.ForEach(r => r.AddTo(_analysis!));
     _analysis.Run();

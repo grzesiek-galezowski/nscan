@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LanguageExt;
 using NScan.SharedKernel;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.ReadingSolution.Ports;
@@ -33,7 +34,7 @@ public class DependencyAnalysis(
     }
   }
 
-  public static DependencyAnalysis PrepareFor(IEnumerable<CsharpProjectDto> csharpProjectDtos, INScanSupport support)
+  public static DependencyAnalysis PrepareFor(Seq<CsharpProjectDto> csharpProjectDtos, INScanSupport support)
   {
     return new DependencyAnalysis(
       new SolutionForDependencyPathRules(

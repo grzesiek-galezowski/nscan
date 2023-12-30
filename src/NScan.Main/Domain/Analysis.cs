@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LanguageExt;
 using NScan.DependencyPathBasedRules;
 using NScan.NamespaceBasedRules;
 using NScan.ProjectScopedRules;
@@ -33,7 +34,7 @@ public class Analysis(
 
   public int ReturnCode => analysisReportInProgress.IsFailure() ? -1 : 0; //bug UI implementation leak
 
-  public static Analysis PrepareFor(IEnumerable<CsharpProjectDto> csharpProjectDtos, INScanSupport support)
+  public static Analysis PrepareFor(Seq<CsharpProjectDto> csharpProjectDtos, INScanSupport support)
   {
     return new Analysis(new AnalysisReportInProgress(new RuleReportFactory()), 
       DependencyAnalysis.PrepareFor(csharpProjectDtos, support), 

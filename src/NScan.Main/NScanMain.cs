@@ -17,6 +17,7 @@ using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
 using NScan.SharedKernel.WritingProgramOutput.Ports;
 using Core.NullableReferenceTypesExtensions;
+using LanguageExt;
 using Sprache;
 using TddXt.NScan.Domain;
 
@@ -70,7 +71,7 @@ public static class NScanMain
     }
   }
 
-  private static IEnumerable<CsharpProjectDto> ReadCsharpProjects(InputArgumentsDto inputArguments, INScanSupport support)
+  private static Seq<CsharpProjectDto> ReadCsharpProjects(InputArgumentsDto inputArguments, INScanSupport support)
   {
     var msBuildSolution = MsBuildSolution.From(
       inputArguments.SolutionPath.OrThrow(),

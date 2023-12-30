@@ -4,6 +4,7 @@ using System.Linq;
 using AtmaFileSystem;
 using Buildalyzer;
 using Core.Maybe;
+using LanguageExt;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using static AtmaFileSystem.AtmaFileSystemPaths;
@@ -24,11 +25,11 @@ public class MsBuildSolution(IEnumerable<AbsoluteFilePath> projectFilePaths, INS
     return paths;
   }
 
-  public List<CsharpProjectDto> LoadCsharpProjects()
+  public Seq<CsharpProjectDto> LoadCsharpProjects()
   {
     var projectDtos = projectFilePaths.Select(LoadCsharpProjectFromPath())
       .Where(maybeProject => maybeProject.HasValue)
-      .Select(maybeProject => maybeProject.Value()).ToList();
+      .Select(maybeProject => maybeProject.Value()).ToSeq();
     return projectDtos;
   }
 

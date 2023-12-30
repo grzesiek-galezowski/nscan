@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LanguageExt;
 using NScan.SharedKernel;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.ReadingSolution.Ports;
@@ -8,7 +9,7 @@ namespace NScan.DependencyPathBasedRules;
 public class DependencyPathBasedRuleTargetFactory(INScanSupport support)
 {
   public Dictionary<ProjectId, IDotNetProject> CreateDependencyPathRuleTargetsByIds(
-    IEnumerable<CsharpProjectDto> xmlProjectDataAccesses)
+    Seq<CsharpProjectDto> xmlProjectDataAccesses)
   {
     var projects = new Dictionary<ProjectId, IDotNetProject>();
     foreach (var dataAccess in xmlProjectDataAccesses)
