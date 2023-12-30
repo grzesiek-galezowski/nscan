@@ -1,4 +1,5 @@
-﻿using NScan.DependencyPathBasedRules;
+﻿using LanguageExt;
+using NScan.DependencyPathBasedRules;
 
 namespace NScan.DependencyPathBasedRulesSpecification;
 
@@ -14,7 +15,7 @@ public class DependencyPathReportFragmentsFormatSpecification
     var p3 = Any.Instance<IDependencyPathBasedRuleTarget>();
 
     //WHEN
-    var result = format.ApplyToPath(new List<IDependencyPathBasedRuleTarget> {p1, p2, p3});
+    var result = format.ApplyToPath(Seq.create(p1, p2, p3));
 
     //THEN
     result.Should().Be($"[{p1.ToString()}]->[{p2.ToString()}]->[{p3.ToString()}]");
@@ -28,7 +29,7 @@ public class DependencyPathReportFragmentsFormatSpecification
     var p1 = Any.Instance<IDependencyPathBasedRuleTarget>();
 
     //WHEN
-    var result = format.ApplyToPath(new List<IDependencyPathBasedRuleTarget> {p1});
+    var result = format.ApplyToPath(Seq.create(p1));
 
     //THEN
     result.Should().Be($"[{p1.ToString()}]");

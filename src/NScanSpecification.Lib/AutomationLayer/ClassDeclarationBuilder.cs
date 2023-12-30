@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
 using LanguageExt;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
 

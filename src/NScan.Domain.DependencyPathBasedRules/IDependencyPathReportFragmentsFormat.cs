@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using LanguageExt;
 
 namespace NScan.DependencyPathBasedRules;
 
 public interface IDependencyPathReportFragmentsFormat
 {
-  string ApplyToPath(IReadOnlyList<IDependencyPathBasedRuleTarget> violationPath);
+  string ApplyToPath(Seq<IDependencyPathBasedRuleTarget> violationPath);
 }

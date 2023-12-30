@@ -11,7 +11,7 @@ public class DependencyPathRuleViolationFactoryTests
     //GIVEN
     var reportFragmentsFormat = Substitute.For<IDependencyPathReportFragmentsFormat>();
     var factory = new DependencyPathRuleViolationFactory(reportFragmentsFormat);
-    var path = Any.ReadOnlyList<IDependencyPathBasedRuleTarget>();
+    var path = Any.ReadOnlyList<IDependencyPathBasedRuleTarget>().ToSeq();
     var ruleDescription = Any.Instance<RuleDescription>();
     var formattedPath = Any.String();
 

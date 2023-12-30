@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LanguageExt;
 using NScan.Lib;
 
 namespace NScan.DependencyPathBasedRules;
@@ -12,13 +13,13 @@ public interface IProjectDependencyPath
 
   IProjectSearchResult AssemblyWithNameMatching(Pattern pattern);
 
-  IReadOnlyList<IDependencyPathBasedRuleTarget> SegmentBetween(
+  Seq<IDependencyPathBasedRuleTarget> SegmentBetween(
     IProjectSearchResult dependingProjectSearchResult,
     IProjectSearchResult dependency);
 }
 
 public class ProjectDependencyPath(
-  IReadOnlyList<IDependencyPathBasedRuleTarget> path,
+  Seq<IDependencyPathBasedRuleTarget> path,
   IProjectFoundSearchResultFactory projectFoundSearchResultFactory)
   : IProjectDependencyPath
 {
@@ -52,7 +53,7 @@ public class ProjectDependencyPath(
     }
   }
 
-  public IReadOnlyList<IDependencyPathBasedRuleTarget> SegmentBetween(IProjectSearchResult dependingProjectSearchResult,
+  public Seq<IDependencyPathBasedRuleTarget> SegmentBetween(IProjectSearchResult dependingProjectSearchResult,
     IProjectSearchResult dependency)
   {
     return dependingProjectSearchResult.SegmentEndingWith(dependency, path);

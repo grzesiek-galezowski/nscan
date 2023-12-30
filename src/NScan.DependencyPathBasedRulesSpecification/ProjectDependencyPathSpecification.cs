@@ -9,7 +9,7 @@ public class ProjectDependencyPathSpecification
   public void ShouldReturnSegmentBetweenTwoResultsAsSegmentStartingWithDependingAndEndingWithDependency()
   {
     //GIVEN
-    var projects = Any.ReadOnlyList<IDependencyPathBasedRuleTarget>();
+    var projects = Any.ReadOnlyList<IDependencyPathBasedRuleTarget>().ToSeq();
     var projectsSegment = Any.OtherThan(projects);
     var path = new ProjectDependencyPath(projects, Any.Instance<IProjectFoundSearchResultFactory>());
     var depending = Substitute.For<IProjectSearchResult>();
@@ -34,7 +34,7 @@ public class ProjectDependencyPathSpecification
     var projects = new List<IDependencyPathBasedRuleTarget>
     {
       project1, project2, project3
-    };
+    }.ToSeq();
     var searchResultFactory = Substitute.For<IProjectFoundSearchResultFactory>();
     var depending = Substitute.For<IProjectSearchResult>();
     var condition = Substitute.For<IDescribedDependencyCondition>();
@@ -64,7 +64,7 @@ public class ProjectDependencyPathSpecification
     var projects = new List<IDependencyPathBasedRuleTarget>
     {
       project1, project2, project3
-    };
+    }.ToSeq();
     var searchResultFactory = Substitute.For<IProjectFoundSearchResultFactory>();
     var depending = Substitute.For<IProjectSearchResult>();
     var condition = Substitute.For<IDescribedDependencyCondition>();
@@ -95,7 +95,7 @@ public class ProjectDependencyPathSpecification
     var projects = new List<IDependencyPathBasedRuleTarget>
     {
       project1, project2, project3
-    };
+    }.ToSeq();
     var searchResultFactory = Substitute.For<IProjectFoundSearchResultFactory>();
     var foundResult = Any.Instance<IProjectSearchResult>();
 
@@ -124,7 +124,7 @@ public class ProjectDependencyPathSpecification
     var projects = new List<IDependencyPathBasedRuleTarget>
     {
       project1, project2, project3
-    };
+    }.ToSeq();
     var searchResultFactory = Substitute.For<IProjectFoundSearchResultFactory>();
     var notFoundResult = Any.Instance<IProjectSearchResult>();
 

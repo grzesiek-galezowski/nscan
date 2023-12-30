@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using LanguageExt;
 using NScan.Lib;
 using NScan.NamespaceBasedRules;
 
@@ -70,11 +71,11 @@ public class NamespacesDependenciesCacheSpecification
 
     //THEN
     cycles.Single().Should().Be(new NamespaceDependencyPath(
-      [
+      Seq.create(
         namespace1, 
         namespace2, 
         namespace1
-      ]));
+      )));
   }
 
   [Fact]

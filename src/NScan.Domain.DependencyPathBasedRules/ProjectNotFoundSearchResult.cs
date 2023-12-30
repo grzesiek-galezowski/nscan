@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LanguageExt;
 
 namespace NScan.DependencyPathBasedRules;
 
@@ -9,9 +10,9 @@ public class ProjectNotFoundSearchResult : IProjectSearchResult
     return false;
   }
 
-  public IReadOnlyList<IDependencyPathBasedRuleTarget> SegmentEndingWith(IProjectSearchResult terminator, IEnumerable<IDependencyPathBasedRuleTarget> path)
+  public Seq<IDependencyPathBasedRuleTarget> SegmentEndingWith(IProjectSearchResult terminator, IEnumerable<IDependencyPathBasedRuleTarget> path)
   {
-    return new List<IDependencyPathBasedRuleTarget>();
+    return Seq<IDependencyPathBasedRuleTarget>.Empty;
   }
 
   public bool IsNot(IDependencyPathBasedRuleTarget e)
@@ -19,9 +20,9 @@ public class ProjectNotFoundSearchResult : IProjectSearchResult
     return true;
   }
 
-  public IReadOnlyList<IDependencyPathBasedRuleTarget> TerminatedSegmentStartingFrom(int index, IEnumerable<IDependencyPathBasedRuleTarget> path)
+  public Seq<IDependencyPathBasedRuleTarget> TerminatedSegmentStartingFrom(int index, IEnumerable<IDependencyPathBasedRuleTarget> path)
   {
-    return new List<IDependencyPathBasedRuleTarget>();
+    return Seq<IDependencyPathBasedRuleTarget>.Empty;
   }
 
   public bool IsNotBefore(IProjectSearchResult dependingProjectSearchResult)

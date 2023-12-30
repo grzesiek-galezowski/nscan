@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using LanguageExt;
 using NScan.DependencyPathBasedRules;
 
 namespace NScan.DependencyPathBasedRulesSpecification;
@@ -10,7 +11,7 @@ public class DependencyPathInProgressSpecification
   {
     //GIVEN
     var destination = Substitute.For<IFinalDependencyPathDestination>();
-    var initialProjects = Any.List<IDependencyPathBasedRuleTarget>();
+    var initialProjects = Any.List<IDependencyPathBasedRuleTarget>().ToSeq();
     var projectDependencyPathFactory = Substitute.For<ProjectDependencyPathFactory>();
     var newDependencyPath = Any.Instance<IProjectDependencyPath>();
     var additionalProject = Any.Instance<IDependencyPathBasedRuleTarget>();
@@ -33,11 +34,11 @@ public class DependencyPathInProgressSpecification
     destination.Received(1).Add(newDependencyPath);
   }
 
-  private static IReadOnlyList<IDependencyPathBasedRuleTarget> Concatenated(
-    IReadOnlyCollection<IDependencyPathBasedRuleTarget> alreadyAggregatedProjects,
+  private static Seq<IDependencyPathBasedRuleTarget> Concatenated(
+    Seq<IDependencyPathBasedRuleTarget> alreadyAggregatedProjects,
     params IDependencyPathBasedRuleTarget[] additionalProjects)
   {
-    return Arg<IReadOnlyList<IDependencyPathBasedRuleTarget>>.That(
+    return Arg<Seq<IDependencyPathBasedRuleTarget>>.That(
       path => path.Should().BeEquivalentTo(alreadyAggregatedProjects.Concat(additionalProjects).ToList()));
   }
 }

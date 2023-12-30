@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using LanguageExt;
 
 namespace NScan.DependencyPathBasedRules;
 
@@ -8,18 +9,19 @@ public class ProjectFoundSearchResult(IDependencyPathBasedRuleTarget foundProjec
 {
   public bool Exists() => true;
 
-  public IReadOnlyList<IDependencyPathBasedRuleTarget> SegmentEndingWith(
+  public Seq<IDependencyPathBasedRuleTarget> SegmentEndingWith(
     IProjectSearchResult terminator, 
     IEnumerable<IDependencyPathBasedRuleTarget> path)
   {
     return terminator.TerminatedSegmentStartingFrom(occurenceIndex, path);
   }
 
-  public IReadOnlyList<IDependencyPathBasedRuleTarget> TerminatedSegmentStartingFrom(
+  public Seq<IDependencyPathBasedRuleTarget> TerminatedSegmentStartingFrom(
     int index, 
     IEnumerable<IDependencyPathBasedRuleTarget> path)
   {
-    return path.ToList().GetRange(index, occurenceIndex - index + 1);
+    //bug this ToList should disappear
+    return path.ToList().GetRange(index, occurenceIndex - index + 1).ToSeq();
   }
 
   public bool  IsNot(IDependencyPathBasedRuleTarget e)

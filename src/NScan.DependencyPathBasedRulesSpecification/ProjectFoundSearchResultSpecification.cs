@@ -41,7 +41,7 @@ public class ProjectFoundSearchResultSpecification
     var resultOccurenceIndex = Any.Integer();
     var result = new ProjectFoundSearchResult(Any.Instance<IDependencyPathBasedRuleTarget>(), resultOccurenceIndex);
     var anotherResult = Substitute.For<IProjectSearchResult>();
-    var expectedResult = Any.ReadOnlyList<IDependencyPathBasedRuleTarget>();
+    var expectedResult = Any.ReadOnlyList<IDependencyPathBasedRuleTarget>().ToSeq();
     var projectPath = Any.Enumerable<IDependencyPathBasedRuleTarget>();
 
     anotherResult.TerminatedSegmentStartingFrom(resultOccurenceIndex, projectPath).Returns(expectedResult);

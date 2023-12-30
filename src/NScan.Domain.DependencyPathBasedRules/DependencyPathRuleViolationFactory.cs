@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LanguageExt;
 using NScan.SharedKernel;
 
 namespace NScan.DependencyPathBasedRules;
@@ -6,8 +7,9 @@ namespace NScan.DependencyPathBasedRules;
 public class DependencyPathRuleViolationFactory(IDependencyPathReportFragmentsFormat reportFragmentsFormat)
   : IDependencyPathRuleViolationFactory
 {
-  public RuleViolation PathRuleViolation(RuleDescription description,
-    IReadOnlyList<IDependencyPathBasedRuleTarget> violationPath)
+  public RuleViolation PathRuleViolation(
+    RuleDescription description,
+    Seq<IDependencyPathBasedRuleTarget> violationPath)
   {
     return RuleViolation.Create(
       description, 

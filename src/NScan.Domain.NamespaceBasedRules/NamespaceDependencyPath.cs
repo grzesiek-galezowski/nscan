@@ -1,26 +1,20 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
+using LanguageExt;
 using Value;
 
 namespace NScan.NamespaceBasedRules;
 
-public interface INamespaceDependencyPathFormat
-{
-  string ElementTerminator();
-  string ElementIndentation(int elementIndex);
-}
-
-public class NamespaceDependencyPath(ImmutableList<NamespaceName> elements) : ValueType<NamespaceDependencyPath>
+public class NamespaceDependencyPath(Seq<NamespaceName> elements) : ValueType<NamespaceDependencyPath>
 {
   private static readonly SimpleDependencyPathFormat DefaultFormat = new();
 
-  public static NamespaceDependencyPath Empty() => new(ImmutableList<NamespaceName>.Empty);
-  public static NamespaceDependencyPath With(params NamespaceName[] args) => new(args.ToImmutableList());
+  public static NamespaceDependencyPath Empty() => new(Seq<NamespaceName>.Empty);
+  public static NamespaceDependencyPath With(params NamespaceName[] args) => new(args.ToSeq());
 
   protected override IEnumerable<object> GetAllAttributesToBeUsedForEquality()
   {
-    yield return new ListByValue<NamespaceName>(elements);
+    yield return elements;
   }
 
   public override string ToString()
@@ -44,7 +38,7 @@ public class NamespaceDependencyPath(ImmutableList<NamespaceName> elements) : Va
   }
 
   public NamespaceDependencyPath Plus(NamespaceName namespaceName) 
-    => new(elements.Add(namespaceName).ToImmutableList());
+    => new(elements.Add(namespaceName));
 
   public bool HasElements()
   {
@@ -58,6 +52,7 @@ public class NamespaceDependencyPath(ImmutableList<NamespaceName> elements) : Va
       .SequenceEqual(
         ElementsOrderedForEquivalencyComparison());
   }
+
   private IOrderedEnumerable<NamespaceName> ElementsOrderedForEquivalencyComparison()
   {
     return elements
@@ -72,7 +67,7 @@ public class NamespaceDependencyPath(ImmutableList<NamespaceName> elements) : Va
 
   private bool ContainsANamespaceTwice()
   {
-    return elements.GroupBy(_ => _).Where(_ => _.Count() > 1).Sum(_ => _.Count()) > 0;
+    return elements.GroupBy(n => n).Where(n => n.Count() > 1).Sum(n => n.Count()) > 0;
   }
 
   public bool IsEquivalentToAnyOf(IEnumerable<NamespaceDependencyPath> cycles)
@@ -104,5 +99,4 @@ public class NamespaceDependencyPath(ImmutableList<NamespaceName> elements) : Va
       return string.Empty;
     }
   }
-
 }

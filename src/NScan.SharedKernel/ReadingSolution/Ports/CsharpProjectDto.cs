@@ -1,5 +1,4 @@
-﻿using System.Collections.Immutable;
-using LanguageExt;
+﻿using LanguageExt;
 
 namespace NScan.SharedKernel.ReadingSolution.Ports;
 

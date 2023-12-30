@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using LanguageExt;
 
 namespace NScan.DependencyPathBasedRules;
-
-public delegate IProjectDependencyPath ProjectDependencyPathFactory(IReadOnlyList<IDependencyPathBasedRuleTarget> projects);
 
 public class DependencyPathInProgress(
   IFinalDependencyPathDestination destination,
   ProjectDependencyPathFactory pathFactory,
-  IReadOnlyList<IDependencyPathBasedRuleTarget> referencedProjects)
+  Seq<IDependencyPathBasedRuleTarget> referencedProjects)
   : IDependencyPathInProgress
 {
   public IDependencyPathInProgress CloneWith(IDependencyPathBasedRuleTarget project)
@@ -16,14 +15,13 @@ public class DependencyPathInProgress(
     return new DependencyPathInProgress(
       destination,
       pathFactory,
-      referencedProjects.Concat([project]).ToList()
+      referencedProjects.Add(project)
     );
   }
 
   public void FinalizeWith(IDependencyPathBasedRuleTarget finalProject)
   {
-    IReadOnlyList<IDependencyPathBasedRuleTarget> finalPath 
-      = referencedProjects.Concat([finalProject]).ToList();
+    var finalPath = referencedProjects.Add(finalProject);
     destination.Add(pathFactory(finalPath));
   }
 }
