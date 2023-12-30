@@ -7,7 +7,7 @@ using NScan.SharedKernel.ReadingCSharpSourceCode;
 
 namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingCSharpSourceCode;
 
-public class UsingGatheringVisitor(IReadOnlyDictionary<string, ClassDeclarationInfo> classDeclarationInfos)
+public class UsingGatheringVisitor(Map<string, ClassDeclarationInfo> classDeclarationInfos)
   : CSharpSyntaxVisitor
 {
   private readonly List<string> _usingNames = new();
@@ -19,9 +19,13 @@ public class UsingGatheringVisitor(IReadOnlyDictionary<string, ClassDeclarationI
     {
       _usingNames.Add(usingSubject);
     }
-    else if(classDeclarationInfos.TryGetValue(usingSubject, out var classDeclaration))
+    else
     {
-      _usingNames.Add(classDeclaration.Namespace);
+      var classDeclaration = classDeclarationInfos.Find(usingSubject);
+      classDeclaration.IfSome(info =>
+      {
+        _usingNames.Add(info.Namespace);
+      });
     }
   }
 

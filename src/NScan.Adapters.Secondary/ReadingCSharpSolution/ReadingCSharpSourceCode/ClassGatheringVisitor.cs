@@ -6,6 +6,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
 using Core.NullableReferenceTypesExtensions;
+using LanguageExt;
 
 namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingCSharpSourceCode;
 
@@ -71,9 +72,9 @@ public class ClassGatheringVisitor : CSharpSyntaxVisitor
     }
   }
 
-  public Dictionary<string, ClassDeclarationInfo> ToDictionary()
+  public Map<string, ClassDeclarationInfo> ToMap()
   {
-    return _classes.ToDictionary(info => info.FullName);
+    return _classes.ToDictionary(info => info.FullName).ToMap();
   }
 
   private void VisitChildrenOf(SyntaxNode node)

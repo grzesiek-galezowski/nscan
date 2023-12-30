@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using AtmaFileSystem;
+using LanguageExt;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
 using NScan.SharedKernel.ReadingSolution.Ports;
 
@@ -12,7 +13,7 @@ public static class SourceCodeFilePaths
   public static SourceCodeFileDto CreateSourceCodeFileDto(
     AbsoluteDirectoryPath projectDirectory, 
     ICSharpFileSyntaxTree syntaxTree, 
-    Dictionary<string, ClassDeclarationInfo> classDeclarationSignatures, 
+    Map<string, ClassDeclarationInfo> classDeclarationSignatures, 
     string parentProjectRootNamespace, 
     string parentProjectAssemblyName)
   {

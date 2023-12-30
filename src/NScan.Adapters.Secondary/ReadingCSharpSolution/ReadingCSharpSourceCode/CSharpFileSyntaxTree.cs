@@ -11,7 +11,7 @@ using static AtmaFileSystem.AtmaFileSystemPaths;
 
 namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingCSharpSourceCode;
 
-public class CSharpFileSyntaxTree(SyntaxTree syntaxTree) : ICSharpFileSyntaxTree
+public class CSharpFileSyntaxTree(SyntaxTree syntaxTree) :  ICSharpFileSyntaxTree
 {
   public static CSharpFileSyntaxTree ParseText(string sourceCode, string path)
   {
@@ -27,25 +27,25 @@ public class CSharpFileSyntaxTree(SyntaxTree syntaxTree) : ICSharpFileSyntaxTree
     return gatheringVisitor.ToSet().ToSeq();
   }
 
-  public Seq<string> GetAllUsingsFrom(IReadOnlyDictionary<string, ClassDeclarationInfo> classDeclarationInfos)
+  public Seq<string> GetAllUsingsFrom(Map<string, ClassDeclarationInfo> classDeclarationInfos)
   {
     var usingGatheringVisitor = new UsingGatheringVisitor(classDeclarationInfos);
     syntaxTree.GetCompilationUnitRoot(CancellationToken.None).Accept(usingGatheringVisitor);
     return usingGatheringVisitor.ToSeq();
   }
 
-  public IReadOnlyDictionary<string, ClassDeclarationInfo> GetClassDeclarationSignatures()
+  public Map<string, ClassDeclarationInfo> GetClassDeclarationSignatures()
   {
     var usingGatheringVisitor = new ClassGatheringVisitor();
     syntaxTree.GetCompilationUnitRoot(CancellationToken.None).Accept(usingGatheringVisitor);
-    var classDeclarationsByFullName = usingGatheringVisitor.ToDictionary();
+    var classDeclarationsByFullName = usingGatheringVisitor.ToMap();
     return classDeclarationsByFullName;
   }
 
-  public static Dictionary<string, ClassDeclarationInfo> GetClassDeclarationSignaturesFromFiles(IEnumerable<CSharpFileSyntaxTree> cSharpSyntaxs)
+  public static Map<string, ClassDeclarationInfo> GetClassDeclarationSignaturesFromFiles(IEnumerable<CSharpFileSyntaxTree> cSharpSyntaxs)
   {
     return cSharpSyntaxs.SelectMany(syntax => syntax.GetClassDeclarationSignatures())
-      .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+      .ToDictionary(kvp => kvp.Key, kvp => kvp.Value).ToMap();
   }
 
   public static CSharpFileSyntaxTree ParseFile(AbsoluteFilePath path)

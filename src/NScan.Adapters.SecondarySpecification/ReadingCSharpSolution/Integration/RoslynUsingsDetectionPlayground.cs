@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using LanguageExt;
 using NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingCSharpSourceCode;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
 
@@ -6,8 +8,8 @@ namespace NScan.Adapters.SecondarySpecification.ReadingCSharpSolution.Integratio
 
 public class RoslynUsingsDetectionPlayground
 {
-  private static readonly IReadOnlyDictionary<string, ClassDeclarationInfo> NoClassDeclarations 
-    = new Dictionary<string, ClassDeclarationInfo>();
+  private static readonly Map<string, ClassDeclarationInfo> NoClassDeclarations 
+    = Map<string, ClassDeclarationInfo>.Empty;
 
   [Fact]
   public void ShouldGatherNormalUsingsFromAllLevels()
@@ -40,10 +42,8 @@ namespace Lolek
   [Fact]
   public void ShouldCorrectlyRecognizeLocalStaticUsings()
   {
-    CSharpFileSyntaxTree.ParseText(@"using static TddXt.AnyRoot.Root;", "").GetAllUsingsFrom(new Dictionary<string, ClassDeclarationInfo>
-      {
-        {"TddXt.AnyRoot.Root", new ClassDeclarationInfo("Root", "TddXt.AnyRoot")}
-      })
+    CSharpFileSyntaxTree.ParseText(@"using static TddXt.AnyRoot.Root;", "").GetAllUsingsFrom(
+      Map.create(("TddXt.AnyRoot.Root", new ClassDeclarationInfo("Root", "TddXt.AnyRoot"))))
       .Should().Contain("TddXt.AnyRoot");
   }
     
@@ -51,10 +51,7 @@ namespace Lolek
   public void ShouldCorrectlyRecognizeLocalStaticGenericUsings()
   {
     var allUsings = CSharpFileSyntaxTree.ParseText(@"using static Functional.Maybe.Maybe<int, int>;", "").GetAllUsingsFrom(
-      new Dictionary<string, ClassDeclarationInfo>
-      {
-        {"Functional.Maybe.Maybe<int,int>", new ClassDeclarationInfo("Maybe<int,int>", "Functional.Maybe.Maybe<int,int>")}
-      });
+      Map.create(("Functional.Maybe.Maybe<int,int>", new ClassDeclarationInfo("Maybe<int,int>", "Functional.Maybe.Maybe<int,int>"))));
     allUsings.Should().Contain("Functional.Maybe.Maybe<int,int>");
   }
 

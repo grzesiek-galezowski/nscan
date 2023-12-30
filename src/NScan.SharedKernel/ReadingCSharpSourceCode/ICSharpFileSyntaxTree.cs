@@ -8,6 +8,6 @@ public interface ICSharpFileSyntaxTree
 {
   AbsoluteFilePath FilePath { get; }
   Seq<string> GetAllUniqueNamespaces();
-  Seq<string> GetAllUsingsFrom(IReadOnlyDictionary<string, ClassDeclarationInfo> classDeclarationInfos);
-  IReadOnlyDictionary<string, ClassDeclarationInfo> GetClassDeclarationSignatures();
+  Seq<string> GetAllUsingsFrom(Map<string, ClassDeclarationInfo> classDeclarationInfos);
+  Map<string, ClassDeclarationInfo> GetClassDeclarationSignatures();
 }
