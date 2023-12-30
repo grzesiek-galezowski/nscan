@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using AtmaFileSystem;
+using LanguageExt;
 using NScan.Lib;
 using NScan.SharedKernel;
 
@@ -9,7 +10,7 @@ namespace NScan.ProjectScopedRules;
 
 public class SourceCodeFile(
   IProjectScopedRuleViolationFactory ruleViolationFactory,
-  IReadOnlyList<string> declaredNamespaces,
+  Seq<string> declaredNamespaces,
   string parentProjectAssemblyName,
   string parentProjectRootNamespace,
   RelativeFilePath pathRelativeToProjectRoot,

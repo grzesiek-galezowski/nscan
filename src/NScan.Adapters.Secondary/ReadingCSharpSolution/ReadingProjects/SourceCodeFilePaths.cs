@@ -18,7 +18,7 @@ public static class SourceCodeFilePaths
   {
     return new SourceCodeFileDto(
       AtmaFileSystemPaths.RelativeFilePath(GetPathRelativeTo(projectDirectory, syntaxTree.FilePath)), 
-      syntaxTree.GetAllUniqueNamespaces().ToList(), 
+      syntaxTree.GetAllUniqueNamespaces(), 
       parentProjectRootNamespace, 
       parentProjectAssemblyName,
       syntaxTree.GetAllUsingsFrom(classDeclarationSignatures),

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Core.NullableReferenceTypesExtensions;
+using LanguageExt;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
@@ -36,8 +37,8 @@ public class UsingGatheringVisitor(IReadOnlyDictionary<string, ClassDeclarationI
     foreach(var u in node.Members) {u.Accept(this);}
   }
 
-  public IReadOnlyList<string> ToList()
+  public Seq<string> ToSeq()
   {
-    return _usingNames;
+    return _usingNames.ToSeq();
   }
 }

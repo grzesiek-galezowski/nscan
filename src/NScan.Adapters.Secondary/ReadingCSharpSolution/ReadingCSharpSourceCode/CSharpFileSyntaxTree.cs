@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using AtmaFileSystem;
+using LanguageExt;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
@@ -19,18 +20,18 @@ public class CSharpFileSyntaxTree(SyntaxTree syntaxTree) : ICSharpFileSyntaxTree
 
   public AbsoluteFilePath FilePath => AbsoluteFilePath(syntaxTree.FilePath);
 
-  public IEnumerable<string> GetAllUniqueNamespaces()
+  public Seq<string> GetAllUniqueNamespaces()
   {
     var gatheringVisitor = new NamespaceGatheringVisitor();
     syntaxTree.GetCompilationUnitRoot().Accept(gatheringVisitor);
-    return gatheringVisitor.ToSet();
+    return gatheringVisitor.ToSet().ToSeq();
   }
 
-  public IReadOnlyList<string> GetAllUsingsFrom(IReadOnlyDictionary<string, ClassDeclarationInfo> classDeclarationInfos)
+  public Seq<string> GetAllUsingsFrom(IReadOnlyDictionary<string, ClassDeclarationInfo> classDeclarationInfos)
   {
     var usingGatheringVisitor = new UsingGatheringVisitor(classDeclarationInfos);
     syntaxTree.GetCompilationUnitRoot(CancellationToken.None).Accept(usingGatheringVisitor);
-    return usingGatheringVisitor.ToList();
+    return usingGatheringVisitor.ToSeq();
   }
 
   public IReadOnlyDictionary<string, ClassDeclarationInfo> GetClassDeclarationSignatures()

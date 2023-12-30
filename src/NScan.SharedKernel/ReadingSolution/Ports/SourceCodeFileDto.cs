@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using AtmaFileSystem;
+using LanguageExt;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
 
 namespace NScan.SharedKernel.ReadingSolution.Ports;
 
 public class SourceCodeFileDto(
   RelativeFilePath filePathRelativeToProjectRoot,
-  List<string> declaredNamespaces,
+  Seq<string> declaredNamespaces,
   string parentProjectRootNamespace,
   string parentProjectAssemblyName,
-  IReadOnlyList<string> usings,
+  Seq<string> usings,
   IReadOnlyList<ClassDeclarationInfo> classes)
 {
-  public IReadOnlyList<ClassDeclarationInfo> Classes { get; } = classes ?? throw new ArgumentException(nameof(classes));
-  public IReadOnlyList<string> Usings { get; } = usings ?? throw new ArgumentException(nameof(usings));
+  public IReadOnlyList<ClassDeclarationInfo> Classes { get; } = classes ?? throw new ArgumentNullException(nameof(classes));
+  public Seq<string> Usings { get; } = usings;
   public string ParentProjectAssemblyName { get; } = parentProjectAssemblyName ?? throw new ArgumentNullException(nameof(parentProjectAssemblyName));
   public string ParentProjectRootNamespace { get; } = parentProjectRootNamespace ?? throw new ArgumentNullException(nameof(parentProjectRootNamespace));
   public RelativeFilePath PathRelativeToProjectRoot { get; } = filePathRelativeToProjectRoot;
-  public IReadOnlyList<string> DeclaredNamespaces { get; } = declaredNamespaces ?? throw new ArgumentException(nameof(declaredNamespaces));
+  public Seq<string> DeclaredNamespaces { get; } = declaredNamespaces;
 }

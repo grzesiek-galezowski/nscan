@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AtmaFileSystem;
+using LanguageExt;
 using NScan.SharedKernel.ReadingSolution.Ports;
 
 namespace NScanSpecification.Lib.AutomationLayer;
@@ -8,9 +9,9 @@ namespace NScanSpecification.Lib.AutomationLayer;
 public class SourceCodeFileDtoBuilder
 {
   private readonly List<ClassDeclarationBuilder> _classes = [];
-  private List<string> DeclaredNamespaces { get; }
+  private Seq<string> DeclaredNamespaces { get; }
   private string FileName { get; set; }
-  private List<string> Usings { get; } = [];
+  private Seq<string> Usings { get; set; } = [];
 
   public static SourceCodeFileDtoBuilder FileWithNamespace(string fileName, string fileNamespace)
   {
@@ -30,12 +31,12 @@ public class SourceCodeFileDtoBuilder
   private SourceCodeFileDtoBuilder(string fileName, List<string> declaredNamespaces)
   {
     FileName = fileName;
-    DeclaredNamespaces = declaredNamespaces;
+    DeclaredNamespaces = declaredNamespaces.ToSeq(); //bug
   }
 
   public SourceCodeFileDtoBuilder Using(string usingDeclaration)
   {
-    Usings.Add(usingDeclaration);
+    Usings = Usings.Add(usingDeclaration);
     return this;
   }
 
@@ -46,7 +47,7 @@ public class SourceCodeFileDtoBuilder
       DeclaredNamespaces, 
       parentProjectRootNamespace, 
       parentProjectAssemblyName, 
-      Usings,
+      Usings.ToSeq(),
       _classes.Select(c => c.WithNamespace(DeclaredNamespaces.First()).Build()).ToList());
   }
 

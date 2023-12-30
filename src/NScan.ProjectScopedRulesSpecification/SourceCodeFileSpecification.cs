@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using AtmaFileSystem;
+using LanguageExt;
 using NScan.Lib;
 using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
@@ -23,7 +24,7 @@ public class SourceCodeFileSpecification
       ParentProjectAssemblyName = parentProjectAssemblyName,
       PathRelativeToProjectRoot = pathRelativeToProjectRoot,
       ParentProjectRootNamespace = parentProjectRootNamespace,
-      DeclaredNamespaces = Any.OtherThan(parentProjectRootNamespace).AsList()
+      DeclaredNamespaces = Any.OtherThan(parentProjectRootNamespace).AsSeq()
     };
 
     var file = fileBuilder.Build();  
@@ -56,7 +57,7 @@ public class SourceCodeFileSpecification
     var fileBuilder = new SourceCodeFileBuilder
     {
       RuleViolationFactory = ruleViolationFactory,
-      DeclaredNamespaces = new List<string>(),
+      DeclaredNamespaces = Seq<string>.Empty,
       ParentProjectAssemblyName = parentProjectAssemblyName,
       ParentProjectRootNamespace = parentProjectRootNamespace,
       PathRelativeToProjectRoot = pathRelativeToProjectRoot
@@ -94,7 +95,7 @@ public class SourceCodeFileSpecification
 
     var file = new SourceCodeFileBuilder
     {
-      DeclaredNamespaces = new List<string> { namespace1, namespace2 },
+      DeclaredNamespaces = Seq.create(namespace1, namespace2),
       RuleViolationFactory = ruleViolationFactory,
       ParentProjectAssemblyName = parentProjectAssemblyName,
       ParentProjectRootNamespace = projectRootNamespace,
@@ -121,7 +122,7 @@ public class SourceCodeFileSpecification
     var fileBuilder = new SourceCodeFileBuilder();
     var file = (fileBuilder with
     {
-      DeclaredNamespaces = fileBuilder.ParentProjectRootNamespace.AsList()
+      DeclaredNamespaces = fileBuilder.ParentProjectRootNamespace.AsSeq()
     }).Build();
     var report = Substitute.For<IAnalysisReportInProgress>();
 
@@ -205,7 +206,7 @@ public record SourceCodeFileBuilder
 
   public string ParentProjectAssemblyName { get; init; } = Any.Instance<string>();
 
-  public IReadOnlyList<string> DeclaredNamespaces { get; init; } = Any.Instance<IReadOnlyList<string>>();
+  public Seq<string> DeclaredNamespaces { get; init; } = Any.Seq<string>();
 
   public IProjectScopedRuleViolationFactory RuleViolationFactory { get; init; } = Any.Instance<IProjectScopedRuleViolationFactory>();
   public ICSharpClass[] Classes { get; init; } = Any.Array<ICSharpClass>();
@@ -213,8 +214,8 @@ public record SourceCodeFileBuilder
 
 public static class ToCollectionExtensions
 {
-  public static List<T> AsList<T>(this T item)
+  public static Seq<T> AsSeq<T>(this T item)
   {
-    return [item];
+    return Seq.create(item);
   }
 }
