@@ -198,7 +198,7 @@ public record SourceCodeFileBuilder
       Classes);
   }
 
-  public IReadOnlyList<string> Usings { get; init; } = Any.Instance<IReadOnlyList<string>>();
+  public Seq<string> Usings { get; init; } = Any.Seq<string>();
 
   public RelativeFilePath PathRelativeToProjectRoot { get; init; } = Any.Instance<RelativeFilePath>();
 

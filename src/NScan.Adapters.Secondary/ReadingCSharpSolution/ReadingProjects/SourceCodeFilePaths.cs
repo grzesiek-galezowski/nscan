@@ -22,7 +22,7 @@ public static class SourceCodeFilePaths
       parentProjectRootNamespace, 
       parentProjectAssemblyName,
       syntaxTree.GetAllUsingsFrom(classDeclarationSignatures),
-      classDeclarationSignatures.Values.ToList());
+      classDeclarationSignatures.Values.ToSeq());
   }
 
   private static string GetPathRelativeTo(AbsoluteDirectoryPath projectDirectory, AbsoluteFilePath file)

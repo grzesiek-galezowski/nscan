@@ -8,10 +8,10 @@ namespace NScanSpecification.Lib.AutomationLayer;
 
 public class SourceCodeFileDtoBuilder
 {
-  private readonly List<ClassDeclarationBuilder> _classes = [];
+  private Seq<ClassDeclarationBuilder> _classes;
   private Seq<string> DeclaredNamespaces { get; }
   private string FileName { get; set; }
-  private Seq<string> Usings { get; set; } = [];
+  private Seq<string> Usings { get; set; }
 
   public static SourceCodeFileDtoBuilder FileWithNamespace(string fileName, string fileNamespace)
   {
@@ -48,7 +48,7 @@ public class SourceCodeFileDtoBuilder
       parentProjectRootNamespace, 
       parentProjectAssemblyName, 
       Usings.ToSeq(),
-      _classes.Select(c => c.WithNamespace(DeclaredNamespaces.First()).Build()).ToList());
+      _classes.Select(c => c.WithNamespace(DeclaredNamespaces.First()).Build()));
   }
 
   public static SourceCodeFileDtoBuilder File(string fileName)
@@ -59,7 +59,7 @@ public class SourceCodeFileDtoBuilder
 
   public SourceCodeFileDtoBuilder Containing(ClassDeclarationBuilder classDeclarationBuilder)
   {
-    _classes.Add(classDeclarationBuilder);
+    _classes = _classes.Add(classDeclarationBuilder);
     return this;
   }
 }
