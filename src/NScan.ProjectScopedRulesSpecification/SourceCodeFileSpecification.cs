@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using AtmaFileSystem;
+﻿using AtmaFileSystem;
 using LanguageExt;
 using NScan.Lib;
 using NScan.ProjectScopedRules;

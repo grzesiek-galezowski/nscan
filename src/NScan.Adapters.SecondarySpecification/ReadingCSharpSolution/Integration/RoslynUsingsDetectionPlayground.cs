@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using LanguageExt;
+﻿using LanguageExt;
 using NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingCSharpSourceCode;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
 

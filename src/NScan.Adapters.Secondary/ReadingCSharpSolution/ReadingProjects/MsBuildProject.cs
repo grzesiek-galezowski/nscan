@@ -6,7 +6,6 @@ using Microsoft.Build.Construction;
 using Microsoft.Build.Evaluation;
 using NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingCSharpSourceCode;
 using NScan.SharedKernel;
-using NScan.SharedKernel.ReadingCSharpSourceCode;
 using NScan.SharedKernel.ReadingSolution.Ports;
 
 namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects;

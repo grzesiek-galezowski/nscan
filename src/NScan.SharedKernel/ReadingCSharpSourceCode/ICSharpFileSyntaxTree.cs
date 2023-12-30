@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using AtmaFileSystem;
+﻿using AtmaFileSystem;
 using LanguageExt;
 
 namespace NScan.SharedKernel.ReadingCSharpSourceCode;

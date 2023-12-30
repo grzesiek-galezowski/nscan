@@ -1,5 +1,4 @@
 ﻿using NScan.DependencyPathBasedRules;
-using TddXt.XFluentAssert.Api;
 
 namespace NScan.DependencyPathBasedRulesSpecification;
 
