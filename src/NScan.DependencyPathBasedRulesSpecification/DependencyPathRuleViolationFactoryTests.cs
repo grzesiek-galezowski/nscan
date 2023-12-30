@@ -1,5 +1,6 @@
 ﻿using NScan.DependencyPathBasedRules;
 using NScan.SharedKernel;
+using NScanSpecification.Lib;
 
 namespace NScan.DependencyPathBasedRulesSpecification;
 
@@ -11,7 +12,7 @@ public class DependencyPathRuleViolationFactoryTests
     //GIVEN
     var reportFragmentsFormat = Substitute.For<IDependencyPathReportFragmentsFormat>();
     var factory = new DependencyPathRuleViolationFactory(reportFragmentsFormat);
-    var path = Any.ReadOnlyList<IDependencyPathBasedRuleTarget>().ToSeq();
+    var path = Any.Seq<IDependencyPathBasedRuleTarget>();
     var ruleDescription = Any.Instance<RuleDescription>();
     var formattedPath = Any.String();
 

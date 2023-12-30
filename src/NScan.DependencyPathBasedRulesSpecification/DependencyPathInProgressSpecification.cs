@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using LanguageExt;
 using NScan.DependencyPathBasedRules;
+using NScanSpecification.Lib;
 
 namespace NScan.DependencyPathBasedRulesSpecification;
 
@@ -11,7 +12,7 @@ public class DependencyPathInProgressSpecification
   {
     //GIVEN
     var destination = Substitute.For<IFinalDependencyPathDestination>();
-    var initialProjects = Any.List<IDependencyPathBasedRuleTarget>().ToSeq();
+    var initialProjects = Any.Seq<IDependencyPathBasedRuleTarget>();
     var projectDependencyPathFactory = Substitute.For<ProjectDependencyPathFactory>();
     var newDependencyPath = Any.Instance<IProjectDependencyPath>();
     var additionalProject = Any.Instance<IDependencyPathBasedRuleTarget>();

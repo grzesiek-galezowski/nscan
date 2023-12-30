@@ -1,4 +1,5 @@
-﻿using NScan.DependencyPathBasedRules;
+﻿using LanguageExt;
+using NScan.DependencyPathBasedRules;
 using NScanSpecification.Lib;
 
 namespace NScan.DependencyPathBasedRulesSpecification;
@@ -9,7 +10,7 @@ public class ProjectDependencyPathSpecification
   public void ShouldReturnSegmentBetweenTwoResultsAsSegmentStartingWithDependingAndEndingWithDependency()
   {
     //GIVEN
-    var projects = Any.ReadOnlyList<IDependencyPathBasedRuleTarget>().ToSeq();
+    var projects = Any.Seq<IDependencyPathBasedRuleTarget>();
     var projectsSegment = Any.OtherThan(projects);
     var path = new ProjectDependencyPath(projects, Any.Instance<IProjectFoundSearchResultFactory>());
     var depending = Substitute.For<IProjectSearchResult>();
@@ -31,10 +32,7 @@ public class ProjectDependencyPathSpecification
     var project1 = Any.Instance<IDependencyPathBasedRuleTarget>();
     var project2 = Any.Instance<IDependencyPathBasedRuleTarget>();
     var project3 = Any.Instance<IDependencyPathBasedRuleTarget>();
-    var projects = new List<IDependencyPathBasedRuleTarget>
-    {
-      project1, project2, project3
-    }.ToSeq();
+    var projects = Seq.create(project1, project2, project3);
     var searchResultFactory = Substitute.For<IProjectFoundSearchResultFactory>();
     var depending = Substitute.For<IProjectSearchResult>();
     var condition = Substitute.For<IDescribedDependencyCondition>();
@@ -61,10 +59,7 @@ public class ProjectDependencyPathSpecification
     var project1 = Any.Instance<IDependencyPathBasedRuleTarget>();
     var project2 = Any.Instance<IDependencyPathBasedRuleTarget>();
     var project3 = Any.Instance<IDependencyPathBasedRuleTarget>();
-    var projects = new List<IDependencyPathBasedRuleTarget>
-    {
-      project1, project2, project3
-    }.ToSeq();
+    var projects = Seq.create(project1, project2, project3);
     var searchResultFactory = Substitute.For<IProjectFoundSearchResultFactory>();
     var depending = Substitute.For<IProjectSearchResult>();
     var condition = Substitute.For<IDescribedDependencyCondition>();
@@ -92,10 +87,7 @@ public class ProjectDependencyPathSpecification
     var project1 = Substitute.For<IDependencyPathBasedRuleTarget>();
     var project2 = Substitute.For<IDependencyPathBasedRuleTarget>();
     var project3 = Substitute.For<IDependencyPathBasedRuleTarget>();
-    var projects = new List<IDependencyPathBasedRuleTarget>
-    {
-      project1, project2, project3
-    }.ToSeq();
+    var projects = Seq.create(project1, project2, project3);
     var searchResultFactory = Substitute.For<IProjectFoundSearchResultFactory>();
     var foundResult = Any.Instance<IProjectSearchResult>();
 
@@ -121,10 +113,7 @@ public class ProjectDependencyPathSpecification
     var project1 = Substitute.For<IDependencyPathBasedRuleTarget>();
     var project2 = Substitute.For<IDependencyPathBasedRuleTarget>();
     var project3 = Substitute.For<IDependencyPathBasedRuleTarget>();
-    var projects = new List<IDependencyPathBasedRuleTarget>
-    {
-      project1, project2, project3
-    }.ToSeq();
+    var projects = Seq.create(project1, project2, project3);
     var searchResultFactory = Substitute.For<IProjectFoundSearchResultFactory>();
     var notFoundResult = Any.Instance<IProjectSearchResult>();
 
@@ -141,5 +130,4 @@ public class ProjectDependencyPathSpecification
     //THEN
     actualResult.Should().Be(notFoundResult);
   }
-
 }
