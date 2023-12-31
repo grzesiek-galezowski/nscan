@@ -18,7 +18,7 @@ public class DependencyPathBasedRuleTargetFactorySpecification
     var projectDictionary = csharpWorkspaceModel.CreateDependencyPathRuleTargetsByIds(Seq<CsharpProjectDto>.Empty);
 
     //THEN
-    projectDictionary.Should().BeEmpty();
+    projectDictionary.ToReadOnlyDictionary().Should().BeEmpty();
   }
 
   [Fact]
@@ -37,9 +37,9 @@ public class DependencyPathBasedRuleTargetFactorySpecification
       xmlProjects);
 
     //THEN
-    projectDictionary.Should().ContainKey(xmlProject1.Id);
-    projectDictionary.Should().ContainKey(xmlProject2.Id);
-    projectDictionary.Should().ContainKey(xmlProject3.Id);
+    projectDictionary.ToReadOnlyDictionary().Should().ContainKey(xmlProject1.Id);
+    projectDictionary.ToReadOnlyDictionary().Should().ContainKey(xmlProject2.Id);
+    projectDictionary.ToReadOnlyDictionary().Should().ContainKey(xmlProject3.Id);
     projectDictionary[xmlProject1.Id].Should().BeOfType<DotNetStandardProject>();
     projectDictionary[xmlProject2.Id].Should().BeOfType<DotNetStandardProject>();
     projectDictionary[xmlProject3.Id].Should().BeOfType<DotNetStandardProject>();

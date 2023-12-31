@@ -41,6 +41,11 @@ public static class MyAnyExtensions
     return gen.List<T>().ToArr();
   }
 
+  public static Map<T,V> Map<T,V>(this BasicGenerator gen)
+  {
+    return gen.ReadOnlyDictionary<T,V>().ToMap();
+  }
+
   public static ProjectId ProjectIdOtherThan(this BasicGenerator gen, ProjectId projectId)
   {
     return gen.OtherThan(projectId);

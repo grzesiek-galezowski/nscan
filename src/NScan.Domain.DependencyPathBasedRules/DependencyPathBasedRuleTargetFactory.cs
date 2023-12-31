@@ -8,7 +8,7 @@ namespace NScan.DependencyPathBasedRules;
 
 public class DependencyPathBasedRuleTargetFactory(INScanSupport support)
 {
-  public Dictionary<ProjectId, IDotNetProject> CreateDependencyPathRuleTargetsByIds(
+  public Map<ProjectId, IDotNetProject> CreateDependencyPathRuleTargetsByIds(
     Seq<CsharpProjectDto> xmlProjectDataAccesses)
   {
     var projects = new Dictionary<ProjectId, IDotNetProject>();
@@ -18,7 +18,7 @@ public class DependencyPathBasedRuleTargetFactory(INScanSupport support)
       projects.Add(id, project);
     }
 
-    return projects;
+    return projects.ToMap();
   }
 
   private (ProjectId, DotNetStandardProject) CreateProject(CsharpProjectDto projectDataAccess)

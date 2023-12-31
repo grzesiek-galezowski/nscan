@@ -1,4 +1,5 @@
 ﻿using System;
+using LanguageExt;
 using NScan.DependencyPathBasedRules;
 using NScan.SharedKernel;
 using NScanSpecification.Lib;
@@ -14,26 +15,21 @@ public class SolutionForDependencyPathRulesSpecification
     var project1 = Substitute.For<IDotNetProject>();
     var project2 = Substitute.For<IDotNetProject>();
     var project3 = Substitute.For<IDotNetProject>();
-    var projectsById = new Dictionary<ProjectId, IDotNetProject>
-    {
-      { Any.ProjectId(), project1 },
-      { Any.ProjectId(), project2 },
-      { Any.ProjectId(), project3 },
-    };
+    var projectsById = Map.create(
+      (Any.ProjectId(), project1),
+      (Any.ProjectId(), project2),
+      (Any.ProjectId(), project3)
+    );
     var dotNetStandardSolution = new SolutionForDependencyPathRules(
       Any.Instance<IPathCache>(), projectsById);
-      
 
     //WHEN
     dotNetStandardSolution.ResolveAllProjectsReferences();
 
     //THEN
-    Received.InOrder(() =>
-    {
-      project1.ResolveReferencesFrom((ISolutionContext)dotNetStandardSolution);
-      project2.ResolveReferencesFrom((ISolutionContext)dotNetStandardSolution);
-      project3.ResolveReferencesFrom((ISolutionContext)dotNetStandardSolution);
-    });
+    project1.Received(1).ResolveReferencesFrom((ISolutionContext)dotNetStandardSolution);
+    project2.Received(1).ResolveReferencesFrom((ISolutionContext)dotNetStandardSolution);
+    project3.Received(1).ResolveReferencesFrom((ISolutionContext)dotNetStandardSolution);
   }
 
   [Fact]
@@ -43,15 +39,13 @@ public class SolutionForDependencyPathRulesSpecification
     var project1 = Substitute.For<IDotNetProject>();
     var project2 = Substitute.For<IDotNetProject>();
     var project2Id = Any.ProjectId();
-    var projectsById = new Dictionary<ProjectId, IDotNetProject>
-    {
-      { Any.ProjectId(), project1 },
-      { project2Id, project2 },
-    };
+    var projectsById = Map.create(
+      (Any.ProjectId(), project1),
+      (project2Id, project2)
+    );
     var dotNetStandardSolution = new SolutionForDependencyPathRules(
       Any.Instance<IPathCache>(), projectsById);
       
-
     //WHEN
     dotNetStandardSolution.ResolveReferenceFrom(project1, project2Id);
 
@@ -67,13 +61,9 @@ public class SolutionForDependencyPathRulesSpecification
     //GIVEN
     var project1 = Substitute.For<IDotNetProject>();
     var project1Id = Any.ProjectId();
-    var projectsById = new Dictionary<ProjectId, IDotNetProject>
-    {
-      { project1Id, project1 },
-    };
+    var projectsById = Map.create((project1Id, project1));
     var dotNetStandardSolution = new SolutionForDependencyPathRules(
       Any.Instance<IPathCache>(), projectsById);
-
 
     //WHEN - THEN
     new Action(() => dotNetStandardSolution.ResolveReferenceFrom(project1, Any.ProjectIdOtherThan(project1Id)))
@@ -85,7 +75,7 @@ public class SolutionForDependencyPathRulesSpecification
   public void ShouldOrderThePathRuleSetToCheckThePathsInTheCacheForVerification()
   {
     //GIVEN
-    var projectsById = Any.ReadOnlyDictionary<ProjectId, IDotNetProject>();
+    var projectsById = Any.Map<ProjectId, IDotNetProject>();
     var pathCache = Any.Instance<IPathCache>();
     var solution = new SolutionForDependencyPathRules(
       pathCache, 
@@ -107,12 +97,11 @@ public class SolutionForDependencyPathRulesSpecification
     var root1 = Substitute.For<IDotNetProject>();
     var root2 = Substitute.For<IDotNetProject>();
     var nonRoot = Substitute.For<IDotNetProject>();
-    var projectsById = new Dictionary<ProjectId, IDotNetProject>
-    {
-      { Any.ProjectId(), root1},
-      { Any.ProjectId(), nonRoot},
-      { Any.ProjectId(), root2}
-    } as IReadOnlyDictionary<ProjectId, IDotNetProject>;
+    var projectsById = Map.create(
+      (Any.ProjectId(), root1),
+      (Any.ProjectId(), nonRoot),
+      (Any.ProjectId(), root2)
+    );
     var pathCache = Substitute.For<IPathCache>();
     var solution = new SolutionForDependencyPathRules(pathCache, 
       projectsById);

@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LanguageExt;
 using NScan.SharedKernel;
 
 namespace NScan.DependencyPathBasedRules;
 
 public class SolutionForDependencyPathRules(
   IPathCache pathCache,
-  IReadOnlyDictionary<ProjectId, IDotNetProject> projectsById)
+  Map<ProjectId, IDotNetProject> projectsById)
   : ISolutionForDependencyPathBasedRules, ISolutionContext
 {
   public void ResolveAllProjectsReferences()
@@ -29,22 +30,19 @@ public class SolutionForDependencyPathRules(
 
   public void ResolveReferenceFrom(IReferencingProject referencingProject, ProjectId referencedProjectId)
   {
-    try
-    {
-      var referencedProject = projectsById[referencedProjectId];
-
-      referencingProject.ResolveAsReferencing(referencedProject);
-      referencedProject.ResolveAsReferenceOf(referencingProject);
-    }
-    catch (KeyNotFoundException e)
+    var referencedProject = projectsById.Find(referencedProjectId);
+    if (referencedProject.IsNone)
     {
       throw new ReferencedProjectNotFoundInSolutionException(
-        CouldNotFindProjectFor(referencedProjectId, projectsById), e);
+        CouldNotFindProjectFor(referencedProjectId, projectsById));
     }
+
+    referencingProject.ResolveAsReferencing(referencedProject.Single());
+    referencedProject.Single().ResolveAsReferenceOf(referencingProject);
   }
 
   private static string CouldNotFindProjectFor(ProjectId referencedProjectId,
-    IReadOnlyDictionary<ProjectId, IDotNetProject> projectsById)
+    Map<ProjectId, IDotNetProject> projectsById)
   {
     const string dotString = "* ";
     return
