@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using GlobExpressions;
+using LanguageExt;
 using NScan.Lib;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingSolution.Ports;
@@ -11,8 +12,8 @@ namespace NScan.DependencyPathBasedRules;
 public class DotNetStandardProject(
   string assemblyName,
   ProjectId id,
-  IReadOnlyList<PackageReference> packageReferences,
-  IReadOnlyList<AssemblyReference> assemblyReferences,
+  Arr<PackageReference> packageReferences,
+  Arr<AssemblyReference> assemblyReferences,
   IReferencedProjects referencedProjects,
   IReferencingProjects referencingProjects)
   : IDotNetProject

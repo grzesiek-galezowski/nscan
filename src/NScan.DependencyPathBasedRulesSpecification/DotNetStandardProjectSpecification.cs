@@ -1,4 +1,5 @@
 ﻿using GlobExpressions;
+using LanguageExt;
 using NScan.DependencyPathBasedRules;
 using NScan.Lib;
 using NScan.SharedKernel;
@@ -199,12 +200,10 @@ public class DotNetStandardProjectSpecification
     //GIVEN
     var packageReference = Any.String();
     var project = new DotNetStandardProjectBuilder
-    {
-      PackageReferences = new List<PackageReference>
       {
-        new(packageReference, Any.String())
-      }
-    }.Build();
+        PackageReferences = 
+          Arr.create(new PackageReference(packageReference, Any.String()))
+      }.Build();
 
     //WHEN
     var result = project.HasPackageReferenceMatching(new Glob(packageReference));
@@ -233,10 +232,8 @@ public class DotNetStandardProjectSpecification
     var assemblyReferenceName = Any.String();
     var project = new DotNetStandardProjectBuilder
     {
-      AssemblyReferences = new List<AssemblyReference>
-      {
-        new(assemblyReferenceName, Any.String())
-      }
+      AssemblyReferences = 
+        Arr.create(new AssemblyReference(assemblyReferenceName, Any.String()))
     }.Build();
 
     //WHEN
@@ -293,11 +290,11 @@ public class DotNetStandardProjectSpecification
 
     public IReferencedProjects ReferencedProjects { get; set; } = Any.Instance<IReferencedProjects>();
 
-    public IReadOnlyList<PackageReference> PackageReferences { private get; set; } =
-      Any.ReadOnlyList<PackageReference>();
+    public Arr<PackageReference> PackageReferences { private get; set; } =
+      Any.Arr<PackageReference>();
 
-    public IReadOnlyList<AssemblyReference> AssemblyReferences { private get; set; } =
-      Any.ReadOnlyList<AssemblyReference>();
+    public Arr<AssemblyReference> AssemblyReferences { private get; set; } =
+      Any.Arr<AssemblyReference>();
 
     public ProjectId ProjectId { private get; set; } = Any.ProjectId();
     public string AssemblyName { private get; set; } = Any.String();
