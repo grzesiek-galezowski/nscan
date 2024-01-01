@@ -7,7 +7,7 @@ using NScan.SharedKernel.ReadingCSharpSourceCode;
 
 namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingCSharpSourceCode;
 
-public class UsingGatheringVisitor(Map<string, ClassDeclarationInfo> classDeclarationInfos)
+public class UsingGatheringVisitor(HashMap<string, ClassDeclarationInfo> classDeclarationInfos)
   : CSharpSyntaxVisitor
 {
   private readonly List<string> _usingNames = new();

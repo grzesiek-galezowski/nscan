@@ -27,25 +27,25 @@ public class CSharpFileSyntaxTree(SyntaxTree syntaxTree) :  ICSharpFileSyntaxTre
     return gatheringVisitor.ToSet().ToSeq();
   }
 
-  public Seq<string> GetAllUsingsFrom(Map<string, ClassDeclarationInfo> classDeclarationInfos)
+  public Seq<string> GetAllUsingsFrom(HashMap<string, ClassDeclarationInfo> classDeclarationInfos)
   {
     var usingGatheringVisitor = new UsingGatheringVisitor(classDeclarationInfos);
     syntaxTree.GetCompilationUnitRoot(CancellationToken.None).Accept(usingGatheringVisitor);
     return usingGatheringVisitor.ToSeq();
   }
 
-  public Map<string, ClassDeclarationInfo> GetClassDeclarationSignatures()
+  public HashMap<string, ClassDeclarationInfo> GetClassDeclarationSignatures()
   {
     var usingGatheringVisitor = new ClassGatheringVisitor();
     syntaxTree.GetCompilationUnitRoot(CancellationToken.None).Accept(usingGatheringVisitor);
-    var classDeclarationsByFullName = usingGatheringVisitor.ToMap();
+    var classDeclarationsByFullName = usingGatheringVisitor.ToHashMap();
     return classDeclarationsByFullName;
   }
 
-  public static Map<string, ClassDeclarationInfo> GetClassDeclarationSignaturesFromFiles(IEnumerable<CSharpFileSyntaxTree> cSharpSyntaxs)
+  public static HashMap<string, ClassDeclarationInfo> GetClassDeclarationSignaturesFromFiles(IEnumerable<CSharpFileSyntaxTree> cSharpSyntaxs)
   {
     return cSharpSyntaxs.SelectMany(syntax => syntax.GetClassDeclarationSignatures())
-      .ToDictionary(kvp => kvp.Key, kvp => kvp.Value).ToMap();
+      .ToDictionary(kvp => kvp.Key, kvp => kvp.Value).ToHashMap();
   }
 
   public static CSharpFileSyntaxTree ParseFile(AbsoluteFilePath path)

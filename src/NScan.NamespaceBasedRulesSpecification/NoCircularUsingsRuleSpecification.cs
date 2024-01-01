@@ -1,6 +1,8 @@
-﻿using NScan.NamespaceBasedRules;
+﻿using LanguageExt;
+using NScan.NamespaceBasedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
+using NScanSpecification.Lib;
 
 namespace NScan.NamespaceBasedRulesSpecification;
 
@@ -29,7 +31,7 @@ public class NoCircularUsingsRuleSpecification
     var rule = new NoCircularUsingsRule(Any.Instance<NoCircularUsingsRuleComplementDto>(), ruleViolationFactory);
     var cache = Substitute.For<INamespacesDependenciesCache>();
     var report = Substitute.For<IAnalysisReportInProgress>();
-    var cycles = Any.ReadOnlyList<NamespaceDependencyPath>();
+    var cycles = Any.Arr<NamespaceDependencyPath>();
     var violation = Any.Instance<RuleViolation>();
     var projectAssemblyName = Any.Instance<AssemblyName>();
 
@@ -54,17 +56,12 @@ public class NoCircularUsingsRuleSpecification
     var cache = Substitute.For<INamespacesDependenciesCache>();
     var report = Substitute.For<IAnalysisReportInProgress>();
 
-    cache.RetrieveCycles().Returns(EmptyList());
+    cache.RetrieveCycles().Returns(Arr<NamespaceDependencyPath>.Empty);
 
     //WHEN
     rule.Evaluate(Any.Instance<AssemblyName>(), cache, report);
 
     //THEN
     report.ReceivedNothing();
-  }
-
-  private static List<NamespaceDependencyPath> EmptyList()
-  {
-    return new List<NamespaceDependencyPath>();
   }
 }

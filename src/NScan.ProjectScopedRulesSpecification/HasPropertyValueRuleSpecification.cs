@@ -55,7 +55,7 @@ public class HasPropertyValueRuleSpecification
     var properties = new Dictionary<string, string>
     {
       [propertyName] = propertyValue
-    }.ToMap();
+    }.ToHashMap();
     var expectedPropertyValue = Any.OtherThan(propertyValue);
     var violationFactory = Substitute.For<IProjectScopedRuleViolationFactory>();
     var analysisReportInProgress = Substitute.For<IAnalysisReportInProgress>();
@@ -113,7 +113,7 @@ public class HasPropertyValueRuleSpecification
     var properties = new Dictionary<string, string>
     {
       [propertyName] = actualPropertyValue
-    }.ToMap();
+    }.ToHashMap();
     var analysisReportInProgress = Substitute.For<IAnalysisReportInProgress>();
     var description = Any.Instance<RuleDescription>();
     var rule = new HasPropertyValueRule(
@@ -129,8 +129,8 @@ public class HasPropertyValueRuleSpecification
     analysisReportInProgress.DidNotReceiveWithAnyArgs().Add(default!);
   }
 
-  private static Map<string, string> DictionaryNotContaining(string propertyName)
+  private static HashMap<string, string> DictionaryNotContaining(string propertyName)
   {
-    return new Dictionary<string, string>().ToMap();
+    return new Dictionary<string, string>().ToHashMap();
   }
 }

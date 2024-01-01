@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using LanguageExt;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingSolution.Ports;
 
@@ -17,11 +18,11 @@ public class NamespaceBasedRuleTargetFactory
       .ToList<INamespaceBasedRuleTarget>();
   }
 
-  private List<SourceCodeFileUsingNamespaces> SourceCodeFilesUsingNamespaces(CsharpProjectDto dataAccess)
+  private Arr<ISourceCodeFileUsingNamespaces> SourceCodeFilesUsingNamespaces(CsharpProjectDto dataAccess)
   {
-    return dataAccess.SourceCodeFiles.Select(scf => new SourceCodeFileUsingNamespaces(
-        scf.Usings.Select(n => new NamespaceName(n)).ToList(),
-        scf.DeclaredNamespaces.Select(n => new NamespaceName(n)).ToList()))
-      .ToList();
+    return dataAccess.SourceCodeFiles.Select(scf =>
+      new SourceCodeFileUsingNamespaces(
+        scf.Usings.Select(n => new NamespaceName(n)),
+        scf.DeclaredNamespaces.Select(n => new NamespaceName(n))) as ISourceCodeFileUsingNamespaces);
   }
 }

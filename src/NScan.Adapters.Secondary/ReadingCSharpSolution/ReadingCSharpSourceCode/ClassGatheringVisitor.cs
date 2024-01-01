@@ -72,9 +72,9 @@ public class ClassGatheringVisitor : CSharpSyntaxVisitor
     }
   }
 
-  public Map<string, ClassDeclarationInfo> ToMap()
+  public HashMap<string, ClassDeclarationInfo> ToHashMap()
   {
-    return _classes.ToDictionary(info => info.FullName).ToMap();
+    return _classes.ToDictionary(info => info.FullName).ToHashMap();
   }
 
   private void VisitChildrenOf(SyntaxNode node)

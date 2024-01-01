@@ -11,7 +11,7 @@ public static class SourceCodeFilePaths
   public static SourceCodeFileDto CreateSourceCodeFileDto(
     AbsoluteDirectoryPath projectDirectory, 
     ICSharpFileSyntaxTree syntaxTree, 
-    Map<string, ClassDeclarationInfo> classDeclarationSignatures, 
+    HashMap<string, ClassDeclarationInfo> classDeclarationSignatures, 
     string parentProjectRootNamespace, 
     string parentProjectAssemblyName)
   {

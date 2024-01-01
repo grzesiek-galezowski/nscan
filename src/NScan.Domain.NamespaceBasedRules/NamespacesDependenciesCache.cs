@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using LanguageExt;
 using NScan.Lib;
 
 namespace NScan.NamespaceBasedRules;
@@ -16,7 +17,7 @@ public class NamespacesDependenciesCache : INamespacesDependenciesCache
     AddNeighborOf(namespaceName, usingName);
   }
 
-  public List<NamespaceDependencyPath> RetrieveCycles()
+  public Arr<NamespaceDependencyPath> RetrieveCycles()
   {
     var cycles = new List<NamespaceDependencyPath>();
     foreach (var @namespace in _dependenciesByNamespace.Keys)
@@ -26,10 +27,10 @@ public class NamespacesDependenciesCache : INamespacesDependenciesCache
         @namespace, 
         NamespaceDependencyPath.Empty());
     }
-    return cycles;
+    return cycles.ToArr();
   }
 
-  public List<NamespaceDependencyPath> RetrievePathsBetween(Pattern fromPattern, Pattern toPattern)
+  public Arr<NamespaceDependencyPath> RetrievePathsBetween(Pattern fromPattern, Pattern toPattern)
   {
     var paths = new List<NamespaceDependencyPath>();
     foreach (var @namespace in NamespacesMatching(fromPattern))
@@ -40,7 +41,7 @@ public class NamespacesDependenciesCache : INamespacesDependenciesCache
         toPattern, 
         @namespace);
     }
-    return paths;
+    return paths.ToArr();
   }
 
   private IEnumerable<NamespaceName> NamespacesMatching(Pattern fromPattern)
@@ -135,7 +136,7 @@ public class NamespacesDependenciesCache : INamespacesDependenciesCache
     }
   }
 
-  private List<NamespaceName> DependenciesOf(NamespaceName namespaceName)
+  private IReadOnlyList<NamespaceName> DependenciesOf(NamespaceName namespaceName)
   {
     return _dependenciesByNamespace[namespaceName];
   }

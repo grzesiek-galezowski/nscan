@@ -17,7 +17,7 @@ public class NamespacesDependenciesCacheSpecification
     var cycles = cache.RetrieveCycles();
 
     //THEN
-    cycles.Should().BeEmpty();
+    cycles.ToList().Should().BeEmpty();
   }
 
   [Fact]
@@ -36,7 +36,7 @@ public class NamespacesDependenciesCacheSpecification
     var cycles = cache.RetrieveCycles();
 
     //THEN
-    cycles.Should().BeEmpty();
+    cycles.ToList().Should().BeEmpty();
   }
     
   [Fact]
@@ -52,7 +52,7 @@ public class NamespacesDependenciesCacheSpecification
     var cycles = cache.RetrieveCycles();
 
     //THEN
-    cycles.Should().BeEmpty();
+    cycles.ToList().Should().BeEmpty();
   }
 
   [Fact]
@@ -135,7 +135,7 @@ public class NamespacesDependenciesCacheSpecification
       namespace4,
       namespace1
     ));
-    cycles.Should().HaveCount(2);
+    cycles.ToList().Should().HaveCount(2);
   }
     
   [Fact]
@@ -158,7 +158,7 @@ public class NamespacesDependenciesCacheSpecification
       Pattern.WithoutExclusion(namespace4.ToString()));
 
     //THEN
-    paths.Should().BeEmpty();
+    paths.ToList().Should().BeEmpty();
   }
 
   [Fact]
@@ -177,7 +177,7 @@ public class NamespacesDependenciesCacheSpecification
       Pattern.WithoutExclusion(namespace1.ToString()));
 
     //THEN
-    paths.Should().BeEmpty();
+    paths.ToList().Should().BeEmpty();
   }
 
   [Fact]
@@ -200,7 +200,7 @@ public class NamespacesDependenciesCacheSpecification
       namespace1, 
       namespace2
     ));
-    paths.Should().HaveCount(1);
+    paths.ToList().Should().HaveCount(1);
   }
     
   [Fact]
@@ -236,7 +236,7 @@ public class NamespacesDependenciesCacheSpecification
         namespace4,
         namespace3
       ));
-    paths.Should().HaveCount(2);
+    paths.ToList().Should().HaveCount(2);
   }
     
   [Fact]
@@ -260,6 +260,6 @@ public class NamespacesDependenciesCacheSpecification
       namespace1, 
       namespace2
     ));
-    paths.Should().HaveCount(1);
+    paths.ToList().Should().HaveCount(1);
   }
 }

@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using LanguageExt;
 using NScan.SharedKernel;
 
 namespace NScan.NamespaceBasedRules;
 
 public class NamespaceBasedRuleTarget(
   AssemblyName assemblyName,
-  IReadOnlyList<ISourceCodeFileUsingNamespaces> sourceCodeFiles,
+  Arr<ISourceCodeFileUsingNamespaces> sourceCodeFiles,
   INamespacesDependenciesCache namespacesDependenciesCache)
   : INamespaceBasedRuleTarget
 {

@@ -8,7 +8,7 @@ namespace NScan.DependencyPathBasedRules;
 
 public class SolutionForDependencyPathRules(
   IPathCache pathCache,
-  Map<ProjectId, IDotNetProject> projectsById)
+  HashMap<ProjectId, IDotNetProject> projectsById)
   : ISolutionForDependencyPathBasedRules, ISolutionContext
 {
   public void ResolveAllProjectsReferences()
@@ -42,7 +42,7 @@ public class SolutionForDependencyPathRules(
   }
 
   private static string CouldNotFindProjectFor(ProjectId referencedProjectId,
-    Map<ProjectId, IDotNetProject> projectsById)
+    HashMap<ProjectId, IDotNetProject> projectsById)
   {
     const string dotString = "* ";
     return

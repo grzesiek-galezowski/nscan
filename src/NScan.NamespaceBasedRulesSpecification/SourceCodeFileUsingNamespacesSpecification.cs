@@ -1,4 +1,5 @@
-﻿using NScan.NamespaceBasedRules;
+﻿using LanguageExt;
+using NScan.NamespaceBasedRules;
 
 namespace NScan.NamespaceBasedRulesSpecification;
 
@@ -17,8 +18,8 @@ public class SourceCodeFileUsingNamespacesSpecification
     var cache = Substitute.For<INamespacesDependenciesCache>();
 
     var file = new SourceCodeFileUsingNamespaces(
-      new List<NamespaceName> {using1, using2, using3},
-      new List<NamespaceName> {namespace1, namespace2, namespace3}
+      Seq.create(using1, using2, using3),
+      Seq.create(namespace1, namespace2, namespace3)
     );
 
     //WHEN

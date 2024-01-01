@@ -50,9 +50,9 @@ public class MsBuildProject
       .ToArr();
   }
 
-  public Map<string, string> Properties()
+  public HashMap<string, string> Properties()
   {
-    return _project.Properties.ToDictionary(p => p.Name, p => p.EvaluatedValue).ToMap();
+    return _project.Properties.ToDictionary(p => p.Name, p => p.EvaluatedValue).ToHashMap();
   }
 
   public Arr<string> TargetFrameworks()

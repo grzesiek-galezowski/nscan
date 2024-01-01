@@ -8,7 +8,7 @@ namespace NScan.ProjectScopedRules;
 public class ProjectScopedRuleTarget(
   AssemblyName name,
   IReadOnlyList<ISourceCodeFileInNamespace> sourceCodeFiles,
-  Map<string, string> properties)
+  HashMap<string, string> properties)
   : IProjectScopedRuleTarget
 {
   public void AnalyzeFiles(IProjectFilesetScopedRule rule, IAnalysisReportInProgress report)

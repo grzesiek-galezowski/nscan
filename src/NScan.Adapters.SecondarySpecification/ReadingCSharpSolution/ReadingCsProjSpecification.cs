@@ -39,7 +39,7 @@ public class ReadingCsProjSpecification : INScanSupport
         new CsharpProjectDto(new ProjectId(csprojPath.ToString()),
           csprojName,
           Arr<SourceCodeFileDto>.Empty,
-          Map<string, string>.Empty,
+          HashMap<string, string>.Empty,
           Arr<PackageReference>.Empty, 
           Arr<AssemblyReference>.Empty,
           Arr<ProjectId>.Empty,

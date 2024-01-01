@@ -1,4 +1,5 @@
-﻿using NScan.NamespaceBasedRules;
+﻿using LanguageExt;
+using NScan.NamespaceBasedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 
@@ -39,11 +40,6 @@ public class NoUsingsRuleSpecification
     report.ReceivedNothing();
   }
 
-  private static List<NamespaceDependencyPath> NoPaths()
-  {
-    return new List<NamespaceDependencyPath>();
-  }
-
   [Fact]
   public void ShouldReportErrorWhenThereIsADependency()
   {
@@ -54,12 +50,11 @@ public class NoUsingsRuleSpecification
     var namespacesCache = Substitute.For<INamespacesDependenciesCache>();
     var report = Substitute.For<IAnalysisReportInProgress>();
     var violation = Any.Instance<RuleViolation>();
-    var pathsFound = new List<NamespaceDependencyPath>
-    {
+    var pathsFound = Arr.create(
       Any.Instance<NamespaceDependencyPath>(),
       Any.Instance<NamespaceDependencyPath>(),
-      Any.Instance<NamespaceDependencyPath>(),
-    };
+      Any.Instance<NamespaceDependencyPath>()
+    );
     var rule = new NoUsingsRule(dto, ruleViolationFactory);
 
     ruleViolationFactory.NoUsingsRuleViolation(rule.Description(), assemblyName, pathsFound)
@@ -71,5 +66,10 @@ public class NoUsingsRuleSpecification
 
     //THEN
     report.Received(1).Add(violation);
+  }
+
+  private static Arr<NamespaceDependencyPath> NoPaths()
+  {
+    return Arr<NamespaceDependencyPath>.Empty;
   }
 }

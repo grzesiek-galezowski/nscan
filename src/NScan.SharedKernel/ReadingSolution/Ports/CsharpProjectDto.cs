@@ -6,7 +6,7 @@ public sealed record CsharpProjectDto(
   ProjectId Id,
   string AssemblyName,
   Arr<SourceCodeFileDto> SourceCodeFiles,
-  Map<string, string> Properties,
+  HashMap<string, string> Properties,
   Arr<PackageReference> PackageReferences,
   Arr<AssemblyReference> AssemblyReferences,
   Arr<ProjectId> ReferencedProjectIds,

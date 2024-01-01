@@ -19,7 +19,7 @@ public class CSharpProjectDtoBuilder //bug make this a record
   private Seq<AssemblyReference> _assemblyReferences;
   private Seq<ProjectId> _referencedProjectIds;
   private string _rootNamespace = "";
-  private Map<string, string> _properties = Map<string, string>.Empty;
+  private HashMap<string, string> _properties;
 
   private CSharpProjectDtoBuilder(string assemblyName)
   {

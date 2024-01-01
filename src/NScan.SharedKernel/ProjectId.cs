@@ -2,7 +2,7 @@
 
 namespace NScan.SharedKernel;
 
-public sealed record ProjectId(string AbsolutePath) : IComparable<ProjectId>
+public sealed record ProjectId(string AbsolutePath)
 {
   public override string ToString()
   {

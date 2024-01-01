@@ -8,7 +8,7 @@ public interface IPropertyCheck
 {
   void ApplyTo(
     AssemblyName name,
-    Map<string, string> properties,
+    HashMap<string, string> properties,
     IAnalysisReportInProgress report);
 }
 
@@ -31,7 +31,7 @@ public class HasPropertyValueRule(
 
   public void ApplyTo(
     AssemblyName name,
-    Map<string, string> properties,
+    HashMap<string, string> properties,
     IAnalysisReportInProgress report)
   {
     if (properties.ContainsKey(propertyName))

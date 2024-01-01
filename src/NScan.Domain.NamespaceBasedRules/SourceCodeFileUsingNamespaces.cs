@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using LanguageExt;
 
 namespace NScan.NamespaceBasedRules;
 
 public class SourceCodeFileUsingNamespaces(
-  IReadOnlyList<NamespaceName> usings,
-  IReadOnlyList<NamespaceName> declaredNamespaces)
+  Seq<NamespaceName> usings,
+  Seq<NamespaceName> declaredNamespaces)
   : ISourceCodeFileUsingNamespaces
 {
   public void AddNamespaceMappingTo(INamespacesDependenciesCache namespacesDependenciesCache)

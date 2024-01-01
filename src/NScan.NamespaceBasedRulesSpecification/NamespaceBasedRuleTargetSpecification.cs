@@ -1,5 +1,7 @@
-﻿using NScan.NamespaceBasedRules;
+﻿using LanguageExt;
+using NScan.NamespaceBasedRules;
 using NScan.SharedKernel;
+using NScanSpecification.Lib;
 
 namespace NScan.NamespaceBasedRulesSpecification;
 
@@ -15,7 +17,7 @@ public class NamespaceBasedRuleTargetSpecification
     var projectAssemblyName = Any.Instance<AssemblyName>();
     var project = new NamespaceBasedRuleTarget(
       projectAssemblyName,
-      Any.ReadOnlyList<ISourceCodeFileUsingNamespaces>(),
+      Any.Arr<ISourceCodeFileUsingNamespaces>(),
       namespacesCache);
 
     //WHEN
@@ -32,10 +34,7 @@ public class NamespaceBasedRuleTargetSpecification
     var file1 = Substitute.For<ISourceCodeFileUsingNamespaces>();
     var file2 = Substitute.For<ISourceCodeFileUsingNamespaces>();
     var file3 = Substitute.For<ISourceCodeFileUsingNamespaces>();
-    var files = new List<ISourceCodeFileUsingNamespaces>
-    {
-      file1, file2, file3
-    };
+    var files = Arr.create(file1, file2, file3);
     var namespacesCache = Any.Instance<INamespacesDependenciesCache>();
     var project = new NamespaceBasedRuleTarget(
       Any.Instance<AssemblyName>(),

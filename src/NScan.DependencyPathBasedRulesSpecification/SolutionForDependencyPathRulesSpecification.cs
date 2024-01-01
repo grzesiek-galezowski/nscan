@@ -15,7 +15,7 @@ public class SolutionForDependencyPathRulesSpecification
     var project1 = Substitute.For<IDotNetProject>();
     var project2 = Substitute.For<IDotNetProject>();
     var project3 = Substitute.For<IDotNetProject>();
-    var projectsById = Map.create(
+    var projectsById = HashMap.create(
       (Any.ProjectId(), project1),
       (Any.ProjectId(), project2),
       (Any.ProjectId(), project3)
@@ -39,7 +39,7 @@ public class SolutionForDependencyPathRulesSpecification
     var project1 = Substitute.For<IDotNetProject>();
     var project2 = Substitute.For<IDotNetProject>();
     var project2Id = Any.ProjectId();
-    var projectsById = Map.create(
+    var projectsById = HashMap.create(
       (Any.ProjectId(), project1),
       (project2Id, project2)
     );
@@ -61,7 +61,7 @@ public class SolutionForDependencyPathRulesSpecification
     //GIVEN
     var project1 = Substitute.For<IDotNetProject>();
     var project1Id = Any.ProjectId();
-    var projectsById = Map.create((project1Id, project1));
+    var projectsById = HashMap.create((project1Id, project1));
     var dotNetStandardSolution = new SolutionForDependencyPathRules(
       Any.Instance<IPathCache>(), projectsById);
 
@@ -75,7 +75,7 @@ public class SolutionForDependencyPathRulesSpecification
   public void ShouldOrderThePathRuleSetToCheckThePathsInTheCacheForVerification()
   {
     //GIVEN
-    var projectsById = Any.Map<ProjectId, IDotNetProject>();
+    var projectsById = Any.HashMap<ProjectId, IDotNetProject>();
     var pathCache = Any.Instance<IPathCache>();
     var solution = new SolutionForDependencyPathRules(
       pathCache, 
@@ -97,7 +97,7 @@ public class SolutionForDependencyPathRulesSpecification
     var root1 = Substitute.For<IDotNetProject>();
     var root2 = Substitute.For<IDotNetProject>();
     var nonRoot = Substitute.For<IDotNetProject>();
-    var projectsById = Map.create(
+    var projectsById = HashMap.create(
       (Any.ProjectId(), root1),
       (Any.ProjectId(), nonRoot),
       (Any.ProjectId(), root2)
@@ -117,8 +117,12 @@ public class SolutionForDependencyPathRulesSpecification
     pathCache.Received(1).BuildStartingFrom(ArrayConsistingOf(root1, root2));
   }
 
-  private static IDependencyPathBasedRuleTarget[] ArrayConsistingOf(IDependencyPathBasedRuleTarget root1, IDotNetProject root2)
+  private static IEnumerable<IDependencyPathBasedRuleTarget> ArrayConsistingOf(IDependencyPathBasedRuleTarget root1, IDotNetProject root2)
   {
-    return Arg<IDependencyPathBasedRuleTarget[]>.That(a => a.Should().Equal(root1, root2));
+    return Arg<IDependencyPathBasedRuleTarget[]>.That(a => a.Should()
+      .BeEquivalentTo([root1, root2],
+        options => options
+          .WithoutStrictOrdering()
+          .RespectingRuntimeTypes()));
   }
 }

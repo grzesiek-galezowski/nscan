@@ -2,6 +2,7 @@
 using NScan.Lib;
 using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
+using NScanSpecification.Lib;
 
 namespace NScan.ProjectScopedRulesSpecification;
 
@@ -13,7 +14,7 @@ public class ProjectScopedRuleTargetSpecification
     //GIVEN
     var propertyCheck = Substitute.For<IPropertyCheck>();
     var assemblyName = Any.Instance<AssemblyName>();
-    var properties = Any.Dictionary<string, string>().ToMap();
+    var properties = Any.Dictionary<string, string>().ToHashMap();
     var project = new ProjectScopedRuleTarget(assemblyName, Any.ReadOnlyList<ISourceCodeFileInNamespace>(), properties);
     var report = Any.Instance<IAnalysisReportInProgress>();
 
@@ -33,7 +34,7 @@ public class ProjectScopedRuleTargetSpecification
       new ProjectScopedRuleTarget(
         Any.Instance<AssemblyName>(),
         files,
-        Any.Dictionary<string, string>().ToMap());
+        Any.HashMap<string, string>());
     var rule = Substitute.For<IProjectFilesetScopedRule>();
     var report = Any.Instance<IAnalysisReportInProgress>();
 
@@ -52,7 +53,7 @@ public class ProjectScopedRuleTargetSpecification
     var project = new ProjectScopedRuleTarget(
       assemblyName,
       Any.ReadOnlyList<ISourceCodeFileInNamespace>(),
-      Any.Dictionary<string, string>().ToMap());
+      Any.HashMap<string, string>());
 
     //WHEN
     var hasProject = project.HasProjectAssemblyNameMatching(
@@ -70,7 +71,7 @@ public class ProjectScopedRuleTargetSpecification
     var project = new ProjectScopedRuleTarget(
       new AssemblyName($"{Any.String()}.{assemblySuffix}"), 
       Any.ReadOnlyList<ISourceCodeFileInNamespace>(), 
-      Any.Dictionary<string, string>().ToMap());
+      Any.HashMap<string, string>());
     string assemblyNamePattern = "*." + assemblySuffix;
 
     //WHEN
@@ -88,7 +89,7 @@ public class ProjectScopedRuleTargetSpecification
     var project = new ProjectScopedRuleTarget(
       Any.OtherThan(searchedAssemblyName),
       Any.ReadOnlyList<ISourceCodeFileInNamespace>(),
-      Any.Dictionary<string, string>().ToMap());
+      Any.HashMap<string, string>());
 
     //WHEN
     var hasProject = project.HasProjectAssemblyNameMatching(
@@ -107,7 +108,7 @@ public class ProjectScopedRuleTargetSpecification
     var project = new ProjectScopedRuleTarget(
       assemblyName, 
       Any.ReadOnlyList<ISourceCodeFileInNamespace>(),
-      Any.Dictionary<string, string>().ToMap());
+      Any.HashMap<string, string>());
 
     //WHEN
     project.AddInfoAboutMatchingPatternTo(report);

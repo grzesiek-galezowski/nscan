@@ -6,8 +6,8 @@ namespace NScan.Adapters.SecondarySpecification.ReadingCSharpSolution.Integratio
 
 public class RoslynUsingsDetectionPlayground
 {
-  private static readonly Map<string, ClassDeclarationInfo> NoClassDeclarations 
-    = Map<string, ClassDeclarationInfo>.Empty;
+  private static readonly HashMap<string, ClassDeclarationInfo> NoClassDeclarations 
+    = HashMap<string, ClassDeclarationInfo>.Empty;
 
   [Fact]
   public void ShouldGatherNormalUsingsFromAllLevels()
@@ -41,7 +41,7 @@ namespace Lolek
   public void ShouldCorrectlyRecognizeLocalStaticUsings()
   {
     CSharpFileSyntaxTree.ParseText(@"using static TddXt.AnyRoot.Root;", "").GetAllUsingsFrom(
-      Map.create(("TddXt.AnyRoot.Root", new ClassDeclarationInfo("Root", "TddXt.AnyRoot"))))
+      HashMap.create(("TddXt.AnyRoot.Root", new ClassDeclarationInfo("Root", "TddXt.AnyRoot"))))
       .Should().Contain("TddXt.AnyRoot");
   }
     
@@ -49,7 +49,7 @@ namespace Lolek
   public void ShouldCorrectlyRecognizeLocalStaticGenericUsings()
   {
     var allUsings = CSharpFileSyntaxTree.ParseText(@"using static Functional.Maybe.Maybe<int, int>;", "").GetAllUsingsFrom(
-      Map.create(("Functional.Maybe.Maybe<int,int>", new ClassDeclarationInfo("Maybe<int,int>", "Functional.Maybe.Maybe<int,int>"))));
+      HashMap.create(("Functional.Maybe.Maybe<int,int>", new ClassDeclarationInfo("Maybe<int,int>", "Functional.Maybe.Maybe<int,int>"))));
     allUsings.Should().Contain("Functional.Maybe.Maybe<int,int>");
   }
 
