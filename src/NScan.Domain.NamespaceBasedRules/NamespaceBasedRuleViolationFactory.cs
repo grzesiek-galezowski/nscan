@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using LanguageExt;
 using NScan.SharedKernel;
 
 namespace NScan.NamespaceBasedRules;
@@ -10,7 +10,7 @@ public class NamespaceBasedRuleViolationFactory(INamespaceBasedReportFragmentsFo
   public RuleViolation NoCyclesRuleViolation(
     RuleDescription description,
     AssemblyName projectAssemblyName,
-    IReadOnlyList<NamespaceDependencyPath> cycles)
+    Arr<NamespaceDependencyPath> cycles)
   {
     return RuleViolation.Create(
       description, 
@@ -21,7 +21,7 @@ public class NamespaceBasedRuleViolationFactory(INamespaceBasedReportFragmentsFo
   public RuleViolation NoUsingsRuleViolation(
     RuleDescription description,
     AssemblyName projectAssemblyName,
-    IReadOnlyList<NamespaceDependencyPath> pathsFound)
+    Arr<NamespaceDependencyPath> pathsFound)
   {
     return RuleViolation.Create(
       description, 

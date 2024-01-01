@@ -1,5 +1,6 @@
 ﻿using NScan.NamespaceBasedRules;
 using NScan.SharedKernel;
+using NScanSpecification.Lib;
 
 namespace NScan.NamespaceBasedRulesSpecification;
 
@@ -14,7 +15,7 @@ public class NamespaceBasedRuleViolationFactorySpecification
     var cyclesString = Any.String();
     var description = Any.Instance<RuleDescription>();
     var projectAssemblyName = Any.Instance<AssemblyName>();
-    var cycles = Any.ReadOnlyList<NamespaceDependencyPath>();
+    var cycles = Any.Arr<NamespaceDependencyPath>();
 
     fragments.ApplyTo(cycles, "Cycle").Returns(cyclesString);
       
@@ -36,7 +37,7 @@ public class NamespaceBasedRuleViolationFactorySpecification
     var pathsString = Any.String();
     var description = Any.Instance<RuleDescription>();
     var projectAssemblyName = Any.Instance<AssemblyName>();
-    var paths = Any.ReadOnlyList<NamespaceDependencyPath>();
+    var paths = Any.Arr<NamespaceDependencyPath>();
 
     fragments.ApplyTo(paths, "Violation").Returns(pathsString);
       

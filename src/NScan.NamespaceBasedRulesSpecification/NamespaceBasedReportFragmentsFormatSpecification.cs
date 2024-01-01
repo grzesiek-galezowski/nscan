@@ -1,4 +1,5 @@
-﻿using NScan.NamespaceBasedRules;
+﻿using LanguageExt;
+using NScan.NamespaceBasedRules;
 
 namespace NScan.NamespaceBasedRulesSpecification;
 
@@ -16,11 +17,9 @@ public class NamespaceBasedReportFragmentsFormatSpecification
     var namespace5 = Any.Instance<NamespaceName>();
     var namespace6 = Any.Instance<NamespaceName>();
     var header = Any.String();
-    var cycles = new List<NamespaceDependencyPath>
-    {
+    var cycles = Arr.create(
       NamespaceDependencyPath.With(namespace1, namespace2, namespace3),
-      NamespaceDependencyPath.With(namespace4, namespace5, namespace6),
-    };
+      NamespaceDependencyPath.With(namespace4, namespace5, namespace6));
 
     //WHEN
     var result = format.ApplyTo(cycles, header);

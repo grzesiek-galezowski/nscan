@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
+using LanguageExt;
 using NScan.Lib;
 
 namespace NScan.NamespaceBasedRules;
 
 public class NamespaceBasedReportFragmentsFormat : INamespaceBasedReportFragmentsFormat, INamespaceDependencyPathFormat
 {
-  public string ApplyTo(IReadOnlyList<NamespaceDependencyPath> paths, string header)
+  public string ApplyTo(Arr<NamespaceDependencyPath> paths, string header)
   {
     string result = string.Empty;
     for (var pathIndex = 0; pathIndex < paths.Count; pathIndex++)

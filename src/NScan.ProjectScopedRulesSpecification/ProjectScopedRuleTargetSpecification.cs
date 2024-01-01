@@ -1,5 +1,4 @@
-﻿using LanguageExt;
-using NScan.Lib;
+﻿using NScan.Lib;
 using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NScanSpecification.Lib;

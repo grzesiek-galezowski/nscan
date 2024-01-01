@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using LanguageExt;
 using NScan.DependencyPathBasedRules;
 using NScan.SharedKernel;
@@ -119,10 +120,10 @@ public class SolutionForDependencyPathRulesSpecification
 
   private static IEnumerable<IDependencyPathBasedRuleTarget> ArrayConsistingOf(IDependencyPathBasedRuleTarget root1, IDotNetProject root2)
   {
-    return Arg<IDependencyPathBasedRuleTarget[]>.That(a => a.Should()
-      .BeEquivalentTo([root1, root2],
-        options => options
-          .WithoutStrictOrdering()
-          .RespectingRuntimeTypes()));
+    return Arg<IDependencyPathBasedRuleTarget[]>.That(a =>
+    {
+      a.OrderBy(x => x.GetHashCode()).Should()
+        .Equal(new[] { root1, root2 }.OrderBy(x => x.GetHashCode()));
+    });
   }
 }
