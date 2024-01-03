@@ -208,7 +208,8 @@ public record SourceCodeFileBuilder
   public Seq<string> DeclaredNamespaces { get; init; } = Any.Seq<string>();
 
   public IProjectScopedRuleViolationFactory RuleViolationFactory { get; init; } = Any.Instance<IProjectScopedRuleViolationFactory>();
-  public ICSharpClass[] Classes { get; init; } = Any.Array<ICSharpClass>();
+  
+  public Seq<ICSharpClass> Classes { get; init; } = Any.Seq<ICSharpClass>();
 }
 
 public static class ToCollectionExtensions

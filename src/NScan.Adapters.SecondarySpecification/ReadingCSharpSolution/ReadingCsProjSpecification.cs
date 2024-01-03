@@ -266,7 +266,7 @@ public class ReadingCsProjSpecification : INScanSupport
 
   private CsharpProjectDto ReadCSharpProjectFrom(AbsoluteFilePath absoluteFilePath)
   {
-    return new MsBuildSolution(new[] { absoluteFilePath, }, this).LoadCsharpProjects().Single();
+    return new MsBuildSolution(Seq.create(absoluteFilePath), this).LoadCsharpProjects().Single();
   }
 
 #pragma warning disable xUnit1013

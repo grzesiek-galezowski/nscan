@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using LanguageExt;
 using NScan.Lib;
 
 namespace NScan.DependencyPathBasedRules;

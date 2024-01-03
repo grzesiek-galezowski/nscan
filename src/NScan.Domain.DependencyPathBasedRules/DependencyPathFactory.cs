@@ -1,6 +1,4 @@
-﻿using LanguageExt;
-
-namespace NScan.DependencyPathBasedRules;
+﻿namespace NScan.DependencyPathBasedRules;
 
 public class DependencyPathFactory : IDependencyPathFactory
 {

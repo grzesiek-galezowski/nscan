@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using AtmaFileSystem;
 using Buildalyzer;
@@ -11,7 +10,7 @@ using static AtmaFileSystem.AtmaFileSystemPaths;
 
 namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects;
 
-public class MsBuildSolution(IEnumerable<AbsoluteFilePath> projectFilePaths, INScanSupport support)
+public class MsBuildSolution(Seq<AbsoluteFilePath> projectFilePaths, INScanSupport support)
 {
   public static MsBuildSolution From(
     AnyFilePath solutionFilePath, 
@@ -20,8 +19,8 @@ public class MsBuildSolution(IEnumerable<AbsoluteFilePath> projectFilePaths, INS
     var analyzerManager = new AnalyzerManager(solutionFilePath.ToString());
     var projectFilePaths = analyzerManager.Projects
       .Select(p => p.Value.ProjectFile.Path)
-      .Select(AbsoluteFilePath).ToList();
-    var paths = new MsBuildSolution(projectFilePaths, consoleSupport);
+      .Select(AbsoluteFilePath);
+    var paths = new MsBuildSolution(projectFilePaths.ToSeq(), consoleSupport);
     return paths;
   }
 
@@ -29,7 +28,7 @@ public class MsBuildSolution(IEnumerable<AbsoluteFilePath> projectFilePaths, INS
   {
     var projectDtos = projectFilePaths.Select(LoadCsharpProjectFromPath())
       .Where(maybeProject => maybeProject.HasValue)
-      .Select(maybeProject => maybeProject.Value()).ToSeq();
+      .Select(maybeProject => maybeProject.Value());
     return projectDtos;
   }
 

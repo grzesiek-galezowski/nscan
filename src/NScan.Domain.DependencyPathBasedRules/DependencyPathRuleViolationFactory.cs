@@ -1,7 +1,4 @@
-﻿using LanguageExt;
-using NScan.SharedKernel;
-
-namespace NScan.DependencyPathBasedRules;
+﻿namespace NScan.DependencyPathBasedRules;
 
 public class DependencyPathRuleViolationFactory(IDependencyPathReportFragmentsFormat reportFragmentsFormat)
   : IDependencyPathRuleViolationFactory

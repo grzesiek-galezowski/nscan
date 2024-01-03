@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using LanguageExt;
-using NScan.SharedKernel;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.ReadingSolution.Ports;
 

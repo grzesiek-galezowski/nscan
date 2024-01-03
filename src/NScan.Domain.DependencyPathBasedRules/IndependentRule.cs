@@ -1,5 +1,4 @@
 ﻿using NScan.Lib;
-using NScan.SharedKernel;
 
 namespace NScan.DependencyPathBasedRules;
 

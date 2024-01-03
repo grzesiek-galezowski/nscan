@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using Core.Maybe;
 using NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects;
@@ -48,15 +46,15 @@ public static class NScanMain
 
       var rulesString = ReadRulesTextFrom(inputArguments);
         
-      var dependencyPathDtos = ParserRulePreface.Then(ParseDependencyPathBasedRule.Complement).Many().Parse(rulesString).WhereValueExist().ToList();
+      var dependencyPathDtos = ParserRulePreface.Then(ParseDependencyPathBasedRule.Complement).Many().Parse(rulesString).WhereValueExist().ToSeq();
       LogDependencyPathRules(dependencyPathDtos, support);
       analysis.AddDependencyPathRules(dependencyPathDtos);
         
-      var projectScopedDtos = ParserRulePreface.Then(ParseProjectScopedRule.Complement).Many().Parse(rulesString).WhereValueExist().ToList();
+      var projectScopedDtos = ParserRulePreface.Then(ParseProjectScopedRule.Complement).Many().Parse(rulesString).WhereValueExist().ToSeq();
       LogProjectScopedRules(projectScopedDtos, support);
       analysis.AddProjectScopedRules(projectScopedDtos);
 
-      var namespaceBasedDtos = ParserRulePreface.Then(ParseNamespaceBasedRule.Complement).Many().Parse(rulesString).WhereValueExist().ToList();
+      var namespaceBasedDtos = ParserRulePreface.Then(ParseNamespaceBasedRule.Complement).Many().Parse(rulesString).WhereValueExist().ToSeq();
       LogNamespaceBasedRules(namespaceBasedDtos, support);
       analysis.AddNamespaceBasedRules(namespaceBasedDtos);
 
@@ -85,7 +83,7 @@ public static class NScanMain
   }
 
   private static void LogDependencyPathRules(
-    IEnumerable<DependencyPathBasedRuleUnionDto> enumerable,
+    Seq<DependencyPathBasedRuleUnionDto> enumerable,
     INScanSupport support)
   {
     foreach (var ruleUnion in enumerable)
@@ -94,7 +92,7 @@ public static class NScanMain
     }
   }
   private static void LogProjectScopedRules(
-    IEnumerable<ProjectScopedRuleUnionDto> enumerable,
+    Seq<ProjectScopedRuleUnionDto> enumerable,
     INScanSupport support)
   {
     foreach (var ruleUnion in enumerable)
@@ -103,7 +101,7 @@ public static class NScanMain
     }
   }
   private static void LogNamespaceBasedRules(
-    IEnumerable<NamespaceBasedRuleUnionDto> enumerable,
+    Seq<NamespaceBasedRuleUnionDto> enumerable,
     INScanSupport support)
   {
     foreach (var ruleUnion in enumerable)

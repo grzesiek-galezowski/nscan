@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using LanguageExt;
+﻿using LanguageExt;
 using NScan.SharedKernel;
 
 namespace NScan.NamespaceBasedRules;

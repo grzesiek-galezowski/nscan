@@ -97,7 +97,7 @@ public class MsBuildProject
 
   private AbsoluteFilePath FullPath => AbsoluteFilePath.Value(_project.FullPath);
 
-  private CSharpFileSyntaxTree[] AllCompiledFilesPaths(AbsoluteDirectoryPath csprojRoot)
+  private Seq<CSharpFileSyntaxTree> AllCompiledFilesPaths(AbsoluteDirectoryPath csprojRoot)
   {
     return _project.Items
       .Where(item => item.ItemType == "Compile")
@@ -107,6 +107,6 @@ public class MsBuildProject
       //C:\Users\<USER>\.nuget\packages\isexternalinit\1.0.3\contentFiles\cs\net5.0\IsExternalInit\IsExternalInit.cs
       .Where(p => !Path.IsPathFullyQualified(p.EvaluatedInclude))
       .Select(p => csprojRoot + AtmaFileSystemPaths.RelativeFilePath(p.EvaluatedInclude))
-      .Select(CSharpFileSyntaxTree.ParseFile).ToArray();
+      .Select(CSharpFileSyntaxTree.ParseFile).ToSeq();
   }
 }

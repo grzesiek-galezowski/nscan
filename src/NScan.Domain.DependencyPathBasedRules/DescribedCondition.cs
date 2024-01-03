@@ -1,6 +1,4 @@
-﻿using NScan.SharedKernel;
-
-namespace NScan.DependencyPathBasedRules;
+﻿namespace NScan.DependencyPathBasedRules;
 
 public class DescribedCondition(IDependencyCondition dependencyCondition, RuleDescription ruleDescription)
   : IDescribedDependencyCondition

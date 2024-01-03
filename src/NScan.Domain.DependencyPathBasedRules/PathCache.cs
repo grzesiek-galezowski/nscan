@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using NScan.SharedKernel;
 
 namespace NScan.DependencyPathBasedRules;
 

@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using NScan.Lib;
+﻿using NScan.Lib;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
 

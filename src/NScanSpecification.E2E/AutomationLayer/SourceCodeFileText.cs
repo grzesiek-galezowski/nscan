@@ -1,5 +1,4 @@
-using System;
-using System.Linq;
+﻿using System;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
 using NScan.SharedKernel.ReadingSolution.Ports;
 

@@ -1,8 +1,6 @@
 ﻿using System;
 using GlobExpressions;
-using LanguageExt;
 using NScan.Lib;
-using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingSolution.Ports;
 
 namespace NScan.DependencyPathBasedRules;

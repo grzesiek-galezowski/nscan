@@ -12,7 +12,7 @@ public class SourceCodeFile(
   string parentProjectAssemblyName,
   string parentProjectRootNamespace,
   RelativeFilePath pathRelativeToProjectRoot,
-  ICSharpClass[] classes)
+  Seq<ICSharpClass> classes)
   : ISourceCodeFileInNamespace
 {
   public void CheckNamespacesCorrectness(IAnalysisReportInProgress report, RuleDescription description)

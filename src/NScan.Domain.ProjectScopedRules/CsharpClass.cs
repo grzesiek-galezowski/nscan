@@ -1,11 +1,11 @@
-﻿using System.Linq;
+﻿using LanguageExt;
 using NScan.Lib;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
 
 namespace NScan.ProjectScopedRules;
 
-public class CSharpClass(ClassDeclarationInfo classDeclarationInfo, ICSharpMethod[] methods)
+public class CSharpClass(ClassDeclarationInfo classDeclarationInfo, Seq<ICSharpMethod> methods)
   : ICSharpClass
 {
   public bool NameMatches(Pattern namePattern)

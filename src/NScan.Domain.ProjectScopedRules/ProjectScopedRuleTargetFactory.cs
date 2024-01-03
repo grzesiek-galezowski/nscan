@@ -42,17 +42,17 @@ public class ProjectScopedRuleTargetFactory(IProjectScopedRuleViolationFactory r
           ToMethods(methodDeclarationInfos, ruleViolationFactory)));
   }
 
-  private static ICSharpClass[] ToClasses(
+  private static Seq<ICSharpClass> ToClasses(
     IEnumerable<ClassDeclarationInfo> classDeclarationInfos, 
-    Func<IEnumerable<MethodDeclarationInfo>, ICSharpMethod[]> methodFactory)
+    Func<IEnumerable<MethodDeclarationInfo>, Seq<ICSharpMethod>> methodFactory)
   { 
-    return classDeclarationInfos.Select(c => new CSharpClass(c, methodFactory(c.Methods))).ToArray<ICSharpClass>();
+    return classDeclarationInfos.Select(c => new CSharpClass(c, methodFactory(c.Methods))).ToSeq<ICSharpClass>();
   }
 
-  private static ICSharpMethod[] ToMethods(IEnumerable<MethodDeclarationInfo> methodDeclarationInfos,
+  private static Seq<ICSharpMethod> ToMethods(IEnumerable<MethodDeclarationInfo> methodDeclarationInfos,
     IProjectScopedRuleViolationFactory violationFactory)
   {
-    return methodDeclarationInfos.Select(m => new CSharpMethod(m, violationFactory)).ToArray<ICSharpMethod>();
+    return methodDeclarationInfos.Select(m => new CSharpMethod(m, violationFactory)).ToSeq<ICSharpMethod>();
   }
 
 }
