@@ -63,14 +63,14 @@ public class SolutionForDependencyPathRules(
     pathCache.BuildStartingFrom(RootProjects());
   }
 
-  private IDotNetProject[] RootProjects()
+  private Seq<IDotNetProject> RootProjects()
   {
-    return Projects().Where(project => project.IsRoot()).ToArray();
+    return Projects().Where(project => project.IsRoot());
   }
 
-  private IReadOnlyList<IDotNetProject> Projects()
+  private Seq<IDotNetProject> Projects()
   {
-    return projectsById.Values.ToList();
+    return projectsById.Values.ToSeq();
   }
 
 }

@@ -8,7 +8,7 @@ namespace NScan.NamespaceBasedRules;
 public class NamespacesDependenciesCache : INamespacesDependenciesCache
 {
   private readonly 
-    SortedDictionary<NamespaceName, List<NamespaceName>> _dependenciesByNamespace = new();
+    SortedDictionary<NamespaceName, Seq<NamespaceName>> _dependenciesByNamespace = new();
 
   //bug adjacency list accepts duplicates but should not!
   public void AddMapping(NamespaceName namespaceName, NamespaceName usingName)
@@ -53,7 +53,7 @@ public class NamespacesDependenciesCache : INamespacesDependenciesCache
   {
     if (!_dependenciesByNamespace[namespaceName].Contains(usingName))
     {
-      _dependenciesByNamespace[namespaceName].Add(usingName);
+      _dependenciesByNamespace[namespaceName] = _dependenciesByNamespace[namespaceName].Add(usingName);
     }
   }
 
@@ -61,7 +61,7 @@ public class NamespacesDependenciesCache : INamespacesDependenciesCache
   {
     if (!_dependenciesByNamespace.ContainsKey(namespaceName))
     {
-      _dependenciesByNamespace[namespaceName] = new List<NamespaceName>();
+      _dependenciesByNamespace[namespaceName] = Seq<NamespaceName>.Empty;
     }
   }
 
@@ -136,7 +136,7 @@ public class NamespacesDependenciesCache : INamespacesDependenciesCache
     }
   }
 
-  private IReadOnlyList<NamespaceName> DependenciesOf(NamespaceName namespaceName)
+  private Seq<NamespaceName> DependenciesOf(NamespaceName namespaceName)
   {
     return _dependenciesByNamespace[namespaceName];
   }

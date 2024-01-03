@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using LanguageExt;
 using NScan.DependencyPathBasedRules;
 using NScan.SharedKernel;
@@ -54,7 +53,6 @@ public class SolutionForDependencyPathRulesSpecification
     project1.Received(1).ResolveAsReferencing(project2);
     project2.Received(1).ResolveAsReferenceOf(project1);
   }
-
   
   [Fact]
   public void ShouldThrowExceptionWhenResolvingReferenceToProjectWhichIsNotLoadedCorrectlyToSolution()
@@ -115,15 +113,6 @@ public class SolutionForDependencyPathRulesSpecification
     solution.BuildDependencyPathCache();
 
     //THEN
-    pathCache.Received(1).BuildStartingFrom(ArrayConsistingOf(root1, root2));
-  }
-
-  private static IEnumerable<IDependencyPathBasedRuleTarget> ArrayConsistingOf(IDependencyPathBasedRuleTarget root1, IDotNetProject root2)
-  {
-    return Arg<IDependencyPathBasedRuleTarget[]>.That(a =>
-    {
-      a.OrderBy(x => x.GetHashCode()).Should()
-        .Equal(new[] { root1, root2 }.OrderBy(x => x.GetHashCode()));
-    });
+    pathCache.Received(1).BuildStartingFrom(Seq.create(root1, root2));
   }
 }
