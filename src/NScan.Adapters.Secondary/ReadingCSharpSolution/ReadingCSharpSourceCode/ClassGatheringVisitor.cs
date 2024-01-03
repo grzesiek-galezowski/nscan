@@ -87,13 +87,13 @@ public class ClassGatheringVisitor : CSharpSyntaxVisitor
 
   public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
   {
-    var attributes = new List<string>();
+    var attributes = Seq.empty<string>();
       
     foreach (var attributeListSyntax in node.AttributeLists)
     {
       foreach (var attributeSyntax in attributeListSyntax.Attributes)
       {
-        attributes.Add(attributeSyntax.Name.ToFullString());
+        attributes = attributes.Add(attributeSyntax.Name.ToFullString());
       }
     }
 

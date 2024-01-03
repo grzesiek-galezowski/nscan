@@ -30,9 +30,9 @@ namespace Namespace1.Namespace2
 
     dictionary["Namespace1.Namespace2.Class1.Class2"].Methods.Should().BeEquivalentTo(
       Seq.create(
-        new MethodDeclarationInfo("Lol1", new List<string>()),
-        new MethodDeclarationInfo("Lol2", new List<string> { "Test1", "Test2", "Test3", "Test4" }),
-        new MethodDeclarationInfo("Lol3", new List<string>())
+        new MethodDeclarationInfo("Lol1", Seq<string>.Empty),
+        new MethodDeclarationInfo("Lol2", Seq.create("Test1", "Test2", "Test3", "Test4")),
+        new MethodDeclarationInfo("Lol3", Seq<string>.Empty)
       ));
   }
 }

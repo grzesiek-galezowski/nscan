@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using LanguageExt;
 using NScan.SharedKernel;
 
 namespace NScan.ProjectScopedRules;
 
 public interface IProjectFilesetScopedRule
 {
-  void Check(IReadOnlyList<ISourceCodeFileInNamespace> sourceCodeFiles, IAnalysisReportInProgress report);
+  void Check(Seq<ISourceCodeFileInNamespace> sourceCodeFiles, IAnalysisReportInProgress report);
 }
 
 public interface IProjectScopedRule

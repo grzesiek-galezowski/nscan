@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using LanguageExt;
 
 namespace NScan.SharedKernel.ReadingCSharpSourceCode;
 
-public class MethodDeclarationInfo(string name, IReadOnlyList<string> attributes)
+public class MethodDeclarationInfo(string name, Seq<string> attributes)
 {
   public string Name { get; } = name;
-  public IReadOnlyList<string> Attributes { get; } = attributes;
+  public Seq<string> Attributes { get; } = attributes;
 }

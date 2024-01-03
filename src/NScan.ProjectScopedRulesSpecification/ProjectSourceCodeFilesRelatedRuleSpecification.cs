@@ -1,4 +1,5 @@
-﻿using NScan.ProjectScopedRules;
+﻿using LanguageExt;
+using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 
 namespace NScan.ProjectScopedRulesSpecification;
@@ -32,10 +33,7 @@ public class ProjectSourceCodeFilesRelatedRuleSpecification
     var file1 = Substitute.For<ISourceCodeFileInNamespace>();
     var file2 = Substitute.For<ISourceCodeFileInNamespace>();
     var file3 = Substitute.For<ISourceCodeFileInNamespace>();
-    var files = new List<ISourceCodeFileInNamespace>
-    {
-      file1, file2, file3
-    };
+    var files = Seq.create(file1, file2, file3);
     var report = Substitute.For<IAnalysisReportInProgress>();
 
     //WHEN

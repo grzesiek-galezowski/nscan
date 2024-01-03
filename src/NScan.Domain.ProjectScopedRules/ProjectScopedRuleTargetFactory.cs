@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LanguageExt;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
 using NScan.SharedKernel.ReadingSolution.Ports;
@@ -9,7 +10,7 @@ namespace NScan.ProjectScopedRules;
 
 public class ProjectScopedRuleTargetFactory(IProjectScopedRuleViolationFactory ruleViolationFactory)
 {
-  public IReadOnlyList<IProjectScopedRuleTarget> ProjectScopedRuleTargets(IEnumerable<CsharpProjectDto> csharpProjectDtos)
+  public Seq<IProjectScopedRuleTarget> ProjectScopedRuleTargets(IEnumerable<CsharpProjectDto> csharpProjectDtos)
   {
     return csharpProjectDtos
       .Select(dataAccess => 
@@ -18,17 +19,17 @@ public class ProjectScopedRuleTargetFactory(IProjectScopedRuleViolationFactory r
           SourceCodeFiles(dataAccess), 
           dataAccess.Properties))
       .Cast<IProjectScopedRuleTarget>()
-      .ToList();
+      .ToSeq();
   }
 
-  private IReadOnlyList<SourceCodeFile> SourceCodeFiles(CsharpProjectDto projectDataAccess)
+  private Seq<ISourceCodeFileInNamespace> SourceCodeFiles(CsharpProjectDto projectDataAccess)
   {
     return projectDataAccess.SourceCodeFiles
       .OrderBy(dto => dto.PathRelativeToProjectRoot)
-      .Select(ToSourceCodeFile).ToList();
+      .Select(ToSourceCodeFile).ToSeq();
   }
 
-  private SourceCodeFile ToSourceCodeFile(SourceCodeFileDto scf)
+  private ISourceCodeFileInNamespace ToSourceCodeFile(SourceCodeFileDto scf)
   {
     return new SourceCodeFile(
       ruleViolationFactory, 

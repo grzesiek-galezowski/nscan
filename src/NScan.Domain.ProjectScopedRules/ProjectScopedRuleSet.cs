@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LanguageExt;
 using NScan.SharedKernel;
 
 namespace NScan.ProjectScopedRules;
@@ -12,7 +13,7 @@ public class ProjectScopedRuleSet : IProjectScopedRuleSet
     _rules.Add(rule);
   }
 
-  public void Check(IReadOnlyList<IProjectScopedRuleTarget> dotNetProjects, IAnalysisReportInProgress report)
+  public void Check(Seq<IProjectScopedRuleTarget> dotNetProjects, IAnalysisReportInProgress report)
   {
     foreach (var target in dotNetProjects)
     {

@@ -1,7 +1,9 @@
-﻿using NScan.Lib;
+﻿using LanguageExt;
+using NScan.Lib;
 using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
+using NScanSpecification.Lib;
 
 namespace NScan.ProjectScopedRulesSpecification;
 
@@ -13,7 +15,7 @@ public class CSharpMethodSpecification
   public void ShouldBeAbleToSayWhetherItsNameMatchesAPattern(string pattern, string methodName, bool expectedResult)
   {
     //GIVEN
-    var declaration = new MethodDeclarationInfo(methodName, Any.ReadOnlyList<string>());
+    var declaration = new MethodDeclarationInfo(methodName, Any.Seq<string>());
 
     var method = new CSharpMethod(declaration, Any.Instance<IProjectScopedRuleViolationFactory>());
 
@@ -28,7 +30,7 @@ public class CSharpMethodSpecification
   public void ShouldReportErrorFromDecorationEvaluationWhenIsNotDecorated()
   {
     //GIVEN
-    var declaration = new MethodDeclarationInfo(Any.String(), new List<string>());
+    var declaration = new MethodDeclarationInfo(Any.String(), Seq<string>.Empty);
     var violationFactory = Substitute.For<IProjectScopedRuleViolationFactory>();
     var cSharpMethod = new CSharpMethod(declaration, violationFactory);
     var report = Substitute.For<IAnalysisReportInProgress>();
@@ -49,7 +51,7 @@ public class CSharpMethodSpecification
   public void ShouldNotReportErrorFromDecorationEvaluationWhenIsDecorated()
   {
     //GIVEN
-    var declaration = new MethodDeclarationInfo(Any.String(), new List<string> { Any.String() });
+    var declaration = new MethodDeclarationInfo(Any.String(), Seq.create(Any.String()));
     var violationFactory = Substitute.For<IProjectScopedRuleViolationFactory>();
     var report = Substitute.For<IAnalysisReportInProgress>();
     var parentClassName = Any.String();

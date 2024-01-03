@@ -14,7 +14,7 @@ public class ProjectScopedRuleTargetSpecification
     var propertyCheck = Substitute.For<IPropertyCheck>();
     var assemblyName = Any.Instance<AssemblyName>();
     var properties = Any.Dictionary<string, string>().ToHashMap();
-    var project = new ProjectScopedRuleTarget(assemblyName, Any.ReadOnlyList<ISourceCodeFileInNamespace>(), properties);
+    var project = new ProjectScopedRuleTarget(assemblyName, Any.Seq<ISourceCodeFileInNamespace>(), properties);
     var report = Any.Instance<IAnalysisReportInProgress>();
 
     //WHEN
@@ -28,7 +28,7 @@ public class ProjectScopedRuleTargetSpecification
   public void ShouldPassAllItsFilesToProjectScopedRuleAlongWithRootNamespace()
   {
     //GIVEN
-    var files = Any.ReadOnlyList<ISourceCodeFileInNamespace>();
+    var files = Any.Seq<ISourceCodeFileInNamespace>();
     var project =
       new ProjectScopedRuleTarget(
         Any.Instance<AssemblyName>(),
@@ -51,7 +51,7 @@ public class ProjectScopedRuleTargetSpecification
     var assemblyName = Any.Instance<AssemblyName>();
     var project = new ProjectScopedRuleTarget(
       assemblyName,
-      Any.ReadOnlyList<ISourceCodeFileInNamespace>(),
+      Any.Seq<ISourceCodeFileInNamespace>(),
       Any.HashMap<string, string>());
 
     //WHEN
@@ -69,7 +69,7 @@ public class ProjectScopedRuleTargetSpecification
     var assemblySuffix = Any.String();
     var project = new ProjectScopedRuleTarget(
       new AssemblyName($"{Any.String()}.{assemblySuffix}"), 
-      Any.ReadOnlyList<ISourceCodeFileInNamespace>(), 
+      Any.Seq<ISourceCodeFileInNamespace>(), 
       Any.HashMap<string, string>());
     string assemblyNamePattern = "*." + assemblySuffix;
 
@@ -87,7 +87,7 @@ public class ProjectScopedRuleTargetSpecification
     var searchedAssemblyName = Any.Instance<AssemblyName>();
     var project = new ProjectScopedRuleTarget(
       Any.OtherThan(searchedAssemblyName),
-      Any.ReadOnlyList<ISourceCodeFileInNamespace>(),
+      Any.Seq<ISourceCodeFileInNamespace>(),
       Any.HashMap<string, string>());
 
     //WHEN
@@ -106,7 +106,7 @@ public class ProjectScopedRuleTargetSpecification
     var assemblyName = Any.Instance<AssemblyName>();
     var project = new ProjectScopedRuleTarget(
       assemblyName, 
-      Any.ReadOnlyList<ISourceCodeFileInNamespace>(),
+      Any.Seq<ISourceCodeFileInNamespace>(),
       Any.HashMap<string, string>());
 
     //WHEN

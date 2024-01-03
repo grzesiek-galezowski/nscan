@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LanguageExt;
 using NScan.SharedKernel;
 
 namespace NScan.ProjectScopedRules;
@@ -18,7 +19,7 @@ public class ProjectSourceCodeFilesRelatedRule(
     project.AnalyzeFiles(this, report);
   }
 
-  public void Check(IReadOnlyList<ISourceCodeFileInNamespace> sourceCodeFiles, IAnalysisReportInProgress report)
+  public void Check(Seq<ISourceCodeFileInNamespace> sourceCodeFiles, IAnalysisReportInProgress report)
   {
     foreach (var sourceCodeFile in sourceCodeFiles)
     {
