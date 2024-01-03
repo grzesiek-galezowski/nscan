@@ -1,6 +1,4 @@
-﻿using NScan.SharedKernel.RuleDtos.DependencyPathBased;
-
-namespace NScan.Adapters.SecondarySpecification.ReadingRules;
+﻿namespace NScan.Adapters.SecondarySpecification.ReadingRules;
 
 public class IndependentRuleComplementDtoAssertion(
   Action<IndependentRuleComplementDto> action) : RuleUnionDtoAssertion

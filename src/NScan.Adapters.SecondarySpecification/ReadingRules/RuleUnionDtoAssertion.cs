@@ -1,8 +1,4 @@
-﻿using NScan.SharedKernel.RuleDtos.DependencyPathBased;
-using NScan.SharedKernel.RuleDtos.NamespaceBased;
-using NScan.SharedKernel.RuleDtos.ProjectScoped;
-
-namespace NScan.Adapters.SecondarySpecification.ReadingRules;
+﻿namespace NScan.Adapters.SecondarySpecification.ReadingRules;
 
 public class RuleUnionDtoAssertion : IRuleDtoVisitor
 {

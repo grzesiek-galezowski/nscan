@@ -1,6 +1,4 @@
-﻿using NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingCSharpSourceCode;
-
-namespace NScan.Adapters.SecondarySpecification.ReadingCSharpSolution.Integration;
+﻿namespace NScan.Adapters.SecondarySpecification.ReadingCSharpSolution.Integration;
 //backlog single namespace per file rule
 
 public class RoslynNamespaceDetectionPlayground

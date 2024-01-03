@@ -1,6 +1,4 @@
-﻿using NScan.SharedKernel.RuleDtos.ProjectScoped;
-
-namespace NScan.Adapters.SecondarySpecification.ReadingRules;
+﻿namespace NScan.Adapters.SecondarySpecification.ReadingRules;
 
 public class CorrectNamespacesRuleComplementDtoAssertion(Action<CorrectNamespacesRuleComplementDto> action)
   : RuleUnionDtoAssertion

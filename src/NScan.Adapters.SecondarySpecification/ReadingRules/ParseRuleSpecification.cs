@@ -2,9 +2,6 @@
 using Core.Maybe;
 using NScan.Adapters.Secondary.ReadingRules;
 using NScan.Lib;
-using NScan.SharedKernel.RuleDtos.DependencyPathBased;
-using NScan.SharedKernel.RuleDtos.NamespaceBased;
-using NScan.SharedKernel.RuleDtos.ProjectScoped;
 using NScanSpecification.Lib.AutomationLayer;
 using Sprache;
 
