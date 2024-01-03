@@ -31,7 +31,7 @@ public class NoCircularUsingsRuleSpecification
     var rule = new NoCircularUsingsRule(Any.Instance<NoCircularUsingsRuleComplementDto>(), ruleViolationFactory);
     var cache = Substitute.For<INamespacesDependenciesCache>();
     var report = Substitute.For<IAnalysisReportInProgress>();
-    var cycles = Any.Arr<NamespaceDependencyPath>();
+    var cycles = Any.Seq<NamespaceDependencyPath>();
     var violation = Any.Instance<RuleViolation>();
     var projectAssemblyName = Any.Instance<AssemblyName>();
 
@@ -56,7 +56,7 @@ public class NoCircularUsingsRuleSpecification
     var cache = Substitute.For<INamespacesDependenciesCache>();
     var report = Substitute.For<IAnalysisReportInProgress>();
 
-    cache.RetrieveCycles().Returns(Arr<NamespaceDependencyPath>.Empty);
+    cache.RetrieveCycles().Returns(Seq<NamespaceDependencyPath>.Empty);
 
     //WHEN
     rule.Evaluate(Any.Instance<AssemblyName>(), cache, report);

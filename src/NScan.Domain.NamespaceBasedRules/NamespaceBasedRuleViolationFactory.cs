@@ -10,7 +10,7 @@ public class NamespaceBasedRuleViolationFactory(INamespaceBasedReportFragmentsFo
   public RuleViolation NoCyclesRuleViolation(
     RuleDescription description,
     AssemblyName projectAssemblyName,
-    Arr<NamespaceDependencyPath> cycles)
+    Seq<NamespaceDependencyPath> cycles)
   {
     return RuleViolation.Create(
       description, 
@@ -21,7 +21,7 @@ public class NamespaceBasedRuleViolationFactory(INamespaceBasedReportFragmentsFo
   public RuleViolation NoUsingsRuleViolation(
     RuleDescription description,
     AssemblyName projectAssemblyName,
-    Arr<NamespaceDependencyPath> pathsFound)
+    Seq<NamespaceDependencyPath> pathsFound)
   {
     return RuleViolation.Create(
       description, 

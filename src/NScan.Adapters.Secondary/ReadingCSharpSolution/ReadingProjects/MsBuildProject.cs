@@ -26,28 +26,28 @@ public class MsBuildProject
     _project = project;
   }
 
-  public Arr<ProjectId> ProjectReferences()
+  public Seq<ProjectId> ProjectReferences()
   {
     return _project.AllEvaluatedItems.Where(item => item.ItemType == "ProjectReference")
       .Select(item => new ProjectId((FullPath.ParentDirectory() + AtmaFileSystemPaths.RelativeDirectoryPath(item.EvaluatedInclude)).ToString()))
-      .ToArr();
+      .ToSeq();
   }
 
-  public Arr<AssemblyReference> AssemblyReferences()
+  public Seq<AssemblyReference> AssemblyReferences()
   {
     return _project.Items.Where(item => item.ItemType == "AssemblyReference")
       .Select(item => new AssemblyReference(item.EvaluatedInclude, item.GetMetadata("HintPath").EvaluatedValue))
-      .ToArr();
+      .ToSeq();
   }
 
-  public Arr<PackageReference> PackageReferences()
+  public Seq<PackageReference> PackageReferences()
   {
     return _project.Items
       .Where(item => item.ItemType == "PackageReference")
       .Where(item => (!item.HasMetadata("IsImplicitlyDefined")) || (item.GetMetadataValue("IsImplicitlyDefined") == "false")) //to filter out .net sdk dependency
       .Select(item =>
         new PackageReference(item.EvaluatedInclude, item.GetMetadataValue("Version")))
-      .ToArr();
+      .ToSeq();
   }
 
   public HashMap<string, string> Properties()
@@ -55,11 +55,11 @@ public class MsBuildProject
     return _project.Properties.ToDictionary(p => p.Name, p => p.EvaluatedValue).ToHashMap();
   }
 
-  public Arr<string> TargetFrameworks()
+  public Seq<string> TargetFrameworks()
   {
     var value = (_project.Properties.FirstOrDefault(p => p.Name == "TargetFrameworks") ??
      _project.Properties.Single(p => p.Name == "TargetFramework")).EvaluatedValue;
-    return value.Split(";").ToArr();
+    return value.Split(";").ToSeq();
   }
 
   public string AssemblyName()
@@ -72,7 +72,7 @@ public class MsBuildProject
     return new ProjectId(_project.FullPath);
   }
 
-  public Arr<SourceCodeFileDto> LoadSourceCodeFiles()
+  public Seq<SourceCodeFileDto> LoadSourceCodeFiles()
   {
     var csprojRoot = FullPath.ParentDirectory();
     var syntaxTrees = AllCompiledFilesPaths(csprojRoot);
@@ -87,7 +87,7 @@ public class MsBuildProject
           classDeclarationSignatures, 
           RootNamespace(), 
           AssemblyName()))
-      .ToArr();
+      .ToSeq();
   }
 
   public string RootNamespace()

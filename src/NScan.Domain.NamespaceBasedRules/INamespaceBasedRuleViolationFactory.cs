@@ -8,9 +8,9 @@ public interface INamespaceBasedRuleViolationFactory
   RuleViolation NoCyclesRuleViolation(
     RuleDescription description,
     AssemblyName projectAssemblyName,
-    Arr<NamespaceDependencyPath> cycles);
+    Seq<NamespaceDependencyPath> cycles);
   RuleViolation NoUsingsRuleViolation(
     RuleDescription description,
     AssemblyName projectAssemblyName,
-    Arr<NamespaceDependencyPath> pathsFound);
+    Seq<NamespaceDependencyPath> pathsFound);
 }

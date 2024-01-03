@@ -17,7 +17,7 @@ public class NamespaceBasedReportFragmentsFormatSpecification
     var namespace5 = Any.Instance<NamespaceName>();
     var namespace6 = Any.Instance<NamespaceName>();
     var header = Any.String();
-    var cycles = Arr.create(
+    var cycles = Seq.create(
       NamespaceDependencyPath.With(namespace1, namespace2, namespace3),
       NamespaceDependencyPath.With(namespace4, namespace5, namespace6));
 

@@ -38,12 +38,12 @@ public class ReadingCsProjSpecification : INScanSupport
       csharpProjectDto.Should().BeEquivalentTo(
         new CsharpProjectDto(new ProjectId(csprojPath.ToString()),
           csprojName,
-          Arr<SourceCodeFileDto>.Empty,
+          Seq<SourceCodeFileDto>.Empty,
           HashMap<string, string>.Empty,
-          Arr<PackageReference>.Empty, 
-          Arr<AssemblyReference>.Empty,
-          Arr<ProjectId>.Empty,
-          Arr.create("netstandard2.0")),
+          Seq<PackageReference>.Empty, 
+          Seq<AssemblyReference>.Empty,
+          Seq<ProjectId>.Empty,
+          Seq.create("netstandard2.0")),
         options => options
           .WithTracing()
           .ComparingByMembers<CsharpProjectDto>()

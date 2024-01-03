@@ -1,5 +1,7 @@
-﻿using NScan.NamespaceBasedRules;
+﻿using LanguageExt;
+using NScan.NamespaceBasedRules;
 using NScan.SharedKernel;
+using NScanSpecification.Lib;
 
 namespace NScan.NamespaceBasedRulesSpecification;
 
@@ -14,10 +16,7 @@ public class SolutionForNamespaceBasedRulesSpecification
     var target3 = Substitute.For<INamespaceBasedRuleTarget>();
 
     var solution = new SolutionForNamespaceBasedRules(
-      new List<INamespaceBasedRuleTarget>
-      {
-        target1, target2, target3
-      });
+      Seq.create(target1, target2, target3));
 
     //WHEN
     solution.BuildNamespacesCache();
@@ -32,7 +31,7 @@ public class SolutionForNamespaceBasedRulesSpecification
   public void ShouldOrderTheNamespacesBasedRuleSetToCheckTheProjectsForVerification()
   {
     //GIVEN
-    var namespaceBasedRuleTargets = Any.ReadOnlyList<INamespaceBasedRuleTarget>();
+    var namespaceBasedRuleTargets = Any.Seq<INamespaceBasedRuleTarget>();
     var solution = new SolutionForNamespaceBasedRules(
       namespaceBasedRuleTargets);
     var ruleSet = Substitute.For<INamespacesBasedRuleSet>();

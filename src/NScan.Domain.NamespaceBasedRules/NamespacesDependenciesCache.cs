@@ -17,7 +17,7 @@ public class NamespacesDependenciesCache : INamespacesDependenciesCache
     AddNeighborOf(namespaceName, usingName);
   }
 
-  public Arr<NamespaceDependencyPath> RetrieveCycles()
+  public Seq<NamespaceDependencyPath> RetrieveCycles()
   {
     var cycles = new List<NamespaceDependencyPath>();
     foreach (var @namespace in _dependenciesByNamespace.Keys)
@@ -27,10 +27,10 @@ public class NamespacesDependenciesCache : INamespacesDependenciesCache
         @namespace, 
         NamespaceDependencyPath.Empty());
     }
-    return cycles.ToArr();
+    return cycles.ToSeq();
   }
 
-  public Arr<NamespaceDependencyPath> RetrievePathsBetween(Pattern fromPattern, Pattern toPattern)
+  public Seq<NamespaceDependencyPath> RetrievePathsBetween(Pattern fromPattern, Pattern toPattern)
   {
     var paths = new List<NamespaceDependencyPath>();
     foreach (var @namespace in NamespacesMatching(fromPattern))
@@ -41,7 +41,7 @@ public class NamespacesDependenciesCache : INamespacesDependenciesCache
         toPattern, 
         @namespace);
     }
-    return paths.ToArr();
+    return paths.ToSeq();
   }
 
   private IEnumerable<NamespaceName> NamespacesMatching(Pattern fromPattern)

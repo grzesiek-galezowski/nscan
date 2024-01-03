@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using LanguageExt;
 using NScan.SharedKernel;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 
@@ -14,7 +15,7 @@ public interface IReferencedProjects
 }
 
 public class ReferencedProjects(
-  IReadOnlyList<ProjectId> referencedProjectsIds,
+  Seq<ProjectId> referencedProjectsIds,
   INScanSupport support)
   : IReferencedProjects
 {

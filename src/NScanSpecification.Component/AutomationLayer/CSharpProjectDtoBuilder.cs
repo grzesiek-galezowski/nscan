@@ -83,11 +83,11 @@ public class CSharpProjectDtoBuilder //bug make this a record
       _assemblyName,
       _sourceCodeFileBuilders
         .Select(
-          b => b.BuildWith(_assemblyName, _rootNamespace)).ToArr(), 
+          b => b.BuildWith(_assemblyName, _rootNamespace)).ToSeq(), 
       _properties, 
-      _packageReferences.ToArr(), 
-      _assemblyReferences.ToArr(), 
-      _referencedProjectIds.ToArr(),
-      Arr.create(_targetFramework));
+      _packageReferences.ToSeq(), 
+      _assemblyReferences.ToSeq(), 
+      _referencedProjectIds.ToSeq(),
+      Seq.create(_targetFramework));
   }
 }

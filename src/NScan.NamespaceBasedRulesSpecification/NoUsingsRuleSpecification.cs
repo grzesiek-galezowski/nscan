@@ -50,7 +50,7 @@ public class NoUsingsRuleSpecification
     var namespacesCache = Substitute.For<INamespacesDependenciesCache>();
     var report = Substitute.For<IAnalysisReportInProgress>();
     var violation = Any.Instance<RuleViolation>();
-    var pathsFound = Arr.create(
+    var pathsFound = Seq.create(
       Any.Instance<NamespaceDependencyPath>(),
       Any.Instance<NamespaceDependencyPath>(),
       Any.Instance<NamespaceDependencyPath>()
@@ -68,8 +68,8 @@ public class NoUsingsRuleSpecification
     report.Received(1).Add(violation);
   }
 
-  private static Arr<NamespaceDependencyPath> NoPaths()
+  private static Seq<NamespaceDependencyPath> NoPaths()
   {
-    return Arr<NamespaceDependencyPath>.Empty;
+    return Seq<NamespaceDependencyPath>.Empty;
   }
 }

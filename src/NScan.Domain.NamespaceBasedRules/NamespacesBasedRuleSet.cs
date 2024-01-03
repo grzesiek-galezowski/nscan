@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LanguageExt;
 using NScan.SharedKernel;
 
 namespace NScan.NamespaceBasedRules;
@@ -12,7 +13,7 @@ public class NamespacesBasedRuleSet : INamespacesBasedRuleSet
     _rules.Add(rule);
   }
 
-  public void Check(IReadOnlyList<INamespaceBasedRuleTarget> dotNetProjects, IAnalysisReportInProgress report)
+  public void Check(Seq<INamespaceBasedRuleTarget> dotNetProjects, IAnalysisReportInProgress report)
   {
     foreach (var rule in _rules)
     {

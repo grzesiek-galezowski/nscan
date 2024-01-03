@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using LanguageExt;
 using NScan.SharedKernel;
 
 namespace NScan.NamespaceBasedRules;
 
-public class SolutionForNamespaceBasedRules(IReadOnlyList<INamespaceBasedRuleTarget> namespaceBasedRuleTargets)
+public class SolutionForNamespaceBasedRules(Seq<INamespaceBasedRuleTarget> namespaceBasedRuleTargets)
   : ISolutionForNamespaceBasedRules
 {
   public void Check(INamespacesBasedRuleSet ruleSet, IAnalysisReportInProgress analysisReportInProgress)

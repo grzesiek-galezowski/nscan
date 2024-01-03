@@ -8,17 +8,17 @@ namespace NScan.NamespaceBasedRules;
 
 public class NamespaceBasedRuleTargetFactory
 {
-  public List<INamespaceBasedRuleTarget> NamespaceBasedRuleTargets(IEnumerable<CsharpProjectDto> csharpProjectDtos)
+  public Seq<INamespaceBasedRuleTarget> NamespaceBasedRuleTargets(IEnumerable<CsharpProjectDto> csharpProjectDtos)
   {
     return csharpProjectDtos.Select(dataAccess =>
         new NamespaceBasedRuleTarget(
           new AssemblyName(dataAccess.AssemblyName),
           SourceCodeFilesUsingNamespaces(dataAccess),
           new NamespacesDependenciesCache()))
-      .ToList<INamespaceBasedRuleTarget>();
+      .ToSeq<INamespaceBasedRuleTarget>();
   }
 
-  private Arr<ISourceCodeFileUsingNamespaces> SourceCodeFilesUsingNamespaces(CsharpProjectDto dataAccess)
+  private Seq<ISourceCodeFileUsingNamespaces> SourceCodeFilesUsingNamespaces(CsharpProjectDto dataAccess)
   {
     return dataAccess.SourceCodeFiles.Select(scf =>
       new SourceCodeFileUsingNamespaces(

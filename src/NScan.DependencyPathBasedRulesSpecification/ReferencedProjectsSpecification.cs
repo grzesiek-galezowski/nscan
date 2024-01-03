@@ -1,4 +1,5 @@
 ﻿using System;
+using LanguageExt;
 using NScan.DependencyPathBasedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.NotifyingSupport.Ports;
@@ -12,7 +13,7 @@ public class ReferencedProjectsSpecification
   public void ShouldAddProjectToPathThenFillCopyForEachReferencedProjects()
   {
     //GIVEN
-    var projects = new ReferencedProjects(Any.Array<ProjectId>(), Any.Instance<INScanSupport>());
+    var projects = new ReferencedProjects(Any.Seq<ProjectId>(), Any.Instance<INScanSupport>());
     var reference1 = Substitute.For<IReferencedProject>();
     var reference2 = Substitute.For<IReferencedProject>();
     var reference3 = Substitute.For<IReferencedProject>();
@@ -45,7 +46,7 @@ public class ReferencedProjectsSpecification
   public void ShouldFinalizeDependencyPathWithProjectWhenTheReferencesAreEmpty()
   {
     //GIVEN
-    var projects = new ReferencedProjects(Any.Array<ProjectId>(), Any.Instance<INScanSupport>());
+    var projects = new ReferencedProjects(Any.Seq<ProjectId>(), Any.Instance<INScanSupport>());
     var dependencyPathInProgress = Substitute.For<IDependencyPathInProgress>();
     var project = Any.Instance<IDependencyPathBasedRuleTarget>();
 
@@ -63,7 +64,7 @@ public class ReferencedProjectsSpecification
     var id1 = Any.ProjectId();
     var id2 = Any.ProjectId();
     var id3 = Any.ProjectId();
-    var referencedProjectsIds = new[] { id1, id2, id3 };
+    var referencedProjectsIds = Seq.create(id1, id2, id3);
     var support = Substitute.For<INScanSupport>();
     var exceptionFromResolution = Any.Instance<ReferencedProjectNotFoundInSolutionException>();
     var projects = new ReferencedProjects(referencedProjectsIds, support);

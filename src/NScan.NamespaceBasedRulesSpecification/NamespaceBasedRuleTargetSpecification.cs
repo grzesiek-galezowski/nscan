@@ -17,7 +17,7 @@ public class NamespaceBasedRuleTargetSpecification
     var projectAssemblyName = Any.Instance<AssemblyName>();
     var project = new NamespaceBasedRuleTarget(
       projectAssemblyName,
-      Any.Arr<ISourceCodeFileUsingNamespaces>(),
+      Any.Seq<ISourceCodeFileUsingNamespaces>(),
       namespacesCache);
 
     //WHEN
@@ -34,7 +34,7 @@ public class NamespaceBasedRuleTargetSpecification
     var file1 = Substitute.For<ISourceCodeFileUsingNamespaces>();
     var file2 = Substitute.For<ISourceCodeFileUsingNamespaces>();
     var file3 = Substitute.For<ISourceCodeFileUsingNamespaces>();
-    var files = Arr.create(file1, file2, file3);
+    var files = Seq.create(file1, file2, file3);
     var namespacesCache = Any.Instance<INamespacesDependenciesCache>();
     var project = new NamespaceBasedRuleTarget(
       Any.Instance<AssemblyName>(),

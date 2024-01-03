@@ -4,5 +4,5 @@ namespace NScan.NamespaceBasedRules;
 
 public interface INamespaceBasedReportFragmentsFormat
 {
-  string ApplyTo(Arr<NamespaceDependencyPath> paths, string header);
+  string ApplyTo(Seq<NamespaceDependencyPath> paths, string header);
 }

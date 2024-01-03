@@ -10,8 +10,8 @@ namespace NScan.DependencyPathBasedRules;
 public class DotNetStandardProject(
   string assemblyName,
   ProjectId id,
-  Arr<PackageReference> packageReferences,
-  Arr<AssemblyReference> assemblyReferences,
+  Seq<PackageReference> packageReferences,
+  Seq<AssemblyReference> assemblyReferences,
   IReferencedProjects referencedProjects,
   IReferencingProjects referencingProjects)
   : IDotNetProject

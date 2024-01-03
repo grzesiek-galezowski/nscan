@@ -6,7 +6,7 @@ namespace NScan.NamespaceBasedRules;
 
 public class NamespaceBasedReportFragmentsFormat : INamespaceBasedReportFragmentsFormat, INamespaceDependencyPathFormat
 {
-  public string ApplyTo(Arr<NamespaceDependencyPath> paths, string header)
+  public string ApplyTo(Seq<NamespaceDependencyPath> paths, string header)
   {
     string result = string.Empty;
     for (var pathIndex = 0; pathIndex < paths.Count; pathIndex++)

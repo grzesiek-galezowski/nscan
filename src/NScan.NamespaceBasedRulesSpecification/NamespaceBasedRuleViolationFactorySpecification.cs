@@ -15,7 +15,7 @@ public class NamespaceBasedRuleViolationFactorySpecification
     var cyclesString = Any.String();
     var description = Any.Instance<RuleDescription>();
     var projectAssemblyName = Any.Instance<AssemblyName>();
-    var cycles = Any.Arr<NamespaceDependencyPath>();
+    var cycles = Any.Seq<NamespaceDependencyPath>();
 
     fragments.ApplyTo(cycles, "Cycle").Returns(cyclesString);
       
@@ -37,7 +37,7 @@ public class NamespaceBasedRuleViolationFactorySpecification
     var pathsString = Any.String();
     var description = Any.Instance<RuleDescription>();
     var projectAssemblyName = Any.Instance<AssemblyName>();
-    var paths = Any.Arr<NamespaceDependencyPath>();
+    var paths = Any.Seq<NamespaceDependencyPath>();
 
     fragments.ApplyTo(paths, "Violation").Returns(pathsString);
       

@@ -202,7 +202,7 @@ public class DotNetStandardProjectSpecification
     var project = new DotNetStandardProjectBuilder
       {
         PackageReferences = 
-          Arr.create(new PackageReference(packageReference, Any.String()))
+          Seq.create(new PackageReference(packageReference, Any.String()))
       }.Build();
 
     //WHEN
@@ -233,7 +233,7 @@ public class DotNetStandardProjectSpecification
     var project = new DotNetStandardProjectBuilder
     {
       AssemblyReferences = 
-        Arr.create(new AssemblyReference(assemblyReferenceName, Any.String()))
+        Seq.create(new AssemblyReference(assemblyReferenceName, Any.String()))
     }.Build();
 
     //WHEN
@@ -290,11 +290,11 @@ public class DotNetStandardProjectSpecification
 
     public IReferencedProjects ReferencedProjects { get; set; } = Any.Instance<IReferencedProjects>();
 
-    public Arr<PackageReference> PackageReferences { private get; set; } =
-      Any.Arr<PackageReference>();
+    public Seq<PackageReference> PackageReferences { private get; set; } =
+      Any.Seq<PackageReference>();
 
-    public Arr<AssemblyReference> AssemblyReferences { private get; set; } =
-      Any.Arr<AssemblyReference>();
+    public Seq<AssemblyReference> AssemblyReferences { private get; set; } =
+      Any.Seq<AssemblyReference>();
 
     public ProjectId ProjectId { private get; set; } = Any.ProjectId();
     public string AssemblyName { private get; set; } = Any.String();

@@ -1,4 +1,5 @@
-﻿using NScan.NamespaceBasedRules;
+﻿using LanguageExt;
+using NScan.NamespaceBasedRules;
 using NScan.SharedKernel;
 
 namespace NScan.NamespaceBasedRulesSpecification;
@@ -25,7 +26,7 @@ public class NamespacesBasedRuleSetSpecification
     var rule3Description = rule3.Description();
 
     //WHEN
-    ruleSet.Check(new List<INamespaceBasedRuleTarget> {project1, project2, project3}, report);
+    ruleSet.Check(Seq.create(project1, project2, project3), report);
 
     //THEN
     Received.InOrder(() =>

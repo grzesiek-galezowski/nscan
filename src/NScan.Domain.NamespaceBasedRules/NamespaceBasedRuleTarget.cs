@@ -5,7 +5,7 @@ namespace NScan.NamespaceBasedRules;
 
 public class NamespaceBasedRuleTarget(
   AssemblyName assemblyName,
-  Arr<ISourceCodeFileUsingNamespaces> sourceCodeFiles,
+  Seq<ISourceCodeFileUsingNamespaces> sourceCodeFiles,
   INamespacesDependenciesCache namespacesDependenciesCache)
   : INamespaceBasedRuleTarget
 {
