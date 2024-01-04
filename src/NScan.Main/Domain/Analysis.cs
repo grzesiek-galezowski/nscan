@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using LanguageExt;
+﻿using LanguageExt;
 using NScan.DependencyPathBasedRules;
 using NScan.NamespaceBasedRules;
 using NScan.ProjectScopedRules;
@@ -50,17 +49,17 @@ public class Analysis(
     projectNamespacesAnalysis.PerformOn(analysisReportInProgress);
   }
 
-  public void AddDependencyPathRules(IEnumerable<DependencyPathBasedRuleUnionDto> rules)
+  public void AddDependencyPathRules(Seq<DependencyPathBasedRuleUnionDto> rules)
   {
     dependencyAnalysis.Add(rules);
   }
 
-  public void AddProjectScopedRules(IEnumerable<ProjectScopedRuleUnionDto> rules)
+  public void AddProjectScopedRules(Seq<ProjectScopedRuleUnionDto> rules)
   {
     projectAnalysis.Add(rules);
   }
 
-  public void AddNamespaceBasedRules(IEnumerable<NamespaceBasedRuleUnionDto> rules)
+  public void AddNamespaceBasedRules(Seq<NamespaceBasedRuleUnionDto> rules)
   {
     projectNamespacesAnalysis.Add(rules);
   }

@@ -1,4 +1,5 @@
-﻿using NScan.DependencyPathBasedRules;
+﻿using LanguageExt;
+using NScan.DependencyPathBasedRules;
 using NScan.NamespaceBasedRules;
 using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
@@ -55,12 +56,11 @@ public class AnalysisSpecification
       DependencyAnalysis = dependencyAnalysis
     }.Build();
 
-    var ruleDtos = new []
-    {
+    var ruleDtos = Seq.create(
       DependencyPathBasedRuleUnionDto.With(ruleDto1),
       DependencyPathBasedRuleUnionDto.With(ruleDto2),
       DependencyPathBasedRuleUnionDto.With(ruleDto3)
-    };
+    );
 
     //WHEN
     analysis.AddDependencyPathRules(ruleDtos);
@@ -82,12 +82,11 @@ public class AnalysisSpecification
       NamespacesAnalysis = namespacesAnalysis,
     }.Build();
 
-    var ruleDtos = new[]
-    {
+    var ruleDtos = Seq.create(
       NamespaceBasedRuleUnionDto.With(ruleDto1),
       NamespaceBasedRuleUnionDto.With(ruleDto2),
       NamespaceBasedRuleUnionDto.With(ruleDto3)
-    };
+    );
 
     //WHEN
     analysis.AddNamespaceBasedRules(ruleDtos);
@@ -109,12 +108,11 @@ public class AnalysisSpecification
       ProjectAnalysis = projectAnalysis,
     }.Build();
 
-    var ruleDtos = new[]
-    {
+    var ruleDtos = Seq.create(
       ProjectScopedRuleUnionDto.With(ruleDto1),
       ProjectScopedRuleUnionDto.With(ruleDto2),
       ProjectScopedRuleUnionDto.With(ruleDto3)
-    };
+    );
 
     //WHEN
     analysis.AddProjectScopedRules(ruleDtos);

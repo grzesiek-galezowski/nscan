@@ -73,7 +73,7 @@ public class DependencyPathAnalysisRule(DependencyPathBasedRuleUnionDto dto) : I
 {
   public void AddTo(Analysis analysis)
   {
-    analysis.AddDependencyPathRules([dto]);
+    analysis.AddDependencyPathRules(Seq.create(dto));
   }
 }
 
@@ -81,7 +81,7 @@ public class ProjectScopedAnalysisRule(ProjectScopedRuleUnionDto dto) : IAnalysi
 {
   public void AddTo(Analysis analysis)
   {
-    analysis.AddProjectScopedRules([dto]);
+    analysis.AddProjectScopedRules(Seq.create(dto));
   }
 }
 
@@ -89,7 +89,7 @@ public class NamespaceBasedAnalysisRule(NamespaceBasedRuleUnionDto dto) : IAnaly
 {
   public void AddTo(Analysis analysis)
   {
-    analysis.AddNamespaceBasedRules([dto]);
+    analysis.AddNamespaceBasedRules(Seq.create(dto));
   }
 }
 

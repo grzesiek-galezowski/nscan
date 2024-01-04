@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Core.NullableReferenceTypesExtensions;
+﻿using Core.NullableReferenceTypesExtensions;
 using LanguageExt;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -10,21 +9,21 @@ namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingCSharpSourceCode
 public class UsingGatheringVisitor(HashMap<string, ClassDeclarationInfo> classDeclarationInfos)
   : CSharpSyntaxVisitor
 {
-  private readonly List<string> _usingNames = new();
+  private Seq<string> _usingNames;
 
   public override void VisitUsingDirective(UsingDirectiveSyntax node)
   {
     var usingSubject = TypeFormatting.StripWhitespace(node.Name.OrThrow().ToString());
     if (node.StaticKeyword.Value == null)
     {
-      _usingNames.Add(usingSubject);
+      _usingNames = _usingNames.Add(usingSubject);
     }
     else
     {
       var classDeclaration = classDeclarationInfos.Find(usingSubject);
       classDeclaration.IfSome(info =>
       {
-        _usingNames.Add(info.Namespace);
+        _usingNames = _usingNames.Add(info.Namespace);
       });
     }
   }
@@ -43,6 +42,6 @@ public class UsingGatheringVisitor(HashMap<string, ClassDeclarationInfo> classDe
 
   public Seq<string> ToSeq()
   {
-    return _usingNames.ToSeq();
+    return _usingNames;
   }
 }

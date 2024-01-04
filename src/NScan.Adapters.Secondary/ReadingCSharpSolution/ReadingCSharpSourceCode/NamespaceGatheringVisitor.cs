@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using LanguageExt;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -6,7 +6,7 @@ namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingCSharpSourceCode
 
 public class NamespaceGatheringVisitor : CSharpSyntaxVisitor
 {
-  private readonly ISet<string> _resultSet = new HashSet<string>();
+  private Set<string> _resultSet;
 
   public override void VisitCompilationUnit(CompilationUnitSyntax node)
   {
@@ -18,7 +18,7 @@ public class NamespaceGatheringVisitor : CSharpSyntaxVisitor
 
   public override void VisitFileScopedNamespaceDeclaration(FileScopedNamespaceDeclarationSyntax node)
   {
-    _resultSet.Add(node.Name.ToString());
+    _resultSet = _resultSet.TryAdd(node.Name.ToString());
     foreach (var member in node.Members)
     {
       member.Accept(this);
@@ -27,14 +27,14 @@ public class NamespaceGatheringVisitor : CSharpSyntaxVisitor
 
   public override void VisitNamespaceDeclaration(NamespaceDeclarationSyntax node)
   {
-    _resultSet.Add(node.Name.ToString());
+    _resultSet = _resultSet.TryAdd(node.Name.ToString());
     foreach (var member in node.Members)
     {
       member.Accept(this);
     }
   }
 
-  public ISet<string> ToSet()
+  public Set<string> ToSet()
   {
     return _resultSet;
   }

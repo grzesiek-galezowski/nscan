@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Core.Maybe;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -12,7 +11,7 @@ namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingCSharpSourceCode
 
 public class ClassGatheringVisitor : CSharpSyntaxVisitor
 {
-  private readonly List<ClassDeclarationInfo> _classes = new();
+  private Seq<ClassDeclarationInfo> _classes = new();
 
   public override void VisitCompilationUnit(CompilationUnitSyntax node)
   {
@@ -55,7 +54,7 @@ public class ClassGatheringVisitor : CSharpSyntaxVisitor
       currentParent = (CSharpSyntaxNode)currentParent.Parent.OrThrow();
     }
 
-    _classes.Add(
+    _classes = _classes.Add(
       new ClassDeclarationInfo(className, currentNamespace.OrElse(() => string.Empty) ));
     VisitChildrenOf(node);
   }

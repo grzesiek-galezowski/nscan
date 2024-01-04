@@ -96,10 +96,12 @@ public class SolutionForDependencyPathRulesSpecification
     var root1 = Substitute.For<IDotNetProject>();
     var root2 = Substitute.For<IDotNetProject>();
     var nonRoot = Substitute.For<IDotNetProject>();
+    var root1Id = Any.ProjectId();
+    var root2Id = Any.ProjectId();
     var projectsById = HashMap.create(
-      (Any.ProjectId(), root1),
+      (root1Id, root1),
       (Any.ProjectId(), nonRoot),
-      (Any.ProjectId(), root2)
+      (root2Id, root2)
     );
     var pathCache = Substitute.For<IPathCache>();
     var solution = new SolutionForDependencyPathRules(pathCache, 
@@ -113,6 +115,6 @@ public class SolutionForDependencyPathRulesSpecification
     solution.BuildDependencyPathCache();
 
     //THEN
-    pathCache.Received(1).BuildStartingFrom(Seq.create(root1, root2));
+    pathCache.Received(1).BuildStartingFrom(HashMap.create((root1Id, root1), (root2Id, root2)).Values.ToSeq());
   }
 }

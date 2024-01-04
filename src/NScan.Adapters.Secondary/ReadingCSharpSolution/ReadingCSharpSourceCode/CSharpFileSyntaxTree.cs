@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Threading;
 using AtmaFileSystem;
@@ -42,9 +41,9 @@ public class CSharpFileSyntaxTree(SyntaxTree syntaxTree) :  ICSharpFileSyntaxTre
     return classDeclarationsByFullName;
   }
 
-  public static HashMap<string, ClassDeclarationInfo> GetClassDeclarationSignaturesFromFiles(IEnumerable<CSharpFileSyntaxTree> cSharpSyntaxs)
+  public static HashMap<string, ClassDeclarationInfo> GetClassDeclarationSignaturesFromFiles(Seq<CSharpFileSyntaxTree> cSharpSyntaxTrees)
   {
-    return cSharpSyntaxs.SelectMany(syntax => syntax.GetClassDeclarationSignatures())
+    return cSharpSyntaxTrees.SelectMany(syntax => syntax.GetClassDeclarationSignatures())
       .ToDictionary(kvp => kvp.Key, kvp => kvp.Value).ToHashMap();
   }
 
