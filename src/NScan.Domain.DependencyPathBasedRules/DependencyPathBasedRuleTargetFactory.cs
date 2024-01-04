@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using NScan.SharedKernel.NotifyingSupport.Ports;
+﻿using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.ReadingSolution.Ports;
 
 namespace NScan.DependencyPathBasedRules;
@@ -9,14 +8,14 @@ public class DependencyPathBasedRuleTargetFactory(INScanSupport support)
   public HashMap<ProjectId, IDotNetProject> CreateDependencyPathRuleTargetsByIds(
     Seq<CsharpProjectDto> xmlProjectDataAccesses)
   {
-    var projects = new Dictionary<ProjectId, IDotNetProject>();
+    var projects = new HashMap<ProjectId, IDotNetProject>();
     foreach (var dataAccess in xmlProjectDataAccesses)
     {
       var (id, project) = CreateProject(dataAccess);
-      projects.Add(id, project);
+      projects = projects.Add(id, project);
     }
 
-    return projects.ToHashMap();
+    return projects;
   }
 
   private (ProjectId, DotNetStandardProject) CreateProject(CsharpProjectDto projectDataAccess)

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using LanguageExt;
+﻿using LanguageExt;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
 
 namespace NScanSpecification.Lib.AutomationLayer;
@@ -19,8 +18,7 @@ public class ClassDeclarationBuilder
 
   public static ClassDeclarationBuilder Class(string name)
   {
-    IEnumerable<MethodDeclarationBuilder> methods = new List<MethodDeclarationBuilder>();
-    return new ClassDeclarationBuilder(name, methods.ToSeq(), string.Empty);
+    return new ClassDeclarationBuilder(name, Seq<MethodDeclarationBuilder>.Empty, string.Empty);
   }
 
   public ClassDeclarationBuilder With(params MethodDeclarationBuilder[] methodDeclarationBuilders)

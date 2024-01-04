@@ -1,16 +1,15 @@
-﻿using System.Collections.Generic;
-using LanguageExt;
+﻿using LanguageExt;
 using NScan.SharedKernel;
 
 namespace NScan.NamespaceBasedRules;
 
 public class NamespacesBasedRuleSet : INamespacesBasedRuleSet
 {
-  private readonly List<INamespacesBasedRule> _rules = new();
+  private Seq<INamespacesBasedRule> _rules;
 
   public void Add(INamespacesBasedRule rule)
   {
-    _rules.Add(rule);
+    _rules = _rules.Add(rule);
   }
 
   public void Check(Seq<INamespaceBasedRuleTarget> dotNetProjects, IAnalysisReportInProgress report)

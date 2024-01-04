@@ -1,4 +1,5 @@
-﻿using NScan.DependencyPathBasedRules;
+﻿using LanguageExt;
+using NScan.DependencyPathBasedRules;
 using NScanSpecification.Lib;
 
 namespace NScan.DependencyPathBasedRulesSpecification;
@@ -43,7 +44,7 @@ public class ProjectFoundSearchResultSpecification
     var result = new ProjectFoundSearchResult(Any.Instance<IDependencyPathBasedRuleTarget>(), resultOccurenceIndex);
     var anotherResult = Substitute.For<IProjectSearchResult>();
     var expectedResult = Any.Seq<IDependencyPathBasedRuleTarget>();
-    var projectPath = Any.Enumerable<IDependencyPathBasedRuleTarget>();
+    var projectPath = Any.Seq<IDependencyPathBasedRuleTarget>();
 
     anotherResult.TerminatedSegmentStartingFrom(resultOccurenceIndex, projectPath).Returns(expectedResult);
 
@@ -62,15 +63,9 @@ public class ProjectFoundSearchResultSpecification
     var project2 = Any.Instance<IDependencyPathBasedRuleTarget>();
     var project3 = Any.Instance<IDependencyPathBasedRuleTarget>();
     var project4 = Any.Instance<IDependencyPathBasedRuleTarget>();
-    var projectPath = new List<IDependencyPathBasedRuleTarget>
-    {
-      project1,
-      project2,
-      project3,
-      project4
-    };
-    var startIndex = 1;
-    var endIndex = 2;
+    var projectPath = Seq.create(project1, project2, project3, project4);
+    const int startIndex = 1;
+    const int endIndex = 2;
     var result = new ProjectFoundSearchResult(Any.Instance<IDependencyPathBasedRuleTarget>(), endIndex);
 
     //WHEN

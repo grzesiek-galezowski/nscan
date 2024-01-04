@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
-
-namespace NScan.DependencyPathBasedRules;
+﻿namespace NScan.DependencyPathBasedRules;
 
 public interface IProjectSearchResult
 {
   bool Exists();
-  Seq<IDependencyPathBasedRuleTarget> SegmentEndingWith(IProjectSearchResult terminator, IEnumerable<IDependencyPathBasedRuleTarget> path);
+  Seq<IDependencyPathBasedRuleTarget> SegmentEndingWith(IProjectSearchResult terminator, Seq<IDependencyPathBasedRuleTarget> path);
   bool IsNot(IDependencyPathBasedRuleTarget e);
-  Seq<IDependencyPathBasedRuleTarget> TerminatedSegmentStartingFrom(int index, IEnumerable<IDependencyPathBasedRuleTarget> path);
+  Seq<IDependencyPathBasedRuleTarget> TerminatedSegmentStartingFrom(int index, Seq<IDependencyPathBasedRuleTarget> path);
   bool IsNotBefore(IProjectSearchResult dependingProjectSearchResult);
   bool IsNotAfter(int occurenceIndex);
 }

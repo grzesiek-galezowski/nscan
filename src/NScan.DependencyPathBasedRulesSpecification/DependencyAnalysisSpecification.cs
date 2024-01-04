@@ -1,4 +1,5 @@
-﻿using NScan.DependencyPathBasedRules;
+﻿using LanguageExt;
+using NScan.DependencyPathBasedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 
@@ -16,12 +17,11 @@ public class DependencyAnalysisSpecification
     var dto1 = Any.Instance<IndependentRuleComplementDto>();
     var dto2 = Any.Instance<IndependentRuleComplementDto>();
     var dto3 = Any.Instance<IndependentRuleComplementDto>();
-    var projectScopedRuleUnionDtos = new List<DependencyPathBasedRuleUnionDto>
-    {
+    var projectScopedRuleUnionDtos = Seq.create(
       DependencyPathBasedRuleUnionDto.With(dto1), 
       DependencyPathBasedRuleUnionDto.With(dto2), 
       DependencyPathBasedRuleUnionDto.With(dto3)
-    };
+    );
     var rule1 = Any.Instance<IDependencyRule>();
     var rule2 = Any.Instance<IDependencyRule>();
     var rule3 = Any.Instance<IDependencyRule>();

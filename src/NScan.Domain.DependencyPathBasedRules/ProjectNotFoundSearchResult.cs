@@ -9,7 +9,7 @@ public class ProjectNotFoundSearchResult : IProjectSearchResult
     return false;
   }
 
-  public Seq<IDependencyPathBasedRuleTarget> SegmentEndingWith(IProjectSearchResult terminator, IEnumerable<IDependencyPathBasedRuleTarget> path)
+  public Seq<IDependencyPathBasedRuleTarget> SegmentEndingWith(IProjectSearchResult terminator, Seq<IDependencyPathBasedRuleTarget> path)
   {
     return Seq<IDependencyPathBasedRuleTarget>.Empty;
   }
@@ -19,7 +19,7 @@ public class ProjectNotFoundSearchResult : IProjectSearchResult
     return true;
   }
 
-  public Seq<IDependencyPathBasedRuleTarget> TerminatedSegmentStartingFrom(int index, IEnumerable<IDependencyPathBasedRuleTarget> path)
+  public Seq<IDependencyPathBasedRuleTarget> TerminatedSegmentStartingFrom(int index, Seq<IDependencyPathBasedRuleTarget> path)
   {
     return Seq<IDependencyPathBasedRuleTarget>.Empty;
   }

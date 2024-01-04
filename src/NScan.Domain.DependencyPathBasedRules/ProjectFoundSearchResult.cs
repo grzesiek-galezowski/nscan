@@ -10,20 +10,20 @@ public class ProjectFoundSearchResult(IDependencyPathBasedRuleTarget foundProjec
 
   public Seq<IDependencyPathBasedRuleTarget> SegmentEndingWith(
     IProjectSearchResult terminator, 
-    IEnumerable<IDependencyPathBasedRuleTarget> path)
+    Seq<IDependencyPathBasedRuleTarget> path)
   {
     return terminator.TerminatedSegmentStartingFrom(occurenceIndex, path);
   }
 
   public Seq<IDependencyPathBasedRuleTarget> TerminatedSegmentStartingFrom(
     int index, 
-    IEnumerable<IDependencyPathBasedRuleTarget> path)
+    Seq<IDependencyPathBasedRuleTarget> path)
   {
     //bug this ToList should disappear
     return path.ToList().GetRange(index, occurenceIndex - index + 1).ToSeq();
   }
 
-  public bool  IsNot(IDependencyPathBasedRuleTarget e)
+  public bool IsNot(IDependencyPathBasedRuleTarget e)
   {
     return !foundProject.Equals(e);
   }

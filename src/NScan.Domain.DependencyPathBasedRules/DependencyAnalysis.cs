@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using NScan.SharedKernel.NotifyingSupport.Ports;
+﻿using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 
@@ -8,7 +7,7 @@ namespace NScan.DependencyPathBasedRules;
 public interface IDependencyAnalysis
 {
   void Perform(IAnalysisReportInProgress analysisReportInProgress);
-  void Add(IEnumerable<DependencyPathBasedRuleUnionDto> rules);
+  void Add(Seq<DependencyPathBasedRuleUnionDto> rules);
 }
 
 public class DependencyAnalysis(
@@ -24,7 +23,7 @@ public class DependencyAnalysis(
     solution.Check(pathRuleSet, analysisReportInProgress);
   }
 
-  public void Add(IEnumerable<DependencyPathBasedRuleUnionDto> rules)
+  public void Add(Seq<DependencyPathBasedRuleUnionDto> rules)
   {
     foreach (var ruleUnionDto in rules)
     {
