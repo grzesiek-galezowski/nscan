@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace NScan.DependencyPathBasedRules;
+﻿namespace NScan.DependencyPathBasedRules;
 
 public class ProjectFoundSearchResult(IDependencyPathBasedRuleTarget foundProject, int occurenceIndex)
   : IProjectSearchResult

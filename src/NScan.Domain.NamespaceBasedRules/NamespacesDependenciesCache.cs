@@ -44,9 +44,9 @@ public class NamespacesDependenciesCache : INamespacesDependenciesCache
     return paths.ToSeq();
   }
 
-  private IEnumerable<NamespaceName> NamespacesMatching(Pattern fromPattern)
+  private Seq<NamespaceName> NamespacesMatching(Pattern fromPattern)
   {
-    return _dependenciesByNamespace.Keys.Where(name => name.Matches(fromPattern));
+    return _dependenciesByNamespace.Keys.Where(name => name.Matches(fromPattern)).ToSeq();
   }
 
   private void AddNeighborOf(NamespaceName namespaceName, NamespaceName usingName)
@@ -115,7 +115,7 @@ public class NamespacesDependenciesCache : INamespacesDependenciesCache
       //full cycle is a cycle that starts with current namespace, e.g. A->B->A
 
       //A->B->A and B->A->B are the same cycle, no need to report twice
-      if (pathIncludingCurrentElement.IsEquivalentToAnyOf(alreadyDetectedCycles))
+      if (pathIncludingCurrentElement.IsEquivalentToAnyOf(alreadyDetectedCycles.ToSeq()))
       {
         alreadyDetectedCycles.Add(pathIncludingCurrentElement);
       }

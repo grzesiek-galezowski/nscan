@@ -60,9 +60,9 @@ public class SolutionForDependencyPathRules(
     pathCache.BuildStartingFrom(RootProjects());
   }
 
-  private Seq<IDotNetProject> RootProjects()
+  private Seq<IDependencyPathBasedRuleTarget> RootProjects()
   {
-    return Projects().Where(project => project.IsRoot());
+    return Projects().Where(project => project.IsRoot()).Cast<IDependencyPathBasedRuleTarget> ();
   }
 
   private Seq<IDotNetProject> Projects()

@@ -115,6 +115,7 @@ public class SolutionForDependencyPathRulesSpecification
     solution.BuildDependencyPathCache();
 
     //THEN
-    pathCache.Received(1).BuildStartingFrom(HashMap.create((root1Id, root1), (root2Id, root2)).Values.ToSeq());
+    pathCache.Received(1).BuildStartingFrom(
+      HashMap.create((root1Id, root1), (root2Id, root2)).Values.ToSeq<IDependencyPathBasedRuleTarget>());
   }
 }

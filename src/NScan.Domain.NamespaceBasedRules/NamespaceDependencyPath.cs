@@ -70,7 +70,7 @@ public class NamespaceDependencyPath(Seq<NamespaceName> elements) : ValueType<Na
     return elements.GroupBy(n => n).Where(n => n.Count() > 1).Sum(n => n.Count()) > 0;
   }
 
-  public bool IsEquivalentToAnyOf(IEnumerable<NamespaceDependencyPath> cycles)
+  public bool IsEquivalentToAnyOf(Seq<NamespaceDependencyPath> cycles)
   {
     return !cycles.Any(c => c.IsEquivalentTo(this));
   }

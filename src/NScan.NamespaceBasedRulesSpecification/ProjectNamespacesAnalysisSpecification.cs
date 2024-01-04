@@ -1,4 +1,5 @@
-﻿using NScan.NamespaceBasedRules;
+﻿using LanguageExt;
+using NScan.NamespaceBasedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 
@@ -16,12 +17,11 @@ public class ProjectNamespacesAnalysisSpecification
     var dto1 = Any.Instance<NoUsingsRuleComplementDto>();
     var dto2 = Any.Instance<NoCircularUsingsRuleComplementDto>();
     var dto3 = Any.Instance<NoUsingsRuleComplementDto>();
-    var projectScopedRuleUnionDtos = new List<NamespaceBasedRuleUnionDto>
-    {
+    var projectScopedRuleUnionDtos = Seq.create(
       NamespaceBasedRuleUnionDto.With(dto1), 
       NamespaceBasedRuleUnionDto.With(dto2), 
       NamespaceBasedRuleUnionDto.With(dto3)
-    };
+    );
     var rule1 = Any.Instance<INamespacesBasedRule>();
     var rule2 = Any.Instance<INamespacesBasedRule>();
     var rule3 = Any.Instance<INamespacesBasedRule>();

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using LanguageExt;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
@@ -8,7 +8,7 @@ namespace NScan.ProjectScopedRules;
 public interface IProjectAnalysis
 {
   void Perform(IAnalysisReportInProgress analysisReportInProgress);
-  void Add(IEnumerable<ProjectScopedRuleUnionDto> rules);
+  void Add(Seq<ProjectScopedRuleUnionDto> rules);
 }
 
 public class ProjectAnalysis(
@@ -22,7 +22,7 @@ public class ProjectAnalysis(
     solution.Check(projectScopedRuleSet, analysisReportInProgress);
   }
 
-  public void Add(IEnumerable<ProjectScopedRuleUnionDto> rules)
+  public void Add(Seq<ProjectScopedRuleUnionDto> rules)
   {
     foreach (var ruleUnionDto in rules)
     {
@@ -30,12 +30,13 @@ public class ProjectAnalysis(
     }
   }
 
-  public static ProjectAnalysis PrepareFor(IEnumerable<CsharpProjectDto> csharpProjectDtos)
+  public static ProjectAnalysis PrepareFor(Seq<CsharpProjectDto> csharpProjectDtos)
   {
     return new ProjectAnalysis(
-      new SolutionForProjectScopedRules(new ProjectScopedRuleTargetFactory(new ProjectScopedRuleViolationFactory())
-        .ProjectScopedRuleTargets(csharpProjectDtos)),
-      new ProjectScopedRuleSet(), 
+      new SolutionForProjectScopedRules(
+        new ProjectScopedRuleTargetFactory(
+          new ProjectScopedRuleViolationFactory()).ProjectScopedRuleTargets(csharpProjectDtos)),
+      new ProjectScopedRuleSet(),
       new ProjectScopedRuleFactory(
         new ProjectScopedRuleViolationFactory()));
   }

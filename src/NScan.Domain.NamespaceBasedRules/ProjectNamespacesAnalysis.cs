@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using LanguageExt;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
@@ -8,7 +8,7 @@ namespace NScan.NamespaceBasedRules;
 public interface IProjectNamespacesAnalysis
 {
   void PerformOn(IAnalysisReportInProgress analysisReportInProgress);
-  void Add(IEnumerable<NamespaceBasedRuleUnionDto> rules);
+  void Add(Seq<NamespaceBasedRuleUnionDto> rules);
 }
 
 public class ProjectNamespacesAnalysis(
@@ -23,7 +23,7 @@ public class ProjectNamespacesAnalysis(
     solution.Check(namespacesBasedRuleSet, analysisReportInProgress);
   }
 
-  public void Add(IEnumerable<NamespaceBasedRuleUnionDto> rules)
+  public void Add(Seq<NamespaceBasedRuleUnionDto> rules)
   {
     foreach (var ruleUnionDto in rules)
     {
@@ -31,7 +31,7 @@ public class ProjectNamespacesAnalysis(
     }
   }
 
-  public static ProjectNamespacesAnalysis PrepareFor(IEnumerable<CsharpProjectDto> csharpProjectDtos)
+  public static ProjectNamespacesAnalysis PrepareFor(Seq<CsharpProjectDto> csharpProjectDtos)
   {
     return new ProjectNamespacesAnalysis(
       new SolutionForNamespaceBasedRules(new NamespaceBasedRuleTargetFactory()

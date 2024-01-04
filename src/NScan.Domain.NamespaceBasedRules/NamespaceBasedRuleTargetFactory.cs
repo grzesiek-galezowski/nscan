@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using LanguageExt;
+﻿using LanguageExt;
 using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingSolution.Ports;
 
@@ -8,7 +6,7 @@ namespace NScan.NamespaceBasedRules;
 
 public class NamespaceBasedRuleTargetFactory
 {
-  public Seq<INamespaceBasedRuleTarget> NamespaceBasedRuleTargets(IEnumerable<CsharpProjectDto> csharpProjectDtos)
+  public Seq<INamespaceBasedRuleTarget> NamespaceBasedRuleTargets(Seq<CsharpProjectDto> csharpProjectDtos)
   {
     return csharpProjectDtos.Select(dataAccess =>
         new NamespaceBasedRuleTarget(

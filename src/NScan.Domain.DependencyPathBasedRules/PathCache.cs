@@ -1,17 +1,15 @@
-﻿using System.Collections.Generic;
-
-namespace NScan.DependencyPathBasedRules;
+﻿namespace NScan.DependencyPathBasedRules;
 
 public class PathCache(IDependencyPathFactory dependencyPathFactory) : IPathCache, IFinalDependencyPathDestination
 {
-  private readonly List<IProjectDependencyPath> _projectDependencyPaths = new();
+  private Seq<IProjectDependencyPath> _projectDependencyPaths;
 
   public void Add(IProjectDependencyPath projectDependencyPath)
   {
-    _projectDependencyPaths.Add(projectDependencyPath);
+    _projectDependencyPaths = _projectDependencyPaths.Add(projectDependencyPath);
   }
 
-  public void BuildStartingFrom(IEnumerable<IDependencyPathBasedRuleTarget> rootProjects)
+  public void BuildStartingFrom(Seq<IDependencyPathBasedRuleTarget> rootProjects)
   {
     foreach (var dotNetProject in rootProjects)
     {

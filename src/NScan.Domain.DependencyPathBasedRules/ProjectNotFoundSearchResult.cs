@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace NScan.DependencyPathBasedRules;
+﻿namespace NScan.DependencyPathBasedRules;
 
 public class ProjectNotFoundSearchResult : IProjectSearchResult
 {

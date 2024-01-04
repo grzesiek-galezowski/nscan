@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AtmaFileSystem;
+﻿using AtmaFileSystem;
 using LanguageExt;
 using NScan.SharedKernel.ReadingSolution.Ports;
 
@@ -15,23 +13,23 @@ public class SourceCodeFileDtoBuilder
 
   public static SourceCodeFileDtoBuilder FileWithNamespace(string fileName, string fileNamespace)
   {
-    return new SourceCodeFileDtoBuilder(fileName, [fileNamespace]);
+    return new SourceCodeFileDtoBuilder(fileName, Seq.create(fileNamespace));
   }
 
   public static SourceCodeFileDtoBuilder EmptyFile(string fileName)
   {
-    return new SourceCodeFileDtoBuilder(fileName, Enumerable.Empty<string>().ToList());
+    return new SourceCodeFileDtoBuilder(fileName, Seq<string>.Empty);
   }
 
   public static SourceCodeFileDtoBuilder FileWithNamespaces(string fileName, params string[] namespaces)
   {
-    return new SourceCodeFileDtoBuilder(fileName, namespaces.ToList());
+    return new SourceCodeFileDtoBuilder(fileName, namespaces.ToSeq());
   }
 
-  private SourceCodeFileDtoBuilder(string fileName, List<string> declaredNamespaces)
+  private SourceCodeFileDtoBuilder(string fileName, Seq<string> declaredNamespaces)
   {
     FileName = fileName;
-    DeclaredNamespaces = declaredNamespaces.ToSeq(); //bug
+    DeclaredNamespaces = declaredNamespaces;
   }
 
   public SourceCodeFileDtoBuilder Using(string usingDeclaration)
@@ -47,7 +45,7 @@ public class SourceCodeFileDtoBuilder
       DeclaredNamespaces, 
       parentProjectRootNamespace, 
       parentProjectAssemblyName, 
-      Usings.ToSeq(),
+      Usings,
       _classes.Select(c => c.WithNamespace(DeclaredNamespaces.First()).Build()));
   }
 
@@ -55,7 +53,6 @@ public class SourceCodeFileDtoBuilder
   {
     return FileWithNamespace(fileName, Any.AlphaString());
   }
-
 
   public SourceCodeFileDtoBuilder Containing(ClassDeclarationBuilder classDeclarationBuilder)
   {

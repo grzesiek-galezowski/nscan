@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using LanguageExt;
 using NScan.SharedKernel;
@@ -10,7 +9,7 @@ namespace NScan.ProjectScopedRules;
 
 public class ProjectScopedRuleTargetFactory(IProjectScopedRuleViolationFactory ruleViolationFactory)
 {
-  public Seq<IProjectScopedRuleTarget> ProjectScopedRuleTargets(IEnumerable<CsharpProjectDto> csharpProjectDtos)
+  public Seq<IProjectScopedRuleTarget> ProjectScopedRuleTargets(Seq<CsharpProjectDto> csharpProjectDtos)
   {
     return csharpProjectDtos
       .Select(dataAccess => 
@@ -43,13 +42,13 @@ public class ProjectScopedRuleTargetFactory(IProjectScopedRuleViolationFactory r
   }
 
   private static Seq<ICSharpClass> ToClasses(
-    IEnumerable<ClassDeclarationInfo> classDeclarationInfos, 
-    Func<IEnumerable<MethodDeclarationInfo>, Seq<ICSharpMethod>> methodFactory)
+    Seq<ClassDeclarationInfo> classDeclarationInfos, 
+    Func<Seq<MethodDeclarationInfo>, Seq<ICSharpMethod>> methodFactory)
   { 
     return classDeclarationInfos.Select(c => new CSharpClass(c, methodFactory(c.Methods))).ToSeq<ICSharpClass>();
   }
 
-  private static Seq<ICSharpMethod> ToMethods(IEnumerable<MethodDeclarationInfo> methodDeclarationInfos,
+  private static Seq<ICSharpMethod> ToMethods(Seq<MethodDeclarationInfo> methodDeclarationInfos,
     IProjectScopedRuleViolationFactory violationFactory)
   {
     return methodDeclarationInfos.Select(m => new CSharpMethod(m, violationFactory)).ToSeq<ICSharpMethod>();

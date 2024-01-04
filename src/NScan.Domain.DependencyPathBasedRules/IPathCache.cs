@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace NScan.DependencyPathBasedRules;
+﻿namespace NScan.DependencyPathBasedRules;
 
 public interface IPathCache
 {
-  void BuildStartingFrom(IEnumerable<IDependencyPathBasedRuleTarget> rootProjects);
+  void BuildStartingFrom(Seq<IDependencyPathBasedRuleTarget> rootProjects);
   void Check(IDependencyRule rule, IAnalysisReportInProgress report);
 }

@@ -1,4 +1,5 @@
-﻿using NScan.DependencyPathBasedRules;
+﻿using LanguageExt;
+using NScan.DependencyPathBasedRules;
 using NScan.SharedKernel;
 
 namespace NScan.DependencyPathBasedRulesSpecification;
@@ -24,7 +25,7 @@ public class PathCacheSpecification
       dependencyStartingPath3);
 
     //WHEN
-    pathCache.BuildStartingFrom([project1, project2, project3]);
+    pathCache.BuildStartingFrom(Seq.create(project1, project2, project3));
 
     //THEN
     project1.Received(1).FillAllBranchesOf(dependencyStartingPath1);

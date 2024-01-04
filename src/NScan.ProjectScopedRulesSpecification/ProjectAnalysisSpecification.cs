@@ -1,4 +1,5 @@
-﻿using NScan.ProjectScopedRules;
+﻿using LanguageExt;
+using NScan.ProjectScopedRules;
 using NScan.SharedKernel;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
 
@@ -17,13 +18,12 @@ public class ProjectAnalysisSpecification
     var dto2 = Any.Instance<HasAttributesOnRuleComplementDto>();
     var dto3 = Any.Instance<HasTargetFrameworkRuleComplementDto>();
     var dto4 = Any.Instance<HasPropertyRuleComplementDto>();
-    var projectScopedRuleUnionDtos = new List<ProjectScopedRuleUnionDto>
-    {
+    var projectScopedRuleUnionDtos = Seq.create(
       ProjectScopedRuleUnionDto.With(dto1), 
       ProjectScopedRuleUnionDto.With(dto2), 
       ProjectScopedRuleUnionDto.With(dto3),
       ProjectScopedRuleUnionDto.With(dto4)
-    };
+    );
 
     var rule1 = Any.Instance<IProjectScopedRule>();
     var rule2 = Any.Instance<IProjectScopedRule>();
