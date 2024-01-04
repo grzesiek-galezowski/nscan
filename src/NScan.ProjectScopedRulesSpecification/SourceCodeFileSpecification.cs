@@ -162,7 +162,7 @@ public class SourceCodeFileSpecification
     var description = Any.Instance<RuleDescription>();
     var sourceCodeFile = new SourceCodeFileBuilder
     {
-      Classes = [class1, class2, class3]
+      Classes = Seq.create(class1, class2, class3)
     }.Build();
 
     class1.NameMatches(classNameInclusionPattern).Returns(true);
