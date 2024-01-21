@@ -9,6 +9,7 @@
     <PackageVersion Include="LanguageExt.Core" Version="4.4.7" />
     <PackageVersion Include="NScan" Version="0.130.0" />
     <PackageVersion Include="NScan.Adapters.Secondary" Version="0.130.0" />
+    <PackageVersion Include="NsDepCop" Version="2.3.0" />
     <PackageVersion Include="SimpleExec" Version="11.0.0" />
     <PackageVersion Include="Cake.Core" Version="4.0.0" />
     <PackageVersion Include="Core.Maybe" Version="6.0.0" />
