@@ -1,14 +1,12 @@
-using System.Collections.Generic;
-
-namespace NScan.DependencyPathBasedRules;
+﻿namespace NScan.DependencyPathBasedRules;
 
 public class PathRuleSet : IPathRuleSet
 {
-  private readonly IList<IDependencyRule> _rules = new List<IDependencyRule>();
+  private Seq<IDependencyRule> _rules = Seq<IDependencyRule>.Empty;
 
   public void Add(IDependencyRule rule)
   {
-    _rules.Add(rule);
+    _rules = _rules.Add(rule);
   }
 
   public void Check(IPathCache cache, IAnalysisReportInProgress report)
