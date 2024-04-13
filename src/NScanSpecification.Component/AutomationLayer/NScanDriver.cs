@@ -16,7 +16,7 @@ public class NScanDriver
   private readonly INScanSupport _consoleSupport = ConsoleSupport.CreateInstance();
   private Seq<CSharpProjectDtoBuilder> _csharpProjects = Seq<CSharpProjectDtoBuilder>.Empty;
   private Analysis? _analysis;
-  private readonly List<IAnalysisRule> _rules = new();
+  private readonly List<IAnalysisRule> _rules = [];
 
   public CSharpProjectDtoBuilder HasProject(string assemblyName)
   {

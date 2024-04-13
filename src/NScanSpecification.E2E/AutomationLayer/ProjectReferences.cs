@@ -6,7 +6,7 @@ public class ProjectReferences(DotNetExe dotNetExe)
 {
   private readonly DotNetExe _dotNetExe = dotNetExe;
 
-  private List<(string, string)> ReferencesByProjectName { get; } = new();
+  private List<(string, string)> ReferencesByProjectName { get; } = [];
 
   public void Add(string projectName, string[] assemblyNames)
   {

@@ -11,7 +11,7 @@ namespace NScanSpecification.E2E.AutomationLayer;
 
 public class ProjectsCollection(DotNetExe dotNetExe)
 {
-  private readonly Dictionary<string, ProjectCreator> _projects = new();
+  private readonly Dictionary<string, ProjectCreator> _projects = [];
 
   public void Add(ProjectDefinition projectDefinition)
   {

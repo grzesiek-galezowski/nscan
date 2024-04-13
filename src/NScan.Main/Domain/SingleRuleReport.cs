@@ -7,7 +7,7 @@ namespace TddXt.NScan.Domain;
 
 public class SingleRuleReport(RuleDescription ruleDescription) : ISingleRuleReport
 {
-  private readonly HashSet<RuleViolation> _violations = new();
+  private readonly HashSet<RuleViolation> _violations = [];
 
   public bool IsFailed()
   {

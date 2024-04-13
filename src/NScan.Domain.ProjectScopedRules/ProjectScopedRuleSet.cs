@@ -6,7 +6,7 @@ namespace NScan.ProjectScopedRules;
 
 public class ProjectScopedRuleSet : IProjectScopedRuleSet
 {
-  private readonly List<IProjectScopedRule> _rules = new();
+  private readonly List<IProjectScopedRule> _rules = [];
 
   public void Add(IProjectScopedRule rule)
   {

@@ -10,7 +10,7 @@ namespace NScanSpecification.E2E.AutomationLayer;
 
 public class ProjectFiles(SolutionDir dir)
 {
-  private readonly Dictionary<string, List<SourceCodeFileDto>> _filesByProject = new();
+  private readonly Dictionary<string, List<SourceCodeFileDto>> _filesByProject = [];
 
   public async Task AddFilesToProjects(CancellationToken cancellationToken)
   {
@@ -35,7 +35,7 @@ public class ProjectFiles(SolutionDir dir)
   {
     if (!_filesByProject.ContainsKey(projectName))
     {
-      _filesByProject[projectName] = new List<SourceCodeFileDto>();
+      _filesByProject[projectName] = [];
     }
   }
 

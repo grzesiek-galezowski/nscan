@@ -8,7 +8,7 @@ namespace NScanSpecification.E2E.AutomationLayer;
 
 public class Rules
 {
-  private readonly List<ITestedRuleDefinition> _rules = new();
+  private readonly List<ITestedRuleDefinition> _rules = [];
 
   public Task SaveIn(AbsoluteFilePath fullRulesPath)
   {

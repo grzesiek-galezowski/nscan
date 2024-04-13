@@ -6,7 +6,7 @@ namespace TddXt.NScan.Domain;
 
 public class AnalysisReportInProgress(IRuleReportFactory ruleReportFactory) : IAnalysisReportInProgress
 {
-  private readonly Dictionary<RuleDescription, ISingleRuleReport> _reportsByRule = new();
+  private readonly Dictionary<RuleDescription, ISingleRuleReport> _reportsByRule = [];
 
   public void PutContentInto(IResultBuilder resultBuilder)
   {
