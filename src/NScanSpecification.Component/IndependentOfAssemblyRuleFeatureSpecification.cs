@@ -1,10 +1,8 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using static NScanSpecification.Lib.AutomationLayer.ProjectIndependentOfMessage;
+﻿using static NScanSpecification.Lib.AutomationLayer.ProjectIndependentOfMessage;
 using static NScanSpecification.Lib.AutomationLayer.RuleBuilder;
 
 namespace NScanSpecification.Component;
 
-[SuppressMessage("ReSharper", "TestFileNameWarning")]
 public class IndependentOfAssemblyRuleFeatureSpecification
 {
   [Fact]

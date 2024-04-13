@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace NScan.DependencyPathBasedRules;
@@ -26,7 +25,6 @@ public class ReferencingProjects : IReferencingProjects
     return !_referencingProjects.Any();
   }
 
-  [SuppressMessage("ReSharper", "ParameterOnlyUsedForPreconditionCheck.Local")]
   private void AssertThisIsAddingTheSameReferenceNotShadowing(
     ProjectId referencingProjectId,
     IDependencyPathBasedRuleTarget referencingProject)
