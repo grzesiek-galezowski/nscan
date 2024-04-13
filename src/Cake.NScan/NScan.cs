@@ -24,22 +24,11 @@ public static class NScan
     string rulesFilePath,
     NScanSettings settings)
   {
-    if (context == null)
-    {
-      throw new ArgumentNullException(nameof(context));
-    }
-    if (solutionPath == null)
-    {
-      throw new ArgumentNullException(nameof(solutionPath));
-    }
-    if (rulesFilePath == null)
-    {
-      throw new ArgumentNullException(nameof(rulesFilePath));
-    }
-    if (settings == null)
-    {
-      throw new ArgumentNullException(nameof(settings));
-    }
+    ArgumentNullException.ThrowIfNull(context);
+    ArgumentNullException.ThrowIfNull(solutionPath);
+    ArgumentNullException.ThrowIfNull(rulesFilePath);
+    ArgumentNullException.ThrowIfNull(settings);
+
     var result = NScanMain.Run(
       new InputArgumentsDto
       {

@@ -8,26 +8,18 @@ public abstract class Union<T1, T2, T3>
 
   protected Union(T1 o)
   {
-    AssertNotNull(o!);
+    ArgumentNullException.ThrowIfNull(o);
     _value = o;
   }
   protected Union(T2 o)
   {
-    AssertNotNull(o!);
+    ArgumentNullException.ThrowIfNull(o);
     _value = o;
   }
   protected Union(T3 o)
   {
-    AssertNotNull(o!);
+    ArgumentNullException.ThrowIfNull(o);
     _value = o;
-  }
-
-  private static void AssertNotNull(object o)
-  {
-    if (o == null)
-    {
-      throw new ArgumentNullException(nameof(o));
-    }
   }
 
   public void Accept(IUnionVisitor<T1, T2, T3> visitor)

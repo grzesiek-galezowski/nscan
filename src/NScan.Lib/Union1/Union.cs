@@ -8,16 +8,8 @@ public abstract class Union<T1>
 
   protected Union(T1 o)
   {
-    AssertNotNull(o!);
+    ArgumentNullException.ThrowIfNull(o);
     _value = o;
-  }
-
-  private static void AssertNotNull(object o)
-  {
-    if (o == null)
-    {
-      throw new ArgumentNullException(nameof(o));
-    }
   }
 
   public void Accept(IUnionVisitor<T1> visitor)

@@ -114,7 +114,7 @@ public sealed class NScanE2EDriver : IDisposable
     _analysisResult.Assign(resultCode, output.ToString());
   }
 
-  private void AssertFileExists(AbsoluteFilePath filePath)
+  private static void AssertFileExists(AbsoluteFilePath filePath)
   {
     filePath.Exists().Should().BeTrue(filePath + " should exist");
   }

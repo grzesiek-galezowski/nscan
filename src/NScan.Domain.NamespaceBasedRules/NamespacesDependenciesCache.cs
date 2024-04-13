@@ -8,7 +8,7 @@ namespace NScan.NamespaceBasedRules;
 public class NamespacesDependenciesCache : INamespacesDependenciesCache
 {
   private readonly 
-    SortedDictionary<NamespaceName, Seq<NamespaceName>> _dependenciesByNamespace = new();
+    SortedDictionary<NamespaceName, Seq<NamespaceName>> _dependenciesByNamespace = [];
 
   //bug adjacency list accepts duplicates but should not!
   public void AddMapping(NamespaceName namespaceName, NamespaceName usingName)

@@ -37,7 +37,7 @@ public class ProjectsCollection(DotNetExe dotNetExe)
     }));
   }
 
-  private async Task CreateProject(
+  private static async Task CreateProject(
     string projectName, AbsoluteDirectoryPath projectDirPath,
     ProjectCreator projectCreator, 
     CancellationToken cancellationToken)
