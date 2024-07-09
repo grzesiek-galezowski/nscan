@@ -14,7 +14,7 @@
     <PackageVersion Include="Cake.Core" Version="4.0.0" />
     <PackageVersion Include="Core.Maybe" Version="6.0.0" />
     <PackageVersion Include="Buildalyzer" Version="6.0.4" />
-    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.9.2" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.10.0" />
     <PackageVersion Include="Sprache" Version="2.3.1" />
     <PackageVersion Include="Any" Version="9.3.0" />
     <PackageVersion Include="FluentAssertions.Analyzers" Version="0.32.0" />
@@ -29,7 +29,7 @@
     <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.17" />
     <PackageVersion Include="XFluentAssert" Version="8.0.0" />
     <PackageVersion Include="XNSubstitute" Version="3.2.0" />
-    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.9.2" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.10.0" />
     <PackageVersion Include="Value" Version="1.1.0.1" />
     <PackageVersion Include="RunProcessAsTask" Version="1.2.4" />
   </ItemGroup>

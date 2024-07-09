@@ -29,10 +29,10 @@ public class ReferencingProjects : IReferencingProjects
     ProjectId referencingProjectId,
     IDependencyPathBasedRuleTarget referencingProject)
   {
-    if (_referencingProjects.ContainsKey(referencingProjectId)
-        && !_referencingProjects[referencingProjectId].Equals(referencingProject))
+    if (_referencingProjects.TryGetValue(referencingProjectId, out var value) 
+        && !value.Equals(referencingProject))
     {
-      throw new ProjectShadowingException(_referencingProjects[referencingProjectId], referencingProject);
+      throw new ProjectShadowingException(value, referencingProject);
     }
   }
 }
