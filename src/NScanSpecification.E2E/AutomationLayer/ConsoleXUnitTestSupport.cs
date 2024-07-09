@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NScanSpecification.E2E.AutomationLayer;
+﻿namespace NScanSpecification.E2E.AutomationLayer;
 
 internal class ConsoleXUnitTestSupport(ITestOutputHelper output) : ITestSupport
 {

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using AtmaFileSystem;
 
 namespace NScanSpecification.E2E.AutomationLayer;

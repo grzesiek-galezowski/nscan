@@ -1,5 +1,4 @@
-﻿using System;
-using AtmaFileSystem;
+﻿using AtmaFileSystem;
 using FluentAssertions;
 using NScan.Adapters.Secondary.NotifyingSupport;
 using NScan.Adapters.Secondary.ReportingOfResults;

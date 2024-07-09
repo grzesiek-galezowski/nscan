@@ -1,5 +1,4 @@
-﻿using System;
-using NScan.SharedKernel.ReadingCSharpSourceCode;
+﻿using NScan.SharedKernel.ReadingCSharpSourceCode;
 using NScan.SharedKernel.ReadingSolution.Ports;
 
 namespace NScanSpecification.E2E.AutomationLayer;

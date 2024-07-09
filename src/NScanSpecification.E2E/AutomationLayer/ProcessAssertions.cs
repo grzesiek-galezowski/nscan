@@ -1,11 +1,10 @@
-using System;
-using System.Linq;
+﻿using System.Linq;
 using FluentAssertions;
 using RunProcessAsTask;
 
 namespace NScanSpecification.E2E.AutomationLayer;
 
-static internal class ProcessAssertions
+internal static class ProcessAssertions
 {
   public static void AssertSuccess(ProcessResults processInfo)
   {

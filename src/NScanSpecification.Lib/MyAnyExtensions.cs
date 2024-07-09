@@ -58,6 +58,6 @@ public static class MyAnyExtensions
 
   public static string CSharpFileName(this BasicGenerator any)
   {
-    return "lol.cs";
+    return any.AlphaString() + ".cs";
   }
 }

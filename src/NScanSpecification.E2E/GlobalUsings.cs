@@ -1,5 +1,7 @@
 ﻿// Global using directives
 
+global using System;
+global using System.Threading.Tasks;
 global using NScanSpecification.E2E.AutomationLayer;
 global using NScanSpecification.Lib;
 global using NScanSpecification.Lib.AutomationLayer;

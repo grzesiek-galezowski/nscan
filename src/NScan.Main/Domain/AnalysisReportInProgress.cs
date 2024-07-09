@@ -49,7 +49,7 @@ public class AnalysisReportInProgress(IRuleReportFactory ruleReportFactory) : IA
 
   private void AddRuleIfNotRegisteredYet(RuleDescription ruleName)
   {
-    if (!_reportsByRule.Keys.Contains(ruleName))
+    if (!_reportsByRule.ContainsKey(ruleName))
     {
       _reportsByRule[ruleName] = ruleReportFactory.EmptyReportFor(ruleName);
     }

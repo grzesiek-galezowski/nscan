@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace NScanSpecification.E2E;
+﻿namespace NScanSpecification.E2E;
 
 public class ProjectsHavePropertySpecification(ITestOutputHelper output)
 {

@@ -25,7 +25,7 @@ public sealed class NScanE2EDriver : IDisposable
   private readonly ProjectsCollection _projectsCollection;
   private readonly AnalysisResult _analysisResult;
   private readonly SolutionDir _fixtureSolutionDir;
-  private readonly CancellationTokenSource _cts = new CancellationTokenSource();
+  private readonly CancellationTokenSource _cts = new();
 
   public NScanE2EDriver(ITestOutputHelper output)
   {

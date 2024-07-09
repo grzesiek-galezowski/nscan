@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using AtmaFileSystem;
 using AtmaFileSystem.IO;
 using NScan.SharedKernel.ReadingSolution.Ports;
