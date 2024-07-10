@@ -5,6 +5,7 @@
   <ItemGroup>
     <PackageReference Include="Core.Maybe" />
     <PackageReference Include="Glob" />
+    <PackageReference Include="Microsoft.Build.Locator" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" />
     <PackageReference Include="Value" />
   </ItemGroup>
