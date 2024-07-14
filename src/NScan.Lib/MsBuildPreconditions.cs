@@ -1,28 +1,28 @@
 ﻿using System;
 using Microsoft.Build.Locator;
 
-namespace NScan.Lib;
-
-public static class MsBuildPreconditions
+namespace NScan.Lib
 {
-  public static void RegisterMsBuild()
+  public static class MsBuildPreconditions
   {
-    try
+    public static void RegisterMsBuild()
     {
-      if (!MSBuildLocator.IsRegistered)
+      try
       {
-        MSBuildLocator.RegisterDefaults();
+        if (!MSBuildLocator.IsRegistered)
+        {
+          MSBuildLocator.RegisterDefaults();
+        }
       }
-    }
-    #if NCRUNCH
+#if NCRUNCH
     catch (System.InvalidOperationException e) when (e.Message.Contains("Microsoft.Build.Framework"))
     {
       Console.WriteLine(e.GetType());
     }
-    #endif
-    finally
-    {
-
+#endif
+      finally
+      {
+      }
     }
   }
 }

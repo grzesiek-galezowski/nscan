@@ -97,6 +97,7 @@ Target("BuildNScanConsole", () =>
 
 Target("BuildCakeNScan", () =>
 {
+  Build(DirectoryName.Value("Cake.NScan"));
 });
 
 Target("InstallCoverageTool", () => //todo this runs integration tests as well
