@@ -9,7 +9,7 @@ using static AtmaFileSystem.AtmaFileSystemPaths;
 
 namespace NScanSpecification.Component.AutomationLayer;
 
-public class CSharpProjectDtoBuilder //bug make this a record
+public class CSharpProjectDtoBuilder //bug make this a record - will require redoing parts of the API
 {
   private readonly string _assemblyName;
   private string _targetFramework;

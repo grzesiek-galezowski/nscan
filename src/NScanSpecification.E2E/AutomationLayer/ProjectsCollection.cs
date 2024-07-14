@@ -2,14 +2,13 @@
 using System.IO;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using AtmaFileSystem;
 using Microsoft.Build.Utilities.ProjectCreation;
 using static AtmaFileSystem.AtmaFileSystemPaths;
 
 namespace NScanSpecification.E2E.AutomationLayer;
 
-public class ProjectsCollection(DotNetExe dotNetExe)
+public class ProjectsCollection(DotNetExe dotNetExe, ITestSupport support)
 {
   private readonly Dictionary<string, ProjectCreator> _projects = [];
 
@@ -30,33 +29,43 @@ public class ProjectsCollection(DotNetExe dotNetExe)
 
   public Task SaveIn(SolutionDir solutionDir, CancellationToken cancellationToken)
   {
-    return Task.WhenAll(_projects.Select(p =>
+    return Task.WhenAll(_projects.Select(async p =>
     {
       var absoluteDirectoryPath = solutionDir.PathToProject(p.Key);
-      return CreateProject(p.Key, absoluteDirectoryPath, p.Value, cancellationToken);
+      await CreateProject(p.Key, absoluteDirectoryPath, p.Value, cancellationToken);
     }));
   }
 
-  private static async Task CreateProject(
+  private async Task CreateProject(
     string projectName, AbsoluteDirectoryPath projectDirPath,
     ProjectCreator projectCreator, 
     CancellationToken cancellationToken)
   {
-    //bug add logging
     await Task.Run(() =>
     {
-      projectCreator.Save(projectDirPath.AddFileName(projectName + ".csproj").ToString());
-      RemoveDefaultFileCreatedByTemplate(projectDirPath);
+      var projectPath = ProjectPath(projectDirPath, projectName);
+      support.CreatingProject(projectPath);
+      projectCreator.Save(projectPath.ToString());
+      support.CreatedProject(projectPath);
+      DeleteDefaultFileCreatedByTemplate(projectDirPath);
     }, cancellationToken);
   }
 
-  private static void RemoveDefaultFileCreatedByTemplate(AbsoluteDirectoryPath projectDirPath)
+  private static AbsoluteFilePath ProjectPath(AbsoluteDirectoryPath projectDirPath, string projectName)
   {
-    File.Delete((projectDirPath + FileName("Class1.cs")).ToString());
+    return projectDirPath.AddFileName(projectName + ".csproj");
   }
 
   public void AddProjectReference(string projectName, string referenceName)
   {
     _projects[projectName].ItemInclude("ProjectReference", $"..\\{referenceName}\\{referenceName}.csproj");
+  }
+
+  private void DeleteDefaultFileCreatedByTemplate(AbsoluteDirectoryPath projectDirPath)
+  {
+    var redundantGeneratedFile = (projectDirPath + FileName("Class1.cs"));
+    support.DeletingFile(redundantGeneratedFile);
+    File.Delete(redundantGeneratedFile.ToString());
+    support.DeletedFile(redundantGeneratedFile);
   }
 }

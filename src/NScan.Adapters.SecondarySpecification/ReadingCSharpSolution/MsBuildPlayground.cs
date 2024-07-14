@@ -1,6 +1,4 @@
 ﻿using System.Linq;
-using AtmaFileSystem;
-using Microsoft.Build.Construction;
 using Microsoft.Build.Evaluation;
 
 namespace NScan.Adapters.SecondarySpecification.ReadingCSharpSolution;

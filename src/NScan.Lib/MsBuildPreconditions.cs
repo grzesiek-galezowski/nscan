@@ -7,9 +7,22 @@ public static class MsBuildPreconditions
 {
   public static void RegisterMsBuild()
   {
-    if (!MSBuildLocator.IsRegistered)
+    try
     {
-      MSBuildLocator.RegisterDefaults();
+      if (!MSBuildLocator.IsRegistered)
+      {
+        MSBuildLocator.RegisterDefaults();
+      }
+    }
+    #if NCRUNCH
+    catch (System.InvalidOperationException e) when (e.Message.Contains("Microsoft.Build.Framework"))
+    {
+      Console.WriteLine(e.GetType());
+    }
+    #endif
+    finally
+    {
+
     }
   }
 }

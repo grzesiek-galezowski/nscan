@@ -1,7 +1,5 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using AtmaFileSystem;
 using AtmaFileSystem.IO;
 using FluentAssertions;
@@ -37,7 +35,7 @@ public sealed class NScanE2EDriver : IDisposable
     _dotNetExe = new DotNetExe(_fixtureSolutionDir, testSupport);
     _references = new ProjectReferences(_dotNetExe);
     _rules = new Rules();
-    _projectsCollection = new ProjectsCollection(_dotNetExe);
+    _projectsCollection = new ProjectsCollection(_dotNetExe, testSupport);
     _analysisResult = new AnalysisResult();
   }
 
