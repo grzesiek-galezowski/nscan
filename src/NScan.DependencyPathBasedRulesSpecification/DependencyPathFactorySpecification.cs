@@ -16,6 +16,5 @@ public class DependencyPathFactorySpecification
 
     //THEN
     dependencyPathInProgress.GetType().Should().Be<DependencyPathInProgress>();
-    //bug update the DependOn library to handle this case. dependencyPathInProgress.Should().DependOn(destination);
   }
 }

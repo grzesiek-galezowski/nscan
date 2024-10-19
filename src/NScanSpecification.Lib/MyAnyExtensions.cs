@@ -41,12 +41,12 @@ public static class MyAnyExtensions
     return gen.List<T>().ToArr();
   }
 
-  public static HashMap<T, V> HashMap<T, V>(this BasicGenerator gen)
+  public static HashMap<T, V> HashMap<T, V>(this BasicGenerator gen) where T : notnull
   {
     return gen.ReadOnlyDictionary<T, V>().ToHashMap();
   }
 
-  public static Map<T,V> Map<T,V>(this BasicGenerator gen)
+  public static Map<T, V> Map<T, V>(this BasicGenerator gen) where T : notnull
   {
     return gen.ReadOnlyDictionary<T,V>().ToMap();
   }
