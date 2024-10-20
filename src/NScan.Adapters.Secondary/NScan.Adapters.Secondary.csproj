@@ -12,7 +12,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Buildalyzer" />
+    <PackageReference Include="Microsoft.Build" >
+        <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
     <PackageReference Include="Microsoft.CodeAnalysis.Common" />
     <PackageReference Include="Sprache" />

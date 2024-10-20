@@ -3,10 +3,10 @@ using System.Linq;
 using AtmaFileSystem;
 using LanguageExt;
 using Microsoft.Build.Construction;
-using Microsoft.Build.Evaluation;
 using NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingCSharpSourceCode;
-using NScan.SharedKernel;
 using NScan.SharedKernel.ReadingSolution.Ports;
+using Project = Microsoft.Build.Evaluation.Project;
+using ProjectId = NScan.SharedKernel.ProjectId;
 
 namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects;
 

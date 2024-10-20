@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using AtmaFileSystem;
-using Buildalyzer;
 using Core.Maybe;
 using LanguageExt;
+using Microsoft.Build.Construction;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using static AtmaFileSystem.AtmaFileSystemPaths;
@@ -16,10 +16,9 @@ public class MsBuildSolution(Seq<AbsoluteFilePath> projectFilePaths, INScanSuppo
     AnyFilePath solutionFilePath, 
     INScanSupport consoleSupport)
   {
-    var analyzerManager = new AnalyzerManager(solutionFilePath.ToString());
-    var projectFilePaths = analyzerManager.Projects
-      .Select(p => p.Value.ProjectFile.Path)
-      .Select(AbsoluteFilePath);
+    var solutionFile = SolutionFile.Parse(solutionFilePath.ToString());
+    var projectFilePaths = solutionFile.ProjectsInOrder.Where(p => p.ProjectType == SolutionProjectType.KnownToBeMSBuildFormat)
+      .Select(p => AbsoluteFilePath(p.AbsolutePath));
     var paths = new MsBuildSolution(projectFilePaths.ToSeq(), consoleSupport);
     return paths;
   }
