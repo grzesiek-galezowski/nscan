@@ -132,7 +132,7 @@ public class ParseRuleSpecification
     ).WhereValueExist().ToList();
 
     //THEN
-    ruleUnionDtos.Should().HaveCount(2);
+    ruleUnionDtos.Count.Should().Be(2);
     var ruleUnionDto = ruleUnionDtos.First();
     ruleUnionDto.Accept(new NoCircularUsingsRuleComplementDtoAssertion(dto =>
     {
@@ -181,7 +181,7 @@ public class ParseRuleSpecification
     ).WhereValueExist().ToList();
 
     //THEN
-    ruleUnionDtos.Should().HaveCount(2);
+    ruleUnionDtos.Count.Should().Be(2);
     var rule1Dto = ruleUnionDtos.First();
     rule1Dto.Accept(new HasAttributesOnRuleComplementAssertion(dto =>
     {
@@ -207,7 +207,7 @@ public class ParseRuleSpecification
     ).WhereValueExist().ToList();
 
     //THEN
-    ruleUnionDtos.Should().HaveCount(2);
+    ruleUnionDtos.Count.Should().Be(2);
     var rule1Dto = ruleUnionDtos.First();
     rule1Dto.Accept(new HasTargetFrameworkAssertion(dto =>
     {
@@ -233,7 +233,7 @@ public class ParseRuleSpecification
     ).WhereValueExist().ToList();
 
     //THEN
-    ruleUnionDtos.Should().HaveCount(2);
+    ruleUnionDtos.Count.Should().Be(2);
     var rule1Dto = ruleUnionDtos.First();
     rule1Dto.Accept(new HasPropertyAssertion(dto =>
     {

@@ -61,7 +61,7 @@ public class ProjectDependencyPath(
   {
     return path
       .Select((project, i) => (project, i))
-      .First(tuple => assemblyNameMatches(tuple.project));
+      .First(tuple => assemblyNameMatches(tuple.Item1));
   }
 
 
