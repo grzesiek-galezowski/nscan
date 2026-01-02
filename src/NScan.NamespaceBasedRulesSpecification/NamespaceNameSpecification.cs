@@ -22,8 +22,8 @@ public class NamespaceNameSpecification
   public void ShouldCompareToOtherNames()
   {
     new NamespaceName("a").Should().BeLessThan(new NamespaceName("b"));
-    new NamespaceName("b").Should().BeLessOrEqualTo(new NamespaceName("b"));
+    new NamespaceName("b").Should().BeLessThanOrEqualTo(new NamespaceName("b"));
     new NamespaceName("b").Should().BeGreaterThan(new NamespaceName("a"));
-    new NamespaceName("b").Should().BeGreaterOrEqualTo(new NamespaceName("b"));
+    new NamespaceName("b").Should().BeGreaterThanOrEqualTo(new NamespaceName("b"));
   }
 }

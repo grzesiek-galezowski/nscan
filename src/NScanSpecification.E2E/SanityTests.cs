@@ -1,5 +1,5 @@
 ﻿using AtmaFileSystem;
-using FluentAssertions;
+using AwesomeAssertions;
 using NScan.Adapters.Secondary.NotifyingSupport;
 using NScan.Adapters.Secondary.ReportingOfResults;
 using TddXt.NScan;

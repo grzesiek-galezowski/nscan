@@ -1,5 +1,5 @@
 ﻿global using System.Collections.Generic;
-global using FluentAssertions;
+global using AwesomeAssertions;
 global using NSubstitute;
 global using TddXt.AnyRoot;
 global using TddXt.AnyRoot.Collections;

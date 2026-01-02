@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using FluentAssertions;
+using AwesomeAssertions;
 using RunProcessAsTask;
 
 namespace NScanSpecification.E2E.AutomationLayer;

@@ -2,7 +2,7 @@
 using System.IO;
 using AtmaFileSystem;
 using AtmaFileSystem.IO;
-using FluentAssertions;
+using AwesomeAssertions;
 using NScan.Adapters.Secondary.NotifyingSupport;
 using NScan.Adapters.Secondary.ReportingOfResults;
 using NScan.SharedKernel.WritingProgramOutput.Ports;
@@ -12,7 +12,7 @@ using static SimpleExec.Command;
 
 const string solutionName = "NScan.sln";
 const string configuration = "Release";
-const string version = "0.201.0";
+const string version = "0.300.0";
 var root = AbsoluteFilePath.OfThisFile().ParentDirectory(2).Value();
 var buildDir = root.AddDirectoryName("build").AddDirectoryName(configuration);
 var srcDir = root.AddDirectoryName("src");
@@ -85,7 +85,7 @@ Target("RunPreviousNScan", () =>
   ).Should().Be(0);
 });
 
-Target("BuildNScan", DependsOn("RunPreviousNScan"), () =>
+Target("BuildNScan", ["RunPreviousNScan"], () =>
 {
   Build(DirectoryName.Value("NScan.Main"));
 });
@@ -105,23 +105,23 @@ Target("InstallCoverageTool", () => //todo this runs integration tests as well
   Run("dotnet", "tool update --global dotnet-coverage");
 });
 
-Target("RunNScanUnitTests", DependsOn("BuildNScan", "InstallCoverageTool"), () => //todo this runs integration tests as well
+Target("RunNScanUnitTests", ["BuildNScan", "InstallCoverageTool"], () => //todo this runs integration tests as well
 {
   var projectFiles = srcDir.GetFiles("*Specification.csproj", SearchOption.AllDirectories);
   foreach (var file in projectFiles)
   {
-    Test(file.ParentDirectory());
+    Test(AbsoluteDirectoryPath.Value(file.ParentDirectory().Value().ToString()));
   }
 
   Test(srcDir.AddDirectoryName("NScanSpecification.Component"));
 });
 
-Target("RunE2ETests", DependsOn("BuildNScanConsole", "RunNScanUnitTests"), () =>
+Target("RunE2ETests", ["BuildNScanConsole", "RunNScanUnitTests"], () =>
 {
   Test(srcDir.AddDirectoryName("NScanSpecification.E2E"));
 });
 
-Target("PackNScanDependencies", DependsOn("BuildNScan", "RunE2ETests"), () =>
+Target("PackNScanDependencies", ["BuildNScan", "RunE2ETests"], () =>
 {
   Pack(nugetPath, srcDir, "NScan.Domain.DependencyPathBasedRules");
   Pack(nugetPath, srcDir, "NScan.Domain.NamespaceBasedRules");
@@ -131,31 +131,31 @@ Target("PackNScanDependencies", DependsOn("BuildNScan", "RunE2ETests"), () =>
   Pack(nugetPath, srcDir, "NScan.Lib");
 });
 
-Target("PackNScan", DependsOn("BuildNScan", "RunE2ETests"), () =>
+Target("PackNScan", ["BuildNScan", "RunE2ETests"], () =>
 {
   Pack(nugetPath, srcDir, "NScan.Main");
 });
 
-Target("PackNScanConsole", DependsOn("BuildNScanConsole", "RunE2ETests"), () =>
+Target("PackNScanConsole", ["BuildNScanConsole", "RunE2ETests"], () =>
 {
   Pack(nugetPath, srcDir, "NScan.Console");
 });
 
-Target("PackCakeNScan", DependsOn("BuildCakeNScan", "RunE2ETests"), () =>
+Target("PackCakeNScan", ["BuildCakeNScan", "RunE2ETests"], () =>
 {
   Pack(nugetPath, srcDir, "Cake.NScan");
 });
 
-Target("Pack", DependsOn(
+Target("Pack", [
   "Clean",
   "PackNScanDependencies",
   "PackNScan",
   "PackNScanConsole",
-  "PackCakeNScan"), () =>
+  "PackCakeNScan"], () =>
 {
 });
 
-Target("Push", DependsOn("Pack"), () =>
+Target("Push", ["Pack"], () =>
 {
   foreach (var nupkgPath in nugetPath.GetFiles("*.nupkg"))
   {
@@ -164,12 +164,15 @@ Target("Push", DependsOn("Pack"), () =>
   }
 });
 
-Target("default", DependsOn(
-  "BuildNScan", 
-  "BuildNScanConsole", 
-  "BuildCakeNScan", 
-  "RunNScanUnitTests", 
-  "Pack"));
+Target(
+  "default",
+  [
+    "BuildNScan",
+    "BuildNScanConsole",
+    "BuildCakeNScan",
+    "RunNScanUnitTests",
+    "Pack"
+  ]);
 
 await RunTargetsAndExitAsync(args);
 

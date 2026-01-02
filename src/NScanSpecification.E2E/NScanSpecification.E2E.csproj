@@ -5,7 +5,7 @@
   <ItemGroup>
     <PackageReference Include="Any" />
     <PackageReference Include="AtmaFileSystem" />
-    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="AwesomeAssertions" />
     <PackageReference Include="Glob" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="MSBuild.ProjectCreation" />
@@ -16,6 +16,10 @@
     </PackageReference>
     <PackageReference Include="RunProcessAsTask" />
     <PackageReference Include="SimpleExec" />
+    <PackageReference Include="Microsoft.Build">
+        <PrivateAssets>all</PrivateAssets>
+        <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
     <PackageReference Include="XFluentAssert" />
     <PackageReference Include="XNSubstitute" />
     <PackageReference Include="xunit" />

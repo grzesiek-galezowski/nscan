@@ -1,7 +1,7 @@
 ﻿// Global using directives
 
 global using System;
-global using FluentAssertions;
+global using AwesomeAssertions;
 global using NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingCSharpSourceCode;
 global using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 global using NScan.SharedKernel.RuleDtos.NamespaceBased;

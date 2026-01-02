@@ -2,7 +2,7 @@
 using System.Threading;
 using AtmaFileSystem;
 using AtmaFileSystem.IO;
-using FluentAssertions;
+using AwesomeAssertions;
 using TddXt.NScan.Console;
 using static AtmaFileSystem.AtmaFileSystemPaths;
 using AbsoluteFilePath = AtmaFileSystem.AbsoluteFilePath;

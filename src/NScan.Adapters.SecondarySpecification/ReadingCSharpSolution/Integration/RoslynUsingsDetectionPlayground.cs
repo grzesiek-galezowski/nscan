@@ -12,7 +12,7 @@ public class RoslynUsingsDetectionPlayground
   public void ShouldGatherNormalUsingsFromAllLevels()
   {
     CSharpFileSyntaxTree.ParseText(@"
-using FluentAssertions;
+using AwesomeAssertions;
 using Microsoft.CodeAnalysis.CSharp;
 
 namespace Lolek

@@ -5,7 +5,7 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
-    <TargetFrameworks>net8.0</TargetFrameworks>
+    <TargetFrameworks>net9.0</TargetFrameworks>
     <Authors>Grzegorz Galezowski</Authors>
     <Product>NScan</Product>
     <Description></Description>
@@ -15,6 +15,5 @@
     <RepositoryUrl>https://github.com/grzesiek-galezowski/nscan</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
     <PackageTags>static analysis, quality gate, dependency management</PackageTags>
-    <TargetFrameworks>net8.0</TargetFrameworks>
   </PropertyGroup>
 </Project>

@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using AwesomeAssertions;
 using Core.NullableReferenceTypesExtensions;
 
 namespace NScanSpecification.E2E.AutomationLayer;

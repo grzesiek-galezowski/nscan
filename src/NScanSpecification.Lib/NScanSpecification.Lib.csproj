@@ -2,7 +2,7 @@
     <ItemGroup>
     <PackageReference Include="Any" />
     <PackageReference Include="AtmaFileSystem" />
-    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="AwesomeAssertions" />
     <PackageReference Include="Glob" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
     <PackageReference Include="NSubstitute" />
