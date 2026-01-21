@@ -14,7 +14,12 @@ on:
 jobs:
   build:
     runs-on: windows-latest
-    
+
+    env:
+      DOTNET_CLI_USE_MSBUILD_SERVER: "false"
+      MSBuildEnableWorkloadResolver: "false"
+      UseLegacySolutionFormat: "true"
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -40,5 +45,13 @@ jobs:
         path: |
           **/*.trx
           **/TestResults/**
+        retention-days: 30
+
+    - name: Upload NuGet packages
+      uses: actions/upload-artifact@v4
+      if: success()
+      with:
+        name: nuget-packages
+        path: nuget/*.nupkg
         retention-days: 30
 
