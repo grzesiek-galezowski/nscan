@@ -13,7 +13,6 @@ public sealed class NScanE2EDriver : IDisposable
 {
   private readonly string _solutionName = Any.AlphaString();
 
-  private readonly AbsoluteFilePath _fullFixtureSolutionPath;
   private readonly AbsoluteFilePath _fullFixtureRulesPath;
   private static readonly FileName RulesFileName = FileName("rules.config");
   private readonly ProjectFiles _projectFiles;
@@ -29,7 +28,6 @@ public sealed class NScanE2EDriver : IDisposable
   {
     ITestSupport testSupport = new ConsoleXUnitTestSupport(output);
     _fixtureSolutionDir = RelevantPaths.CreateHomeForFixtureSolution(_solutionName);
-    _fullFixtureSolutionPath = _fixtureSolutionDir.SolutionFilePath();
     _fullFixtureRulesPath = _fixtureSolutionDir.PathToFile(RulesFileName);
     _projectFiles = new ProjectFiles(_fixtureSolutionDir);
     _dotNetExe = new DotNetExe(_fixtureSolutionDir, testSupport);
@@ -65,12 +63,14 @@ public sealed class NScanE2EDriver : IDisposable
   public async Task PerformAnalysis()
   {
     await SaveNewSolutionOnDisk();
+    // After creating the solution, detect which format was used (.sln or .slnx)
+    var fullFixtureSolutionPath = _fixtureSolutionDir.SolutionFilePath();
     _references.AddTo(_projectsCollection);
     await _projectsCollection.SaveIn(_fixtureSolutionDir, _cts.Token);
-    await _projectsCollection.AddToSolution(_solutionName, _cts.Token);
+    await _projectsCollection.AddToSolution(fullFixtureSolutionPath, _cts.Token);
     await _projectFiles.AddFilesToProjects(_cts.Token);
     await _rules.SaveIn(_fullFixtureRulesPath);
-    RunAnalysis();
+    RunAnalysis(fullFixtureSolutionPath);
   }
 
   public void ReportShouldNotContainText(string text)
@@ -94,9 +94,9 @@ public sealed class NScanE2EDriver : IDisposable
     _cts.Cancel();
   }
 
-  private void RunAnalysis()
+  private void RunAnalysis(AbsoluteFilePath fullFixtureSolutionPath)
   {
-    AssertFileExists(_fullFixtureSolutionPath);
+    AssertFileExists(fullFixtureSolutionPath);
     AssertFileExists(_fullFixtureRulesPath);
     var output = new StringBuilder();
     var resultCode = new Program
@@ -104,7 +104,7 @@ public sealed class NScanE2EDriver : IDisposable
       WriteLine = o => output.AppendLine(o.ToString())
     }.ExecuteWith(
       [
-        "-p", $"\"{_fullFixtureSolutionPath}\"",
+        "-p", $"\"{fullFixtureSolutionPath}\"",
         "-r", $"\"{_fullFixtureRulesPath}\""
       ]
     );

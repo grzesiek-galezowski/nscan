@@ -24,7 +24,22 @@ public class SolutionDir
 
   public AbsoluteFilePath SolutionFilePath()
   {
-    return _absoluteSolutionDirectoryPath + FileName(_solutionName + ".sln");
+    // .NET 10+ can create either .sln or .slnx files
+    // Check which one actually exists
+    var classicSln = _absoluteSolutionDirectoryPath + FileName(_solutionName + ".sln");
+    if (classicSln.Exists())
+    {
+      return classicSln;
+    }
+
+    var xmlSln = _absoluteSolutionDirectoryPath + FileName(_solutionName + ".slnx");
+    if (xmlSln.Exists())
+    {
+      return xmlSln;
+    }
+
+    // Default to .sln if neither exists (for creation scenario)
+    return classicSln;
   }
 
   public AbsoluteFilePath PathToFile(FileName rulesFileName)

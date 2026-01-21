@@ -21,10 +21,11 @@ public class ProjectsCollection(DotNetExe dotNetExe, ITestSupport support)
       );
   }
 
-  public async Task AddToSolution(string solutionName, CancellationToken cancellationToken)
+  public async Task AddToSolution(AbsoluteFilePath solutionPath, CancellationToken cancellationToken)
   {
+    var solutionFileName = Path.GetFileName(solutionPath.ToString());
     await dotNetExe.RunWith(
-      $"sln {solutionName}.sln add {string.Join(" ", _projects.Select(p => p.Key))}", cancellationToken);
+      $"sln {solutionFileName} add {string.Join(" ", _projects.Select(p => p.Key))}", cancellationToken);
   }
 
   public Task SaveIn(SolutionDir solutionDir, CancellationToken cancellationToken)
