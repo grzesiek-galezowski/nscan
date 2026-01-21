@@ -3,6 +3,7 @@
       <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <AssemblyName>Cake.NScan</AssemblyName>
     <RootNamespace>Cake.NScan</RootNamespace>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
   <PropertyGroup>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
