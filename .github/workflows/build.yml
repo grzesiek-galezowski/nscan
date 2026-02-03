@@ -45,7 +45,7 @@ jobs:
         path: |
           **/*.trx
           **/TestResults/**
-        retention-days: 30
+        retention-days: 10
 
     - name: Upload NuGet packages
       uses: actions/upload-artifact@v4
@@ -53,5 +53,5 @@ jobs:
       with:
         name: nuget-packages
         path: nuget/*.nupkg
-        retention-days: 30
+        retention-days: 1
 
