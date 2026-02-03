@@ -51,7 +51,6 @@ void Pack(AbsoluteDirectoryPath outputPath, AbsoluteDirectoryPath rootSourceDir,
     $"pack" +
     $" -c {configuration}" +
     $" --include-symbols" +
-    $" --no-build" +
     $" -p:SymbolPackageFormat=snupkg" +
     $" -p:VersionPrefix={version}" +
     $" -o {outputPath}",
