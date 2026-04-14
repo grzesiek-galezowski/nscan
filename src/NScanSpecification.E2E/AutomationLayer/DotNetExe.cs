@@ -13,7 +13,9 @@ public class DotNetExe(SolutionDir workingDirectory, ITestSupport testSupport)
     await RunWith(arguments, workingDirectory.FullName(), cancellationToken);
   }
 
-  private async Task RunWith(string arguments, AbsoluteDirectoryPath workingDirectory,
+  private async Task RunWith(
+    string arguments,
+    AbsoluteDirectoryPath workingDirectory,
     CancellationToken cancellationToken)
   {
     try
@@ -23,13 +25,15 @@ public class DotNetExe(SolutionDir workingDirectory, ITestSupport testSupport)
       string standardOutput = "";
       do
       {
-        (standardOutput, standardError) = await Command.ReadAsync("dotnet", arguments, workingDirectory.ToString(), cancellationToken: cancellationToken, handleExitCode: i =>
-        {
-          exitCode = i;
-          return true;
-        });
+        (standardOutput, standardError) = await Command.ReadAsync(
+          "dotnet", arguments, workingDirectory.ToString(), ct: cancellationToken, handleExitCode: i =>
+          {
+            exitCode = i;
+            return true;
+          });
         testSupport.DotnetExeFinished(exitCode, standardOutput, standardError);
       } while (standardError.Contains("because it is being used by another process."));
+
       if (exitCode != 0)
       {
         throw new ExitCodeException(exitCode);

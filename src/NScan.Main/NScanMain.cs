@@ -2,6 +2,8 @@
 using System.IO;
 using System.Reflection;
 using Core.Maybe;
+using Core.NullableReferenceTypesExtensions;
+using LanguageExt;
 using NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects;
 using NScan.Adapters.Secondary.ReadingRules;
 using NScan.DependencyPathBasedRules;
@@ -14,8 +16,6 @@ using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
 using NScan.SharedKernel.WritingProgramOutput.Ports;
-using Core.NullableReferenceTypesExtensions;
-using LanguageExt;
 using Sprache;
 using TddXt.NScan.Domain;
 

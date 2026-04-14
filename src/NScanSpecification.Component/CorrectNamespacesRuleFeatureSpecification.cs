@@ -1,6 +1,6 @@
 ﻿using System.IO;
-using static NScanSpecification.Lib.AutomationLayer.SourceCodeFileDtoBuilder;
 using static NScanSpecification.Lib.AutomationLayer.RuleBuilder;
+using static NScanSpecification.Lib.AutomationLayer.SourceCodeFileDtoBuilder;
 
 namespace NScanSpecification.Component;
 

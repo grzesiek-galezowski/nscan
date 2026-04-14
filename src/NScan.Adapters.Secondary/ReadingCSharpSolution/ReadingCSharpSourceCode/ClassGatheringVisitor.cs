@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using Core.Maybe;
+using Core.NullableReferenceTypesExtensions;
+using LanguageExt;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using NScan.SharedKernel.ReadingCSharpSourceCode;
-using Core.NullableReferenceTypesExtensions;
-using LanguageExt;
 
 namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingCSharpSourceCode;
 

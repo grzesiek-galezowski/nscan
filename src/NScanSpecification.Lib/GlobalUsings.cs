@@ -1,4 +1,4 @@
-// Global using directives
+﻿// Global using directives
 
+global using TddXt.AnyRoot;
 global using TddXt.AnyRoot.Strings;
-global using static TddXt.AnyRoot.Root;

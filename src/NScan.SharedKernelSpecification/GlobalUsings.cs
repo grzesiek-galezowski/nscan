@@ -2,4 +2,4 @@
 
 global using AwesomeAssertions;
 global using Xunit;
-global using static TddXt.AnyRoot.Root;
+global using TddXt.AnyRoot;

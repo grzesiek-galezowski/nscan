@@ -9,4 +9,4 @@ global using NScan.SharedKernel.RuleDtos.ProjectScoped;
 global using TddXt.AnyRoot.Strings;
 global using Xunit;
 global using Xunit.Abstractions;
-global using static TddXt.AnyRoot.Root;
+global using TddXt.AnyRoot;

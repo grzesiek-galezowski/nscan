@@ -10,4 +10,4 @@ global using TddXt.AnyRoot.Strings;
 global using TddXt.XFluentAssert.Api;
 global using TddXt.XNSubstitute;
 global using Xunit;
-global using static TddXt.AnyRoot.Root;
+global using TddXt.AnyRoot;

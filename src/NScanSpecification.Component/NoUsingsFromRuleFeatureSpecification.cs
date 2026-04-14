@@ -1,5 +1,5 @@
-﻿using static NScanSpecification.Lib.AutomationLayer.RuleBuilder;
-using static NScanSpecification.Lib.AutomationLayer.HasNoUsingsMessage;
+﻿using static NScanSpecification.Lib.AutomationLayer.HasNoUsingsMessage;
+using static NScanSpecification.Lib.AutomationLayer.RuleBuilder;
 using static NScanSpecification.Lib.AutomationLayer.SourceCodeFileDtoBuilder;
 
 namespace NScanSpecification.Component;

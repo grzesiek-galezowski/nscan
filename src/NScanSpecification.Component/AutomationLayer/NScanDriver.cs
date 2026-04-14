@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using AwesomeAssertions;
+using Core.NullableReferenceTypesExtensions;
+using LanguageExt;
 using NScan.Adapters.Secondary.NotifyingSupport;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
-using Core.NullableReferenceTypesExtensions;
-using LanguageExt;
 using TddXt.NScan.Domain;
 
 namespace NScanSpecification.Component.AutomationLayer;

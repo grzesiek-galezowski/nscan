@@ -1,10 +1,10 @@
 ﻿using Core.Maybe;
+using Core.NullableReferenceTypesExtensions;
 using GlobExpressions;
 using NScan.Lib;
 using NScan.SharedKernel.RuleDtos.DependencyPathBased;
 using NScan.SharedKernel.RuleDtos.NamespaceBased;
 using NScan.SharedKernel.RuleDtos.ProjectScoped;
-using Core.NullableReferenceTypesExtensions;
 
 namespace NScanSpecification.Lib.AutomationLayer;
 

@@ -7,4 +7,4 @@ global using TddXt.AnyRoot.Numbers;
 global using TddXt.AnyRoot.Strings;
 global using TddXt.XNSubstitute;
 global using Xunit;
-global using static TddXt.AnyRoot.Root;
+global using TddXt.AnyRoot;

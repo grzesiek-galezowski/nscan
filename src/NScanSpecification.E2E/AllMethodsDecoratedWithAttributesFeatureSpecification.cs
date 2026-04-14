@@ -1,7 +1,7 @@
-﻿using static NScanSpecification.Lib.AutomationLayer.SourceCodeFileDtoBuilder;
-using static NScanSpecification.Lib.AutomationLayer.RuleBuilder;
-using static NScanSpecification.Lib.AutomationLayer.ClassDeclarationBuilder;
+﻿using static NScanSpecification.Lib.AutomationLayer.ClassDeclarationBuilder;
 using static NScanSpecification.Lib.AutomationLayer.MethodDeclarationBuilder;
+using static NScanSpecification.Lib.AutomationLayer.RuleBuilder;
+using static NScanSpecification.Lib.AutomationLayer.SourceCodeFileDtoBuilder;
 
 namespace NScanSpecification.E2E;
 

@@ -8,6 +8,6 @@ global using NScanSpecification.Lib.AutomationLayer;
 global using TddXt.AnyRoot.Strings;
 global using Xunit;
 global using Xunit.Abstractions;
-global using static TddXt.AnyRoot.Root;
+global using TddXt.AnyRoot;
 
 [assembly: CollectionBehavior(MaxParallelThreads = 16)]
