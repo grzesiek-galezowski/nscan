@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Threading.Tasks;
 using AtmaFileSystem;
 using Cake.Core;
 using Cake.Core.Annotations;
@@ -10,15 +11,15 @@ namespace Cake.NScan;
 public static class NScan
 {
   [CakeMethodAlias]
-  public static void NScanAnalyze(this ICakeContext context, string solutionPath, string rulesFilePath)
+  public static async Task NScanAnalyze(this ICakeContext context, string solutionPath, string rulesFilePath)
   {
-    NScanAnalyze(context, solutionPath, rulesFilePath, new NScanSettings());
+    await NScanAnalyze(context, solutionPath, rulesFilePath, new NScanSettings());
   }
 
 
   [CakeMethodAlias]
   // ReSharper disable once MemberCanBePrivate.Global
-  public static void NScanAnalyze(
+  public static async Task NScanAnalyze(
     this ICakeContext context,
     string solutionPath,
     string rulesFilePath,
@@ -29,7 +30,7 @@ public static class NScan
     ArgumentNullException.ThrowIfNull(rulesFilePath);
     ArgumentNullException.ThrowIfNull(settings);
 
-    var result = NScanMain.Run(
+    var result = await NScanMain.RunAsync(
       new InputArgumentsDto
       {
         RulesFilePath = AnyFilePath.Value(rulesFilePath),
@@ -42,9 +43,7 @@ public static class NScan
     {
       throw new NScanFailedException(result);
     }
-
   }
-
 }
 
 public class NScanFailedException(int result) : Exception($"NScan failed with result: {result}");

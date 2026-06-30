@@ -1,9 +1,12 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using AtmaFileSystem;
 using Core.Maybe;
 using LanguageExt;
-using Microsoft.Build.Construction;
+using Microsoft.VisualStudio.SolutionPersistence.Serializer;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.ReadingSolution.Ports;
 using static AtmaFileSystem.AtmaFileSystemPaths;
@@ -12,15 +15,21 @@ namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects;
 
 public class MsBuildSolution(Seq<AbsoluteFilePath> projectFilePaths, INScanSupport support)
 {
-  public static MsBuildSolution From(
-    AnyFilePath solutionFilePath, 
-    INScanSupport consoleSupport)
+  public static async Task<MsBuildSolution> FromAsync(
+    AnyFilePath solutionFilePath,
+    INScanSupport consoleSupport,
+    CancellationToken cancellationToken)
   {
-    var solutionFile = SolutionFile.Parse(solutionFilePath.ToString());
-    var projectFilePaths = solutionFile.ProjectsInOrder.Where(p => p.ProjectType == SolutionProjectType.KnownToBeMSBuildFormat)
-      .Select(p => AbsoluteFilePath(p.AbsolutePath));
-    var paths = new MsBuildSolution(projectFilePaths.ToSeq(), consoleSupport);
-    return paths;
+    var serializer = SolutionSerializers.GetSerializerByMoniker(solutionFilePath.ToString())
+      ?? throw new ArgumentException($"Unsupported solution format: {solutionFilePath}");
+
+    var model = await serializer.OpenAsync(solutionFilePath.ToString(), cancellationToken);
+
+    var solutionDir = Path.GetDirectoryName(solutionFilePath.ToString())!;
+    var projectFilePaths = model.SolutionProjects
+      .Select(p => AbsoluteFilePath(Path.GetFullPath(p.FilePath, solutionDir)));
+
+    return new MsBuildSolution(projectFilePaths.ToSeq(), consoleSupport);
   }
 
   public Seq<CsharpProjectDto> LoadCsharpProjects()
@@ -36,11 +45,11 @@ public class MsBuildSolution(Seq<AbsoluteFilePath> projectFilePaths, INScanSuppo
     var msBuildProject = MsBuildProject.From(projectFilePath);
     return new CsharpProjectDto(
       msBuildProject.Id(),
-      msBuildProject.AssemblyName(), 
+      msBuildProject.AssemblyName(),
       msBuildProject.LoadSourceCodeFiles(),
-      msBuildProject.Properties(), 
-      msBuildProject.PackageReferences(), 
-      msBuildProject.AssemblyReferences(), 
+      msBuildProject.Properties(),
+      msBuildProject.PackageReferences(),
+      msBuildProject.AssemblyReferences(),
       msBuildProject.ProjectReferences(),
       msBuildProject.TargetFrameworks()
     );

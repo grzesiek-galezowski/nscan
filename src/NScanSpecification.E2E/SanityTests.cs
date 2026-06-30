@@ -12,9 +12,9 @@ public class SanityTests
   //Any is a very specific solution with multi-targeting and directory.props
   public void ShouldAnalyzeAnyWithoutExceptions()
   {
-    new Action(() =>
+    new Func<Task>(async () =>
     {
-      NScanMain.Run(
+      await NScanMain.RunAsync(
         new InputArgumentsDto
         {
           RulesFilePath =
@@ -26,6 +26,6 @@ public class SanityTests
         new ConsoleOutput(Console.WriteLine),
         new ConsoleSupport(Console.WriteLine)
       );
-    }).Should().NotThrow();
+    }).Should().NotThrowAsync();
   }
 }

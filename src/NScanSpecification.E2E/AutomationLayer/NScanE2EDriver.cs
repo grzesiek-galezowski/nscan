@@ -70,7 +70,7 @@ public sealed class NScanE2EDriver : IDisposable
     await _projectsCollection.AddToSolution(fullFixtureSolutionPath, _cts.Token);
     await _projectFiles.AddFilesToProjects(_cts.Token);
     await _rules.SaveIn(_fullFixtureRulesPath);
-    RunAnalysis(fullFixtureSolutionPath);
+    await RunAnalysisAsync(fullFixtureSolutionPath);
   }
 
   public void ReportShouldNotContainText(string text)
@@ -94,15 +94,15 @@ public sealed class NScanE2EDriver : IDisposable
     _cts.Cancel();
   }
 
-  private void RunAnalysis(AbsoluteFilePath fullFixtureSolutionPath)
+  private async Task RunAnalysisAsync(AbsoluteFilePath fullFixtureSolutionPath)
   {
     AssertFileExists(fullFixtureSolutionPath);
     AssertFileExists(_fullFixtureRulesPath);
     var output = new StringBuilder();
-    var resultCode = new Program
+    var resultCode = await new Program
     {
       WriteLine = o => output.AppendLine(o.ToString())
-    }.ExecuteWith(
+    }.ExecuteWithAsync(
       [
         "-p", $"\"{fullFixtureSolutionPath}\"",
         "-r", $"\"{_fullFixtureRulesPath}\""

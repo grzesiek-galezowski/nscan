@@ -1,6 +1,8 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using Core.Maybe;
 using Core.NullableReferenceTypesExtensions;
 using LanguageExt;
@@ -29,27 +31,27 @@ public static class NScanMain
   /// <param name="inputArguments">arguments</param>
   /// <param name="output">output for report</param>
   /// <param name="support">logging stuff</param>
+  /// <param name="cancellationToken">cancellation token</param>
   /// <returns></returns>
-  public static int Run(
-    InputArgumentsDto inputArguments, 
-    INScanOutput output, 
-    INScanSupport support)
+  public static async Task<int> RunAsync(
+    InputArgumentsDto inputArguments,
+    INScanOutput output,
+    INScanSupport support,
+    CancellationToken cancellationToken = default)
   {
     try
     {
-      //SpinWait.SpinUntil(() => Debugger.IsAttached);
-
       output.WriteVersion(Versioning.VersionOf(Assembly.GetExecutingAssembly()));
 
-      var csharpProjectDtos = ReadCsharpProjects(inputArguments, support);
+      var csharpProjectDtos = await ReadCsharpProjectsAsync(inputArguments, support, cancellationToken);
       var analysis = Analysis.PrepareFor(csharpProjectDtos, support);
 
       var rulesString = ReadRulesTextFrom(inputArguments);
-        
+
       var dependencyPathDtos = ParserRulePreface.Then(ParseDependencyPathBasedRule.Complement).Many().Parse(rulesString).WhereValueExist().ToSeq();
       LogDependencyPathRules(dependencyPathDtos, support);
       analysis.AddDependencyPathRules(dependencyPathDtos);
-        
+
       var projectScopedDtos = ParserRulePreface.Then(ParseProjectScopedRule.Complement).Many().Parse(rulesString).WhereValueExist().ToSeq();
       LogProjectScopedRules(projectScopedDtos, support);
       analysis.AddProjectScopedRules(projectScopedDtos);
@@ -69,11 +71,15 @@ public static class NScanMain
     }
   }
 
-  private static Seq<CsharpProjectDto> ReadCsharpProjects(InputArgumentsDto inputArguments, INScanSupport support)
+  private static async Task<Seq<CsharpProjectDto>> ReadCsharpProjectsAsync(
+    InputArgumentsDto inputArguments,
+    INScanSupport support,
+    CancellationToken cancellationToken)
   {
-    var msBuildSolution = MsBuildSolution.From(
+    var msBuildSolution = await MsBuildSolution.FromAsync(
       inputArguments.SolutionPath.OrThrow(),
-      support);
+      support,
+      cancellationToken);
     return msBuildSolution.LoadCsharpProjects();
   }
 
