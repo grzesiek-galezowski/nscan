@@ -102,7 +102,7 @@ public sealed class NScanE2EDriver : IDisposable
     var resultCode = await new Program
     {
       WriteLine = o => output.AppendLine(o.ToString())
-    }.ExecuteWithAsync(
+    }.ExecuteWith(
       [
         "-p", $"\"{fullFixtureSolutionPath}\"",
         "-r", $"\"{_fullFixtureRulesPath}\""

@@ -1,15 +1,13 @@
 ﻿using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AtmaFileSystem;
+using AtmaFileSystem.IO;
 using Microsoft.Build.Utilities.ProjectCreation;
+using Microsoft.VisualStudio.SolutionPersistence.Model;
+using Microsoft.VisualStudio.SolutionPersistence.Serializer;
 using NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects;
 using NScan.SharedKernel.NotifyingSupport.Ports;
-using NScan.SharedKernel.RuleDtos.DependencyPathBased;
-using NScan.SharedKernel.RuleDtos.NamespaceBased;
-using NScan.SharedKernel.RuleDtos.ProjectScoped;
-using TddXt.AnyRoot.Strings;
 
 namespace NScan.Adapters.SecondarySpecification.ReadingCSharpSolution;
 
@@ -20,69 +18,50 @@ public class MsBuildSolutionSpecification : INScanSupport
   {
     //GIVEN
     var projectName = Any.AlphaString();
-    var tempDir = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
-    Directory.CreateDirectory(tempDir);
-    try
-    {
-      var projectDir = Path.Combine(tempDir, projectName);
-      Directory.CreateDirectory(projectDir);
-      ProjectCreator.Templates.SdkCsproj(
-        Path.Combine(projectDir, projectName + ".csproj")).Save();
+    var tempDirScope = new TempSubdirectoryScope();
+    var tempDir = tempDirScope.TempDir;
+    var slnxPath = tempDir.AddFileName("Test.slnx");
+    var projectDir = tempDir.AddDirectoryName(projectName);
+    ProjectCreator.Templates.SdkCsproj(
+      projectDir.AddFileName(projectName + ".csproj").ToString()).Save();
 
-      var slnxContent = $"<Solution><Project Path=\"{projectName}/{projectName}.csproj\" /></Solution>";
-      var slnxPath = Path.Combine(tempDir, "Test.slnx");
-      await File.WriteAllTextAsync(slnxPath, slnxContent);
+    var slnModel = new SolutionModel();
+    slnModel.AddProject($"{projectName}/{projectName}.csproj");
+    await SolutionSerializers.SlnXml.SaveAsync(slnxPath.ToString(), slnModel, CancellationToken.None);
 
-      //WHEN
-      var solution = await MsBuildSolution.FromAsync(AnyFilePath.Value(slnxPath), this, CancellationToken.None);
-      var projects = solution.LoadCsharpProjects();
+    //WHEN
+    var solution = await MsBuildSolution.From(slnxPath.AsAnyFilePath(), this, CancellationToken.None);
+    var projects = solution.LoadCsharpProjects();
 
-      //THEN
-      projects.Single().AssemblyName.Should().Be(projectName);
-    }
-    finally
-    {
-      Directory.Delete(tempDir, true);
-    }
+    //THEN
+    projects.Single().AssemblyName.Should().Be(projectName);
   }
 
   [Fact]
   public async Task ShouldLoadMultipleProjectsFromSlnxFile()
   {
     //GIVEN
+    using var tempDirScope = new TempSubdirectoryScope();
+    var tempDir = tempDirScope.TempDir;
     var projectNameA = Any.AlphaString();
     var projectNameB = Any.AlphaString();
-    var tempDir = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
-    Directory.CreateDirectory(tempDir);
-    try
-    {
-      foreach (var name in new[] { projectNameA, projectNameB })
-      {
-        var dir = Path.Combine(tempDir, name);
-        Directory.CreateDirectory(dir);
-        ProjectCreator.Templates.SdkCsproj(Path.Combine(dir, name + ".csproj")).Save();
-      }
+    var slnxPath = tempDir.AddFileName("Test.slnx");
+    var projectADir = tempDir.AddDirectoryName(projectNameA);
+    var projectBDir = tempDir.AddDirectoryName(projectNameB);
+    ProjectCreator.Templates.SdkCsproj(projectADir.AddFileName(projectNameA + ".csproj").ToString()).Save();
+    ProjectCreator.Templates.SdkCsproj(projectBDir.AddFileName(projectNameB + ".csproj").ToString()).Save();
 
-      var slnxContent = $"""
-        <Solution>
-          <Project Path="{projectNameA}/{projectNameA}.csproj" />
-          <Project Path="{projectNameB}/{projectNameB}.csproj" />
-        </Solution>
-        """;
-      var slnxPath = Path.Combine(tempDir, "Test.slnx");
-      await File.WriteAllTextAsync(slnxPath, slnxContent);
+    var slnModel = new SolutionModel();
+    slnModel.AddProject($"{projectNameA}/{projectNameA}.csproj");
+    slnModel.AddProject($"{projectNameB}/{projectNameB}.csproj");
+    await SolutionSerializers.SlnXml.SaveAsync(slnxPath.ToString(), slnModel, CancellationToken.None);
 
-      //WHEN
-      var solution = await MsBuildSolution.FromAsync(AnyFilePath.Value(slnxPath), this, CancellationToken.None);
-      var projects = solution.LoadCsharpProjects();
+    //WHEN
+    var solution = await MsBuildSolution.From(slnxPath.AsAnyFilePath(), this, CancellationToken.None);
+    var projects = solution.LoadCsharpProjects();
 
-      //THEN
-      projects.Select(p => p.AssemblyName).Should().BeEquivalentTo(projectNameA, projectNameB);
-    }
-    finally
-    {
-      Directory.Delete(tempDir, true);
-    }
+    //THEN
+    projects.Select(p => p.AssemblyName).Should().BeEquivalentTo(projectNameA, projectNameB);
   }
 
   [Fact]
@@ -92,7 +71,7 @@ public class MsBuildSolutionSpecification : INScanSupport
     var badPath = Path.Combine(Path.GetTempPath(), "solution.xyz");
 
     //WHEN
-    var act = () => MsBuildSolution.FromAsync(AnyFilePath.Value(badPath), this, CancellationToken.None);
+    var act = () => MsBuildSolution.From(AnyFilePath.Value(badPath), this, CancellationToken.None);
 
     //THEN
     await act.Should().ThrowAsync<ArgumentException>();
@@ -109,4 +88,18 @@ public class MsBuildSolutionSpecification : INScanSupport
   public void Log(NoUsingsRuleComplementDto dto) { }
   public void Log(HasPropertyRuleComplementDto dto) { }
 #pragma warning restore xUnit1013
+}
+
+public class TempSubdirectoryScope : IDisposable
+{
+  private readonly AbsoluteDirectoryPath _tempDir;
+  public TempSubdirectoryScope()
+  {
+    _tempDir = TempDirectory.CreateTempSubdirectory();
+  }
+  public AbsoluteDirectoryPath TempDir => _tempDir;
+  public void Dispose()
+  {
+    _tempDir.Delete(true);
+  }
 }

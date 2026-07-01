@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using AtmaFileSystem;
 using Cake.Core;
@@ -10,38 +10,38 @@ namespace Cake.NScan;
 [CakeAliasCategory("NScan")]
 public static class NScan
 {
-  [CakeMethodAlias]
-  public static async Task NScanAnalyze(this ICakeContext context, string solutionPath, string rulesFilePath)
+  extension(ICakeContext context)
   {
-    await NScanAnalyze(context, solutionPath, rulesFilePath, new NScanSettings());
-  }
-
-
-  [CakeMethodAlias]
-  // ReSharper disable once MemberCanBePrivate.Global
-  public static async Task NScanAnalyze(
-    this ICakeContext context,
-    string solutionPath,
-    string rulesFilePath,
-    NScanSettings settings)
-  {
-    ArgumentNullException.ThrowIfNull(context);
-    ArgumentNullException.ThrowIfNull(solutionPath);
-    ArgumentNullException.ThrowIfNull(rulesFilePath);
-    ArgumentNullException.ThrowIfNull(settings);
-
-    var result = await NScanMain.RunAsync(
-      new InputArgumentsDto
-      {
-        RulesFilePath = AnyFilePath.Value(rulesFilePath),
-        SolutionPath = AnyFilePath.Value(solutionPath)
-      },
-      new CakeContextOutput(context.Log),
-      new CakeContextSupport(context.Log));
-
-    if (result != 0)
+    [CakeMethodAlias]
+    public async Task NScanAnalyze(string solutionPath, string rulesFilePath)
     {
-      throw new NScanFailedException(result);
+      await context.NScanAnalyze(solutionPath, rulesFilePath, new NScanSettings());
+    }
+
+    [CakeMethodAlias]
+    // ReSharper disable once MemberCanBePrivate.Global
+    public async Task NScanAnalyze(string solutionPath,
+      string rulesFilePath,
+      NScanSettings settings)
+    {
+      ArgumentNullException.ThrowIfNull(context);
+      ArgumentNullException.ThrowIfNull(solutionPath);
+      ArgumentNullException.ThrowIfNull(rulesFilePath);
+      ArgumentNullException.ThrowIfNull(settings);
+
+      var result = await NScanMain.Run(
+        new InputArgumentsDto
+        {
+          RulesFilePath = AnyFilePath.Value(rulesFilePath),
+          SolutionPath = AnyFilePath.Value(solutionPath)
+        },
+        new CakeContextOutput(context.Log),
+        new CakeContextSupport(context.Log));
+
+      if (result != 0)
+      {
+        throw new NScanFailedException(result);
+      }
     }
   }
 }

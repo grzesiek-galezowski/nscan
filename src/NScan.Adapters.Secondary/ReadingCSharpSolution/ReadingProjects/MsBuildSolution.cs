@@ -15,7 +15,7 @@ namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects;
 
 public class MsBuildSolution(Seq<AbsoluteFilePath> projectFilePaths, INScanSupport support)
 {
-  public static async Task<MsBuildSolution> FromAsync(
+  public static async Task<MsBuildSolution> From(
     AnyFilePath solutionFilePath,
     INScanSupport consoleSupport,
     CancellationToken cancellationToken)
@@ -24,10 +24,10 @@ public class MsBuildSolution(Seq<AbsoluteFilePath> projectFilePaths, INScanSuppo
       ?? throw new ArgumentException($"Unsupported solution format: {solutionFilePath}");
 
     var model = await serializer.OpenAsync(solutionFilePath.ToString(), cancellationToken);
-
-    var solutionDir = Path.GetDirectoryName(solutionFilePath.ToString())!;
+    
+    var solutionDir = solutionFilePath.ParentDirectory().Value();
     var projectFilePaths = model.SolutionProjects
-      .Select(p => AbsoluteFilePath(Path.GetFullPath(p.FilePath, solutionDir)));
+      .Select(p => AbsoluteFilePath(Path.GetFullPath(p.FilePath, solutionDir.ToString())));
 
     return new MsBuildSolution(projectFilePaths.ToSeq(), consoleSupport);
   }

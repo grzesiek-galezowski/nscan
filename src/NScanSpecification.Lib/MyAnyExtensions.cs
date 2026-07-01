@@ -3,8 +3,6 @@ using LanguageExt;
 using NScan.Lib;
 using NScan.SharedKernel;
 using NScan.SharedKernel.NotifyingSupport.Ports;
-using TddXt.AnyExtensibility;
-using TddXt.AnyRoot;
 using TddXt.AnyRoot.Collections;
 
 namespace NScanSpecification.Lib;

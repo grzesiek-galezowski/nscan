@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Reflection;
 using System.Threading;
@@ -33,17 +33,17 @@ public static class NScanMain
   /// <param name="support">logging stuff</param>
   /// <param name="cancellationToken">cancellation token</param>
   /// <returns></returns>
-  public static async Task<int> RunAsync(
+  public static async Task<int> Run(
     InputArgumentsDto inputArguments,
     INScanOutput output,
     INScanSupport support,
-    CancellationToken cancellationToken = default)
+    CancellationToken cancellationToken)
   {
     try
     {
       output.WriteVersion(Versioning.VersionOf(Assembly.GetExecutingAssembly()));
 
-      var csharpProjectDtos = await ReadCsharpProjectsAsync(inputArguments, support, cancellationToken);
+      var csharpProjectDtos = await ReadCsharpProjects(inputArguments, support, cancellationToken);
       var analysis = Analysis.PrepareFor(csharpProjectDtos, support);
 
       var rulesString = ReadRulesTextFrom(inputArguments);
@@ -71,12 +71,12 @@ public static class NScanMain
     }
   }
 
-  private static async Task<Seq<CsharpProjectDto>> ReadCsharpProjectsAsync(
+  private static async Task<Seq<CsharpProjectDto>> ReadCsharpProjects(
     InputArgumentsDto inputArguments,
     INScanSupport support,
     CancellationToken cancellationToken)
   {
-    var msBuildSolution = await MsBuildSolution.FromAsync(
+    var msBuildSolution = await MsBuildSolution.From(
       inputArguments.SolutionPath.OrThrow(),
       support,
       cancellationToken);

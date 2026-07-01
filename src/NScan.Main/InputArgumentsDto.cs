@@ -2,7 +2,7 @@
 
 namespace TddXt.NScan;
 
-public class InputArgumentsDto
+public record InputArgumentsDto
 {
   public AnyFilePath? SolutionPath { get; set; }
   public AnyFilePath? RulesFilePath { get; set; }

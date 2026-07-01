@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using AtmaFileSystem;
 using Fclp;
@@ -13,24 +14,25 @@ public class Program
 
   public static async Task<int> Main(string[] args)
   {
-    return await new Program().ExecuteWithAsync(args);
+    return await new Program().ExecuteWith(args);
   }
 
-  public async Task<int> ExecuteWithAsync(string[] args)
+  public async Task<int> ExecuteWith(string[] args)
   {
     var cliOptions = new InputArgumentsDto();
     var parser = CreateCliParser(cliOptions);
     var commandLineParserResult = parser.Parse(args);
     if (!commandLineParserResult.HasErrors)
     {
-      return await NScanMain.RunAsync(
+      return await NScanMain.Run(
         cliOptions,
         new ConsoleOutput(WriteLine),
-        new ConsoleSupport(WriteLine));
+        new ConsoleSupport(WriteLine),
+        CancellationToken.None);
     }
     else
     {
-      System.Console.Error.WriteLine(commandLineParserResult.ErrorText);
+      await System.Console.Error.WriteLineAsync(commandLineParserResult.ErrorText);
       parser.HelpOption.ShowHelp(parser.Options);
       return 1;
     }

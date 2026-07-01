@@ -1,4 +1,5 @@
-﻿using AtmaFileSystem;
+﻿using System.Threading;
+using AtmaFileSystem;
 using AwesomeAssertions;
 using NScan.Adapters.Secondary.NotifyingSupport;
 using NScan.Adapters.Secondary.ReportingOfResults;
@@ -14,7 +15,7 @@ public class SanityTests
   {
     new Func<Task>(async () =>
     {
-      await NScanMain.RunAsync(
+      await NScanMain.Run(
         new InputArgumentsDto
         {
           RulesFilePath =
@@ -24,7 +25,8 @@ public class SanityTests
             AnyFilePath.Value("C:\\Users\\HYPERBOOK\\Documents\\GitHub\\any\\src\\netstandard2.0\\Any.sln"),
         },
         new ConsoleOutput(Console.WriteLine),
-        new ConsoleSupport(Console.WriteLine)
+        new ConsoleSupport(Console.WriteLine),
+        CancellationToken.None
       );
     }).Should().NotThrowAsync();
   }
