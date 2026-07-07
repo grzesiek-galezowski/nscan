@@ -9,7 +9,6 @@ using LanguageExt;
 using Microsoft.VisualStudio.SolutionPersistence.Serializer;
 using NScan.SharedKernel.NotifyingSupport.Ports;
 using NScan.SharedKernel.ReadingSolution.Ports;
-using static AtmaFileSystem.AtmaFileSystemPaths;
 
 namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects;
 
@@ -20,14 +19,15 @@ public class MsBuildSolution(Seq<AbsoluteFilePath> projectFilePaths, INScanSuppo
     INScanSupport consoleSupport,
     CancellationToken cancellationToken)
   {
-    var serializer = SolutionSerializers.GetSerializerByMoniker(solutionFilePath.ToString())
-      ?? throw new ArgumentException($"Unsupported solution format: {solutionFilePath}");
+    var absoluteSolutionFilePath = solutionFilePath.AsAbsoluteOrResolveWith(AbsoluteDirectoryPath.OfCurrentWorkingDirectory());
+    var serializer = SolutionSerializers.GetSerializerByMoniker(absoluteSolutionFilePath.ToString())
+      ?? throw new ArgumentException($"Unsupported solution format: {absoluteSolutionFilePath}");
 
-    var model = await serializer.OpenAsync(solutionFilePath.ToString(), cancellationToken);
+    var model = await serializer.OpenAsync(absoluteSolutionFilePath.ToString(), cancellationToken);
     
-    var solutionDir = solutionFilePath.ParentDirectory().Value();
+    var solutionDir = absoluteSolutionFilePath.ParentDirectory();
     var projectFilePaths = model.SolutionProjects
-      .Select(p => AbsoluteFilePath(Path.GetFullPath(p.FilePath, solutionDir.ToString())));
+      .Select(p => AbsoluteFilePath.Value(Path.GetFullPath(p.FilePath, solutionDir.ToString())));
 
     return new MsBuildSolution(projectFilePaths.ToSeq(), consoleSupport);
   }
@@ -42,7 +42,7 @@ public class MsBuildSolution(Seq<AbsoluteFilePath> projectFilePaths, INScanSuppo
 
   private static CsharpProjectDto LoadProjectDto(AbsoluteFilePath projectFilePath)
   {
-    var msBuildProject = MsBuildProject.From(projectFilePath);
+    using var msBuildProject = MsBuildProject.From(projectFilePath);
     return new CsharpProjectDto(
       msBuildProject.Id(),
       msBuildProject.AssemblyName(),

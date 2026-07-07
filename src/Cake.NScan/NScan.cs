@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using AtmaFileSystem;
 using Cake.Core;
@@ -36,7 +37,8 @@ public static class NScan
           SolutionPath = AnyFilePath.Value(solutionPath)
         },
         new CakeContextOutput(context.Log),
-        new CakeContextSupport(context.Log));
+        new CakeContextSupport(context.Log),
+        CancellationToken.None);
 
       if (result != 0)
       {

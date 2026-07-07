@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using AtmaFileSystem;
 using LanguageExt;
@@ -10,7 +11,7 @@ using ProjectId = NScan.SharedKernel.ProjectId;
 
 namespace NScan.Adapters.Secondary.ReadingCSharpSolution.ReadingProjects;
 
-public class MsBuildProject
+public class MsBuildProject : IDisposable
 {
   private readonly Project _project;
 
@@ -108,5 +109,10 @@ public class MsBuildProject
       .Where(p => !Path.IsPathFullyQualified(p.EvaluatedInclude))
       .Select(p => csprojRoot + AtmaFileSystemPaths.RelativeFilePath(p.EvaluatedInclude))
       .Select(CSharpFileSyntaxTree.ParseFile).ToSeq();
+  }
+
+  public void Dispose()
+  {
+    _project?.ProjectCollection.UnloadProject(_project);
   }
 }

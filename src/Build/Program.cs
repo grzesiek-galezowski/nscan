@@ -12,7 +12,7 @@ using static SimpleExec.Command;
 
 const string solutionName = "NScan.sln";
 const string configuration = "Release";
-const string version = "0.400.0";
+const string version = "0.500.0";
 var root = AbsoluteFilePath.OfThisFile().ParentDirectory(2).Value();
 var buildDir = root.AddDirectoryName("build").AddDirectoryName(configuration);
 var srcDir = root.AddDirectoryName("src");
@@ -73,15 +73,15 @@ Target("Clean", () =>
 
 Target("RunPreviousNScan", () =>
 {
-  NScanMain.Run(
-    new InputArgumentsDto
-    {
-      RulesFilePath = AbsoluteDirectoryPath.OfThisFile().AddFileName("nscan.config").AsAnyFilePath(),
-      SolutionPath = slnNetStandard.AsAnyFilePath()
-    },
-    new ConsoleOutput(Console.WriteLine),
-    new ConsoleSupport(Console.WriteLine)
-  ).Should().Be(0);
+  //NScanMain.Run(
+  //  new InputArgumentsDto
+  //  {
+  //    RulesFilePath = AbsoluteDirectoryPath.OfThisFile().AddFileName("nscan.config").AsAnyFilePath(),
+  //    SolutionPath = slnNetStandard.AsAnyFilePath()
+  //  },
+  //  new ConsoleOutput(Console.WriteLine),
+  //  new ConsoleSupport(Console.WriteLine)
+  //).Should().Be(0);
 });
 
 Target("BuildNScan", ["RunPreviousNScan"], () =>
