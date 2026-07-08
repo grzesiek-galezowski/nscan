@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Text;
+using System.Threading;
 using AtmaFileSystem;
 using AwesomeAssertions;
 using NScan.Adapters.Secondary.NotifyingSupport;
@@ -11,23 +12,25 @@ public class SanityTests
 {
   [Fact]
   //Any is a very specific solution with multi-targeting and directory.props
-  public void ShouldAnalyzeAnyWithoutExceptions()
+  public async Task ShouldAnalyzeAnyWithoutExceptions()
   {
-    new Func<Task>(async () =>
+    await new Func<Task>(async () =>
     {
-      await NScanMain.Run(
+      var output = new StringBuilder();
+      var result = await NScanMain.Run(
         new InputArgumentsDto
         {
           RulesFilePath =
             AnyFilePath.Value(
-              "C:\\Users\\HYPERBOOK\\Documents\\GitHub\\any\\src\\netstandard2.0\\BuildScript\\rules.txt"),
+              @"C:\Users\HYPERBOOK\Documents\GitHub\any\src\BuildScript\rules.txt"),
           SolutionPath =
-            AnyFilePath.Value("C:\\Users\\HYPERBOOK\\Documents\\GitHub\\any\\src\\netstandard2.0\\Any.sln"),
+            AnyFilePath.Value(@"C:\Users\HYPERBOOK\Documents\GitHub\any\src\Any.slnx"),
         },
-        new ConsoleOutput(Console.WriteLine),
-        new ConsoleSupport(Console.WriteLine),
+        new ConsoleOutput(s => output.AppendLine(s)),
+        new ConsoleSupport(s => output.AppendLine(s.ToString())),
         CancellationToken.None
       );
+      result.Should().Be(0, "did not expect " + output);
     }).Should().NotThrowAsync();
   }
 }
