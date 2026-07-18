@@ -113,6 +113,6 @@ public class MsBuildProject : IDisposable
 
   public void Dispose()
   {
-    _project?.ProjectCollection.UnloadProject(_project);
+    _project.ProjectCollection.UnloadProject(_project);
   }
 }

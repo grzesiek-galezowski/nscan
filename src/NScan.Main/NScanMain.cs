@@ -41,6 +41,7 @@ public static class NScanMain
   {
     try
     {
+      MsBuildPreconditions.RegisterMsBuild();
       output.WriteVersion(Versioning.VersionOf(Assembly.GetExecutingAssembly()));
 
       var csharpProjectDtos = await ReadCsharpProjects(inputArguments, support, cancellationToken);
@@ -68,6 +69,10 @@ public static class NScanMain
     {
       support.Report(e);
       return -2;
+    }
+    finally
+    {
+      MsBuildPreconditions.DeregisterMsBuild();
     }
   }
 

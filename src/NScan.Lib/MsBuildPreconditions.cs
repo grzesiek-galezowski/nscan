@@ -42,4 +42,12 @@ public static class MsBuildPreconditions
       throw;
     }
   }
+
+  public static void DeregisterMsBuild()
+  {
+    Environment.SetEnvironmentVariable("MSBUILD_EXE_PATH", null, EnvironmentVariableTarget.Process);
+    Environment.SetEnvironmentVariable("MSBuildExtensionsPath", null, EnvironmentVariableTarget.Process);
+    Environment.SetEnvironmentVariable("MSBuildSDKsPath", null, EnvironmentVariableTarget.Process);
+  }
+
 }

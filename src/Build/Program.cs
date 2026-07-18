@@ -1,18 +1,18 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using AtmaFileSystem;
 using AtmaFileSystem.IO;
 using AwesomeAssertions;
 using NScan.Adapters.Secondary.NotifyingSupport;
 using NScan.Adapters.Secondary.ReportingOfResults;
-using NScan.SharedKernel.WritingProgramOutput.Ports;
 using TddXt.NScan;
 using static Bullseye.Targets;
 using static SimpleExec.Command;
 
 const string solutionName = "NScan.sln";
 const string configuration = "Release";
-const string version = "0.500.0";
+const string version = "0.600.0";
 var root = AbsoluteFilePath.OfThisFile().ParentDirectory(2).Value();
 var buildDir = root.AddDirectoryName("build").AddDirectoryName(configuration);
 var srcDir = root.AddDirectoryName("src");
@@ -29,10 +29,12 @@ if (!buildDir.Exists())
 //////////////////////////////////////////////////////////////////////
 void Build(DirectoryName workingDirectoryLastSegment)
 {
-  Run($"dotnet",
+  Run(
+    "dotnet",
     "build " +
     $"-c {configuration} " +
-    $"-p:VersionPrefix={version}",
+    $"-p:VersionPrefix={version} " +
+    "--disable-build-servers ",
     workingDirectory: (srcDir + workingDirectoryLastSegment).ToString());
 }
 
@@ -41,7 +43,8 @@ void Test(AbsoluteDirectoryPath workingDirectory)
   Run($"dotnet",
     "test" +
     $" -c {configuration}" +
-    $" -p:VersionPrefix={version}",
+    $" -p:VersionPrefix={version}" +
+    "--disable-build-servers ",
     workingDirectory: workingDirectory.ToString());
 }
 
@@ -53,6 +56,7 @@ void Pack(AbsoluteDirectoryPath outputPath, AbsoluteDirectoryPath rootSourceDir,
     $" --include-symbols" +
     $" -p:SymbolPackageFormat=snupkg" +
     $" -p:VersionPrefix={version}" +
+    $" --disable-build-servers " +
     $" -o {outputPath}",
     workingDirectory: rootSourceDir.AddDirectoryName(projectName).ToString());
 }
@@ -67,21 +71,26 @@ Target("Clean", () =>
   if(nugetPath.Exists()) nugetPath.Delete(true);
   Run($"dotnet",
     "clean " +
-    $"-c {configuration} ",
+    $"-c {configuration} " +
+    $"--disable-build-servers ",
     workingDirectory: srcDir.ToString());
 });
 
-Target("RunPreviousNScan", () =>
+Target("RunPreviousNScan", async () =>
 {
-  //NScanMain.Run(
-  //  new InputArgumentsDto
-  //  {
-  //    RulesFilePath = AbsoluteDirectoryPath.OfThisFile().AddFileName("nscan.config").AsAnyFilePath(),
-  //    SolutionPath = slnNetStandard.AsAnyFilePath()
-  //  },
-  //  new ConsoleOutput(Console.WriteLine),
-  //  new ConsoleSupport(Console.WriteLine)
-  //).Should().Be(0);
+  var result = await NScanMain.Run(
+      new InputArgumentsDto
+      {
+        RulesFilePath = AbsoluteDirectoryPath
+          .OfThisFile()
+          .AddFileName("nscan.config")
+          .AsAnyFilePath(),
+        SolutionPath = slnNetStandard.AsAnyFilePath()
+      },
+      new ConsoleOutput(Console.WriteLine),
+      new ConsoleSupport(Console.WriteLine),
+      CancellationToken.None);
+    result.Should().Be(0);
 });
 
 Target("BuildNScan", ["RunPreviousNScan"], () =>
@@ -174,19 +183,3 @@ Target(
   ]);
 
 await RunTargetsAndExitAsync(args);
-
-namespace Build
-{
-  public class ConsoleOutput : INScanOutput
-  {
-    public void WriteAnalysisReport(string analysisReport)
-    {
-      Console.WriteLine(analysisReport);
-    }
-
-    public void WriteVersion(string coreVersion)
-    {
-      Console.WriteLine(coreVersion);
-    }
-  }
-}
